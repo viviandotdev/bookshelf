@@ -1,0 +1,46 @@
+org: vivianlin61
+app: bookcue-api
+service: bookcue-api
+frameworkVersion: '>=3'
+
+plugins:
+  - serverless-offline
+
+package:
+  patterns:
+    - '!./**'
+    - 'dist/**' # only package the webpack 'dist' folder
+
+custom:
+  serverless-offline:
+    httpPort: 3001
+    location: . # this is important to make serverless-offline use the current directory
+  webpack:
+    includeModules: true
+    packager: 'yarn'
+    excludeFiles: test/**/
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  memorySize: 1024
+  timeout: 15
+  region: us-east-1
+  logRetentionInDays: 14
+
+functions:
+  main:
+    handler: dist/main.handler # the output of webpack. requires 'yarn build'
+    environment:
+      BOOKCUE_DB_URL: ${param:databaseUrl}
+      NODE_ENV: production
+      # https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/node-reusing-connections.html
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

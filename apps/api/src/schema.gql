@@ -1,0 +1,58 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  removeUser(where: UserWhereUniqueInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+type Query {
+  user(where: UserWhereUniqueInput!): User!
+  users: [User!]!
+}
+
+type User {
+  email: String!
+  id: ID!
+  name: String
+}
+
+type UserCountAggregate {
+  _all: Int!
+  email: Int!
+  id: Int!
+  name: Int!
+}
+
+input UserCreateInput {
+  email: String!
+  id: String
+  name: String
+  password: String
+}
+
+type UserMaxAggregate {
+  email: String
+  id: String
+  name: String
+}
+
+type UserMinAggregate {
+  email: String
+  id: String
+  name: String
+}
+
+input UserUpdateInput {
+  email: String
+  id: String
+  name: String
+  password: String
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: String
+}

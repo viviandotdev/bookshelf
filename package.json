@@ -1,0 +1,33 @@
+{
+  "name": "bookcue",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "build:api": "pnpm exec nx build api",
+    "start:api": "pnpm exec nx start api",
+    "----SEVERLESS SECTION----": "-------------------------",
+    "sls:deplpy": "pnpm exec nx sls:deploy api",
+    "sls:package": "pnpm exec nx sls:package api",
+    "sls:offline": "pnpm exec nx sls:offline api",
+    "sls:info": "pnpm exec nx sls:info api",
+    "----DB SECTION----": "-------------------------",
+    "db:generate": "pnpm --filter api exec prisma generate",
+    "db:migrate:dev": "pnpm --filter api exec prisma migrate dev",
+    "db:studio": "pnpm --filter api exec prisma studio",
+    "db:seed": "pnpm --filter api exec prisma db seed",
+    "db:all": "pnpm run db:generate && pnpm run db:migrate:dev && pnpm run db:seed",
+    "----NX SECTION----": "-------------------------",
+    "build": "pnpm exec nx run-many --target=build",
+    "test": "pnpm exec nx run-many --target=test",
+    "----PACKAGES SECTION----": "-------------------------",
+    "update:api": "pnpm --filter api update -i --latest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nx": "^16.1.3"
+  }
+}
