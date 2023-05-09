@@ -5,8 +5,11 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "build:web": "pnpm exec nx build web",
+    "start:web": "pnpm exec nx dev web",
     "build:api": "pnpm exec nx build api",
     "start:api": "pnpm exec nx start api",
+    "start:gql:watch": "graphql-code-generator --config codegen.ts --watch",
     "----SEVERLESS SECTION----": "-------------------------",
     "sls:deplpy": "pnpm exec nx sls:deploy api",
     "sls:package": "pnpm exec nx sls:package api",
@@ -18,16 +21,17 @@
     "db:studio": "pnpm --filter api exec prisma studio",
     "db:seed": "pnpm --filter api exec prisma db seed",
     "db:all": "pnpm run db:generate && pnpm run db:migrate:dev && pnpm run db:seed",
-    "----NX SECTION----": "-------------------------",
-    "build": "pnpm exec nx run-many --target=build",
-    "test": "pnpm exec nx run-many --target=test",
     "----PACKAGES SECTION----": "-------------------------",
-    "update:api": "pnpm --filter api update -i --latest"
+    "update:api": "pnpm --filter api update -i --latest",
+    "update:web": "pnpm --filter web update -i --latest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.1",
+    "@graphql-codegen/client-preset": "^3.0.1",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "nx": "^16.1.3"
   }
 }
