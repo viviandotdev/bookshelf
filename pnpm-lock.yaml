@@ -3,6 +3,10 @@ lockfileVersion: '6.0'
 importers:
 
   .:
+    dependencies:
+      typescript:
+        specifier: 5.0.4
+        version: 5.0.4
     devDependencies:
       '@graphql-codegen/cli':
         specifier: ^3.3.1
