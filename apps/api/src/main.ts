@@ -2,12 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
-import { apiEnv } from './environments/environments';
+import { ConfigService } from '@nestjs/config';
 
-const { api } = apiEnv;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const configService = app.get(ConfigService);
+  const port = configService.get<string>('api.port');
   app.useGlobalPipes(new ValidationPipe());
   app.use(
     helmet({
@@ -32,8 +32,8 @@ async function bootstrap() {
   );
   app.enableCors();
 
-  await app.listen(api.port, () => {
-    console.log(`🚀 Server ready at: http://localhost:${api.port}/graphql`);
+  await app.listen(port, () => {
+    console.log(`🚀 Server ready at: http://localhost:${port}/graphql`);
   });
 }
 bootstrap();

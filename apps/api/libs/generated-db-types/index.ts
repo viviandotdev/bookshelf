@@ -13,8 +13,11 @@ import { ID } from '@nestjs/graphql';
 export enum UserScalarFieldEnum {
     id = "id",
     email = "email",
-    name = "name",
-    password = "password"
+    username = "username",
+    hashedPassword = "hashedPassword",
+    hashedRefreshToken = "hashedRefreshToken",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt"
 }
 
 export enum TransactionIsolationLevel {
@@ -43,6 +46,52 @@ registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description
 export class AffectedRows {
     @Field(() => Int, {nullable:false})
     count!: number;
+}
+
+@InputType()
+export class DateTimeFilter {
+    @Field(() => Date, {nullable:true})
+    equals?: Date | string;
+    @Field(() => [Date], {nullable:true})
+    in?: Array<Date> | Array<string>;
+    @Field(() => [Date], {nullable:true})
+    notIn?: Array<Date> | Array<string>;
+    @Field(() => Date, {nullable:true})
+    lt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    lte?: Date | string;
+    @Field(() => Date, {nullable:true})
+    gt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    gte?: Date | string;
+    @Field(() => DateTimeFilter, {nullable:true})
+    not?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class DateTimeWithAggregatesFilter {
+    @Field(() => Date, {nullable:true})
+    equals?: Date | string;
+    @Field(() => [Date], {nullable:true})
+    in?: Array<Date> | Array<string>;
+    @Field(() => [Date], {nullable:true})
+    notIn?: Array<Date> | Array<string>;
+    @Field(() => Date, {nullable:true})
+    lt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    lte?: Date | string;
+    @Field(() => Date, {nullable:true})
+    gt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    gte?: Date | string;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    _count?: InstanceType<typeof IntFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    _min?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    _max?: InstanceType<typeof DateTimeFilter>;
 }
 
 @InputType()
@@ -308,9 +357,15 @@ export class UserCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    name?: true;
+    username?: true;
     @Field(() => Boolean, {nullable:true})
-    password?: true;
+    hashedPassword?: true;
+    @Field(() => Boolean, {nullable:true})
+    hashedRefreshToken?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
@@ -322,9 +377,15 @@ export class UserCountAggregate {
     @Field(() => Int, {nullable:false})
     email!: number;
     @Field(() => Int, {nullable:false})
-    name!: number;
+    username!: number;
     @HideField()
-    password!: number;
+    hashedPassword!: number;
+    @HideField()
+    hashedRefreshToken!: number;
+    @Field(() => Int, {nullable:false})
+    createdAt!: number;
+    @Field(() => Int, {nullable:false})
+    updatedAt!: number;
     @Field(() => Int, {nullable:false})
     _all!: number;
 }
@@ -336,9 +397,15 @@ export class UserCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    username?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    hashedPassword?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    hashedRefreshToken?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -352,12 +419,17 @@ export class UserCreateManyInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -371,12 +443,17 @@ export class UserCreateInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @ArgsType()
@@ -414,9 +491,15 @@ export class UserGroupBy {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @HideField()
-    password?: string;
+    hashedPassword?: string;
+    @HideField()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
     @Field(() => UserCountAggregate, {nullable:true})
     _count?: InstanceType<typeof UserCountAggregate>;
     @Field(() => UserMinAggregate, {nullable:true})
@@ -432,9 +515,15 @@ export class UserMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    name?: true;
+    username?: true;
     @Field(() => Boolean, {nullable:true})
-    password?: true;
+    hashedPassword?: true;
+    @Field(() => Boolean, {nullable:true})
+    hashedRefreshToken?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
 }
 
 @ObjectType()
@@ -448,9 +537,15 @@ export class UserMaxAggregate {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @HideField()
-    password?: string;
+    hashedPassword?: string;
+    @HideField()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -460,9 +555,15 @@ export class UserMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    username?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    hashedPassword?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    hashedRefreshToken?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -472,9 +573,15 @@ export class UserMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    name?: true;
+    username?: true;
     @Field(() => Boolean, {nullable:true})
-    password?: true;
+    hashedPassword?: true;
+    @Field(() => Boolean, {nullable:true})
+    hashedRefreshToken?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
 }
 
 @ObjectType()
@@ -488,9 +595,15 @@ export class UserMinAggregate {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @HideField()
-    password?: string;
+    hashedPassword?: string;
+    @HideField()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -500,9 +613,15 @@ export class UserMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    username?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    hashedPassword?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    hashedRefreshToken?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -512,9 +631,15 @@ export class UserOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    username?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    hashedPassword?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    hashedRefreshToken?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
     @Field(() => UserCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserCountOrderByAggregateInput>;
     @Field(() => UserMaxOrderByAggregateInput, {nullable:true})
@@ -530,9 +655,15 @@ export class UserOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    username?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    hashedPassword?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    hashedRefreshToken?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -548,9 +679,15 @@ export class UserScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     email?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    name?: InstanceType<typeof StringWithAggregatesFilter>;
+    username?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    password?: InstanceType<typeof StringWithAggregatesFilter>;
+    hashedPassword?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    hashedRefreshToken?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
 
 @InputType()
@@ -564,12 +701,17 @@ export class UserUncheckedCreateInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -583,12 +725,17 @@ export class UserUncheckedUpdateManyInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -602,12 +749,17 @@ export class UserUncheckedUpdateInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -621,12 +773,17 @@ export class UserUpdateManyMutationInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -640,12 +797,17 @@ export class UserUpdateInput {
     @Validator.IsString()
     @Validator.MaxLength(100)
     @Validator.MinLength(3)
-    name?: string;
+    username?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(8)
-    password?: string;
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -655,6 +817,11 @@ export class UserWhereUniqueInput {
     @Field(() => String, {nullable:true})
     @Validator.IsEmail()
     email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
 }
 
 @InputType()
@@ -670,9 +837,15 @@ export class UserWhereInput {
     @Field(() => StringFilter, {nullable:true})
     email?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    name?: InstanceType<typeof StringFilter>;
+    username?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    password?: InstanceType<typeof StringFilter>;
+    hashedPassword?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    hashedRefreshToken?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
 }
 
 @ObjectType()
@@ -682,7 +855,13 @@ export class User {
     @Field(() => String, {nullable:false})
     email!: string;
     @Field(() => String, {nullable:true})
-    name!: string | null;
+    username!: string | null;
     @HideField()
-    password!: string | null;
+    hashedPassword!: string | null;
+    @HideField()
+    hashedRefreshToken!: string | null;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date;
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date;
 }

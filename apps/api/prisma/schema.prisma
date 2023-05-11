@@ -42,11 +42,17 @@ model User {
   /// @Validator.IsString()
   /// @Validator.MaxLength(100)
   /// @Validator.MinLength(3)
-  name String?
+  username String? @unique
 
   /// @Validator.IsString()
-  /// @Validator.MaxLength(100)
-  /// @Validator.MinLength(8)
   /// @HideField()
-  password String?
+  hashedPassword String?
+
+  /// @Validator.IsString()
+  /// @HideField()
+ hashedRefreshToken String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
 }

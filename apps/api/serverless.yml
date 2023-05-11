@@ -35,6 +35,10 @@ functions:
     environment:
       BOOKCUE_DB_URL: ${param:databaseUrl}
       NODE_ENV: production
+      JWT_ACCESS_SECRET: ${param.jwtAccessSecret}
+      JWT_REFRESH_SECRET: ${param.jwtRefreshSecret}
+      JWT_REFRESH_EXPIRATION_TIME: 7d
+      JWT_ACCESS_EXPIRATION_TIME: 30m
       # https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/node-reusing-connections.html
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     events:
