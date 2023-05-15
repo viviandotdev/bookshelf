@@ -5,3 +5,11 @@ query GetUser($where: UserWhereUniqueInput!) {
     email
   }
 }
+
+query GetUsers {
+  users {
+    id
+    name
+    email
+  }
+}

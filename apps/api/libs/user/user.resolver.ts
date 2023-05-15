@@ -7,15 +7,19 @@ import {
   DeleteOneUserArgs,
   User,
 } from 'libs/generated-db-types';
+import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
+import { UseGuards } from '@nestjs/common';
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AccessTokenGuard)
   @Mutation(() => User)
   createUser(@Args() createOneUserArgs: CreateOneUserArgs) {
     return this.userService.create(createOneUserArgs);
   }
 
+  @UseGuards(AccessTokenGuard)
   @Query(() => [User])
   users(): Promise<User[]> {
     return this.userService.findAll();

@@ -2,13 +2,19 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
-import { apiEnv } from './environments/environments';
+import { ConfigService } from '@nestjs/config';
 
-const { api } = apiEnv;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.useGlobalPipes(new ValidationPipe());
+  const configService = app.get(ConfigService);
+  const port = configService.get<string>('api.port');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      skipMissingProperties: true,
+    }),
+  );
   app.use(
     helmet({
       crossOriginEmbedderPolicy: false,
@@ -30,10 +36,12 @@ async function bootstrap() {
       },
     }),
   );
-  app.enableCors();
-
-  await app.listen(api.port, () => {
-    console.log(`🚀 Server ready at: http://localhost:${api.port}/graphql`);
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
+  await app.listen(port, () => {
+    console.log(`🚀 Server ready at: http://localhost:${port}/graphql`);
   });
 }
 bootstrap();

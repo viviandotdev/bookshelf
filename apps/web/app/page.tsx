@@ -1,8 +1,8 @@
-import { getClient } from '@/libs/client'
+import { getApolloClient } from '@/libs/apollo'
 import { GetUserQuery, GetUserDocument } from '@/graphql/graphql'
 
 export default async function Home() {
-  const client = getClient()
+  const client = getApolloClient()
   const { data } = await client.query<GetUserQuery>({
     query: GetUserDocument,
     variables: {

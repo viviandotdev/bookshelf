@@ -5,11 +5,16 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build:web": "pnpm exec nx build web",
+    "serve:all": "pnpm run start:api & pnpm run start:web",
     "start:web": "pnpm exec nx dev web",
-    "build:api": "pnpm exec nx build api",
     "start:api": "pnpm exec nx start api",
-    "start:gql:watch": "graphql-code-generator --config codegen.ts --watch",
+    "gql:watch": "graphql-code-generator --config codegen.ts --watch",
+    "----DEPLOY SECTION----": "----------------------",
+    "cd:api": "pnpm run cd:db-push && pnpm run db:seed && pnpm run build:api --prod",
+    "build:api": "pnpm exec nx build api",
+    "cd:web": "pnpm run build:web --prod",
+    "build:web": "pnpm exec nx build web",
+    "cd:db-push": "pnpm --filter api exec prisma db push  --accept-data-loss && pnpm run db:seed",
     "----SEVERLESS SECTION----": "-------------------------",
     "sls:deplpy": "pnpm exec nx sls:deploy api",
     "sls:package": "pnpm exec nx sls:package api",
@@ -20,7 +25,6 @@
     "db:migrate:dev": "pnpm --filter api exec prisma migrate dev",
     "db:studio": "pnpm --filter api exec prisma studio",
     "db:seed": "pnpm --filter api exec prisma db seed",
-    "db:all": "pnpm run db:generate && pnpm run db:migrate:dev && pnpm run db:seed",
     "----PACKAGES SECTION----": "-------------------------",
     "update:api": "pnpm --filter api update -i --latest",
     "update:web": "pnpm --filter web update -i --latest"
@@ -33,5 +37,8 @@
     "@graphql-codegen/client-preset": "^3.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "nx": "^16.1.3"
+  },
+  "dependencies": {
+    "typescript": "5.0.4"
   }
 }

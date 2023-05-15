@@ -2,57 +2,105 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthResponse {
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+}
+
+input LogInInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  logout(id: String!): Boolean!
+  refreshAuth: RefreshResponse!
   removeUser(where: UserWhereUniqueInput!): User!
+  signin(logInInput: LogInInput!): AuthResponse!
+  signup(registerInput: RegisterInput!): AuthResponse!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
+  hello: String!
+  me: User!
   user(where: UserWhereUniqueInput!): User!
   users: [User!]!
 }
 
+type RefreshResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
 type User {
+  createdAt: Timestamp!
   email: String!
   id: ID!
-  name: String
+  updatedAt: Timestamp!
+  username: String
 }
 
 type UserCountAggregate {
   _all: Int!
+  createdAt: Int!
   email: Int!
   id: Int!
-  name: Int!
+  updatedAt: Int!
+  username: Int!
 }
 
 input UserCreateInput {
+  createdAt: Timestamp
   email: String!
+  hashedPassword: String
+  hashedRefreshToken: String
   id: String
-  name: String
-  password: String
+  updatedAt: Timestamp
+  username: String
 }
 
 type UserMaxAggregate {
+  createdAt: Timestamp
   email: String
   id: String
-  name: String
+  updatedAt: Timestamp
+  username: String
 }
 
 type UserMinAggregate {
+  createdAt: Timestamp
   email: String
   id: String
-  name: String
+  updatedAt: Timestamp
+  username: String
 }
 
 input UserUpdateInput {
+  createdAt: Timestamp
   email: String
+  hashedPassword: String
+  hashedRefreshToken: String
   id: String
-  name: String
-  password: String
+  updatedAt: Timestamp
+  username: String
 }
 
 input UserWhereUniqueInput {
   email: String
   id: String
+  username: String
 }
