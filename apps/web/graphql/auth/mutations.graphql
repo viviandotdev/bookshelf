@@ -12,12 +12,9 @@ mutation SignIn($input: LogInInput!) {
 
 mutation SignUp($input: RegisterInput!) {
   signup(registerInput: $input) {
-    accessToken
-    refreshToken
-    user {
-      email
-      username
-    }
+    email
+    id
+    username
   }
 }
 
@@ -31,4 +28,3 @@ mutation RefreshAuth {
 mutation Logout($id: String!) {
   logout(id: $id)
 }
-

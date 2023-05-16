@@ -19,7 +19,7 @@ type Mutation {
   refreshAuth: RefreshResponse!
   removeUser(where: UserWhereUniqueInput!): User!
   signin(logInInput: LogInInput!): AuthResponse!
-  signup(registerInput: RegisterInput!): AuthResponse!
+  signup(registerInput: RegisterInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 

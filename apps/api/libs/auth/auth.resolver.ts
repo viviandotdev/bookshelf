@@ -14,7 +14,7 @@ import { User } from '../generated-db-types';
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
-  @Mutation(() => AuthResponse)
+  @Mutation(() => User)
   signup(@Args('registerInput') registerInput: RegisterInput) {
     return this.authService.signup(registerInput);
   }
@@ -25,7 +25,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-    logout(@Args('id', { type: () => String }) id: string) {
+  logout(@Args('id', { type: () => String }) id: string) {
     return this.authService.logout(id);
   }
 

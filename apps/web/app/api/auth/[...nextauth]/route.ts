@@ -28,7 +28,7 @@ export const authOptions: NextAuthOptions = {
           email: string
           password: string
         }
-        const { data: signin } = await client.mutate<SignInMutation>({
+        const { data } = await client.mutate<SignInMutation>({
           mutation: SignInDocument,
           variables: {
             input: {
@@ -37,12 +37,12 @@ export const authOptions: NextAuthOptions = {
             }
           }
         })
-        if (!signin) throw new Error('signin failed')
+        if (!data) throw new Error('signin failed')
         return {
-          id: signin!.signin.user.id,
-          email: signin!.signin.user.email,
-          username: signin.signin.user.username,
-          accessToken: signin!.signin.accessToken
+          id: data!.signin.user.id,
+          email: data!.signin.user.email,
+          username: data.signin.user.username,
+          accessToken: data!.signin.accessToken
         }
       }
     })

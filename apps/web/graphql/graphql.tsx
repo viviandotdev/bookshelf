@@ -36,7 +36,7 @@ export type Mutation = {
   refreshAuth: RefreshResponse;
   removeUser: User;
   signin: AuthResponse;
-  signup: AuthResponse;
+  signup: User;
   updateUser: User;
 };
 
@@ -171,7 +171,7 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', signup: { __typename?: 'AuthResponse', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, username?: string | null } } };
+export type SignUpMutation = { __typename?: 'Mutation', signup: { __typename?: 'User', email: string, id: string, username?: string | null } };
 
 export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -250,12 +250,9 @@ export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, S
 export const SignUpDocument = gql`
     mutation SignUp($input: RegisterInput!) {
   signup(registerInput: $input) {
-    accessToken
-    refreshToken
-    user {
-      email
-      username
-    }
+    email
+    id
+    username
   }
 }
     `;

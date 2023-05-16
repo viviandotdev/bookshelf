@@ -23,14 +23,7 @@ export class AuthService {
       },
     });
 
-    const { accessToken, refreshToken } = await this.createToken(
-      user.id,
-      user.email,
-    );
-
-    await this.updateRefreshToken(user.id, refreshToken);
-
-    return { accessToken, refreshToken, user };
+    return user;
   }
 
   async signin(logInInput: LogInInput) {
