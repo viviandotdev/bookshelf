@@ -2,6 +2,7 @@ mutation SignIn($input: LogInInput!) {
   signin(logInInput: $input) {
     accessToken
     refreshToken
+    expiresIn
     user {
       email
       username
@@ -22,6 +23,7 @@ mutation RefreshAuth {
   refreshAuth {
     accessToken
     refreshToken
+    expiresIn
   }
 }
 

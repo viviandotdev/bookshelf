@@ -20,7 +20,6 @@ export const RegisterForm = () => {
   const [signup] = useSignUpMutation()
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     try {
       const { errors } = await signup({
         variables: {

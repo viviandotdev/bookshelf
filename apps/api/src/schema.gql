@@ -4,6 +4,7 @@
 
 type AuthResponse {
   accessToken: String!
+  expiresIn: Float!
   refreshToken: String!
   user: User!
 }
@@ -32,6 +33,7 @@ type Query {
 
 type RefreshResponse {
   accessToken: String!
+  expiresIn: Float!
   refreshToken: String!
 }
 

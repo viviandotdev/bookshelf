@@ -10,6 +10,8 @@ export class AuthResponse {
   accessToken: string;
   @Field()
   refreshToken: string;
+  @Field()
+  expiresIn: number;
   @IsNotEmpty()
   @Field(() => User)
   user: User;

@@ -20,6 +20,7 @@ export type Scalars = {
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   accessToken: Scalars['String'];
+  expiresIn: Scalars['Float'];
   refreshToken: Scalars['String'];
   user: User;
 };
@@ -87,6 +88,7 @@ export type QueryUserArgs = {
 export type RefreshResponse = {
   __typename?: 'RefreshResponse';
   accessToken: Scalars['String'];
+  expiresIn: Scalars['Float'];
   refreshToken: Scalars['String'];
 };
 
@@ -164,7 +166,7 @@ export type SignInMutationVariables = Exact<{
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signin: { __typename?: 'AuthResponse', accessToken: string, refreshToken: string, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
+export type SignInMutation = { __typename?: 'Mutation', signin: { __typename?: 'AuthResponse', accessToken: string, refreshToken: string, expiresIn: number, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
 
 export type SignUpMutationVariables = Exact<{
   input: RegisterInput;
@@ -176,7 +178,7 @@ export type SignUpMutation = { __typename?: 'Mutation', signup: { __typename?: '
 export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string } };
+export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string, expiresIn: number } };
 
 export type LogoutMutationVariables = Exact<{
   id: Scalars['String'];
@@ -213,6 +215,7 @@ export const SignInDocument = gql`
   signin(logInInput: $input) {
     accessToken
     refreshToken
+    expiresIn
     user {
       email
       username
@@ -287,6 +290,7 @@ export const RefreshAuthDocument = gql`
   refreshAuth {
     accessToken
     refreshToken
+    expiresIn
   }
 }
     `;

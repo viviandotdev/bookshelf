@@ -6,4 +6,6 @@ export class RefreshResponse {
   accessToken: string;
   @Field()
   refreshToken: string;
+  @Field()
+  expiresIn: number;
 }

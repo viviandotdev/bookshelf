@@ -2,6 +2,7 @@ import { getApolloClient } from '@/lib/apollo'
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { SignInDocument, SignInMutation } from '@/graphql/graphql'
+import { signOut } from 'next-auth/react'
 
 const client = getApolloClient()
 export const authOptions: NextAuthOptions = {
@@ -42,7 +43,8 @@ export const authOptions: NextAuthOptions = {
           id: data!.signin.user.id,
           email: data!.signin.user.email,
           username: data.signin.user.username,
-          accessToken: data!.signin.accessToken
+          accessToken: data!.signin.accessToken,
+          expiresIn: data!.signin.expiresIn
         }
       }
     })
@@ -55,8 +57,13 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: u.id,
-          accessToken: u.accessToken
+          accessToken: u.accessToken,
+          expiresIn: u.expiresIn
         }
+      } else if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
+        //token expired sign in again
+        await client.resetStore()
+        throw new Error('token expired')
       }
       return token
     },
