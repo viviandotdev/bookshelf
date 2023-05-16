@@ -14,7 +14,7 @@ import { User } from '../generated-db-types';
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
-  @Mutation(() => AuthResponse)
+  @Mutation(() => User)
   signup(@Args('registerInput') registerInput: RegisterInput) {
     return this.authService.signup(registerInput);
   }

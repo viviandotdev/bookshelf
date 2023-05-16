@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { RegisterInput } from './dto/register.input';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -7,6 +7,7 @@ import { LogInInput } from './dto/login.input';
 import { PrismaService } from 'prisma/prisma.service';
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
   constructor(
     private readonly prisma: PrismaService,
     private jwtService: JwtService,
@@ -23,14 +24,7 @@ export class AuthService {
       },
     });
 
-    const { accessToken, refreshToken } = await this.createToken(
-      user.id,
-      user.email,
-    );
-
-    await this.updateRefreshToken(user.id, refreshToken);
-
-    return { accessToken, refreshToken, user };
+    return user;
   }
 
   async signin(logInInput: LogInInput) {
@@ -54,10 +48,12 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.createToken(
       user.id,
       user.email,
+      user.username,
     );
+    const payload = this.jwtService.decode(accessToken);
     await this.updateRefreshToken(user.id, refreshToken);
 
-    return { accessToken, refreshToken, user };
+    return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
   }
 
   async logout(userId: string) {
@@ -96,13 +92,16 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.createToken(
       user.id,
       user.email,
+      user.username,
     );
+    const payload = this.jwtService.decode(accessToken);
     await this.updateRefreshToken(user.id, refreshToken);
-    return { accessToken, refreshToken, user };
+
+    return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
   }
-  async createToken(userId: string, email: string) {
+  async createToken(userId: string, email: string, username: string) {
     const accessToken = this.jwtService.sign(
-      { userId, email },
+      { userId, email, username },
       {
         secret: this.configService.get<string>('jwt.access'),
         expiresIn: this.configService.get<string>('jwt.accessExpiration'),
