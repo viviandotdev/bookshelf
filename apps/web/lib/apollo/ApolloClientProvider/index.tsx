@@ -2,7 +2,7 @@
 
 import { ApolloProvider } from '@apollo/client'
 import { ReactNode, useMemo } from 'react'
-import { getApolloClient } from '@/libs/apollo'
+import { getApolloClient } from '@/lib/apollo'
 
 export type ApolloClientProviderProps = {
   children: ReactNode

@@ -25,7 +25,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  logout(@Args('id', { type: () => String }) id: string) {
+    logout(@Args('id', { type: () => String }) id: string) {
     return this.authService.logout(id);
   }
 

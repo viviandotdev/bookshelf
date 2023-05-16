@@ -1,7 +1,7 @@
 query GetUser($where: UserWhereUniqueInput!) {
   user(where: $where) {
     id
-    name
+    username
     email
   }
 }
@@ -9,7 +9,7 @@ query GetUser($where: UserWhereUniqueInput!) {
 query GetUsers {
   users {
     id
-    name
+    username
     email
   }
 }
