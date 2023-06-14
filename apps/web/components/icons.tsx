@@ -23,13 +23,13 @@ import {
   Twitter,
   User,
   X,
+  Menu,
   type Icon as LucideIcon
 } from 'lucide-react'
 
 export type Icon = LucideIcon
 
 export const Icons = {
-  logo: Command,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -38,6 +38,7 @@ export const Icons = {
   post: FileText,
   page: File,
   media: Image,
+  menu: Menu,
   settings: Settings,
   billing: CreditCard,
   ellipsis: MoreVertical,
