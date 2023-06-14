@@ -14,8 +14,8 @@ export default function RootLayout({
   session: any
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.className} suppressHydrationWarning={true}>
+    <html lang='en' suppressHydrationWarning>
+      <body className={inter.className}>
         <SessionProvider session={session}>
           <ApolloClientProvider>{children}</ApolloClientProvider>
         </SessionProvider>
