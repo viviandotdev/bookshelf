@@ -5,4 +5,7 @@ export const siteConfig: SiteConfig = {
   description:
     "Accelerate your learning and gain valuable insights with AI-generated book summaries",
   url: "https://bookcue.app",
+  links: {
+    github: "https://github.com/VivianLin61/bookcue",
+  },
 }
