@@ -18,7 +18,7 @@ export default async function Home({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="container bg-background mx-auto px-8 lg:px-32">
+      <header className="container bg-background mx-auto px-8 lg:px-16 xl:px-36 2xl:px-48">
         <div className="flex h-20 items-center justify-between py-6 space-x-4">
           <MainNav items={marketingConfig.mainNav} />
           <div className="flex flex-1 items-center space-x-4 sm:justify-end">
@@ -41,7 +41,7 @@ export default async function Home({
           </div>
         </div>
       </header>
-      <main className="flex-1 z-40 bg-background mx-auto px-8 lg:px-32">
+      <main className="container flex-1 z-40 bg-background mx-auto px-8 lg:px-16 xl:px-36 2xl:px-48">
         {children}
       </main>
       <SiteFooter />

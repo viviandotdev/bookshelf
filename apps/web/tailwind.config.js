@@ -7,7 +7,7 @@ module.exports = {
       center: true,
       padding: '2rem',
       screens: {
-        '2xl': '1400px',
+        '2xl': '1342px',
       }
     },
     extend: {
@@ -64,9 +64,11 @@ module.exports = {
       }, 
       screens: {
         'sm-max':{'max': '580px'},
-        'md-max': {'max': '864px'},
-        'md': '864px',
-        '2lg': '1180px',
+        'md-max': {'max': '898px'},
+        'md': '898px',
+        'lg': '1096px',
+        'xl': '1244px',
+        '2xl': '1342px',
       }
     }
   },
