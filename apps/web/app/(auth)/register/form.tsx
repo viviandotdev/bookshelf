@@ -16,7 +16,7 @@ export const RegisterForm = ({className, ...props} : UserAuthFormProps) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
+  const callbackUrl = searchParams.get('callbackUrl') || '/home'
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -49,9 +49,11 @@ export const RegisterForm = ({className, ...props} : UserAuthFormProps) => {
         setIsLoading(false)
         router.push(callbackUrl)
       } else {
+        setIsLoading(false)
         return errorMessage
       }
     } catch (error: any) {
+      setIsLoading(false)
       return errorMessage
     }
   }

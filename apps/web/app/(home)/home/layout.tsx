@@ -6,20 +6,15 @@ import { marketingConfig } from "@/config/marketing";
 import { SiteFooter } from "@/components/site-footer";
 import { BooksSearch } from "@/components/search";
 import { getCurrentUser } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
 
-interface MarketingLayoutProps {
+interface HomeLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function MarketingLayout({
+export default async function Home({
   children,
-}: MarketingLayoutProps) {
+}: HomeLayoutProps) {
   const user = await getCurrentUser();
-
-  if (user) {
-    redirect("/home");
-  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -31,7 +26,7 @@ export default async function MarketingLayout({
               <BooksSearch />
             </div>
             <nav>
-              {!user && (
+            {!user && (
                 <Link
                   href="/login"
                   className={cn(

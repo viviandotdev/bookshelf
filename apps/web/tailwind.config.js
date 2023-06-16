@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '8rem',
+      padding: '2rem',
       screens: {
-        '2xl': '1400px'
+        '2xl': '1400px',
       }
     },
     extend: {
@@ -47,8 +47,9 @@ module.exports = {
         }
       },
       fontSize: {
+        xs: ['10px', { lineHeight: '12px' }],
         sm: ['14px', { lineHeight: '24px' }],
-        base: ['16px', { lineHeight: '28px' }],
+        base: ['18px', { lineHeight: '28px' }],
         lg: ['20px', { lineHeight: '28px' }],
         xl: ['1.125rem', { lineHeight: '1.75rem' }],
         '2xl': ['1.5rem', { lineHeight: '2rem' }],
@@ -60,6 +61,12 @@ module.exports = {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
         sm: 'calc(var(--radius) - 4px)'
+      }, 
+      screens: {
+        'sm-max':{'max': '580px'},
+        'md-max': {'max': '864px'},
+        'md': '864px',
+        '2lg': '1180px',
       }
     }
   },

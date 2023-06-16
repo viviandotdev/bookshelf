@@ -1,11 +1,10 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
 import { MainNavItem } from "@/types"
 import { useLockBody } from "@/hooks/use-lock-body"
+import { siteConfig } from "@/config/site"
 
 interface MobileNavProps {
   items: MainNavItem[]
@@ -23,6 +22,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
     >
       
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
+      
         <nav className="grid grid-flow-row auto-rows-max text-sm">
           {items.map((item, index) => (
             <Link
