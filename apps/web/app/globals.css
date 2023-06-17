@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -26,8 +27,8 @@
     --secondary: 27 39% 95%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
-    --accent: 27 39% 95%; 
-    /* --accent-foreground: 222.2 47.4% 11.2%; */
+    --accent:	22 32% 88%;
+    --accent-foreground: 27 28% 24%;
 
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
@@ -38,3 +39,5 @@
   }
   
 }
+
+
