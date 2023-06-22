@@ -5,7 +5,7 @@ import {
   type Icon as LucideIcon,
   ChevronDown,
   ChevronLeft,
-  ChevronLeftSquareIcon,
+  User,
   ChevronRight
 } from 'lucide-react'
 
@@ -18,4 +18,5 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   menu: Menu,
+  user: User
 }
