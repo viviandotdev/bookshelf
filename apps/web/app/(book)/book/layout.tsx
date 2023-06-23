@@ -2,11 +2,11 @@ import { SiteFooter } from "@/components/site-footer";
 import { getCurrentUser } from "@/lib/auth/session";
 import SiteHeader from "@/components/site-header";
 
-interface HomeLayoutProps {
+interface BookLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function Home({ children }: HomeLayoutProps) {
+export default async function Book({ children }: BookLayoutProps) {
   const user = await getCurrentUser();
 
   return (
