@@ -15,7 +15,7 @@ interface SiteHeaderProps {
 const SiteHeader: React.FC<SiteHeaderProps> = ({user}) => {
     
   return (
-    <header className="container bg-background mx-auto px-8 lg:px-16 xl:px-36 2xl:px-48">
+    <header className="container bg-background mx-auto px-8 lg:px-16 xl:px-28">
       <div className="flex h-20 items-center justify-between py-6 space-x-4">
         <MainNav items={marketingConfig.mainNav} />
         <div className="flex flex-1 items-center space-x-4 sm:justify-end">

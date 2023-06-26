@@ -3,7 +3,16 @@ const nextConfig = {
   /* config options here */
   env: {
     GOOGLE_BOOKS_API_KEY: process.env.GOOGLE_BOOKS_API_KEY,
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'books.google.com',
+        port: '',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig

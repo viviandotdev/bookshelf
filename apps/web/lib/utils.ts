@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function processBook(book: any, uniqueBooks?: Set<String>): BookData | null {
+  
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
   const author: string = book.volumeInfo.authors?.join(", ") || "N/A";
@@ -32,30 +33,21 @@ export function processBook(book: any, uniqueBooks?: Set<String>): BookData | nu
     if (identifier2) isbn13 = identifier2;
   }
 
-  let price: string = "N/A";
-  let currency: string = "";
-  let buyLink: string = "";
-  if (book.saleInfo.saleability === "FOR_SALE") {
-    price = book.saleInfo.retailPrice?.amount || "N/A";
-    currency = book.saleInfo.retailPrice?.currencyCode || "";
-    buyLink = book.saleInfo.buyLink || "";
-  }
+  const categories = book.volumeInfo.categories?.flatMap((category: string) => category.split(" / ")) || [];
 
-  const bookData: BookData = {
+   const bookData: BookData = {
     id,
     title,
     author,
     date,
     publisher,
+    categories,
     image,
     preview,
     plot,
     pageNum,
     isbn,
     isbn13,
-    price,
-    currency,
-    buyLink
   };
 
   return bookData
@@ -74,4 +66,15 @@ export function processBookData(bookInfo: any[]): BookData[] {
   });
   console.log(processedData);
   return processedData;
+}
+
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  return date.toLocaleDateString("en-US", options);
 }

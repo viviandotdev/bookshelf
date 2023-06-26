@@ -12,7 +12,7 @@ export default async function Home({ children }: HomeLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader user={user} />
-      <main className="container flex-1 z-40 bg-background mx-auto px-8 lg:px-16 xl:px-36 2xl:px-48">
+      <main className="container flex-1 z-40 bg-background mx-auto px-8 lg:px-16 xl:px-28">
         {children}
       </main>
       <SiteFooter />

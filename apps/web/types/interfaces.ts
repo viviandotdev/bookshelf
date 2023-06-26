@@ -16,8 +16,6 @@ export interface BookData {
   plot: string;
   pageNum: string;
   isbn: string;
+  categories: string[];
   isbn13: string;
-  buyLink: string;
-  price: string;
-  currency: string;
 }

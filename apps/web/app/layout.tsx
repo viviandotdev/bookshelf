@@ -1,5 +1,6 @@
 'use client'
 import './globals.css'
+import '@smastrom/react-rating/style.css';
 import { Inter } from 'next/font/google'
 import { ApolloClientProvider } from '@/lib/apollo/ApolloClientProvider'
 import { SessionProvider } from 'next-auth/react'
