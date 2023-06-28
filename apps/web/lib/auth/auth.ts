@@ -50,10 +50,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       const u = user as unknown as any
+      
       if (user) {
         //add additional properties to the jwt token created
         return {
           ...token,
+          name: u.username,
           id: u.id,
           accessToken: u.accessToken,
           expiresIn: u.expiresIn
@@ -71,6 +73,7 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
+          name: token.name,
           id: token.id,
           accessToken: token.accessToken
         }
