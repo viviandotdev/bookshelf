@@ -1,27 +1,36 @@
 "use client";
 
 import * as React from "react";
-import { NavItem } from "@/types";
-import { User } from "next-auth";
-
+import ReactPaginate from "react-paginate";
+import { Icons } from "./icons";
 interface PaginationProps {
-  items?: NavItem[];
-  user: User
+    totalPages: number;
 }
 
-export function Pagination({ items, user }: PaginationProps) {
-
+export function Pagination({ totalPages}: PaginationProps) {
+    const showNextButton = true
+    const showPrevButton = true
   return (
-    <div className="flex">
-        <div>
-            Prev
-        </div>
-        <div>
-
-        </div>
-        <div>
-            Next
-        </div>
-    </div>
+        <ReactPaginate
+        breakLabel={<span className="mr-2">...</span>}
+        nextLabel={
+          showNextButton ? (
+            <span className="bg-secondary text-primary w-10 h-10 flex items-center justify-center rounded-md">
+              <Icons.chevronRight/>
+            </span>
+          ) : null
+        }
+        pageCount={5}
+        previousLabel={
+          showPrevButton ? (
+            <span className="text-primary bg-secondary w-10 h-10 flex items-center justify-center rounded-md mr-4">
+              <Icons.chevronLeft />
+            </span>
+          ) : null
+        }
+        containerClassName="flex items-center justify-center mt-8 mb-4"
+        pageClassName="cursor-pointer block border- border-solid hover:bg-secondary w-10 h-10 flex items-center justify-center rounded-md mr-4"
+        activeClassName="text-primary text-sm"
+      />
   );
 }
