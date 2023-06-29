@@ -8,9 +8,10 @@ export type NavItem = {
     title: string
     href: string
     disabled?: boolean
-  }
-  
-  export type MainNavItem = NavItem
+    icon?: keyof typeof Icons
+}
+
+export type MainNavItem = NavItem
 
 export type SiteConfig = {
     name: string
@@ -21,7 +22,12 @@ export type SiteConfig = {
     }
   }
 
-
-  export type MarketingConfig = {
-    mainNav: MainNavItem[]
+export type MarketingConfig = {
+    mainNav: NavItem[]
   }
+
+export type MyBooksConfig = {
+    contentNav: NavItem[],
+    profileNav: NavItem[],
+    sortingSelects: NavItem[]
+}
