@@ -1,13 +1,15 @@
-import { BookData } from '@/types/interfaces';
-import { ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { BookData } from "@/types/interfaces";
+import { ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export function processBook(book: any, uniqueBooks?: Set<String>): BookData | null {
-  
+export function processBook(
+  book: any,
+  uniqueBooks?: Set<String>
+): BookData | null {
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
   const author: string = book.volumeInfo.authors?.join(", ") || "N/A";
@@ -22,7 +24,7 @@ export function processBook(book: any, uniqueBooks?: Set<String>): BookData | nu
   const preview: string = book.volumeInfo.previewLink;
   const plot: string = book.volumeInfo.description || "N/A";
   const pageNum: string = book.volumeInfo.pageCount?.toString() || "N/A";
-
+  const rating: string = book.volumeInfo.averageRating?.toString() || "N/A";
   let isbn: string = "N/A";
   let isbn13: string = "N/A";
   if (book.volumeInfo.industryIdentifiers) {
@@ -33,11 +35,15 @@ export function processBook(book: any, uniqueBooks?: Set<String>): BookData | nu
     if (identifier2) isbn13 = identifier2;
   }
 
-  const categories = book.volumeInfo.categories?.flatMap((category: string) => category.split(" / ")) || [];
+  const categories =
+    book.volumeInfo.categories?.flatMap((category: string) =>
+      category.split(" / ")
+    ) || [];
 
-   const bookData: BookData = {
+  const bookData: BookData = {
     id,
     title,
+    rating,
     author,
     date,
     publisher,
@@ -50,13 +56,12 @@ export function processBook(book: any, uniqueBooks?: Set<String>): BookData | nu
     isbn13,
   };
 
-  return bookData
+  return bookData;
 }
-
 
 export function processBookData(bookInfo: any[]): BookData[] {
   const processedData: BookData[] = [];
-  const uniqueBooks =  new Set<string>();
+  const uniqueBooks = new Set<string>();
 
   bookInfo.forEach((book) => {
     const bookData = processBook(book, uniqueBooks);
@@ -64,10 +69,8 @@ export function processBookData(bookInfo: any[]): BookData[] {
       processedData.push(bookData);
     }
   });
-  console.log(processedData);
   return processedData;
 }
-
 
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);

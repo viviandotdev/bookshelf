@@ -3,11 +3,11 @@ import { MyBooksConfig } from "@/types";
 export const myBooksConfig: MyBooksConfig = {
   profileNav: [
     {
-      title: "Read",
+      title: "Activity",
       href: "/",
     },
     {
-      title: "Want To Read",
+      title: "Books",
       href: "/mybooks",
     },
     {
@@ -32,23 +32,17 @@ export const myBooksConfig: MyBooksConfig = {
   sortingSelects: [
     {
       title: "Rating",
-      href: "/",
-      icon: "chevronDown",
-    },
-    {
-      title: "Genre",
-      href: "/mybooks",
-      icon: "chevronDown",
-    },
-    {
-      title: "Decade",
-      href: "/browse",
       icon: "chevronDown",
     },
     {
       title: "Sort by RELEASE DATE",
-      href: "/browse",
       icon: "chevronDown",
+    },
+    {
+      icon: "layoutGrid",
+    },
+    {
+      icon: "layoutList",
     },
   ],
 };

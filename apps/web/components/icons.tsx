@@ -10,10 +10,13 @@ import {
   ArrowRight,
   Book,
   BookOpen,
-  BookPlus
-} from 'lucide-react'
+  BookPlus,
+  Dot,
+  LayoutGrid,
+  LayoutList,
+} from "lucide-react";
 
-export type Icon = LucideIcon
+export type Icon = LucideIcon;
 
 export const Icons = {
   close: X,
@@ -26,5 +29,8 @@ export const Icons = {
   user: User,
   book: Book,
   bookOpen: BookOpen,
-  bookPlus: BookPlus
-}
+  bookPlus: BookPlus,
+  dot: Dot,
+  layoutGrid: LayoutGrid,
+  layoutList: LayoutList,
+};

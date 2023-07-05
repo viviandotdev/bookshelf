@@ -13,37 +13,25 @@ interface ContentNavProps {
   nav: NavItem[];
 }
 
-export function ContentNav({ sorting, nav}: ContentNavProps) {
-
+export function ContentNav({ sorting, nav }: ContentNavProps) {
   return (
-      <nav className="flex w-full gap-20 rounded-lg items-center justify-between mt-8">
-        <div className = "flex gap-2 text-sm items-start">
-          {nav?.map((item, index) => (
-            <button
-              key={index}
-              className={cn(
-                buttonVariants({variant:
-                'tag', size: 'xs'}),
-              )}
-            >
-              {item.title}
-            </button>
-          ))}
-        </div>
-        <div className="flex gap-2 text-sm items-center">
+    <nav className="flex w-full gap-20 rounded-lg items-center justify-between mt-8">
+      <div className="flex gap-2 text-sm items-start">
+        <button className={cn(buttonVariants({ variant: "tag", size: "xs" }))}>
+          You Want To Read 23 Books
+        </button>
+      </div>
+      <div className="flex gap-2 text-sm items-center">
         {sorting?.map((item, index) => (
-            <button
-              key={index}
-              className={cn(
-                buttonVariants({variant:
-                'tag', size: 'xs'}),
-              )}
-            >
-              {item.title}
-              <Icons.chevronDown className="ml-1 h-4 w-4" />
-            </button>
-          ))} 
-        </div>
-      </nav>
+          <button
+            key={index}
+            className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
+          >
+            {item.title}
+            <Icons.chevronDown className="ml-1 h-4 w-4" />
+          </button>
+        ))}
+      </div>
+    </nav>
   );
 }

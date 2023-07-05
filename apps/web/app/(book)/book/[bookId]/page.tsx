@@ -30,15 +30,17 @@ export default async function BookPage({ params }: BookPageProps) {
   return (
     <div className="grid w-full grid-cols-5 gap-2 ">
       <section className="p-4 hidden xl:block xl:col-span-1">
-         <Image
+        <Image
           width={184}
           height={277}
           src={processedBook.image}
           className="max-w-none w-[fill-available] rounded-lg"
           alt="Picture of the author"
-    />
-      <div className="mt-3 text-[12px] font-light"> <div>{processedBook.pageNum} Pages</div>
-        <div>First published {formatDate(processedBook.date)}</div></div>
+        />
+        <div className="mt-3 text-[12px] font-light">
+          <div>{processedBook.pageNum} Pages</div>
+          <div>First published {formatDate(processedBook.date)}</div>
+        </div>
       </section>
       <section className=" p-4 col-span-5 xl:col-span-4 grid gap-2">
         <div className="grid gap-2">

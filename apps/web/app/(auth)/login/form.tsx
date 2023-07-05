@@ -7,52 +7,50 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { loginUserSchema } from "@/lib/validations/auth";
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-type FormData = z.infer<typeof loginUserSchema>
+type FormData = z.infer<typeof loginUserSchema>;
 
-export const Form = ({className, ...props} : UserAuthFormProps) => {
+export const Form = ({ className, ...props }: UserAuthFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(loginUserSchema),
-  })
+  });
 
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/home'
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/home";
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: FormData) => {
-    console.log(data)
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const res = await signIn('credentials', {
+      const res = await signIn("credentials", {
         redirect: false,
         email: data.email.toLowerCase(),
         password: data.password,
-        callbackUrl
-      })
+        callbackUrl,
+      });
 
-      setIsLoading(false)
+      setIsLoading(false);
       if (!res?.error) {
-        router.push(callbackUrl)
+        router.push(callbackUrl);
       } else {
-        setError('Invalid email or password')
+        setError("Invalid email or password");
       }
     } catch (err: any) {}
-  }
+  };
 
   return (
     <div className="grid gap-6" {...props}>
@@ -77,7 +75,7 @@ export const Form = ({className, ...props} : UserAuthFormProps) => {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
-              {...register('email')}
+              {...register("email")}
             />
             {errors?.email && (
               <p className="px-1 text-xs text-red-600">
@@ -96,15 +94,18 @@ export const Form = ({className, ...props} : UserAuthFormProps) => {
               id="password"
               type="password"
               disabled={isLoading}
-              {...register('password')}
+              {...register("password")}
             />
-                 {errors?.password && (
+            {errors?.password && (
               <p className="px-1 text-xs text-red-600">
                 {errors.password.message}
               </p>
             )}
           </div>
-          <button className={cn(buttonVariants({variant:  'default'}))} disabled={isLoading}>
+          <button
+            className={cn(buttonVariants({ variant: "default" }))}
+            disabled={isLoading}
+          >
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
