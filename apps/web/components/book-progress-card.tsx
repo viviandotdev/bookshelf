@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Icons } from "./icons";
+import { Icons } from "./icons"
 
 type CardProps = React.ComponentProps<typeof Card>;
 

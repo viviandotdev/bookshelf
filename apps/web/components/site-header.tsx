@@ -6,14 +6,13 @@ import { MainNav } from "@/components/main-nav";
 import { CommandMenu } from "@/components/command-menu";
 import { UserAccountNav } from "@/components/user-account-nav";
 import { marketingConfig } from "@/config/marketing";
-import { User } from "next-auth"
+import { User } from "next-auth";
 
 interface SiteHeaderProps {
-    user: User;
-  }
+  user: User;
+}
 
-const SiteHeader: React.FC<SiteHeaderProps> = ({user}) => {
-    
+const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
   return (
     <header className="container bg-background mx-auto px-8 lg:px-16 xl:px-28">
       <div className="flex h-20 items-center justify-between py-6 space-x-4">

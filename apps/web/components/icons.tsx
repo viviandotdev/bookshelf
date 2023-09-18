@@ -14,6 +14,7 @@ import {
   Dot,
   LayoutGrid,
   LayoutList,
+  PieChart,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -33,4 +34,5 @@ export const Icons = {
   dot: Dot,
   layoutGrid: LayoutGrid,
   layoutList: LayoutList,
+  pieChart: PieChart,
 };
