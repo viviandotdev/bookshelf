@@ -28,7 +28,7 @@ export default async function HomePage() {
   const headings = [
     "New York Times Bestsellers",
     "Most Recommended Non-Fiction Books",
-    "Most Recommended iction Books",
+    "Most Recommended Fiction Books",
   ];
   return (
     <>
@@ -42,44 +42,20 @@ export default async function HomePage() {
           >
             Welcome Back, Vivian. Here’s what you’ve been reading ...
           </h1>
-          <div>A place to track and discover your next favorite book</div>
+          <div>A place to track and discover your favorite books</div>
         </div>
       </section>
       <section className="container space-y-4 pb-8 ">
-        <h1
-          className={cn(
-            dm_sefif_display.className,
-            "text-xl/[1.25] sm:text-2xl/[1.25] md:text-3xl/[1.25]"
-          )}
-        >
+        <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Currently Reading
         </h1>
-        <div className="flex justify-between overflow-hidden">
-          {image_data.map((image, idx) => (
-            <div key={idx} className="flex flex-col">
-              <BookCover src={image} alt="book cover" />
-              <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-secondary rounded-sm text-sm text-muted-foreground">
-                <div className="flex justify-between">
-                  <div className="flex items-center text-primary">
-                    <div className="align-middle">
-                      <Icons.pieChart className="h-4 w-4 opacity-50" />
-                    </div>
-                    <span className="ml-1.5 text-muted-foreground">90%</span>
-                  </div>
-                  <div className="text-muted-foreground">Sept 12</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <BooksSection
+          details={{ progress: 90, date_started: "Sept 12" }}
+          image_data={image_data}
+        />
       </section>
       <section className="container space-y-2">
-        <h1
-          className={cn(
-            dm_sefif_display.className,
-            "text-xl/[1.25] sm:text-2xl/[1.25] md:text-3xl/[1.25]"
-          )}
-        >
+        <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Featured Lists
         </h1>
         {headings.map((heading, idx) => (
