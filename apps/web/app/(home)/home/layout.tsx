@@ -1,6 +1,8 @@
 import { SiteFooter } from "@/components/site-footer";
 import { getCurrentUser } from "@/lib/auth/session";
 import SiteHeader from "@/components/site-header";
+import { authOptions } from "@/lib/auth/auth";
+import { redirect } from "next/navigation";
 
 interface HomeLayoutProps {
   children: React.ReactNode;
@@ -8,6 +10,9 @@ interface HomeLayoutProps {
 
 export default async function Home({ children }: HomeLayoutProps) {
   const user = await getCurrentUser();
+  if (!user) {
+    redirect(authOptions?.pages?.signIn || "/login");
+  }
 
   return (
     <div className="flex min-h-screen flex-col">

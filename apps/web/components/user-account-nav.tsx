@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { User } from "next-auth"
-import { signOut } from "next-auth/react"
+import Link from "next/link";
+import { User } from "next-auth";
+import { signOut } from "next-auth/react";
 
 import {
   DropdownMenu,
@@ -10,24 +10,25 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { UserAvatar } from "@/components/user-avatar"
-import { useLogoutMutation } from "@/graphql/graphql"
-import { useApolloClient } from "@apollo/client"
+} from "@/components/ui/dropdown-menu";
+import { UserAvatar } from "@/components/user-avatar";
+import { useLogoutMutation } from "@/graphql/graphql";
+import { useApolloClient } from "@apollo/client";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  user: Pick<User, "email" | "name" | "id">
+  user: Pick<User, "email" | "name" | "id">;
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
-    const [logout] = useLogoutMutation()
-    const apolloClient = useApolloClient()
+  const [logout] = useLogoutMutation();
+  const apolloClient = useApolloClient();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <UserAvatar
           user={{ name: user.name || null }}
+          size={"default"}
           className="h-8 w-8"
         />
       </DropdownMenuTrigger>
@@ -56,21 +57,21 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={async (event) => {
-            event.preventDefault()
-             await logout({
-            variables: {
-              id:  user.id
-            }
-          })
-          await apolloClient.resetStore()
+            event.preventDefault();
+            await logout({
+              variables: {
+                id: user.id,
+              },
+            });
+            await apolloClient.resetStore();
             signOut({
               callbackUrl: `${window.location.origin}/login`,
-            })
+            });
           }}
         >
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

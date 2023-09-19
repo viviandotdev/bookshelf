@@ -13,8 +13,7 @@ export default function IndexPage() {
               "text-2xl/[1.25] sm:text-3xl/[1.25] md:text-4xl/[1.25]"
             )}
           >
-            Accelerate your learning and gain valuable insights with
-            AI-generated book summaries
+            Welcome to Bookcue, A place to store and track your favorite books
           </h1>
         </div>
       </section>

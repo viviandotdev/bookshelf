@@ -29,7 +29,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/home";
+const callbackUrl = searchParams.get("callbackUrl") || "/home";
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
