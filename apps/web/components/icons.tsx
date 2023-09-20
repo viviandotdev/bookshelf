@@ -18,8 +18,8 @@ import {
   Search,
   Trash,
   Library,
-  // @ts-ignore
   ListPlus,
+  Plus,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -44,4 +44,5 @@ export const Icons = {
   delete: Trash,
   library: Library,
   log: ListPlus,
+  plus: Plus,
 };
