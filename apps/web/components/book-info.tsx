@@ -35,8 +35,11 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[664px] max-h-4/6 overflow-scroll">
-                <DialogHeader><DialogTitle>{processedBook.title}</DialogTitle>
-                <DialogDescription className="inline text-sm leading-normal">by {processedBook.author}</DialogDescription>
+                <DialogHeader>
+                  <DialogTitle>{processedBook.title}</DialogTitle>
+                  <DialogDescription className="inline text-sm leading-normal">
+                    by {processedBook.author}
+                  </DialogDescription>
                 </DialogHeader>
                 <DialogDescription>
                   <div
@@ -56,7 +59,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
         ></div>
       </div>
       <div>
-        <div className="text-sm text-primary">CATEGORIES</div>
+        <div className="text-sm text-primary">GENRES</div>
         <hr className="border-t-1 border-primary" />
         <div className="mt-2">
           {processedBook.categories.map((category, index) => {
