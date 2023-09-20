@@ -11,8 +11,16 @@ export const myBooksConfig: MyBooksConfig = {
       href: "/mybooks",
     },
     {
-      title: "Currently Reading",
-      href: "/browse",
+      title: "Journal",
+      href: "/journal",
+    },
+    {
+      title: "Statistics",
+      href: "/state",
+    },
+    {
+      title: "Goals",
+      href: "/goals",
     },
   ],
   contentNav: [
@@ -31,18 +39,16 @@ export const myBooksConfig: MyBooksConfig = {
   ],
   sortingSelects: [
     {
-      title: "Rating",
+      title: "Date Added",
       icon: "chevronDown",
     },
     {
-      title: "Sort by RELEASE DATE",
+      title: "Title",
       icon: "chevronDown",
     },
     {
-      icon: "layoutGrid",
-    },
-    {
-      icon: "layoutList",
+      title: "Author",
+      icon: "chevronDown",
     },
   ],
 };

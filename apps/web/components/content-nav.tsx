@@ -3,11 +3,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
-import { UserAccountNav } from "./user-account-nav";
-import { User } from "next-auth";
 import { buttonVariants } from "./ui/button";
 import { Icons } from "./icons";
-
+import { Input } from "./ui/input";
 interface ContentNavProps {
   sorting?: NavItem[];
   nav: NavItem[];
@@ -16,21 +14,36 @@ interface ContentNavProps {
 export function ContentNav({ sorting, nav }: ContentNavProps) {
   return (
     <nav className="flex w-full gap-20 rounded-lg items-center justify-between mt-8">
-      <div className="flex gap-2 text-sm items-start">
-        <button className={cn(buttonVariants({ variant: "tag", size: "xs" }))}>
-          You Want To Read 23 Books
-        </button>
-      </div>
-      <div className="flex gap-2 text-sm items-center">
-        {sorting?.map((item, index) => (
+      <div className="flex gap-2 text-sm items-center justify-between relative w-full">
+        <div className="flex gap-2 text-sm items-start">
           <button
-            key={index}
             className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
           >
-            {item.title}
+            23 Books
+          </button>
+        </div>
+        <div className="flex text-sm gap-2 items-center">
+          <div className="items-end">
+            <kbd className="pointer-events-none absolute hidden h-6 select-none items-center gap-1 px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:flex">
+              <Icons.search className="ml-1 h-3 w-3 bg-secondary" />
+            </kbd>
+            <Input
+              type="search"
+              placeholder="Search bookshelves..."
+              className="h-6 w-full pl-8 text-xs"
+            />
+          </div>
+
+          <button
+            className={cn(
+              buttonVariants({ variant: "tag", size: "xs" }),
+              "bg-white"
+            )}
+          >
+            Date Added
             <Icons.chevronDown className="ml-1 h-4 w-4" />
           </button>
-        ))}
+        </div>
       </div>
     </nav>
   );
