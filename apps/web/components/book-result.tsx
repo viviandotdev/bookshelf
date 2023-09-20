@@ -69,7 +69,7 @@ export function BookResult({}: BookResultProps) {
                 "mr-1 mb-1 cursor-pointer"
               )}
             >
-              View
+              Edit
             </button>
             <button
               className={cn(
@@ -77,7 +77,7 @@ export function BookResult({}: BookResultProps) {
                 "mr-1 mb-1 cursor-pointer"
               )}
             >
-              Edit
+              Delete
             </button>
           </div>
         </CardContent>

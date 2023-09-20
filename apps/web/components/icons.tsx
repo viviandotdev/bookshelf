@@ -15,6 +15,9 @@ import {
   LayoutGrid,
   LayoutList,
   PieChart,
+  Search,
+  Trash,
+  Library,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -35,4 +38,7 @@ export const Icons = {
   layoutGrid: LayoutGrid,
   layoutList: LayoutList,
   pieChart: PieChart,
+  search: Search,
+  delete: Trash,
+  library: Library,
 };
