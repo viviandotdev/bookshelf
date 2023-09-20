@@ -20,6 +20,8 @@ import {
   Library,
   ListPlus,
   Plus,
+  Clock,
+  ArrowDown,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -45,4 +47,6 @@ export const Icons = {
   library: Library,
   log: ListPlus,
   plus: Plus,
+  date: Clock,
+  down: ArrowDown,
 };

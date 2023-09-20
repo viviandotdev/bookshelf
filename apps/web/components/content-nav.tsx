@@ -37,11 +37,21 @@ export function ContentNav({ sorting, nav }: ContentNavProps) {
           <button
             className={cn(
               buttonVariants({ variant: "tag", size: "xs" }),
-              "bg-white"
+              "bg-white text-primary"
             )}
           >
+            <Icons.date className="mr-1 h-4 w-4" />
             Date Added
-            <Icons.chevronDown className="ml-1 h-4 w-4" />
+            <Icons.down className="ml-1 h-4 w-4" />
+          </button>
+          <button
+            className={cn(
+              buttonVariants({ variant: "tag", size: "xs" }),
+              "bg-white px-0 mr-4"
+            )}
+          >
+            <Icons.layoutList className="mr-1 h-4 w-4" />
+            List
           </button>
         </div>
       </div>
