@@ -19,6 +19,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
+
   const shelfSelections = ["All", "Read", "Want to Read", "Currently Reading"];
   const toolSelections = ["Export Books", "Import Books"];
   function selection(title: string) {
@@ -57,10 +58,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             </div>
           </div>
           <div className="col-span-4 xl:col-span-3">
-            <ContentNav
-              nav={myBooksConfig.contentNav}
-              sorting={myBooksConfig.sortingSelects}
-            />
+            <ContentNav resultText="23 Books" showSearch showSort />
             <hr className="mt-1 border-t-1 border-primary" />
             <div>
               <BookResult />

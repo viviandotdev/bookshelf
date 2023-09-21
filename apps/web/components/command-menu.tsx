@@ -18,6 +18,7 @@ import { toast } from "./ui/use-toast";
 import { BookData } from "@/types/interfaces";
 import { cn, processBookData } from "@/lib/utils";
 import { Icons } from "./icons";
+import { buttonVariants } from "./ui/button";
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter();
@@ -59,7 +60,11 @@ export function CommandMenu({ ...props }: DialogProps) {
       setResults(null);
     }
   }, [search]);
-
+  const onSearch = () => {
+    setOpen(false);
+    const encodedSearch = encodeURIComponent(search);
+    router.push(`/search?q=${encodedSearch}`);
+  };
   const runCommand = React.useCallback((command: () => unknown) => {
     setOpen(false);
     command();
@@ -92,10 +97,9 @@ export function CommandMenu({ ...props }: DialogProps) {
         )}
         <CommandList>
           <CommandSeparator />
-          <CommandGroup heading={"Results"}>
-            {!isLoading &&
-              results &&
-              results.map((book: BookData) => (
+          {!isLoading && results && (
+            <CommandGroup heading={"Results"}>
+              {results.map((book: BookData) => (
                 <CommandItem
                   key={book.id}
                   value={`${book.title} ${book.author}`}
@@ -111,8 +115,22 @@ export function CommandMenu({ ...props }: DialogProps) {
                   </div>
                 </CommandItem>
               ))}
-          </CommandGroup>
+            </CommandGroup>
+          )}
+          <CommandSeparator />
         </CommandList>
+        {!isLoading && results && (
+          <button
+            className={cn(buttonVariants({ variant: "default" }))}
+            disabled={isLoading}
+            onClick={onSearch}
+          >
+            {isLoading && (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
+            See all results
+          </button>
+        )}
       </CommandDialog>
     </>
   );

@@ -10,7 +10,7 @@ import { User } from "next-auth";
 import { Icons } from "./icons";
 
 interface SiteHeaderProps {
-  user: User;
+user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
