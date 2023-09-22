@@ -10,10 +10,6 @@ import { Dot } from "lucide-react";
 import BookCover from "./book-cover";
 import SecondaryButton from "./secondary-button";
 
-interface BookResultProps {
-  categories: string[];
-}
-
 const myStyles = {
   itemShapes: Star,
   activeFillColor: "#F4CC49",
@@ -42,7 +38,7 @@ export function BookShelves({ shelves }: { shelves: string[] }) {
   );
 }
 
-export function BookDescription() {
+export function BookInfo() {
   return (
     <div className="flex text-xs font-medium w-max items-center">
       <div>Currently Reading</div>
@@ -53,7 +49,7 @@ export function BookDescription() {
     </div>
   );
 }
-export function BookCard({ shelves }: { shelves: string[] }) {
+export function BookContent({ shelves }: { shelves: string[] }) {
   return (
     <div className="flex items-start space-x-4 rounded-md">
       <div>
@@ -71,7 +67,7 @@ export function BookCard({ shelves }: { shelves: string[] }) {
           by Paul Kalanit
         </CardDescription>
         <BookShelves shelves={shelves} />
-        <BookDescription />
+        <BookInfo />
       </div>
     </div>
   );
@@ -111,7 +107,14 @@ export function BookRating({ rating, setRating }: BookRatingProps) {
   );
 }
 
-export function BookResult({}: BookResultProps) {
+interface BookCardProps {
+  categories: string[];
+  card?: React.ReactNode;
+  actions?: React.ReactNode;
+  rating?: React.ReactNode;
+}
+
+export function BookCard({}: BookCardProps) {
   const [rating, setRating] = React.useState(0); // Initial value
   const shelves = [
     "Fiction",
@@ -127,7 +130,7 @@ export function BookResult({}: BookResultProps) {
     <div>
       <Card className={cn("border-none shadow-none p-0 overflow-hidden")}>
         <CardContent className="p-4 flex gap-4 justify-between">
-          <BookCard shelves={shelves} />
+          <BookContent shelves={shelves} />
           <div>
             <BookActions />
             <BookRating rating={rating} setRating={setRating} />
@@ -138,7 +141,7 @@ export function BookResult({}: BookResultProps) {
   );
 }
 
-BookResult.BookCard = BookCard;
-BookResult.BookActions = BookActions;
-BookResult.BookRating = BookRating;
-BookResult.BookShelves = BookShelves;
+BookCard.BookContent = BookContent;
+BookCard.BookActions = BookActions;
+BookCard.BookRating = BookRating;
+BookCard.BookShelves = BookShelves;

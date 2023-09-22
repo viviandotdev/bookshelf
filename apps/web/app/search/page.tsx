@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { dm_sefif_display } from "@/lib/fonts";
 import { BookProgressCard } from "@/components/book-progress-card";
 import { useSearchParams } from "next/navigation";
-import { BookResult } from "@/components/book-result";
+import { BookCard } from "@/components/book-card";
 import { ContentNav } from "@/components/content-nav";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
@@ -32,9 +32,9 @@ export default function SearchPage() {
               />
               <hr className="mt-1 border-t-1 border-primary" />
               <div>
-                <BookResult categories={[]} />
-                <BookResult categories={[]} />
-                <BookResult categories={[]} />
+                <BookCard categories={[]} />
+                <BookCard categories={[]} />
+                <BookCard categories={[]} />
               </div>
             </div>
             <div className="hidden xl:block">

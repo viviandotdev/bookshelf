@@ -1,4 +1,4 @@
-import { BookResult } from "@/components/book-result";
+import { BookCard } from "@/components/book-card";
 import { ContentNav } from "@/components/content-nav";
 import { Pagination } from "@/components/pagination";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -61,9 +61,9 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             <ContentNav resultText="23 Books" showSearch showSort />
             <hr className="mt-1 border-t-1 border-primary" />
             <div>
-              <BookResult categories={[]} />
-              <BookResult categories={[]} />
-              <BookResult categories={[]} />
+              <BookCard categories={[]} />
+              <BookCard categories={[]} />
+              <BookCard categories={[]} />
             </div>
           </div>
         </div>
