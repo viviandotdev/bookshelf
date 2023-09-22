@@ -1,10 +1,10 @@
-import { BookResult } from "@/components/book-result";
 import { ContentNav } from "@/components/content-nav";
+import { MyBooksCard } from "@/components/my-books-card";
 import { Pagination } from "@/components/pagination";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { myBooksConfig } from "@/config/mybooks";
 import { authOptions } from "@/lib/auth/auth";
 import { getCurrentUser } from "@/lib/auth/session";
+import fakeBookData from "@/lib/testData/fakeBookData";
 import { redirect, notFound } from "next/navigation";
 import React from "react";
 
@@ -14,11 +14,13 @@ interface MyBooksPageProps {
 
 export default async function MyBooksPage({ params }: MyBooksPageProps) {
   const user = await getCurrentUser();
+  const booksData = fakeBookData;
   const totalPages = 10;
   // const [currentPage, setCurrentPage] = React.useState(0);
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
+
   const shelfSelections = ["All", "Read", "Want to Read", "Currently Reading"];
   const toolSelections = ["Export Books", "Import Books"];
   function selection(title: string) {
@@ -57,15 +59,12 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             </div>
           </div>
           <div className="col-span-4 xl:col-span-3">
-            <ContentNav
-              nav={myBooksConfig.contentNav}
-              sorting={myBooksConfig.sortingSelects}
-            />
+            <ContentNav resultText="23 Books" showSearch showSort />
             <hr className="mt-1 border-t-1 border-primary" />
             <div>
-              <BookResult />
-              <BookResult />
-              <BookResult />
+              {booksData.map((book) => {
+                return <MyBooksCard book={book} />;
+              })}
             </div>
           </div>
         </div>
