@@ -32,9 +32,9 @@ export default function SearchPage() {
               />
               <hr className="mt-1 border-t-1 border-primary" />
               <div>
-                <BookResult />
-                <BookResult />
-                <BookResult />
+                <BookResult categories={[]} />
+                <BookResult categories={[]} />
+                <BookResult categories={[]} />
               </div>
             </div>
             <div className="hidden xl:block">

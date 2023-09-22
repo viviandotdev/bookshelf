@@ -61,9 +61,9 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             <ContentNav resultText="23 Books" showSearch showSort />
             <hr className="mt-1 border-t-1 border-primary" />
             <div>
-              <BookResult />
-              <BookResult />
-              <BookResult />
+              <BookResult categories={[]} />
+              <BookResult categories={[]} />
+              <BookResult categories={[]} />
             </div>
           </div>
         </div>

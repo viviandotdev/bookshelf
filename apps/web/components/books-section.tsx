@@ -35,7 +35,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
           <>
             {/* Cover View */}
             <div key={idx} className="flex-row hidden md:block">
-              <BookCover src={image} alt="book cover" />
+              <BookCover src={image} alt="book cover" size={"dynamic"} />
               {details && (
                 <>
                   <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-secondary rounded-sm text-xs text-muted-foreground">
