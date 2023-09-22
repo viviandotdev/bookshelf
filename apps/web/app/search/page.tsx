@@ -3,17 +3,23 @@ import { cn } from "@/lib/utils";
 import { dm_sefif_display } from "@/lib/fonts";
 import { BookProgressCard } from "@/components/book-progress-card";
 import { useSearchParams } from "next/navigation";
-import { BookCard } from "@/components/book-card";
+import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
 import { ContentNav } from "@/components/content-nav";
 import { Pagination } from "@/components/pagination";
 import { Button } from "@/components/ui/button";
 import { myBooksConfig } from "@/config/mybooks";
+import fakeBookData from "@/lib/testData/fakeBookData";
+import BookCover from "@/components/book-cover";
+import { Icons } from "@/components/icons";
+import SecondaryButton from "@/components/secondary-button";
 
 export default function SearchPage() {
+  const booksData = fakeBookData;
   const search = useSearchParams();
   const searchQuery = search ? search.get("q") : null;
   const encodedSearch = encodeURIComponent(searchQuery || "");
   const resultSelections = ["All", "Title", "Author"];
+
   function selection(title: string) {
     return (
       <div className="text-xs bg-secondary w-[fill-available] rounded-lg p-2 cursor-pointer">
@@ -32,9 +38,26 @@ export default function SearchPage() {
               />
               <hr className="mt-1 border-t-1 border-primary" />
               <div>
-                <BookCard categories={[]} />
-                <BookCard categories={[]} />
-                <BookCard categories={[]} />
+                <BookCard
+                  book={booksData[0]}
+                  content={
+                    <BookCard.BookContent
+                      image={<BookCover src={booksData[0].image} size={"sm"} />}
+                      info={<BookInfo />}
+                    />
+                  }
+                  actions={
+                    <BookCard.BookActions
+                      buttons={[
+                        <SecondaryButton
+                          label="Currently Reading"
+                          icon={<Icons.chevronDown className="h-4 w-4" />}
+                        />,
+                        // <SecondaryButton label="Edit" />,
+                      ]}
+                    />
+                  }
+                />
               </div>
             </div>
             <div className="hidden xl:block">

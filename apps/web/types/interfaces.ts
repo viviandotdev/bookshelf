@@ -18,5 +18,6 @@ export interface BookData {
   pageNum: string;
   isbn: string;
   categories: string[];
+  shelves: string[];
   isbn13: string;
 }

@@ -4,11 +4,10 @@ import Image from "next/image";
 
 interface BookCoverProps {
   src: string;
-  alt: string;
   size?: "sm" | "lg" | "dynamic";
 }
 
-const BookCover: React.FC<BookCoverProps> = ({ src, alt, size = "lg" }) => {
+const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
   let width, height, sizeClasses;
   const commonClasses = "max-w-none block rounded-sm";
   const mdClasses = "md:h-[182px] md:w-[121px]";
@@ -37,7 +36,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, alt, size = "lg" }) => {
     <Image
       className={`${commonClasses} ${sizeClasses}`}
       src={src}
-      alt={alt}
+      alt={"Book cover"}
       width={width}
       height={height}
     />
