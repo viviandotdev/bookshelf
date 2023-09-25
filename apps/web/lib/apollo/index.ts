@@ -36,7 +36,7 @@ function createApolloClient() {
 }
 
 export function getApolloClient() {
-  // only use existing apollo client on client side
+  // only use existing apollo client on client side else create new apollo client
   const client = apolloClient && typeof window !== 'undefined' ? apolloClient : createApolloClient()
 
   return client

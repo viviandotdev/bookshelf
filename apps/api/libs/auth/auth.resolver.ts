@@ -41,7 +41,6 @@ export class AuthResolver {
     return this.authService.refreshAuth(user.userId, user.refreshToken);
   }
 
-  @UseGuards(RefreshTokenGuard)
   @Query(() => String)
   hello() {
     return 'hello';

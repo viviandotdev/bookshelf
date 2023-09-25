@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
       const u = user as unknown as any;
 
       if (user) {
-        //add additional properties to the jwt token created
+        //the user is signin, add additional properties to the jwt token created
         return {
           ...token,
           name: u.username,
@@ -60,16 +60,18 @@ export const authOptions: NextAuthOptions = {
           accessToken: u.accessToken,
           expiresIn: u.expiresIn,
         };
-      } else if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
-        //token expired sign in again
+      }
+      if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
+        //the api token expired sign in again
         await client.resetStore();
+        console.log("token expired error");
         throw new Error("token expired");
       }
-      return token;
+      return token; //signed in user is returning to the same session
     },
     async session({ session, token }) {
       return {
-        //pass the additional properties to the session object
+        //pass the additional properties to the session object on the client side
         ...session,
         user: {
           ...session.user,

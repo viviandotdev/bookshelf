@@ -1,59 +1,58 @@
 generator client {
-  provider      = "prisma-client-js"
-  previewFeatures = ["jsonProtocol"]
-  binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["jsonProtocol"]
+    binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
 }
 
 generator erd {
-  provider = "prisma-erd-generator"
-  output = "../docs/ERD.svg"
+    provider = "prisma-erd-generator"
+    output   = "../docs/ERD.svg"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("BOOKCUE_DB_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 generator nestgraphql {
-  provider                = "node node_modules/prisma-nestjs-graphql"
-  output                  = "../libs/generated-db-types"
-  purgeOutput             = false
-  combineScalarFilters    = true
-  emitSingle              = true
-  noAtomicOperations      = true
-  // field validator
-  fields_Validator_input  = true
-  fields_Validator_output = true
-  fields_Validator_model  = true
-  fields_Validator_from   = "class-validator"
-  // Args where|data nested validator
-  decorate_1_type         = "*Args"
-  decorate_1_field        = "@(data|where)"
-  decorate_1_name         = ValidateNested
-  decorate_1_from         = "class-validator"
-  decorate_1_arguments    = "[]"
+    provider                = "node node_modules/prisma-nestjs-graphql"
+    output                  = "../libs/generated-db-types"
+    purgeOutput             = false
+    combineScalarFilters    = true
+    emitSingle              = true
+    noAtomicOperations      = true
+    // field validator
+    fields_Validator_input  = true
+    fields_Validator_output = true
+    fields_Validator_model  = true
+    fields_Validator_from   = "class-validator"
+    // Args where|data nested validator
+    decorate_1_type         = "*Args"
+    decorate_1_field        = "@(data|where)"
+    decorate_1_name         = ValidateNested
+    decorate_1_from         = "class-validator"
+    decorate_1_arguments    = "[]"
 }
 
 model User {
-  id String @id @default(uuid())
+    id String @id @default(uuid())
 
-  /// @Validator.IsEmail()
-  email String @unique
+    /// @Validator.IsEmail()
+    email String @unique
 
-  /// @Validator.IsString()
-  /// @Validator.MaxLength(100)
-  /// @Validator.MinLength(3)
-  username String? @unique
+    /// @Validator.IsString()
+    /// @Validator.MaxLength(100)
+    /// @Validator.MinLength(3)
+    username String? @unique
 
-  /// @Validator.IsString()
-  /// @HideField()
-  hashedPassword String?
+    /// @Validator.IsString()
+    /// @HideField()
+    hashedPassword String?
 
-  /// @Validator.IsString()
-  /// @HideField()
- hashedRefreshToken String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    /// @Validator.IsString()
+    /// @HideField()
+    hashedRefreshToken String?
 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
