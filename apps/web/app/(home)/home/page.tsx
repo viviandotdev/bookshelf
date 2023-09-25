@@ -54,6 +54,22 @@ export default async function HomePage() {
           image_data={image_data}
         />
       </section>
+      <section className="container space-y-4 pb-8 ">
+        <h1 className={cn(dm_sefif_display.className, "text-2xl")}>Up Next</h1>
+        <BooksSection
+          details={{ progress: 90, date_started: "Sept 12" }}
+          image_data={image_data}
+        />
+      </section>
+      <section className="container space-y-4 pb-8 ">
+        <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
+          Read This Month
+        </h1>
+        <BooksSection
+          details={{ progress: 90, date_started: "Sept 12" }}
+          image_data={image_data}
+        />
+      </section>
       <section className="container space-y-2">
         <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Featured Lists

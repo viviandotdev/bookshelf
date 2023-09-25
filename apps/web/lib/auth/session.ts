@@ -2,12 +2,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "./auth";
 
 export async function getCurrentUser() {
-  try {
-    const session = await getServerSession(authOptions);
-    return session?.user;
-  } catch (error) {
-    console.log("here" + error);
+  const session = await getServerSession(authOptions);
+  if (!session || session?.error == "TokenExpiredError" || !session?.user) {
     return null;
-    // handle error from getServerSession
   }
+  return session?.user;
 }

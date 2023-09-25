@@ -5,7 +5,11 @@ import { NextResponse } from "next/server";
 export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req });
-    const isAuth = !!token;
+    const expired =
+      token &&
+      Date.now() >= (token && (token.expiresIn as unknown as any)) * 1000;
+    const isAuth = !!token && !expired;
+
     const isAuthPage =
       req.nextUrl.pathname.startsWith("/login") ||
       req.nextUrl.pathname.startsWith("/register");
@@ -15,10 +19,11 @@ export default withAuth(
         return NextResponse.redirect(new URL("/home", req.url));
       }
 
-      return null;
+      return null; //allow rendering of the page
     }
 
     if (!isAuth) {
+      console.log("test");
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
@@ -32,9 +37,8 @@ export default withAuth(
   {
     callbacks: {
       async authorized() {
-        // This is a work-around for handling redirect on auth pages.
-        // We return true here so that the middleware function above
-        // is always called.
+        // This ensures the middleware function is called where we can check
+        // if user is authenticated, and if yes redirect away from auth pages.
         return true;
       },
     },
