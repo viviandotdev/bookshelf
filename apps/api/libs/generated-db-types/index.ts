@@ -6,11 +6,11 @@ import { ValidateNested } from 'class-validator';
 import { Prisma } from '@prisma/client';
 import { Int } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import * as Validator from 'class-validator';
 import { registerEnumType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
-import * as Validator from 'class-validator';
 
 export enum UserBookScalarFieldEnum {
     id = "id",
@@ -211,22 +211,31 @@ export class BookCreateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -258,22 +267,31 @@ export class BookCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -282,22 +300,31 @@ export class BookCreateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
@@ -332,22 +359,31 @@ export class BookGroupBy {
     @Field(() => String, {nullable:false})
     id!: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
     @Field(() => BookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregate>;
@@ -386,22 +422,31 @@ export class BookMaxAggregate {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -458,22 +503,31 @@ export class BookMinAggregate {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -600,22 +654,31 @@ export class BookUncheckedCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -624,22 +687,31 @@ export class BookUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
+    @Validator.IsString()
     title!: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
@@ -650,22 +722,31 @@ export class BookUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -674,22 +755,31 @@ export class BookUncheckedUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -698,22 +788,31 @@ export class BookUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
@@ -724,22 +823,31 @@ export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -777,22 +885,31 @@ export class BookUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
 }
 
@@ -801,22 +918,31 @@ export class BookUpdateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     title?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     author?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pubDate?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     publisher?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     coverImage?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     pageCount?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
+    @Validator.IsString()
     category?: string;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;

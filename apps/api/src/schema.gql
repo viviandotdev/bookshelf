@@ -42,6 +42,20 @@ type BookCountAggregate {
   title: Int!
 }
 
+input BookCreateInput {
+  UserBooks: UserBookCreateNestedManyWithoutBookInput
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String!
+}
+
 input BookCreateNestedOneWithoutUserBooksInput {
   connect: BookWhereUniqueInput
   connectOrCreate: BookCreateOrConnectWithoutUserBooksInput
@@ -95,6 +109,20 @@ type BookMinAggregate {
 input BookRelationFilter {
   is: BookWhereInput
   isNot: BookWhereInput
+}
+
+input BookUpdateInput {
+  UserBooks: UserBookUpdateManyWithoutBookNestedInput
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String
 }
 
 input BookUpdateOneRequiredWithoutUserBooksNestedInput {
@@ -191,16 +219,20 @@ input LogInInput {
 }
 
 type Mutation {
+  createBook(data: BookCreateInput!): Book!
   createUser(data: UserCreateInput!): User!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
+  removeBook(where: BookWhereUniqueInput!): Book!
   removeUser(where: UserWhereUniqueInput!): User!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
+  updateBook(data: BookUpdateInput!, where: BookWhereUniqueInput!): Book!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
+  book(where: BookWhereUniqueInput!): Book!
   hello: String!
   me: User!
   user(where: UserWhereUniqueInput!): User!
@@ -705,6 +737,20 @@ type UserBookCountAggregate {
   userId: Int!
 }
 
+input UserBookCreateManyBookInput {
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String!
+  userId: String!
+}
+
+input UserBookCreateManyBookInputEnvelope {
+  data: [UserBookCreateManyBookInput!]!
+  skipDuplicates: Boolean
+}
+
 input UserBookCreateManyUserInput {
   bookId: String!
   dateFinished: String
@@ -717,6 +763,13 @@ input UserBookCreateManyUserInput {
 input UserBookCreateManyUserInputEnvelope {
   data: [UserBookCreateManyUserInput!]!
   skipDuplicates: Boolean
+}
+
+input UserBookCreateNestedManyWithoutBookInput {
+  connect: [UserBookWhereUniqueInput!]
+  connectOrCreate: [UserBookCreateOrConnectWithoutBookInput!]
+  create: [UserBookCreateWithoutBookInput!]
+  createMany: UserBookCreateManyBookInputEnvelope
 }
 
 input UserBookCreateNestedManyWithoutUserInput {
@@ -732,6 +785,11 @@ input UserBookCreateNestedOneWithoutShelfEntryInput {
   create: UserBookCreateWithoutShelfEntryInput
 }
 
+input UserBookCreateOrConnectWithoutBookInput {
+  create: UserBookCreateWithoutBookInput!
+  where: UserBookWhereUniqueInput!
+}
+
 input UserBookCreateOrConnectWithoutShelfEntryInput {
   create: UserBookCreateWithoutShelfEntryInput!
   where: UserBookWhereUniqueInput!
@@ -740,6 +798,16 @@ input UserBookCreateOrConnectWithoutShelfEntryInput {
 input UserBookCreateOrConnectWithoutUserInput {
   create: UserBookCreateWithoutUserInput!
   where: UserBookWhereUniqueInput!
+}
+
+input UserBookCreateWithoutBookInput {
+  ShelfEntry: ShelfEntryCreateNestedManyWithoutUserBookInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String!
+  user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutShelfEntryInput {
@@ -818,9 +886,28 @@ input UserBookUpdateManyMutationInput {
   status: String
 }
 
+input UserBookUpdateManyWithWhereWithoutBookInput {
+  data: UserBookUpdateManyMutationInput!
+  where: UserBookScalarWhereInput!
+}
+
 input UserBookUpdateManyWithWhereWithoutUserInput {
   data: UserBookUpdateManyMutationInput!
   where: UserBookScalarWhereInput!
+}
+
+input UserBookUpdateManyWithoutBookNestedInput {
+  connect: [UserBookWhereUniqueInput!]
+  connectOrCreate: [UserBookCreateOrConnectWithoutBookInput!]
+  create: [UserBookCreateWithoutBookInput!]
+  createMany: UserBookCreateManyBookInputEnvelope
+  delete: [UserBookWhereUniqueInput!]
+  deleteMany: [UserBookScalarWhereInput!]
+  disconnect: [UserBookWhereUniqueInput!]
+  set: [UserBookWhereUniqueInput!]
+  update: [UserBookUpdateWithWhereUniqueWithoutBookInput!]
+  updateMany: [UserBookUpdateManyWithWhereWithoutBookInput!]
+  upsert: [UserBookUpsertWithWhereUniqueWithoutBookInput!]
 }
 
 input UserBookUpdateManyWithoutUserNestedInput {
@@ -850,9 +937,24 @@ input UserBookUpdateToOneWithWhereWithoutShelfEntryInput {
   where: UserBookWhereInput
 }
 
+input UserBookUpdateWithWhereUniqueWithoutBookInput {
+  data: UserBookUpdateWithoutBookInput!
+  where: UserBookWhereUniqueInput!
+}
+
 input UserBookUpdateWithWhereUniqueWithoutUserInput {
   data: UserBookUpdateWithoutUserInput!
   where: UserBookWhereUniqueInput!
+}
+
+input UserBookUpdateWithoutBookInput {
+  ShelfEntry: ShelfEntryUpdateManyWithoutUserBookNestedInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutShelfEntryInput {
@@ -873,6 +975,12 @@ input UserBookUpdateWithoutUserInput {
   id: String
   rating: Int
   status: String
+}
+
+input UserBookUpsertWithWhereUniqueWithoutBookInput {
+  create: UserBookCreateWithoutBookInput!
+  update: UserBookUpdateWithoutBookInput!
+  where: UserBookWhereUniqueInput!
 }
 
 input UserBookUpsertWithWhereUniqueWithoutUserInput {

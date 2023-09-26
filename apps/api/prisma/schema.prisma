@@ -59,19 +59,27 @@ model User {
 
 // Table stores all books
 model Book {
-    id          String  @id @default(uuid())
+    id          String     @id @default(uuid())
+    /// @Validator.IsString()
     title       String
+    /// @Validator.IsString()
     author      String?
+    /// @Validator.IsString()
     pubDate     String?
+    /// @Validator.IsString()
     publisher   String?
+    /// @Validator.IsString()
     coverImage  String?
+    /// @Validator.IsString()
     description String?
+    /// @Validator.IsString()
     pageCount   String?
+    /// @Validator.IsString()
     isbn        String?
+    /// @Validator.IsString()
     category    String?
-
     // Optional back reference that will not be used
-    UserBooks UserBook[]
+    UserBooks   UserBook[]
 }
 
 // Table stores all user books

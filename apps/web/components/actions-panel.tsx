@@ -41,6 +41,7 @@ export default function ActionsPanel({ book }: ActionsPanelProps) {
   const [rating, setRating] = useState(0); // Initial value
   function addBook(book: BookData): void {
     console.log("addBook", book);
+    
   }
 
   return (
