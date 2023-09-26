@@ -1,7 +1,6 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
-    binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
 }
 
 generator erd {
@@ -52,7 +51,62 @@ model User {
     /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
+    userBooks          UserBook[]
+    shelves            Shelf[]
+}
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// Table stores all books
+model Book {
+    id          String  @id @default(uuid())
+    title       String
+    author      String?
+    pubDate     String?
+    publisher   String?
+    coverImage  String?
+    description String?
+    pageCount   String?
+    isbn        String?
+    category    String?
+
+    // Optional back reference that will not be used
+    UserBooks UserBook[]
+}
+
+// Table stores all user books
+model UserBook {
+    id           String  @id @default(uuid())
+    userId       String
+    bookId       String
+    status       String
+    rating       Int?
+    dateStarted  String?
+    dateFinished String?
+
+    book       Book         @relation(fields: [bookId], references: [id])
+    user       User?        @relation(fields: [userId], references: [id])
+    // Optional back reference that will not be used
+    ShelfEntry ShelfEntry[]
+}
+
+model Shelf {
+    id               String  @id @default(uuid())
+    shelfName        String
+    shelfDescription String?
+    userId           String
+    dateTime         String?
+
+    shelfEntries ShelfEntry[] // A shelf can have many entries
+    user         User?        @relation(fields: [userId], references: [id])
+}
+
+model ShelfEntry {
+    id         String  @id @default(uuid())
+    shelfId    String
+    userBookId String
+    dateTime   String?
+
+    shelf    Shelf    @relation(fields: [shelfId], references: [id])
+    userBook UserBook @relation(fields: [userBookId], references: [id])
 }

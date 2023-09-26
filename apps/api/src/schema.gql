@@ -9,6 +9,182 @@ type AuthResponse {
   user: User!
 }
 
+type Book {
+  UserBooks: [UserBook!]
+  _count: BookCount!
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: ID!
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String!
+}
+
+type BookCount {
+  UserBooks: Int!
+}
+
+type BookCountAggregate {
+  _all: Int!
+  author: Int!
+  category: Int!
+  coverImage: Int!
+  description: Int!
+  id: Int!
+  isbn: Int!
+  pageCount: Int!
+  pubDate: Int!
+  publisher: Int!
+  title: Int!
+}
+
+input BookCreateNestedOneWithoutUserBooksInput {
+  connect: BookWhereUniqueInput
+  connectOrCreate: BookCreateOrConnectWithoutUserBooksInput
+  create: BookCreateWithoutUserBooksInput
+}
+
+input BookCreateOrConnectWithoutUserBooksInput {
+  create: BookCreateWithoutUserBooksInput!
+  where: BookWhereUniqueInput!
+}
+
+input BookCreateWithoutUserBooksInput {
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String!
+}
+
+type BookMaxAggregate {
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String
+}
+
+type BookMinAggregate {
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String
+}
+
+input BookRelationFilter {
+  is: BookWhereInput
+  isNot: BookWhereInput
+}
+
+input BookUpdateOneRequiredWithoutUserBooksNestedInput {
+  connect: BookWhereUniqueInput
+  connectOrCreate: BookCreateOrConnectWithoutUserBooksInput
+  create: BookCreateWithoutUserBooksInput
+  update: BookUpdateToOneWithWhereWithoutUserBooksInput
+  upsert: BookUpsertWithoutUserBooksInput
+}
+
+input BookUpdateToOneWithWhereWithoutUserBooksInput {
+  data: BookUpdateWithoutUserBooksInput!
+  where: BookWhereInput
+}
+
+input BookUpdateWithoutUserBooksInput {
+  author: String
+  category: String
+  coverImage: String
+  description: String
+  id: String
+  isbn: String
+  pageCount: String
+  pubDate: String
+  publisher: String
+  title: String
+}
+
+input BookUpsertWithoutUserBooksInput {
+  create: BookCreateWithoutUserBooksInput!
+  update: BookUpdateWithoutUserBooksInput!
+  where: BookWhereInput
+}
+
+input BookWhereInput {
+  AND: [BookWhereInput!]
+  NOT: [BookWhereInput!]
+  OR: [BookWhereInput!]
+  UserBooks: UserBookListRelationFilter
+  author: StringFilter
+  category: StringFilter
+  coverImage: StringFilter
+  description: StringFilter
+  id: StringFilter
+  isbn: StringFilter
+  pageCount: StringFilter
+  pubDate: StringFilter
+  publisher: StringFilter
+  title: StringFilter
+}
+
+input BookWhereUniqueInput {
+  AND: [BookWhereInput!]
+  NOT: [BookWhereInput!]
+  OR: [BookWhereInput!]
+  UserBooks: UserBookListRelationFilter
+  author: StringFilter
+  category: StringFilter
+  coverImage: StringFilter
+  description: StringFilter
+  id: String
+  isbn: StringFilter
+  pageCount: StringFilter
+  pubDate: StringFilter
+  publisher: StringFilter
+  title: StringFilter
+}
+
+input DateTimeFilter {
+  equals: Timestamp
+  gt: Timestamp
+  gte: Timestamp
+  in: [Timestamp!]
+  lt: Timestamp
+  lte: Timestamp
+  not: DateTimeFilter
+  notIn: [Timestamp!]
+}
+
+input IntFilter {
+  equals: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  lt: Int
+  lte: Int
+  not: IntFilter
+  notIn: [Int!]
+}
+
 input LogInInput {
   email: String!
   password: String!
@@ -31,6 +207,11 @@ type Query {
   users: [User!]!
 }
 
+enum QueryMode {
+  default
+  insensitive
+}
+
 type RefreshResponse {
   accessToken: String!
   expiresIn: Float!
@@ -43,17 +224,704 @@ input RegisterInput {
   username: String!
 }
 
+type Shelf {
+  _count: ShelfCount!
+  dateTime: String
+  id: ID!
+  shelfDescription: String
+  shelfEntries: [ShelfEntry!]
+  shelfName: String!
+  user: User
+  userId: String!
+}
+
+type ShelfCount {
+  shelfEntries: Int!
+}
+
+type ShelfCountAggregate {
+  _all: Int!
+  dateTime: Int!
+  id: Int!
+  shelfDescription: Int!
+  shelfName: Int!
+  userId: Int!
+}
+
+input ShelfCreateManyUserInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String!
+}
+
+input ShelfCreateManyUserInputEnvelope {
+  data: [ShelfCreateManyUserInput!]!
+  skipDuplicates: Boolean
+}
+
+input ShelfCreateNestedManyWithoutUserInput {
+  connect: [ShelfWhereUniqueInput!]
+  connectOrCreate: [ShelfCreateOrConnectWithoutUserInput!]
+  create: [ShelfCreateWithoutUserInput!]
+  createMany: ShelfCreateManyUserInputEnvelope
+}
+
+input ShelfCreateNestedOneWithoutShelfEntriesInput {
+  connect: ShelfWhereUniqueInput
+  connectOrCreate: ShelfCreateOrConnectWithoutShelfEntriesInput
+  create: ShelfCreateWithoutShelfEntriesInput
+}
+
+input ShelfCreateOrConnectWithoutShelfEntriesInput {
+  create: ShelfCreateWithoutShelfEntriesInput!
+  where: ShelfWhereUniqueInput!
+}
+
+input ShelfCreateOrConnectWithoutUserInput {
+  create: ShelfCreateWithoutUserInput!
+  where: ShelfWhereUniqueInput!
+}
+
+input ShelfCreateWithoutShelfEntriesInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String!
+  user: UserCreateNestedOneWithoutShelvesInput
+}
+
+input ShelfCreateWithoutUserInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfEntries: ShelfEntryCreateNestedManyWithoutShelfInput
+  shelfName: String!
+}
+
+type ShelfEntry {
+  dateTime: String
+  id: ID!
+  shelf: Shelf!
+  shelfId: String!
+  userBook: UserBook!
+  userBookId: String!
+}
+
+type ShelfEntryCountAggregate {
+  _all: Int!
+  dateTime: Int!
+  id: Int!
+  shelfId: Int!
+  userBookId: Int!
+}
+
+input ShelfEntryCreateManyShelfInput {
+  dateTime: String
+  id: String
+  userBookId: String!
+}
+
+input ShelfEntryCreateManyShelfInputEnvelope {
+  data: [ShelfEntryCreateManyShelfInput!]!
+  skipDuplicates: Boolean
+}
+
+input ShelfEntryCreateManyUserBookInput {
+  dateTime: String
+  id: String
+  shelfId: String!
+}
+
+input ShelfEntryCreateManyUserBookInputEnvelope {
+  data: [ShelfEntryCreateManyUserBookInput!]!
+  skipDuplicates: Boolean
+}
+
+input ShelfEntryCreateNestedManyWithoutShelfInput {
+  connect: [ShelfEntryWhereUniqueInput!]
+  connectOrCreate: [ShelfEntryCreateOrConnectWithoutShelfInput!]
+  create: [ShelfEntryCreateWithoutShelfInput!]
+  createMany: ShelfEntryCreateManyShelfInputEnvelope
+}
+
+input ShelfEntryCreateNestedManyWithoutUserBookInput {
+  connect: [ShelfEntryWhereUniqueInput!]
+  connectOrCreate: [ShelfEntryCreateOrConnectWithoutUserBookInput!]
+  create: [ShelfEntryCreateWithoutUserBookInput!]
+  createMany: ShelfEntryCreateManyUserBookInputEnvelope
+}
+
+input ShelfEntryCreateOrConnectWithoutShelfInput {
+  create: ShelfEntryCreateWithoutShelfInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryCreateOrConnectWithoutUserBookInput {
+  create: ShelfEntryCreateWithoutUserBookInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryCreateWithoutShelfInput {
+  dateTime: String
+  id: String
+  userBook: UserBookCreateNestedOneWithoutShelfEntryInput!
+}
+
+input ShelfEntryCreateWithoutUserBookInput {
+  dateTime: String
+  id: String
+  shelf: ShelfCreateNestedOneWithoutShelfEntriesInput!
+}
+
+input ShelfEntryListRelationFilter {
+  every: ShelfEntryWhereInput
+  none: ShelfEntryWhereInput
+  some: ShelfEntryWhereInput
+}
+
+type ShelfEntryMaxAggregate {
+  dateTime: String
+  id: String
+  shelfId: String
+  userBookId: String
+}
+
+type ShelfEntryMinAggregate {
+  dateTime: String
+  id: String
+  shelfId: String
+  userBookId: String
+}
+
+input ShelfEntryScalarWhereInput {
+  AND: [ShelfEntryScalarWhereInput!]
+  NOT: [ShelfEntryScalarWhereInput!]
+  OR: [ShelfEntryScalarWhereInput!]
+  dateTime: StringFilter
+  id: StringFilter
+  shelfId: StringFilter
+  userBookId: StringFilter
+}
+
+input ShelfEntryUpdateManyMutationInput {
+  dateTime: String
+  id: String
+}
+
+input ShelfEntryUpdateManyWithWhereWithoutShelfInput {
+  data: ShelfEntryUpdateManyMutationInput!
+  where: ShelfEntryScalarWhereInput!
+}
+
+input ShelfEntryUpdateManyWithWhereWithoutUserBookInput {
+  data: ShelfEntryUpdateManyMutationInput!
+  where: ShelfEntryScalarWhereInput!
+}
+
+input ShelfEntryUpdateManyWithoutShelfNestedInput {
+  connect: [ShelfEntryWhereUniqueInput!]
+  connectOrCreate: [ShelfEntryCreateOrConnectWithoutShelfInput!]
+  create: [ShelfEntryCreateWithoutShelfInput!]
+  createMany: ShelfEntryCreateManyShelfInputEnvelope
+  delete: [ShelfEntryWhereUniqueInput!]
+  deleteMany: [ShelfEntryScalarWhereInput!]
+  disconnect: [ShelfEntryWhereUniqueInput!]
+  set: [ShelfEntryWhereUniqueInput!]
+  update: [ShelfEntryUpdateWithWhereUniqueWithoutShelfInput!]
+  updateMany: [ShelfEntryUpdateManyWithWhereWithoutShelfInput!]
+  upsert: [ShelfEntryUpsertWithWhereUniqueWithoutShelfInput!]
+}
+
+input ShelfEntryUpdateManyWithoutUserBookNestedInput {
+  connect: [ShelfEntryWhereUniqueInput!]
+  connectOrCreate: [ShelfEntryCreateOrConnectWithoutUserBookInput!]
+  create: [ShelfEntryCreateWithoutUserBookInput!]
+  createMany: ShelfEntryCreateManyUserBookInputEnvelope
+  delete: [ShelfEntryWhereUniqueInput!]
+  deleteMany: [ShelfEntryScalarWhereInput!]
+  disconnect: [ShelfEntryWhereUniqueInput!]
+  set: [ShelfEntryWhereUniqueInput!]
+  update: [ShelfEntryUpdateWithWhereUniqueWithoutUserBookInput!]
+  updateMany: [ShelfEntryUpdateManyWithWhereWithoutUserBookInput!]
+  upsert: [ShelfEntryUpsertWithWhereUniqueWithoutUserBookInput!]
+}
+
+input ShelfEntryUpdateWithWhereUniqueWithoutShelfInput {
+  data: ShelfEntryUpdateWithoutShelfInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryUpdateWithWhereUniqueWithoutUserBookInput {
+  data: ShelfEntryUpdateWithoutUserBookInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryUpdateWithoutShelfInput {
+  dateTime: String
+  id: String
+  userBook: UserBookUpdateOneRequiredWithoutShelfEntryNestedInput
+}
+
+input ShelfEntryUpdateWithoutUserBookInput {
+  dateTime: String
+  id: String
+  shelf: ShelfUpdateOneRequiredWithoutShelfEntriesNestedInput
+}
+
+input ShelfEntryUpsertWithWhereUniqueWithoutShelfInput {
+  create: ShelfEntryCreateWithoutShelfInput!
+  update: ShelfEntryUpdateWithoutShelfInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryUpsertWithWhereUniqueWithoutUserBookInput {
+  create: ShelfEntryCreateWithoutUserBookInput!
+  update: ShelfEntryUpdateWithoutUserBookInput!
+  where: ShelfEntryWhereUniqueInput!
+}
+
+input ShelfEntryWhereInput {
+  AND: [ShelfEntryWhereInput!]
+  NOT: [ShelfEntryWhereInput!]
+  OR: [ShelfEntryWhereInput!]
+  dateTime: StringFilter
+  id: StringFilter
+  shelf: ShelfRelationFilter
+  shelfId: StringFilter
+  userBook: UserBookRelationFilter
+  userBookId: StringFilter
+}
+
+input ShelfEntryWhereUniqueInput {
+  AND: [ShelfEntryWhereInput!]
+  NOT: [ShelfEntryWhereInput!]
+  OR: [ShelfEntryWhereInput!]
+  dateTime: StringFilter
+  id: String
+  shelf: ShelfRelationFilter
+  shelfId: StringFilter
+  userBook: UserBookRelationFilter
+  userBookId: StringFilter
+}
+
+input ShelfListRelationFilter {
+  every: ShelfWhereInput
+  none: ShelfWhereInput
+  some: ShelfWhereInput
+}
+
+type ShelfMaxAggregate {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String
+  userId: String
+}
+
+type ShelfMinAggregate {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String
+  userId: String
+}
+
+input ShelfRelationFilter {
+  is: ShelfWhereInput
+  isNot: ShelfWhereInput
+}
+
+input ShelfScalarWhereInput {
+  AND: [ShelfScalarWhereInput!]
+  NOT: [ShelfScalarWhereInput!]
+  OR: [ShelfScalarWhereInput!]
+  dateTime: StringFilter
+  id: StringFilter
+  shelfDescription: StringFilter
+  shelfName: StringFilter
+  userId: StringFilter
+}
+
+input ShelfUpdateManyMutationInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String
+}
+
+input ShelfUpdateManyWithWhereWithoutUserInput {
+  data: ShelfUpdateManyMutationInput!
+  where: ShelfScalarWhereInput!
+}
+
+input ShelfUpdateManyWithoutUserNestedInput {
+  connect: [ShelfWhereUniqueInput!]
+  connectOrCreate: [ShelfCreateOrConnectWithoutUserInput!]
+  create: [ShelfCreateWithoutUserInput!]
+  createMany: ShelfCreateManyUserInputEnvelope
+  delete: [ShelfWhereUniqueInput!]
+  deleteMany: [ShelfScalarWhereInput!]
+  disconnect: [ShelfWhereUniqueInput!]
+  set: [ShelfWhereUniqueInput!]
+  update: [ShelfUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [ShelfUpdateManyWithWhereWithoutUserInput!]
+  upsert: [ShelfUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input ShelfUpdateOneRequiredWithoutShelfEntriesNestedInput {
+  connect: ShelfWhereUniqueInput
+  connectOrCreate: ShelfCreateOrConnectWithoutShelfEntriesInput
+  create: ShelfCreateWithoutShelfEntriesInput
+  update: ShelfUpdateToOneWithWhereWithoutShelfEntriesInput
+  upsert: ShelfUpsertWithoutShelfEntriesInput
+}
+
+input ShelfUpdateToOneWithWhereWithoutShelfEntriesInput {
+  data: ShelfUpdateWithoutShelfEntriesInput!
+  where: ShelfWhereInput
+}
+
+input ShelfUpdateWithWhereUniqueWithoutUserInput {
+  data: ShelfUpdateWithoutUserInput!
+  where: ShelfWhereUniqueInput!
+}
+
+input ShelfUpdateWithoutShelfEntriesInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfName: String
+  user: UserUpdateOneWithoutShelvesNestedInput
+}
+
+input ShelfUpdateWithoutUserInput {
+  dateTime: String
+  id: String
+  shelfDescription: String
+  shelfEntries: ShelfEntryUpdateManyWithoutShelfNestedInput
+  shelfName: String
+}
+
+input ShelfUpsertWithWhereUniqueWithoutUserInput {
+  create: ShelfCreateWithoutUserInput!
+  update: ShelfUpdateWithoutUserInput!
+  where: ShelfWhereUniqueInput!
+}
+
+input ShelfUpsertWithoutShelfEntriesInput {
+  create: ShelfCreateWithoutShelfEntriesInput!
+  update: ShelfUpdateWithoutShelfEntriesInput!
+  where: ShelfWhereInput
+}
+
+input ShelfWhereInput {
+  AND: [ShelfWhereInput!]
+  NOT: [ShelfWhereInput!]
+  OR: [ShelfWhereInput!]
+  dateTime: StringFilter
+  id: StringFilter
+  shelfDescription: StringFilter
+  shelfEntries: ShelfEntryListRelationFilter
+  shelfName: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+input ShelfWhereUniqueInput {
+  AND: [ShelfWhereInput!]
+  NOT: [ShelfWhereInput!]
+  OR: [ShelfWhereInput!]
+  dateTime: StringFilter
+  id: String
+  shelfDescription: StringFilter
+  shelfEntries: ShelfEntryListRelationFilter
+  shelfName: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: StringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
 """
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
 
 type User {
+  _count: UserCount!
   createdAt: Timestamp!
   email: String!
   id: ID!
+  shelves: [Shelf!]
   updatedAt: Timestamp!
+  userBooks: [UserBook!]
   username: String
+}
+
+type UserBook {
+  ShelfEntry: [ShelfEntry!]
+  _count: UserBookCount!
+  book: Book!
+  bookId: String!
+  dateFinished: String
+  dateStarted: String
+  id: ID!
+  rating: Int
+  status: String!
+  user: User
+  userId: String!
+}
+
+type UserBookAvgAggregate {
+  rating: Float
+}
+
+type UserBookCount {
+  ShelfEntry: Int!
+}
+
+type UserBookCountAggregate {
+  _all: Int!
+  bookId: Int!
+  dateFinished: Int!
+  dateStarted: Int!
+  id: Int!
+  rating: Int!
+  status: Int!
+  userId: Int!
+}
+
+input UserBookCreateManyUserInput {
+  bookId: String!
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String!
+}
+
+input UserBookCreateManyUserInputEnvelope {
+  data: [UserBookCreateManyUserInput!]!
+  skipDuplicates: Boolean
+}
+
+input UserBookCreateNestedManyWithoutUserInput {
+  connect: [UserBookWhereUniqueInput!]
+  connectOrCreate: [UserBookCreateOrConnectWithoutUserInput!]
+  create: [UserBookCreateWithoutUserInput!]
+  createMany: UserBookCreateManyUserInputEnvelope
+}
+
+input UserBookCreateNestedOneWithoutShelfEntryInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutShelfEntryInput
+  create: UserBookCreateWithoutShelfEntryInput
+}
+
+input UserBookCreateOrConnectWithoutShelfEntryInput {
+  create: UserBookCreateWithoutShelfEntryInput!
+  where: UserBookWhereUniqueInput!
+}
+
+input UserBookCreateOrConnectWithoutUserInput {
+  create: UserBookCreateWithoutUserInput!
+  where: UserBookWhereUniqueInput!
+}
+
+input UserBookCreateWithoutShelfEntryInput {
+  book: BookCreateNestedOneWithoutUserBooksInput!
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String!
+  user: UserCreateNestedOneWithoutUserBooksInput
+}
+
+input UserBookCreateWithoutUserInput {
+  ShelfEntry: ShelfEntryCreateNestedManyWithoutUserBookInput
+  book: BookCreateNestedOneWithoutUserBooksInput!
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String!
+}
+
+input UserBookListRelationFilter {
+  every: UserBookWhereInput
+  none: UserBookWhereInput
+  some: UserBookWhereInput
+}
+
+type UserBookMaxAggregate {
+  bookId: String
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+  userId: String
+}
+
+type UserBookMinAggregate {
+  bookId: String
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+  userId: String
+}
+
+input UserBookRelationFilter {
+  is: UserBookWhereInput
+  isNot: UserBookWhereInput
+}
+
+input UserBookScalarWhereInput {
+  AND: [UserBookScalarWhereInput!]
+  NOT: [UserBookScalarWhereInput!]
+  OR: [UserBookScalarWhereInput!]
+  bookId: StringFilter
+  dateFinished: StringFilter
+  dateStarted: StringFilter
+  id: StringFilter
+  rating: IntFilter
+  status: StringFilter
+  userId: StringFilter
+}
+
+type UserBookSumAggregate {
+  rating: Int
+}
+
+input UserBookUpdateManyMutationInput {
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+}
+
+input UserBookUpdateManyWithWhereWithoutUserInput {
+  data: UserBookUpdateManyMutationInput!
+  where: UserBookScalarWhereInput!
+}
+
+input UserBookUpdateManyWithoutUserNestedInput {
+  connect: [UserBookWhereUniqueInput!]
+  connectOrCreate: [UserBookCreateOrConnectWithoutUserInput!]
+  create: [UserBookCreateWithoutUserInput!]
+  createMany: UserBookCreateManyUserInputEnvelope
+  delete: [UserBookWhereUniqueInput!]
+  deleteMany: [UserBookScalarWhereInput!]
+  disconnect: [UserBookWhereUniqueInput!]
+  set: [UserBookWhereUniqueInput!]
+  update: [UserBookUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [UserBookUpdateManyWithWhereWithoutUserInput!]
+  upsert: [UserBookUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input UserBookUpdateOneRequiredWithoutShelfEntryNestedInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutShelfEntryInput
+  create: UserBookCreateWithoutShelfEntryInput
+  update: UserBookUpdateToOneWithWhereWithoutShelfEntryInput
+  upsert: UserBookUpsertWithoutShelfEntryInput
+}
+
+input UserBookUpdateToOneWithWhereWithoutShelfEntryInput {
+  data: UserBookUpdateWithoutShelfEntryInput!
+  where: UserBookWhereInput
+}
+
+input UserBookUpdateWithWhereUniqueWithoutUserInput {
+  data: UserBookUpdateWithoutUserInput!
+  where: UserBookWhereUniqueInput!
+}
+
+input UserBookUpdateWithoutShelfEntryInput {
+  book: BookUpdateOneRequiredWithoutUserBooksNestedInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+  user: UserUpdateOneWithoutUserBooksNestedInput
+}
+
+input UserBookUpdateWithoutUserInput {
+  ShelfEntry: ShelfEntryUpdateManyWithoutUserBookNestedInput
+  book: BookUpdateOneRequiredWithoutUserBooksNestedInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+}
+
+input UserBookUpsertWithWhereUniqueWithoutUserInput {
+  create: UserBookCreateWithoutUserInput!
+  update: UserBookUpdateWithoutUserInput!
+  where: UserBookWhereUniqueInput!
+}
+
+input UserBookUpsertWithoutShelfEntryInput {
+  create: UserBookCreateWithoutShelfEntryInput!
+  update: UserBookUpdateWithoutShelfEntryInput!
+  where: UserBookWhereInput
+}
+
+input UserBookWhereInput {
+  AND: [UserBookWhereInput!]
+  NOT: [UserBookWhereInput!]
+  OR: [UserBookWhereInput!]
+  ShelfEntry: ShelfEntryListRelationFilter
+  book: BookRelationFilter
+  bookId: StringFilter
+  dateFinished: StringFilter
+  dateStarted: StringFilter
+  id: StringFilter
+  rating: IntFilter
+  status: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+input UserBookWhereUniqueInput {
+  AND: [UserBookWhereInput!]
+  NOT: [UserBookWhereInput!]
+  OR: [UserBookWhereInput!]
+  ShelfEntry: ShelfEntryListRelationFilter
+  book: BookRelationFilter
+  bookId: StringFilter
+  dateFinished: StringFilter
+  dateStarted: StringFilter
+  id: String
+  rating: IntFilter
+  status: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+type UserCount {
+  shelves: Int!
+  userBooks: Int!
 }
 
 type UserCountAggregate {
@@ -71,6 +939,52 @@ input UserCreateInput {
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  shelves: ShelfCreateNestedManyWithoutUserInput
+  updatedAt: Timestamp
+  userBooks: UserBookCreateNestedManyWithoutUserInput
+  username: String
+}
+
+input UserCreateNestedOneWithoutShelvesInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutShelvesInput
+  create: UserCreateWithoutShelvesInput
+}
+
+input UserCreateNestedOneWithoutUserBooksInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutUserBooksInput
+  create: UserCreateWithoutUserBooksInput
+}
+
+input UserCreateOrConnectWithoutShelvesInput {
+  create: UserCreateWithoutShelvesInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateOrConnectWithoutUserBooksInput {
+  create: UserCreateWithoutUserBooksInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateWithoutShelvesInput {
+  createdAt: Timestamp
+  email: String!
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  updatedAt: Timestamp
+  userBooks: UserBookCreateNestedManyWithoutUserInput
+  username: String
+}
+
+input UserCreateWithoutUserBooksInput {
+  createdAt: Timestamp
+  email: String!
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   username: String
 }
@@ -91,18 +1005,113 @@ type UserMinAggregate {
   username: String
 }
 
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
 input UserUpdateInput {
   createdAt: Timestamp
   email: String
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  shelves: ShelfUpdateManyWithoutUserNestedInput
+  updatedAt: Timestamp
+  userBooks: UserBookUpdateManyWithoutUserNestedInput
+  username: String
+}
+
+input UserUpdateOneWithoutShelvesNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutShelvesInput
+  create: UserCreateWithoutShelvesInput
+  delete: UserWhereInput
+  disconnect: UserWhereInput
+  update: UserUpdateToOneWithWhereWithoutShelvesInput
+  upsert: UserUpsertWithoutShelvesInput
+}
+
+input UserUpdateOneWithoutUserBooksNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutUserBooksInput
+  create: UserCreateWithoutUserBooksInput
+  delete: UserWhereInput
+  disconnect: UserWhereInput
+  update: UserUpdateToOneWithWhereWithoutUserBooksInput
+  upsert: UserUpsertWithoutUserBooksInput
+}
+
+input UserUpdateToOneWithWhereWithoutShelvesInput {
+  data: UserUpdateWithoutShelvesInput!
+  where: UserWhereInput
+}
+
+input UserUpdateToOneWithWhereWithoutUserBooksInput {
+  data: UserUpdateWithoutUserBooksInput!
+  where: UserWhereInput
+}
+
+input UserUpdateWithoutShelvesInput {
+  createdAt: Timestamp
+  email: String
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  updatedAt: Timestamp
+  userBooks: UserBookUpdateManyWithoutUserNestedInput
+  username: String
+}
+
+input UserUpdateWithoutUserBooksInput {
+  createdAt: Timestamp
+  email: String
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
 }
 
+input UserUpsertWithoutShelvesInput {
+  create: UserCreateWithoutShelvesInput!
+  update: UserUpdateWithoutShelvesInput!
+  where: UserWhereInput
+}
+
+input UserUpsertWithoutUserBooksInput {
+  create: UserCreateWithoutUserBooksInput!
+  update: UserUpdateWithoutUserBooksInput!
+  where: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateTimeFilter
+  email: StringFilter
+  hashedPassword: StringFilter
+  hashedRefreshToken: StringFilter
+  id: StringFilter
+  shelves: ShelfListRelationFilter
+  updatedAt: DateTimeFilter
+  userBooks: UserBookListRelationFilter
+  username: StringFilter
+}
+
 input UserWhereUniqueInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateTimeFilter
   email: String
+  hashedPassword: StringFilter
+  hashedRefreshToken: StringFilter
   id: String
+  shelves: ShelfListRelationFilter
+  updatedAt: DateTimeFilter
+  userBooks: UserBookListRelationFilter
   username: String
 }
