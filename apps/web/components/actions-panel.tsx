@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
+import { BookData } from "@/types/interfaces";
 
 interface ActionItemProps {
   icon: React.ReactNode;
@@ -28,18 +29,20 @@ function ActionGroup() {
     <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">
       <ActionItem icon={<Icons.log className="h-8 w-8 " />} label="Log" />
       <ActionItem icon={<Icons.library className="h-8 w-8" />} label="Shelve" />
-      <ActionItem
-        icon={<Icons.bookPlus className="h-8 w-8" />}
-        label="To-Read"
-      />
+      <ActionItem icon={<Icons.heart className="h-8 w-8" />} label="Like" />
     </div>
   );
 }
 
-interface BookActionsPanelProps {}
-
-export default function BookActionsPanel({}: BookActionsPanelProps) {
+interface ActionsPanelProps {
+  book: BookData;
+}
+export default function ActionsPanel({ book }: ActionsPanelProps) {
   const [rating, setRating] = useState(0); // Initial value
+  function addBook(book: BookData): void {
+    console.log("addBook", book);
+  }
+
   return (
     <>
       <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
@@ -58,11 +61,20 @@ export default function BookActionsPanel({}: BookActionsPanelProps) {
             onChange={setRating}
           />
         </div>
+        <button
+          onClick={() => addBook(book)}
+          className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+        >
+          Want to Read
+        </button>
         <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
           Review
         </div>
         <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
           Add to lists
+        </div>
+        <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+          Edit my activity
         </div>
       </div>
     </>

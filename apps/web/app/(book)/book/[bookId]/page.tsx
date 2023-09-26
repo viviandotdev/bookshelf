@@ -57,7 +57,7 @@ export default async function BookPage({ params }: BookPageProps) {
               <BookInfo processedBook={processedBook} />
             </section>
             <section className="col-span-2">
-              <ActionsPanel />
+              <ActionsPanel book={processedBook} />
             </section>
           </div>
         </div>
