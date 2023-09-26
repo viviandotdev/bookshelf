@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
+        
         const { data } = await client.mutate<SignInMutation>({
           mutation: SignInDocument,
           variables: {

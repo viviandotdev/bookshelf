@@ -52,14 +52,16 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
         },
       });
       if (!errors) {
-        await signIn("credentials", {
+        const res = await signIn("credentials", {
           redirect: false,
-          email,
-          password,
+          email: data.email.toLowerCase(),
+          password: data.password,
           callbackUrl,
         });
         setIsLoading(false);
-        router.push(callbackUrl);
+        if (!res?.error) {
+          router.push(callbackUrl);
+        }
       } else {
         setIsLoading(false);
         return errorMessage;
