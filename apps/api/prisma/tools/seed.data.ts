@@ -32,9 +32,9 @@ export function createRandomBook(): Book {
     publisher: faker.company.name(),
     coverImage: faker.image.url(),
     description: faker.lorem.sentence(),
-    pageCount: faker.number.int.toString(),
+    pageNum: faker.number.int(),
     isbn: faker.string.uuid(),
-    category: faker.word.noun(),
+    categories: faker.lorem.words(),
   };
 }
 

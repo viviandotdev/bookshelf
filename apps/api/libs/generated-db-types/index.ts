@@ -6,10 +6,10 @@ import { ValidateNested } from 'class-validator';
 import { Prisma } from '@prisma/client';
 import { Int } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { registerEnumType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
-import { Float } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
 
 export enum UserBookScalarFieldEnum {
@@ -77,9 +77,9 @@ export enum BookScalarFieldEnum {
     publisher = "publisher",
     coverImage = "coverImage",
     description = "description",
-    pageCount = "pageCount",
+    pageNum = "pageNum",
     isbn = "isbn",
-    category = "category"
+    categories = "categories"
 }
 
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
@@ -96,6 +96,10 @@ registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', des
 export class AggregateBook {
     @Field(() => BookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregate>;
+    @Field(() => BookAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof BookAvgAggregate>;
+    @Field(() => BookSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof BookSumAggregate>;
     @Field(() => BookMinAggregate, {nullable:true})
     _min?: InstanceType<typeof BookMinAggregate>;
     @Field(() => BookMaxAggregate, {nullable:true})
@@ -118,10 +122,32 @@ export class BookAggregateArgs {
     skip?: number;
     @Field(() => BookCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregateInput>;
+    @Field(() => BookAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof BookAvgAggregateInput>;
+    @Field(() => BookSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof BookSumAggregateInput>;
     @Field(() => BookMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof BookMinAggregateInput>;
     @Field(() => BookMaxAggregateInput, {nullable:true})
     _max?: InstanceType<typeof BookMaxAggregateInput>;
+}
+
+@InputType()
+export class BookAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    pageNum?: true;
+}
+
+@ObjectType()
+export class BookAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    pageNum?: number;
+}
+
+@InputType()
+export class BookAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    pageNum?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -141,11 +167,11 @@ export class BookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
-    pageCount?: true;
+    pageNum?: true;
     @Field(() => Boolean, {nullable:true})
     isbn?: true;
     @Field(() => Boolean, {nullable:true})
-    category?: true;
+    categories?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
@@ -167,11 +193,12 @@ export class BookCountAggregate {
     @Field(() => Int, {nullable:false})
     description!: number;
     @Field(() => Int, {nullable:false})
-    pageCount!: number;
+    @Validator.IsInt()
+    pageNum!: number;
     @Field(() => Int, {nullable:false})
     isbn!: number;
     @Field(() => Int, {nullable:false})
-    category!: number;
+    categories!: number;
     @Field(() => Int, {nullable:false})
     _all!: number;
 }
@@ -193,11 +220,11 @@ export class BookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageNum?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     isbn?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    category?: keyof typeof SortOrder;
+    categories?: keyof typeof SortOrder;
 }
 
 @ObjectType()
@@ -228,15 +255,15 @@ export class BookCreateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -284,15 +311,15 @@ export class BookCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -317,15 +344,15 @@ export class BookCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
 }
@@ -348,6 +375,10 @@ export class BookGroupByArgs {
     skip?: number;
     @Field(() => BookCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregateInput>;
+    @Field(() => BookAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof BookAvgAggregateInput>;
+    @Field(() => BookSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof BookSumAggregateInput>;
     @Field(() => BookMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof BookMinAggregateInput>;
     @Field(() => BookMaxAggregateInput, {nullable:true})
@@ -376,17 +407,21 @@ export class BookGroupBy {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
     @Field(() => BookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregate>;
+    @Field(() => BookAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof BookAvgAggregate>;
+    @Field(() => BookSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof BookSumAggregate>;
     @Field(() => BookMinAggregate, {nullable:true})
     _min?: InstanceType<typeof BookMinAggregate>;
     @Field(() => BookMaxAggregate, {nullable:true})
@@ -410,11 +445,11 @@ export class BookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
-    pageCount?: true;
+    pageNum?: true;
     @Field(() => Boolean, {nullable:true})
     isbn?: true;
     @Field(() => Boolean, {nullable:true})
-    category?: true;
+    categories?: true;
 }
 
 @ObjectType()
@@ -439,15 +474,15 @@ export class BookMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -467,11 +502,11 @@ export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageNum?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     isbn?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    category?: keyof typeof SortOrder;
+    categories?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -491,11 +526,11 @@ export class BookMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
-    pageCount?: true;
+    pageNum?: true;
     @Field(() => Boolean, {nullable:true})
     isbn?: true;
     @Field(() => Boolean, {nullable:true})
-    category?: true;
+    categories?: true;
 }
 
 @ObjectType()
@@ -520,15 +555,15 @@ export class BookMinAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -548,11 +583,11 @@ export class BookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageNum?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     isbn?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    category?: keyof typeof SortOrder;
+    categories?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -572,17 +607,21 @@ export class BookOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    pageCount?: InstanceType<typeof SortOrderInput>;
+    pageNum?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    isbn?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    isbn?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    category?: InstanceType<typeof SortOrderInput>;
+    categories?: InstanceType<typeof SortOrderInput>;
     @Field(() => BookCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof BookCountOrderByAggregateInput>;
+    @Field(() => BookAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof BookAvgOrderByAggregateInput>;
     @Field(() => BookMaxOrderByAggregateInput, {nullable:true})
     _max?: InstanceType<typeof BookMaxOrderByAggregateInput>;
     @Field(() => BookMinOrderByAggregateInput, {nullable:true})
     _min?: InstanceType<typeof BookMinOrderByAggregateInput>;
+    @Field(() => BookSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof BookSumOrderByAggregateInput>;
 }
 
 @InputType()
@@ -602,11 +641,11 @@ export class BookOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    pageCount?: InstanceType<typeof SortOrderInput>;
+    pageNum?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    isbn?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    isbn?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    category?: InstanceType<typeof SortOrderInput>;
+    categories?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookOrderByRelationAggregateInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookOrderByRelationAggregateInput>;
 }
@@ -641,12 +680,31 @@ export class BookScalarWhereWithAggregatesInput {
     coverImage?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     description?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    pageCount?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    pageNum?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     isbn?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    category?: InstanceType<typeof StringWithAggregatesFilter>;
+    categories?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class BookSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    pageNum?: true;
+}
+
+@ObjectType()
+export class BookSumAggregate {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+}
+
+@InputType()
+export class BookSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    pageNum?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -671,15 +729,15 @@ export class BookUncheckedCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -704,15 +762,15 @@ export class BookUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    isbn!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    pageCount?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    isbn?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    category?: string;
+    categories?: string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
 }
@@ -739,15 +797,15 @@ export class BookUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -772,15 +830,15 @@ export class BookUncheckedUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -805,15 +863,15 @@ export class BookUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
 }
@@ -840,15 +898,15 @@ export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -902,15 +960,15 @@ export class BookUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
 }
 
 @InputType()
@@ -935,15 +993,15 @@ export class BookUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    pageCount?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageNum?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     isbn?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    category?: string;
+    categories?: string;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
 }
@@ -983,12 +1041,12 @@ export class BookWhereUniqueInput {
     coverImage?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    pageCount?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    pageNum?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     isbn?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    category?: InstanceType<typeof StringFilter>;
+    categories?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookListRelationFilter>;
 }
@@ -1015,12 +1073,12 @@ export class BookWhereInput {
     coverImage?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    pageCount?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    pageNum?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     isbn?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    category?: InstanceType<typeof StringFilter>;
+    categories?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     UserBooks?: InstanceType<typeof UserBookListRelationFilter>;
 }
@@ -1041,12 +1099,12 @@ export class Book {
     coverImage!: string | null;
     @Field(() => String, {nullable:true})
     description!: string | null;
+    @Field(() => Int, {nullable:true})
+    pageNum!: number | null;
+    @Field(() => String, {nullable:false})
+    isbn!: string;
     @Field(() => String, {nullable:true})
-    pageCount!: string | null;
-    @Field(() => String, {nullable:true})
-    isbn!: string | null;
-    @Field(() => String, {nullable:true})
-    category!: string | null;
+    categories!: string | null;
     @Field(() => [UserBook], {nullable:true})
     UserBooks?: Array<UserBook>;
     @Field(() => BookCount, {nullable:false})

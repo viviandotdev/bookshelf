@@ -44,9 +44,8 @@ async function main() {
           publisher: book.publisher,
           coverImage: book.coverImage,
           description: book.description,
-          pageCount: book.pageCount,
+          pageNum: book.pageNum,
           isbn: book.isbn,
-          category: book.category,
         },
       });
     }),
@@ -75,7 +74,7 @@ async function main() {
   );
   await Promise.all(
     shelves.map(async (shelf) => {
-      const { id, shelfName, shelfDescription, userId, dateTime } = shelf;
+      const { id, shelfName, shelfDescription, userId } = shelf;
       // You can access user and book like userBook.user and userBook.book
       // Create a UserBook record
       await prisma.shelf.create({
@@ -84,7 +83,6 @@ async function main() {
           shelfName,
           shelfDescription,
           userId,
-          dateTime,
         },
       });
     }),

@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  FindUniqueBookArgs,
-  UpdateOneBookArgs,
-  DeleteOneBookArgs,
-  BookCreateInput,
-} from 'libs/generated-db-types';
+import { BookCreateInput, BookUpdateInput } from 'libs/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
@@ -13,8 +8,7 @@ export class BookService {
   async create(bookCreateInput: BookCreateInput) {
     const book = await this.prisma.book.create({
       data: {
-        title: bookCreateInput.title,
-        isbn: bookCreateInput.isbn,
+        ...bookCreateInput,
       },
     });
     return book;
@@ -24,15 +18,16 @@ export class BookService {
     return this.prisma.book.findMany();
   }
 
-  findOne(findUniqueBookArgs: FindUniqueBookArgs) {
-    return this.prisma.book.findUnique(findUniqueBookArgs);
+  findOne(id: string) {
+    return `This action returns a #${id} book`;
   }
 
-  update(updateOneBookArgs: UpdateOneBookArgs) {
-    return this.prisma.book.update(updateOneBookArgs);
+  update(id: string, bookUpdateInput: BookUpdateInput) {
+    console.log(bookUpdateInput);
+    return `This action updates a #${id} book`;
   }
 
-  remove(deleteOneBookArgs: DeleteOneBookArgs) {
-    return this.prisma.book.delete(deleteOneBookArgs);
+  remove(id: string) {
+    return `This action removes a #${id} book`;
   }
 }

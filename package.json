@@ -27,7 +27,9 @@
         "db:seed": "pnpm --filter api exec prisma db seed",
         "----PACKAGES SECTION----": "-------------------------",
         "update:api": "pnpm --filter api update -i --latest",
-        "update:web": "pnpm --filter web update -i --latest"
+        "update:web": "pnpm --filter web update -i --latest",
+        "----DEVELOPMENT SECTION----": "-------------------------",
+        "create:resolver": "pnpm --filter api exec nest g resource users --no-spec"
     },
     "keywords": [],
     "author": "",

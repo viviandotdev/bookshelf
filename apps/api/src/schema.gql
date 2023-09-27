@@ -13,15 +13,19 @@ type Book {
   UserBooks: [UserBook!]
   _count: BookCount!
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: ID!
-  isbn: String
-  pageCount: String
+  isbn: String!
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String!
+}
+
+type BookAvgAggregate {
+  pageNum: Float
 }
 
 type BookCount {
@@ -31,12 +35,12 @@ type BookCount {
 type BookCountAggregate {
   _all: Int!
   author: Int!
-  category: Int!
+  categories: Int!
   coverImage: Int!
   description: Int!
   id: Int!
   isbn: Int!
-  pageCount: Int!
+  pageNum: Int!
   pubDate: Int!
   publisher: Int!
   title: Int!
@@ -45,12 +49,12 @@ type BookCountAggregate {
 input BookCreateInput {
   UserBooks: UserBookCreateNestedManyWithoutBookInput
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
-  isbn: String
-  pageCount: String
+  isbn: String!
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String!
@@ -69,12 +73,12 @@ input BookCreateOrConnectWithoutUserBooksInput {
 
 input BookCreateWithoutUserBooksInput {
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
-  isbn: String
-  pageCount: String
+  isbn: String!
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String!
@@ -82,12 +86,12 @@ input BookCreateWithoutUserBooksInput {
 
 type BookMaxAggregate {
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
   isbn: String
-  pageCount: String
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String
@@ -95,12 +99,12 @@ type BookMaxAggregate {
 
 type BookMinAggregate {
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
   isbn: String
-  pageCount: String
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String
@@ -111,15 +115,19 @@ input BookRelationFilter {
   isNot: BookWhereInput
 }
 
+type BookSumAggregate {
+  pageNum: Int
+}
+
 input BookUpdateInput {
   UserBooks: UserBookUpdateManyWithoutBookNestedInput
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
   isbn: String
-  pageCount: String
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String
@@ -140,12 +148,12 @@ input BookUpdateToOneWithWhereWithoutUserBooksInput {
 
 input BookUpdateWithoutUserBooksInput {
   author: String
-  category: String
+  categories: String
   coverImage: String
   description: String
   id: String
   isbn: String
-  pageCount: String
+  pageNum: Int
   pubDate: String
   publisher: String
   title: String
@@ -163,12 +171,12 @@ input BookWhereInput {
   OR: [BookWhereInput!]
   UserBooks: UserBookListRelationFilter
   author: StringFilter
-  category: StringFilter
+  categories: StringFilter
   coverImage: StringFilter
   description: StringFilter
   id: StringFilter
   isbn: StringFilter
-  pageCount: StringFilter
+  pageNum: IntFilter
   pubDate: StringFilter
   publisher: StringFilter
   title: StringFilter
@@ -180,12 +188,12 @@ input BookWhereUniqueInput {
   OR: [BookWhereInput!]
   UserBooks: UserBookListRelationFilter
   author: StringFilter
-  category: StringFilter
+  categories: StringFilter
   coverImage: StringFilter
   description: StringFilter
   id: String
   isbn: StringFilter
-  pageCount: StringFilter
+  pageNum: IntFilter
   pubDate: StringFilter
   publisher: StringFilter
   title: StringFilter
@@ -220,22 +228,22 @@ input LogInInput {
 
 type Mutation {
   createBook(bookCreateInput: BookCreateInput!): Book!
-  createUser(data: UserCreateInput!): User!
+  createUser(userCreateInput: UserCreateInput!): User!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
-  removeBook(where: BookWhereUniqueInput!): Book!
-  removeUser(where: UserWhereUniqueInput!): User!
+  removeBook(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
+  removeUser(bookWhereUniqueInput: BookWhereUniqueInput!): User!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
-  updateBook(data: BookUpdateInput!, where: BookWhereUniqueInput!): Book!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  updateBook(bookUpdateInput: BookUpdateInput!): Book!
+  updateUser(userUpdateInput: UserUpdateInput!): User!
 }
 
 type Query {
-  book(where: BookWhereUniqueInput!): Book!
+  book(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
   hello: String!
   me: User!
-  user(where: UserWhereUniqueInput!): User!
+  user(bookWhereUniqueInput: BookWhereUniqueInput!): User!
   users: [User!]!
 }
 

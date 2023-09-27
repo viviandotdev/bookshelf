@@ -30,15 +30,20 @@ export type Book = {
   UserBooks?: Maybe<Array<UserBook>>;
   _count: BookCount;
   author?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
+  categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  isbn?: Maybe<Scalars['String']>;
-  pageCount?: Maybe<Scalars['String']>;
+  isbn: Scalars['String'];
+  pageNum?: Maybe<Scalars['Int']>;
   pubDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type BookAvgAggregate = {
+  __typename?: 'BookAvgAggregate';
+  pageNum?: Maybe<Scalars['Float']>;
 };
 
 export type BookCount = {
@@ -50,12 +55,12 @@ export type BookCountAggregate = {
   __typename?: 'BookCountAggregate';
   _all: Scalars['Int'];
   author: Scalars['Int'];
-  category: Scalars['Int'];
+  categories: Scalars['Int'];
   coverImage: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
   isbn: Scalars['Int'];
-  pageCount: Scalars['Int'];
+  pageNum: Scalars['Int'];
   pubDate: Scalars['Int'];
   publisher: Scalars['Int'];
   title: Scalars['Int'];
@@ -64,12 +69,12 @@ export type BookCountAggregate = {
 export type BookCreateInput = {
   UserBooks?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
   author?: InputMaybe<Scalars['String']>;
-  category?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  isbn?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['String']>;
+  isbn: Scalars['String'];
+  pageNum?: InputMaybe<Scalars['Int']>;
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
@@ -88,12 +93,12 @@ export type BookCreateOrConnectWithoutUserBooksInput = {
 
 export type BookCreateWithoutUserBooksInput = {
   author?: InputMaybe<Scalars['String']>;
-  category?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  isbn?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['String']>;
+  isbn: Scalars['String'];
+  pageNum?: InputMaybe<Scalars['Int']>;
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
@@ -102,12 +107,12 @@ export type BookCreateWithoutUserBooksInput = {
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
   author?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
+  categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   isbn?: Maybe<Scalars['String']>;
-  pageCount?: Maybe<Scalars['String']>;
+  pageNum?: Maybe<Scalars['Int']>;
   pubDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -116,12 +121,12 @@ export type BookMaxAggregate = {
 export type BookMinAggregate = {
   __typename?: 'BookMinAggregate';
   author?: Maybe<Scalars['String']>;
-  category?: Maybe<Scalars['String']>;
+  categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   isbn?: Maybe<Scalars['String']>;
-  pageCount?: Maybe<Scalars['String']>;
+  pageNum?: Maybe<Scalars['Int']>;
   pubDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
@@ -132,15 +137,20 @@ export type BookRelationFilter = {
   isNot?: InputMaybe<BookWhereInput>;
 };
 
+export type BookSumAggregate = {
+  __typename?: 'BookSumAggregate';
+  pageNum?: Maybe<Scalars['Int']>;
+};
+
 export type BookUpdateInput = {
   UserBooks?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
   author?: InputMaybe<Scalars['String']>;
-  category?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   isbn?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['String']>;
+  pageNum?: InputMaybe<Scalars['Int']>;
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -161,12 +171,12 @@ export type BookUpdateToOneWithWhereWithoutUserBooksInput = {
 
 export type BookUpdateWithoutUserBooksInput = {
   author?: InputMaybe<Scalars['String']>;
-  category?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   isbn?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['String']>;
+  pageNum?: InputMaybe<Scalars['Int']>;
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
@@ -184,12 +194,12 @@ export type BookWhereInput = {
   OR?: InputMaybe<Array<BookWhereInput>>;
   UserBooks?: InputMaybe<UserBookListRelationFilter>;
   author?: InputMaybe<StringFilter>;
-  category?: InputMaybe<StringFilter>;
+  categories?: InputMaybe<StringFilter>;
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   isbn?: InputMaybe<StringFilter>;
-  pageCount?: InputMaybe<StringFilter>;
+  pageNum?: InputMaybe<IntFilter>;
   pubDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
@@ -201,12 +211,12 @@ export type BookWhereUniqueInput = {
   OR?: InputMaybe<Array<BookWhereInput>>;
   UserBooks?: InputMaybe<UserBookListRelationFilter>;
   author?: InputMaybe<StringFilter>;
-  category?: InputMaybe<StringFilter>;
+  categories?: InputMaybe<StringFilter>;
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
   isbn?: InputMaybe<StringFilter>;
-  pageCount?: InputMaybe<StringFilter>;
+  pageNum?: InputMaybe<IntFilter>;
   pubDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
@@ -260,7 +270,7 @@ export type MutationCreateBookArgs = {
 
 
 export type MutationCreateUserArgs = {
-  data: UserCreateInput;
+  userCreateInput: UserCreateInput;
 };
 
 
@@ -270,12 +280,12 @@ export type MutationLogoutArgs = {
 
 
 export type MutationRemoveBookArgs = {
-  where: BookWhereUniqueInput;
+  bookWhereUniqueInput: BookWhereUniqueInput;
 };
 
 
 export type MutationRemoveUserArgs = {
-  where: UserWhereUniqueInput;
+  bookWhereUniqueInput: BookWhereUniqueInput;
 };
 
 
@@ -290,14 +300,12 @@ export type MutationSignupArgs = {
 
 
 export type MutationUpdateBookArgs = {
-  data: BookUpdateInput;
-  where: BookWhereUniqueInput;
+  bookUpdateInput: BookUpdateInput;
 };
 
 
 export type MutationUpdateUserArgs = {
-  data: UserUpdateInput;
-  where: UserWhereUniqueInput;
+  userUpdateInput: UserUpdateInput;
 };
 
 export type Query = {
@@ -311,12 +319,12 @@ export type Query = {
 
 
 export type QueryBookArgs = {
-  where: BookWhereUniqueInput;
+  bookWhereUniqueInput: BookWhereUniqueInput;
 };
 
 
 export type QueryUserArgs = {
-  where: UserWhereUniqueInput;
+  bookWhereUniqueInput: BookWhereUniqueInput;
 };
 
 export enum QueryMode {
@@ -1352,7 +1360,7 @@ export type CreateBookMutationVariables = Exact<{
 }>;
 
 
-export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, category?: string | null, coverImage?: string | null, description?: string | null, id: string, isbn?: string | null, pageCount?: string | null, pubDate?: string | null, publisher?: string | null, title: string } };
+export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, isbn: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1363,13 +1371,6 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = { __typename?: 'Query', hello: string };
-
-export type GetUserQueryVariables = Exact<{
-  where: UserWhereUniqueInput;
-}>;
-
-
-export type GetUserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username?: string | null, email: string } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1521,12 +1522,12 @@ export const CreateBookDocument = gql`
     mutation CreateBook($input: BookCreateInput!) {
   createBook(bookCreateInput: $input) {
     author
-    category
+    categories
     coverImage
     description
     id
     isbn
-    pageCount
+    pageNum
     pubDate
     publisher
     title
@@ -1626,43 +1627,6 @@ export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hell
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
-export const GetUserDocument = gql`
-    query GetUser($where: UserWhereUniqueInput!) {
-  user(where: $where) {
-    id
-    username
-    email
-  }
-}
-    `;
-
-/**
- * __useGetUserQuery__
- *
- * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-      }
-export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
-        }
-export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
-export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 export const GetUsersDocument = gql`
     query GetUsers {
   users {

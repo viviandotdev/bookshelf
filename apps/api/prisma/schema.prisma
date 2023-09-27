@@ -72,12 +72,12 @@ model Book {
     coverImage  String?
     /// @Validator.IsString()
     description String?
+    /// @Validator.IsInt()
+    pageNum     Int?
     /// @Validator.IsString()
-    pageCount   String?
+    isbn        String
     /// @Validator.IsString()
-    isbn        String?
-    /// @Validator.IsString()
-    category    String?
+    categories  String?
     // Optional back reference that will not be used
     UserBooks   UserBook[]
 }

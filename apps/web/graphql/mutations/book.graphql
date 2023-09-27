@@ -1,12 +1,12 @@
 mutation CreateBook($input: BookCreateInput!) {
   createBook(bookCreateInput: $input) {
     author
-    category
+    categories
     coverImage
     description
     id
     isbn
-    pageCount
+    pageNum
     pubDate
     publisher
     title

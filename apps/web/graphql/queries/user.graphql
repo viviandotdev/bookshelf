@@ -1,11 +1,3 @@
-query GetUser($where: UserWhereUniqueInput!) {
-  user(where: $where) {
-    id
-    username
-    email
-  }
-}
-
 query GetUsers {
   users {
     id
