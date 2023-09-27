@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
+import { useCreateBookMutation } from "@/graphql/graphql";
 
 interface ActionItemProps {
   icon: React.ReactNode;
@@ -38,10 +39,20 @@ interface ActionsPanelProps {
   book: BookData;
 }
 export default function ActionsPanel({ book }: ActionsPanelProps) {
-  const [rating, setRating] = useState(0); // Initial value
-  function addBook(book: BookData): void {
-    console.log("addBook", book);
-    
+  const [rating, setRating] = useState(0);
+  const [createBook] = useCreateBookMutation(); // Initial value
+  async function addBook(book: BookData) {
+    const { errors } = await createBook({
+      variables: {
+        input: {
+          title: book.title,
+          isbn: book.isbn,
+          author: book.author,
+          publisher: book.publisher,
+        },
+      },
+    });
+    console.log("book sucessfully added");
   }
 
   return (

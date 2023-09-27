@@ -1,11 +1,11 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import {
   Book,
-  CreateOneBookArgs,
   FindUniqueBookArgs,
   UpdateOneBookArgs,
   DeleteOneBookArgs,
+  BookCreateInput,
 } from 'libs/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
@@ -16,9 +16,9 @@ export class BookResolver {
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Book)
-  createBook(@Args() createOneBookArgs: CreateOneBookArgs) {
-    console.log(createOneBookArgs);
-    return this.bookService.create(createOneBookArgs);
+  createBook(@Args('bookCreateInput') bookCreateInput: BookCreateInput) {
+    console.log(bookCreateInput);
+    return this.bookService.create(bookCreateInput);
   }
 
   @Query(() => [Book], { name: 'book' })
@@ -27,7 +27,7 @@ export class BookResolver {
   }
 
   @Query(() => Book, { name: 'book' })
-  book(@Args() findUniqueBookArgs: FindUniqueBookArgs) {
+  book(@Args('') findUniqueBookArgs: FindUniqueBookArgs) {
     return this.bookService.findOne(findUniqueBookArgs);
   }
 

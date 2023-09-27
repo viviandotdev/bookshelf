@@ -219,7 +219,7 @@ input LogInInput {
 }
 
 type Mutation {
-  createBook(data: BookCreateInput!): Book!
+  createBook(bookCreateInput: BookCreateInput!): Book!
   createUser(data: UserCreateInput!): User!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!

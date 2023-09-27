@@ -1,17 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import {
-  CreateOneBookArgs,
   FindUniqueBookArgs,
   UpdateOneBookArgs,
   DeleteOneBookArgs,
+  BookCreateInput,
 } from 'libs/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class BookService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createOneBookArgs: CreateOneBookArgs) {
-    return this.prisma.book.create(createOneBookArgs);
+  async create(bookCreateInput: BookCreateInput) {
+    const book = await this.prisma.book.create({
+      data: {
+        title: bookCreateInput.title,
+        isbn: bookCreateInput.isbn,
+      },
+    });
+    return book;
   }
 
   findAll() {

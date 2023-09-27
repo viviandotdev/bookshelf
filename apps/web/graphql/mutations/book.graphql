@@ -1,0 +1,14 @@
+mutation CreateBook($input: BookCreateInput!) {
+  createBook(bookCreateInput: $input) {
+    author
+    category
+    coverImage
+    description
+    id
+    isbn
+    pageCount
+    pubDate
+    publisher
+    title
+  }
+}
