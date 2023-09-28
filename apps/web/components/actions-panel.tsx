@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { useCreateBookMutation } from "@/graphql/graphql";
-
+import { useSaveBookMutation } from "@/graphql/graphql";
+import { useSession } from "next-auth/react";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -40,15 +40,19 @@ interface ActionsPanelProps {
 }
 export default function ActionsPanel({ book }: ActionsPanelProps) {
   const [rating, setRating] = useState(0);
-  const [createBook] = useCreateBookMutation(); // Initial value
-  async function addBook(book: BookData) {
-    const { errors } = await createBook({
+  const { data: session } = useSession();
+  const [SaveBook] = useSaveBookMutation(); // Initial value
+  async function saveBook(book: BookData) {
+    const { errors } = await SaveBook({
       variables: {
         input: {
-          title: book.title,
-          isbn: book.isbn,
-          author: book.author,
-          publisher: book.publisher,
+          book: {
+            title: book.title,
+            isbn: book.isbn,
+            author: book.author,
+            publisher: book.publisher,
+          },
+          userId: session?.user.id,
         },
       },
     });
@@ -74,7 +78,7 @@ export default function ActionsPanel({ book }: ActionsPanelProps) {
           />
         </div>
         <button
-          onClick={() => addBook(book)}
+          onClick={() => saveBook(book)}
           className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
         >
           Want to Read

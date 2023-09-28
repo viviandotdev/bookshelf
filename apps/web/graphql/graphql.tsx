@@ -253,6 +253,7 @@ export type Mutation = {
   refreshAuth: RefreshResponse;
   removeBook: Book;
   removeUser: User;
+  saveBook: Book;
   signin: AuthResponse;
   signup: User;
   updateBook: Book;
@@ -282,6 +283,11 @@ export type MutationRemoveBookArgs = {
 
 export type MutationRemoveUserArgs = {
   bookWhereUniqueInput: BookWhereUniqueInput;
+};
+
+
+export type MutationSaveBookArgs = {
+  saveBookInput: SaveBookInput;
 };
 
 
@@ -339,6 +345,11 @@ export type RegisterInput = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type SaveBookInput = {
+  book?: InputMaybe<BookCreateInput>;
+  userId?: InputMaybe<Scalars['String']>;
 };
 
 export type Shelf = {
@@ -1305,12 +1316,12 @@ export type LogoutMutationVariables = Exact<{
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
-export type CreateBookMutationVariables = Exact<{
-  input: BookCreateInput;
+export type SaveBookMutationVariables = Exact<{
+  input: SaveBookInput;
 }>;
 
 
-export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, isbn: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
+export type SaveBookMutation = { __typename?: 'Mutation', saveBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, isbn: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1468,9 +1479,9 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const CreateBookDocument = gql`
-    mutation CreateBook($input: BookCreateInput!) {
-  createBook(bookCreateInput: $input) {
+export const SaveBookDocument = gql`
+    mutation SaveBook($input: SaveBookInput!) {
+  saveBook(saveBookInput: $input) {
     author
     categories
     coverImage
@@ -1484,32 +1495,32 @@ export const CreateBookDocument = gql`
   }
 }
     `;
-export type CreateBookMutationFn = Apollo.MutationFunction<CreateBookMutation, CreateBookMutationVariables>;
+export type SaveBookMutationFn = Apollo.MutationFunction<SaveBookMutation, SaveBookMutationVariables>;
 
 /**
- * __useCreateBookMutation__
+ * __useSaveBookMutation__
  *
- * To run a mutation, you first call `useCreateBookMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateBookMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useSaveBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSaveBookMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createBookMutation, { data, loading, error }] = useCreateBookMutation({
+ * const [saveBookMutation, { data, loading, error }] = useSaveBookMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useCreateBookMutation(baseOptions?: Apollo.MutationHookOptions<CreateBookMutation, CreateBookMutationVariables>) {
+export function useSaveBookMutation(baseOptions?: Apollo.MutationHookOptions<SaveBookMutation, SaveBookMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateBookMutation, CreateBookMutationVariables>(CreateBookDocument, options);
+        return Apollo.useMutation<SaveBookMutation, SaveBookMutationVariables>(SaveBookDocument, options);
       }
-export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>;
-export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
-export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
+export type SaveBookMutationHookResult = ReturnType<typeof useSaveBookMutation>;
+export type SaveBookMutationResult = Apollo.MutationResult<SaveBookMutation>;
+export type SaveBookMutationOptions = Apollo.BaseMutationOptions<SaveBookMutation, SaveBookMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

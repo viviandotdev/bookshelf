@@ -264,7 +264,7 @@ input RegisterInput {
 
 input SaveBookInput {
   book: BookCreateInput
-  userId: String!
+  userId: String
 }
 
 type Shelf {

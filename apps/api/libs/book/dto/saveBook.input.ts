@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
-import { BookCreateInput } from '../generated-db-types';
+import { BookCreateInput } from '../../generated-db-types';
 import { Type } from 'class-transformer';
 
 @InputType()
@@ -10,7 +10,7 @@ export class SaveBookInput {
   @Type(() => BookCreateInput)
   book: BookCreateInput;
 
+  @Field(() => String, { nullable: true })
   @Validator.IsString()
-  @Field()
   userId: string;
 }

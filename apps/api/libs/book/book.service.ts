@@ -7,9 +7,26 @@ export class BookService {
   constructor(private readonly prisma: PrismaService) {}
 
   async saveBook(userId: string, bookCreateInput: BookCreateInput) {
-    console.log(userId);
-    return this.create(bookCreateInput);
+    let book = await this.prisma.book.findUnique({
+      where: {
+        isbn: bookCreateInput.isbn,
+      },
+    });
+
+    if (!book) {
+      book = await this.create(bookCreateInput);
+    }
+
+    await this.prisma.userBook.create({
+      data: {
+        userId,
+        bookId: book.id,
+        status: 'WANT TO READ',
+      },
+    });
+    return book;
   }
+
   async create(bookCreateInput: BookCreateInput) {
     const book = await this.prisma.book.create({
       data: {

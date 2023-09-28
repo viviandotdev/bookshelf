@@ -84,7 +84,7 @@ model UserBook {
     id           String      @id @default(uuid())
     userId       String
     bookId       String
-    status       String
+    status       String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     rating       Int?
     dateStarted  String?
     dateFinished String?
