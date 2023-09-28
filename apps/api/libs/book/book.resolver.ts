@@ -8,11 +8,17 @@ import {
 } from 'libs/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
+import { SaveBookInput } from 'libs/dto/saveBook.input';
 
 @Resolver(() => Book)
 export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
+  @Mutation(() => Book)
+  saveBook(@Args('saveBookInput') saveBookInput: SaveBookInput) {
+    console.log(saveBookInput);
+    return this.bookService.saveBook(saveBookInput.userId, saveBookInput.book);
+  }
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Book)
   createBook(@Args('bookCreateInput') bookCreateInput: BookCreateInput) {

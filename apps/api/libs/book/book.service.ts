@@ -5,13 +5,17 @@ import { PrismaService } from 'prisma/prisma.service';
 @Injectable()
 export class BookService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async saveBook(userId: string, bookCreateInput: BookCreateInput) {
+    console.log(userId);
+    return this.create(bookCreateInput);
+  }
   async create(bookCreateInput: BookCreateInput) {
     const book = await this.prisma.book.create({
       data: {
         ...bookCreateInput,
       },
     });
-    // create user book
     return book;
   }
 
