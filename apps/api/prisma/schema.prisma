@@ -3,11 +3,6 @@ generator client {
     binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
 }
 
-// generator erd {
-//     provider = "prisma-erd-generator"
-//     output   = "../docs/ERD.svg"
-// }
-
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -53,7 +48,9 @@ model User {
     hashedRefreshToken String?
     createdAt          DateTime   @default(now())
     updatedAt          DateTime   @updatedAt
+    //  One to Many: one user has many user books
     userBooks          UserBook[]
+    //  One to Many: one user has many shelves
     shelves            Shelf[]
 }
 
@@ -75,46 +72,49 @@ model Book {
     /// @Validator.IsInt()
     pageNum     Int?
     /// @Validator.IsString()
-    isbn        String
+    isbn        String     @unique
     /// @Validator.IsString()
     categories  String?
-    // Optional back reference that will not be used
-    UserBooks   UserBook[]
+    // One to Many: multiple users can own the same book
+    userBook    UserBook[]
 }
 
 // Table stores all user books
 model UserBook {
-    id           String  @id @default(uuid())
+    id           String      @id @default(uuid())
     userId       String
     bookId       String
     status       String
     rating       Int?
     dateStarted  String?
     dateFinished String?
-
-    book       Book         @relation(fields: [bookId], references: [id])
-    user       User?        @relation(fields: [userId], references: [id])
-    // Optional back reference that will not be used
-    ShelfEntry ShelfEntry[]
+    // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
+    user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // Many to One: many user books belong to one book when book
+    book         Book?       @relation(fields: [bookId], references: [id])
+    // One to One: one user book has one shelf entry
+    ShelfEntry   ShelfEntry?
 }
 
 model Shelf {
-    id               String  @id @default(uuid())
+    id               String       @id @default(uuid())
     shelfName        String
     shelfDescription String?
     userId           String
     dateTime         String?
-
-    shelfEntries ShelfEntry[] // A shelf can have many entries
-    user         User?        @relation(fields: [userId], references: [id])
+    // One to Many: one shelf has many entries
+    shelfEntries     ShelfEntry[]
+    // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
+    user             User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ShelfEntry {
-    id         String  @id @default(uuid())
+    id         String   @id @default(uuid())
     shelfId    String
-    userBookId String
+    userBookId String   @unique
     dateTime   String?
-
-    shelf    Shelf    @relation(fields: [shelfId], references: [id])
-    userBook UserBook @relation(fields: [userBookId], references: [id])
+    // Many to One: many entries belong to one shelf, when shelf is deleted all shelf entries are deleted as well
+    shelf      Shelf    @relation(fields: [shelfId], references: [id], onDelete: Cascade)
+    // One to One: one entry has one user book, when user book is deleted from the users library it is removed from its shelf
+    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }

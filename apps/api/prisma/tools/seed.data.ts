@@ -32,34 +32,31 @@ export function createRandomBook(): Book {
     publisher: faker.company.name(),
     coverImage: faker.image.url(),
     description: faker.lorem.sentence(),
-    pageNum: faker.number.int(),
+    pageNum: faker.number.int({ min: 1, max: 1000 }),
     isbn: faker.string.uuid(),
     categories: faker.lorem.words(),
   };
 }
 
 // Function to create a random user book
-export function createRandomUserBook(users: User[], books: Book[]): UserBook {
+export function createRandomUserBook(users: User[]): UserBook {
   const user = faker.helpers.arrayElement(users);
-  const book = faker.helpers.arrayElement(books);
+  //   const book = faker.helpers.arrayElement(books);
 
   return {
     id: faker.string.uuid(),
     userId: user.id,
-    bookId: book.id,
+    bookId: faker.string.uuid(),
     status: faker.helpers.arrayElement(['Reading', 'Completed']),
     rating: faker.number.int({ min: 1, max: 5 }),
     dateStarted: faker.date.past().toISOString(),
     dateFinished: faker.date.recent().toISOString(),
-    user: user,
-    book: book,
   };
 }
 
 // Function to create a random shelf
 export function createRandomShelf(users: User[]): Shelf {
   const user = faker.helpers.arrayElement(users);
-
   return {
     id: faker.string.uuid(),
     shelfName: faker.word.noun(),

@@ -27,8 +27,6 @@ export type AuthResponse = {
 
 export type Book = {
   __typename?: 'Book';
-  UserBooks?: Maybe<Array<UserBook>>;
-  _count: BookCount;
   author?: Maybe<Scalars['String']>;
   categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
@@ -39,16 +37,12 @@ export type Book = {
   pubDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+  userBook?: Maybe<UserBook>;
 };
 
 export type BookAvgAggregate = {
   __typename?: 'BookAvgAggregate';
   pageNum?: Maybe<Scalars['Float']>;
-};
-
-export type BookCount = {
-  __typename?: 'BookCount';
-  UserBooks: Scalars['Int'];
 };
 
 export type BookCountAggregate = {
@@ -67,7 +61,6 @@ export type BookCountAggregate = {
 };
 
 export type BookCreateInput = {
-  UserBooks?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
@@ -78,20 +71,21 @@ export type BookCreateInput = {
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
+  userBook?: InputMaybe<UserBookCreateNestedOneWithoutBookInput>;
 };
 
-export type BookCreateNestedOneWithoutUserBooksInput = {
+export type BookCreateNestedOneWithoutUserBookInput = {
   connect?: InputMaybe<BookWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutUserBooksInput>;
-  create?: InputMaybe<BookCreateWithoutUserBooksInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutUserBookInput>;
+  create?: InputMaybe<BookCreateWithoutUserBookInput>;
 };
 
-export type BookCreateOrConnectWithoutUserBooksInput = {
-  create: BookCreateWithoutUserBooksInput;
+export type BookCreateOrConnectWithoutUserBookInput = {
+  create: BookCreateWithoutUserBookInput;
   where: BookWhereUniqueInput;
 };
 
-export type BookCreateWithoutUserBooksInput = {
+export type BookCreateWithoutUserBookInput = {
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
@@ -143,7 +137,6 @@ export type BookSumAggregate = {
 };
 
 export type BookUpdateInput = {
-  UserBooks?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
@@ -154,22 +147,25 @@ export type BookUpdateInput = {
   pubDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateOneWithoutBookNestedInput>;
 };
 
-export type BookUpdateOneRequiredWithoutUserBooksNestedInput = {
+export type BookUpdateOneWithoutUserBookNestedInput = {
   connect?: InputMaybe<BookWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutUserBooksInput>;
-  create?: InputMaybe<BookCreateWithoutUserBooksInput>;
-  update?: InputMaybe<BookUpdateToOneWithWhereWithoutUserBooksInput>;
-  upsert?: InputMaybe<BookUpsertWithoutUserBooksInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutUserBookInput>;
+  create?: InputMaybe<BookCreateWithoutUserBookInput>;
+  delete?: InputMaybe<BookWhereInput>;
+  disconnect?: InputMaybe<BookWhereInput>;
+  update?: InputMaybe<BookUpdateToOneWithWhereWithoutUserBookInput>;
+  upsert?: InputMaybe<BookUpsertWithoutUserBookInput>;
 };
 
-export type BookUpdateToOneWithWhereWithoutUserBooksInput = {
-  data: BookUpdateWithoutUserBooksInput;
+export type BookUpdateToOneWithWhereWithoutUserBookInput = {
+  data: BookUpdateWithoutUserBookInput;
   where?: InputMaybe<BookWhereInput>;
 };
 
-export type BookUpdateWithoutUserBooksInput = {
+export type BookUpdateWithoutUserBookInput = {
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
@@ -182,9 +178,9 @@ export type BookUpdateWithoutUserBooksInput = {
   title?: InputMaybe<Scalars['String']>;
 };
 
-export type BookUpsertWithoutUserBooksInput = {
-  create: BookCreateWithoutUserBooksInput;
-  update: BookUpdateWithoutUserBooksInput;
+export type BookUpsertWithoutUserBookInput = {
+  create: BookCreateWithoutUserBookInput;
+  update: BookUpdateWithoutUserBookInput;
   where?: InputMaybe<BookWhereInput>;
 };
 
@@ -192,7 +188,6 @@ export type BookWhereInput = {
   AND?: InputMaybe<Array<BookWhereInput>>;
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
-  UserBooks?: InputMaybe<UserBookListRelationFilter>;
   author?: InputMaybe<StringFilter>;
   categories?: InputMaybe<StringFilter>;
   coverImage?: InputMaybe<StringFilter>;
@@ -203,23 +198,24 @@ export type BookWhereInput = {
   pubDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
 };
 
 export type BookWhereUniqueInput = {
   AND?: InputMaybe<Array<BookWhereInput>>;
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
-  UserBooks?: InputMaybe<UserBookListRelationFilter>;
   author?: InputMaybe<StringFilter>;
   categories?: InputMaybe<StringFilter>;
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
-  isbn?: InputMaybe<StringFilter>;
+  isbn?: InputMaybe<Scalars['String']>;
   pageNum?: InputMaybe<IntFilter>;
   pubDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
 };
 
 export type DateTimeFilter = {
@@ -453,17 +449,6 @@ export type ShelfEntryCreateManyShelfInputEnvelope = {
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type ShelfEntryCreateManyUserBookInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  shelfId: Scalars['String'];
-};
-
-export type ShelfEntryCreateManyUserBookInputEnvelope = {
-  data: Array<ShelfEntryCreateManyUserBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
 export type ShelfEntryCreateNestedManyWithoutShelfInput = {
   connect?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ShelfEntryCreateOrConnectWithoutShelfInput>>;
@@ -471,11 +456,10 @@ export type ShelfEntryCreateNestedManyWithoutShelfInput = {
   createMany?: InputMaybe<ShelfEntryCreateManyShelfInputEnvelope>;
 };
 
-export type ShelfEntryCreateNestedManyWithoutUserBookInput = {
-  connect?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ShelfEntryCreateOrConnectWithoutUserBookInput>>;
-  create?: InputMaybe<Array<ShelfEntryCreateWithoutUserBookInput>>;
-  createMany?: InputMaybe<ShelfEntryCreateManyUserBookInputEnvelope>;
+export type ShelfEntryCreateNestedOneWithoutUserBookInput = {
+  connect?: InputMaybe<ShelfEntryWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ShelfEntryCreateOrConnectWithoutUserBookInput>;
+  create?: InputMaybe<ShelfEntryCreateWithoutUserBookInput>;
 };
 
 export type ShelfEntryCreateOrConnectWithoutShelfInput = {
@@ -522,6 +506,11 @@ export type ShelfEntryMinAggregate = {
   userBookId?: Maybe<Scalars['String']>;
 };
 
+export type ShelfEntryRelationFilter = {
+  is?: InputMaybe<ShelfEntryWhereInput>;
+  isNot?: InputMaybe<ShelfEntryWhereInput>;
+};
+
 export type ShelfEntryScalarWhereInput = {
   AND?: InputMaybe<Array<ShelfEntryScalarWhereInput>>;
   NOT?: InputMaybe<Array<ShelfEntryScalarWhereInput>>;
@@ -542,11 +531,6 @@ export type ShelfEntryUpdateManyWithWhereWithoutShelfInput = {
   where: ShelfEntryScalarWhereInput;
 };
 
-export type ShelfEntryUpdateManyWithWhereWithoutUserBookInput = {
-  data: ShelfEntryUpdateManyMutationInput;
-  where: ShelfEntryScalarWhereInput;
-};
-
 export type ShelfEntryUpdateManyWithoutShelfNestedInput = {
   connect?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<ShelfEntryCreateOrConnectWithoutShelfInput>>;
@@ -561,27 +545,23 @@ export type ShelfEntryUpdateManyWithoutShelfNestedInput = {
   upsert?: InputMaybe<Array<ShelfEntryUpsertWithWhereUniqueWithoutShelfInput>>;
 };
 
-export type ShelfEntryUpdateManyWithoutUserBookNestedInput = {
-  connect?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ShelfEntryCreateOrConnectWithoutUserBookInput>>;
-  create?: InputMaybe<Array<ShelfEntryCreateWithoutUserBookInput>>;
-  createMany?: InputMaybe<ShelfEntryCreateManyUserBookInputEnvelope>;
-  delete?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<ShelfEntryScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
-  set?: InputMaybe<Array<ShelfEntryWhereUniqueInput>>;
-  update?: InputMaybe<Array<ShelfEntryUpdateWithWhereUniqueWithoutUserBookInput>>;
-  updateMany?: InputMaybe<Array<ShelfEntryUpdateManyWithWhereWithoutUserBookInput>>;
-  upsert?: InputMaybe<Array<ShelfEntryUpsertWithWhereUniqueWithoutUserBookInput>>;
+export type ShelfEntryUpdateOneWithoutUserBookNestedInput = {
+  connect?: InputMaybe<ShelfEntryWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ShelfEntryCreateOrConnectWithoutUserBookInput>;
+  create?: InputMaybe<ShelfEntryCreateWithoutUserBookInput>;
+  delete?: InputMaybe<ShelfEntryWhereInput>;
+  disconnect?: InputMaybe<ShelfEntryWhereInput>;
+  update?: InputMaybe<ShelfEntryUpdateToOneWithWhereWithoutUserBookInput>;
+  upsert?: InputMaybe<ShelfEntryUpsertWithoutUserBookInput>;
+};
+
+export type ShelfEntryUpdateToOneWithWhereWithoutUserBookInput = {
+  data: ShelfEntryUpdateWithoutUserBookInput;
+  where?: InputMaybe<ShelfEntryWhereInput>;
 };
 
 export type ShelfEntryUpdateWithWhereUniqueWithoutShelfInput = {
   data: ShelfEntryUpdateWithoutShelfInput;
-  where: ShelfEntryWhereUniqueInput;
-};
-
-export type ShelfEntryUpdateWithWhereUniqueWithoutUserBookInput = {
-  data: ShelfEntryUpdateWithoutUserBookInput;
   where: ShelfEntryWhereUniqueInput;
 };
 
@@ -603,10 +583,10 @@ export type ShelfEntryUpsertWithWhereUniqueWithoutShelfInput = {
   where: ShelfEntryWhereUniqueInput;
 };
 
-export type ShelfEntryUpsertWithWhereUniqueWithoutUserBookInput = {
+export type ShelfEntryUpsertWithoutUserBookInput = {
   create: ShelfEntryCreateWithoutUserBookInput;
   update: ShelfEntryUpdateWithoutUserBookInput;
-  where: ShelfEntryWhereUniqueInput;
+  where?: InputMaybe<ShelfEntryWhereInput>;
 };
 
 export type ShelfEntryWhereInput = {
@@ -630,7 +610,7 @@ export type ShelfEntryWhereUniqueInput = {
   shelf?: InputMaybe<ShelfRelationFilter>;
   shelfId?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
-  userBookId?: InputMaybe<StringFilter>;
+  userBookId?: InputMaybe<Scalars['String']>;
 };
 
 export type ShelfListRelationFilter = {
@@ -800,9 +780,8 @@ export type User = {
 
 export type UserBook = {
   __typename?: 'UserBook';
-  ShelfEntry?: Maybe<Array<ShelfEntry>>;
-  _count: UserBookCount;
-  book: Book;
+  ShelfEntry?: Maybe<ShelfEntry>;
+  book?: Maybe<Book>;
   bookId: Scalars['String'];
   dateFinished?: Maybe<Scalars['String']>;
   dateStarted?: Maybe<Scalars['String']>;
@@ -818,11 +797,6 @@ export type UserBookAvgAggregate = {
   rating?: Maybe<Scalars['Float']>;
 };
 
-export type UserBookCount = {
-  __typename?: 'UserBookCount';
-  ShelfEntry: Scalars['Int'];
-};
-
 export type UserBookCountAggregate = {
   __typename?: 'UserBookCountAggregate';
   _all: Scalars['Int'];
@@ -833,20 +807,6 @@ export type UserBookCountAggregate = {
   rating: Scalars['Int'];
   status: Scalars['Int'];
   userId: Scalars['Int'];
-};
-
-export type UserBookCreateManyBookInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  rating?: InputMaybe<Scalars['Int']>;
-  status: Scalars['String'];
-  userId: Scalars['String'];
-};
-
-export type UserBookCreateManyBookInputEnvelope = {
-  data: Array<UserBookCreateManyBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type UserBookCreateManyUserInput = {
@@ -863,18 +823,17 @@ export type UserBookCreateManyUserInputEnvelope = {
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type UserBookCreateNestedManyWithoutBookInput = {
-  connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutBookInput>>;
-  create?: InputMaybe<Array<UserBookCreateWithoutBookInput>>;
-  createMany?: InputMaybe<UserBookCreateManyBookInputEnvelope>;
-};
-
 export type UserBookCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<UserBookCreateWithoutUserInput>>;
   createMany?: InputMaybe<UserBookCreateManyUserInputEnvelope>;
+};
+
+export type UserBookCreateNestedOneWithoutBookInput = {
+  connect?: InputMaybe<UserBookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutBookInput>;
+  create?: InputMaybe<UserBookCreateWithoutBookInput>;
 };
 
 export type UserBookCreateNestedOneWithoutShelfEntryInput = {
@@ -899,7 +858,7 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 };
 
 export type UserBookCreateWithoutBookInput = {
-  ShelfEntry?: InputMaybe<ShelfEntryCreateNestedManyWithoutUserBookInput>;
+  ShelfEntry?: InputMaybe<ShelfEntryCreateNestedOneWithoutUserBookInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -909,7 +868,7 @@ export type UserBookCreateWithoutBookInput = {
 };
 
 export type UserBookCreateWithoutShelfEntryInput = {
-  book: BookCreateNestedOneWithoutUserBooksInput;
+  book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -919,8 +878,8 @@ export type UserBookCreateWithoutShelfEntryInput = {
 };
 
 export type UserBookCreateWithoutUserInput = {
-  ShelfEntry?: InputMaybe<ShelfEntryCreateNestedManyWithoutUserBookInput>;
-  book: BookCreateNestedOneWithoutUserBooksInput;
+  ShelfEntry?: InputMaybe<ShelfEntryCreateNestedOneWithoutUserBookInput>;
+  book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -987,28 +946,9 @@ export type UserBookUpdateManyMutationInput = {
   status?: InputMaybe<Scalars['String']>;
 };
 
-export type UserBookUpdateManyWithWhereWithoutBookInput = {
-  data: UserBookUpdateManyMutationInput;
-  where: UserBookScalarWhereInput;
-};
-
 export type UserBookUpdateManyWithWhereWithoutUserInput = {
   data: UserBookUpdateManyMutationInput;
   where: UserBookScalarWhereInput;
-};
-
-export type UserBookUpdateManyWithoutBookNestedInput = {
-  connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutBookInput>>;
-  create?: InputMaybe<Array<UserBookCreateWithoutBookInput>>;
-  createMany?: InputMaybe<UserBookCreateManyBookInputEnvelope>;
-  delete?: InputMaybe<Array<UserBookWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<UserBookScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
-  set?: InputMaybe<Array<UserBookWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserBookUpdateWithWhereUniqueWithoutBookInput>>;
-  updateMany?: InputMaybe<Array<UserBookUpdateManyWithWhereWithoutBookInput>>;
-  upsert?: InputMaybe<Array<UserBookUpsertWithWhereUniqueWithoutBookInput>>;
 };
 
 export type UserBookUpdateManyWithoutUserNestedInput = {
@@ -1033,14 +973,24 @@ export type UserBookUpdateOneRequiredWithoutShelfEntryNestedInput = {
   upsert?: InputMaybe<UserBookUpsertWithoutShelfEntryInput>;
 };
 
-export type UserBookUpdateToOneWithWhereWithoutShelfEntryInput = {
-  data: UserBookUpdateWithoutShelfEntryInput;
+export type UserBookUpdateOneWithoutBookNestedInput = {
+  connect?: InputMaybe<UserBookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutBookInput>;
+  create?: InputMaybe<UserBookCreateWithoutBookInput>;
+  delete?: InputMaybe<UserBookWhereInput>;
+  disconnect?: InputMaybe<UserBookWhereInput>;
+  update?: InputMaybe<UserBookUpdateToOneWithWhereWithoutBookInput>;
+  upsert?: InputMaybe<UserBookUpsertWithoutBookInput>;
+};
+
+export type UserBookUpdateToOneWithWhereWithoutBookInput = {
+  data: UserBookUpdateWithoutBookInput;
   where?: InputMaybe<UserBookWhereInput>;
 };
 
-export type UserBookUpdateWithWhereUniqueWithoutBookInput = {
-  data: UserBookUpdateWithoutBookInput;
-  where: UserBookWhereUniqueInput;
+export type UserBookUpdateToOneWithWhereWithoutShelfEntryInput = {
+  data: UserBookUpdateWithoutShelfEntryInput;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
@@ -1049,7 +999,7 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type UserBookUpdateWithoutBookInput = {
-  ShelfEntry?: InputMaybe<ShelfEntryUpdateManyWithoutUserBookNestedInput>;
+  ShelfEntry?: InputMaybe<ShelfEntryUpdateOneWithoutUserBookNestedInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -1059,7 +1009,7 @@ export type UserBookUpdateWithoutBookInput = {
 };
 
 export type UserBookUpdateWithoutShelfEntryInput = {
-  book?: InputMaybe<BookUpdateOneRequiredWithoutUserBooksNestedInput>;
+  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -1069,8 +1019,8 @@ export type UserBookUpdateWithoutShelfEntryInput = {
 };
 
 export type UserBookUpdateWithoutUserInput = {
-  ShelfEntry?: InputMaybe<ShelfEntryUpdateManyWithoutUserBookNestedInput>;
-  book?: InputMaybe<BookUpdateOneRequiredWithoutUserBooksNestedInput>;
+  ShelfEntry?: InputMaybe<ShelfEntryUpdateOneWithoutUserBookNestedInput>;
+  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
   dateFinished?: InputMaybe<Scalars['String']>;
   dateStarted?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -1078,16 +1028,16 @@ export type UserBookUpdateWithoutUserInput = {
   status?: InputMaybe<Scalars['String']>;
 };
 
-export type UserBookUpsertWithWhereUniqueWithoutBookInput = {
-  create: UserBookCreateWithoutBookInput;
-  update: UserBookUpdateWithoutBookInput;
-  where: UserBookWhereUniqueInput;
-};
-
 export type UserBookUpsertWithWhereUniqueWithoutUserInput = {
   create: UserBookCreateWithoutUserInput;
   update: UserBookUpdateWithoutUserInput;
   where: UserBookWhereUniqueInput;
+};
+
+export type UserBookUpsertWithoutBookInput = {
+  create: UserBookCreateWithoutBookInput;
+  update: UserBookUpdateWithoutBookInput;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export type UserBookUpsertWithoutShelfEntryInput = {
@@ -1100,7 +1050,7 @@ export type UserBookWhereInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  ShelfEntry?: InputMaybe<ShelfEntryListRelationFilter>;
+  ShelfEntry?: InputMaybe<ShelfEntryRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   dateFinished?: InputMaybe<StringFilter>;
@@ -1116,9 +1066,9 @@ export type UserBookWhereUniqueInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  ShelfEntry?: InputMaybe<ShelfEntryListRelationFilter>;
+  ShelfEntry?: InputMaybe<ShelfEntryRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<Scalars['String']>;
   dateFinished?: InputMaybe<StringFilter>;
   dateStarted?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
