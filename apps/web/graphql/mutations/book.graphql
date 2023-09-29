@@ -5,12 +5,9 @@ mutation SaveBook($input: SaveBookInput!) {
     coverImage
     description
     id
-    isbn
     pageNum
     pubDate
     publisher
     title
   }
 }
-
-

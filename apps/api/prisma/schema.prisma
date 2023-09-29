@@ -56,7 +56,8 @@ model User {
 
 // Table stores all books
 model Book {
-    id          String     @id @default(uuid())
+    /// @Validator.IsString()
+    id          String     @unique
     /// @Validator.IsString()
     title       String
     /// @Validator.IsString()
@@ -71,8 +72,6 @@ model Book {
     description String?
     /// @Validator.IsInt()
     pageNum     Int?
-    /// @Validator.IsString()
-    isbn        String     @unique
     /// @Validator.IsString()
     categories  String?
     // One to Many: multiple users can own the same book
@@ -91,9 +90,12 @@ model UserBook {
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
     user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book?       @relation(fields: [bookId], references: [id])
+    book         Book?       @relation(fields: [bookId], references: [id], onDelete: Cascade)
     // One to One: one user book has one shelf entry
     ShelfEntry   ShelfEntry?
+
+    /// @Validator.IsString()
+    @@unique(fields: [userId, bookId], name: "uniqueUserBook")
 }
 
 model Shelf {

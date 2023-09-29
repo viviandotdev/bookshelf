@@ -29,6 +29,9 @@
             "@bookcue/api/book": [
                 "libs/book"
             ],
+            "@bookcue/api/user-book": [
+                "libs/user-book"
+            ],
         }
     }
 }

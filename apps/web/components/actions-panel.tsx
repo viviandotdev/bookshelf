@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { useSaveBookMutation } from "@/graphql/graphql";
+import { UserBook, useSaveBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 interface ActionItemProps {
   icon: React.ReactNode;
@@ -37,18 +37,21 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
   book: BookData;
+  bookStatus: string | undefined;
 }
-export default function ActionsPanel({ book }: ActionsPanelProps) {
+export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const [rating, setRating] = useState(0);
+  const [status, setStatus] = useState(bookStatus);
   const { data: session } = useSession();
-  const [SaveBook] = useSaveBookMutation(); // Initial value
+  const [SaveBook] = useSaveBookMutation();
+
   async function saveBook(book: BookData) {
-    const { errors } = await SaveBook({
+    await SaveBook({
       variables: {
         input: {
           book: {
+            id: book.id,
             title: book.title,
-            isbn: book.isbn,
             author: book.author,
             publisher: book.publisher,
           },
@@ -56,43 +59,60 @@ export default function ActionsPanel({ book }: ActionsPanelProps) {
         },
       },
     });
+    setStatus("Want to Read");
     console.log("book sucessfully added");
+  }
+
+  async function editShelf(book: BookData) {
+    console.log("edit shelf");
   }
 
   return (
     <>
-      <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
-        <div className="grid items-center grid-cols-3 w-[fill-available]">
-          <div className="col-span-3">
-            <ActionGroup />
+      <>
+        <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
+          <div className="grid items-center grid-cols-3 w-[fill-available]">
+            <div className="col-span-3">
+              <ActionGroup />
+            </div>
+          </div>
+          <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+            <span>Rating</span>
+            <Rating
+              halfFillMode="box"
+              itemStyles={myStyles}
+              style={{ maxWidth: 200 }}
+              value={rating}
+              onChange={setRating}
+            />
+          </div>
+          {status ? (
+            <button
+              onClick={() => editShelf(book)}
+              className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+            >
+              <Icons.edit className="mr-2 h-4 w-4 " />
+              {status}
+            </button>
+          ) : (
+            <button
+              onClick={() => saveBook(book)}
+              className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+            >
+              Want to Read
+            </button>
+          )}
+          <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+            Review
+          </div>
+          <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+            Add to lists
+          </div>
+          <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+            Edit my activity
           </div>
         </div>
-        <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-          <span>Rating</span>
-          <Rating
-            halfFillMode="box"
-            itemStyles={myStyles}
-            style={{ maxWidth: 200 }}
-            value={rating}
-            onChange={setRating}
-          />
-        </div>
-        <button
-          onClick={() => saveBook(book)}
-          className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
-        >
-          Want to Read
-        </button>
-        <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-          Review
-        </div>
-        <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-          Add to lists
-        </div>
-        <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-          Edit my activity
-        </div>
-      </div>
+      </>
     </>
   );
 }

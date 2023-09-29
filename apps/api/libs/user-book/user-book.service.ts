@@ -3,9 +3,12 @@ import {
   UserBookCreateInput,
   UserBookUpdateInput,
 } from '../generated-db-types';
-
+import { PrismaService } from 'prisma/prisma.service';
+import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
 @Injectable()
 export class UserBookService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(userBookCreateInput: UserBookCreateInput) {
     console.log(userBookCreateInput);
     return 'This action adds a new userBook';
@@ -15,8 +18,28 @@ export class UserBookService {
     return `This action returns all userBook`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} userBook`;
+  async findOne(uniqueUserBookInput: UniqueUserBookInput) {
+    let uniqueInput;
+
+    if (uniqueUserBookInput.id) {
+      uniqueInput = {
+        id: uniqueUserBookInput.id,
+      };
+    } else {
+      uniqueInput = {
+        uniqueUserBook: {
+          userId: uniqueUserBookInput.userId,
+          bookId: uniqueUserBookInput.bookId,
+        },
+      };
+    }
+
+    const userBook = await this.prisma.userBook.findUnique({
+      where: {
+        ...uniqueInput,
+      },
+    });
+    return userBook;
   }
 
   update(id: string, userBookUpdateInput: UserBookUpdateInput) {

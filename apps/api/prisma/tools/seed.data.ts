@@ -33,7 +33,6 @@ export function createRandomBook(): Book {
     coverImage: faker.image.url(),
     description: faker.lorem.sentence(),
     pageNum: faker.number.int({ min: 1, max: 1000 }),
-    isbn: faker.string.uuid(),
     categories: faker.lorem.words(),
   };
 }

@@ -45,7 +45,6 @@ async function main() {
           coverImage: book.coverImage,
           description: book.description,
           pageNum: book.pageNum,
-          isbn: book.isbn,
         },
       });
     }),
