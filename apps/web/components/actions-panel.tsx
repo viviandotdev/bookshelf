@@ -5,6 +5,7 @@ import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
 import { UserBook, useSaveBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
+import { toast } from "@/hooks/use-toast";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -46,7 +47,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const [SaveBook] = useSaveBookMutation();
 
   async function saveBook(book: BookData) {
-    await SaveBook({
+    const { data, errors } = await SaveBook({
       variables: {
         input: {
           book: {
@@ -60,7 +61,15 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
       },
     });
     setStatus("Want to Read");
-    console.log("book sucessfully added");
+    if (data) {
+      toast({
+        title: "Sucessfully saved book!",
+      });
+    } else {
+      toast({
+        title: "Error saving book!",
+      });
+    }
   }
 
   async function editShelf(book: BookData) {

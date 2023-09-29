@@ -6,13 +6,13 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useSignUpMutation } from "@/graphql/graphql";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
-import { loginUserSchema, registerUserSchema } from "@/lib/validations/auth";
+import { registerUserSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { toast } from "@/hooks/use-toast";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -28,10 +28,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
   });
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
   const callbackUrl = searchParams.get("callbackUrl") || "/home";
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [signup] = useSignUpMutation();
   const onSubmit = async (data: FormData) => {
