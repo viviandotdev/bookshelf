@@ -1,22 +1,37 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es2017",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowJs": true,
-    "paths": {
-      "@bookcue/api/user": ["libs/user"],
-      "@bookcue/api/generated-db-types": ["libs/generated-db-types"],
-      "@bookcue/api/health": ["libs/health"]
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es2017",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowJs": true,
+        "paths": {
+            "@bookcue/api/user": [
+                "libs/user"
+            ],
+            "@bookcue/api/generated-db-types": [
+                "libs/generated-db-types"
+            ],
+            "@bookcue/api/health": [
+                "libs/health"
+            ],
+            "@bookcue/api/auth": [
+                "libs/auth"
+            ],
+            "@bookcue/api/book": [
+                "libs/book"
+            ],
+            "@bookcue/api/user-book": [
+                "libs/user-book"
+            ],
+        }
     }
-  }
 }

@@ -4,8 +4,9 @@ import React from "react";
 import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
 import BookCover from "./book-cover";
 import { Icons } from "./icons";
-import SecondaryButton from "./secondary-button";
 import { BookData } from "@/types/interfaces";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
 
 interface MyBooksCardProps {
   book: BookData;
@@ -27,13 +28,19 @@ export const MyBooksCard: React.FC<MyBooksCardProps> = ({
       actions={
         <BookCard.BookActions
           buttons={[
-            <SecondaryButton
+            <Button
+              className={cn(buttonVariants({ variant: "action", size: "xs" }))}
               label="Currently Reading"
               icon={<Icons.chevronDown className="h-4 w-4" />}
             />,
-            <SecondaryButton label="Edit" />,
-
-            <SecondaryButton icon={<Icons.delete className="h-4 w-4" />} />,
+            <Button
+              className={cn(buttonVariants({ variant: "action", size: "xs" }))}
+              label="Edit"
+            />,
+            <Button
+              className={cn(buttonVariants({ variant: "action", size: "xs" }))}
+              icon={<Icons.delete className="h-4 w-4" />}
+            />,
           ]}
         />
       }

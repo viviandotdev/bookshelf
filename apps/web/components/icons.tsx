@@ -22,6 +22,8 @@ import {
   Plus,
   Clock,
   ArrowDown,
+  Heart,
+  Pencil,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -49,4 +51,6 @@ export const Icons = {
   plus: Plus,
   date: Clock,
   down: ArrowDown,
+  heart: Heart,
+  edit: Pencil,
 };

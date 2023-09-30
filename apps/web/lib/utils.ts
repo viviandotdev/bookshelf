@@ -20,7 +20,7 @@ export function processBook(
   const date: string = book.volumeInfo.publishedDate || "N/A";
   const publisher: string = book.volumeInfo.publisher || "N/A";
   const image: string =
-    book.volumeInfo.imageLinks?.thumbnail || "images/bkcover.jpg";
+    book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
   const preview: string = book.volumeInfo.previewLink;
   const plot: string = book.volumeInfo.description || "N/A";
   const pageNum: string = book.volumeInfo.pageCount?.toString() || "N/A";

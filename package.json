@@ -1,47 +1,49 @@
 {
-  "name": "bookcue",
-  "version": "1.0.0",
-  "description": "",
-  "private": true,
-  "main": "index.js",
-  "scripts": {
-    "serve:all": "pnpm run start:api & pnpm run start:web",
-    "start:web": "pnpm exec nx dev web",
-    "start:api": "pnpm exec nx start api",
-    "gql:watch": "graphql-code-generator --config codegen.ts --watch",
-    "----DEPLOY SECTION----": "----------------------",
-    "cd:api": "pnpm run cd:db-push && pnpm run db:seed && pnpm run build:api --prod",
-    "build:api": "pnpm exec nx build api",
-    "cd:web": "pnpm run build:web --prod",
-    "build:web": "pnpm exec nx build web",
-    "cd:db-push": "pnpm --filter api exec prisma db push  --accept-data-loss && pnpm run db:seed",
-    "----SEVERLESS SECTION----": "-------------------------",
-    "sls:deplpy": "pnpm exec nx sls:deploy api",
-    "sls:package": "pnpm exec nx sls:package api",
-    "sls:offline": "pnpm exec nx sls:offline api",
-    "sls:info": "pnpm exec nx sls:info api",
-    "----DB SECTION----": "-------------------------",
-    "db:generate": "pnpm --filter api exec prisma generate",
-    "db:migrate:dev": "pnpm --filter api exec prisma migrate dev",
-    "db:studio": "pnpm --filter api exec prisma studio",
-    "db:seed": "pnpm --filter api exec prisma db seed",
-    "----PACKAGES SECTION----": "-------------------------",
-    "update:api": "pnpm --filter api update -i --latest",
-    "update:web": "pnpm --filter web update -i --latest"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@graphql-codegen/cli": "^3.3.1",
-    "@graphql-codegen/client-preset": "^3.0.1",
-    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "nx": "^16.9.0"
-  },
-  "dependencies": {
-    "typescript": "5.0.4"
-  },
-  "engines": {
-    "node": "18"
-  }
+    "name": "bookcue",
+    "version": "1.0.0",
+    "description": "",
+    "private": true,
+    "main": "index.js",
+    "scripts": {
+        "serve:all": "pnpm run start:api & pnpm run start:web",
+        "start:web": "pnpm exec nx dev web",
+        "start:api": "pnpm exec nx start api",
+        "gql:watch": "graphql-code-generator --config codegen.ts --watch",
+        "----DEPLOY SECTION----": "----------------------",
+        "cd:api": "pnpm run cd:db-push && pnpm run db:seed && pnpm run build:api --prod",
+        "build:api": "pnpm exec nx build api",
+        "cd:web": "pnpm run build:web --prod",
+        "build:web": "pnpm exec nx build web",
+        "cd:db-push": "pnpm --filter api exec prisma db push  --accept-data-loss && pnpm run db:seed",
+        "----SEVERLESS SECTION----": "-------------------------",
+        "sls:deplpy": "pnpm exec nx sls:deploy api",
+        "sls:package": "pnpm exec nx sls:package api",
+        "sls:offline": "pnpm exec nx sls:offline api",
+        "sls:info": "pnpm exec nx sls:info api",
+        "----DB SECTION----": "------------------------",
+        "db:generate": "pnpm --filter api exec prisma generate",
+        "db:migrate:dev": "pnpm --filter api exec prisma migrate dev",
+        "db:studio": "pnpm --filter api exec prisma studio",
+        "db:seed": "pnpm --filter api exec prisma db seed",
+        "----PACKAGES SECTION----": "-------------------------",
+        "update:api": "pnpm --filter api update -i --latest",
+        "update:web": "pnpm --filter web update -i --latest",
+        "----DEVELOPMENT SECTION----": "-------------------------",
+        "create:resolver": "pnpm --filter api exec nest g resource users --no-spec"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@graphql-codegen/cli": "^3.3.1",
+        "@graphql-codegen/client-preset": "^3.0.1",
+        "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+        "nx": "^16.9.0"
+    },
+    "dependencies": {
+        "typescript": "5.0.4"
+    },
+    "engines": {
+        "node": "18"
+    }
 }

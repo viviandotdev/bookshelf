@@ -1,0 +1,13 @@
+mutation SaveBook($input: SaveBookInput!) {
+  saveBook(saveBookInput: $input) {
+    author
+    categories
+    coverImage
+    description
+    id
+    pageNum
+    pubDate
+    publisher
+    title
+  }
+}

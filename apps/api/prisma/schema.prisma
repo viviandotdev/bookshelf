@@ -1,12 +1,6 @@
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
-    binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
-}
-
-generator erd {
-    provider = "prisma-erd-generator"
-    output   = "../docs/ERD.svg"
+    provider      = "prisma-client-js"
+    binaryTargets = ["native", "linux-arm64-openssl-1.0.x"]
 }
 
 datasource db {
@@ -52,7 +46,77 @@ model User {
     /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
+    //  One to Many: one user has many user books
+    userBooks          UserBook[]
+    //  One to Many: one user has many shelves
+    shelves            Shelf[]
+}
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// Table stores all books
+model Book {
+    /// @Validator.IsString()
+    id          String     @unique
+    /// @Validator.IsString()
+    title       String
+    /// @Validator.IsString()
+    author      String?
+    /// @Validator.IsString()
+    pubDate     String?
+    /// @Validator.IsString()
+    publisher   String?
+    /// @Validator.IsString()
+    coverImage  String?
+    /// @Validator.IsString()
+    description String?
+    /// @Validator.IsInt()
+    pageNum     Int?
+    /// @Validator.IsString()
+    categories  String?
+    // One to Many: multiple users can own the same book
+    userBook    UserBook[]
+}
+
+// Table stores all user books
+model UserBook {
+    id           String      @id @default(uuid())
+    userId       String
+    bookId       String
+    status       String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
+    rating       Int?
+    dateStarted  String?
+    dateFinished String?
+    // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
+    user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // Many to One: many user books belong to one book when book
+    book         Book?       @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    // One to One: one user book has one shelf entry
+    ShelfEntry   ShelfEntry?
+
+    /// @Validator.IsString()
+    @@unique(fields: [userId, bookId], name: "uniqueUserBook")
+}
+
+model Shelf {
+    id               String       @id @default(uuid())
+    shelfName        String
+    shelfDescription String?
+    userId           String
+    dateTime         String?
+    // One to Many: one shelf has many entries
+    shelfEntries     ShelfEntry[]
+    // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
+    user             User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ShelfEntry {
+    id         String   @id @default(uuid())
+    shelfId    String
+    userBookId String   @unique
+    dateTime   String?
+    // Many to One: many entries belong to one shelf, when shelf is deleted all shelf entries are deleted as well
+    shelf      Shelf    @relation(fields: [shelfId], references: [id], onDelete: Cascade)
+    // One to One: one entry has one user book, when user book is deleted from the users library it is removed from its shelf
+    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }

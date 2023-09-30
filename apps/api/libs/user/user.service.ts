@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateOneUserArgs,
-  FindUniqueUserArgs,
-  UpdateOneUserArgs,
-  DeleteOneUserArgs,
-} from 'libs/generated-db-types';
+import { UserCreateInput, UserUpdateInput } from 'libs/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createOneUserArgs: CreateOneUserArgs) {
-    return this.prisma['user'].create(createOneUserArgs);
+  async create(userCreateInput: UserCreateInput) {
+    return this.prisma.user.create({
+      data: {
+        ...userCreateInput,
+      },
+    });
   }
 
   findAll() {
-    return this.prisma['user'].findMany();
+    return this.prisma.user.findMany();
   }
 
-  findOne(findUniqueUserArgs: FindUniqueUserArgs) {
-    return this.prisma['user'].findUnique(findUniqueUserArgs);
+  findOne(id: string) {
+    return `This action returns a #${id} user`;
   }
 
-  update(updateOneUserArgs: UpdateOneUserArgs) {
-    return this.prisma['user'].update(updateOneUserArgs);
+  update(id: string, userUpdateInput: UserUpdateInput) {
+    console.log(userUpdateInput);
+    return `This action updates a #${id} user`;
   }
 
-  remove(deleteOneUserArgs: DeleteOneUserArgs) {
-    return this.prisma['user'].delete(deleteOneUserArgs);
+  remove(id: string) {
+    return `This action removes a #${id} user`;
   }
 }

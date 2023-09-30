@@ -1,0 +1,6 @@
+query userBook($input: UniqueUserBookInput!) {
+  userBook(uniqueUserBookInput: $input) {
+    userId
+    status
+  }
+}

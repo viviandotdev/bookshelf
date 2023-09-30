@@ -9,6 +9,8 @@ import axios from "axios";
 import { redirect, notFound } from "next/navigation";
 import React from "react";
 import Image from "next/image";
+import { getApolloClient } from "@/lib/apollo";
+import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
 
 interface BookPageProps {
   params: { bookId: string };
@@ -16,16 +18,26 @@ interface BookPageProps {
 
 export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
-
+  const client = getApolloClient();
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
   const url = `https://www.googleapis.com/books/v1/volumes/${params.bookId}?key=${process.env.GOOGLE_BOOKS_API_KEY}`;
   const book = await axios.get(url);
   const processedBook: BookData = processBook(book.data) as BookData;
+
   if (!processedBook) {
     notFound();
   }
+  const { data } = await client.query<UserBookQuery>({
+    query: UserBookDocument,
+    variables: {
+      input: {
+        userId: user.id,
+        bookId: params.bookId,
+      },
+    },
+  });
 
   return (
     <div className="grid w-full grid-cols-5 gap-2 ">
@@ -57,7 +69,10 @@ export default async function BookPage({ params }: BookPageProps) {
               <BookInfo processedBook={processedBook} />
             </section>
             <section className="col-span-2">
-              <ActionsPanel />
+              <ActionsPanel
+                book={processedBook}
+                bookStatus={data?.userBook?.status}
+              />
             </section>
           </div>
         </div>

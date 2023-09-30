@@ -8,6 +8,8 @@ import { UserModule } from '@bookcue/api/user';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthModule } from 'libs/auth';
 import configuration from './config/env.config';
+import { BookModule } from '@bookcue/api/book';
+import { UserBookModule } from '@bookcue/api/user-book';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +23,8 @@ import configuration from './config/env.config';
     HealthModule,
     UserModule,
     AuthModule,
+    BookModule,
+    UserBookModule,
   ],
   providers: [PrismaService],
 })
