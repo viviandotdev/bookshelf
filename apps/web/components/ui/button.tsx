@@ -18,6 +18,8 @@ const buttonVariants = cva(
         ghost: "hover:bg-secondary hover:text-secondary-foreground",
         link: "underline-offset-4 hover:underline text-primary",
         tag: "text-[12px] bg-secondary text-secondary-foreground",
+        action:
+          "text-[12px] bg-secondary text-secondary-foregroundmr-1 mb-1 cursor-pointer w-max gap-1 hover:bg-secondary ",
       },
       size: {
         default: "h-10 py-2 px-4",
@@ -35,16 +37,22 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  label?: string;
+  icon?: React.ReactNode;
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ label, icon, className, variant, size, ...props }, ref) => {
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {icon && <span>{icon}</span>}
+        {label}
+      </button>
     );
   }
 );

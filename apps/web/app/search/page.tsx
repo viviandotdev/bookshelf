@@ -6,12 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
 import { ContentNav } from "@/components/content-nav";
 import { Pagination } from "@/components/pagination";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { myBooksConfig } from "@/config/mybooks";
 import fakeBookData from "@/lib/testData/fakeBookData";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
-import SecondaryButton from "@/components/secondary-button";
 
 export default function SearchPage() {
   const booksData = fakeBookData;
@@ -49,11 +48,19 @@ export default function SearchPage() {
                   actions={
                     <BookCard.BookActions
                       buttons={[
-                        <SecondaryButton
+                        <Button
+                          className={cn(
+                            buttonVariants({ variant: "action", size: "xs" })
+                          )}
                           label="Currently Reading"
                           icon={<Icons.chevronDown className="h-4 w-4" />}
                         />,
-                        // <SecondaryButton label="Edit" />,
+                        <Button
+                          className={cn(
+                            buttonVariants({ variant: "action", size: "xs" })
+                          )}
+                          label="Edit"
+                        />,
                       ]}
                     />
                   }

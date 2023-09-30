@@ -7,8 +7,6 @@ import { buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { Rating, Star } from "@smastrom/react-rating";
 import { Dot } from "lucide-react";
-import BookCover from "./book-cover";
-import SecondaryButton from "./secondary-button";
 import { createContext, useContext } from "react";
 import { BookData } from "@/types/interfaces";
 
@@ -95,7 +93,7 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
 // Book Actions Component
 export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
   return (
-    <div className="flex flex-grow justify-end">
+    <div className="flex flex-grow justify-end gap-2">
       {buttons.map((button, index) => (
         <div key={index}>{button}</div>
       ))}
