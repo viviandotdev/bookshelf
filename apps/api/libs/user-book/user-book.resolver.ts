@@ -3,12 +3,12 @@ import { UserBookService } from './user-book.service';
 import {
   UserBook,
   UserBookCreateInput,
-  UserBookUpdateInput,
   UserBookWhereUniqueInput,
 } from '../generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
+import { UpdateUserBookStatusInput } from './dto/updateUserBookStatus.input';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -34,15 +34,13 @@ export class UserBookResolver {
     return this.userBookService.findOne(uniqueUserBookInput);
   }
 
-  @UseGuards(AccessTokenGuard)
+  //   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook)
-  updateUserBook(
-    @Args('userBookUpdateInput') userBookUpdateInput: UserBookUpdateInput,
+  updateUserBookStatus(
+    @Args('updateUserBookStatusInput')
+    updateUserBookStatusInput: UpdateUserBookStatusInput,
   ) {
-    return this.userBookService.update(
-      userBookUpdateInput.id,
-      userBookUpdateInput,
-    );
+    return this.userBookService.update(updateUserBookStatusInput);
   }
 
   @UseGuards(AccessTokenGuard)

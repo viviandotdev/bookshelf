@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useCallback, useEffect, useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
@@ -8,6 +8,8 @@ import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
 import useSheleveModal from "@/hooks/use-shelve-modal";
 import useStatusModal from "@/hooks/use-status-modal";
+import { stat } from "fs/promises";
+import { useFirstRender } from "@/hooks/use-first-render";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -49,6 +51,7 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
   book: BookData;
+  userBookId: string;
   bookStatus: string | undefined;
 }
 export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
@@ -56,9 +59,22 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const [status, setStatus] = useState(bookStatus);
   const { data: session } = useSession();
   const statusModal = useStatusModal();
-  const updateTitle = useStatusModal((state) => state.updateTitle);
-
+  const updateUserId = useStatusModal((state) => state.updateUserId);
+  const updateStatus = useStatusModal((state) => state.updateStatus);
+  const updateBookId = useStatusModal((state) => state.updateBookId);
   const [SaveBook] = useSaveBookMutation();
+  const firstRender = useFirstRender();
+  useEffect(() => {
+    updateStatus(bookStatus as string);
+  }, []);
+
+  useEffect(() => {
+    // Check if statusModal.status is different from the current status state
+    if (!firstRender && statusModal.status !== status) {
+      setStatus(statusModal.status); // Update the status in ActionsPanel
+      //   console.log(`Status updated in ActionsPanel: ${statusModal.status}`);
+    }
+  }, [statusModal.status]); // Run the effect whenever statusModal.status changes
 
   async function saveBook(book: BookData) {
     const { data, errors } = await SaveBook({
@@ -86,10 +102,11 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
     }
   }
 
-  async function updateStatus(book: BookData) {
-    updateTitle(book.title);
+  async function openUpdateStatusModal() {
+    updateUserId(session?.user.id as string);
+    updateBookId(book.id);
+    updateStatus(status as string);
     statusModal.onOpen();
-    console.log("edit shelf");
   }
 
   return (
@@ -113,7 +130,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
           </div>
           {status ? (
             <button
-              onClick={() => updateStatus(book)}
+              onClick={() => openUpdateStatusModal()}
               className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
             >
               <Icons.edit className="mr-2 h-4 w-4 " />

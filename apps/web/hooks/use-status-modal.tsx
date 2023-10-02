@@ -2,29 +2,29 @@ import { create } from "zustand";
 
 type State = {
   isOpen: boolean;
-  title: string;
+  status: string;
+  userId: string;
+  bookId: string;
 };
 
 type Action = {
   onOpen: () => void;
   onClose: () => void;
-  updateTitle: (title: State["title"]) => void;
+  updateStatus: (status: State["status"]) => void;
+  updateBookId: (bookId: State["bookId"]) => void;
+  updateUserId: (userId: State["userId"]) => void;
 };
 
-// interface StatusModalStore {
-//   isOpen: boolean;
-//   title: string;
-//   onOpen: () => void;
-//   onClose: () => void;
-//   updateTitle: (title: State["title"]) => void;
-// }
-
 const useStatusModal = create<State & Action>((set) => ({
-  title: "",
+  status: "",
   isOpen: false,
+  userId: "",
+  bookId: "",
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
-  updateTitle: (title: string) => set(() => ({ title: title })),
+  updateStatus: (status: string) => set(() => ({ status: status })),
+  updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
+  updateUserId: (userId: string) => set(() => ({ userId: userId })),
 }));
 
 export default useStatusModal;

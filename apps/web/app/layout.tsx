@@ -21,10 +21,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <ApolloClientProvider>{children}</ApolloClientProvider>
+          <ApolloClientProvider>
+            <StatusModal />
+            {children}
+          </ApolloClientProvider>
           <Toaster />
           <ShelveModal />
-          <StatusModal />
         </SessionProvider>
       </body>
     </html>

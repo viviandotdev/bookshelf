@@ -5,6 +5,7 @@ import {
 } from '../generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
+import { UpdateUserBookStatusInput } from './dto/updateUserBookStatus.input';
 @Injectable()
 export class UserBookService {
   constructor(private readonly prisma: PrismaService) {}
@@ -42,9 +43,19 @@ export class UserBookService {
     return userBook;
   }
 
-  update(id: string, userBookUpdateInput: UserBookUpdateInput) {
-    console.log(userBookUpdateInput);
-    return `This action updates a #${id} userBook`;
+  async update(updateUserBookStatusInput: UpdateUserBookStatusInput) {
+    const updateUserBook = await this.prisma.userBook.update({
+      where: {
+        uniqueUserBook: {
+          userId: updateUserBookStatusInput.userId,
+          bookId: updateUserBookStatusInput.bookId,
+        },
+      },
+      data: {
+        status: updateUserBookStatusInput.status,
+      },
+    });
+    return updateUserBook;
   }
 
   remove(id: string) {
