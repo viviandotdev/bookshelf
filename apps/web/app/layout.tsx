@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import { ApolloClientProvider } from "@/lib/apollo/ApolloClientProvider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
+import ShelveModal from "@/components/modal/shelve-modal";
+import StatusModal from "@/components/modal/status-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,8 @@ export default function RootLayout({
         <SessionProvider session={session}>
           <ApolloClientProvider>{children}</ApolloClientProvider>
           <Toaster />
+          <ShelveModal />
+          <StatusModal />
         </SessionProvider>
       </body>
     </html>

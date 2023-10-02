@@ -6,9 +6,12 @@ import { BookData } from "@/types/interfaces";
 import { UserBook, useSaveBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
+import useSheleveModal from "@/hooks/use-shelve-modal";
+import useStatusModal from "@/hooks/use-status-modal";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
+  onClick?: () => void;
 }
 
 const myStyles = {
@@ -17,9 +20,9 @@ const myStyles = {
   inactiveFillColor: "#c6cdd6",
 };
 
-function ActionItem({ icon, label }: ActionItemProps) {
+function ActionItem({ icon, label, onClick }: ActionItemProps) {
   return (
-    <div className="grid place-items-center cursor-pointer">
+    <div className="grid place-items-center cursor-pointer" onClick={onClick}>
       {icon}
       <button className="p-1">{label}</button>
     </div>
@@ -27,10 +30,18 @@ function ActionItem({ icon, label }: ActionItemProps) {
 }
 
 function ActionGroup() {
+  const shelfModal = useSheleveModal();
+  const onShelveClick = () => {
+    shelfModal.onOpen();
+  };
   return (
     <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">
       <ActionItem icon={<Icons.log className="h-8 w-8 " />} label="Log" />
-      <ActionItem icon={<Icons.library className="h-8 w-8" />} label="Shelve" />
+      <ActionItem
+        onClick={onShelveClick}
+        icon={<Icons.library className="h-8 w-8" />}
+        label="Shelve"
+      />
       <ActionItem icon={<Icons.heart className="h-8 w-8" />} label="Like" />
     </div>
   );
@@ -44,6 +55,9 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const [rating, setRating] = useState(0);
   const [status, setStatus] = useState(bookStatus);
   const { data: session } = useSession();
+  const statusModal = useStatusModal();
+  const updateTitle = useStatusModal((state) => state.updateTitle);
+
   const [SaveBook] = useSaveBookMutation();
 
   async function saveBook(book: BookData) {
@@ -72,7 +86,9 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
     }
   }
 
-  async function editShelf(book: BookData) {
+  async function updateStatus(book: BookData) {
+    updateTitle(book.title);
+    statusModal.onOpen();
     console.log("edit shelf");
   }
 
@@ -97,7 +113,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
           </div>
           {status ? (
             <button
-              onClick={() => editShelf(book)}
+              onClick={() => updateStatus(book)}
               className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
             >
               <Icons.edit className="mr-2 h-4 w-4 " />
