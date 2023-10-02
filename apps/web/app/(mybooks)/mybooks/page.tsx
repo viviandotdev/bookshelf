@@ -44,9 +44,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
               {shelfSelections.map((heading) => {
                 return selection(heading);
               })}
-              <Button className="mt-2" size={"sm"}>
-                Add Shelf
-              </Button>
+              <Button className="mt-2" size={"sm"} label={"Add Shelf"}></Button>
             </div>
             <div className="w-full justify-between mt-8 rounded-lg flex flex-col gap-1 text-sm text-muted-foreground font-light">
               <div className="items-start text-primary font-semibold">

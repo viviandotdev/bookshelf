@@ -232,7 +232,7 @@ type Mutation {
   signup(registerInput: RegisterInput!): User!
   updateBook(bookUpdateInput: BookUpdateInput!): Book!
   updateUser(userUpdateInput: UserUpdateInput!): User!
-  updateUserBook(userBookUpdateInput: UserBookUpdateInput!): UserBook!
+  updateUserBookStatus(updateUserBookStatusInput: UpdateUserBookStatusInput!): UserBook!
 }
 
 type Query {
@@ -692,6 +692,12 @@ input UniqueUserBookInput {
   userId: String!
 }
 
+input UpdateUserBookStatusInput {
+  bookId: String!
+  status: String!
+  userId: String!
+}
+
 type User {
   _count: UserCount!
   createdAt: Timestamp!
@@ -886,17 +892,6 @@ type UserBookSumAggregate {
 input UserBookUniqueUserBookCompoundUniqueInput {
   bookId: String!
   userId: String!
-}
-
-input UserBookUpdateInput {
-  ShelfEntry: ShelfEntryUpdateOneWithoutUserBookNestedInput
-  book: BookUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
-  id: String
-  rating: Int
-  status: String
-  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateManyMutationInput {

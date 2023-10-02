@@ -256,7 +256,7 @@ export type Mutation = {
   signup: User;
   updateBook: Book;
   updateUser: User;
-  updateUserBook: UserBook;
+  updateUserBookStatus: UserBook;
 };
 
 
@@ -320,8 +320,8 @@ export type MutationUpdateUserArgs = {
 };
 
 
-export type MutationUpdateUserBookArgs = {
-  userBookUpdateInput: UserBookUpdateInput;
+export type MutationUpdateUserBookStatusArgs = {
+  updateUserBookStatusInput: UpdateUserBookStatusInput;
 };
 
 export type Query = {
@@ -802,6 +802,12 @@ export type UniqueUserBookInput = {
   userId: Scalars['String'];
 };
 
+export type UpdateUserBookStatusInput = {
+  bookId: Scalars['String'];
+  status: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   _count: UserCount;
@@ -1003,17 +1009,6 @@ export type UserBookSumAggregate = {
 export type UserBookUniqueUserBookCompoundUniqueInput = {
   bookId: Scalars['String'];
   userId: Scalars['String'];
-};
-
-export type UserBookUpdateInput = {
-  ShelfEntry?: InputMaybe<ShelfEntryUpdateOneWithoutUserBookNestedInput>;
-  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  rating?: InputMaybe<Scalars['Int']>;
-  status?: InputMaybe<Scalars['String']>;
-  user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateManyMutationInput = {
@@ -1400,6 +1395,13 @@ export type SaveBookMutationVariables = Exact<{
 
 export type SaveBookMutation = { __typename?: 'Mutation', saveBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
+export type UpdateUserBookStatusMutationVariables = Exact<{
+  input: UpdateUserBookStatusInput;
+}>;
+
+
+export type UpdateUserBookStatusMutation = { __typename?: 'Mutation', updateUserBookStatus: { __typename?: 'UserBook', status: string } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1420,7 +1422,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, status: string } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', id: string, userId: string, status: string } | null };
 
 
 export const SignInDocument = gql`
@@ -1604,6 +1606,39 @@ export function useSaveBookMutation(baseOptions?: Apollo.MutationHookOptions<Sav
 export type SaveBookMutationHookResult = ReturnType<typeof useSaveBookMutation>;
 export type SaveBookMutationResult = Apollo.MutationResult<SaveBookMutation>;
 export type SaveBookMutationOptions = Apollo.BaseMutationOptions<SaveBookMutation, SaveBookMutationVariables>;
+export const UpdateUserBookStatusDocument = gql`
+    mutation UpdateUserBookStatus($input: UpdateUserBookStatusInput!) {
+  updateUserBookStatus(updateUserBookStatusInput: $input) {
+    status
+  }
+}
+    `;
+export type UpdateUserBookStatusMutationFn = Apollo.MutationFunction<UpdateUserBookStatusMutation, UpdateUserBookStatusMutationVariables>;
+
+/**
+ * __useUpdateUserBookStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserBookStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserBookStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserBookStatusMutation, { data, loading, error }] = useUpdateUserBookStatusMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserBookStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookStatusMutation, UpdateUserBookStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserBookStatusMutation, UpdateUserBookStatusMutationVariables>(UpdateUserBookStatusDocument, options);
+      }
+export type UpdateUserBookStatusMutationHookResult = ReturnType<typeof useUpdateUserBookStatusMutation>;
+export type UpdateUserBookStatusMutationResult = Apollo.MutationResult<UpdateUserBookStatusMutation>;
+export type UpdateUserBookStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookStatusMutation, UpdateUserBookStatusMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -1710,6 +1745,7 @@ export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQuer
 export const UserBookDocument = gql`
     query userBook($input: UniqueUserBookInput!) {
   userBook(uniqueUserBookInput: $input) {
+    id
     userId
     status
   }

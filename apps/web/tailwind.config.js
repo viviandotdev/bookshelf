@@ -52,9 +52,9 @@ module.exports = {
       fontSize: {
         xs: ["12px", { lineHeight: "16px" }],
         sm: ["14px", { lineHeight: "20px" }],
-        md: ["18px", { lineHeight: "28px" }],
-        lg: ["20px", { lineHeight: "28px" }],
-        xl: ["1.125rem", { lineHeight: "1.75rem" }],
+        md: ["16px", { lineHeight: "24px" }],
+        lg: ["20px", { lineHeight: "26px" }],
+        xl: ["24px", { lineHeight: "28px" }],
         "2xl": ["1.5rem", { lineHeight: "2rem" }],
         "3xl": ["1.875rem", { lineHeight: "64px" }],
         "4xl": ["2.25rem", { lineHeight: "2.5rem" }],

@@ -11,6 +11,7 @@ import React from "react";
 import Image from "next/image";
 import { getApolloClient } from "@/lib/apollo";
 import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
+import StatusModal from "@/components/modal/status-modal";
 
 interface BookPageProps {
   params: { bookId: string };
@@ -71,6 +72,7 @@ export default async function BookPage({ params }: BookPageProps) {
             <section className="col-span-2">
               <ActionsPanel
                 book={processedBook}
+                userBookId={data?.userBook?.id as string}
                 bookStatus={data?.userBook?.status}
               />
             </section>
