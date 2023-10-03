@@ -250,7 +250,7 @@ export type Mutation = {
   refreshAuth: RefreshResponse;
   removeBook: Book;
   removeUser: User;
-  removeUserBook: UserBook;
+  removeUserBook: Scalars['Boolean'];
   saveBook: Book;
   signin: AuthResponse;
   signup: User;
@@ -291,7 +291,7 @@ export type MutationRemoveUserArgs = {
 
 
 export type MutationRemoveUserBookArgs = {
-  userBookWhereUniqueInput: UserBookWhereUniqueInput;
+  userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput;
 };
 
 
@@ -1402,6 +1402,13 @@ export type UpdateUserBookStatusMutationVariables = Exact<{
 
 export type UpdateUserBookStatusMutation = { __typename?: 'Mutation', updateUserBookStatus: { __typename?: 'UserBook', status: string } };
 
+export type RemoveUserBookMutationVariables = Exact<{
+  input: UserBookUniqueUserBookCompoundUniqueInput;
+}>;
+
+
+export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: boolean };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1639,6 +1646,37 @@ export function useUpdateUserBookStatusMutation(baseOptions?: Apollo.MutationHoo
 export type UpdateUserBookStatusMutationHookResult = ReturnType<typeof useUpdateUserBookStatusMutation>;
 export type UpdateUserBookStatusMutationResult = Apollo.MutationResult<UpdateUserBookStatusMutation>;
 export type UpdateUserBookStatusMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookStatusMutation, UpdateUserBookStatusMutationVariables>;
+export const RemoveUserBookDocument = gql`
+    mutation RemoveUserBook($input: UserBookUniqueUserBookCompoundUniqueInput!) {
+  removeUserBook(userBookUniqueUserBookCompoundUniqueInput: $input)
+}
+    `;
+export type RemoveUserBookMutationFn = Apollo.MutationFunction<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
+
+/**
+ * __useRemoveUserBookMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserBookMutation, { data, loading, error }] = useRemoveUserBookMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRemoveUserBookMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserBookMutation, RemoveUserBookMutationVariables>(RemoveUserBookDocument, options);
+      }
+export type RemoveUserBookMutationHookResult = ReturnType<typeof useRemoveUserBookMutation>;
+export type RemoveUserBookMutationResult = Apollo.MutationResult<RemoveUserBookMutation>;
+export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

@@ -226,7 +226,7 @@ type Mutation {
   refreshAuth: RefreshResponse!
   removeBook(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
   removeUser(bookWhereUniqueInput: BookWhereUniqueInput!): User!
-  removeUserBook(userBookWhereUniqueInput: UserBookWhereUniqueInput!): UserBook!
+  removeUserBook(userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput!): Boolean!
   saveBook(saveBookInput: SaveBookInput!): Book!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!

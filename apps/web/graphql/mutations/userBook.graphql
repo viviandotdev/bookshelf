@@ -3,3 +3,7 @@ mutation UpdateUserBookStatus($input: UpdateUserBookStatusInput!) {
     status
   }
 }
+
+mutation RemoveUserBook($input: UserBookUniqueUserBookCompoundUniqueInput!) {
+  removeUserBook(userBookUniqueUserBookCompoundUniqueInput: $input)
+}

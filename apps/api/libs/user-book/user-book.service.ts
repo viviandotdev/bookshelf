@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {
   UserBookCreateInput,
-  UserBookUpdateInput,
+  UserBookUniqueUserBookCompoundUniqueInput,
 } from '../generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
@@ -58,7 +58,16 @@ export class UserBookService {
     return updateUserBook;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} userBook`;
+  async remove(
+    userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput,
+  ) {
+    await this.prisma.userBook.delete({
+      where: {
+        uniqueUserBook: {
+          ...userBookUniqueUserBookCompoundUniqueInput,
+        },
+      },
+    });
+    return true;
   }
 }

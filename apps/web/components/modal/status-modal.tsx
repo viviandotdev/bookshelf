@@ -1,6 +1,4 @@
 "use client";
-import useSheleveModal from "@/hooks/use-shelve-modal";
-import { useRouter } from "next/navigation";
 import React, { ReactNode, use, useState } from "react";
 import Modal from "./modal";
 import useStatusModal from "@/hooks/use-status-modal";
@@ -9,18 +7,21 @@ import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
 import { useUpdateUserBookStatusMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
+import useRemoveModal from "@/hooks/use-remove-modal";
+import useUserBook from "@/hooks/use-user-book";
 
 interface StatusModalProps {}
 
 export const StatusModal: React.FC<StatusModalProps> = ({}) => {
-  const router = useRouter();
   const statusModal = useStatusModal();
+  const userBook = useUserBook();
+  const removeModal = useRemoveModal();
   const [UpdateUserBookStatus] = useUpdateUserBookStatusMutation();
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async () => {
     setIsLoading(true);
   };
-  const updateStatus = useStatusModal((state) => state.updateStatus);
+  const updateStatus = useUserBook((state) => state.updateStatus);
   const status = [
     "Currently Reading",
     "Want to Read",
@@ -33,8 +34,8 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
     const { data, errors } = await UpdateUserBookStatus({
       variables: {
         input: {
-          bookId: statusModal.bookId,
-          userId: statusModal.userId,
+          bookId: userBook.bookId,
+          userId: userBook.userId,
           status: newStatus,
         },
       },
@@ -54,6 +55,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
 
   const removeFromShelf = () => {
     statusModal.onClose();
+    removeModal.onOpen();
   };
 
   const bodyContent = (
@@ -68,7 +70,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
           label={s}
           onClick={() => handleStatusClick(s)}
           icon={
-            statusModal.status == s && (
+            userBook.status == s && (
               <Icons.check className="h-4 w-4 m-2 stroke-[4px]" />
             )
           }

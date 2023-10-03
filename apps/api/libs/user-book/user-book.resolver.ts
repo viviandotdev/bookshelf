@@ -3,6 +3,7 @@ import { UserBookService } from './user-book.service';
 import {
   UserBook,
   UserBookCreateInput,
+  UserBookUniqueUserBookCompoundUniqueInput,
   UserBookWhereUniqueInput,
 } from '../generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
@@ -34,7 +35,7 @@ export class UserBookResolver {
     return this.userBookService.findOne(uniqueUserBookInput);
   }
 
-  //   @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook)
   updateUserBookStatus(
     @Args('updateUserBookStatusInput')
@@ -44,11 +45,13 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook)
+  @Mutation(() => Boolean)
   removeUserBook(
-    @Args('userBookWhereUniqueInput')
-    userBookWhereUniqueInput: UserBookWhereUniqueInput,
+    @Args('userBookUniqueUserBookCompoundUniqueInput')
+    userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput,
   ) {
-    return this.userBookService.remove(userBookWhereUniqueInput.id);
+    return this.userBookService.remove(
+      userBookUniqueUserBookCompoundUniqueInput,
+    );
   }
 }

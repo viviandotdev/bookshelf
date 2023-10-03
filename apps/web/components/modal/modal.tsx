@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { Icons } from "../icons";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -159,10 +159,10 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               </div>
               {/*body*/}
-              <div className="relative p-6 flex-auto">{body}</div>
+              <div className="relative p-8 flex-auto">{body}</div>
               {/*footer*/}
               {(actionLabel || secondaryActionLabel) && (
-                <div className="flex flex-col gap-2 p-8">
+                <div className="flex flex-col gap-2 p-8 pt-0">
                   <div
                     className="
                       flex
@@ -170,18 +170,24 @@ const Modal: React.FC<ModalProps> = ({
                       items-center
                       gap-6
                       w-full
+                      justify-end
                     "
                   >
                     {secondaryAction && secondaryActionLabel && (
                       <Button
+                        className={cn(
+                          buttonVariants({ variant: "outline", size: "lg" })
+                        )}
                         disabled={disabled}
                         label={secondaryActionLabel}
                         onClick={handleSecondaryAction}
-                        //   outline
                       />
                     )}
                     {actionLabel && (
                       <Button
+                        className={cn(
+                          buttonVariants({ variant: "default", size: "lg" })
+                        )}
                         disabled={disabled}
                         label={actionLabel}
                         onClick={handleSubmit}

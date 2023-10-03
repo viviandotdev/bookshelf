@@ -10,6 +10,7 @@ import useSheleveModal from "@/hooks/use-shelve-modal";
 import useStatusModal from "@/hooks/use-status-modal";
 import { stat } from "fs/promises";
 import { useFirstRender } from "@/hooks/use-first-render";
+import useUserBook from "@/hooks/use-user-book";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -59,9 +60,10 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const [status, setStatus] = useState(bookStatus);
   const { data: session } = useSession();
   const statusModal = useStatusModal();
-  const updateUserId = useStatusModal((state) => state.updateUserId);
-  const updateStatus = useStatusModal((state) => state.updateStatus);
-  const updateBookId = useStatusModal((state) => state.updateBookId);
+  const userBook = useUserBook();
+  const updateUserId = useUserBook((state) => state.updateUserId);
+  const updateStatus = useUserBook((state) => state.updateStatus);
+  const updateBookId = useUserBook((state) => state.updateBookId);
   const [SaveBook] = useSaveBookMutation();
   const firstRender = useFirstRender();
   useEffect(() => {
@@ -69,12 +71,12 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   }, []);
 
   useEffect(() => {
-    // Check if statusModal.status is different from the current status state
-    if (!firstRender && statusModal.status !== status) {
-      setStatus(statusModal.status); // Update the status in ActionsPanel
-      //   console.log(`Status updated in ActionsPanel: ${statusModal.status}`);
+    // Check if userBook.status is different from the current status state
+    if (!firstRender && userBook.status !== status) {
+      setStatus(userBook.status); // Update the status in ActionsPanel
+      //   console.log(`Status updated in ActionsPanel: ${userBook.status}`);
     }
-  }, [statusModal.status]); // Run the effect whenever statusModal.status changes
+  }, [userBook.status]); // Run the effect whenever userBook.status changes
 
   async function saveBook(book: BookData) {
     const { data, errors } = await SaveBook({
