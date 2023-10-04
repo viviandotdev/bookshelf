@@ -9,6 +9,19 @@ import {
 import { Button } from "./ui/button";
 import { Icon, LucideIcon } from "lucide-react";
 import { useState } from "react";
+import useSidebar from "@/hooks/use-sidebar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Label } from "@radix-ui/react-label";
+import { Input } from "postcss";
+import useCreateShelfModal from "@/hooks/use-create-shelf-moda";
 
 interface SidebarSectionProps {
   title: string;
@@ -22,13 +35,8 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
   items,
   counts,
 }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>("All");
-
-  const handleItemClick = (itemTitle: string) => {
-    setSelectedItem(itemTitle);
-    // Perform other actions based on the selected item if needed
-  };
-
+  const sidebar = useSidebar();
+  const updateSelected = useSidebar((state) => state.updateSelected);
   return (
     <>
       <div className="leading-7 items-start text-primary font-semibold">
@@ -39,9 +47,11 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
       {items.map((heading, i) => (
         <div
           key={i}
-          onClick={() => handleItemClick(heading.title!)}
+          onClick={() => updateSelected(heading.title!)}
           className={`${
-            heading.title == selectedItem ? "bg-secondary" : "hover:bg-muted"
+            heading.title == sidebar.selected
+              ? "bg-secondary"
+              : "hover:bg-muted"
           } font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between`}
         >
           <span className="flex">
@@ -68,33 +78,46 @@ export const AccordianSidebarSection: React.FC<SidebarSectionProps> = ({
   title,
   items,
   counts,
-}) => (
-  <>
-    <Accordion type="single" defaultValue={"item-1"} collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="text-sm ">{title}</AccordionTrigger>
-        {items.map((heading, i) => (
-          <AccordionContent key={i}>
-            <div className=" hover:bg-muted font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between">
-              <span className="flex">
-                <Icons.shelf className="h-5 w-5 mr-4" />
-                {heading}
-              </span>
-              {counts && <span>{counts[i]}</span>}
-            </div>
+}) => {
+  const sidebar = useSidebar();
+  const updateSelected = useSidebar((state) => state.updateSelected);
+  const createShelfModal = useCreateShelfModal();
+  return (
+    <>
+      <Accordion type="single" defaultValue={"item-1"} collapsible>
+        <AccordionItem value="item-1">
+          <AccordionTrigger className="text-sm ">{title}</AccordionTrigger>
+          {items.map((heading, i) => (
+            <AccordionContent key={i}>
+              <div
+                onClick={() => updateSelected(heading!)}
+                className={`${
+                  heading == sidebar.selected
+                    ? "bg-secondary"
+                    : "hover:bg-muted"
+                } font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between`}
+              >
+                <span className="flex">
+                  <Icons.shelf className="h-5 w-5 mr-4" />
+                  {heading}
+                </span>
+                {counts && <span>{counts[i]}</span>}
+              </div>
+            </AccordionContent>
+          ))}
+          <AccordionContent className="pb-0">
+            <Button
+              className="w-[fill-available] "
+              size="sm"
+              label="Add Shelf"
+              onClick={createShelfModal.onOpen}
+              icon={<Icons.edit className="h-4 w-4 mr-2" />}
+            />
           </AccordionContent>
-        ))}
-        <AccordionContent className="pb-0">
-          <Button
-            className="w-[fill-available] "
-            size="sm"
-            label="Add Shelf"
-            icon={<Icons.edit className="h-4 w-4 mr-2" />}
-          />
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  </>
-);
+        </AccordionItem>
+      </Accordion>
+    </>
+  );
+};
 
 export default SidebarSection;

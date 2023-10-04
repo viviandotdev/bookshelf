@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Icons } from "./icons";
 import SidebarSection, { AccordianSidebarSection } from "./sidebar-section";
@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { NavItem } from "@/types";
+import useSidebar from "@/hooks/use-sidebar";
 
 interface SidebarProps {
   librarySelections: NavItem[];
@@ -24,22 +25,11 @@ const SideBar: React.FC<SidebarProps> = ({
   toolSelections,
   shelfSelections,
 }) => {
-  const [selected, setSelected] = useState("All");
-  const [newShelf, setNewShelf] = useState("");
-  const [showInput, setShowInput] = useState(false);
+  const updateSelected = useSidebar((state) => state.updateSelected);
+  useEffect(() => {
+    updateSelected("All");
+  }, []);
 
-  const handleAddShelf = () => {
-    if (newShelf.trim() !== "") {
-      //   onAddShelf(newShelf);
-      setNewShelf("");
-    }
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleAddShelf();
-    }
-  };
   return (
     <div className="hidden xl:block">
       <div className="gap-1.5 ]w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
