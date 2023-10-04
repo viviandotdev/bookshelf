@@ -52,6 +52,24 @@ export const myBooksConfig: MyBooksConfig = {
       icon: "export",
     },
   ],
+  shelfSelections: [
+    {
+      title: "Fiction",
+      icon: "shelf",
+    },
+    {
+      title: "Non-Fiction",
+      icon: "shelf",
+    },
+    {
+      title: "Fantasy",
+      icon: "shelf",
+    },
+    {
+      title: "Philosophy",
+      icon: "shelf",
+    },
+  ],
   sortingSelects: [
     {
       title: "Date Added",

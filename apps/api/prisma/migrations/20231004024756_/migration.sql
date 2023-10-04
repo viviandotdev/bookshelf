@@ -21,10 +21,7 @@ CREATE TABLE "Book" (
     "coverImage" TEXT,
     "description" TEXT,
     "pageNum" INTEGER,
-    "isbn" TEXT NOT NULL,
-    "categories" TEXT,
-
-    CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
+    "categories" TEXT
 );
 
 -- CreateTable
@@ -43,8 +40,8 @@ CREATE TABLE "UserBook" (
 -- CreateTable
 CREATE TABLE "Shelf" (
     "id" TEXT NOT NULL,
-    "shelfName" TEXT NOT NULL,
-    "shelfDescription" TEXT,
+    "name" TEXT NOT NULL,
+    "description" TEXT,
     "userId" TEXT NOT NULL,
     "dateTime" TEXT,
 
@@ -68,10 +65,10 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Book_isbn_key" ON "Book"("isbn");
+CREATE UNIQUE INDEX "Book_id_key" ON "Book"("id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "UserBook_bookId_key" ON "UserBook"("bookId");
+CREATE UNIQUE INDEX "UserBook_userId_bookId_key" ON "UserBook"("userId", "bookId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "ShelfEntry_userBookId_key" ON "ShelfEntry"("userBookId");
@@ -80,7 +77,7 @@ CREATE UNIQUE INDEX "ShelfEntry_userBookId_key" ON "ShelfEntry"("userBookId");
 ALTER TABLE "UserBook" ADD CONSTRAINT "UserBook_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserBook" ADD CONSTRAINT "UserBook_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserBook" ADD CONSTRAINT "UserBook_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Shelf" ADD CONSTRAINT "Shelf_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

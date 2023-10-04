@@ -10,6 +10,7 @@ import { AuthModule } from 'libs/auth';
 import configuration from './config/env.config';
 import { BookModule } from '@bookcue/api/book';
 import { UserBookModule } from '@bookcue/api/user-book';
+import { ShelfModule } from 'libs/shelf';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +26,7 @@ import { UserBookModule } from '@bookcue/api/user-book';
     AuthModule,
     BookModule,
     UserBookModule,
+    ShelfModule,
   ],
   providers: [PrismaService],
 })

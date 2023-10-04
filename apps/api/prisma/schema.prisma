@@ -108,15 +108,19 @@ model UserBook {
 }
 
 model Shelf {
-    id               String       @id @default(uuid())
-    shelfName        String
-    shelfDescription String?
-    userId           String
-    dateTime         String?
+    /// @Validator.IsString()
+    id           String       @id @default(uuid())
+    /// @Validator.IsString()
+    name         String
+    /// @Validator.IsString()
+    userId       String
+    /// @Validator.IsString()
+    description  String?
+    dateTime     String?
     // One to Many: one shelf has many entries
-    shelfEntries     ShelfEntry[]
+    shelfEntries ShelfEntry[]
     // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
-    user             User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ShelfEntry {

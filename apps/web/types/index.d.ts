@@ -28,6 +28,7 @@ export type MarketingConfig = {
 export type MyBooksConfig = {
   profileNav: NavItem[];
   sortingSelects: NavItem[];
+  shelfSelections: NavItem[];
   librarySelections: NavItem[];
   toolSelections: NavItem[];
 };

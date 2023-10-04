@@ -1,0 +1,7 @@
+mutation CreateShelf($input: CreateShelfInput!) {
+  createShelf(createShelfInput: $input) {
+    id
+    name
+    description
+  }
+}

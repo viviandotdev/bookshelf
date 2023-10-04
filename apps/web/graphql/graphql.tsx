@@ -214,6 +214,11 @@ export type BookWhereUniqueInput = {
   userBook?: InputMaybe<UserBookListRelationFilter>;
 };
 
+export type CreateShelfInput = {
+  shelf?: InputMaybe<ShelfCreateInput>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
 export type DateTimeFilter = {
   equals?: InputMaybe<Scalars['Timestamp']>;
   gt?: InputMaybe<Scalars['Timestamp']>;
@@ -244,6 +249,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBook: Book;
+  createShelf: Shelf;
   createUser: User;
   createUserBook: UserBook;
   logout: Scalars['Boolean'];
@@ -262,6 +268,11 @@ export type Mutation = {
 
 export type MutationCreateBookArgs = {
   bookCreateInput: BookCreateInput;
+};
+
+
+export type MutationCreateShelfArgs = {
+  createShelfInput: CreateShelfInput;
 };
 
 
@@ -329,6 +340,7 @@ export type Query = {
   book: Book;
   hello: Scalars['String'];
   me: User;
+  shelf: Shelf;
   user: User;
   userBook?: Maybe<UserBook>;
   users: Array<User>;
@@ -337,6 +349,11 @@ export type Query = {
 
 export type QueryBookArgs = {
   bookWhereUniqueInput: BookWhereUniqueInput;
+};
+
+
+export type QueryShelfArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -376,10 +393,10 @@ export type Shelf = {
   __typename?: 'Shelf';
   _count: ShelfCount;
   dateTime?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  shelfDescription?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   shelfEntries?: Maybe<Array<ShelfEntry>>;
-  shelfName: Scalars['String'];
   user?: Maybe<User>;
   userId: Scalars['String'];
 };
@@ -393,17 +410,26 @@ export type ShelfCountAggregate = {
   __typename?: 'ShelfCountAggregate';
   _all: Scalars['Int'];
   dateTime: Scalars['Int'];
+  description: Scalars['Int'];
   id: Scalars['Int'];
-  shelfDescription: Scalars['Int'];
-  shelfName: Scalars['Int'];
+  name: Scalars['Int'];
   userId: Scalars['Int'];
+};
+
+export type ShelfCreateInput = {
+  dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  shelfEntries?: InputMaybe<ShelfEntryCreateNestedManyWithoutShelfInput>;
+  user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
 };
 
 export type ShelfCreateManyUserInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
-  shelfName: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type ShelfCreateManyUserInputEnvelope = {
@@ -436,18 +462,18 @@ export type ShelfCreateOrConnectWithoutUserInput = {
 
 export type ShelfCreateWithoutShelfEntriesInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
-  shelfName: Scalars['String'];
+  name: Scalars['String'];
   user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
 };
 
 export type ShelfCreateWithoutUserInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   shelfEntries?: InputMaybe<ShelfEntryCreateNestedManyWithoutShelfInput>;
-  shelfName: Scalars['String'];
 };
 
 export type ShelfEntry = {
@@ -653,18 +679,18 @@ export type ShelfListRelationFilter = {
 export type ShelfMaxAggregate = {
   __typename?: 'ShelfMaxAggregate';
   dateTime?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  shelfDescription?: Maybe<Scalars['String']>;
-  shelfName?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
 };
 
 export type ShelfMinAggregate = {
   __typename?: 'ShelfMinAggregate';
   dateTime?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  shelfDescription?: Maybe<Scalars['String']>;
-  shelfName?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -678,17 +704,17 @@ export type ShelfScalarWhereInput = {
   NOT?: InputMaybe<Array<ShelfScalarWhereInput>>;
   OR?: InputMaybe<Array<ShelfScalarWhereInput>>;
   dateTime?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  shelfDescription?: InputMaybe<StringFilter>;
-  shelfName?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
 export type ShelfUpdateManyMutationInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
-  shelfName?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type ShelfUpdateManyWithWhereWithoutUserInput = {
@@ -730,18 +756,18 @@ export type ShelfUpdateWithWhereUniqueWithoutUserInput = {
 
 export type ShelfUpdateWithoutShelfEntriesInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
-  shelfName?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
 };
 
 export type ShelfUpdateWithoutUserInput = {
   dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   shelfEntries?: InputMaybe<ShelfEntryUpdateManyWithoutShelfNestedInput>;
-  shelfName?: InputMaybe<Scalars['String']>;
 };
 
 export type ShelfUpsertWithWhereUniqueWithoutUserInput = {
@@ -761,10 +787,10 @@ export type ShelfWhereInput = {
   NOT?: InputMaybe<Array<ShelfWhereInput>>;
   OR?: InputMaybe<Array<ShelfWhereInput>>;
   dateTime?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  shelfDescription?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   shelfEntries?: InputMaybe<ShelfEntryListRelationFilter>;
-  shelfName?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -774,10 +800,10 @@ export type ShelfWhereUniqueInput = {
   NOT?: InputMaybe<Array<ShelfWhereInput>>;
   OR?: InputMaybe<Array<ShelfWhereInput>>;
   dateTime?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
-  shelfDescription?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
   shelfEntries?: InputMaybe<ShelfEntryListRelationFilter>;
-  shelfName?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -1395,6 +1421,13 @@ export type SaveBookMutationVariables = Exact<{
 
 export type SaveBookMutation = { __typename?: 'Mutation', saveBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
+export type CreateShelfMutationVariables = Exact<{
+  input: CreateShelfInput;
+}>;
+
+
+export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string, description?: string | null } };
+
 export type UpdateUserBookStatusMutationVariables = Exact<{
   input: UpdateUserBookStatusInput;
 }>;
@@ -1613,6 +1646,41 @@ export function useSaveBookMutation(baseOptions?: Apollo.MutationHookOptions<Sav
 export type SaveBookMutationHookResult = ReturnType<typeof useSaveBookMutation>;
 export type SaveBookMutationResult = Apollo.MutationResult<SaveBookMutation>;
 export type SaveBookMutationOptions = Apollo.BaseMutationOptions<SaveBookMutation, SaveBookMutationVariables>;
+export const CreateShelfDocument = gql`
+    mutation CreateShelf($input: CreateShelfInput!) {
+  createShelf(createShelfInput: $input) {
+    id
+    name
+    description
+  }
+}
+    `;
+export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation, CreateShelfMutationVariables>;
+
+/**
+ * __useCreateShelfMutation__
+ *
+ * To run a mutation, you first call `useCreateShelfMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateShelfMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createShelfMutation, { data, loading, error }] = useCreateShelfMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateShelfMutation(baseOptions?: Apollo.MutationHookOptions<CreateShelfMutation, CreateShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateShelfMutation, CreateShelfMutationVariables>(CreateShelfDocument, options);
+      }
+export type CreateShelfMutationHookResult = ReturnType<typeof useCreateShelfMutation>;
+export type CreateShelfMutationResult = Apollo.MutationResult<CreateShelfMutation>;
+export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<CreateShelfMutation, CreateShelfMutationVariables>;
 export const UpdateUserBookStatusDocument = gql`
     mutation UpdateUserBookStatus($input: UpdateUserBookStatusInput!) {
   updateUserBookStatus(updateUserBookStatusInput: $input) {

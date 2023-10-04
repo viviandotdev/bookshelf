@@ -4,15 +4,18 @@ import Modal from "./modal";
 import useCreateShelfModal from "@/hooks/use-create-shelf-moda";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-label";
-
+import { useCreateShelfMutation } from "@/graphql/graphql";
+import { useSession } from "next-auth/react";
+import { toast } from "@/hooks/use-toast";
 interface CreateShelfModalProps {}
 
 export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
   const createShelfModal = useCreateShelfModal();
   const [shelfName, setShelfName] = useState(""); // State to manage the input value
   const [isLoading, setIsLoading] = useState(false);
+  const { data: session } = useSession();
   const inputRef = useRef<HTMLInputElement | null>(null); // Ref for the input element
-
+  const [createShelf] = useCreateShelfMutation();
   useEffect(() => {
     // Reset shelfName and focus input when the modal opens
     if (createShelfModal.isOpen && inputRef.current) {
@@ -38,7 +41,31 @@ export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
     </div>
   );
   const onSubmit = async () => {
+    setIsLoading(true);
+    const { data } = await createShelf({
+      variables: {
+        input: {
+          userId: session?.user.id,
+          shelf: {
+            name: shelfName,
+          },
+        },
+      },
+    });
+
+    if (!data) {
+      toast({
+        title: "Error creating shelf",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Sucessfylly created shelf",
+      });
+    }
+
     createShelfModal.onClose();
+    // add shelf
 
     console.log(shelfName);
   };

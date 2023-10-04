@@ -1,22 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Icons } from "./icons";
 import SidebarSection, { AccordianSidebarSection } from "./sidebar-section";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
 import { NavItem } from "@/types";
 import useSidebar from "@/hooks/use-sidebar";
+import Accordion from "./ui/collapsible";
+// import { Accordion } from "@radix-ui/react-accordion";
 
 interface SidebarProps {
   librarySelections: NavItem[];
   librarySelectionsCounts: number[];
   toolSelections: NavItem[];
-  shelfSelections: string[];
+  shelfSelections: NavItem[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
@@ -32,25 +26,21 @@ const SideBar: React.FC<SidebarProps> = ({
 
   return (
     <div className="hidden xl:block">
-      <div className="gap-1.5 ]w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
+      <div className="gap-1.5 w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
         <SidebarSection
           title="Library"
           items={librarySelections}
           counts={librarySelectionsCounts}
+          collapsible
         />
-        {/* <AccordianSidebarSection
-          title="Library"
-          items={librarySelections}
-          counts={librarySelectionsCounts}
-        /> */}
-        {/* <hr /> */}
-        <AccordianSidebarSection
-          items={shelfSelections}
+
+        <SidebarSection
           title="Shelves"
+          items={shelfSelections}
           counts={librarySelectionsCounts}
+          collapsible
+          isShelves
         />
-        {/* <hr /> */}
-        {/* <SidebarSection title="Shelves" items={shelfSelections} isShelves /> */}
         <SidebarSection title="Tools" items={toolSelections} />
       </div>
     </div>

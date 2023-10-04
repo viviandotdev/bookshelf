@@ -191,6 +191,11 @@ input BookWhereUniqueInput {
   userBook: UserBookListRelationFilter
 }
 
+input CreateShelfInput {
+  shelf: ShelfCreateInput
+  userId: String
+}
+
 input DateTimeFilter {
   equals: Timestamp
   gt: Timestamp
@@ -220,6 +225,7 @@ input LogInInput {
 
 type Mutation {
   createBook(bookCreateInput: BookCreateInput!): Book!
+  createShelf(createShelfInput: CreateShelfInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   createUserBook(userBookCreateInput: UserBookCreateInput!): UserBook!
   logout(id: String!): Boolean!
@@ -239,6 +245,7 @@ type Query {
   book(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
   hello: String!
   me: User!
+  shelf(id: Int!): Shelf!
   user(bookWhereUniqueInput: BookWhereUniqueInput!): User!
   userBook(uniqueUserBookInput: UniqueUserBookInput!): UserBook
   users: [User!]!
@@ -269,10 +276,10 @@ input SaveBookInput {
 type Shelf {
   _count: ShelfCount!
   dateTime: String
+  description: String
   id: ID!
-  shelfDescription: String
+  name: String!
   shelfEntries: [ShelfEntry!]
-  shelfName: String!
   user: User
   userId: String!
 }
@@ -284,17 +291,26 @@ type ShelfCount {
 type ShelfCountAggregate {
   _all: Int!
   dateTime: Int!
+  description: Int!
   id: Int!
-  shelfDescription: Int!
-  shelfName: Int!
+  name: Int!
   userId: Int!
+}
+
+input ShelfCreateInput {
+  dateTime: String
+  description: String
+  id: String
+  name: String!
+  shelfEntries: ShelfEntryCreateNestedManyWithoutShelfInput
+  user: UserCreateNestedOneWithoutShelvesInput
 }
 
 input ShelfCreateManyUserInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String!
+  name: String!
 }
 
 input ShelfCreateManyUserInputEnvelope {
@@ -327,18 +343,18 @@ input ShelfCreateOrConnectWithoutUserInput {
 
 input ShelfCreateWithoutShelfEntriesInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String!
+  name: String!
   user: UserCreateNestedOneWithoutShelvesInput
 }
 
 input ShelfCreateWithoutUserInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
+  name: String!
   shelfEntries: ShelfEntryCreateNestedManyWithoutShelfInput
-  shelfName: String!
 }
 
 type ShelfEntry {
@@ -539,17 +555,17 @@ input ShelfListRelationFilter {
 
 type ShelfMaxAggregate {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String
+  name: String
   userId: String
 }
 
 type ShelfMinAggregate {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String
+  name: String
   userId: String
 }
 
@@ -563,17 +579,17 @@ input ShelfScalarWhereInput {
   NOT: [ShelfScalarWhereInput!]
   OR: [ShelfScalarWhereInput!]
   dateTime: StringFilter
+  description: StringFilter
   id: StringFilter
-  shelfDescription: StringFilter
-  shelfName: StringFilter
+  name: StringFilter
   userId: StringFilter
 }
 
 input ShelfUpdateManyMutationInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String
+  name: String
 }
 
 input ShelfUpdateManyWithWhereWithoutUserInput {
@@ -615,18 +631,18 @@ input ShelfUpdateWithWhereUniqueWithoutUserInput {
 
 input ShelfUpdateWithoutShelfEntriesInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
-  shelfName: String
+  name: String
   user: UserUpdateOneWithoutShelvesNestedInput
 }
 
 input ShelfUpdateWithoutUserInput {
   dateTime: String
+  description: String
   id: String
-  shelfDescription: String
+  name: String
   shelfEntries: ShelfEntryUpdateManyWithoutShelfNestedInput
-  shelfName: String
 }
 
 input ShelfUpsertWithWhereUniqueWithoutUserInput {
@@ -646,10 +662,10 @@ input ShelfWhereInput {
   NOT: [ShelfWhereInput!]
   OR: [ShelfWhereInput!]
   dateTime: StringFilter
+  description: StringFilter
   id: StringFilter
-  shelfDescription: StringFilter
+  name: StringFilter
   shelfEntries: ShelfEntryListRelationFilter
-  shelfName: StringFilter
   user: UserRelationFilter
   userId: StringFilter
 }
@@ -659,10 +675,10 @@ input ShelfWhereUniqueInput {
   NOT: [ShelfWhereInput!]
   OR: [ShelfWhereInput!]
   dateTime: StringFilter
+  description: StringFilter
   id: String
-  shelfDescription: StringFilter
+  name: StringFilter
   shelfEntries: ShelfEntryListRelationFilter
-  shelfName: StringFilter
   user: UserRelationFilter
   userId: StringFilter
 }

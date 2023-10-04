@@ -58,8 +58,8 @@ export function createRandomShelf(users: User[]): Shelf {
   const user = faker.helpers.arrayElement(users);
   return {
     id: faker.string.uuid(),
-    shelfName: faker.word.noun(),
-    shelfDescription: faker.lorem.sentence(),
+    name: faker.word.noun(),
+    description: faker.lorem.sentence(),
     userId: user.id,
     dateTime: faker.date.recent().toISOString(),
   };

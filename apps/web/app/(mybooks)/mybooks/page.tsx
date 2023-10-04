@@ -27,7 +27,6 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
       return count;
     }
   );
-  const shelfSelections = ["Fiction", "Non-Fiction"];
   // const [currentPage, setCurrentPage] = React.useState(0);
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
@@ -41,7 +40,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             librarySelections={myBooksConfig.librarySelections}
             librarySelectionsCounts={librarySelectionsCounts}
             toolSelections={myBooksConfig.toolSelections}
-            shelfSelections={shelfSelections}
+            shelfSelections={myBooksConfig.shelfSelections}
           />
           <div className="col-span-4 xl:col-span-3 pt-1.5">
             <ContentNav resultText="23 Books" showSearch showSort />
