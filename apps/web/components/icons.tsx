@@ -25,6 +25,10 @@ import {
   Heart,
   Pencil,
   Check,
+  AlignLeft,
+  CheckCircle2,
+  FileDown,
+  FileUp,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -39,6 +43,7 @@ export const Icons = {
   menu: Menu,
   user: User,
   book: Book,
+  read: CheckCircle2,
   bookOpen: BookOpen,
   bookPlus: BookPlus,
   dot: Dot,
@@ -55,4 +60,7 @@ export const Icons = {
   heart: Heart,
   edit: Pencil,
   check: Check,
+  shelf: AlignLeft,
+  import: FileDown,
+  export: FileUp,
 };

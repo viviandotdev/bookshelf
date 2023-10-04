@@ -35,11 +35,15 @@ export function processBook(
     if (identifier2) isbn13 = identifier2;
   }
 
-  const categories =
+  const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(" / ")
     ) || [];
-
+  const categories = allCategories.filter(
+    (value: string, index: number, self: string[]) => {
+      return self.indexOf(value) === index;
+    }
+  );
   const bookData: BookData = {
     id,
     title,

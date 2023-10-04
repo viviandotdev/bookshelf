@@ -23,18 +23,33 @@ export const myBooksConfig: MyBooksConfig = {
       href: "/goals",
     },
   ],
-  contentNav: [
+  librarySelections: [
     {
-      title: "Read",
-      href: "/",
+      title: "All",
+      icon: "library",
     },
     {
-      title: "Want To Read",
-      href: "/mybooks",
+      title: "Read",
+      icon: "read",
+    },
+    {
+      title: "Want to Read",
+      icon: "bookPlus",
     },
     {
       title: "Currently Reading",
-      href: "/browse",
+      icon: "bookOpen",
+    },
+  ],
+  //   librarySelections: ["All", "Read", "Want to Read", "Currently Reading"],
+  toolSelections: [
+    {
+      title: "Import",
+      icon: "import",
+    },
+    {
+      title: "Export",
+      icon: "export",
     },
   ],
   sortingSelects: [

@@ -1,41 +1,70 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Icons } from "./icons";
+import SidebarSection, { AccordianSidebarSection } from "./sidebar-section";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
+import { NavItem } from "@/types";
 
 interface SidebarProps {
+  librarySelections: NavItem[];
+  librarySelectionsCounts: number[];
+  toolSelections: NavItem[];
   shelfSelections: string[];
-  toolSelections: string[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
-  shelfSelections,
+  librarySelections,
+  librarySelectionsCounts,
   toolSelections,
+  shelfSelections,
 }) => {
+  const [selected, setSelected] = useState("All");
+  const [newShelf, setNewShelf] = useState("");
+  const [showInput, setShowInput] = useState(false);
+
+  const handleAddShelf = () => {
+    if (newShelf.trim() !== "") {
+      //   onAddShelf(newShelf);
+      setNewShelf("");
+    }
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleAddShelf();
+    }
+  };
   return (
     <div className="hidden xl:block">
-      {renderSidebarSection("Bookshelves", shelfSelections)}
-      {renderSidebarSection("Tools", toolSelections)}
+      <div className="gap-1.5 ]w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
+        <SidebarSection
+          title="Library"
+          items={librarySelections}
+          counts={librarySelectionsCounts}
+        />
+        {/* <AccordianSidebarSection
+          title="Library"
+          items={librarySelections}
+          counts={librarySelectionsCounts}
+        /> */}
+        {/* <hr /> */}
+        <AccordianSidebarSection
+          items={shelfSelections}
+          title="Shelves"
+          counts={librarySelectionsCounts}
+        />
+        {/* <hr /> */}
+        {/* <SidebarSection title="Shelves" items={shelfSelections} isShelves /> */}
+        <SidebarSection title="Tools" items={toolSelections} />
+      </div>
     </div>
   );
 };
-
-const renderSidebarSection = (title: string, items: string[]) => (
-  <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-muted-foreground font-light">
-    <div className="leading-7 items-start text-primary font-semibold">
-      {title}
-    </div>
-    <hr className="mt-1 border-t-1 border-primary" />
-    {items.map((heading, i) => (
-      <div
-        key={i}
-        className="text-xs bg-secondary w-[fill-available] rounded-lg p-2 cursor-pointer"
-      >
-        {heading}
-      </div>
-    ))}
-    {title === "Bookshelves" && (
-      <Button className="mt-2" size="sm" label="Add Shelf" />
-    )}
-  </div>
-);
 
 export default SideBar;

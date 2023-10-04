@@ -26,7 +26,6 @@ export default async function BookPage({ params }: BookPageProps) {
   const url = `https://www.googleapis.com/books/v1/volumes/${params.bookId}?key=${process.env.GOOGLE_BOOKS_API_KEY}`;
   const book = await axios.get(url);
   const processedBook: BookData = processBook(book.data) as BookData;
-
   if (!processedBook) {
     notFound();
   }
