@@ -7,6 +7,7 @@ import { Label } from "@radix-ui/react-label";
 import { useCreateShelfMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
+import useSidebar from "@/hooks/use-sidebar";
 interface CreateShelfModalProps {}
 
 export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
@@ -16,6 +17,7 @@ export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
   const { data: session } = useSession();
   const inputRef = useRef<HTMLInputElement | null>(null); // Ref for the input element
   const [createShelf] = useCreateShelfMutation();
+  const updateShelves = useSidebar((state) => state.updateShelves);
   useEffect(() => {
     // Reset shelfName and focus input when the modal opens
     if (createShelfModal.isOpen && inputRef.current) {
@@ -59,15 +61,13 @@ export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
         variant: "destructive",
       });
     } else {
+      updateShelves({ title: shelfName, icon: "shelf" });
       toast({
         title: "Sucessfylly created shelf",
       });
     }
-
+    setIsLoading(false);
     createShelfModal.onClose();
-    // add shelf
-
-    console.log(shelfName);
   };
   return (
     <Modal

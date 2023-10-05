@@ -15,9 +15,14 @@ export class UserBookService {
     return 'This action adds a new userBook';
   }
 
-  findAll() {
-    return `This action returns all userBook`;
-  }
+  //   async findAll(userId: string) {
+  //     const userBooks = await this.prisma.userBook.findMany({
+  //       where: {
+  //         userId,
+  //       },
+  //     });
+  //     return userBooks;
+  //   }
 
   async findOne(uniqueUserBookInput: UniqueUserBookInput) {
     let uniqueInput;

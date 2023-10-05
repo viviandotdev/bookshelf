@@ -19,9 +19,13 @@ const SideBar: React.FC<SidebarProps> = ({
   toolSelections,
   shelfSelections,
 }) => {
+  const sidebar = useSidebar();
   const updateSelected = useSidebar((state) => state.updateSelected);
+  const initShelves = useSidebar((state) => state.initShelves);
+
   useEffect(() => {
     updateSelected("All");
+    initShelves(shelfSelections);
   }, []);
 
   return (
@@ -36,7 +40,7 @@ const SideBar: React.FC<SidebarProps> = ({
 
         <SidebarSection
           title="Shelves"
-          items={shelfSelections}
+          items={sidebar.shelves}
           counts={librarySelectionsCounts}
           collapsible
           isShelves

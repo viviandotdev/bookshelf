@@ -16,8 +16,13 @@ export class ShelfService {
     return shelf;
   }
 
-  findAll() {
-    return `This action returns all shelf`;
+  async findAll(userId: string) {
+    const shelves = await this.prisma.shelf.findMany({
+      where: {
+        userId,
+      },
+    });
+    return shelves;
   }
 
   findOne(id: number) {
