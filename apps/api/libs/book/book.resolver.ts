@@ -5,7 +5,7 @@ import {
   BookCreateInput,
   BookWhereUniqueInput,
   BookUpdateInput,
-} from 'libs/generated-db-types';
+} from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { SaveBookInput } from 'libs/book/dto/saveBook.input';

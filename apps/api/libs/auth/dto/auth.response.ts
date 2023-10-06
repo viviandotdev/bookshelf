@@ -1,4 +1,4 @@
-import { User } from '@bookcue/api/generated-db-types';
+import { User } from 'src/generated-db-types';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
 

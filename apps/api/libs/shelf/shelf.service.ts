@@ -1,22 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { CreateShelfInput } from './dto/createShelf.input';
+import { ShelfCreateInput } from '../../src/generated-db-types';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ShelfService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createShelfInput: CreateShelfInput) {
-    const shelf = await this.prisma.shelf.create({
+  async createShelf(input: ShelfCreateInput, userId: string) {
+    const shelfCreateArgs: Prisma.ShelfCreateArgs = {
       data: {
-        id: createShelfInput.shelf.id,
-        name: createShelfInput.shelf.name,
-        userId: createShelfInput.userId,
+        id: input.id,
+        name: input.name,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
-    });
+    };
+    const shelf = await this.prisma.shelf.create(shelfCreateArgs);
     return shelf;
   }
 
-  async findAll(userId: string) {
+  async findMany(userId: string) {
     const shelves = await this.prisma.shelf.findMany({
       where: {
         userId,
@@ -24,16 +30,4 @@ export class ShelfService {
     });
     return shelves;
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} shelf`;
-  }
-
-  //   update(id: number, updateShelfInput: UpdateShelfInput) {
-  //     return `This action updates a #${id} shelf`;
-  //   }
-
-  //   remove(id: number) {
-  //     return `This action removes a #${id} shelf`;
-  //   }
 }

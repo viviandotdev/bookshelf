@@ -191,11 +191,6 @@ input BookWhereUniqueInput {
   userBook: UserBookListRelationFilter
 }
 
-input CreateShelfInput {
-  shelf: ShelfCreateInput
-  userId: String
-}
-
 input DateTimeFilter {
   equals: Timestamp
   gt: Timestamp
@@ -225,7 +220,7 @@ input LogInInput {
 
 type Mutation {
   createBook(bookCreateInput: BookCreateInput!): Book!
-  createShelf(createShelfInput: CreateShelfInput!): Shelf!
+  createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   createUserBook(userBookCreateInput: UserBookCreateInput!): UserBook!
   logout(id: String!): Boolean!
@@ -243,12 +238,10 @@ type Mutation {
 
 type Query {
   book(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
-  hello: String!
   me: User!
-  shelf(id: Int!): Shelf!
+  shelves: [Shelf!]!
   user(bookWhereUniqueInput: BookWhereUniqueInput!): User!
   userBook(uniqueUserBookInput: UniqueUserBookInput!): UserBook
-  users: [User!]!
 }
 
 enum QueryMode {

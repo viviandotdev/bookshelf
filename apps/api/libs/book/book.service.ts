@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BookCreateInput, BookUpdateInput } from 'libs/generated-db-types';
+import { BookCreateInput, BookUpdateInput } from 'src/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()

@@ -9,7 +9,7 @@ import { RefreshTokenGuard } from './guards/refresh.guard';
 import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
-import { User } from '../generated-db-types';
+import { User } from '../../src/generated-db-types';
 
 @Resolver()
 export class AuthResolver {
@@ -39,10 +39,5 @@ export class AuthResolver {
   @Mutation(() => RefreshResponse)
   refreshAuth(@CurrentUser() user: JwtPayloadWithRefreshToken) {
     return this.authService.refreshAuth(user.userId, user.refreshToken);
-  }
-
-  @Query(() => String)
-  hello() {
-    return 'hello';
   }
 }

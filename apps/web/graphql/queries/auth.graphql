@@ -4,7 +4,3 @@ query Me {
     email
   }
 }
-
-query Hello {
-  hello
-}

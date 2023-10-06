@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
-import { BookCreateInput } from '../../generated-db-types';
+import { BookCreateInput } from '../../../src/generated-db-types';
 import { Type } from 'class-transformer';
 
 @InputType()

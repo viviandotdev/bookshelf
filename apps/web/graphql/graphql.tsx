@@ -214,11 +214,6 @@ export type BookWhereUniqueInput = {
   userBook?: InputMaybe<UserBookListRelationFilter>;
 };
 
-export type CreateShelfInput = {
-  shelf?: InputMaybe<ShelfCreateInput>;
-  userId?: InputMaybe<Scalars['String']>;
-};
-
 export type DateTimeFilter = {
   equals?: InputMaybe<Scalars['Timestamp']>;
   gt?: InputMaybe<Scalars['Timestamp']>;
@@ -272,7 +267,7 @@ export type MutationCreateBookArgs = {
 
 
 export type MutationCreateShelfArgs = {
-  createShelfInput: CreateShelfInput;
+  data: ShelfCreateInput;
 };
 
 
@@ -338,22 +333,15 @@ export type MutationUpdateUserBookStatusArgs = {
 export type Query = {
   __typename?: 'Query';
   book: Book;
-  hello: Scalars['String'];
   me: User;
-  shelf: Shelf;
+  shelves: Array<Shelf>;
   user: User;
   userBook?: Maybe<UserBook>;
-  users: Array<User>;
 };
 
 
 export type QueryBookArgs = {
   bookWhereUniqueInput: BookWhereUniqueInput;
-};
-
-
-export type QueryShelfArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -1422,7 +1410,7 @@ export type SaveBookMutationVariables = Exact<{
 export type SaveBookMutation = { __typename?: 'Mutation', saveBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
 export type CreateShelfMutationVariables = Exact<{
-  input: CreateShelfInput;
+  data: ShelfCreateInput;
 }>;
 
 
@@ -1446,16 +1434,6 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string } };
-
-export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type HelloQuery = { __typename?: 'Query', hello: string };
-
-export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, username?: string | null, email: string }> };
 
 export type UserBookQueryVariables = Exact<{
   input: UniqueUserBookInput;
@@ -1647,8 +1625,8 @@ export type SaveBookMutationHookResult = ReturnType<typeof useSaveBookMutation>;
 export type SaveBookMutationResult = Apollo.MutationResult<SaveBookMutation>;
 export type SaveBookMutationOptions = Apollo.BaseMutationOptions<SaveBookMutation, SaveBookMutationVariables>;
 export const CreateShelfDocument = gql`
-    mutation CreateShelf($input: CreateShelfInput!) {
-  createShelf(createShelfInput: $input) {
+    mutation CreateShelf($data: ShelfCreateInput!) {
+  createShelf(data: $data) {
     id
     name
     description
@@ -1670,7 +1648,7 @@ export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation,
  * @example
  * const [createShelfMutation, { data, loading, error }] = useCreateShelfMutation({
  *   variables: {
- *      input: // value for 'input'
+ *      data: // value for 'data'
  *   },
  * });
  */
@@ -1780,74 +1758,6 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const HelloDocument = gql`
-    query Hello {
-  hello
-}
-    `;
-
-/**
- * __useHelloQuery__
- *
- * To run a query within a React component, call `useHelloQuery` and pass it any options that fit your needs.
- * When your component renders, `useHelloQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHelloQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHelloQuery(baseOptions?: Apollo.QueryHookOptions<HelloQuery, HelloQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options);
-      }
-export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelloQuery, HelloQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(HelloDocument, options);
-        }
-export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
-export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
-export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
-export const GetUsersDocument = gql`
-    query GetUsers {
-  users {
-    id
-    username
-    email
-  }
-}
-    `;
-
-/**
- * __useGetUsersQuery__
- *
- * To run a query within a React component, call `useGetUsersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUsersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetUsersQuery(baseOptions?: Apollo.QueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
-      }
-export function useGetUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUsersQuery, GetUsersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, options);
-        }
-export type GetUsersQueryHookResult = ReturnType<typeof useGetUsersQuery>;
-export type GetUsersLazyQueryHookResult = ReturnType<typeof useGetUsersLazyQuery>;
-export type GetUsersQueryResult = Apollo.QueryResult<GetUsersQuery, GetUsersQueryVariables>;
 export const UserBookDocument = gql`
     query userBook($input: UniqueUserBookInput!) {
   userBook(uniqueUserBookInput: $input) {

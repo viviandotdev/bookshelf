@@ -5,7 +5,7 @@ import {
   UserBookCreateInput,
   UserBookUniqueUserBookCompoundUniqueInput,
   UserBookWhereUniqueInput,
-} from '../generated-db-types';
+} from '../../src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { UniqueUserBookInput } from './dto/uniqueUserBook.input';

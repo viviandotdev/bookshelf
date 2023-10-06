@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   UserBookCreateInput,
   UserBookUniqueUserBookCompoundUniqueInput,
-} from '../generated-db-types';
+} from '../../src/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
 import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
 import { UpdateUserBookStatusInput } from './dto/updateUserBookStatus.input';

@@ -4,7 +4,7 @@ import {
   UserBook,
   Shelf,
   ShelfEntry,
-} from 'libs/generated-db-types'; // Import your Prisma models here
+} from 'src/generated-db-types'; // Import your Prisma models here
 import { faker } from '@faker-js/faker';
 
 // Function to create a random user

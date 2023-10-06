@@ -7,5 +7,6 @@ import { JwtService } from '@nestjs/jwt';
 @Module({
   providers: [ShelfResolver, ShelfService, JwtService],
   imports: [PrismaModule],
+  exports: [ShelfService],
 })
 export class ShelfModule {}

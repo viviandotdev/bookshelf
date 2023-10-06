@@ -3,14 +3,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { GqlConfigService } from './config/graphql.config';
-import { HealthModule } from '@bookcue/api/health';
-import { UserModule } from '@bookcue/api/user';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthModule } from 'libs/auth';
 import configuration from './config/env.config';
-import { BookModule } from '@bookcue/api/book';
-import { UserBookModule } from '@bookcue/api/user-book';
-import { ShelfModule } from 'libs/shelf';
+import { ShelfModule } from 'libs/shelf/shelf.module';
+import { HealthModule } from 'libs/health/health.module';
+import { UserModule } from 'libs/user/user.module';
+import { BookModule } from 'libs/book/book.module';
+import { UserBookModule } from 'libs/user-book/user-book.module';
+import { AuthModule } from 'libs/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
