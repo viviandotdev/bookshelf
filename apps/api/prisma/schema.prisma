@@ -10,7 +10,7 @@ datasource db {
 
 generator nestgraphql {
     provider                = "node node_modules/prisma-nestjs-graphql"
-    output                  = "../libs/generated-db-types"
+    output                  = "../src/generated-db-types"
     purgeOutput             = false
     combineScalarFilters    = true
     emitSingle              = true
@@ -104,7 +104,8 @@ model UserBook {
     // updatedAt    DateTime    @updatedAt
 
     /// @Validator.IsString()
-    @@unique(fields: [userId, bookId], name: "uniqueUserBook")
+    /// @Validator.ValidateNested()
+    @@unique(fields: [userId, bookId], name: "identifier")
 }
 
 model Shelf {

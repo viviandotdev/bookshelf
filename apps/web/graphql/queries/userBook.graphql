@@ -1,7 +1,7 @@
-query userBook($input: UniqueUserBookInput!) {
-  userBook(uniqueUserBookInput: $input) {
-    id
+query UserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+  userBook(where: $where) {
     userId
+    bookId
     status
   }
 }

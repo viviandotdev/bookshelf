@@ -4532,7 +4532,7 @@ export class DeleteOneUserBookArgs {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
 }
 
 @ArgsType()
@@ -4544,7 +4544,7 @@ export class FindFirstUserBookOrThrowArgs {
     @Field(() => [UserBookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<UserBookOrderByWithRelationInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4562,7 +4562,7 @@ export class FindFirstUserBookArgs {
     @Field(() => [UserBookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<UserBookOrderByWithRelationInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4580,7 +4580,7 @@ export class FindManyUserBookArgs {
     @Field(() => [UserBookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<UserBookOrderByWithRelationInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4594,7 +4594,7 @@ export class FindUniqueUserBookOrThrowArgs {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
 }
 
 @ArgsType()
@@ -4602,7 +4602,7 @@ export class FindUniqueUserBookArgs {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
 }
 
 @ArgsType()
@@ -4626,7 +4626,7 @@ export class UpdateOneUserBookArgs {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
 }
 
 @ArgsType()
@@ -4634,7 +4634,7 @@ export class UpsertOneUserBookArgs {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookCreateInput, {nullable:false})
     @Type(() => UserBookCreateInput)
     create!: InstanceType<typeof UserBookCreateInput>;
@@ -4652,7 +4652,7 @@ export class UserBookAggregateArgs {
     @Field(() => [UserBookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<UserBookOrderByWithRelationInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4848,7 +4848,7 @@ export class UserBookCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof UserBookCreateManyBookInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
 }
 
 @InputType()
@@ -4864,7 +4864,7 @@ export class UserBookCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof UserBookCreateManyUserInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
 }
 
 @InputType()
@@ -4877,14 +4877,14 @@ export class UserBookCreateNestedOneWithoutShelfEntryInput {
     connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutShelfEntryInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
 }
 
 @InputType()
 export class UserBookCreateOrConnectWithoutBookInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookCreateWithoutBookInput, {nullable:false})
     @Type(() => UserBookCreateWithoutBookInput)
     create!: InstanceType<typeof UserBookCreateWithoutBookInput>;
@@ -4894,7 +4894,7 @@ export class UserBookCreateOrConnectWithoutBookInput {
 export class UserBookCreateOrConnectWithoutShelfEntryInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookCreateWithoutShelfEntryInput, {nullable:false})
     @Type(() => UserBookCreateWithoutShelfEntryInput)
     create!: InstanceType<typeof UserBookCreateWithoutShelfEntryInput>;
@@ -4904,7 +4904,7 @@ export class UserBookCreateOrConnectWithoutShelfEntryInput {
 export class UserBookCreateOrConnectWithoutUserInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookCreateWithoutUserInput, {nullable:false})
     @Type(() => UserBookCreateWithoutUserInput)
     create!: InstanceType<typeof UserBookCreateWithoutUserInput>;
@@ -5065,16 +5065,6 @@ export class UserBookGroupBy {
     _min?: InstanceType<typeof UserBookMinAggregate>;
     @Field(() => UserBookMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof UserBookMaxAggregate>;
-}
-
-@InputType()
-export class UserBookIdentifierCompoundUniqueInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
 }
 
 @InputType()
@@ -5357,7 +5347,7 @@ export class UserBookUncheckedCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof UserBookCreateManyBookInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
 }
 
 @InputType()
@@ -5373,7 +5363,7 @@ export class UserBookUncheckedCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof UserBookCreateManyUserInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
 }
 
 @InputType()
@@ -5492,16 +5482,16 @@ export class UserBookUncheckedUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof UserBookCreateManyBookInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => UserBookUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<UserBookUpdateWithWhereUniqueWithoutBookInput>;
@@ -5551,16 +5541,16 @@ export class UserBookUncheckedUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof UserBookCreateManyUserInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => UserBookUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<UserBookUpdateWithWhereUniqueWithoutUserInput>;
@@ -5774,16 +5764,16 @@ export class UserBookUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof UserBookCreateManyBookInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => UserBookUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<UserBookUpdateWithWhereUniqueWithoutBookInput>;
@@ -5811,16 +5801,16 @@ export class UserBookUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof UserBookCreateManyUserInputEnvelope>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookWhereUniqueInput], {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>>;
     @Field(() => [UserBookUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => UserBookUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<UserBookUpdateWithWhereUniqueWithoutUserInput>;
@@ -5845,7 +5835,7 @@ export class UserBookUpdateOneRequiredWithoutShelfEntryNestedInput {
     upsert?: InstanceType<typeof UserBookUpsertWithoutShelfEntryInput>;
     @Field(() => UserBookWhereUniqueInput, {nullable:true})
     @Type(() => UserBookWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookUpdateToOneWithWhereWithoutShelfEntryInput, {nullable:true})
     @Type(() => UserBookUpdateToOneWithWhereWithoutShelfEntryInput)
     update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutShelfEntryInput>;
@@ -5865,7 +5855,7 @@ export class UserBookUpdateToOneWithWhereWithoutShelfEntryInput {
 export class UserBookUpdateWithWhereUniqueWithoutBookInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookUpdateWithoutBookInput, {nullable:false})
     @Type(() => UserBookUpdateWithoutBookInput)
     data!: InstanceType<typeof UserBookUpdateWithoutBookInput>;
@@ -5875,7 +5865,7 @@ export class UserBookUpdateWithWhereUniqueWithoutBookInput {
 export class UserBookUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookUpdateWithoutUserInput, {nullable:false})
     @Type(() => UserBookUpdateWithoutUserInput)
     data!: InstanceType<typeof UserBookUpdateWithoutUserInput>;
@@ -5979,7 +5969,7 @@ export class UserBookUpdateInput {
 export class UserBookUpsertWithWhereUniqueWithoutBookInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookUpdateWithoutBookInput, {nullable:false})
     @Type(() => UserBookUpdateWithoutBookInput)
     update!: InstanceType<typeof UserBookUpdateWithoutBookInput>;
@@ -5992,7 +5982,7 @@ export class UserBookUpsertWithWhereUniqueWithoutBookInput {
 export class UserBookUpsertWithWhereUniqueWithoutUserInput {
     @Field(() => UserBookWhereUniqueInput, {nullable:false})
     @Type(() => UserBookWhereUniqueInput)
-    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'userBookIdentifier'>;
     @Field(() => UserBookUpdateWithoutUserInput, {nullable:false})
     @Type(() => UserBookUpdateWithoutUserInput)
     update!: InstanceType<typeof UserBookUpdateWithoutUserInput>;
@@ -6015,12 +6005,22 @@ export class UserBookUpsertWithoutShelfEntryInput {
 }
 
 @InputType()
+export class UserBookUserBookIdentifierCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    bookId!: string;
+}
+
+@InputType()
 export class UserBookWhereUniqueInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
-    @Field(() => UserBookIdentifierCompoundUniqueInput, {nullable:true})
-    identifier?: InstanceType<typeof UserBookIdentifierCompoundUniqueInput>;
+    @Field(() => UserBookUserBookIdentifierCompoundUniqueInput, {nullable:true})
+    userBookIdentifier?: InstanceType<typeof UserBookUserBookIdentifierCompoundUniqueInput>;
     @Field(() => [UserBookWhereInput], {nullable:true})
     AND?: Array<UserBookWhereInput>;
     @Field(() => [UserBookWhereInput], {nullable:true})

@@ -46,7 +46,7 @@ export const CreateShelfModal: React.FC<CreateShelfModalProps> = ({}) => {
     setIsLoading(true);
     const { data } = await createShelf({
       variables: {
-        data: {
+        input: {
           name: shelfName,
         },
       },

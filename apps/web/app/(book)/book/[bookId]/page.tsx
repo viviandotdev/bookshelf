@@ -32,7 +32,7 @@ export default async function BookPage({ params }: BookPageProps) {
   const { data } = await client.query<UserBookQuery>({
     query: UserBookDocument,
     variables: {
-      input: {
+      where: {
         userId: user.id,
         bookId: params.bookId,
       },

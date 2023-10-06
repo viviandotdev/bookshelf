@@ -113,19 +113,6 @@ type BookSumAggregate {
   pageNum: Int
 }
 
-input BookUpdateInput {
-  author: String
-  categories: String
-  coverImage: String
-  description: String
-  id: String
-  pageNum: Int
-  pubDate: String
-  publisher: String
-  title: String
-  userBook: UserBookUpdateManyWithoutBookNestedInput
-}
-
 input BookUpdateOneWithoutUserBookNestedInput {
   connect: BookWhereUniqueInput
   connectOrCreate: BookCreateOrConnectWithoutUserBookInput
@@ -219,29 +206,21 @@ input LogInInput {
 }
 
 type Mutation {
-  createBook(bookCreateInput: BookCreateInput!): Book!
-  createShelf(data: ShelfCreateInput!): Shelf!
+  createBook(data: BookCreateInput!): Book!
+  createShelf(input: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
-  createUserBook(userBookCreateInput: UserBookCreateInput!): UserBook!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
-  removeBook(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
-  removeUser(bookWhereUniqueInput: BookWhereUniqueInput!): User!
-  removeUserBook(userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput!): Boolean!
-  saveBook(saveBookInput: SaveBookInput!): Book!
+  removeUserBook(where: UserBookIdentifierCompoundUniqueInput!): Boolean!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
-  updateBook(bookUpdateInput: BookUpdateInput!): Book!
-  updateUser(userUpdateInput: UserUpdateInput!): User!
-  updateUserBookStatus(updateUserBookStatusInput: UpdateUserBookStatusInput!): UserBook!
+  updateUserBook(data: UserBookUpdateInput!, where: UserBookIdentifierCompoundUniqueInput!): UserBook!
 }
 
 type Query {
-  book(bookWhereUniqueInput: BookWhereUniqueInput!): Book!
   me: User!
   shelves: [Shelf!]!
-  user(bookWhereUniqueInput: BookWhereUniqueInput!): User!
-  userBook(uniqueUserBookInput: UniqueUserBookInput!): UserBook
+  userBook(where: UserBookIdentifierCompoundUniqueInput!): UserBook
 }
 
 enum QueryMode {
@@ -259,11 +238,6 @@ input RegisterInput {
   email: String!
   password: String!
   username: String!
-}
-
-input SaveBookInput {
-  book: BookCreateInput
-  userId: String
 }
 
 type Shelf {
@@ -696,17 +670,6 @@ input StringFilter {
 """
 scalar Timestamp
 
-input UniqueUserBookInput {
-  bookId: String!
-  userId: String!
-}
-
-input UpdateUserBookStatusInput {
-  bookId: String!
-  status: String!
-  userId: String!
-}
-
 type User {
   _count: UserCount!
   createdAt: Timestamp!
@@ -744,17 +707,6 @@ type UserBookCountAggregate {
   rating: Int!
   status: Int!
   userId: Int!
-}
-
-input UserBookCreateInput {
-  ShelfEntry: ShelfEntryCreateNestedOneWithoutUserBookInput
-  book: BookCreateNestedOneWithoutUserBookInput
-  dateFinished: String
-  dateStarted: String
-  id: String
-  rating: Int
-  status: String!
-  user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateManyBookInput {
@@ -850,6 +802,11 @@ input UserBookCreateWithoutUserInput {
   status: String!
 }
 
+input UserBookIdentifierCompoundUniqueInput {
+  bookId: String!
+  userId: String!
+}
+
 input UserBookListRelationFilter {
   every: UserBookWhereInput
   none: UserBookWhereInput
@@ -898,9 +855,15 @@ type UserBookSumAggregate {
   rating: Int
 }
 
-input UserBookUniqueUserBookCompoundUniqueInput {
-  bookId: String!
-  userId: String!
+input UserBookUpdateInput {
+  ShelfEntry: ShelfEntryUpdateOneWithoutUserBookNestedInput
+  book: BookUpdateOneWithoutUserBookNestedInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  status: String
+  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateManyMutationInput {
@@ -911,28 +874,9 @@ input UserBookUpdateManyMutationInput {
   status: String
 }
 
-input UserBookUpdateManyWithWhereWithoutBookInput {
-  data: UserBookUpdateManyMutationInput!
-  where: UserBookScalarWhereInput!
-}
-
 input UserBookUpdateManyWithWhereWithoutUserInput {
   data: UserBookUpdateManyMutationInput!
   where: UserBookScalarWhereInput!
-}
-
-input UserBookUpdateManyWithoutBookNestedInput {
-  connect: [UserBookWhereUniqueInput!]
-  connectOrCreate: [UserBookCreateOrConnectWithoutBookInput!]
-  create: [UserBookCreateWithoutBookInput!]
-  createMany: UserBookCreateManyBookInputEnvelope
-  delete: [UserBookWhereUniqueInput!]
-  deleteMany: [UserBookScalarWhereInput!]
-  disconnect: [UserBookWhereUniqueInput!]
-  set: [UserBookWhereUniqueInput!]
-  update: [UserBookUpdateWithWhereUniqueWithoutBookInput!]
-  updateMany: [UserBookUpdateManyWithWhereWithoutBookInput!]
-  upsert: [UserBookUpsertWithWhereUniqueWithoutBookInput!]
 }
 
 input UserBookUpdateManyWithoutUserNestedInput {
@@ -962,24 +906,9 @@ input UserBookUpdateToOneWithWhereWithoutShelfEntryInput {
   where: UserBookWhereInput
 }
 
-input UserBookUpdateWithWhereUniqueWithoutBookInput {
-  data: UserBookUpdateWithoutBookInput!
-  where: UserBookWhereUniqueInput!
-}
-
 input UserBookUpdateWithWhereUniqueWithoutUserInput {
   data: UserBookUpdateWithoutUserInput!
   where: UserBookWhereUniqueInput!
-}
-
-input UserBookUpdateWithoutBookInput {
-  ShelfEntry: ShelfEntryUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
-  id: String
-  rating: Int
-  status: String
-  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutShelfEntryInput {
@@ -1000,12 +929,6 @@ input UserBookUpdateWithoutUserInput {
   id: String
   rating: Int
   status: String
-}
-
-input UserBookUpsertWithWhereUniqueWithoutBookInput {
-  create: UserBookCreateWithoutBookInput!
-  update: UserBookUpdateWithoutBookInput!
-  where: UserBookWhereUniqueInput!
 }
 
 input UserBookUpsertWithWhereUniqueWithoutUserInput {
@@ -1046,9 +969,9 @@ input UserBookWhereUniqueInput {
   dateFinished: StringFilter
   dateStarted: StringFilter
   id: String
+  identifier: UserBookIdentifierCompoundUniqueInput
   rating: IntFilter
   status: StringFilter
-  uniqueUserBook: UserBookUniqueUserBookCompoundUniqueInput
   user: UserRelationFilter
   userId: StringFilter
 }
@@ -1142,18 +1065,6 @@ type UserMinAggregate {
 input UserRelationFilter {
   is: UserWhereInput
   isNot: UserWhereInput
-}
-
-input UserUpdateInput {
-  createdAt: Timestamp
-  email: String
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  shelves: ShelfUpdateManyWithoutUserNestedInput
-  updatedAt: Timestamp
-  userBooks: UserBookUpdateManyWithoutUserNestedInput
-  username: String
 }
 
 input UserUpdateOneWithoutShelvesNestedInput {

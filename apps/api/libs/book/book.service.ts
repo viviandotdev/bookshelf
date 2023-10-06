@@ -1,56 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { BookCreateInput, BookUpdateInput } from 'src/generated-db-types';
+import { BookCreateInput } from 'src/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
+import { Prisma } from '@prisma/client';
+import { UserBookService } from 'libs/user-book/user-book.service';
 
 @Injectable()
 export class BookService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userBook: UserBookService,
+  ) {}
 
-  async saveBook(userId: string, bookCreateInput: BookCreateInput) {
-    console.log(bookCreateInput);
-    let book = await this.prisma.book.findUnique({
-      where: {
-        id: bookCreateInput.id,
-      },
-    });
-
-    if (!book) {
-      book = await this.create(bookCreateInput);
-    }
-
-    await this.prisma.userBook.create({
+  async createBook(data: BookCreateInput, userId: string) {
+    const createBookArgs: Prisma.BookCreateArgs = {
       data: {
-        userId,
-        bookId: bookCreateInput.id,
-        status: 'Want to Read',
+        ...data,
       },
-    });
+    };
+    const book = await this.prisma.book.create(createBookArgs);
+    await this.userBook.create(book.id, userId);
     return book;
-  }
-
-  async create(bookCreateInput: BookCreateInput) {
-    const book = await this.prisma.book.create({
-      data: {
-        ...bookCreateInput,
-      },
-    });
-    return book;
-  }
-
-  findAll() {
-    return this.prisma.book.findMany();
-  }
-
-  findOne(id: string) {
-    return `This action returns a #${id} book`;
-  }
-
-  update(id: string, bookUpdateInput: BookUpdateInput) {
-    console.log(bookUpdateInput);
-    return `This action updates a #${id} book`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} book`;
   }
 }

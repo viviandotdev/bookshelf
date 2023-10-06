@@ -5,7 +5,7 @@ import useStatusModal from "@/hooks/use-status-modal";
 import { Button, buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
-import { useUpdateUserBookStatusMutation } from "@/graphql/graphql";
+import { useUpdateUserBookMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import useRemoveModal from "@/hooks/use-remove-modal";
 import useUserBook from "@/hooks/use-user-book";
@@ -16,7 +16,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
   const statusModal = useStatusModal();
   const userBook = useUserBook();
   const removeModal = useRemoveModal();
-  const [UpdateUserBookStatus] = useUpdateUserBookStatusMutation();
+  const [UpdateUserBook] = useUpdateUserBookMutation();
   const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async () => {
     setIsLoading(true);
@@ -31,18 +31,20 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
   ];
   const handleStatusClick = async (newStatus: string) => {
     updateStatus(newStatus);
-    const { data, errors } = await UpdateUserBookStatus({
+    const { data, errors } = await UpdateUserBook({
       variables: {
-        input: {
+        data: {
+          status: newStatus,
+        },
+        where: {
           bookId: userBook.bookId,
           userId: userBook.userId,
-          status: newStatus,
         },
       },
     });
     if (data) {
       toast({
-        title: `Sucessfully updated book status to ${data.updateUserBookStatus.status}`,
+        title: `Sucessfully updated book status to ${data.updateUserBook.status}`,
       });
     } else {
       toast({

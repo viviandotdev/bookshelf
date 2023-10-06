@@ -1,5 +1,5 @@
-mutation SaveBook($input: SaveBookInput!) {
-  saveBook(saveBookInput: $input) {
+mutation CreateBook($data: BookCreateInput!) {
+  createBook(data: $data) {
     author
     categories
     coverImage

@@ -6,7 +6,7 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class ShelfService {
   constructor(private readonly prisma: PrismaService) {}
-  async createShelf(input: ShelfCreateInput, userId: string) {
+  async create(input: ShelfCreateInput, userId: string) {
     const shelfCreateArgs: Prisma.ShelfCreateArgs = {
       data: {
         id: input.id,

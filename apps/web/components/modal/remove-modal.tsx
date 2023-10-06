@@ -28,7 +28,7 @@ export const RemoveModal: React.FC<RemoveModalProps> = ({}) => {
     setIsLoading(true);
     await removeUserBook({
       variables: {
-        input: {
+        where: {
           bookId: userBook.bookId,
           userId: userBook.userId,
         },

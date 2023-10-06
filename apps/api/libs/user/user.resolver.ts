@@ -1,11 +1,6 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import {
-  User,
-  UserCreateInput,
-  UserUpdateInput,
-  BookWhereUniqueInput,
-} from 'src/generated-db-types';
+import { User, UserCreateInput } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 @Resolver(() => User)
@@ -16,24 +11,5 @@ export class UserResolver {
   @Mutation(() => User)
   createUser(@Args('userCreateInput') userCreateInput: UserCreateInput) {
     return this.userService.create(userCreateInput);
-  }
-
-  @Query(() => User, { name: 'user' })
-  user(
-    @Args('bookWhereUniqueInput') bookWhereUniqueInput: BookWhereUniqueInput,
-  ) {
-    return this.userService.findOne(bookWhereUniqueInput.id);
-  }
-
-  @Mutation(() => User)
-  updateUser(@Args('userUpdateInput') userUpdateInput: UserUpdateInput) {
-    return this.userService.update(userUpdateInput.id, userUpdateInput);
-  }
-
-  @Mutation(() => User)
-  removeUser(
-    @Args('bookWhereUniqueInput') bookWhereUniqueInput: BookWhereUniqueInput,
-  ) {
-    return this.userService.remove(bookWhereUniqueInput.id);
   }
 }

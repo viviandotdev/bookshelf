@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ShelfService } from './shelf.service';
 import { Shelf, ShelfCreateInput } from '../../src/generated-db-types';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
@@ -13,10 +13,10 @@ export class ShelfResolver {
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Shelf)
   createShelf(
-    @Args('data') data: ShelfCreateInput,
+    @Args('input') input: ShelfCreateInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    return this.shelfService.createShelf(data, currentUser.userId);
+    return this.shelfService.create(input, currentUser.userId);
   }
 
   @UseGuards(AccessTokenGuard)

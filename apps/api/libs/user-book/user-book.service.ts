@@ -1,75 +1,72 @@
 import { Injectable } from '@nestjs/common';
 import {
-  UserBookCreateInput,
-  UserBookUniqueUserBookCompoundUniqueInput,
+  UserBookIdentifierCompoundUniqueInput,
+  UserBookUpdateInput,
 } from '../../src/generated-db-types';
 import { PrismaService } from 'prisma/prisma.service';
-import { UniqueUserBookInput } from './dto/uniqueUserBook.input';
-import { UpdateUserBookStatusInput } from './dto/updateUserBookStatus.input';
+import { Prisma } from '@prisma/client';
 @Injectable()
 export class UserBookService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(userBookCreateInput: UserBookCreateInput) {
-    console.log(userBookCreateInput);
-    return 'This action adds a new userBook';
+  async create(bookId: string, userId: string) {
+    const createUserBookArgs: Prisma.UserBookCreateArgs = {
+      data: {
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        book: {
+          connect: {
+            id: bookId,
+          },
+        },
+        status: 'Want to Read',
+      },
+    };
+    return this.prisma.userBook.create(createUserBookArgs);
   }
 
-  //   async findAll(userId: string) {
-  //     const userBooks = await this.prisma.userBook.findMany({
-  //       where: {
-  //         userId,
-  //       },
-  //     });
-  //     return userBooks;
-  //   }
-
-  async findOne(uniqueUserBookInput: UniqueUserBookInput) {
-    let uniqueInput;
-
-    if (uniqueUserBookInput.id) {
-      uniqueInput = {
-        id: uniqueUserBookInput.id,
-      };
-    } else {
-      uniqueInput = {
-        uniqueUserBook: {
-          userId: uniqueUserBookInput.userId,
-          bookId: uniqueUserBookInput.bookId,
-        },
-      };
-    }
-
+  async findUnique(where: UserBookIdentifierCompoundUniqueInput) {
+    const { userId, bookId } = where;
     const userBook = await this.prisma.userBook.findUnique({
       where: {
-        ...uniqueInput,
+        identifier: {
+          userId,
+          bookId,
+        },
       },
     });
     return userBook;
   }
 
-  async update(updateUserBookStatusInput: UpdateUserBookStatusInput) {
+  async update(args: {
+    data: UserBookUpdateInput;
+    where: UserBookIdentifierCompoundUniqueInput;
+  }) {
+    const { userId, bookId } = args.where;
     const updateUserBook = await this.prisma.userBook.update({
       where: {
-        uniqueUserBook: {
-          userId: updateUserBookStatusInput.userId,
-          bookId: updateUserBookStatusInput.bookId,
+        identifier: {
+          userId,
+          bookId,
         },
       },
       data: {
-        status: updateUserBookStatusInput.status,
+        status: args.data.status,
       },
     });
     return updateUserBook;
   }
 
-  async remove(
-    userBookUniqueUserBookCompoundUniqueInput: UserBookUniqueUserBookCompoundUniqueInput,
-  ) {
+  async remove(where: UserBookIdentifierCompoundUniqueInput) {
+    const { userId, bookId } = where;
     await this.prisma.userBook.delete({
       where: {
-        uniqueUserBook: {
-          ...userBookUniqueUserBookCompoundUniqueInput,
+        identifier: {
+          userId,
+          bookId,
         },
       },
     });

@@ -1,5 +1,5 @@
-mutation CreateShelf($data: ShelfCreateInput!) {
-  createShelf(data: $data) {
+mutation CreateShelf($input: ShelfCreateInput!) {
+  createShelf(input: $input) {
     id
     name
     description

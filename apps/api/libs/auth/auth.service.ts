@@ -67,8 +67,6 @@ export class AuthService {
     return true;
   }
   async getMe(userId: string) {
-    // Verify the JWT token and decode the payload
-    // const userInfo = this.jwtService.decode(accessToken);
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
