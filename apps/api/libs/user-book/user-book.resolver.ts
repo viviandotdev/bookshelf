@@ -22,11 +22,6 @@ export class UserBookResolver {
     return this.userBookService.create(userBookCreateInput);
   }
 
-//   @Query(() => [UserBook], { name: 'userBook' })
-//   userBooks() {
-//     return this.userBookService.findAll();
-//   }
-
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
   userBook(
     @Args('uniqueUserBookInput')

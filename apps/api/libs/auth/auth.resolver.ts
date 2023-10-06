@@ -8,7 +8,7 @@ import { CurrentUser } from './decorators/currentUser.decorator';
 import { RefreshTokenGuard } from './guards/refresh.guard';
 import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
-import { JwtPayloadWithRefreshToken } from './types';
+import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
 import { User } from '../generated-db-types';
 
 @Resolver()
@@ -31,13 +31,13 @@ export class AuthResolver {
 
   @UseGuards(AccessTokenGuard)
   @Query(() => User, { name: 'me' })
-  getMe(@CurrentUser() accessToken: string) {
-    return this.authService.getMe(accessToken);
+  getMe(@CurrentUser() user: JwtPayload) {
+    return this.authService.getMe(user.userId);
   }
 
   @UseGuards(RefreshTokenGuard)
   @Mutation(() => RefreshResponse)
-  refreshAuth(@CurrentUser('refreshToken') user: JwtPayloadWithRefreshToken) {
+  refreshAuth(@CurrentUser() user: JwtPayloadWithRefreshToken) {
     return this.authService.refreshAuth(user.userId, user.refreshToken);
   }
 

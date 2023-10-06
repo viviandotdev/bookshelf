@@ -66,11 +66,11 @@ export class AuthService {
     });
     return true;
   }
-  async getMe(accessToken: string) {
+  async getMe(userId: string) {
     // Verify the JWT token and decode the payload
-    const userInfo = this.jwtService.decode(accessToken);
+    // const userInfo = this.jwtService.decode(accessToken);
     const user = await this.prisma.user.findUnique({
-      where: { id: userInfo['userId'] },
+      where: { id: userId },
     });
     if (!user) {
       throw new ForbiddenException('No logged in user');
