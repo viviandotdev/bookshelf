@@ -30,6 +30,7 @@ import {
   FileDown,
   FileUp,
 } from "lucide-react";
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
 
 export type Icon = LucideIcon;
 
@@ -63,4 +64,5 @@ export const Icons = {
   shelf: AlignLeft,
   import: FileDown,
   export: FileUp,
+  more: DotsVerticalIcon,
 };

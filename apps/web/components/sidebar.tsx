@@ -1,9 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import SidebarSection, { AccordianSidebarSection } from "./sidebar-section";
+import SidebarSection from "./sidebar-section";
 import { NavItem } from "@/types";
 import useSidebar from "@/hooks/use-sidebar";
 import Accordion from "./ui/collapsible";
+import { useGetShelvesQuery } from "@/graphql/graphql";
 // import { Accordion } from "@radix-ui/react-accordion";
 
 interface SidebarProps {

@@ -11,7 +11,6 @@ import { UseGuards } from '@nestjs/common';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   constructor(private readonly userBookService: UserBookService) {}
-
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
   userBook(

@@ -1308,6 +1308,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string } };
 
+export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ShelvesQuery = { __typename?: 'Query', shelves: Array<{ __typename?: 'Shelf', id: string, name: string }> };
+
 export type UserBookQueryVariables = Exact<{
   where: UserBookIdentifierCompoundUniqueInput;
 }>;
@@ -1632,6 +1637,41 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const ShelvesDocument = gql`
+    query Shelves {
+  shelves {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useShelvesQuery__
+ *
+ * To run a query within a React component, call `useShelvesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShelvesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShelvesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useShelvesQuery(baseOptions?: Apollo.QueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
+      }
+export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
+        }
+export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
+export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
+export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
 export const UserBookDocument = gql`
     query UserBook($where: UserBookIdentifierCompoundUniqueInput!) {
   userBook(where: $where) {

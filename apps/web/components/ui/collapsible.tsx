@@ -35,10 +35,9 @@ const Collapsible: React.FC<CollapsibleProps> = ({
           )}
         </div>
       </div>
-
       <div
         className={`transition-max-height duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-96" : "max-h-0"
+          isOpen ? "max-h-screen" : "max-h-0"
         }`}
       >
         <div>{children}</div>

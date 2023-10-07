@@ -9,9 +9,8 @@ import axios from "axios";
 import { redirect, notFound } from "next/navigation";
 import React from "react";
 import Image from "next/image";
-import { getApolloClient } from "@/lib/apollo";
+import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
 import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
-import StatusModal from "@/components/modal/status-modal";
 
 interface BookPageProps {
   params: { bookId: string };
@@ -20,6 +19,8 @@ interface BookPageProps {
 export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
   const client = getApolloClient();
+  client.setLink(setAuthToken(user.accessToken).concat(httpLink));
+
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
@@ -29,6 +30,7 @@ export default async function BookPage({ params }: BookPageProps) {
   if (!processedBook) {
     notFound();
   }
+
   const { data } = await client.query<UserBookQuery>({
     query: UserBookDocument,
     variables: {
@@ -71,7 +73,6 @@ export default async function BookPage({ params }: BookPageProps) {
             <section className="col-span-2">
               <ActionsPanel
                 book={processedBook}
-                userBookId={data?.userBook?.id as string}
                 bookStatus={data?.userBook?.status}
               />
             </section>

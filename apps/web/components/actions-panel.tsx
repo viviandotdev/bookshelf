@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
 import useSheleveModal from "@/hooks/use-shelve-modal";
 import useStatusModal from "@/hooks/use-status-modal";
-import { stat } from "fs/promises";
 import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/hooks/use-user-book";
 interface ActionItemProps {
@@ -52,7 +51,6 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
   book: BookData;
-  userBookId: string;
   bookStatus: string | undefined;
 }
 export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {

@@ -41,7 +41,22 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                 {heading.icon && nameIcon(heading.icon)}
                 {heading.title}
               </span>
-              {counts && <span>{counts[i]}</span>}
+              <span className="flex align-middle items-center">
+                {isShelves && (
+                  <Icons.more
+                    className="h-4 w-4 stroke-muted-foreground fill-current text-muted-foreground stroke-1 hover:stroke-black hover:text-black mr-2"
+                    onClick={(e) => {
+                      console.log("e", e);
+                      //   sidebar.setShelf(heading.title!);
+                      //   sidebar.setShelfId(heading.id!);
+                      //   sidebar.setShelfModal(true);
+                    }}
+                  />
+                )}
+                {counts && (
+                  <span className="max-w-[1rem] min-w-[1rem]">{counts[i]}</span>
+                )}
+              </span>
             </div>
           ))}
           {isShelves && (
