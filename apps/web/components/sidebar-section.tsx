@@ -33,8 +33,8 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                 className={`${
                   heading.title === sidebar.selected
                     ? "bg-secondary"
-                    : "hover:bg-muted "
-                } flex opacity-60 rounded-lg p-2 px-3 font-medium`}
+                    : "hover:bg-slate-100 hover:bg-opacity-70"
+                } group/item flex rounded-lg p-2 px-3 font-medium`}
                 key={i}
               >
                 <div
@@ -47,19 +47,24 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                     {heading.title}
                   </span>
                 </div>
-                <span
-                  className={`opacity-100 flex align-middle items-center rounded-r-lg pr-2`}
-                >
+
+                <span className="rounded-lg font-medium">
                   {isShelves && (
-                    <Icons.more
-                      className="fill-current hover:text-black hover:stroke-black hover:opacity-100 hover:text-opacity-100 h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1"
-                      onClick={(e) => {
-                        console.log("e", e);
-                      }}
-                    />
+                    <a className="group/edit hidden hover:bg-slate-200 group-hover/item:block rounded-sm py-0.5 px-1">
+                      <Icons.more
+                        className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1"
+                        onClick={(e) => {
+                          console.log("e", e);
+                        }}
+                      />
+                    </a>
                   )}
                   {counts && (
-                    <span className="cursor-pointer max-w-[1rem] min-w-[1rem] px-2">
+                    <span
+                      className={`${
+                        isShelves ? "block group-hover/item:hidden" : ""
+                      } cursor-pointer  `}
+                    >
                       {counts[i]}
                     </span>
                   )}
