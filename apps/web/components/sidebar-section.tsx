@@ -28,37 +28,46 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
       <Collapsible title={title} collapsible={collapsible}>
         <>
           {items.map((heading, i) => (
-            <div
-              key={i}
-              onClick={() => updateSelected(heading.title!)}
-              className={`${
-                heading.title == sidebar.selected
-                  ? "bg-secondary"
-                  : "hover:bg-muted"
-              } font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between`}
-            >
-              <span className="flex">
-                {heading.icon && nameIcon(heading.icon)}
-                {heading.title}
-              </span>
-              <span className="flex align-middle items-center">
-                {isShelves && (
-                  <Icons.more
-                    className="h-4 w-4 stroke-muted-foreground fill-current text-muted-foreground stroke-1 hover:stroke-black hover:text-black mr-2"
-                    onClick={(e) => {
-                      console.log("e", e);
-                      //   sidebar.setShelf(heading.title!);
-                      //   sidebar.setShelfId(heading.id!);
-                      //   sidebar.setShelfModal(true);
-                    }}
-                  />
-                )}
-                {counts && (
-                  <span className="max-w-[1rem] min-w-[1rem]">{counts[i]}</span>
-                )}
-              </span>
-            </div>
+            <>
+              <div
+                className={`${
+                  heading.title === sidebar.selected
+                    ? "bg-secondary"
+                    : "hover:bg-muted "
+                } flex opacity-60 rounded-lg p-2 px-3 font-medium`}
+                key={i}
+              >
+                <div
+                  key={i}
+                  className={`w-[fill-available] cursor-pointer justify-between`}
+                  onClick={() => updateSelected(heading.title!)}
+                >
+                  <span className="flex">
+                    {heading.icon && nameIcon(heading.icon)}
+                    {heading.title}
+                  </span>
+                </div>
+                <span
+                  className={`opacity-100 flex align-middle items-center rounded-r-lg pr-2`}
+                >
+                  {isShelves && (
+                    <Icons.more
+                      className="fill-current hover:text-black hover:stroke-black hover:opacity-100 hover:text-opacity-100 h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1"
+                      onClick={(e) => {
+                        console.log("e", e);
+                      }}
+                    />
+                  )}
+                  {counts && (
+                    <span className="cursor-pointer max-w-[1rem] min-w-[1rem] px-2">
+                      {counts[i]}
+                    </span>
+                  )}
+                </span>
+              </div>
+            </>
           ))}
+
           {isShelves && (
             <div className="pt-1.5">
               <Button
