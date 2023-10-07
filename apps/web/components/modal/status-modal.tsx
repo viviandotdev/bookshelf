@@ -5,23 +5,26 @@ import useStatusModal from "@/hooks/use-status-modal";
 import { Button, buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
-import { useUpdateUserBookMutation } from "@/graphql/graphql";
+import {
+  useRemoveUserBookMutation,
+  useUpdateUserBookMutation,
+} from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import useRemoveModal from "@/hooks/use-remove-modal";
 import useUserBook from "@/hooks/use-user-book";
+import AlertModal from "./alert-modal";
 
 interface StatusModalProps {}
 
 export const StatusModal: React.FC<StatusModalProps> = ({}) => {
   const statusModal = useStatusModal();
   const userBook = useUserBook();
-  const removeModal = useRemoveModal();
-  const [UpdateUserBook] = useUpdateUserBookMutation();
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const onSubmit = async () => {
-    setIsLoading(true);
-  };
+  const [removeUserBook] = useRemoveUserBookMutation();
+  const updateUserId = useUserBook((state) => state.updateUserId);
   const updateStatus = useUserBook((state) => state.updateStatus);
+  const updateBookId = useUserBook((state) => state.updateBookId);
+  const [UpdateUserBook] = useUpdateUserBookMutation();
   const status = [
     "Currently Reading",
     "Want to Read",
@@ -52,12 +55,36 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
       });
     }
     statusModal.onClose();
-    // set the book to a new status
   };
 
-  const removeFromShelf = () => {
-    statusModal.onClose();
-    removeModal.onOpen();
+  const onDelete = async () => {
+    setIsLoading(true);
+    const { data, errors } = await removeUserBook({
+      variables: {
+        where: {
+          bookId: userBook.bookId,
+          userId: userBook.userId,
+        },
+      },
+    });
+
+    if (errors) {
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+    }
+
+    if (data) {
+      updateUserId("");
+      updateStatus("");
+      updateBookId("");
+      toast({
+        title: "Sucessfylly deleted book",
+      });
+      setIsLoading(false);
+    }
+    setOpen(false);
   };
 
   const bodyContent = (
@@ -83,7 +110,10 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
           buttonVariants({ variant: "outline", size: "lg" }),
           "text-md rounded-xl border-none"
         )}
-        onClick={() => removeFromShelf()}
+        onClick={() => {
+          statusModal.onClose();
+          setOpen(true);
+        }}
         label={"Remove from my shelf"}
         icon={<Icons.delete className="h-4 w-4 m-2 stroke-[4px]" />}
       />
@@ -91,14 +121,21 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
   );
 
   return (
-    <Modal
-      disabled={isLoading}
-      isOpen={statusModal.isOpen}
-      onClose={statusModal.onClose}
-      onSubmit={onSubmit}
-      title={`Choose a shelf for this book`}
-      body={bodyContent}
-    />
+    <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={isLoading}
+      />
+      <Modal
+        disabled={isLoading}
+        isOpen={statusModal.isOpen}
+        onClose={statusModal.onClose}
+        title={`Choose a shelf for this book`}
+        body={bodyContent}
+      />
+    </>
   );
 };
 export default StatusModal;

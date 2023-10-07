@@ -12,12 +12,21 @@ export class BookService {
   ) {}
 
   async createBook(data: BookCreateInput, userId: string) {
-    const createBookArgs: Prisma.BookCreateArgs = {
-      data: {
-        ...data,
+    let book = await this.prisma.book.findUnique({
+      where: {
+        id: data.id,
       },
-    };
-    const book = await this.prisma.book.create(createBookArgs);
+    });
+
+    if (!book) {
+      const createBookArgs: Prisma.BookCreateArgs = {
+        data: {
+          ...data,
+        },
+      };
+      book = await this.prisma.book.create(createBookArgs);
+    }
+
     await this.userBook.create(book.id, userId);
     return book;
   }

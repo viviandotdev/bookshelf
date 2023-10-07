@@ -5,10 +5,10 @@ import Modal from "./modal";
 import { useRemoveUserBookMutation } from "@/graphql/graphql";
 import useUserBook from "@/hooks/use-user-book";
 
-interface RemoveModalProps {}
+interface RemoveShelfProps {}
 
-export const RemoveModal: React.FC<RemoveModalProps> = ({}) => {
-  const removeModal = useRemoveModal();
+export const RemoveShelf: React.FC<RemoveShelfProps> = ({}) => {
+  const alertModal = useRemoveModal();
   const userBook = useUserBook();
   const [isLoading, setIsLoading] = useState(false);
   const [removeUserBook] = useRemoveUserBookMutation();
@@ -34,23 +34,21 @@ export const RemoveModal: React.FC<RemoveModalProps> = ({}) => {
         },
       },
     });
-    updateUserId("");
-    updateStatus("");
-    updateBookId("");
-    removeModal.onClose();
+
+    alertModal.onClose();
   };
   return (
     <Modal
       disabled={isLoading}
-      isOpen={removeModal.isOpen}
-      onClose={removeModal.onClose}
+      isOpen={alertModal.isOpen}
+      onClose={alertModal.onClose}
       onSubmit={onSubmit}
       title={`Are you sure you want to remove this book from your shelf?`}
       body={bodyContent}
       actionLabel="Remove"
-      secondaryAction={removeModal.onClose}
+      secondaryAction={alertModal.onClose}
       secondaryActionLabel="Cancel"
     />
   );
 };
-export default RemoveModal;
+export default RemoveShelf;

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "./modal";
-import useCreateShelfModal from "@/hooks/use-create-shelf-moda";
+import useCreateShelfModal from "@/hooks/use-create-shelf-modal";
 import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-label";
 import { useCreateShelfMutation } from "@/graphql/graphql";

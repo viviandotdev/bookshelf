@@ -2,7 +2,7 @@ import { NavItem } from "@/types";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import useSidebar from "@/hooks/use-sidebar";
-import useCreateShelfModal from "@/hooks/use-create-shelf-moda";
+import useCreateShelfModal from "@/hooks/use-create-shelf-modal";
 import Collapsible from "./ui/collapsible";
 import {
   DropdownMenu,
@@ -12,9 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Popover, PopoverContent } from "./ui/popover";
-import { PopoverTrigger } from "@radix-ui/react-popover";
-import { useState } from "react";
 
 interface SidebarSectionProps {
   title: string;
