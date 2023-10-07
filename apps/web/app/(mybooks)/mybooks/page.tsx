@@ -29,7 +29,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
   const librarySelectionsCounts = myBooksConfig.librarySelections.map(
     (selection) => {
       // TODO: compute the count for each selection based on your data logic.
-      let min = Math.ceil(100);
+      let min = Math.ceil(1);
       let max = Math.floor(200);
       const count = Math.floor(Math.random() * (max - min + 1)) + min;
       return count;

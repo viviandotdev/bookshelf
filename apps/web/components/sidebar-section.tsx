@@ -4,6 +4,17 @@ import { Button } from "./ui/button";
 import useSidebar from "@/hooks/use-sidebar";
 import useCreateShelfModal from "@/hooks/use-create-shelf-moda";
 import Collapsible from "./ui/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Popover, PopoverContent } from "./ui/popover";
+import { PopoverTrigger } from "@radix-ui/react-popover";
+import { useState } from "react";
 
 interface SidebarSectionProps {
   title: string;
@@ -34,12 +45,12 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                   heading.title === sidebar.selected
                     ? "bg-secondary"
                     : "hover:bg-slate-100 hover:bg-opacity-70"
-                } group/item flex rounded-lg p-2 px-3 font-medium`}
+                } group/item flex rounded-lg px-3 font-medium`}
                 key={i}
               >
                 <div
                   key={i}
-                  className={`w-[fill-available] cursor-pointer justify-between`}
+                  className={`w-[fill-available] cursor-pointer justify-between py-2`}
                   onClick={() => updateSelected(heading.title!)}
                 >
                   <span className="flex">
@@ -48,27 +59,60 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                   </span>
                 </div>
 
-                <span className="rounded-lg font-medium">
-                  {isShelves && (
-                    <a className="group/edit hidden hover:bg-slate-200 group-hover/item:block rounded-sm py-0.5 px-1">
-                      <Icons.more
-                        className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1"
-                        onClick={(e) => {
-                          console.log("e", e);
-                        }}
-                      />
-                    </a>
-                  )}
-                  {counts && (
-                    <span
-                      className={`${
-                        isShelves ? "block group-hover/item:hidden" : ""
-                      } cursor-pointer  `}
-                    >
-                      {counts[i]}
-                    </span>
-                  )}
-                </span>
+                {isShelves ? (
+                  <>
+                    <DropdownMenu modal={false}>
+                      <DropdownMenuTrigger>
+                        <span>
+                          <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
+                            <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
+                          </a>
+                          {counts && (
+                            <span
+                              className={`${
+                                isShelves ? "block group-hover/item:hidden" : ""
+                              } cursor-pointer px-1 rounded-sm`}
+                            >
+                              {counts[i]}
+                            </span>
+                          )}
+                        </span>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align={"end"}
+                        side={"bottom"}
+                        alignOffset={-100}
+                      >
+                        <DropdownMenuItem
+                          onClick={() => {
+                            console.log("REname" + i);
+                          }}
+                        >
+                          Rename
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            console.log("Delete" + i);
+                          }}
+                        >
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </>
+                ) : (
+                  <span>
+                    {counts && (
+                      <span
+                        className={`${
+                          isShelves ? "block group-hover/item:hidden" : ""
+                        } cursor-pointer px-1 rounded-sm`}
+                      >
+                        {counts[i]}
+                      </span>
+                    )}
+                  </span>
+                )}
               </div>
             </>
           ))}
