@@ -1,5 +1,4 @@
 import { create } from "zustand";
-
 interface useShelfModalStore {
   isOpen: boolean;
   isEdit: boolean;

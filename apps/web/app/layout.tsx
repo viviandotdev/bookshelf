@@ -5,9 +5,7 @@ import { Inter } from "next/font/google";
 import { ApolloClientProvider } from "@/lib/apollo/ApolloClientProvider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
-import ShelveModal from "@/components/modal/shelve-modal";
 import StatusModal from "@/components/modal/status-modal";
-import RemoveModal from "@/components/modal/alert-modal";
 import { ShelfModal } from "@/components/modal/shelf-modal";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,7 +27,6 @@ export default function RootLayout({
             {children}
           </ApolloClientProvider>
           <Toaster />
-          <ShelveModal />
         </SessionProvider>
       </body>
     </html>

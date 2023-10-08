@@ -6,10 +6,9 @@ import { BookData } from "@/types/interfaces";
 import { useCreateBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
-import useSheleveModal from "@/hooks/use-shelve-modal";
 import useStatusModal from "@/hooks/use-status-modal";
 import { useFirstRender } from "@/hooks/use-first-render";
-import useUserBook from "@/hooks/use-user-book";
+import useUserBook from "@/hooks/use-user-book-store";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -32,9 +31,9 @@ function ActionItem({ icon, label, onClick }: ActionItemProps) {
 }
 
 function ActionGroup() {
-  const shelfModal = useSheleveModal();
+  //   const shelfModal = useSheleveModal();
   const onShelveClick = () => {
-    shelfModal.onOpen();
+    // shelfModal.onOpen();
   };
   return (
     <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">

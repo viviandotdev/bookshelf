@@ -1,7 +1,7 @@
 import { NavItem } from "@/types";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
-import useSidebar from "@/hooks/use-sidebar";
+import useSidebar from "@/hooks/use-shelf-store";
 import Collapsible from "./ui/collapsible";
 import {
   DropdownMenu,
@@ -38,7 +38,6 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [deleteShelf] = useDeleteShelfMutation();
   const onDelete = async () => {
-    console.log("delete");
     console.log(shelfModal.editId);
     setIsLoading(true);
     if (!shelfModal.isOpen) {
@@ -59,12 +58,13 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
         variant: "destructive",
       });
     } else {
-      //   updateShelves({ title: name, icon: "shelf" });
       toast({
         title: "Sucessfylly deleted shelf",
       });
     }
+
     setIsLoading(false);
+    sidebar.removeShelf(shelfModal.editId!);
     shelfModal.onClose();
     setOpenAlert(false);
   };

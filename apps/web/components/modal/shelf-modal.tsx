@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { Button } from "@/components/ui/button";
-import useSidebar from "@/hooks/use-sidebar";
+import useSidebar from "@/hooks/use-shelf-store";
 import {
   useCreateShelfMutation,
   useUpdateShelfMutation,
@@ -33,10 +33,10 @@ const formSchema = z.object({
 
 export const ShelfModal = () => {
   const shelfModal = useShelfModal();
-  const router = useRouter();
   const [createShelf] = useCreateShelfMutation();
   const [updateShelf] = useUpdateShelfMutation();
-  const updateShelves = useSidebar((state) => state.updateShelves);
+  const renameShelf = useSidebar((state) => state.renameShelf);
+  const addShelf = useSidebar((state) => state.addShelf);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const ShelfModal = () => {
         variant: "destructive",
       });
     } else {
-      updateShelves({
+      addShelf({
         id: data.createShelf.id,
         title: data.createShelf.name,
         icon: "shelf",
@@ -104,9 +104,9 @@ export const ShelfModal = () => {
         variant: "destructive",
       });
     } else {
-      updateShelves({ title: name, icon: "shelf" });
+      renameShelf(shelfModal.editId!, data.updateShelf?.name!);
       toast({
-        title: "Sucessfylly created shelf",
+        title: "Sucessfylly renamed shelf",
       });
     }
     setIsLoading(false);

@@ -10,7 +10,7 @@ import {
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import useUserBook from "@/hooks/use-user-book";
+import useUserBook from "@/hooks/use-user-book-store";
 import AlertModal from "./alert-modal";
 
 interface StatusModalProps {}

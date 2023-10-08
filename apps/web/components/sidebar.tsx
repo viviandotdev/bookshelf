@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import SidebarSection from "./sidebar-section";
 import { NavItem } from "@/types";
-import useSidebar from "@/hooks/use-sidebar";
+import useSidebar from "@/hooks/use-shelf-store";
 // import { Accordion } from "@radix-ui/react-accordion";
 
 interface SidebarProps {
