@@ -10,7 +10,7 @@ datasource db {
 
 generator nestgraphql {
     provider                = "node node_modules/prisma-nestjs-graphql"
-    output                  = "../libs/generated-db-types"
+    output                  = "../src/generated-db-types"
     purgeOutput             = false
     combineScalarFilters    = true
     emitSingle              = true
@@ -104,19 +104,28 @@ model UserBook {
     // updatedAt    DateTime    @updatedAt
 
     /// @Validator.IsString()
-    @@unique(fields: [userId, bookId], name: "uniqueUserBook")
+    /// @Validator.ValidateNested()
+    @@unique(fields: [userId, bookId], name: "identifier")
 }
 
 model Shelf {
-    id               String       @id @default(uuid())
-    shelfName        String
-    shelfDescription String?
-    userId           String
-    dateTime         String?
+    /// @Validator.IsString()
+    id           String       @id @default(uuid())
+    /// @Validator.IsString()
+    name         String
+    /// @Validator.IsString()
+    userId       String
+    /// @Validator.IsString()
+    description  String?
+    dateTime     String?
     // One to Many: one shelf has many entries
-    shelfEntries     ShelfEntry[]
+    shelfEntries ShelfEntry[]
     // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
-    user             User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    /// @Validator.IsString()
+    /// @Validator.ValidateNested()
+    @@unique(fields: [userId, name], name: "identifier")
 }
 
 model ShelfEntry {

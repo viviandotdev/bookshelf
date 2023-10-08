@@ -1,0 +1,20 @@
+mutation CreateShelf($data: ShelfCreateInput!) {
+  createShelf(data: $data) {
+    id
+    name
+    description
+  }
+}
+
+mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
+  deleteShelf(where: $where) {
+    id
+  }
+}
+
+mutation UpdateShelf($data: ShelfUpdateInput!, $where: ShelfWhereUniqueInput!) {
+  updateShelf(data: $data, where: $where) {
+    id
+    name
+  }
+}

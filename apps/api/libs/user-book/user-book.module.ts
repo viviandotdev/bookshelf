@@ -6,5 +6,6 @@ import { PrismaModule } from 'prisma/prisma.module';
 @Module({
   providers: [UserBookResolver, UserBookService],
   imports: [PrismaModule],
+  exports: [UserBookService],
 })
 export class UserBookModule {}

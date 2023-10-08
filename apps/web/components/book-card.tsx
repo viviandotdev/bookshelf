@@ -33,7 +33,7 @@ export default BookCardContext;
 // Book Header Component
 export function BookShelves() {
   const { book } = useBookCardContext();
-  const shelves = book.shelves;
+  const shelves = book.categories;
   return (
     <div>
       {shelves.map((shelf: string, index: number) => (

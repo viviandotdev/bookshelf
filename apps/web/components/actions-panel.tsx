@@ -3,14 +3,12 @@ import React, { use, useCallback, useEffect, useState } from "react";
 import { Icons } from "./icons";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { UserBook, useSaveBookMutation } from "@/graphql/graphql";
+import { useCreateBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
-import useSheleveModal from "@/hooks/use-shelve-modal";
 import useStatusModal from "@/hooks/use-status-modal";
-import { stat } from "fs/promises";
 import { useFirstRender } from "@/hooks/use-first-render";
-import useUserBook from "@/hooks/use-user-book";
+import useUserBook from "@/hooks/use-user-book-store";
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -33,9 +31,9 @@ function ActionItem({ icon, label, onClick }: ActionItemProps) {
 }
 
 function ActionGroup() {
-  const shelfModal = useSheleveModal();
+  //   const shelfModal = useSheleveModal();
   const onShelveClick = () => {
-    shelfModal.onOpen();
+    // shelfModal.onOpen();
   };
   return (
     <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">
@@ -52,7 +50,6 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
   book: BookData;
-  userBookId: string;
   bookStatus: string | undefined;
 }
 export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
@@ -64,7 +61,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
   const updateUserId = useUserBook((state) => state.updateUserId);
   const updateStatus = useUserBook((state) => state.updateStatus);
   const updateBookId = useUserBook((state) => state.updateBookId);
-  const [SaveBook] = useSaveBookMutation();
+  const [CreateBook] = useCreateBookMutation();
   const firstRender = useFirstRender();
   useEffect(() => {
     updateStatus(bookStatus as string);
@@ -78,17 +75,14 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
     }
   }, [userBook.status]); // Run the effect whenever userBook.status changes
 
-  async function saveBook(book: BookData) {
-    const { data, errors } = await SaveBook({
+  async function createBook(book: BookData) {
+    const { data, errors } = await CreateBook({
       variables: {
-        input: {
-          book: {
-            id: book.id,
-            title: book.title,
-            author: book.author,
-            publisher: book.publisher,
-          },
-          userId: session?.user.id,
+        data: {
+          id: book.id,
+          title: book.title,
+          author: book.author,
+          publisher: book.publisher,
         },
       },
     });
@@ -140,7 +134,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
             </button>
           ) : (
             <button
-              onClick={() => saveBook(book)}
+              onClick={() => createBook(book)}
               className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
             >
               Want to Read

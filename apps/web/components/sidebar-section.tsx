@@ -1,56 +1,178 @@
 import { NavItem } from "@/types";
 import { Icons } from "./icons";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
 import { Button } from "./ui/button";
-import { Icon, LucideIcon } from "lucide-react";
+import useSidebar from "@/hooks/use-shelf-store";
+import Collapsible from "./ui/collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useState } from "react";
+import AlertModal from "./modal/alert-modal";
+import { toast } from "@/hooks/use-toast";
+import { useDeleteShelfMutation } from "@/graphql/graphql";
 
 interface SidebarSectionProps {
   title: string;
   items: NavItem[];
   counts?: number[];
   isShelves?: boolean;
+  collapsible?: boolean;
 }
+//TODO: Shelf couldn't be created. Shelf name is either invalid or a duplicate.
 
 const SidebarSection: React.FC<SidebarSectionProps> = ({
   title,
   items,
   counts,
+  isShelves,
+  collapsible,
 }) => {
-  const [selectedItem, setSelectedItem] = useState<string | null>("All");
+  const sidebar = useSidebar();
+  const [openAlert, setOpenAlert] = useState(false);
+  const shelfModal = useShelfModal();
+  const updateSelected = useSidebar((state) => state.updateSelected);
+  const [isLoading, setIsLoading] = useState(false);
+  const [deleteShelf] = useDeleteShelfMutation();
+  const onDelete = async () => {
+    setIsLoading(true);
+    if (!shelfModal.isOpen) {
+      return;
+    }
+    setIsLoading(true);
+    const { data } = await deleteShelf({
+      variables: {
+        where: {
+          id: shelfModal.editId,
+        },
+      },
+    });
 
-  const handleItemClick = (itemTitle: string) => {
-    setSelectedItem(itemTitle);
-    // Perform other actions based on the selected item if needed
+    if (!data) {
+      toast({
+        title: "Error delting shelf",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Sucessfylly deleted shelf",
+      });
+    }
+
+    setIsLoading(false);
+    sidebar.removeShelf(shelfModal.editId!);
+    shelfModal.onClose();
+    setOpenAlert(false);
   };
-
   return (
     <>
-      <div className="leading-7 items-start text-primary font-semibold">
-        <div className="flex flex-1  py-4 text-sm font-medium transition-all [&[data-state=open]>svg]:rotate-180  justify-between items-center cursor-pointer">
-          {title}
-        </div>
-      </div>
-      {items.map((heading, i) => (
-        <div
-          key={i}
-          onClick={() => handleItemClick(heading.title!)}
-          className={`${
-            heading.title == selectedItem ? "bg-secondary" : "hover:bg-muted"
-          } font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between`}
-        >
-          <span className="flex">
-            {heading.icon && nameIcon(heading.icon)}
-            {heading.title}
-          </span>
-          {counts && <span>{counts[i]}</span>}
-        </div>
-      ))}
+      <AlertModal
+        title={"Are you sure you want to remove this shelf?"}
+        description={"This action cannot be undone."}
+        isOpen={openAlert}
+        onClose={() => setOpenAlert(false)}
+        onConfirm={() => {
+          onDelete();
+        }}
+        loading={false}
+      />
+      <Collapsible title={title} collapsible={collapsible}>
+        <>
+          {items.map((heading, i) => (
+            <div key={i}>
+              <div
+                className={`${
+                  heading.title === sidebar.selected
+                    ? "bg-secondary"
+                    : "hover:bg-slate-100 hover:bg-opacity-70"
+                } group/item flex rounded-lg px-3 font-medium`}
+              >
+                <div
+                  key={i}
+                  className={`w-[fill-available] cursor-pointer justify-between py-2`}
+                  onClick={() => updateSelected(heading.title!)}
+                >
+                  <span className="flex">
+                    {heading.icon && nameIcon(heading.icon)}
+                    {heading.title}
+                  </span>
+                </div>
+
+                {isShelves ? (
+                  <>
+                    <DropdownMenu modal={false}>
+                      <DropdownMenuTrigger>
+                        <span>
+                          <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
+                            <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
+                          </a>
+                          {counts && (
+                            <span
+                              className={`${
+                                isShelves ? "block group-hover/item:hidden" : ""
+                              } cursor-pointer px-1 rounded-sm`}
+                            >
+                              {counts[i]}
+                            </span>
+                          )}
+                        </span>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        align={"end"}
+                        side={"bottom"}
+                        alignOffset={-100}
+                      >
+                        <DropdownMenuItem
+                          onClick={() => {
+                            shelfModal.onEdit(heading.id!);
+                          }}
+                        >
+                          Rename
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            shelfModal.onEdit(heading.id!);
+                            setOpenAlert(true);
+                          }}
+                        >
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </>
+                ) : (
+                  <>
+                    {counts && (
+                      <span
+                        className={`${
+                          isShelves ? "block group-hover/item:hidden" : ""
+                        } cursor-pointer px-1 rounded-sm py-2`}
+                      >
+                        {counts[i]}
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {isShelves && (
+            <div className="pt-1.5">
+              <Button
+                className="w-[fill-available]"
+                size="sm"
+                label="Add Shelf"
+                onClick={shelfModal.onOpen}
+                icon={<Icons.edit className="h-4 w-4 mr-2" />}
+              />
+            </div>
+          )}
+        </>
+      </Collapsible>
     </>
   );
 };
@@ -63,38 +185,5 @@ const nameIcon = (iconName: string) => {
     </>
   );
 };
-
-export const AccordianSidebarSection: React.FC<SidebarSectionProps> = ({
-  title,
-  items,
-  counts,
-}) => (
-  <>
-    <Accordion type="single" defaultValue={"item-1"} collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="text-sm ">{title}</AccordionTrigger>
-        {items.map((heading, i) => (
-          <AccordionContent key={i}>
-            <div className=" hover:bg-muted font-medium opacity-60 w-[fill-available] rounded-lg p-2 px-3 cursor-pointer flex justify-between">
-              <span className="flex">
-                <Icons.shelf className="h-5 w-5 mr-4" />
-                {heading}
-              </span>
-              {counts && <span>{counts[i]}</span>}
-            </div>
-          </AccordionContent>
-        ))}
-        <AccordionContent className="pb-0">
-          <Button
-            className="w-[fill-available] "
-            size="sm"
-            label="Add Shelf"
-            icon={<Icons.edit className="h-4 w-4 mr-2" />}
-          />
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  </>
-);
 
 export default SidebarSection;

@@ -1,21 +1,15 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Icons } from "./icons";
-import SidebarSection, { AccordianSidebarSection } from "./sidebar-section";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
+import React, { useEffect, useState } from "react";
+import SidebarSection from "./sidebar-section";
 import { NavItem } from "@/types";
+import useSidebar from "@/hooks/use-shelf-store";
+// import { Accordion } from "@radix-ui/react-accordion";
 
 interface SidebarProps {
   librarySelections: NavItem[];
   librarySelectionsCounts: number[];
   toolSelections: NavItem[];
-  shelfSelections: string[];
+  shelfSelections: NavItem[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
@@ -24,44 +18,35 @@ const SideBar: React.FC<SidebarProps> = ({
   toolSelections,
   shelfSelections,
 }) => {
-  const [selected, setSelected] = useState("All");
-  const [newShelf, setNewShelf] = useState("");
-  const [showInput, setShowInput] = useState(false);
+  const sidebar = useSidebar();
+  const updateSelected = useSidebar((state) => state.updateSelected);
+  const initShelves = useSidebar((state) => state.initShelves);
 
-  const handleAddShelf = () => {
-    if (newShelf.trim() !== "") {
-      //   onAddShelf(newShelf);
-      setNewShelf("");
-    }
-  };
+  useEffect(() => {
+    updateSelected("All");
+    initShelves(shelfSelections);
+  }, []);
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      handleAddShelf();
-    }
-  };
   return (
     <div className="hidden xl:block">
-      <div className="gap-1.5 ]w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
+      <div className="gap-1.5 w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-muted-foreground font-light">
         <SidebarSection
+          key={0}
           title="Library"
           items={librarySelections}
           counts={librarySelectionsCounts}
+          collapsible
         />
-        {/* <AccordianSidebarSection
-          title="Library"
-          items={librarySelections}
-          counts={librarySelectionsCounts}
-        /> */}
-        {/* <hr /> */}
-        <AccordianSidebarSection
-          items={shelfSelections}
+
+        <SidebarSection
+          key={1}
           title="Shelves"
+          items={sidebar.shelves}
           counts={librarySelectionsCounts}
+          collapsible
+          isShelves
         />
-        {/* <hr /> */}
-        {/* <SidebarSection title="Shelves" items={shelfSelections} isShelves /> */}
-        <SidebarSection title="Tools" items={toolSelections} />
+        <SidebarSection key={2} title="Tools" items={toolSelections} />
       </div>
     </div>
   );
