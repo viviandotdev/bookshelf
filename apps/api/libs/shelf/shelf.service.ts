@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
 import { ShelfCreateInput } from '../../src/generated-db-types';
 import { Prisma } from '@prisma/client';
+import { ShelfRepository } from './shelf.repository';
 
 @Injectable()
 export class ShelfService {
-  constructor(private readonly prisma: PrismaService) {}
+  findUnique = this.repository.findUnique;
+  delete = this.repository.delete;
+  constructor(private readonly repository: ShelfRepository) {}
   async create(input: ShelfCreateInput, userId: string) {
     const shelfCreateArgs: Prisma.ShelfCreateArgs = {
       data: {
-        id: input.id,
         name: input.name,
         user: {
           connect: {
@@ -17,13 +18,19 @@ export class ShelfService {
           },
         },
       },
-    };
-    const shelf = await this.prisma.shelf.create(shelfCreateArgs);
+    }
+    const shelf = await this.repository.create(shelfCreateArgs);
     return shelf;
   }
-
+  async update(args: {
+    where: Prisma.ShelfWhereUniqueInput;
+    data: Prisma.ShelfUpdateInput;
+  }) {
+    const shelf = await this.repository.update(args);
+    return shelf;
+  }
   async findMany(userId: string) {
-    const shelves = await this.prisma.shelf.findMany({
+    const shelves = await this.repository.findMany({
       where: {
         userId,
       },

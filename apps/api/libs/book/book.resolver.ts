@@ -16,6 +16,6 @@ export class BookResolver {
     @Args('data') data: BookCreateInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    return this.bookService.createBook(data, currentUser.userId);
+    return this.bookService.create(data, currentUser.userId);
   }
 }

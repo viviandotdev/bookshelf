@@ -13,6 +13,7 @@ import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useState } from "react";
 import AlertModal from "./modal/alert-modal";
 import { toast } from "@/hooks/use-toast";
+import { useDeleteShelfMutation } from "@/graphql/graphql";
 
 interface SidebarSectionProps {
   title: string;
@@ -35,31 +36,36 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
   const shelfModal = useShelfModal();
   const updateSelected = useSidebar((state) => state.updateSelected);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [deleteShelf] = useDeleteShelfMutation();
   const onDelete = async () => {
+    console.log("delete");
+    console.log(shelfModal.editId);
     setIsLoading(true);
-    // const { data, errors } = await removeUserBook({
-    //   variables: {
-    //     where: {
-    //       bookId: userBook.bookId,
-    //       userId: userBook.userId,
-    //     },
-    //   },
-    // });
+    if (!shelfModal.isOpen) {
+      return;
+    }
+    setIsLoading(true);
+    const { data } = await deleteShelf({
+      variables: {
+        where: {
+          id: shelfModal.editId,
+        },
+      },
+    });
 
-    // if (errors) {
-    //   toast({
-    //     title: "Something went wrong",
-    //     variant: "destructive",
-    //   });
-    // }
-
-    // if (data) {
-    //   toast({
-    //     title: "Sucessfylly deleted book",
-    //   });
-    //   setIsLoading(false);
-    // }
+    if (!data) {
+      toast({
+        title: "Error delting shelf",
+        variant: "destructive",
+      });
+    } else {
+      //   updateShelves({ title: name, icon: "shelf" });
+      toast({
+        title: "Sucessfylly deleted shelf",
+      });
+    }
+    setIsLoading(false);
+    shelfModal.onClose();
     setOpenAlert(false);
   };
   return (
@@ -123,13 +129,14 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                       >
                         <DropdownMenuItem
                           onClick={() => {
-                            shelfModal.onEdit(heading.title!);
+                            shelfModal.onEdit(heading.id!);
                           }}
                         >
                           Rename
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => {
+                            shelfModal.onEdit(heading.id!);
                             setOpenAlert(true);
                           }}
                         >

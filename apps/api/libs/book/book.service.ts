@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { BookCreateInput } from 'src/generated-db-types';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { UserBookService } from 'libs/user-book/user-book.service';
 
 @Injectable()
 export class BookService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly prisma: PrismaRepository,
     private readonly userBook: UserBookService,
   ) {}
 
-  async createBook(data: BookCreateInput, userId: string) {
+  async create(data: BookCreateInput, userId: string) {
     let book = await this.prisma.book.findUnique({
       where: {
         id: data.id,

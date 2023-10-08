@@ -122,6 +122,10 @@ model Shelf {
     shelfEntries ShelfEntry[]
     // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
     user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    /// @Validator.IsString()
+    /// @Validator.ValidateNested()
+    @@unique(fields: [userId, name], name: "identifier")
 }
 
 model ShelfEntry {

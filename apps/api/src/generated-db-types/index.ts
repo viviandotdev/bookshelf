@@ -1438,7 +1438,7 @@ export class DeleteOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -1450,7 +1450,7 @@ export class FindFirstShelfOrThrowArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -1468,7 +1468,7 @@ export class FindFirstShelfArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -1486,7 +1486,7 @@ export class FindManyShelfArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -1500,7 +1500,7 @@ export class FindUniqueShelfOrThrowArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -1508,7 +1508,7 @@ export class FindUniqueShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -1520,7 +1520,7 @@ export class ShelfAggregateArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -1640,7 +1640,7 @@ export class ShelfCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -1653,14 +1653,14 @@ export class ShelfCreateNestedOneWithoutShelfEntriesInput {
     connectOrCreate?: InstanceType<typeof ShelfCreateOrConnectWithoutShelfEntriesInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @InputType()
 export class ShelfCreateOrConnectWithoutShelfEntriesInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfCreateWithoutShelfEntriesInput, {nullable:false})
     @Type(() => ShelfCreateWithoutShelfEntriesInput)
     create!: InstanceType<typeof ShelfCreateWithoutShelfEntriesInput>;
@@ -1670,7 +1670,7 @@ export class ShelfCreateOrConnectWithoutShelfEntriesInput {
 export class ShelfCreateOrConnectWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfCreateWithoutUserInput, {nullable:false})
     @Type(() => ShelfCreateWithoutUserInput)
     create!: InstanceType<typeof ShelfCreateWithoutUserInput>;
@@ -1775,6 +1775,16 @@ export class ShelfGroupBy {
     _min?: InstanceType<typeof ShelfMinAggregate>;
     @Field(() => ShelfMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof ShelfMaxAggregate>;
+}
+
+@InputType()
+export class ShelfIdentifierCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    name!: string;
 }
 
 @InputType()
@@ -1984,7 +1994,7 @@ export class ShelfUncheckedCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -2058,16 +2068,16 @@ export class ShelfUncheckedUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ShelfUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ShelfUpdateWithWhereUniqueWithoutUserInput>;
@@ -2208,16 +2218,16 @@ export class ShelfUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ShelfUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ShelfUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ShelfUpdateWithWhereUniqueWithoutUserInput>;
@@ -2242,7 +2252,7 @@ export class ShelfUpdateOneRequiredWithoutShelfEntriesNestedInput {
     upsert?: InstanceType<typeof ShelfUpsertWithoutShelfEntriesInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfUpdateToOneWithWhereWithoutShelfEntriesInput, {nullable:true})
     @Type(() => ShelfUpdateToOneWithWhereWithoutShelfEntriesInput)
     update?: InstanceType<typeof ShelfUpdateToOneWithWhereWithoutShelfEntriesInput>;
@@ -2262,7 +2272,7 @@ export class ShelfUpdateToOneWithWhereWithoutShelfEntriesInput {
 export class ShelfUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfUpdateWithoutUserInput, {nullable:false})
     @Type(() => ShelfUpdateWithoutUserInput)
     data!: InstanceType<typeof ShelfUpdateWithoutUserInput>;
@@ -2325,7 +2335,7 @@ export class ShelfUpdateInput {
 export class ShelfUpsertWithWhereUniqueWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfUpdateWithoutUserInput, {nullable:false})
     @Type(() => ShelfUpdateWithoutUserInput)
     update!: InstanceType<typeof ShelfUpdateWithoutUserInput>;
@@ -2352,6 +2362,8 @@ export class ShelfWhereUniqueInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => ShelfIdentifierCompoundUniqueInput, {nullable:true})
+    identifier?: InstanceType<typeof ShelfIdentifierCompoundUniqueInput>;
     @Field(() => [ShelfWhereInput], {nullable:true})
     AND?: Array<ShelfWhereInput>;
     @Field(() => [ShelfWhereInput], {nullable:true})
@@ -2437,7 +2449,7 @@ export class UpdateOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -2445,7 +2457,7 @@ export class UpsertOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ShelfCreateInput, {nullable:false})
     @Type(() => ShelfCreateInput)
     create!: InstanceType<typeof ShelfCreateInput>;

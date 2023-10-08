@@ -3,11 +3,11 @@ import {
   UserBookIdentifierCompoundUniqueInput,
   UserBookUpdateInput,
 } from '../../src/generated-db-types';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 @Injectable()
 export class UserBookService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaRepository) {}
 
   async create(bookId: string, userId: string) {
     const createUserBookArgs: Prisma.UserBookCreateArgs = {

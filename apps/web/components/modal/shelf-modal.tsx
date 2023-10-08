@@ -20,7 +20,10 @@ import {
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { Button } from "@/components/ui/button";
 import useSidebar from "@/hooks/use-sidebar";
-import { useCreateShelfMutation } from "@/graphql/graphql";
+import {
+  useCreateShelfMutation,
+  useUpdateShelfMutation,
+} from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import loading from "@/app/(book)/book/loading";
 
@@ -32,6 +35,7 @@ export const ShelfModal = () => {
   const shelfModal = useShelfModal();
   const router = useRouter();
   const [createShelf] = useCreateShelfMutation();
+  const [updateShelf] = useUpdateShelfMutation();
   const updateShelves = useSidebar((state) => state.updateShelves);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,16 +51,15 @@ export const ShelfModal = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // If the modal is closed by clicking the cancel button, do not execute the rest of the function
+  const onCreateShelf = async (name: string) => {
     if (!shelfModal.isOpen) {
       return;
     }
     setIsLoading(true);
     const { data } = await createShelf({
       variables: {
-        input: {
-          name: values.name,
+        data: {
+          name: name,
         },
       },
     });
@@ -67,13 +70,57 @@ export const ShelfModal = () => {
         variant: "destructive",
       });
     } else {
-      updateShelves({ title: values.name, icon: "shelf" });
+      updateShelves({
+        id: data.createShelf.id,
+        title: data.createShelf.name,
+        icon: "shelf",
+      });
       toast({
         title: "Sucessfylly created shelf",
       });
     }
     setIsLoading(false);
     shelfModal.onClose();
+  };
+  const onUpdateShelf = async (name: string) => {
+    if (!shelfModal.isOpen) {
+      return;
+    }
+    setIsLoading(true);
+    const { data } = await updateShelf({
+      variables: {
+        data: {
+          name: name,
+        },
+        where: {
+          id: shelfModal.editId,
+        },
+      },
+    });
+
+    if (!data) {
+      toast({
+        title: "Error creating shelf",
+        variant: "destructive",
+      });
+    } else {
+      updateShelves({ title: name, icon: "shelf" });
+      toast({
+        title: "Sucessfylly created shelf",
+      });
+    }
+    setIsLoading(false);
+    shelfModal.onClose();
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // If the modal is closed by clicking the cancel button, do not execute the rest of the function
+    if (!shelfModal.isEdit) {
+      onCreateShelf(values.name);
+      return;
+    } else {
+      onUpdateShelf(values.name);
+    }
   };
 
   return (

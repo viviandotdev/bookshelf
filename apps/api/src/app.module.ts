@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { GqlConfigService } from './config/graphql.config';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaRepository } from '../prisma/prisma.repository';
 import configuration from './config/env.config';
 import { ShelfModule } from 'libs/shelf/shelf.module';
 import { HealthModule } from 'libs/health/health.module';
@@ -28,6 +28,6 @@ import { AuthModule } from 'libs/auth/auth.module';
     UserBookModule,
     ShelfModule,
   ],
-  providers: [PrismaService],
+  providers: [PrismaRepository],
 })
 export class AppModule {}

@@ -207,13 +207,15 @@ input LogInInput {
 
 type Mutation {
   createBook(data: BookCreateInput!): Book!
-  createShelf(input: ShelfCreateInput!): Shelf!
+  createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
+  deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
   removeUserBook(where: UserBookIdentifierCompoundUniqueInput!): Boolean!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
+  updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
   updateUserBook(data: UserBookUpdateInput!, where: UserBookIdentifierCompoundUniqueInput!): UserBook!
 }
 
@@ -514,6 +516,11 @@ input ShelfEntryWhereUniqueInput {
   userBookId: String
 }
 
+input ShelfIdentifierCompoundUniqueInput {
+  name: String!
+  userId: String!
+}
+
 input ShelfListRelationFilter {
   every: ShelfWhereInput
   none: ShelfWhereInput
@@ -550,6 +557,15 @@ input ShelfScalarWhereInput {
   id: StringFilter
   name: StringFilter
   userId: StringFilter
+}
+
+input ShelfUpdateInput {
+  dateTime: String
+  description: String
+  id: String
+  name: String
+  shelfEntries: ShelfEntryUpdateManyWithoutShelfNestedInput
+  user: UserUpdateOneWithoutShelvesNestedInput
 }
 
 input ShelfUpdateManyMutationInput {
@@ -644,6 +660,7 @@ input ShelfWhereUniqueInput {
   dateTime: StringFilter
   description: StringFilter
   id: String
+  identifier: ShelfIdentifierCompoundUniqueInput
   name: StringFilter
   shelfEntries: ShelfEntryListRelationFilter
   user: UserRelationFilter

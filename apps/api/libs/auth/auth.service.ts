@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash, compare } from 'bcryptjs';
 import { LogInInput } from './dto/login.input';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaRepository } from 'prisma/prisma.repository';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly prisma: PrismaRepository,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}

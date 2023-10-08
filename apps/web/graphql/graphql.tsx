@@ -233,11 +233,13 @@ export type Mutation = {
   createBook: Book;
   createShelf: Shelf;
   createUser: User;
+  deleteShelf?: Maybe<Shelf>;
   logout: Scalars['Boolean'];
   refreshAuth: RefreshResponse;
   removeUserBook: Scalars['Boolean'];
   signin: AuthResponse;
   signup: User;
+  updateShelf?: Maybe<Shelf>;
   updateUserBook: UserBook;
 };
 
@@ -248,12 +250,17 @@ export type MutationCreateBookArgs = {
 
 
 export type MutationCreateShelfArgs = {
-  input: ShelfCreateInput;
+  data: ShelfCreateInput;
 };
 
 
 export type MutationCreateUserArgs = {
   userCreateInput: UserCreateInput;
+};
+
+
+export type MutationDeleteShelfArgs = {
+  where: ShelfWhereUniqueInput;
 };
 
 
@@ -274,6 +281,12 @@ export type MutationSigninArgs = {
 
 export type MutationSignupArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationUpdateShelfArgs = {
+  data: ShelfUpdateInput;
+  where: ShelfWhereUniqueInput;
 };
 
 
@@ -593,6 +606,11 @@ export type ShelfEntryWhereUniqueInput = {
   userBookId?: InputMaybe<Scalars['String']>;
 };
 
+export type ShelfIdentifierCompoundUniqueInput = {
+  name: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type ShelfListRelationFilter = {
   every?: InputMaybe<ShelfWhereInput>;
   none?: InputMaybe<ShelfWhereInput>;
@@ -631,6 +649,15 @@ export type ShelfScalarWhereInput = {
   id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
+};
+
+export type ShelfUpdateInput = {
+  dateTime?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  shelfEntries?: InputMaybe<ShelfEntryUpdateManyWithoutShelfNestedInput>;
+  user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
 };
 
 export type ShelfUpdateManyMutationInput = {
@@ -725,6 +752,7 @@ export type ShelfWhereUniqueInput = {
   dateTime?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<ShelfIdentifierCompoundUniqueInput>;
   name?: InputMaybe<StringFilter>;
   shelfEntries?: InputMaybe<ShelfEntryListRelationFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -1282,11 +1310,26 @@ export type CreateBookMutationVariables = Exact<{
 export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
 
 export type CreateShelfMutationVariables = Exact<{
-  input: ShelfCreateInput;
+  data: ShelfCreateInput;
 }>;
 
 
 export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string, description?: string | null } };
+
+export type DeleteShelfMutationVariables = Exact<{
+  where: ShelfWhereUniqueInput;
+}>;
+
+
+export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf?: { __typename?: 'Shelf', id: string } | null };
+
+export type UpdateShelfMutationVariables = Exact<{
+  data: ShelfUpdateInput;
+  where: ShelfWhereUniqueInput;
+}>;
+
+
+export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf?: { __typename?: 'Shelf', id: string } | null };
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
@@ -1503,8 +1546,8 @@ export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutati
 export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
 export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
 export const CreateShelfDocument = gql`
-    mutation CreateShelf($input: ShelfCreateInput!) {
-  createShelf(input: $input) {
+    mutation CreateShelf($data: ShelfCreateInput!) {
+  createShelf(data: $data) {
     id
     name
     description
@@ -1526,7 +1569,7 @@ export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation,
  * @example
  * const [createShelfMutation, { data, loading, error }] = useCreateShelfMutation({
  *   variables: {
- *      input: // value for 'input'
+ *      data: // value for 'data'
  *   },
  * });
  */
@@ -1537,6 +1580,73 @@ export function useCreateShelfMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateShelfMutationHookResult = ReturnType<typeof useCreateShelfMutation>;
 export type CreateShelfMutationResult = Apollo.MutationResult<CreateShelfMutation>;
 export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<CreateShelfMutation, CreateShelfMutationVariables>;
+export const DeleteShelfDocument = gql`
+    mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
+  deleteShelf(where: $where) {
+    id
+  }
+}
+    `;
+export type DeleteShelfMutationFn = Apollo.MutationFunction<DeleteShelfMutation, DeleteShelfMutationVariables>;
+
+/**
+ * __useDeleteShelfMutation__
+ *
+ * To run a mutation, you first call `useDeleteShelfMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteShelfMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteShelfMutation, { data, loading, error }] = useDeleteShelfMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDeleteShelfMutation(baseOptions?: Apollo.MutationHookOptions<DeleteShelfMutation, DeleteShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteShelfMutation, DeleteShelfMutationVariables>(DeleteShelfDocument, options);
+      }
+export type DeleteShelfMutationHookResult = ReturnType<typeof useDeleteShelfMutation>;
+export type DeleteShelfMutationResult = Apollo.MutationResult<DeleteShelfMutation>;
+export type DeleteShelfMutationOptions = Apollo.BaseMutationOptions<DeleteShelfMutation, DeleteShelfMutationVariables>;
+export const UpdateShelfDocument = gql`
+    mutation UpdateShelf($data: ShelfUpdateInput!, $where: ShelfWhereUniqueInput!) {
+  updateShelf(data: $data, where: $where) {
+    id
+  }
+}
+    `;
+export type UpdateShelfMutationFn = Apollo.MutationFunction<UpdateShelfMutation, UpdateShelfMutationVariables>;
+
+/**
+ * __useUpdateShelfMutation__
+ *
+ * To run a mutation, you first call `useUpdateShelfMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateShelfMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateShelfMutation, { data, loading, error }] = useUpdateShelfMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUpdateShelfMutation(baseOptions?: Apollo.MutationHookOptions<UpdateShelfMutation, UpdateShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateShelfMutation, UpdateShelfMutationVariables>(UpdateShelfDocument, options);
+      }
+export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMutation>;
+export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
+export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
 export const UpdateUserBookDocument = gql`
     mutation UpdateUserBook($data: UserBookUpdateInput!, $where: UserBookIdentifierCompoundUniqueInput!) {
   updateUserBook(data: $data, where: $where) {

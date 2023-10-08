@@ -43,6 +43,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
 
   const shelfSelections: NavItem[] =
     data?.shelves.map((shelf) => ({
+      id: shelf.id,
       title: shelf.name,
       icon: "shelf", // Assuming "shelf" is the icon name for shelves
     })) || [];
