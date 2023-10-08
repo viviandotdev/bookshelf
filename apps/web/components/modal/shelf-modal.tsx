@@ -56,20 +56,24 @@ export const ShelfModal = () => {
       return;
     }
     setIsLoading(true);
-    const { data } = await createShelf({
+    // Query or mutation execution
+    const { data, errors } = await createShelf({
       variables: {
         data: {
           name: name,
         },
       },
+      errorPolicy: "all",
     });
 
-    if (!data) {
+    if (errors) {
       toast({
-        title: "Error creating shelf",
+        title: errors[0].message,
         variant: "destructive",
       });
-    } else {
+    }
+
+    if (data && !errors) {
       addShelf({
         id: data.createShelf.id,
         title: data.createShelf.name,
@@ -79,6 +83,7 @@ export const ShelfModal = () => {
         title: "Sucessfylly created shelf",
       });
     }
+
     setIsLoading(false);
     shelfModal.onClose();
   };
@@ -87,7 +92,7 @@ export const ShelfModal = () => {
       return;
     }
     setIsLoading(true);
-    const { data } = await updateShelf({
+    const { data, errors } = await updateShelf({
       variables: {
         data: {
           name: name,
@@ -96,19 +101,23 @@ export const ShelfModal = () => {
           id: shelfModal.editId,
         },
       },
+      errorPolicy: "all",
     });
 
-    if (!data) {
+    if (errors) {
       toast({
-        title: "Error creating shelf",
+        title: errors[0].message,
         variant: "destructive",
       });
-    } else {
+    }
+
+    if (data && !errors) {
       renameShelf(shelfModal.editId!, data.updateShelf?.name!);
       toast({
         title: "Sucessfylly renamed shelf",
       });
     }
+
     setIsLoading(false);
     shelfModal.onClose();
   };

@@ -65,11 +65,20 @@ export class ShelfResolver {
   async updateShelf(
     @Args('data') data: ShelfUpdateInput,
     @Args('where') where: ShelfWhereUniqueInput,
+    @CurrentUser() currentUser: JwtPayload,
   ) {
-    const shelf = await this.service.findUnique({ where: { id: where.id } });
-    if (!shelf) {
-      throw new NotFoundException(
-        `Article ${JSON.stringify(where)} do not exists`,
+    //unique by use and shelf
+    const shelf = await this.service.findUnique({
+      where: {
+        identifier: {
+          userId: currentUser.userId,
+          name: data.name,
+        },
+      },
+    });
+    if (shelf) {
+      throw new ConflictException(
+        `Failed to update shelf name - please choose a different name, this one is already in use.`,
       );
     }
     return this.service.update({
