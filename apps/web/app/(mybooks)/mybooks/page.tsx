@@ -11,6 +11,11 @@ import { myBooksConfig } from "@/config/mybooks";
 import { ShelvesDocument, ShelvesQuery } from "@/graphql/graphql";
 import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
 import { NavItem } from "@/types";
+import { dm_sefif_display } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { ChevronUpIcon } from "lucide-react";
+import { Icons } from "@/components/icons";
 interface MyBooksPageProps {
   params: { bookId: string };
 }
@@ -56,7 +61,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
   return (
     <>
       <div className="flex-col justify-center">
-        <div className="w-full grid grid-cols-4 gap-4">
+        <div className="w-full grid grid-cols-4 gap-12">
           <Sidebar
             librarySelections={myBooksConfig.librarySelections}
             librarySelectionsCounts={librarySelectionsCounts}
@@ -64,13 +69,41 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             shelfSelections={shelfSelections}
           />
           <div className="col-span-4 xl:col-span-3 pt-1.5">
-            <ContentNav resultText="23 Books" showSearch showSort />
-            {/* <hr className="mt-1.5 border-t-1 border-primary" /> */}
-            <div>
+            <nav className="flex flex-col w-full rounded-lg  justify-between mt-8 pb-2">
+              <h1
+                className={cn(
+                  dm_sefif_display.className,
+                  "text-primary text-4xl mb-8"
+                )}
+              >
+                Bookshelves
+              </h1>
+              <ContentNav resultText="23 Books" showSearch showSort />
+
+              <hr className="my-2 border-t-1 border-primary" />
+              <div className="flex gap-2 text-sm items-center justify-between relative w-full">
+                <div className="flex text-sm items-start relative">
+                  <button
+                    className={cn(
+                      buttonVariants({ variant: "tag", size: "xs" })
+                    )}
+                  >
+                    Read
+                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
+                  </button>
+                  <div className="block h-full bg-slate-300 w-0.5 absolute left-16"></div>
+                </div>
+                <div className="flex text-sm gap-2 items-center">
+                  {/* {showSearch && <SearchInput />} */}
+                  {/* {showSort && <SortingOptions />} */}
+                </div>
+              </div>
+            </nav>
+            {/* <div>
               {booksData.map((book) => {
                 return <MyBooksCard book={book} />;
               })}
-            </div>
+            </div> */}
           </div>
         </div>
         <Pagination

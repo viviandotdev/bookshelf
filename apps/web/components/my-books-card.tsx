@@ -35,10 +35,6 @@ export const MyBooksCard: React.FC<MyBooksCardProps> = ({
             />,
             <Button
               className={cn(buttonVariants({ variant: "action", size: "xs" }))}
-              label="Edit"
-            />,
-            <Button
-              className={cn(buttonVariants({ variant: "action", size: "xs" }))}
               icon={<Icons.delete className="h-4 w-4" />}
             />,
           ]}

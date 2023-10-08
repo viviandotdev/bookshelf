@@ -4,6 +4,7 @@ import { Icons } from "./icons";
 import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
+import Book from "./book";
 
 interface BooksSectionProps {
   image_data: string[];
@@ -30,33 +31,12 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
           <hr className="mt-1" />
         </div>
       )}
-      <div className="flex flex-col md:flex-row justify-between overflow-hidden m-0 ">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
         {image_data.map((image, idx) => (
           <>
             {/* Cover View */}
-            <div key={idx} className="flex-row hidden md:block">
-              <BookCover src={image} size={"dynamic"} />
-              {details && (
-                <>
-                  <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-secondary rounded-sm text-xs text-muted-foreground">
-                    <div className="flex justify-between">
-                      <div className="flex items-center text-primary">
-                        <div className="align-middle">
-                          <Icons.pieChart className="h-3 w-3 opacity-50" />
-                        </div>
-                        <span className="ml-1.5 text-muted-foreground">
-                          90%
-                        </span>
-                      </div>
-                      <div className="text-muted-foreground hidden lg:block">
-                        Sept 12
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            {/* List View */}
+            <Book image={image} details={details} responsive />
+            {/* Responsive View */}
             <div className="flex flex-col md:hidden">
               <div className="pt-4">
                 <div className="flex justify-between text-primary font-bold uppercase ">
