@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { ChevronUpIcon } from "lucide-react";
 import { Icons } from "@/components/icons";
+import Book from "@/components/book";
 interface MyBooksPageProps {
   params: { bookId: string };
 }
@@ -93,12 +94,17 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
                   </button>
                   <div className="block h-full bg-slate-300 w-0.5 absolute left-16"></div>
                 </div>
-                <div className="flex text-sm gap-2 items-center">
-                  {/* {showSearch && <SearchInput />} */}
-                  {/* {showSort && <SortingOptions />} */}
-                </div>
+                <div className="flex text-sm gap-2 items-center"></div>
               </div>
             </nav>
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
+              {booksData.map((book) => (
+                <div>
+                  <Book image={book.image} />
+                </div>
+              ))}
+            </div>
+            {/* List View */}
             {/* <div>
               {booksData.map((book) => {
                 return <MyBooksCard book={book} />;
