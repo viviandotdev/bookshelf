@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import ShelveModal from "@/components/modal/shelve-modal";
 import StatusModal from "@/components/modal/status-modal";
 import RemoveModal from "@/components/modal/alert-modal";
+import { ShelfModal } from "@/components/modal/shelf-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,7 @@ export default function RootLayout({
         <SessionProvider session={session}>
           <ApolloClientProvider>
             <StatusModal />
-            <RemoveModal />
+            <ShelfModal />
             {children}
           </ApolloClientProvider>
           <Toaster />

@@ -8,11 +8,8 @@ import fakeBookData from "@/lib/testData/fakeBookData";
 import { redirect, notFound } from "next/navigation";
 import React from "react";
 import { myBooksConfig } from "@/config/mybooks";
-import CreateShelfModal from "@/components/modal/create-shelf-modal";
 import { ShelvesDocument, ShelvesQuery } from "@/graphql/graphql";
 import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
-import { HttpLink, ApolloClient, InMemoryCache } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
 import { NavItem } from "@/types";
 interface MyBooksPageProps {
   params: { bookId: string };
@@ -81,7 +78,6 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
           // setCurrentPage={setCurrentPage}
         />
       </div>
-      <CreateShelfModal />
     </>
   );
 }

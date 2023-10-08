@@ -1,11 +1,10 @@
 "use client";
-import useAlertModal from "@/hooks/use-remove-modal";
-import React, { useState } from "react";
-import Modal from "./modal";
-import { useRemoveUserBookMutation } from "@/graphql/graphql";
-import useUserBook from "@/hooks/use-user-book";
-
+import React from "react";
+import { Modal } from "@/components/ui/modal";
+import { Button } from "../ui/button";
 interface AlertModalProps {
+  title: string;
+  description: string;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -13,32 +12,39 @@ interface AlertModalProps {
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
+  title,
+  description,
   isOpen,
   onClose,
   onConfirm,
   loading,
 }) => {
-  const bodyContent = (
-    <div>
-      <p>
-        Removing this book will clear associated ratings, reviews and reading
-        activity
-      </p>
-    </div>
-  );
-
   return (
     <Modal
-      disabled={loading}
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={onConfirm}
-      title={`Are you sure you want to remove this book from your shelf?`}
-      body={bodyContent}
-      actionLabel="Remove"
-      secondaryAction={onClose}
-      secondaryActionLabel="Cancel"
-    />
+      title={title}
+      description={description}
+    >
+      <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+        <Button
+          label="Cancel"
+          disabled={loading}
+          variant="outline"
+          onClick={onClose}
+        >
+          Cancel
+        </Button>
+        <Button
+          label="Continue"
+          disabled={loading}
+          variant="default"
+          onClick={onConfirm}
+        >
+          Continue
+        </Button>
+      </div>
+    </Modal>
   );
 };
 export default AlertModal;

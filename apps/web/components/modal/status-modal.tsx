@@ -123,6 +123,10 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
   return (
     <>
       <AlertModal
+        title={"Are you sure you want to remove this book from your shelf?"}
+        description={
+          "Removing this book will clear associated ratings, reviews and reading activity"
+        }
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
