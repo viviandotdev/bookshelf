@@ -88,7 +88,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
                   heading.title === sidebar.selected
                     ? "bg-secondary"
                     : "hover:bg-slate-100 hover:bg-opacity-70"
-                } group/item flex rounded-lg px-3 font-medium`}
+                }  group/item flex rounded-lg px-3 font-medium`}
               >
                 <div
                   key={i}

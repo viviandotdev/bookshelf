@@ -108,7 +108,7 @@ interface BookRatingProps {
 // Book Rating Component
 export function BookRating({ rating, setRating }: BookRatingProps) {
   return (
-    <div className="flex justify-end text-xs font-medium items-center gap-2">
+    <div className="flex justify-end items-center gap-2">
       My Rating:
       <Rating
         halfFillMode="box"
