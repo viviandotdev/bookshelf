@@ -102,7 +102,7 @@ export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
 }
 interface BookRatingProps {
   rating: number;
-  setRating: React.Dispatch<React.SetStateAction<number>>;
+  setRating: (rating: number) => void;
 }
 
 // Book Rating Component

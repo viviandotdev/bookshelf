@@ -100,7 +100,7 @@ export default async function MyBooksPage({ params }: MyBooksPageProps) {
             <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
               {booksData.map((book) => (
                 <div>
-                  <Book image={book.image} />
+                  <Book book={book} image={book.image} />
                 </div>
               ))}
             </div>
