@@ -2,16 +2,8 @@
 import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 import { BookRating } from "./book-card";
-import BookDropdown from "./book-dropdown";
+import BookOperations from "./book-operations";
 import { BookData } from "@/types/interfaces";
 
 interface BookProps {
@@ -42,7 +34,9 @@ export const Book: React.FC<BookProps> = ({ book, details, responsive }) => {
     >
       <div className={`flex-row cursor-pointer `}>
         <div>
-          <BookCover src={book.image} size={"dynamic"} />
+          {book && book.image && (
+            <BookCover src={book.image} size={"dynamic"} />
+          )}
           <div className="top-0 absolute"></div>
         </div>
         {details && (
@@ -67,11 +61,12 @@ export const Book: React.FC<BookProps> = ({ book, details, responsive }) => {
           >
             <Icons.book className="cursor-pointer h-6 w-6 text-primary" />
             <Icons.heart className="cursor-pointer h-6 w-6 text-primary" />
-            <BookDropdown
+            <BookOperations
               open={openMenu}
               setOpen={setOpenMenu}
               setRating={setRating}
               rating={rating}
+              book={book}
             />
           </div>
         </div>

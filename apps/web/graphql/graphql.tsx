@@ -270,7 +270,7 @@ export type MutationLogoutArgs = {
 
 
 export type MutationRemoveUserBookArgs = {
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 };
 
 
@@ -292,7 +292,7 @@ export type MutationUpdateShelfArgs = {
 
 export type MutationUpdateUserBookArgs = {
   data: UserBookUpdateInput;
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 };
 
 export type Query = {
@@ -304,7 +304,7 @@ export type Query = {
 
 
 export type QueryUserBookArgs = {
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 };
 
 export enum QueryMode {
@@ -1333,14 +1333,14 @@ export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf?: { __t
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 }>;
 
 
 export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string } };
 
 export type RemoveUserBookMutationVariables = Exact<{
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 }>;
 
 
@@ -1357,7 +1357,7 @@ export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 export type ShelvesQuery = { __typename?: 'Query', shelves: Array<{ __typename?: 'Shelf', id: string, name: string }> };
 
 export type UserBookQueryVariables = Exact<{
-  where: UserBookIdentifierCompoundUniqueInput;
+  where: BookWhereUniqueInput;
 }>;
 
 
@@ -1649,7 +1649,7 @@ export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMuta
 export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
 export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
 export const UpdateUserBookDocument = gql`
-    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: UserBookIdentifierCompoundUniqueInput!) {
+    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {
     status
   }
@@ -1683,7 +1683,7 @@ export type UpdateUserBookMutationHookResult = ReturnType<typeof useUpdateUserBo
 export type UpdateUserBookMutationResult = Apollo.MutationResult<UpdateUserBookMutation>;
 export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
 export const RemoveUserBookDocument = gql`
-    mutation RemoveUserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+    mutation RemoveUserBook($where: BookWhereUniqueInput!) {
   removeUserBook(where: $where)
 }
     `;
@@ -1784,7 +1784,7 @@ export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
 export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
 export const UserBookDocument = gql`
-    query UserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+    query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
     userId
     bookId

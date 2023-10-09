@@ -212,17 +212,17 @@ type Mutation {
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
-  removeUserBook(where: UserBookIdentifierCompoundUniqueInput!): Boolean!
+  removeUserBook(where: BookWhereUniqueInput!): Boolean!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
-  updateUserBook(data: UserBookUpdateInput!, where: UserBookIdentifierCompoundUniqueInput!): UserBook!
+  updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }
 
 type Query {
   me: User!
   shelves: [Shelf!]!
-  userBook(where: UserBookIdentifierCompoundUniqueInput!): UserBook
+  userBook(where: BookWhereUniqueInput!): UserBook
 }
 
 enum QueryMode {

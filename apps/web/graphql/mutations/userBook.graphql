@@ -1,12 +1,12 @@
 mutation UpdateUserBook(
   $data: UserBookUpdateInput!
-  $where: UserBookIdentifierCompoundUniqueInput!
+  $where: BookWhereUniqueInput!
 ) {
   updateUserBook(data: $data, where: $where) {
     status
   }
 }
 
-mutation RemoveUserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+mutation RemoveUserBook($where: BookWhereUniqueInput!) {
   removeUserBook(where: $where)
 }

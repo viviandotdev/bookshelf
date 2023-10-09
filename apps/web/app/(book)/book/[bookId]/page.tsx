@@ -35,8 +35,7 @@ export default async function BookPage({ params }: BookPageProps) {
     query: UserBookDocument,
     variables: {
       where: {
-        userId: user.id,
-        bookId: params.bookId,
+        id: params.bookId,
       },
     },
   });

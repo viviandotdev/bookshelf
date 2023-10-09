@@ -1,4 +1,4 @@
-query UserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
     userId
     bookId

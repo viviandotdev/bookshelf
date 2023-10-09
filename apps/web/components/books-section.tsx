@@ -5,9 +5,10 @@ import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
+import { Book as BookData } from "@/graphql/graphql";
 
 interface BooksSectionProps {
-  image_data: string[];
+  booksData: BookData[];
   heading?: string;
   details?: {
     progress: number;
@@ -16,7 +17,7 @@ interface BooksSectionProps {
 }
 
 export const BooksSection: React.FC<BooksSectionProps> = ({
-  image_data,
+  booksData,
   heading,
   details,
 }) => {
@@ -32,10 +33,10 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-        {image_data.map((image, idx) => (
+        {booksData.map((book, idx) => (
           <>
             {/* Cover View */}
-            <Book image={image} details={details} responsive />
+            <Book book={book} details={details} responsive />
             {/* Responsive View */}
             <div className="flex flex-col md:hidden">
               <div className="pt-4">

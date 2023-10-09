@@ -10,20 +10,79 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { BookData } from "@/types/interfaces";
+import { toast } from "@/hooks/use-toast";
+import {
+  useRemoveUserBookMutation,
+  useUpdateUserBookMutation,
+} from "@/graphql/graphql";
 
-interface BookDropdownProps {
+interface BookOperationsProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   rating: number;
   setRating: (rating: number) => void;
+  book: BookData;
 }
 
-export const BookDropdown: React.FC<BookDropdownProps> = ({
+export const BookOperations: React.FC<BookOperationsProps> = ({
   open,
   setOpen,
   rating,
   setRating,
+  book,
 }) => {
+  const [UpdateUserBook] = useUpdateUserBookMutation();
+  const [removeUserBook] = useRemoveUserBookMutation();
+
+  const onUpdate = async (status: string) => {
+    const { data, errors } = await UpdateUserBook({
+      variables: {
+        data: {
+          status: status,
+        },
+        where: {
+          id: book.id,
+        },
+      },
+      errorPolicy: "all",
+    });
+
+    if (errors) {
+      toast({
+        title: "Error updating book",
+        variant: "destructive",
+      });
+    }
+
+    if (data) {
+      toast({
+        title: `Sucessfully updated book status to ${data.updateUserBook.status}`,
+      });
+    }
+  };
+  const onDelete = async () => {
+    const { data, errors } = await removeUserBook({
+      variables: {
+        where: {
+          id: book.id,
+        },
+      },
+      errorPolicy: "all",
+    });
+
+    if (errors) {
+      toast({
+        title: errors[0].message,
+        variant: "destructive",
+      });
+    }
+    if (data && !errors) {
+      toast({
+        title: "Sucessfylly deleted book",
+      });
+    }
+  };
   return (
     <div>
       <DropdownMenu open={open} modal={false}>
@@ -45,11 +104,19 @@ export const BookDropdown: React.FC<BookDropdownProps> = ({
           className="w-56"
         >
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                onUpdate("Want to Read");
+              }}
+            >
               <Icons.bookPlus className="h-5 w-5 mr-2" />
               Want to Read
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                onUpdate("Want to Read");
+              }}
+            >
               <Icons.bookOpen className="h-5 w-5 mr-2" />
               Currently Reading
             </DropdownMenuItem>
@@ -67,10 +134,14 @@ export const BookDropdown: React.FC<BookDropdownProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Icons.plus className="h-5 w-5 mr-2" />
-              Log or reivew book
+              Log book
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => {}}>
+            <DropdownMenuItem
+              onClick={() => {
+                onDelete();
+              }}
+            >
               <Icons.delete className="h-5 w-5 mr-2" />
               Remove...
             </DropdownMenuItem>
@@ -80,4 +151,4 @@ export const BookDropdown: React.FC<BookDropdownProps> = ({
     </div>
   );
 };
-export default BookDropdown;
+export default BookOperations;
