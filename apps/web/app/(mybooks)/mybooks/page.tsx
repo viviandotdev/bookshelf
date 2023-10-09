@@ -1,5 +1,4 @@
 import { ContentNav } from "@/components/content-nav";
-import { MyBooksCard } from "@/components/my-books-card";
 import { Pagination } from "@/components/pagination";
 import Sidebar from "@/components/sidebar";
 import { authOptions } from "@/lib/auth/auth";
@@ -17,11 +16,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { ChevronUpIcon } from "lucide-react";
 import { Icons } from "@/components/icons";
 import Book from "@/components/book";
-interface MyBooksPageProps {
-  params: { bookId: string };
-}
+interface MyBooksPageProps {}
 
-export default async function MyBooksPage({ params }: MyBooksPageProps) {
+export default async function MyBooksPage({}: MyBooksPageProps) {
   const user = await getCurrentUser();
 
   const client = getApolloClient();

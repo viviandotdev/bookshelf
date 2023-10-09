@@ -3,27 +3,33 @@ import React, { useEffect, useState } from "react";
 import SidebarSection from "./sidebar-section";
 import { NavItem } from "@/types";
 import useSidebar from "@/hooks/use-shelf-store";
+import { useSearchParams } from "next/navigation";
 // import { Accordion } from "@radix-ui/react-accordion";
 
 interface SidebarProps {
   librarySelections: NavItem[];
   librarySelectionsCounts: number[];
-  toolSelections: NavItem[];
   shelfSelections: NavItem[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
   librarySelections,
   librarySelectionsCounts,
-  toolSelections,
   shelfSelections,
 }) => {
   const sidebar = useSidebar();
   const updateSelected = useSidebar((state) => state.updateSelected);
   const initShelves = useSidebar((state) => state.initShelves);
 
+  const params = useSearchParams();
+  const shelf = params?.get("shelf");
+
   useEffect(() => {
-    updateSelected("All");
+    if (shelf) {
+      updateSelected(shelf);
+    } else {
+      updateSelected("All");
+    }
     initShelves(shelfSelections);
   }, []);
 
@@ -36,6 +42,7 @@ const SideBar: React.FC<SidebarProps> = ({
           items={librarySelections}
           counts={librarySelectionsCounts}
           collapsible
+          isShelves={false}
         />
 
         <SidebarSection
@@ -44,9 +51,8 @@ const SideBar: React.FC<SidebarProps> = ({
           items={sidebar.shelves}
           counts={librarySelectionsCounts}
           collapsible
-          isShelves
+          isShelves={true}
         />
-        <SidebarSection key={2} title="Tools" items={toolSelections} />
       </div>
     </div>
   );
