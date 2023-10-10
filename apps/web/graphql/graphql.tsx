@@ -1321,7 +1321,7 @@ export type DeleteShelfMutationVariables = Exact<{
 }>;
 
 
-export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf?: { __typename?: 'Shelf', id: string } | null };
+export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf?: { __typename?: 'Shelf', id: string, name: string } | null };
 
 export type UpdateShelfMutationVariables = Exact<{
   data: ShelfUpdateInput;
@@ -1584,6 +1584,7 @@ export const DeleteShelfDocument = gql`
     mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
   deleteShelf(where: $where) {
     id
+    name
   }
 }
     `;

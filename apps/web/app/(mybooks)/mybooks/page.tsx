@@ -7,25 +7,19 @@ import fakeBookData from "@/lib/testData/fakeBookData";
 import { redirect, notFound } from "next/navigation";
 import React from "react";
 import { myBooksConfig } from "@/config/mybooks";
-import { ShelvesDocument, ShelvesQuery } from "@/graphql/graphql";
-import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
-import { NavItem } from "@/types";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { ChevronUpIcon } from "lucide-react";
 import { Icons } from "@/components/icons";
 import Book from "@/components/book";
+import { getShelves } from "@/entities/shelves";
 interface MyBooksPageProps {}
 
 export default async function MyBooksPage({}: MyBooksPageProps) {
-  const user = await getCurrentUser();
-
-  const client = getApolloClient();
-  client.setLink(setAuthToken(user.accessToken).concat(httpLink));
-
   const booksData = fakeBookData;
   const totalPages = 10;
+  const shelves = await getShelves();
+
   const librarySelectionsCounts = myBooksConfig.librarySelections.map(
     (selection) => {
       // TODO: compute the count for each selection based on your data logic.
@@ -35,26 +29,7 @@ export default async function MyBooksPage({}: MyBooksPageProps) {
       return count;
     }
   );
-  const { loading, data } = await client.query<ShelvesQuery>({
-    query: ShelvesDocument,
-  });
-
-  if (loading) {
-    // Return loading indicator while data is being fetched
-    return <div>Loading...</div>;
-  }
-
-  const shelfSelections: NavItem[] =
-    data?.shelves.map((shelf) => ({
-      id: shelf.id,
-      title: shelf.name,
-      icon: "shelf", // Assuming "shelf" is the icon name for shelves
-    })) || [];
-
   // const [currentPage, setCurrentPage] = React.useState(0);
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login");
-  }
 
   return (
     <>
@@ -63,8 +38,7 @@ export default async function MyBooksPage({}: MyBooksPageProps) {
           <Sidebar
             librarySelections={myBooksConfig.librarySelections}
             librarySelectionsCounts={librarySelectionsCounts}
-            toolSelections={myBooksConfig.toolSelections}
-            shelfSelections={shelfSelections}
+            shelfSelections={shelves}
           />
           <div className="col-span-4 xl:col-span-3 pt-1.5">
             <nav className="flex flex-col w-full rounded-lg  justify-between mt-8 pb-2">

@@ -29,10 +29,8 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
   const sidebar = useSidebar();
   const [openAlert, setOpenAlert] = useState(false);
   const shelfModal = useShelfModal();
-  const updateSelected = useSidebar((state) => state.updateSelected);
   const [isLoading, setIsLoading] = useState(false);
   const [deleteShelf] = useDeleteShelfMutation();
-
 
   const onDelete = async () => {
     setIsLoading(true);
@@ -40,24 +38,24 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
       return;
     }
     setIsLoading(true);
-    const { data } = await deleteShelf({
+    await deleteShelf({
       variables: {
         where: {
           id: shelfModal.editId,
         },
       },
+      onError: (err) => {
+        toast({
+          title: "Error deleting shelf",
+          variant: "destructive",
+        });
+      },
+      onCompleted: (data) => {
+        toast({
+          title: "Sucessfylly deleted shelf",
+        });
+      },
     });
-
-    if (!data) {
-      toast({
-        title: "Error delting shelf",
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Sucessfylly deleted shelf",
-      });
-    }
 
     setIsLoading(false);
     sidebar.removeShelf(shelfModal.editId!);
