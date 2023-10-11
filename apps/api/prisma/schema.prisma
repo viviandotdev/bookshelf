@@ -120,7 +120,7 @@ model Shelf {
     /// @Validator.IsString()
     name      String
     /// @Validator.IsString()
-    userId    String
+    userId    String?
     dateTime  String?
     // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
     user      User?             @relation(fields: [userId], references: [id], onDelete: Cascade)

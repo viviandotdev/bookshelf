@@ -220,7 +220,7 @@ type Mutation {
 }
 
 type Query {
-  countUserBooks(where: UserBookWhereInput!): Int!
+  countUserBooks(where: UserBookWhereInput): Int!
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
@@ -251,7 +251,7 @@ type Shelf {
   name: String!
   user: User
   userBooks: [UserBookShelves!]
-  userId: String!
+  userId: String
 }
 
 type ShelfCount {

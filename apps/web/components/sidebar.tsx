@@ -1,20 +1,17 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SidebarSection from "./sidebar-section";
-import { NavItem } from "@/types";
 import useSidebar from "@/hooks/use-shelf-store";
 import { useSearchParams } from "next/navigation";
-// import { Accordion } from "@radix-ui/react-accordion";
+import { Shelf } from "@/graphql/graphql";
 
 interface SidebarProps {
-  librarySelections: NavItem[];
-  librarySelectionsCounts: number[];
-  shelfSelections: NavItem[];
+  librarySelections: Shelf[];
+  shelfSelections: Shelf[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
   librarySelections,
-  librarySelectionsCounts,
   shelfSelections,
 }) => {
   const sidebar = useSidebar();
@@ -39,8 +36,7 @@ const SideBar: React.FC<SidebarProps> = ({
         <SidebarSection
           key={0}
           title="Library"
-          items={librarySelections}
-          counts={librarySelectionsCounts}
+          shelves={librarySelections}
           collapsible
           isShelves={false}
         />
@@ -48,8 +44,7 @@ const SideBar: React.FC<SidebarProps> = ({
         <SidebarSection
           key={1}
           title="Shelves"
-          items={sidebar.shelves}
-          counts={librarySelectionsCounts}
+          shelves={sidebar.shelves}
           collapsible
           isShelves={true}
         />

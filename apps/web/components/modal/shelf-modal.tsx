@@ -68,8 +68,11 @@ export const ShelfModal = () => {
       onCompleted(data) {
         addShelf({
           id: data.createShelf.id,
-          title: data.createShelf.name,
-          icon: "shelf",
+          name: data.createShelf.name,
+          _count: {
+            userBooks: 0,
+          },
+          userId: "",
         });
         toast({
           title: "Sucessfylly created shelf",

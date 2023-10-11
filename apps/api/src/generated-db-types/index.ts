@@ -1605,9 +1605,9 @@ export class ShelfCreateManyInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
 }
@@ -1737,9 +1737,9 @@ export class ShelfGroupBy {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
     @Field(() => ShelfCountAggregate, {nullable:true})
@@ -1860,8 +1860,8 @@ export class ShelfOrderByWithAggregationInput {
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    userId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     dateTime?: InstanceType<typeof SortOrderInput>;
     @Field(() => ShelfCountOrderByAggregateInput, {nullable:true})
@@ -1878,8 +1878,8 @@ export class ShelfOrderByWithRelationInput {
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    userId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     dateTime?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
@@ -1956,9 +1956,9 @@ export class ShelfUncheckedCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
 }
@@ -1985,9 +1985,9 @@ export class ShelfUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutShelfInput, {nullable:true})
@@ -2325,8 +2325,8 @@ export class Shelf {
     id!: string;
     @Field(() => String, {nullable:false})
     name!: string;
-    @Field(() => String, {nullable:false})
-    userId!: string;
+    @Field(() => String, {nullable:true})
+    userId!: string | null;
     @Field(() => String, {nullable:true})
     dateTime!: string | null;
     @Field(() => User, {nullable:true})

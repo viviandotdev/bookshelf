@@ -46,7 +46,7 @@ export class UserBookResolver {
   @UseGuards(AccessTokenGuard)
   @Query(() => Int)
   countUserBooks(
-    @Args('where')
+    @Args('where', { nullable: true })
     where: UserBookWhereInput,
     @CurrentUser() user: JwtPayload,
   ) {

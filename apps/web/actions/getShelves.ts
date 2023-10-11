@@ -1,6 +1,10 @@
-import { ShelvesQuery, ShelvesDocument } from "@/graphql/graphql";
+import {
+  ShelvesQuery,
+  ShelvesDocument,
+  CountUserBooksQuery,
+  CountUserBooksDocument,
+} from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
-import { NavItem } from "@/types";
 import { getCurrentUser } from "@/lib/auth/session";
 
 export async function getShelves() {
@@ -8,16 +12,38 @@ export async function getShelves() {
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 
-  const { data } = await client.query<ShelvesQuery>({
+  const { data: shelvesData } = await client.query<ShelvesQuery>({
     query: ShelvesDocument,
   });
 
-  const shelfSelections: NavItem[] =
-    data?.shelves.map((shelf) => ({
-      id: shelf.id,
-      title: shelf.name,
-      icon: "shelf", // Assuming "shelf" is the icon name for shelves
-    })) || [];
+  const { data: AllBooks } = await client.query<CountUserBooksQuery>({
+    query: CountUserBooksDocument,
+  });
 
-  return shelfSelections;
+  const { data: UnShelvedBooks } = await client.query<CountUserBooksQuery>({
+    query: CountUserBooksDocument,
+    variables: {
+      where: {
+        shelves: {
+          none: {}, // Checks if the shelves array is empty
+        },
+      },
+    },
+  });
+
+  return {
+    shelves: shelvesData.shelves ? shelvesData.shelves : [],
+    library: [
+      {
+        id: "all",
+        name: "All",
+        _count: { userBooks: AllBooks.countUserBooks },
+      },
+      {
+        id: "unshelved",
+        name: "Unshelved",
+        _count: { userBooks: UnShelvedBooks.countUserBooks },
+      },
+    ],
+  };
 }

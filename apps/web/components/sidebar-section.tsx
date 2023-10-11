@@ -1,28 +1,24 @@
-import { NavItem } from "@/types";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import useSidebar from "@/hooks/use-shelf-store";
 import Collapsible from "./ui/collapsible";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AlertModal from "./modal/alert-modal";
 import { toast } from "@/hooks/use-toast";
-import { useDeleteShelfMutation } from "@/graphql/graphql";
-import { useSearchParams, usePathname } from "next/navigation";
+import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import ShelfItem from "./shelf-item";
 
 interface SidebarSectionProps {
   title: string;
-  items: NavItem[];
-  counts?: number[];
+  shelves: Shelf[];
   isShelves?: boolean;
   collapsible?: boolean;
 }
 
 const SidebarSection: React.FC<SidebarSectionProps> = ({
   title,
-  items,
-  counts,
+  shelves,
   isShelves,
   collapsible,
 }) => {
@@ -76,12 +72,10 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
       />
       <Collapsible title={title} collapsible={collapsible}>
         <>
-          {items.map((heading, i) => (
+          {shelves.map((shelf, i) => (
             <ShelfItem
-              heading={heading}
+              shelf={shelf}
               isShelves={isShelves}
-              counts={counts!}
-              i={i}
               setOpenAlert={setOpenAlert}
             />
           ))}

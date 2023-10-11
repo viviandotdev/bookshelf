@@ -306,7 +306,7 @@ export type Query = {
 
 
 export type QueryCountUserBooksArgs = {
-  where: UserBookWhereInput;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 
@@ -347,7 +347,7 @@ export type Shelf = {
   name: Scalars['String'];
   user?: Maybe<User>;
   userBooks?: Maybe<Array<UserBookShelves>>;
-  userId: Scalars['String'];
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type ShelfCount = {
@@ -1358,7 +1358,7 @@ export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: str
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -1377,7 +1377,7 @@ export type UserBooksQueryVariables = Exact<{
 export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
-  where: UserBookWhereInput;
+  where?: InputMaybe<UserBookWhereInput>;
 }>;
 
 
@@ -1776,6 +1776,7 @@ export const ShelvesDocument = gql`
     _count {
       userBooks
     }
+    userId
   }
 }
     `;
@@ -1883,7 +1884,7 @@ export type UserBooksQueryHookResult = ReturnType<typeof useUserBooksQuery>;
 export type UserBooksLazyQueryHookResult = ReturnType<typeof useUserBooksLazyQuery>;
 export type UserBooksQueryResult = Apollo.QueryResult<UserBooksQuery, UserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
-    query CountUserBooks($where: UserBookWhereInput!) {
+    query CountUserBooks($where: UserBookWhereInput) {
   countUserBooks(where: $where)
 }
     `;
@@ -1904,7 +1905,7 @@ export const CountUserBooksDocument = gql`
  *   },
  * });
  */
-export function useCountUserBooksQuery(baseOptions: Apollo.QueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
+export function useCountUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
       }

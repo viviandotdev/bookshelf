@@ -17,16 +17,7 @@ export default async function MyBook({ children }: MyBookLayoutProps) {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
-  const shelves = await getShelves();
-  const librarySelectionsCounts = myBooksConfig.librarySelections.map(
-    (selection) => {
-      // TODO: compute the count for each selection based on your data logic.
-      let min = Math.ceil(1);
-      let max = Math.floor(200);
-      const count = Math.floor(Math.random() * (max - min + 1)) + min;
-      return count;
-    }
-  );
+  const { library, shelves } = await getShelves();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -36,12 +27,7 @@ export default async function MyBook({ children }: MyBookLayoutProps) {
           <ProfileNav items={myBooksConfig.profileNav} user={user} />
           <div className="flex-col justify-center">
             <div className="w-full grid grid-cols-4 gap-12">
-              <Sidebar
-                librarySelections={myBooksConfig.librarySelections}
-                librarySelectionsCounts={librarySelectionsCounts}
-                shelfSelections={shelves}
-              />
-
+              <Sidebar librarySelections={library} shelfSelections={shelves} />
               {children}
             </div>
           </div>

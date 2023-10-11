@@ -8,25 +8,21 @@ import {
 } from "./ui/dropdown-menu";
 import qs from "query-string";
 import { Icons } from "./icons";
-import { NavItem } from "@/types";
 import useSidebar from "@/hooks/use-shelf-store";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Shelf } from "@/graphql/graphql";
 
 interface ShelfItemProps {
-  heading: NavItem;
+  shelf: Shelf;
   isShelves?: boolean;
-  counts: number[];
   setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
-  i: number;
 }
 
 export const ShelfItem: React.FC<ShelfItemProps> = ({
-  heading,
+  shelf,
   isShelves,
-  counts,
   setOpenAlert,
-  i,
 }) => {
   const sidebar = useSidebar();
   const shelfModal = useShelfModal();
@@ -44,10 +40,10 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
 
     const updatedQuery: any = {
       ...currentQuery,
-      shelf: heading.title,
+      shelf: shelf.name,
     };
 
-    if (params?.get("shelf") === heading.title) {
+    if (params?.get("shelf") === shelf.name) {
       delete updatedQuery.shelf;
     }
 
@@ -59,12 +55,13 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
       { skipNull: true }
     );
     router.push(url);
-  }, [heading, router, params]);
+  }, [shelf, router, params]);
+
   return (
-    <div key={i}>
+    <div key={shelf.id}>
       <div
         className={`${
-          heading.title === sidebar.selected
+          shelf.name === sidebar.selected
             ? "bg-secondary"
             : "hover:bg-slate-100 hover:bg-opacity-70"
         }  group/item flex rounded-lg px-3 font-medium`}
@@ -72,13 +69,13 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
         <div
           className={`w-[fill-available] cursor-pointer justify-between py-2`}
           onClick={() => {
-            updateSelected(heading.title!);
+            updateSelected(shelf.name!);
             handleClick();
           }}
         >
           <span className="flex">
-            {heading.icon && nameIcon(heading.icon)}
-            {heading.title}
+            <Icons.shelf className="h-5 w-5 mr-4" />
+            {shelf.name}
           </span>
         </div>
 
@@ -90,13 +87,13 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
                   <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
                     <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
                   </a>
-                  {counts && (
+                  {shelf._count.userBooks && (
                     <span
                       className={`${
                         isShelves ? "block group-hover/item:hidden" : ""
                       } cursor-pointer px-1 rounded-sm`}
                     >
-                      {counts[i]}
+                      {shelf._count.userBooks}
                     </span>
                   )}
                 </span>
@@ -108,14 +105,14 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
               >
                 <DropdownMenuItem
                   onClick={() => {
-                    shelfModal.onEdit(heading.id!);
+                    shelfModal.onEdit(shelf.id!);
                   }}
                 >
                   Rename
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
-                    shelfModal.onEdit(heading.id!);
+                    shelfModal.onEdit(shelf.id!);
                     setOpenAlert(true);
                   }}
                 >
@@ -126,15 +123,13 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
           </>
         ) : (
           <>
-            {counts && (
-              <span
-                className={`${
-                  isShelves ? "block group-hover/item:hidden" : ""
-                } cursor-pointer px-1 rounded-sm py-2`}
-              >
-                {counts[i]}
-              </span>
-            )}
+            <span
+              className={`${
+                isShelves ? "block group-hover/item:hidden" : ""
+              } cursor-pointer px-1 rounded-sm py-2`}
+            >
+              {shelf._count.userBooks}
+            </span>
           </>
         )}
       </div>
