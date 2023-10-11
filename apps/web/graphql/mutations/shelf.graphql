@@ -2,7 +2,6 @@ mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
     id
     name
-    description
   }
 }
 

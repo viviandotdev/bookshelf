@@ -5,3 +5,19 @@ query UserBook($where: BookWhereUniqueInput!) {
     status
   }
 }
+
+query UserBooks(
+  $where: UserBookWhereInput!
+  $limit: Int! = 20
+  $offset: Int! = 0
+) {
+  userBooks(where: $where, offset: $offset, limit: $limit) {
+    userId
+    bookId
+    status
+  }
+}
+
+query CountUserBooks($where: UserBookWhereInput!) {
+  countUserBooks(where: $where)
+}

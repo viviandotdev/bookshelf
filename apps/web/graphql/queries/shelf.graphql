@@ -2,5 +2,8 @@ query Shelves {
   shelves {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }

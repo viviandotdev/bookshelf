@@ -43,9 +43,22 @@ export class ShelfResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Query(() => [Shelf])
+  @Query(() => [Shelf], { nullable: true })
   shelves(@CurrentUser() currentUser: JwtPayload) {
-    return this.service.findMany(currentUser.userId);
+    return this.service.findMany({
+      where: {
+        userId: currentUser.userId,
+      },
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+      },
+    });
   }
 
   @Mutation(() => Shelf, { nullable: true })

@@ -81,7 +81,7 @@ model Book {
 // Table stores all user books
 model UserBook {
     /// @Validator.IsString()
-    id           String      @id @default(uuid())
+    id           String            @id @default(uuid())
     /// @Validator.IsString()
     userId       String
     /// @Validator.IsString()
@@ -93,48 +93,41 @@ model UserBook {
     /// @Validator.IsInt()
     rating       Int?
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
-    user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book?       @relation(fields: [bookId], references: [id], onDelete: Cascade)
-    // One to One: one user book has one shelf entry
-    ShelfEntry   ShelfEntry?
+    book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    shelves      UserBookShelves[]
     dateStarted  String?
     dateFinished String?
-    // createdAt    DateTime    @default(now())
-    // updatedAt    DateTime    @updatedAt
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, bookId], name: "identifier")
 }
 
+model UserBookShelves {
+    userBook   UserBook @relation(fields: [userBookId], references: [id])
+    userBookId String
+    shelf      Shelf    @relation(fields: [shelfId], references: [id])
+    shelfId    String
+
+    @@id([userBookId, shelfId])
+}
+
 model Shelf {
     /// @Validator.IsString()
-    id           String       @id @default(uuid())
+    id        String            @id @default(uuid())
     /// @Validator.IsString()
-    name         String
+    name      String
     /// @Validator.IsString()
-    userId       String
-    /// @Validator.IsString()
-    description  String?
-    dateTime     String?
-    // One to Many: one shelf has many entries
-    shelfEntries ShelfEntry[]
+    userId    String
+    dateTime  String?
     // Many to One: many shelves belong to one user when user is deleted all shelves are deleted as well
-    user         User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    // Many to Many: a single shelf can be associated with multiple userBooks,
+    userBooks UserBookShelves[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, name], name: "identifier")
-}
-
-model ShelfEntry {
-    id         String   @id @default(uuid())
-    shelfId    String
-    userBookId String   @unique
-    dateTime   String?
-    // Many to One: many entries belong to one shelf, when shelf is deleted all shelf entries are deleted as well
-    shelf      Shelf    @relation(fields: [shelfId], references: [id], onDelete: Cascade)
-    // One to One: one entry has one user book, when user book is deleted from the users library it is removed from its shelf
-    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }
