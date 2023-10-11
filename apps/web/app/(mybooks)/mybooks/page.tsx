@@ -7,15 +7,33 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import BookViewer from "@/components/book-list/book-viewer";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "@/components/pagination";
+import useShelves from "@/hooks/use-shelves";
+import { UserBooksQueryVariables } from "@/graphql/graphql";
 interface MyBooksPageProps {}
 
 export default async function MyBooksPage({}: MyBooksPageProps) {
+  const { shelves, selected } = useShelves();
   const router = useRouter();
-  //   const { shelf } = useRouter();
-  const booksData = fakeBookData;
+  const params = useSearchParams();
   const totalPages = 10;
+
+  const queryFilter: UserBooksQueryVariables = {
+    where: {
+      status: {
+        equals: "All",
+      },
+      shelves: {
+        some: {
+          shelfId: {
+            equals: selected, // Replace with the specific Shelf ID you want to filter by
+          },
+        },
+      },
+    },
+  };
+
   // const [currentPage, setCurrentPage] = React.useState(0);
 
   return (
@@ -47,7 +65,7 @@ export default async function MyBooksPage({}: MyBooksPageProps) {
           </div>
         </nav>
         <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-          <BookViewer />
+          <BookViewer queryFilter={queryFilter} />
         </div>
         <Pagination
           totalPages={totalPages}

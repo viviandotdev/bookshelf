@@ -1,6 +1,6 @@
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
-import useSidebar from "@/hooks/use-shelf-store";
+import useShelves from "@/hooks/use-shelves";
 import Collapsible from "./ui/collapsible";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useState } from "react";
@@ -22,7 +22,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
   isShelves,
   collapsible,
 }) => {
-  const sidebar = useSidebar();
+  const { removeShelf } = useShelves();
   const [openAlert, setOpenAlert] = useState(false);
   const shelfModal = useShelfModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +54,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
     });
 
     setIsLoading(false);
-    sidebar.removeShelf(shelfModal.editId!);
+    removeShelf(shelfModal.editId!);
     shelfModal.onClose();
     setOpenAlert(false);
   };

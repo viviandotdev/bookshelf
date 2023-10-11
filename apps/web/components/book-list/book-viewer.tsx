@@ -8,31 +8,11 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import * as R from "ramda";
-import useSidebar from "@/hooks/use-shelf-store";
-interface BookViewerProps {}
+interface BookViewerProps {
+  queryFilter: UserBooksQueryVariables;
+}
 
-const isStatus = (status: string) => {
-  return ["Read", "Currently Reading", "Want to Read"].includes(status);
-};
-
-export const BookViewer: React.FC<BookViewerProps> = ({}) => {
-  const sidebar = useSidebar();
-
-  const queryFilter: UserBooksQueryVariables = {
-    where: {
-      status: {
-        equals: isStatus(sidebar.selected) ? sidebar.selected : undefined,
-      },
-      shelves: {
-        some: {
-          shelfId: {
-            equals: "YOUR_SHELF_ID_HERE", // Replace with the specific Shelf ID you want to filter by
-          },
-        },
-      },
-    },
-  };
-
+export const BookViewer: React.FC<BookViewerProps> = ({ queryFilter }) => {
   const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
     useUserBooksLazyQuery({
       fetchPolicy: "cache-and-network",

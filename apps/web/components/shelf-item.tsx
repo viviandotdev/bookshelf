@@ -8,7 +8,7 @@ import {
 } from "./ui/dropdown-menu";
 import qs from "query-string";
 import { Icons } from "./icons";
-import useSidebar from "@/hooks/use-shelf-store";
+import useShelves from "@/hooks/use-shelves";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
@@ -24,9 +24,9 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
   isShelves,
   setOpenAlert,
 }) => {
-  const sidebar = useSidebar();
+  const { selected } = useShelves();
   const shelfModal = useShelfModal();
-  const updateSelected = useSidebar((state) => state.updateSelected);
+  const updateSelected = useShelves((state) => state.updateSelected);
 
   const router = useRouter();
   const params = useSearchParams();
@@ -61,7 +61,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     <div key={shelf.id}>
       <div
         className={`${
-          shelf.name === sidebar.selected
+          shelf.name === selected
             ? "bg-secondary"
             : "hover:bg-slate-100 hover:bg-opacity-70"
         }  group/item flex rounded-lg px-3 font-medium`}
@@ -87,15 +87,12 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
                   <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
                     <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
                   </a>
-                  {shelf._count.userBooks && (
-                    <span
-                      className={`${
-                        isShelves ? "block group-hover/item:hidden" : ""
-                      } cursor-pointer px-1 rounded-sm`}
-                    >
-                      {shelf._count.userBooks}
-                    </span>
-                  )}
+
+                  <span
+                    className={`block group-hover/item:hidden cursor-pointer px-1 rounded-sm`}
+                  >
+                    {shelf._count.userBooks}
+                  </span>
                 </span>
               </DropdownMenuTrigger>
               <DropdownMenuContent

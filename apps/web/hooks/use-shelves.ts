@@ -15,7 +15,7 @@ type Action = {
   renameShelf: (id: string, name: string) => void;
 };
 
-const useSidebar = create<State & Action>((set) => ({
+const useShelves = create<State & Action>((set) => ({
   selected: "",
   shelves: [],
   updateSelected: (selected: string) => set(() => ({ selected: selected })),
@@ -39,4 +39,4 @@ const useSidebar = create<State & Action>((set) => ({
   initShelves: (shelves: Shelf[]) => set(() => ({ shelves: shelves })),
 }));
 
-export default useSidebar;
+export default useShelves;

@@ -17,6 +17,7 @@ export default async function MyBook({ children }: MyBookLayoutProps) {
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
+
   const { library, shelves } = await getShelves();
 
   return (

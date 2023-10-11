@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 import SidebarSection from "./sidebar-section";
-import useSidebar from "@/hooks/use-shelf-store";
 import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
+import useShelves from "@/hooks/use-shelves";
 
 interface SidebarProps {
   librarySelections: Shelf[];
@@ -14,9 +14,9 @@ const SideBar: React.FC<SidebarProps> = ({
   librarySelections,
   shelfSelections,
 }) => {
-  const sidebar = useSidebar();
-  const updateSelected = useSidebar((state) => state.updateSelected);
-  const initShelves = useSidebar((state) => state.initShelves);
+  const { shelves } = useShelves();
+  const updateSelected = useShelves((state) => state.updateSelected);
+  const initShelves = useShelves((state) => state.initShelves);
 
   const params = useSearchParams();
   const shelf = params?.get("shelf");
@@ -44,7 +44,7 @@ const SideBar: React.FC<SidebarProps> = ({
         <SidebarSection
           key={1}
           title="Shelves"
-          shelves={sidebar.shelves}
+          shelves={shelves}
           collapsible
           isShelves={true}
         />

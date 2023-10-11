@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { Button } from "@/components/ui/button";
-import useSidebar from "@/hooks/use-shelf-store";
+import useShelves from "@/hooks/use-shelves";
 import {
   useCreateShelfMutation,
   useUpdateShelfMutation,
@@ -31,8 +31,8 @@ export const ShelfModal = () => {
   const shelfModal = useShelfModal();
   const [createShelf] = useCreateShelfMutation();
   const [updateShelf] = useUpdateShelfMutation();
-  const renameShelf = useSidebar((state) => state.renameShelf);
-  const addShelf = useSidebar((state) => state.addShelf);
+  const renameShelf = useShelves((state) => state.renameShelf);
+  const addShelf = useShelves((state) => state.addShelf);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
