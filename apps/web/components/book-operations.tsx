@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { BookRating } from "./book-card";
 import { Icons } from "./icons";
 import {
@@ -10,13 +10,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { BookData } from "@/types/interfaces";
 import { toast } from "@/hooks/use-toast";
 import {
-    Book,
+  Book,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
+import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
+import useUserBook from "@/hooks/use-user-book-store";
+import { update } from "ramda";
 
 interface BookOperationsProps {
   open: boolean;
@@ -33,9 +35,12 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   setRating,
   book,
 }) => {
+  const addToShelfModal = useAddToShelfModal();
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
-
+  const userBook = useUserBook();
+  const updateStatus = useUserBook((state) => state.updateStatus);
+  const updateBookId = useUserBook((state) => state.updateBookId);
   const onUpdate = async (status: string) => {
     const { data, errors } = await UpdateUserBook({
       variables: {
@@ -129,7 +134,13 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             <DropdownMenuItem>
               <BookRating rating={rating} setRating={setRating} />
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                updateBookId(book.id);
+
+                addToShelfModal.onOpen();
+              }}
+            >
               <Icons.shelf className="h-5 w-5 mr-2" />
               Add to shelf
             </DropdownMenuItem>

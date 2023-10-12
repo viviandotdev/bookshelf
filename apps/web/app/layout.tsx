@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import StatusModal from "@/components/modal/status-modal";
 import { ShelfModal } from "@/components/modal/shelf-modal";
+import { AddToShelfModal } from "@/components/modal/add-to-shelf-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
           <ApolloClientProvider>
             <StatusModal />
             <ShelfModal />
+            <AddToShelfModal />
             {children}
           </ApolloClientProvider>
           <Toaster />
