@@ -53,9 +53,13 @@ export class UserBookService {
         ...args.where,
         userId,
       },
+      include: {
+        book: true,
+      },
       skip: args.skip,
       take: args.take,
     });
+
     return userBooks;
   }
 

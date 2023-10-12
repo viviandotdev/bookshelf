@@ -1,22 +1,26 @@
-import { BookData } from "@/types/interfaces";
 import React from "react";
 import Book from "../book";
+import { UserBook } from "@/graphql/graphql";
 
 interface BookListProps {
-  books?: BookData[];
+  books?: UserBook[];
   loading: boolean;
 }
 
 export const BookList: React.FC<BookListProps> = ({ books, loading }) => {
   if (loading || !books) return <div>Loading...</div>;
+  if (books) {
+    console.log(books);
+  }
   return (
-    <div>
-      {books?.map((book, index) => (
-        <div key={book.id}>
-          <Book book={book} />
-        </div>
-      ))}
-    </div>
+    <>
+      {books &&
+        books?.map((book, index) => (
+          <div key={book.id}>
+            <Book userBook={book} />
+          </div>
+        ))}
+    </>
   );
 };
 export default BookList;

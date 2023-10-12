@@ -83,6 +83,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
           title: book.title,
           author: book.author,
           publisher: book.publisher,
+          coverImage: book.image,
         },
       },
     });

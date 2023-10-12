@@ -7,7 +7,7 @@ query UserBook($where: BookWhereUniqueInput!) {
 }
 
 query UserBooks(
-  $where: UserBookWhereInput!
+  $where: UserBookWhereInput
   $limit: Int! = 20
   $offset: Int! = 0
 ) {
@@ -15,6 +15,13 @@ query UserBooks(
     userId
     bookId
     status
+    book {
+      id
+      title
+      author
+      coverImage
+      categories
+    }
   }
 }
 

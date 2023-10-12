@@ -1,3 +1,6 @@
+export const DEFAULT_BOOKCOVER_PLACEHOLDER =
+  "https://m.media-amazon.com/images/I/118BLwxozkL.jpg";
+
 export const BASE_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"

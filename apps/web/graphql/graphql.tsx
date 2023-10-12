@@ -318,7 +318,7 @@ export type QueryUserBookArgs = {
 export type QueryUserBooksArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
-  where: UserBookWhereInput;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export enum QueryMode {
@@ -1368,13 +1368,13 @@ export type UserBookQueryVariables = Exact<{
 export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string } | null };
 
 export type UserBooksQueryVariables = Exact<{
-  where: UserBookWhereInput;
+  where?: InputMaybe<UserBookWhereInput>;
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
 }>;
 
 
-export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string }> | null };
+export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, coverImage?: string | null, categories?: string | null } | null }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -1845,11 +1845,18 @@ export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const UserBooksDocument = gql`
-    query UserBooks($where: UserBookWhereInput!, $limit: Int! = 20, $offset: Int! = 0) {
+    query UserBooks($where: UserBookWhereInput, $limit: Int! = 20, $offset: Int! = 0) {
   userBooks(where: $where, offset: $offset, limit: $limit) {
     userId
     bookId
     status
+    book {
+      id
+      title
+      author
+      coverImage
+      categories
+    }
   }
 }
     `;
@@ -1872,7 +1879,7 @@ export const UserBooksDocument = gql`
  *   },
  * });
  */
-export function useUserBooksQuery(baseOptions: Apollo.QueryHookOptions<UserBooksQuery, UserBooksQueryVariables>) {
+export function useUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<UserBooksQuery, UserBooksQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserBooksQuery, UserBooksQueryVariables>(UserBooksDocument, options);
       }

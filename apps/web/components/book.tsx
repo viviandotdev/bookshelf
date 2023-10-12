@@ -2,23 +2,27 @@
 import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
-import { BookRating } from "./book-card";
 import BookOperations from "./book-operations";
-import { BookData } from "@/types/interfaces";
+import { UserBook } from "@/graphql/graphql";
 
 interface BookProps {
   details?: {
     progress: number;
     date_started: string;
   };
-  book: BookData;
+  userBook: UserBook;
   responsive?: boolean;
 }
 
-export const Book: React.FC<BookProps> = ({ book, details, responsive }) => {
+export const Book: React.FC<BookProps> = ({
+  userBook,
+  details,
+  responsive,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [rating, setRating] = React.useState(0); // Initial value
+  const book = userBook?.book!;
   return (
     <div
       className={`${
@@ -34,9 +38,12 @@ export const Book: React.FC<BookProps> = ({ book, details, responsive }) => {
     >
       <div className={`flex-row cursor-pointer `}>
         <div>
-          {book && book.image && (
-            <BookCover src={book.image} size={"dynamic"} />
-          )}
+          {
+            <BookCover
+              src={book && book.coverImage ? book.coverImage : null}
+              size={"dynamic"}
+            />
+          }
           <div className="top-0 absolute"></div>
         </div>
         {details && (

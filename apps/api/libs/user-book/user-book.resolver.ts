@@ -30,7 +30,8 @@ export class UserBookResolver {
   @UseGuards(AccessTokenGuard)
   @Query(() => [UserBook], { nullable: true })
   userBooks(
-    @Args('where') where: UserBookWhereInput,
+    @Args('where', { nullable: true })
+    where: UserBookWhereInput,
     @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
     @CurrentUser() user: JwtPayload,

@@ -1,33 +1,50 @@
 "use client";
 import { ContentNav } from "@/components/content-nav";
-import fakeBookData from "@/lib/testData/fakeBookData";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import BookViewer from "@/components/book-list/book-viewer";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Pagination } from "@/components/pagination";
 import useShelves from "@/hooks/use-shelves";
+
 import { UserBooksQueryVariables } from "@/graphql/graphql";
 interface MyBooksPageProps {}
 
-export default async function MyBooksPage({}: MyBooksPageProps) {
-  const { shelves, selected } = useShelves();
-  const router = useRouter();
-  const params = useSearchParams();
+export default function MyBooksPage({}: MyBooksPageProps) {
+  const { selected } = useShelves();
+  const [queryFilter, setQueryFilter] = useState<UserBooksQueryVariables>({});
   const totalPages = 10;
 
-  const queryFilter: UserBooksQueryVariables = {
+  useEffect(() => {
+    console.log("selected", selected);
+    if (selected === "Unshelved") {
+      setQueryFilter(noShelvesFilter);
+    } else if (selected === "All") {
+      setQueryFilter({});
+    } else {
+      setQueryFilter(shelfQueryFilter);
+    }
+  }, [selected]);
+
+  const noShelvesFilter: UserBooksQueryVariables = {
     where: {
-      status: {
-        equals: "All",
+      shelves: {
+        none: {}, // Checks if the shelves array is empty
       },
+    },
+  };
+  const shelfQueryFilter: UserBooksQueryVariables = {
+    where: {
       shelves: {
         some: {
-          shelfId: {
-            equals: selected, // Replace with the specific Shelf ID you want to filter by
+          shelf: {
+            is: {
+              name: {
+                equals: selected,
+              },
+            },
           },
         },
       },
@@ -65,7 +82,7 @@ export default async function MyBooksPage({}: MyBooksPageProps) {
           </div>
         </nav>
         <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-          <BookViewer queryFilter={queryFilter} />
+          <BookViewer {...{ queryFilter }} />
         </div>
         <Pagination
           totalPages={totalPages}

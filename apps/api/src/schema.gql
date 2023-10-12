@@ -224,7 +224,7 @@ type Query {
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereInput!): [UserBook!]
+  userBooks(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {

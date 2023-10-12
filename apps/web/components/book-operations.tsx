@@ -13,6 +13,7 @@ import {
 import { BookData } from "@/types/interfaces";
 import { toast } from "@/hooks/use-toast";
 import {
+    Book,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
@@ -22,7 +23,7 @@ interface BookOperationsProps {
   setOpen: (open: boolean) => void;
   rating: number;
   setRating: (rating: number) => void;
-  book: BookData;
+  book: Book;
 }
 
 export const BookOperations: React.FC<BookOperationsProps> = ({
