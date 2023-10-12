@@ -1,10 +1,4 @@
-import {
-  User,
-  Book,
-  UserBook,
-  Shelf,
-  ShelfEntry,
-} from 'src/generated-db-types'; // Import your Prisma models here
+import { User, Book, UserBook, Shelf } from 'src/generated-db-types'; // Import your Prisma models here
 import { faker } from '@faker-js/faker';
 
 // Function to create a random user
@@ -59,26 +53,25 @@ export function createRandomShelf(users: User[]): Shelf {
   return {
     id: faker.string.uuid(),
     name: faker.word.noun(),
-    description: faker.lorem.sentence(),
     userId: user.id,
     dateTime: faker.date.recent().toISOString(),
   };
 }
 
 // Function to create a random shelf entry
-export function createRandomShelfEntry(
-  shelves: Shelf[],
-  userBooks: UserBook[],
-): ShelfEntry {
-  const shelf = faker.helpers.arrayElement(shelves);
-  const userBook = faker.helpers.arrayElement(userBooks);
+// export function createRandomShelfEntry(
+//   shelves: Shelf[],
+//   userBooks: UserBook[],
+// ): ShelfEntry {
+//   const shelf = faker.helpers.arrayElement(shelves);
+//   const userBook = faker.helpers.arrayElement(userBooks);
 
-  return {
-    id: faker.datatype.uuid(),
-    shelfId: shelf.id,
-    userBookId: userBook.id,
-    dateTime: faker.date.recent().toISOString(),
-    shelf: shelf,
-    userBook: userBook,
-  };
-}
+//   return {
+//     id: faker.datatype.uuid(),
+//     shelfId: shelf.id,
+//     userBookId: userBook.id,
+//     dateTime: faker.date.recent().toISOString(),
+//     shelf: shelf,
+//     userBook: userBook,
+//   };
+// }

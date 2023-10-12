@@ -3,11 +3,11 @@ import {
   UserBookIdentifierCompoundUniqueInput,
   UserBookUpdateInput,
 } from '../../src/generated-db-types';
-import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
+import { UserBookRepository } from './user-book.repository';
 @Injectable()
 export class UserBookService {
-  constructor(private readonly prisma: PrismaRepository) {}
+  constructor(private readonly repository: UserBookRepository) {}
 
   async create(bookId: string, userId: string) {
     const createUserBookArgs: Prisma.UserBookCreateArgs = {
@@ -25,12 +25,12 @@ export class UserBookService {
         status: 'Want to Read',
       },
     };
-    return this.prisma.userBook.create(createUserBookArgs);
+    return this.repository.create(createUserBookArgs);
   }
 
   async findUnique(where: UserBookIdentifierCompoundUniqueInput) {
     const { userId, bookId } = where;
-    const userBook = await this.prisma.userBook.findUnique({
+    const userBook = await this.repository.findUnique({
       where: {
         identifier: {
           userId,
@@ -41,12 +41,45 @@ export class UserBookService {
     return userBook;
   }
 
+  async findMany(args: {
+    where: Prisma.UserBookWhereInput;
+    userId: string;
+    skip?: number;
+    take?: number;
+  }) {
+    const { userId } = args;
+    const userBooks = await this.repository.findMany({
+      where: {
+        ...args.where,
+        userId,
+      },
+      include: {
+        book: true,
+      },
+      skip: args.skip,
+      take: args.take,
+    });
+
+    return userBooks;
+  }
+
+  async count(args: { where: Prisma.UserBookWhereInput; userId: string }) {
+    const { userId } = args;
+    const userBooksCount = await this.repository.count({
+      where: {
+        ...args.where,
+        userId,
+      },
+    });
+    return userBooksCount;
+  }
+
   async update(args: {
     data: UserBookUpdateInput;
     where: UserBookIdentifierCompoundUniqueInput;
   }) {
     const { userId, bookId } = args.where;
-    const updateUserBook = await this.prisma.userBook.update({
+    const updateUserBook = await this.repository.update({
       where: {
         identifier: {
           userId,
@@ -62,7 +95,7 @@ export class UserBookService {
 
   async remove(where: UserBookIdentifierCompoundUniqueInput) {
     const { userId, bookId } = where;
-    await this.prisma.userBook.delete({
+    await this.repository.delete({
       where: {
         identifier: {
           userId,

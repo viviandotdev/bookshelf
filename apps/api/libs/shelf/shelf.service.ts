@@ -6,6 +6,7 @@ import { ShelfRepository } from './shelf.repository';
 @Injectable()
 export class ShelfService {
   findUnique = this.repository.findUnique;
+  findMany = this.repository.findMany;
   delete = this.repository.delete;
   constructor(private readonly repository: ShelfRepository) {}
   async create(input: ShelfCreateInput, userId: string) {
@@ -18,7 +19,7 @@ export class ShelfService {
           },
         },
       },
-    }
+    };
     const shelf = await this.repository.create(shelfCreateArgs);
     return shelf;
   }
@@ -28,13 +29,5 @@ export class ShelfService {
   }) {
     const shelf = await this.repository.update(args);
     return shelf;
-  }
-  async findMany(userId: string) {
-    const shelves = await this.repository.findMany({
-      where: {
-        userId,
-      },
-    });
-    return shelves;
   }
 }

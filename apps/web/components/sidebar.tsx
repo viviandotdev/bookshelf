@@ -1,29 +1,32 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SidebarSection from "./sidebar-section";
-import { NavItem } from "@/types";
-import useSidebar from "@/hooks/use-shelf-store";
-// import { Accordion } from "@radix-ui/react-accordion";
+import { useSearchParams } from "next/navigation";
+import { Shelf } from "@/graphql/graphql";
+import useShelves from "@/hooks/use-shelves";
 
 interface SidebarProps {
-  librarySelections: NavItem[];
-  librarySelectionsCounts: number[];
-  toolSelections: NavItem[];
-  shelfSelections: NavItem[];
+  librarySelections: Shelf[];
+  shelfSelections: Shelf[];
 }
 
 const SideBar: React.FC<SidebarProps> = ({
   librarySelections,
-  librarySelectionsCounts,
-  toolSelections,
   shelfSelections,
 }) => {
-  const sidebar = useSidebar();
-  const updateSelected = useSidebar((state) => state.updateSelected);
-  const initShelves = useSidebar((state) => state.initShelves);
+  const { shelves } = useShelves();
+  const updateSelected = useShelves((state) => state.updateSelected);
+  const initShelves = useShelves((state) => state.initShelves);
+
+  const params = useSearchParams();
+  const shelf = params?.get("shelf");
 
   useEffect(() => {
-    updateSelected("All");
+    if (shelf) {
+      updateSelected(shelf);
+    } else {
+      updateSelected("All");
+    }
     initShelves(shelfSelections);
   }, []);
 
@@ -33,20 +36,18 @@ const SideBar: React.FC<SidebarProps> = ({
         <SidebarSection
           key={0}
           title="Library"
-          items={librarySelections}
-          counts={librarySelectionsCounts}
+          shelves={librarySelections}
           collapsible
+          isShelves={false}
         />
 
         <SidebarSection
           key={1}
           title="Shelves"
-          items={sidebar.shelves}
-          counts={librarySelectionsCounts}
+          shelves={shelves}
           collapsible
-          isShelves
+          isShelves={true}
         />
-        <SidebarSection key={2} title="Tools" items={toolSelections} />
       </div>
     </div>
   );

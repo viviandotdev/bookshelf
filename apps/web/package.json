@@ -41,6 +41,9 @@
         "next-auth": "^4.22.1",
         "next-themes": "^0.2.1",
         "postcss": "8.4.23",
+        "qs": "^6.11.2",
+        "query-string": "^8.1.0",
+        "ramda": "^0.29.1",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.44.3",
@@ -55,6 +58,7 @@
         "zustand": "^4.4.1"
     },
     "devDependencies": {
+        "@types/ramda": "^0.29.6",
         "@types/react": "18.2.6",
         "prisma": "^5.4.1"
     }

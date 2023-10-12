@@ -1,7 +1,30 @@
-query UserBook($where: UserBookIdentifierCompoundUniqueInput!) {
+query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
     userId
     bookId
     status
   }
+}
+
+query UserBooks(
+  $where: UserBookWhereInput
+  $limit: Int! = 20
+  $offset: Int! = 0
+) {
+  userBooks(where: $where, offset: $offset, limit: $limit) {
+    userId
+    bookId
+    status
+    book {
+      id
+      title
+      author
+      coverImage
+      categories
+    }
+  }
+}
+
+query CountUserBooks($where: UserBookWhereInput) {
+  countUserBooks(where: $where)
 }

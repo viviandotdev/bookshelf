@@ -40,8 +40,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
           status: newStatus,
         },
         where: {
-          bookId: userBook.bookId,
-          userId: userBook.userId,
+          id: userBook.bookId,
         },
       },
     });
@@ -62,8 +61,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({}) => {
     const { data, errors } = await removeUserBook({
       variables: {
         where: {
-          bookId: userBook.bookId,
-          userId: userBook.userId,
+          id: userBook.bookId,
         },
       },
     });

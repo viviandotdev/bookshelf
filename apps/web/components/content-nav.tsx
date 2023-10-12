@@ -2,7 +2,6 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { NavItem } from "@/types";
 import { buttonVariants } from "./ui/button";
 import { Icons } from "./icons";
 import { Input } from "./ui/input";
@@ -62,7 +61,7 @@ export function ContentNav({
   resultText,
 }: ContentNavProps) {
   return (
-    <nav className="flex w-full gap-20 rounded-lg items-center justify-between mt-8 pb-2">
+    <>
       <div className="flex gap-2 text-sm items-center justify-between relative w-full">
         <div className="flex gap-2 text-sm items-start">
           <button
@@ -76,6 +75,6 @@ export function ContentNav({
           {showSort && <SortingOptions />}
         </div>
       </div>
-    </nav>
+    </>
   );
 }

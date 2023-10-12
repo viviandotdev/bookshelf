@@ -2,13 +2,13 @@ mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
     id
     name
-    description
   }
 }
 
 mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
   deleteShelf(where: $where) {
     id
+    name
   }
 }
 
