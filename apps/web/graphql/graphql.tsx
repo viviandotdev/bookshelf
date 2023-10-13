@@ -1336,7 +1336,7 @@ export type UpdateUserBookMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string, id: string } };
+export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string, id: string, book?: { __typename?: 'Book', title: string } | null } };
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -1369,7 +1369,7 @@ export type UserBooksQueryVariables = Exact<{
 }>;
 
 
-export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, coverImage?: string | null, categories?: string | null } | null }> | null };
+export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -1668,6 +1668,9 @@ export const UpdateUserBookDocument = gql`
   updateUserBook(data: $data, where: $where) {
     status
     id
+    book {
+      title
+    }
   }
 }
     `;
@@ -1852,6 +1855,12 @@ export const UserBooksDocument = gql`
       author
       coverImage
       categories
+    }
+    shelves {
+      shelf {
+        id
+        name
+      }
     }
   }
 }

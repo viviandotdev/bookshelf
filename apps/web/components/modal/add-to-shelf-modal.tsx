@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { use, useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import {
@@ -18,23 +18,18 @@ import { Checkbox } from "../ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useShelves from "@/hooks/use-shelves";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
-import useUserBook from "@/hooks/use-user-book-store";
+import useUserBook from "@/hooks/use-user-book";
 import { useUpdateUserBookMutation } from "@/graphql/graphql";
 
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   const addToShelfModal = useAddToShelfModal();
-  const { shelves } = useShelves();
+  const { shelves, incrementShelfCount } = useShelves();
   const userBook = useUserBook();
-  const [isLoading, setIsLoading] = useState(false);
   const [UpdateUserBook] = useUpdateUserBookMutation();
-  useEffect(() => {
-    console.log(shelves);
-    // Fetch the shelves for this userBook the default values
-  }, [userBook]);
+
   const displayFormSchema = z.object({
     shelves: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: "You have to select at least one item.",
@@ -43,21 +38,21 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
 
   type DisplayFormValues = z.infer<typeof displayFormSchema>;
 
-  // From the API, current book selection values
-  const defaultValues: Partial<DisplayFormValues> = {
-    shelves: [
-      //   "books",
-      //   "fiction",
-    ],
-  };
-
   const form = useForm<DisplayFormValues>({
     resolver: zodResolver(displayFormSchema),
-    defaultValues,
+    defaultValues: useMemo(() => {
+      return {
+        shelves: userBook.shelves.map((item) => item.shelf.name),
+      };
+    }, [userBook.shelves]),
   });
+
+  useEffect(() => {
+    form.reset({ shelves: userBook.shelves.map((item) => item.shelf.name) });
+  }, [userBook.shelves]);
+
   async function onSubmit({ shelves }: DisplayFormValues) {
-    console.log(shelves);
-    const { data, errors } = await UpdateUserBook({
+    const { data } = await UpdateUserBook({
       variables: {
         data: {
           shelves,
@@ -67,27 +62,33 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         },
       },
     });
+
     if (data) {
       toast({
-        title: `Sucessfully added ${data.updateUserBook.id} to shelves`,
+        title: `Sucessfully added ${data.updateUserBook.book?.title} to shelves`,
+      });
+
+      shelves.map((item) => {
+        console.log("item", item);
+        incrementShelfCount(item);
       });
     } else {
       toast({
         title: "Error updating book!",
       });
     }
+    addToShelfModal.onClose();
   }
 
   return (
     <Modal
-      title={"Add book to shelf"}
+      title={"Add book to shelves"}
       description="Add a new shelf to organize your books."
       isOpen={addToShelfModal.isOpen}
       onClose={addToShelfModal.onClose}
     >
       <Form {...form}>
         <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-          {/* <hr /> */}
           <FormField
             control={form.control}
             name="shelves"
@@ -130,7 +131,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
               </FormItem>
             )}
           />
-          <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+          <div className="space-x-2 flex items-center justify-end w-full">
             <Button
               label="Cancel"
               //   disabled={loading}

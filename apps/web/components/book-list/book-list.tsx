@@ -9,13 +9,10 @@ interface BookListProps {
 
 export const BookList: React.FC<BookListProps> = ({ books, loading }) => {
   if (loading || !books) return <div>Loading...</div>;
-  if (books) {
-    console.log(books);
-  }
   return (
     <>
       {books &&
-        books?.map((book, index) => (
+        books?.map((book) => (
           <div key={book.id}>
             <Book userBook={book} />
           </div>

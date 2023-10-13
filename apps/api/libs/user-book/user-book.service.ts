@@ -53,12 +53,15 @@ export class UserBookService {
       },
       include: {
         book: true,
-        shelves: true,
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
       },
       skip: args.skip,
       take: args.take,
     });
-
     return userBooks;
   }
 
@@ -107,10 +110,13 @@ export class UserBookService {
       },
       include: {
         book: true,
-        shelves: true,
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
       },
     });
-    console.log(updateUserBook);
     return updateUserBook;
   }
 

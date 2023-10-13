@@ -1,18 +1,18 @@
-import { Shelf } from "@/graphql/graphql";
+import { Shelf, UserBookShelves } from "@/graphql/graphql";
 import { create } from "zustand";
 
 type State = {
   userId: string;
   bookId: string;
   status: string;
-  shelves: Shelf[];
+  shelves: UserBookShelves[];
 };
 
 type Action = {
   updateBookId: (bookId: State["bookId"]) => void;
   updateUserId: (userId: State["userId"]) => void;
   updateStatus: (status: State["status"]) => void;
-  initShelves: (shelves: Shelf[]) => void;
+  initShelves: (shelves: UserBookShelves[]) => void;
 };
 
 const useUserBook = create<State & Action>((set) => ({
@@ -23,7 +23,8 @@ const useUserBook = create<State & Action>((set) => ({
   updateStatus: (status: string) => set(() => ({ status: status })),
   updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
   updateUserId: (userId: string) => set(() => ({ userId: userId })),
-  initShelves: (shelves: Shelf[]) => set(() => ({ shelves: shelves })),
+  initShelves: (shelves: UserBookShelves[]) =>
+    set(() => ({ shelves: shelves })),
 }));
 
 export default useUserBook;

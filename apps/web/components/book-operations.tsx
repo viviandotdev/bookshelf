@@ -19,7 +19,7 @@ import {
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
-import useUserBook from "@/hooks/use-user-book-store";
+import useUserBook from "@/hooks/use-user-book";
 
 interface BookOperationsProps {
   open: boolean;
@@ -44,7 +44,6 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   const updateStatus = useUserBook((state) => state.updateStatus);
   const updateBookId = useUserBook((state) => state.updateBookId);
   const initShelves = useUserBook((state) => state.initShelves);
-  console.log(shelves);
   const onUpdate = async (status: string) => {
     const { data, errors } = await UpdateUserBook({
       variables: {
@@ -140,7 +139,8 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                // initShelves(shelves);
+                console.log("shelves", shelves);
+                initShelves(shelves);
                 updateBookId(book.id);
 
                 addToShelfModal.onOpen();
