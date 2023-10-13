@@ -13,12 +13,13 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   Book,
+  Shelf,
+  UserBookShelves,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book-store";
-import { update } from "ramda";
 
 interface BookOperationsProps {
   open: boolean;
@@ -26,6 +27,7 @@ interface BookOperationsProps {
   rating: number;
   setRating: (rating: number) => void;
   book: Book;
+  shelves: UserBookShelves[];
 }
 
 export const BookOperations: React.FC<BookOperationsProps> = ({
@@ -34,13 +36,15 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   rating,
   setRating,
   book,
+  shelves,
 }) => {
   const addToShelfModal = useAddToShelfModal();
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
-  const userBook = useUserBook();
   const updateStatus = useUserBook((state) => state.updateStatus);
   const updateBookId = useUserBook((state) => state.updateBookId);
+  const initShelves = useUserBook((state) => state.initShelves);
+  console.log(shelves);
   const onUpdate = async (status: string) => {
     const { data, errors } = await UpdateUserBook({
       variables: {
@@ -136,6 +140,7 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
+                // initShelves(shelves);
                 updateBookId(book.id);
 
                 addToShelfModal.onOpen();

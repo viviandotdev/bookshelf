@@ -971,14 +971,9 @@ export type UserBookSumAggregate = {
 };
 
 export type UserBookUpdateInput = {
-  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  rating?: InputMaybe<Scalars['Int']>;
-  shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
+  rating?: InputMaybe<Scalars['Float']>;
+  shelves?: InputMaybe<Array<Scalars['String']>>;
   status?: InputMaybe<Scalars['String']>;
-  user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateManyMutationInput = {
@@ -1341,7 +1336,7 @@ export type UpdateUserBookMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string } };
+export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string, id: string } };
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -1672,6 +1667,7 @@ export const UpdateUserBookDocument = gql`
     mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {
     status
+    id
   }
 }
     `;

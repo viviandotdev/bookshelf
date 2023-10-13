@@ -4,6 +4,7 @@ mutation UpdateUserBook(
 ) {
   updateUserBook(data: $data, where: $where) {
     status
+    id
   }
 }
 

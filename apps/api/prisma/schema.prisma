@@ -75,6 +75,7 @@ model Book {
     /// @Validator.IsString()
     categories  String?
     // One to Many: multiple users can own the same book
+    /// @Validator.ValidateNested()
     userBook    UserBook[]
 }
 
@@ -96,9 +97,10 @@ model UserBook {
     user         User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
     book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
-    shelves      UserBookShelves[]
+    /// @Validator.ValidateNested()
     dateStarted  String?
     dateFinished String?
+    shelves      UserBookShelves[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()

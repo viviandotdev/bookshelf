@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import {
-  UserBookIdentifierCompoundUniqueInput,
-  UserBookUpdateInput,
-} from '../../src/generated-db-types';
+import { UserBookIdentifierCompoundUniqueInput } from '../../src/generated-db-types';
 import { Prisma } from '@prisma/client';
 import { UserBookRepository } from './user-book.repository';
+import { UserBookUpdateInput } from './models/user-book-update.input';
 @Injectable()
 export class UserBookService {
   constructor(private readonly repository: UserBookRepository) {}
@@ -55,6 +53,7 @@ export class UserBookService {
       },
       include: {
         book: true,
+        shelves: true,
       },
       skip: args.skip,
       take: args.take,
@@ -79,6 +78,9 @@ export class UserBookService {
     where: UserBookIdentifierCompoundUniqueInput;
   }) {
     const { userId, bookId } = args.where;
+
+    const origin = await this.findUnique(args.where);
+    const shelfList = args.data.shelves;
     const updateUserBook = await this.repository.update({
       where: {
         identifier: {
@@ -88,8 +90,27 @@ export class UserBookService {
       },
       data: {
         status: args.data.status,
+        rating: args.data.rating,
+        shelves: {
+          deleteMany: { userBookId: origin.id },
+          create: shelfList?.map((name: string) => {
+            return {
+              shelf: {
+                connectOrCreate: {
+                  where: { identifier: { userId, name } },
+                  create: { name },
+                },
+              },
+            };
+          }),
+        },
+      },
+      include: {
+        book: true,
+        shelves: true,
       },
     });
+    console.log(updateUserBook);
     return updateUserBook;
   }
 

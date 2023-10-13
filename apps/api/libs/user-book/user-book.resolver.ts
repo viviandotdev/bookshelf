@@ -3,13 +3,13 @@ import { UserBookService } from './user-book.service';
 import {
   BookWhereUniqueInput,
   UserBook,
-  UserBookUpdateInput,
   UserBookWhereInput,
 } from '../../src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
+import { UserBookUpdateInput } from './models/user-book-update.input';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -74,7 +74,7 @@ export class UserBookResolver {
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
-
+    console.log('userBook', data);
     return this.userBookService.update({
       data,
       where: {

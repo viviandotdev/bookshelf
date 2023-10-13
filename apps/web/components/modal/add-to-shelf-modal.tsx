@@ -21,6 +21,7 @@ import useShelves from "@/hooks/use-shelves";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
 import useUserBook from "@/hooks/use-user-book-store";
+import { useUpdateUserBookMutation } from "@/graphql/graphql";
 
 interface AddToShelfModalProps {}
 
@@ -29,9 +30,10 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   const { shelves } = useShelves();
   const userBook = useUserBook();
   const [isLoading, setIsLoading] = useState(false);
+  const [UpdateUserBook] = useUpdateUserBookMutation();
   useEffect(() => {
+    console.log(shelves);
     // Fetch the shelves for this userBook the default values
-    
   }, [userBook]);
   const displayFormSchema = z.object({
     shelves: z.array(z.string()).refine((value) => value.some((item) => item), {
@@ -44,8 +46,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   // From the API, current book selection values
   const defaultValues: Partial<DisplayFormValues> = {
     shelves: [
-      "1dcaadc7-cfd4-4645-91a8-afc27453dcd2",
-      "2122f1ad-d009-4ad6-a1b7-bf5d1e51eb56",
+      //   "books",
+      //   "fiction",
     ],
   };
 
@@ -53,16 +55,27 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     resolver: zodResolver(displayFormSchema),
     defaultValues,
   });
-
-  function onSubmit(data: DisplayFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+  async function onSubmit({ shelves }: DisplayFormValues) {
+    console.log(shelves);
+    const { data, errors } = await UpdateUserBook({
+      variables: {
+        data: {
+          shelves,
+        },
+        where: {
+          id: userBook.bookId,
+        },
+      },
     });
+    if (data) {
+      toast({
+        title: `Sucessfully added ${data.updateUserBook.id} to shelves`,
+      });
+    } else {
+      toast({
+        title: "Error updating book!",
+      });
+    }
   }
 
   return (
@@ -82,24 +95,24 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
               <FormItem>
                 {shelves.map((item) => (
                   <FormField
-                    key={item.id}
+                    key={item.name}
                     control={form.control}
                     name="shelves"
                     render={({ field }) => {
                       return (
                         <FormItem
-                          key={item.id}
+                          key={item.name}
                           className="flex flex-row shelves-start space-x-3 space-y-0"
                         >
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(item.id)}
+                              checked={field.value?.includes(item.name)}
                               onCheckedChange={(checked) => {
                                 return checked
-                                  ? field.onChange([...field.value, item.id])
+                                  ? field.onChange([...field.value, item.name])
                                   : field.onChange(
                                       field.value?.filter(
-                                        (value) => value !== item.id
+                                        (value) => value !== item.name
                                       )
                                     );
                               }}
@@ -117,24 +130,24 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
               </FormItem>
             )}
           />
+          <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+            <Button
+              label="Cancel"
+              //   disabled={loading}
+              variant="outline"
+              onClick={addToShelfModal.onClose}
+            ></Button>
+            <Button
+              type="submit"
+              label="Add"
+              //   disabled={loading}
+              variant="default"
+            >
+              Add
+            </Button>
+          </div>
         </form>
       </Form>
-      <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-        <Button
-          label="Cancel"
-          //   disabled={loading}
-          variant="outline"
-          onClick={addToShelfModal.onClose}
-        ></Button>
-        <Button
-          label="Add"
-          //   disabled={loading}
-          variant="default"
-          //   onClick={onConfirm}
-        >
-          Add
-        </Button>
-      </div>
     </Modal>
   );
 };

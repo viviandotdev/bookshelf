@@ -22,7 +22,7 @@ export const Book: React.FC<BookProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [rating, setRating] = React.useState(0); // Initial value
-  const book = userBook?.book!;
+  const { book, shelves } = userBook;
   return (
     <div
       className={`${
@@ -73,7 +73,8 @@ export const Book: React.FC<BookProps> = ({
               setOpen={setOpenMenu}
               setRating={setRating}
               rating={rating}
-              book={book}
+              book={book!}
+              shelves={shelves!}
             />
           </div>
         </div>
