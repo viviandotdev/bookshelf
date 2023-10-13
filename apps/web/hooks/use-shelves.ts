@@ -1,5 +1,4 @@
 import { Shelf } from "@/graphql/graphql";
-import { NavItem } from "@/types";
 import { create } from "zustand";
 
 type State = {
@@ -13,6 +12,7 @@ type Action = {
   initShelves: (shelves: Shelf[]) => void;
   removeShelf: (id: string) => void;
   renameShelf: (id: string, name: string) => void;
+  incrementShelfCount: (name: string) => void;
 };
 
 const useShelves = create<State & Action>((set) => ({
@@ -33,6 +33,20 @@ const useShelves = create<State & Action>((set) => ({
     set((state: any) => ({
       shelves: state.shelves.map((s: Shelf) => {
         return s.id === id ? { ...s, name: name } : s;
+      }),
+    }));
+  },
+  incrementShelfCount: (name: string) => {
+    set((state: any) => ({
+      shelves: state.shelves.map((s: Shelf) => {
+        return s.name === name
+          ? {
+              ...s,
+              _count: {
+                userBooks: s._count.userBooks + 1,
+              },
+            }
+          : s;
       }),
     }));
   },

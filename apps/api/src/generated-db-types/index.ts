@@ -3772,6 +3772,7 @@ export class UserBookCreateManyBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3803,6 +3804,7 @@ export class UserBookCreateManyUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3828,6 +3830,7 @@ export class UserBookCreateManyInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3922,6 +3925,7 @@ export class UserBookCreateWithoutBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3945,6 +3949,7 @@ export class UserBookCreateWithoutShelvesInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3968,6 +3973,7 @@ export class UserBookCreateWithoutUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -3991,6 +3997,7 @@ export class UserBookCreateInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4050,6 +4057,7 @@ export class UserBookGroupBy {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4123,6 +4131,7 @@ export class UserBookMaxAggregate {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4184,6 +4193,7 @@ export class UserBookMinAggregate {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4391,6 +4401,7 @@ export class UserBookUncheckedCreateWithoutBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4418,6 +4429,7 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4440,6 +4452,7 @@ export class UserBookUncheckedCreateWithoutUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4467,6 +4480,7 @@ export class UserBookUncheckedCreateInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4528,6 +4542,7 @@ export class UserBookUncheckedUpdateManyWithoutBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4587,6 +4602,7 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4612,6 +4628,7 @@ export class UserBookUncheckedUpdateManyInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4634,6 +4651,7 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4661,6 +4679,7 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4683,6 +4702,7 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4710,6 +4730,7 @@ export class UserBookUncheckedUpdateInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4731,6 +4752,7 @@ export class UserBookUpdateManyMutationInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4893,6 +4915,7 @@ export class UserBookUpdateWithoutBookInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4916,6 +4939,7 @@ export class UserBookUpdateWithoutShelvesInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4939,6 +4963,7 @@ export class UserBookUpdateWithoutUserInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;
@@ -4962,6 +4987,7 @@ export class UserBookUpdateInput {
     @Validator.IsInt()
     rating?: number;
     @Field(() => String, {nullable:true})
+    @Validator.ValidateNested()
     dateStarted?: string;
     @Field(() => String, {nullable:true})
     dateFinished?: string;

@@ -864,14 +864,9 @@ type UserBookSumAggregate {
 }
 
 input UserBookUpdateInput {
-  book: BookUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
-  id: String
-  rating: Int
-  shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
+  rating: Float
+  shelves: [String!]
   status: String
-  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateManyMutationInput {

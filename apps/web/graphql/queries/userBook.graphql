@@ -22,6 +22,12 @@ query UserBooks(
       coverImage
       categories
     }
+    shelves {
+      shelf {
+        id
+        name
+      }
+    }
   }
 }
 
