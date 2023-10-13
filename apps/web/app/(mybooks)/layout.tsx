@@ -23,7 +23,7 @@ export default async function MyBook({ children }: MyBookLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader user={user} />
-      <main className="container flex-1 z-40 bg-background mx-auto px-8 lg:px-16 xl:px-28">
+      <main className="container flex-1 z-40 bg-background mx-auto ">
         <div className="grid w-full items-center mt-5">
           <ProfileNav items={myBooksConfig.profileNav} user={user} />
           <div className="flex-col justify-center">

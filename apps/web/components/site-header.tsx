@@ -10,12 +10,12 @@ import { User } from "next-auth";
 import { Icons } from "./icons";
 
 interface SiteHeaderProps {
-user?: User;
+  user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
   return (
-    <header className="container bg-background mx-auto px-8 lg:px-16 xl:px-28">
+    <header className="container bg-background mx-auto">
       <div className="flex h-20 items-center justify-between py-6 space-x-4">
         <MainNav items={marketingConfig.mainNav} />
         <div className="flex flex-1 items-center space-x-4 sm:justify-end">
