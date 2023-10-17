@@ -101,6 +101,8 @@ model UserBook {
     dateStarted  String?
     dateFinished String?
     shelves      UserBookShelves[]
+    // One to Many: one user book has many journal entries
+    journalEntry JournalEntry[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
@@ -132,4 +134,20 @@ model Shelf {
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, name], name: "identifier")
+}
+
+model JournalEntry {
+    id           String  @id @default(uuid())
+    /// @Validator.IsString()
+    readingNotes String?
+
+    dateRead   DateTime @default(now())
+    /// @Validator.IsInt()
+    startPage  Int?
+    /// @Validator.IsInt()
+    endPage    Int?
+    /// @Validator.IsString()
+    userBookId String
+    // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
+    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }
