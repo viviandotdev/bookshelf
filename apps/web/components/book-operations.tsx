@@ -13,13 +13,13 @@ import {
 import { toast } from "@/hooks/use-toast";
 import {
   Book,
-  Shelf,
   UserBookShelves,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book";
+import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 
 interface BookOperationsProps {
   open: boolean;
@@ -38,11 +38,13 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   book,
   shelves,
 }) => {
+  const jouranlEntryModal = useJouranlEntryModal();
   const addToShelfModal = useAddToShelfModal();
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
   const updateStatus = useUserBook((state) => state.updateStatus);
   const updateBookId = useUserBook((state) => state.updateBookId);
+  const updateUserBook = useUserBook((state) => state.updateUserBook);
   const initShelves = useUserBook((state) => state.initShelves);
   const onUpdate = async (status: string) => {
     const { data, errors } = await UpdateUserBook({
@@ -149,7 +151,12 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
               <Icons.shelf className="h-5 w-5 mr-2" />
               Add to shelf
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                updateUserBook(book);
+                jouranlEntryModal.onOpen();
+              }}
+            >
               <Icons.plus className="h-5 w-5 mr-2" />
               Log book
             </DropdownMenuItem>

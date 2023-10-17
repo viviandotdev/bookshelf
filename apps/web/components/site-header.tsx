@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -8,12 +9,15 @@ import { UserAccountNav } from "@/components/user-account-nav";
 import { marketingConfig } from "@/config/marketing";
 import { User } from "next-auth";
 import { Icons } from "./icons";
+import { JouranlEntryModal } from "./modal/journal-entry-modal";
+import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 
 interface SiteHeaderProps {
   user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
+  const jouranlEntryModal = useJouranlEntryModal();
   return (
     <header className="container bg-background mx-auto">
       <div className="flex h-20 items-center justify-between py-6 space-x-4">
@@ -37,6 +41,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                     buttonVariants({ variant: "tag", size: "xs" }),
                     "pl-2 pr-3"
                   )}
+                  onClick={jouranlEntryModal.onOpen}
                 >
                   <Icons.plus className="h-4 w-4 mr-1" />
                   Log
