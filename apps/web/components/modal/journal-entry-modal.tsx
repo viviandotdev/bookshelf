@@ -35,6 +35,7 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../ui/calender";
 import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
 
 interface JournalEntryModalProps {}
 
@@ -44,7 +45,7 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
   const userBook = useUserBook();
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const test = 0;
-  console.log(userBook.data);
+
   const jouranlEntryFormSchema = z.object({
     notes: z.string().max(160).min(4),
     start_page: z
@@ -113,14 +114,14 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
 
   return (
     <Dialog open={jouranlEntryModal.isOpen} onOpenChange={onChange}>
-      <DialogContent className="flex min-w-[600px]">
+      <DialogContent className="flex min-w-[720px]">
         <div className="flex gap-8 min-w-full">
           <BookCover />
           <div className="flex text-sm flex-col w-[fill-available] justify-between">
             {dialogHeader()}
             <Form {...form}>
               <form
-                className="space-y-4"
+                className="space-y-3"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
                 {formBody()}
@@ -141,7 +142,7 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
             control={form.control}
             name="mark_abandoned"
             render={({ field }) => (
-              <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+              <FormItem className="flex flex-row items-center space-x-2 space-y-0">
                 <FormControl>
                   <Checkbox
                     checked={field.value}
@@ -162,7 +163,7 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
             <FormItem className="pt-3">
               <FormControl>
                 <Textarea
-                  placeholder="Add a note..."
+                  placeholder="Write notes here..."
                   className="resize-none pt-2"
                   {...field}
                 />
@@ -170,15 +171,26 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
             </FormItem>
           )}
         />
-        <div className="flex justify-between pt-4">
-          <div className="text-primary">0 of 369 pages read</div>
+        <div className="flex items-center gap-2 pt-3">
+          <div className="text-primary">Currently on </div>
+          <Input
+            type="age"
+            placeholder=""
+            className="h-7 px-2 w-[48px] py-4 text-xs "
+          />
+
+          <div className="text-primary">of</div>
+          <Input type="age" className="h-7 px-2 w-[48px] py-4 text-xs " />
         </div>
       </div>
     );
   }
   function formFooter() {
     return (
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <div className="flex items-center cursor-pointer text-primary font-semibold">
+          I'm finished!
+        </div>
         <div className="space-x-2 flex items-center justify-end">
           <Button
             label="Delete"

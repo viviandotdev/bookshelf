@@ -79,6 +79,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
               className="w-full"
               id="email"
               type="email"
+              variant="rings"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
@@ -97,6 +98,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
               className="w-full"
               required
               id="username"
+              variant="rings"
               type="username"
               disabled={isLoading}
               {...register("username")}
@@ -117,6 +119,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
               required
               id="password"
               type="password"
+              variant="rings"
               disabled={isLoading}
               {...register("password")}
             />
