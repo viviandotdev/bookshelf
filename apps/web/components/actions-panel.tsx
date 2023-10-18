@@ -81,6 +81,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
         data: {
           id: book.id,
           title: book.title,
+          pageNum: parseInt(book.pageNum),
           author: book.author,
           publisher: book.publisher,
           coverImage: book.image,

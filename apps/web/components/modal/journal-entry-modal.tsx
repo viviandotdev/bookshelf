@@ -12,10 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "../ui/checkbox";
-import useShelves from "@/hooks/use-shelves";
 import { Button } from "../ui/button";
 import useUserBook from "@/hooks/use-user-book";
-import { useUpdateUserBookMutation } from "@/graphql/graphql";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 import { Textarea } from "../ui/textarea";
 import {
@@ -31,37 +29,94 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calender";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 interface AddToShelfModalProps {}
 
 export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const jouranlEntryModal = useJouranlEntryModal();
+  const [error, setError] = useState<string>("");
   const userBook = useUserBook();
-
+  const inputRef = useRef(null);
   const displayFormSchema = z.object({
-    notes: z.string().max(160).min(4),
+    notes: z.string().max(160).optional(),
     mark_abandoned: z.boolean().default(false),
-    start_page: z.string().min(1),
-    end_page: z.string().min(1),
-    dob: z.date({
+    current_page: z
+      .string({
+        required_error: "A current page and total pages number is required",
+      })
+      .refine((val) => val.length > 0 && !Number.isNaN(parseInt(val, 10)), {
+        message: "Please enter a valid current page and total pages number",
+      }),
+    total_pages: z
+      .string({
+        required_error: "A current page and total pages number is required",
+      })
+      .refine((val) => val.length > 0 && !Number.isNaN(parseInt(val, 10)), {
+        message: "Please enter a valid current page and total pages number",
+      }),
+    date_read: z.date({
       required_error: "A date of birth is required.",
     }),
-    // date_read: z.date({
-    //   required_error: "A date is required",
-    // }),
   });
+  // TODO: Additional validation
+  // The value entered is less than the previous value
+  // The value entered is greater than the total number of pages in the book
+  // The value entered exceeds the maximum values
+  const handleKeyPress = (event: any) => {
+    const keyCode = event.keyCode || event.which;
+    const keyValue = String.fromCharCode(keyCode);
+
+    // Allow only numbers (0-9) or Backspace key or Tab key
+    // Not backspace and noot number prevent the action
+    if (!/^\d$/.test(keyValue) && keyCode !== 8 && keyCode !== 9) {
+      event.preventDefault();
+    }
+    // skip prevent default
+  };
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
+
+  useEffect(() => {
+    setError("");
+    if (jouranlEntryModal.isOpen && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [jouranlEntryModal.isOpen]);
+
+  useEffect(() => {
+    form.reset({
+      notes: "",
+      total_pages:
+        userBook.data &&
+        userBook.data.pageNum &&
+        userBook.data.pageNum!.toString()
+          ? userBook.data.pageNum!.toString()
+          : "",
+      date_read: new Date(),
+    });
+  }, [userBook.data]);
 
   type DisplayFormValues = z.infer<typeof displayFormSchema>;
 
   const form = useForm<DisplayFormValues>({
     resolver: zodResolver(displayFormSchema),
-    defaultValues: {
-      notes: "",
-      start_page: "",
-      end_page: "",
-    },
+    defaultValues: useMemo(() => {
+      return {
+        notes: "",
+        current_page: "",
+        total_pages:
+          userBook.data &&
+          userBook.data.pageNum &&
+          userBook.data.pageNum!.toString()
+            ? userBook.data.pageNum!.toString()
+            : "",
+        date_read: new Date(),
+      };
+    }, [userBook.data]),
   });
-
   async function onSubmit(data: DisplayFormValues) {
     console.log(data);
     jouranlEntryModal.onClose();
@@ -81,11 +136,17 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           <div className="flex text-sm flex-col w-[fill-available] justify-between">
             {formHeader()}
             <Form {...form}>
-              <form
-                className="space-y-8"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
+              <form className="" onSubmit={form.handleSubmit(onSubmit)}>
                 {formBody()}
+                {error && (
+                  <p
+                    className={cn(
+                      "pt-2 pb-1 text-[0.8rem] font-medium text-destructive"
+                    )}
+                  >
+                    {error}
+                  </p>
+                )}
                 {formFooter()}
               </form>
             </Form>
@@ -103,7 +164,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             <div className="text-primary items-center">Read on</div>
             <FormField
               control={form.control}
-              name="dob"
+              name="date_read"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <Popover>
@@ -120,7 +181,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                           {field.value ? (
                             format(field.value, "PPP")
                           ) : (
-                            <span className="text-black">October 16, 2023</span>
+                            <span className="text-black">Pick Date</span>
                           )}
                         </Button>
                       </FormControl>
@@ -133,11 +194,10 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormMessage />
+                  <FormMessage setError={setError} />
                 </FormItem>
               )}
             />
@@ -172,6 +232,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                   {...field}
                 />
               </FormControl>
+              <FormMessage setError={setError} />
             </FormItem>
           )}
         />
@@ -179,17 +240,18 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           <div className="text-primary">Currently on </div>
           <FormField
             control={form.control}
-            name="start_page"
+            name="current_page"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="99"
+                    autoFocus
                     className="h-7 px-2 w-[48px] py-4 text-xs "
+                    onKeyDown={handleKeyPress}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage setError={setError} />
               </FormItem>
             )}
           />
@@ -197,18 +259,18 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           <div className="text-primary">of</div>
           <FormField
             control={form.control}
-            name="end_page"
+            name="total_pages"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="99"
-                    className="h-7 px-2 w-[48px] py-4 text-xs "
+                    className="h-7 px-2 w-[48px] py-4 text-xs"
+                    onKeyDown={handleKeyPress}
                     {...field}
                   />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage setError={setError} />
               </FormItem>
             )}
           />
@@ -225,7 +287,6 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         </div>
         <div className="space-x-2 flex items-center justify-end">
           <Button
-            label="Delete"
             //   disabled={loading}
             variant="outline"
             onClick={jouranlEntryModal.onClose}
@@ -234,7 +295,6 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           </Button>
           <Button
             type="submit"
-            label="Save"
             //   disabled={loading}
             variant="default"
           >

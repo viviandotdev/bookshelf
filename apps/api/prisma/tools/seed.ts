@@ -72,14 +72,15 @@ async function main() {
   );
 
   await Promise.all(
-    shelves.map(async (shelf) => {
-      const { id, name, userId } = shelf;
+    shelves.map(async (shelf, idx) => {
+      const { id, name } = shelf;
+      const userId = users[idx].id;
       // You can access user and book like userBook.user and userBook.book
       await prisma.shelf.create({
         data: {
           id,
-          userId,
           name,
+          userId,
         },
       });
     }),
