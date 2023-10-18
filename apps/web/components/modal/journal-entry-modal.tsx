@@ -33,6 +33,11 @@ import {
 import { title } from "process";
 import BookCover from "../book-cover";
 import { Input } from "../ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "../ui/calender";
+import { CalendarIcon } from "@radix-ui/react-icons";
 
 interface AddToShelfModalProps {}
 
@@ -47,6 +52,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     mark_abandoned: z.boolean().default(false),
     start_page: z.string().min(1),
     end_page: z.string().min(1),
+    dob: z.date({
+      required_error: "A date of birth is required.",
+    }),
     // date_read: z.date({
     //   required_error: "A date is required",
     // }),
@@ -86,81 +94,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                 className="space-y-8"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
-                <div className="pt-2">
-                  <div className="flex gap-16">
-                    <div>date picker</div>
-                    <FormField
-                      control={form.control}
-                      name="mark_abandoned"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Mark as adandoned</FormLabel>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="notes"
-                    render={({ field }) => (
-                      <FormItem className="pt-3">
-                        <FormControl>
-                          <Textarea
-                            placeholder="Write notes here..."
-                            className="resize-none pt-2"
-                            {...field}
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex items-center gap-2 pt-3">
-                    <div className="text-primary">Currently on </div>
-                    <FormField
-                      control={form.control}
-                      name="start_page"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              placeholder="99"
-                              className="h-7 px-2 w-[48px] py-4 text-xs "
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="text-primary">of</div>
-                    <FormField
-                      control={form.control}
-                      name="end_page"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              placeholder="99"
-                              className="h-7 px-2 w-[48px] py-4 text-xs "
-                              {...field}
-                            />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
+                {formBody()}
                 {formFooter()}
               </form>
             </Form>
@@ -170,27 +104,153 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     </Dialog>
   );
 
-  function formFooter() {
+  function formBody() {
     return (
-      <div className="space-x-2 flex items-center justify-end w-full">
-        <Button
-          label="Cancel"
-          //   disabled={loading}
-          variant="outline"
-          onClick={jouranlEntryModal.onClose}
-        ></Button>
-        <Button
-          type="submit"
-          label="Add"
-          //   disabled={loading}
-          variant="default"
-        >
-          Add
-        </Button>
+      <div className="pt-2">
+        <div className="flex gap-16">
+          <div className="flex items-center gap-2">
+            <div className="text-primary items-center">Read on</div>
+            <FormField
+              control={form.control}
+              name="dob"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="tag"
+                          size="xs"
+                          className={cn(
+                            "text-left font-normal text-black cursor-pointer py-0",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span className="text-black">October 16, 2023</span>
+                          )}
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="mark_abandoned"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Mark as adandoned</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem className="pt-3">
+              <FormControl>
+                <Textarea
+                  placeholder="Write notes here..."
+                  className="resize-none pt-2"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className="flex items-center gap-2 pt-3">
+          <div className="text-primary">Currently on </div>
+          <FormField
+            control={form.control}
+            name="start_page"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="99"
+                    className="h-7 px-2 w-[48px] py-4 text-xs "
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="text-primary">of</div>
+          <FormField
+            control={form.control}
+            name="end_page"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="99"
+                    className="h-7 px-2 w-[48px] py-4 text-xs "
+                    {...field}
+                  />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
     );
   }
 
+  function formFooter() {
+    return (
+      <div className="flex justify-between">
+        <div className="flex items-center cursor-pointer text-primary font-semibold">
+          I'm finished!
+        </div>
+        <div className="space-x-2 flex items-center justify-end">
+          <Button
+            label="Delete"
+            //   disabled={loading}
+            variant="outline"
+            onClick={jouranlEntryModal.onClose}
+          ></Button>
+          <Button
+            type="submit"
+            label="Save"
+            //   disabled={loading}
+            variant="default"
+          >
+            Save
+          </Button>
+        </div>
+      </div>
+    );
+  }
   function formHeader() {
     return (
       <DialogHeader>
