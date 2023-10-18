@@ -2,21 +2,16 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useMemo } from "react";
 
-import { Modal } from "@/components/ui/modal";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "../ui/checkbox";
-import { toast } from "@/hooks/use-toast";
-import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useShelves from "@/hooks/use-shelves";
 import { Button } from "../ui/button";
 import useUserBook from "@/hooks/use-user-book";
@@ -30,22 +25,18 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { title } from "process";
 import BookCover from "../book-cover";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calender";
-import { CalendarIcon } from "@radix-ui/react-icons";
 
 interface AddToShelfModalProps {}
 
 export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const jouranlEntryModal = useJouranlEntryModal();
-  const { shelves, incrementShelfCount } = useShelves();
   const userBook = useUserBook();
-  const [UpdateUserBook] = useUpdateUserBookMutation();
 
   const displayFormSchema = z.object({
     notes: z.string().max(160).min(4),
@@ -238,7 +229,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             //   disabled={loading}
             variant="outline"
             onClick={jouranlEntryModal.onClose}
-          ></Button>
+          >
+            {jouranlEntryModal.isEdit ? "Delete" : "Close"}
+          </Button>
           <Button
             type="submit"
             label="Save"
