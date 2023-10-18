@@ -154,6 +154,7 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             <DropdownMenuItem
               onClick={() => {
                 updateUserBook(book);
+                console.log(book);
                 jouranlEntryModal.onOpen();
               }}
             >

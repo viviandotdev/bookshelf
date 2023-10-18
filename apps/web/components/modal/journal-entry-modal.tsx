@@ -34,6 +34,7 @@ import { Popover, PopoverContent } from "../ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../ui/calender";
+import { Textarea } from "../ui/textarea";
 
 interface JournalEntryModalProps {}
 
@@ -58,6 +59,7 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
       required_error: "A date is required",
     }),
     mark_abandoned: z.boolean().default(false),
+    mark_finished: z.boolean().default(false),
   });
 
   type DisplayFormValues = z.infer<typeof displayFormSchema>;
@@ -115,55 +117,14 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
         <div className="flex gap-8 min-w-full">
           <BookCover />
           <div className="flex text-sm flex-col w-[fill-available] justify-between">
-            <DialogHeader>
-              <DialogTitle className="text-muted-foreground font-light">
-                I read...
-              </DialogTitle>
-              <DialogDescription className="text-black font-medium">
-                {userBook.data.title}
-              </DialogDescription>
-            </DialogHeader>
+            {dialogHeader()}
             <Form {...form}>
               <form
-                className="space-y-8"
+                className="space-y-4"
                 onSubmit={form.handleSubmit(onSubmit)}
               >
-                <div></div>
-                <div className="flex justify-between">
-                  <FormField
-                    control={form.control}
-                    name="mark_abandoned"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>Mark as Abandoned</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <div className="space-x-2 flex items-center justify-end">
-                    <Button
-                      label="Cancel"
-                      //   disabled={loading}
-                      variant="outline"
-                      onClick={jouranlEntryModal.onClose}
-                    ></Button>
-                    <Button
-                      type="submit"
-                      label="Add"
-                      //   disabled={loading}
-                      variant="default"
-                    >
-                      Add
-                    </Button>
-                  </div>
-                </div>
+                {formBody()}
+                {formFooter()}
               </form>
             </Form>
           </div>
@@ -171,4 +132,83 @@ export const JouranlEntryModal: React.FC<JournalEntryModalProps> = () => {
       </DialogContent>
     </Dialog>
   );
+  function formBody() {
+    return (
+      <div className="pt-2">
+        <div className="flex gap-16">
+          <div>date picker</div>
+          <FormField
+            control={form.control}
+            name="mark_abandoned"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>Mark as adandoned</FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem className="pt-3">
+              <FormControl>
+                <Textarea
+                  placeholder="Add a note..."
+                  className="resize-none pt-2"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <div className="flex justify-between pt-4">
+          <div className="text-primary">0 of 369 pages read</div>
+        </div>
+      </div>
+    );
+  }
+  function formFooter() {
+    return (
+      <div className="flex justify-end">
+        <div className="space-x-2 flex items-center justify-end">
+          <Button
+            label="Delete"
+            //   disabled={loading}
+            variant="outline"
+            onClick={jouranlEntryModal.onClose}
+          ></Button>
+          <Button
+            type="submit"
+            label="Save"
+            //   disabled={loading}
+            variant="default"
+          >
+            Save
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  function dialogHeader() {
+    return (
+      <DialogHeader>
+        <DialogTitle className="text-muted-foreground font-light">
+          I read...
+        </DialogTitle>
+        <DialogDescription className="text-black font-medium">
+          {userBook.data.title}
+        </DialogDescription>
+      </DialogHeader>
+    );
+  }
 };
