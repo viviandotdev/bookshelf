@@ -137,17 +137,16 @@ model Shelf {
 }
 
 model JournalEntry {
-    id           String  @id @default(uuid())
+    id           String    @id @default(uuid())
     /// @Validator.IsString()
     readingNotes String?
-
-    dateRead   DateTime @default(now())
+    dateRead     DateTime  @default(now())
     /// @Validator.IsInt()
-    startPage  Int?
+    currentPage  Int?
     /// @Validator.IsInt()
-    endPage    Int?
+    totalPages   Int?
     /// @Validator.IsString()
-    userBookId String
+    userBookId   String?
     // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
-    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
+    userBook     UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }

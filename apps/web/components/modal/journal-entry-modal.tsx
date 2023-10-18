@@ -30,11 +30,14 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calender";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useCreateJournalEntryMutation } from "@/graphql/graphql";
+import { toast } from "@/hooks/use-toast";
 
 interface AddToShelfModalProps {}
 
 export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const jouranlEntryModal = useJouranlEntryModal();
+  const [createJournalEntry] = useCreateJournalEntryMutation();
   const [error, setError] = useState<string>("");
   const userBook = useUserBook();
   const inputRef = useRef(null);
@@ -118,6 +121,29 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     }, [userBook.data]),
   });
   async function onSubmit(data: DisplayFormValues) {
+    await createJournalEntry({
+      variables: {
+        data: {
+          readingNotes: data.notes,
+          currentPage: parseInt(data.current_page),
+          totalPages: parseInt(data.total_pages),
+        },
+        book: {
+          id: userBook.data.id,
+        },
+      },
+      onError(error) {
+        toast({
+          title: error.message,
+          variant: "destructive",
+        });
+      },
+      onCompleted(data) {
+        toast({
+          title: "Sucessfylly create journal entry",
+        });
+      },
+    });
     console.log(data);
     jouranlEntryModal.onClose();
   }

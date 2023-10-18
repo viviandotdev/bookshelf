@@ -201,36 +201,45 @@ input IntFilter {
 }
 
 type JournalEntry {
+  currentPage: Int
   dateRead: Timestamp!
-  endPage: Int
   id: ID!
   readingNotes: String
-  startPage: Int
-  userBook: UserBook!
-  userBookId: String!
+  totalPages: Int
+  userBook: UserBook
+  userBookId: String
 }
 
 type JournalEntryAvgAggregate {
-  endPage: Float
-  startPage: Float
+  currentPage: Float
+  totalPages: Float
 }
 
 type JournalEntryCountAggregate {
   _all: Int!
+  currentPage: Int!
   dateRead: Int!
-  endPage: Int!
   id: Int!
   readingNotes: Int!
-  startPage: Int!
+  totalPages: Int!
   userBookId: Int!
 }
 
-input JournalEntryCreateManyUserBookInput {
+input JournalEntryCreateInput {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
+  userBook: UserBookCreateNestedOneWithoutJournalEntryInput
+}
+
+input JournalEntryCreateManyUserBookInput {
+  currentPage: Int
+  dateRead: Timestamp
+  id: String
+  readingNotes: String
+  totalPages: Int
 }
 
 input JournalEntryCreateManyUserBookInputEnvelope {
@@ -251,11 +260,11 @@ input JournalEntryCreateOrConnectWithoutUserBookInput {
 }
 
 input JournalEntryCreateWithoutUserBookInput {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
 }
 
 input JournalEntryListRelationFilter {
@@ -265,20 +274,20 @@ input JournalEntryListRelationFilter {
 }
 
 type JournalEntryMaxAggregate {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
   userBookId: String
 }
 
 type JournalEntryMinAggregate {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
   userBookId: String
 }
 
@@ -286,25 +295,25 @@ input JournalEntryScalarWhereInput {
   AND: [JournalEntryScalarWhereInput!]
   NOT: [JournalEntryScalarWhereInput!]
   OR: [JournalEntryScalarWhereInput!]
+  currentPage: IntFilter
   dateRead: DateTimeFilter
-  endPage: IntFilter
   id: StringFilter
   readingNotes: StringFilter
-  startPage: IntFilter
+  totalPages: IntFilter
   userBookId: StringFilter
 }
 
 type JournalEntrySumAggregate {
-  endPage: Int
-  startPage: Int
+  currentPage: Int
+  totalPages: Int
 }
 
 input JournalEntryUpdateManyMutationInput {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
 }
 
 input JournalEntryUpdateManyWithWhereWithoutUserBookInput {
@@ -332,11 +341,11 @@ input JournalEntryUpdateWithWhereUniqueWithoutUserBookInput {
 }
 
 input JournalEntryUpdateWithoutUserBookInput {
+  currentPage: Int
   dateRead: Timestamp
-  endPage: Int
   id: String
   readingNotes: String
-  startPage: Int
+  totalPages: Int
 }
 
 input JournalEntryUpsertWithWhereUniqueWithoutUserBookInput {
@@ -349,11 +358,11 @@ input JournalEntryWhereInput {
   AND: [JournalEntryWhereInput!]
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
+  currentPage: IntFilter
   dateRead: DateTimeFilter
-  endPage: IntFilter
   id: StringFilter
   readingNotes: StringFilter
-  startPage: IntFilter
+  totalPages: IntFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
 }
@@ -362,11 +371,11 @@ input JournalEntryWhereUniqueInput {
   AND: [JournalEntryWhereInput!]
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
+  currentPage: IntFilter
   dateRead: DateTimeFilter
-  endPage: IntFilter
   id: String
   readingNotes: StringFilter
-  startPage: IntFilter
+  totalPages: IntFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
 }
@@ -378,6 +387,7 @@ input LogInInput {
 
 type Mutation {
   createBook(data: BookCreateInput!): Book!
+  createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
   createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
@@ -387,10 +397,7 @@ type Mutation {
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
-  updateUserBook(
-    data: UserBookUpdateInput!
-    where: BookWhereUniqueInput!
-  ): UserBook!
+  updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }
 
 type Query {
@@ -398,11 +405,7 @@ type Query {
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(
-    limit: Int! = 20
-    offset: Int! = 0
-    where: UserBookWhereInput
-  ): [UserBook!]
+  userBooks(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {
@@ -750,6 +753,12 @@ input UserBookCreateNestedManyWithoutUserInput {
   createMany: UserBookCreateManyUserInputEnvelope
 }
 
+input UserBookCreateNestedOneWithoutJournalEntryInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
+  create: UserBookCreateWithoutJournalEntryInput
+}
+
 input UserBookCreateNestedOneWithoutShelvesInput {
   connect: UserBookWhereUniqueInput
   connectOrCreate: UserBookCreateOrConnectWithoutShelvesInput
@@ -758,6 +767,11 @@ input UserBookCreateNestedOneWithoutShelvesInput {
 
 input UserBookCreateOrConnectWithoutBookInput {
   create: UserBookCreateWithoutBookInput!
+  where: UserBookWhereUniqueInput!
+}
+
+input UserBookCreateOrConnectWithoutJournalEntryInput {
+  create: UserBookCreateWithoutJournalEntryInput!
   where: UserBookWhereUniqueInput!
 }
 
@@ -776,6 +790,17 @@ input UserBookCreateWithoutBookInput {
   dateStarted: String
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
+  rating: Int
+  shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
+  status: String!
+  user: UserCreateNestedOneWithoutUserBooksInput
+}
+
+input UserBookCreateWithoutJournalEntryInput {
+  book: BookCreateNestedOneWithoutUserBookInput
+  dateFinished: String
+  dateStarted: String
+  id: String
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!

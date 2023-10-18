@@ -70,8 +70,8 @@ export enum JournalEntryScalarFieldEnum {
     id = "id",
     readingNotes = "readingNotes",
     dateRead = "dateRead",
-    startPage = "startPage",
-    endPage = "endPage",
+    currentPage = "currentPage",
+    totalPages = "totalPages",
     userBookId = "userBookId"
 }
 
@@ -1238,10 +1238,10 @@ export class CreateManyJournalEntryArgs {
 
 @ArgsType()
 export class CreateOneJournalEntryArgs {
-    @Field(() => JournalEntryCreateInput, {nullable:false})
+    @Field(() => JournalEntryCreateInput, {nullable:true})
     @Type(() => JournalEntryCreateInput)
     @ValidateNested()
-    data!: InstanceType<typeof JournalEntryCreateInput>;
+    data?: InstanceType<typeof JournalEntryCreateInput>;
 }
 
 @ArgsType()
@@ -1359,25 +1359,25 @@ export class JournalEntryAggregateArgs {
 @InputType()
 export class JournalEntryAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
-    startPage?: true;
+    currentPage?: true;
     @Field(() => Boolean, {nullable:true})
-    endPage?: true;
+    totalPages?: true;
 }
 
 @ObjectType()
 export class JournalEntryAvgAggregate {
     @Field(() => Float, {nullable:true})
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Float, {nullable:true})
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
 export class JournalEntryAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    startPage?: keyof typeof SortOrder;
+    currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    endPage?: keyof typeof SortOrder;
+    totalPages?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1389,9 +1389,9 @@ export class JournalEntryCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
     @Field(() => Boolean, {nullable:true})
-    startPage?: true;
+    currentPage?: true;
     @Field(() => Boolean, {nullable:true})
-    endPage?: true;
+    totalPages?: true;
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
     @Field(() => Boolean, {nullable:true})
@@ -1408,10 +1408,10 @@ export class JournalEntryCountAggregate {
     dateRead!: number;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    startPage!: number;
+    currentPage!: number;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    endPage!: number;
+    totalPages!: number;
     @Field(() => Int, {nullable:false})
     userBookId!: number;
     @Field(() => Int, {nullable:false})
@@ -1427,9 +1427,9 @@ export class JournalEntryCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    startPage?: keyof typeof SortOrder;
+    currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    endPage?: keyof typeof SortOrder;
+    totalPages?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
 }
@@ -1454,10 +1454,10 @@ export class JournalEntryCreateManyUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -1471,13 +1471,13 @@ export class JournalEntryCreateManyInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
-    @Field(() => String, {nullable:false})
+    totalPages?: number;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -1517,10 +1517,10 @@ export class JournalEntryCreateWithoutUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -1534,12 +1534,12 @@ export class JournalEntryCreateInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
-    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:false})
-    userBook!: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
+    totalPages?: number;
+    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
 }
 
 @ArgsType()
@@ -1581,13 +1581,13 @@ export class JournalEntryGroupBy {
     dateRead!: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
-    @Field(() => String, {nullable:false})
+    totalPages?: number;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
     @Field(() => JournalEntryCountAggregate, {nullable:true})
     _count?: InstanceType<typeof JournalEntryCountAggregate>;
     @Field(() => JournalEntryAvgAggregate, {nullable:true})
@@ -1619,9 +1619,9 @@ export class JournalEntryMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
     @Field(() => Boolean, {nullable:true})
-    startPage?: true;
+    currentPage?: true;
     @Field(() => Boolean, {nullable:true})
-    endPage?: true;
+    totalPages?: true;
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
 }
@@ -1637,10 +1637,10 @@ export class JournalEntryMaxAggregate {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userBookId?: string;
@@ -1655,9 +1655,9 @@ export class JournalEntryMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    startPage?: keyof typeof SortOrder;
+    currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    endPage?: keyof typeof SortOrder;
+    totalPages?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
 }
@@ -1671,9 +1671,9 @@ export class JournalEntryMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
     @Field(() => Boolean, {nullable:true})
-    startPage?: true;
+    currentPage?: true;
     @Field(() => Boolean, {nullable:true})
-    endPage?: true;
+    totalPages?: true;
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
 }
@@ -1689,10 +1689,10 @@ export class JournalEntryMinAggregate {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userBookId?: string;
@@ -1707,9 +1707,9 @@ export class JournalEntryMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    startPage?: keyof typeof SortOrder;
+    currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    endPage?: keyof typeof SortOrder;
+    totalPages?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
 }
@@ -1729,11 +1729,11 @@ export class JournalEntryOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    startPage?: InstanceType<typeof SortOrderInput>;
+    currentPage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    endPage?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    totalPages?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => JournalEntryCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof JournalEntryCountOrderByAggregateInput>;
     @Field(() => JournalEntryAvgOrderByAggregateInput, {nullable:true})
@@ -1755,11 +1755,11 @@ export class JournalEntryOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    startPage?: InstanceType<typeof SortOrderInput>;
+    currentPage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    endPage?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    totalPages?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookOrderByWithRelationInput>;
 }
@@ -1779,9 +1779,9 @@ export class JournalEntryScalarWhereWithAggregatesInput {
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    startPage?: InstanceType<typeof IntWithAggregatesFilter>;
+    currentPage?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    endPage?: InstanceType<typeof IntWithAggregatesFilter>;
+    totalPages?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringWithAggregatesFilter>;
 }
@@ -1801,9 +1801,9 @@ export class JournalEntryScalarWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
-    startPage?: InstanceType<typeof IntFilter>;
+    currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    endPage?: InstanceType<typeof IntFilter>;
+    totalPages?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
 }
@@ -1811,27 +1811,27 @@ export class JournalEntryScalarWhereInput {
 @InputType()
 export class JournalEntrySumAggregateInput {
     @Field(() => Boolean, {nullable:true})
-    startPage?: true;
+    currentPage?: true;
     @Field(() => Boolean, {nullable:true})
-    endPage?: true;
+    totalPages?: true;
 }
 
 @ObjectType()
 export class JournalEntrySumAggregate {
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
 export class JournalEntrySumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    startPage?: keyof typeof SortOrder;
+    currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    endPage?: keyof typeof SortOrder;
+    totalPages?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1861,10 +1861,10 @@ export class JournalEntryUncheckedCreateWithoutUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -1878,13 +1878,13 @@ export class JournalEntryUncheckedCreateInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
-    @Field(() => String, {nullable:false})
+    totalPages?: number;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -1935,10 +1935,10 @@ export class JournalEntryUncheckedUpdateManyWithoutUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -1952,10 +1952,10 @@ export class JournalEntryUncheckedUpdateManyInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userBookId?: string;
@@ -1972,10 +1972,10 @@ export class JournalEntryUncheckedUpdateWithoutUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -1989,10 +1989,10 @@ export class JournalEntryUncheckedUpdateInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userBookId?: string;
@@ -2009,10 +2009,10 @@ export class JournalEntryUpdateManyMutationInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -2083,10 +2083,10 @@ export class JournalEntryUpdateWithoutUserBookInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
+    totalPages?: number;
 }
 
 @InputType()
@@ -2100,12 +2100,12 @@ export class JournalEntryUpdateInput {
     dateRead?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    startPage?: number;
+    currentPage?: number;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    endPage?: number;
-    @Field(() => UserBookUpdateOneRequiredWithoutJournalEntryNestedInput, {nullable:true})
-    userBook?: InstanceType<typeof UserBookUpdateOneRequiredWithoutJournalEntryNestedInput>;
+    totalPages?: number;
+    @Field(() => UserBookUpdateOneWithoutJournalEntryNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateOneWithoutJournalEntryNestedInput>;
 }
 
 @InputType()
@@ -2136,9 +2136,9 @@ export class JournalEntryWhereUniqueInput {
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
-    startPage?: InstanceType<typeof IntFilter>;
+    currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    endPage?: InstanceType<typeof IntFilter>;
+    totalPages?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
@@ -2160,9 +2160,9 @@ export class JournalEntryWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
-    startPage?: InstanceType<typeof IntFilter>;
+    currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    endPage?: InstanceType<typeof IntFilter>;
+    totalPages?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
@@ -2178,13 +2178,13 @@ export class JournalEntry {
     @Field(() => Date, {nullable:false})
     dateRead!: Date;
     @Field(() => Int, {nullable:true})
-    startPage!: number | null;
+    currentPage!: number | null;
     @Field(() => Int, {nullable:true})
-    endPage!: number | null;
-    @Field(() => String, {nullable:false})
-    userBookId!: string;
-    @Field(() => UserBook, {nullable:false})
-    userBook?: InstanceType<typeof UserBook>;
+    totalPages!: number | null;
+    @Field(() => String, {nullable:true})
+    userBookId!: string | null;
+    @Field(() => UserBook, {nullable:true})
+    userBook?: InstanceType<typeof UserBook> | null;
 }
 
 @ArgsType()
@@ -6009,25 +6009,6 @@ export class UserBookUpdateManyWithoutUserNestedInput {
 }
 
 @InputType()
-export class UserBookUpdateOneRequiredWithoutJournalEntryNestedInput {
-    @Field(() => UserBookCreateWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookCreateWithoutJournalEntryInput)
-    create?: InstanceType<typeof UserBookCreateWithoutJournalEntryInput>;
-    @Field(() => UserBookCreateOrConnectWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookCreateOrConnectWithoutJournalEntryInput)
-    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutJournalEntryInput>;
-    @Field(() => UserBookUpsertWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookUpsertWithoutJournalEntryInput)
-    upsert?: InstanceType<typeof UserBookUpsertWithoutJournalEntryInput>;
-    @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    @Type(() => UserBookWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
-    @Field(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput)
-    update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutJournalEntryInput>;
-}
-
-@InputType()
 export class UserBookUpdateOneRequiredWithoutShelvesNestedInput {
     @Field(() => UserBookCreateWithoutShelvesInput, {nullable:true})
     @Type(() => UserBookCreateWithoutShelvesInput)
@@ -6044,6 +6025,31 @@ export class UserBookUpdateOneRequiredWithoutShelvesNestedInput {
     @Field(() => UserBookUpdateToOneWithWhereWithoutShelvesInput, {nullable:true})
     @Type(() => UserBookUpdateToOneWithWhereWithoutShelvesInput)
     update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutShelvesInput>;
+}
+
+@InputType()
+export class UserBookUpdateOneWithoutJournalEntryNestedInput {
+    @Field(() => UserBookCreateWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookCreateWithoutJournalEntryInput)
+    create?: InstanceType<typeof UserBookCreateWithoutJournalEntryInput>;
+    @Field(() => UserBookCreateOrConnectWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookCreateOrConnectWithoutJournalEntryInput)
+    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutJournalEntryInput>;
+    @Field(() => UserBookUpsertWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookUpsertWithoutJournalEntryInput)
+    upsert?: InstanceType<typeof UserBookUpsertWithoutJournalEntryInput>;
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    disconnect?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    delete?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => UserBookWhereUniqueInput, {nullable:true})
+    @Type(() => UserBookWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    @Field(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput)
+    update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutJournalEntryInput>;
 }
 
 @InputType()
