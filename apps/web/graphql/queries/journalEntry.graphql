@@ -1,0 +1,3 @@
+mutation CountJournalEntry($book: BookWhereUniqueInput!) {
+  countJournalEntry(book: $book)
+}

@@ -41,6 +41,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const [error, setError] = useState<string>("");
   const userBook = useUserBook();
   const inputRef = useRef(null);
+
+  //   get the most recent jounral entry
+  
   const displayFormSchema = z.object({
     notes: z.string().max(160).optional(),
     mark_abandoned: z.boolean().default(false),

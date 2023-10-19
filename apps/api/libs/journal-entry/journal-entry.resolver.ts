@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { JournalEntryService } from './journal-entry.service';
 import {
   BookWhereUniqueInput,
@@ -31,11 +31,30 @@ export class JournalEntryResolver {
       userId: currentUser.userId,
     };
 
-    console.log(userBook);
     const userBookExists = await this.userBookService.findUnique(userBook);
     if (!userBookExists) {
       throw new Error('UserBook does not exist');
     }
     return this.service.create(data, userBook);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Query(() => Int)
+  async countJournalEntries(
+    @Args('book', { nullable: true })
+    book: BookWhereUniqueInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const userBook: UserBookIdentifierCompoundUniqueInput = {
+      bookId: book.id,
+      userId: currentUser.userId,
+    };
+
+    const userBookExists = await this.userBookService.findUnique(userBook);
+    if (!userBookExists) {
+      throw new Error('UserBook does not exist');
+    }
+
+    return this.service.count(userBook);
   }
 }

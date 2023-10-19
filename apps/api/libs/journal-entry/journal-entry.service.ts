@@ -30,7 +30,18 @@ export class JournalEntryService {
         },
       },
     };
-    console.log(createJournalEntryArgs);
     return this.repository.create(createJournalEntryArgs);
+  }
+
+  async count({ bookId, userId }: UserBookIdentifierCompoundUniqueInput) {
+    const journalEntryCount = await this.repository.count({
+      where: {
+        userBook: {
+          bookId,
+          userId,
+        },
+      },
+    });
+    return journalEntryCount;
   }
 }
