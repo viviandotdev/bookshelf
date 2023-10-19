@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookRating } from "./book-card";
 import { Icons } from "./icons";
 import {
@@ -20,11 +20,11 @@ import {
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
-
 interface BookOperationsProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   rating: number;
+  bookStatus: string;
   setRating: (rating: number) => void;
   book: Book;
   shelves: UserBookShelves[];
@@ -34,6 +34,7 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   open,
   setOpen,
   rating,
+  bookStatus,
   setRating,
   book,
   shelves,
@@ -42,10 +43,10 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   const addToShelfModal = useAddToShelfModal();
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
-  const updateStatus = useUserBook((state) => state.updateStatus);
   const updateBookId = useUserBook((state) => state.updateBookId);
   const updateUserBook = useUserBook((state) => state.updateUserBook);
   const initShelves = useUserBook((state) => state.initShelves);
+  const [status, setStatus] = useState(bookStatus);
   const onUpdate = async (status: string) => {
     const { data, errors } = await UpdateUserBook({
       variables: {
@@ -71,7 +72,9 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
         title: `Sucessfully updated book status to ${data.updateUserBook.status}`,
       });
     }
+    setStatus(status);
   };
+
   const onDelete = async () => {
     const { data, errors } = await removeUserBook({
       variables: {
@@ -116,6 +119,9 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
         >
           <DropdownMenuGroup>
             <DropdownMenuItem
+              className={`${
+                status === "Want to Read" && "bg-accent text-primary"
+              }`}
               onClick={() => {
                 onUpdate("Want to Read");
               }}
@@ -124,14 +130,22 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
               Want to Read
             </DropdownMenuItem>
             <DropdownMenuItem
+              className={`${
+                status === "Currently Reading" && "bg-accent text-primary"
+              }`}
               onClick={() => {
-                onUpdate("Want to Read");
+                onUpdate("Currently Reading");
               }}
             >
-              <Icons.bookOpen className="h-5 w-5 mr-2" />
+              <Icons.bookOpen className={`h-5 w-5 mr-2`} />
               Currently Reading
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              className={`${status === "Read" && "bg-accent text-primary"}`}
+              onClick={() => {
+                onUpdate("Read");
+              }}
+            >
               <Icons.read className="h-5 w-5 mr-2" />
               Read
             </DropdownMenuItem>
@@ -141,7 +155,6 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                console.log("shelves", shelves);
                 initShelves(shelves);
                 updateBookId(book.id);
 
@@ -151,16 +164,17 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
               <Icons.shelf className="h-5 w-5 mr-2" />
               Add to shelf
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                updateUserBook(book);
-                console.log(book);
-                jouranlEntryModal.onOpen();
-              }}
-            >
-              <Icons.plus className="h-5 w-5 mr-2" />
-              Log book
-            </DropdownMenuItem>
+            {status == "Currently Reading" && (
+              <DropdownMenuItem
+                onClick={() => {
+                  updateUserBook(book);
+                  jouranlEntryModal.onOpen();
+                }}
+              >
+                <Icons.plus className="h-5 w-5 mr-2" />
+                Update Progress
+              </DropdownMenuItem>
+            )}
 
             <DropdownMenuItem
               onClick={() => {
