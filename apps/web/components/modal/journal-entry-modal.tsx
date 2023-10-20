@@ -38,12 +38,13 @@ interface AddToShelfModalProps {}
 export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const jouranlEntryModal = useJouranlEntryModal();
   const [createJournalEntry] = useCreateJournalEntryMutation();
+  const [unit, setUnit] = useState<"pages" | "percent">("pages");
   const [error, setError] = useState<string>("");
   const userBook = useUserBook();
   const inputRef = useRef(null);
 
   //   get the most recent jounral entry
-  
+
   const displayFormSchema = z.object({
     notes: z.string().max(160).optional(),
     mark_abandoned: z.boolean().default(false),
@@ -53,7 +54,27 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
       })
       .refine((val) => val.length > 0 && !Number.isNaN(parseInt(val, 10)), {
         message: "Please enter a valid current page and total pages number",
-      }),
+      })
+      .refine(
+        // TODO: update to check if the current page is greater than the current page
+        (val) =>
+          parseInt(val, 10) >
+          (userBook.data && userBook.data.pageNum ? userBook.data.pageNum : 0),
+        {
+          message: "Current unit must be greater than previous unit",
+        }
+      )
+      .refine(
+        // TODO: update to check if the current page is greater than the current page
+        (val) =>
+          parseInt(val, 10) >
+          (userBook.data && userBook.data.pageNum ? userBook.data.pageNum : 0),
+        {
+          message:
+            "The value entered is greater than the total number of pages in the book",
+        }
+      ),
+
     total_pages: z
       .string({
         required_error: "A current page and total pages number is required",
@@ -266,7 +287,11 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           )}
         />
         <div className="flex items-center gap-2 pt-3">
-          <div className="text-primary">Currently on </div>
+          <div className="text-primary">
+            Currently
+            {unit == "pages" && <span> on</span>}
+          </div>
+
           <FormField
             control={form.control}
             name="current_page"
@@ -274,6 +299,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="off"
                     autoFocus
                     className="h-7 px-2 w-[48px] py-4 text-xs "
                     onKeyDown={handleKeyPress}
@@ -285,24 +311,26 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             )}
           />
 
-          <div className="text-primary">of</div>
-          <FormField
-            control={form.control}
-            name="total_pages"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className="h-7 px-2 w-[48px] py-4 text-xs"
-                    onKeyDown={handleKeyPress}
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage setError={setError} />
-              </FormItem>
-            )}
-          />
+          {unit === "pages" ? (
+            <>
+              <div className="text-primary">of</div>
+              {userBook.data &&
+                userBook.data.pageNum &&
+                userBook.data.pageNum!.toString() && (
+                  <div className="text-primary font-bold">
+                    {userBook.data.pageNum!.toString()}
+                  </div>
+                )}
+            </>
+          ) : (
+            <div>% done</div>
+          )}
+          <div>
+            <div className="flex items-start gap-0 bg-secondary rounded-xl">
+              {unitButton("pages", unit, setUnit)}
+              {unitButton("percent", unit, setUnit)}
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -346,3 +374,17 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     );
   }
 };
+function unitButton(type: string, unit: string, setUnit: any) {
+  return (
+    <Button
+      variant={`secondary`}
+      className={`${unit === type && "bg-primary text-white"}`}
+      onClick={(e) => {
+        e.preventDefault();
+        setUnit(type);
+      }}
+    >
+      {type == "pages" ? "#" : "%"}
+    </Button>
+  );
+}
