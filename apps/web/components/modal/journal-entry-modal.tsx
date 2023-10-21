@@ -30,7 +30,10 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "../ui/calender";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useCreateJournalEntryMutation } from "@/graphql/graphql";
+import {
+  useCreateJournalEntryMutation,
+  useGetMostRecentJournalEntryQuery,
+} from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 interface AddToShelfModalProps {}
@@ -42,10 +45,33 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const [error, setError] = useState<string>("");
   const userBook = useUserBook();
   const [currentProgress, setCurrentProgress] = useState({
-    page: 20,
-    percent: 30,
+    page: 0,
+    percent: 0,
   });
-  const inputRef = useRef(null);
+  const { data, loading } = useGetMostRecentJournalEntryQuery({
+    variables: {
+      book: {
+        id: userBook.data.id,
+      },
+    },
+    onCompleted(data) {
+      if (data.getMostRecentJournalEntry) {
+        setCurrentProgress({
+          page: data.getMostRecentJournalEntry.currentPage || 0,
+          percent: data.getMostRecentJournalEntry.currentPercent || 0,
+        });
+      } else {
+        setCurrentProgress({
+          page: 0,
+          percent: 0,
+        });
+      }
+    },
+  });
+
+  useEffect(() => {
+    console.log(currentProgress);
+  }, [currentProgress]);
 
   //   get the most recent jounral entry
   //   check the input must be greater than the most recent journal entry
@@ -106,20 +132,17 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     .superRefine((values, ctx) => {
       if (!values.current_page && !values.current_percent) {
         ctx.addIssue({
-          message: "Either current page.",
+          message: "Please enter your progress",
           code: z.ZodIssueCode.custom,
           path: ["current_page"],
         });
         ctx.addIssue({
-          message: "Either a percent page.",
+          message: "Please enter your progress",
           code: z.ZodIssueCode.custom,
           path: ["current_percent"],
         });
       }
     });
-
-  // TODO: Additional validation
-  // The value entered is less than the previous value
   const handleKeyPress = (event: any) => {
     const keyCode = event.keyCode || event.which;
     const keyValue = String.fromCharCode(keyCode);
@@ -135,11 +158,11 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   useEffect(() => {
     form.reset({
       notes: "",
-      current_percent: "",
-      current_page: "",
+      current_percent: currentProgress.percent.toString() || "",
+      current_page: currentProgress.page.toString() || "",
       date_read: new Date(),
     });
-  }, [userBook.data]);
+  }, [userBook.data, currentProgress]);
 
   type DisplayFormValues = z.infer<typeof displayFormSchema>;
 
@@ -148,11 +171,11 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
     defaultValues: useMemo(() => {
       return {
         notes: "",
-        current_page: "",
-        current_percent: "",
+        current_page: currentProgress.page.toString() || "",
+        current_percent: currentProgress.percent.toString() || "",
         date_read: new Date(),
       };
-    }, [userBook.data]),
+    }, [userBook.data, currentProgress]),
   });
   async function onSubmit(data: DisplayFormValues) {
     let currentPage;
@@ -164,11 +187,15 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         ? Math.round((parseInt(data.current_page) / totalPages) * 100)
         : 0;
     } else if (unit == "percent" && data.current_percent) {
+      // if unit is percent and current percent is not empty
+      console.log("percent changed");
       currentPercent = parseInt(data.current_percent);
       currentPage = Math.round(
         totalPages ? currentPercent * 0.01 * totalPages : 0
       );
     }
+
+    console.log(currentPage, currentPercent);
 
     await createJournalEntry({
       variables: {
@@ -188,6 +215,11 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         });
       },
       onCompleted(data) {
+        console.log(data.createJournalEntry);
+        setCurrentProgress({
+          page: data.createJournalEntry.currentPage || 0,
+          percent: data.createJournalEntry.currentPercent || 0,
+        });
         toast({
           title: "Sucessfylly create journal entry",
         });
@@ -317,8 +349,12 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             {unit == "pages" && <span> on</span>}
           </div>
 
-          {unit === "pages" ? (
-            <>
+          <div>
+            <div
+              className={`${
+                unit == "pages" ? "block" : "hidden"
+              } flex gap-2 items-center`}
+            >
               <FormField
                 control={form.control}
                 name="current_page"
@@ -328,7 +364,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                       <Input
                         autoComplete="off"
                         autoFocus
-                        className="h-7 px-2 w-[48px] py-4 text-xs "
+                        className={` ${
+                          unit == "pages" ? "block" : "hidden"
+                        } h-7 px-2 w-[48px] py-4 text-xs `}
                         onKeyDown={handleKeyPress}
                         {...field}
                       />
@@ -346,9 +384,13 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                     {userBook.data.pageNum!.toString()}
                   </div>
                 )}
-            </>
-          ) : (
-            <>
+            </div>
+
+            <div
+              className={`${
+                unit == "percent" ? "block" : "hidden"
+              } flex gap-2 items-center`}
+            >
               <FormField
                 control={form.control}
                 name="current_percent"
@@ -358,7 +400,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                       <Input
                         autoComplete="off"
                         autoFocus
-                        className="h-7 px-2 w-[48px] py-4 text-xs "
+                        className={` h-7 px-2 w-[48px] py-4 text-xs `}
                         onKeyDown={handleKeyPress}
                         {...field}
                       />
@@ -368,8 +410,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                 )}
               />
               <div>% done</div>
-            </>
-          )}
+            </div>
+          </div>
+
           <div>
             <div className="flex items-start gap-0 bg-secondary rounded-xl">
               {unitButton("pages")}
@@ -388,7 +431,13 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           I'm finished!
         </div>
         <div className="space-x-2 flex items-center justify-end">
-          <Button variant="outline" onClick={jouranlEntryModal.onClose}>
+          <Button
+            variant="outline"
+            onClick={(e) => {
+              e.preventDefault();
+              jouranlEntryModal.onClose();
+            }}
+          >
             {jouranlEntryModal.isEdit ? "Delete" : "Close"}
           </Button>
           <Button type="submit" variant="default">
@@ -417,16 +466,10 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         className={`${unit === type && "bg-primary text-white"}`}
         onClick={(e) => {
           e.preventDefault();
-          if (type == "pages") {
-            form.reset({
-              current_percent: "",
-            });
-          } else {
-            form.reset({
-              current_page: "",
-            });
-          }
-
+          form.reset({
+            current_percent: currentProgress.percent.toString() || "",
+            current_page: currentProgress.page.toString() || "",
+          });
           setUnit(type);
         }}
       >

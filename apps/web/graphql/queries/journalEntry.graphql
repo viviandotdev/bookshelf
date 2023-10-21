@@ -1,3 +1,17 @@
 query countJournalEntries($book: BookWhereUniqueInput!) {
   countJournalEntries(book: $book)
 }
+
+query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
+  getMostRecentJournalEntry(book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+    # userBook {
+    #   id
+    #   # Include other fields of UserBook that you want to retrieve
+    # }
+  }
+}

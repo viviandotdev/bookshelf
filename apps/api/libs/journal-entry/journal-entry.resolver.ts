@@ -57,4 +57,27 @@ export class JournalEntryResolver {
 
     return this.service.count(userBook);
   }
+
+  @UseGuards(AccessTokenGuard)
+  @Query(() => JournalEntry, { nullable: true })
+  async getMostRecentJournalEntry(
+    @Args('book', { nullable: true })
+    book: BookWhereUniqueInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const mostRecentEntry = await this.service.findFirst({
+      where: {
+        userBook: {
+          userId: currentUser.userId,
+          bookId: book.id,
+        },
+      },
+      orderBy: {
+        dateRead: 'desc',
+      },
+      take: 1,
+    });
+
+    return mostRecentEntry;
+  }
 }

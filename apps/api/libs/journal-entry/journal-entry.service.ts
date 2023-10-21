@@ -8,6 +8,7 @@ import {
 @Injectable()
 export class JournalEntryService {
   findUnique = this.repository.findUnique;
+  findFirst = this.repository.findFirst;
   constructor(private readonly repository: JournalEntryRepository) {}
 
   async create(

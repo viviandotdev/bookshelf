@@ -1,4 +1,4 @@
-import { Book, Shelf, UserBookShelves } from "@/graphql/graphql";
+import { Book, JournalEntry, Shelf, UserBookShelves } from "@/graphql/graphql";
 import { create } from "zustand";
 
 type State = {
@@ -30,6 +30,7 @@ const useUserBook = create<State & Action>((set) => ({
     },
   },
   shelves: [],
+
   updateStatus: (status: string) => set(() => ({ status: status })),
   updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
   updateUserBook: (data: Book) => set(() => ({ data: data })),

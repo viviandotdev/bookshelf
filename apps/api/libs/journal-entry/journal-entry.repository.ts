@@ -12,6 +12,6 @@ export class JournalEntryRepository {
   create = this.prisma.journalEntry.create;
   count = this.prisma.journalEntry.count;
   delete = this.prisma.journalEntry.delete;
-
+  findFirst = this.prisma.journalEntry.findFirst;
   constructor(private readonly prisma: PrismaRepository) {}
 }

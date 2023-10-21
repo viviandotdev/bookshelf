@@ -4,5 +4,9 @@ mutation CreateJournalEntry(
 ) {
   createJournalEntry(data: $data, book: $book) {
     id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
   }
 }

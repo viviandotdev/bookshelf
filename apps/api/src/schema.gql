@@ -403,6 +403,7 @@ type Mutation {
 type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
+  getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook

@@ -492,6 +492,7 @@ export type Query = {
   __typename?: 'Query';
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
+  getMostRecentJournalEntry?: Maybe<JournalEntry>;
   me: User;
   shelves?: Maybe<Array<Shelf>>;
   userBook?: Maybe<UserBook>;
@@ -506,6 +507,11 @@ export type QueryCountJournalEntriesArgs = {
 
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryGetMostRecentJournalEntryArgs = {
+  book?: InputMaybe<BookWhereUniqueInput>;
 };
 
 
@@ -1544,7 +1550,7 @@ export type CreateJournalEntryMutationVariables = Exact<{
 }>;
 
 
-export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string } };
+export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage?: number | null, currentPercent?: number | null } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -1594,6 +1600,13 @@ export type CountJournalEntriesQueryVariables = Exact<{
 
 
 export type CountJournalEntriesQuery = { __typename?: 'Query', countJournalEntries: number };
+
+export type GetMostRecentJournalEntryQueryVariables = Exact<{
+  book: BookWhereUniqueInput;
+}>;
+
+
+export type GetMostRecentJournalEntryQuery = { __typename?: 'Query', getMostRecentJournalEntry?: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage?: number | null, currentPercent?: number | null } | null };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1809,6 +1822,10 @@ export const CreateJournalEntryDocument = gql`
     mutation CreateJournalEntry($data: JournalEntryCreateInput!, $book: BookWhereUniqueInput!) {
   createJournalEntry(data: $data, book: $book) {
     id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
   }
 }
     `;
@@ -2079,6 +2096,45 @@ export function useCountJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type CountJournalEntriesQueryHookResult = ReturnType<typeof useCountJournalEntriesQuery>;
 export type CountJournalEntriesLazyQueryHookResult = ReturnType<typeof useCountJournalEntriesLazyQuery>;
 export type CountJournalEntriesQueryResult = Apollo.QueryResult<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>;
+export const GetMostRecentJournalEntryDocument = gql`
+    query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
+  getMostRecentJournalEntry(book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}
+    `;
+
+/**
+ * __useGetMostRecentJournalEntryQuery__
+ *
+ * To run a query within a React component, call `useGetMostRecentJournalEntryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMostRecentJournalEntryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMostRecentJournalEntryQuery({
+ *   variables: {
+ *      book: // value for 'book'
+ *   },
+ * });
+ */
+export function useGetMostRecentJournalEntryQuery(baseOptions: Apollo.QueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+      }
+export function useGetMostRecentJournalEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+        }
+export type GetMostRecentJournalEntryQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryQuery>;
+export type GetMostRecentJournalEntryLazyQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryLazyQuery>;
+export type GetMostRecentJournalEntryQueryResult = Apollo.QueryResult<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
   shelves {
