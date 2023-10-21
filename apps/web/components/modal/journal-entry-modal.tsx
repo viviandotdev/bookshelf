@@ -41,9 +41,14 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const [unit, setUnit] = useState<"pages" | "percent">("pages");
   const [error, setError] = useState<string>("");
   const userBook = useUserBook();
+  const [currentProgress, setCurrentProgress] = useState({
+    page: 20,
+    percent: 30,
+  });
   const inputRef = useRef(null);
 
   //   get the most recent jounral entry
+  //   check the input must be greater than the most recent journal entry
   const displayFormSchema = z
     .object({
       notes: z.string().max(160).optional(),
@@ -52,6 +57,16 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         .string()
         .refine(
           (val) => {
+            // unit is pages and valid if value is less than or equal to the total number of pages in the book
+            return parseInt(val, 10) >= currentProgress.page;
+          },
+          {
+            message: `The value is less than the previous value`,
+          }
+        )
+        .refine(
+          (val) => {
+            // unit is pages and valid if value is less than or equal to the total number of pages in the book
             return (
               parseInt(val, 10) <=
               (userBook.data && userBook.data.pageNum
@@ -65,11 +80,18 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
         )
         .optional()
         .or(z.literal("")),
-      date_read: z.date({
-        required_error: "A date of birth is required.",
-      }),
+      date_read: z.date(),
       current_percent: z
         .string()
+        .refine(
+          (val) => {
+            // unit is pages and valid if value is less than or equal to the total number of pages in the book
+            return parseInt(val, 10) >= currentProgress.percent;
+          },
+          {
+            message: `The value is less than the previous value`,
+          }
+        )
         .refine(
           (val) => {
             return parseInt(val, 10) <= 100;
@@ -366,18 +388,10 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
           I'm finished!
         </div>
         <div className="space-x-2 flex items-center justify-end">
-          <Button
-            //   disabled={loading}
-            variant="outline"
-            onClick={jouranlEntryModal.onClose}
-          >
+          <Button variant="outline" onClick={jouranlEntryModal.onClose}>
             {jouranlEntryModal.isEdit ? "Delete" : "Close"}
           </Button>
-          <Button
-            type="submit"
-            //   disabled={loading}
-            variant="default"
-          >
+          <Button type="submit" variant="default">
             Save
           </Button>
         </div>
