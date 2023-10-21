@@ -44,52 +44,60 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   const inputRef = useRef(null);
 
   //   get the most recent jounral entry
-
-  const displayFormSchema = z.object({
-    notes: z.string().max(160).optional(),
-    mark_abandoned: z.boolean().default(false),
-    current_page: z
-      .string({
-        required_error: "A current page and total pages number is required",
-      })
-      .refine((val) => val.length > 0 && !Number.isNaN(parseInt(val, 10)), {
-        message: "Please enter a valid current page and total pages number",
-      })
-      .refine(
-        // TODO: update to check if the current page is greater than the current page
-        (val) =>
-          parseInt(val, 10) >
-          (userBook.data && userBook.data.pageNum ? userBook.data.pageNum : 0),
-        {
-          message: "Current unit must be greater than previous unit",
-        }
-      )
-      .refine(
-        // TODO: update to check if the current page is greater than the current page
-        (val) =>
-          parseInt(val, 10) >
-          (userBook.data && userBook.data.pageNum ? userBook.data.pageNum : 0),
-        {
-          message:
-            "The value entered is greater than the total number of pages in the book",
-        }
-      ),
-
-    total_pages: z
-      .string({
-        required_error: "A current page and total pages number is required",
-      })
-      .refine((val) => val.length > 0 && !Number.isNaN(parseInt(val, 10)), {
-        message: "Please enter a valid current page and total pages number",
+  const displayFormSchema = z
+    .object({
+      notes: z.string().max(160).optional(),
+      mark_abandoned: z.boolean().default(false),
+      current_page: z
+        .string()
+        .refine(
+          (val) => {
+            return (
+              parseInt(val, 10) <=
+              (userBook.data && userBook.data.pageNum
+                ? userBook.data.pageNum
+                : 0)
+            );
+          },
+          {
+            message: `The value entered is greater than the total number of pages in the book`,
+          }
+        )
+        .optional()
+        .or(z.literal("")),
+      date_read: z.date({
+        required_error: "A date of birth is required.",
       }),
-    date_read: z.date({
-      required_error: "A date of birth is required.",
-    }),
-  });
+      current_percent: z
+        .string()
+        .refine(
+          (val) => {
+            return parseInt(val, 10) <= 100;
+          },
+          {
+            message: `Enter a value less than or equal to 100`,
+          }
+        )
+        .optional()
+        .or(z.literal("")),
+    })
+    .superRefine((values, ctx) => {
+      if (!values.current_page && !values.current_percent) {
+        ctx.addIssue({
+          message: "Either current page.",
+          code: z.ZodIssueCode.custom,
+          path: ["current_page"],
+        });
+        ctx.addIssue({
+          message: "Either a percent page.",
+          code: z.ZodIssueCode.custom,
+          path: ["current_percent"],
+        });
+      }
+    });
+
   // TODO: Additional validation
   // The value entered is less than the previous value
-  // The value entered is greater than the total number of pages in the book
-  // The value entered exceeds the maximum values
   const handleKeyPress = (event: any) => {
     const keyCode = event.keyCode || event.which;
     const keyValue = String.fromCharCode(keyCode);
@@ -103,25 +111,10 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
   };
 
   useEffect(() => {
-    console.log(error);
-  }, [error]);
-
-  useEffect(() => {
-    setError("");
-    if (jouranlEntryModal.isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [jouranlEntryModal.isOpen]);
-
-  useEffect(() => {
     form.reset({
       notes: "",
-      total_pages:
-        userBook.data &&
-        userBook.data.pageNum &&
-        userBook.data.pageNum!.toString()
-          ? userBook.data.pageNum!.toString()
-          : "",
+      current_percent: "",
+      current_page: "",
       date_read: new Date(),
     });
   }, [userBook.data]);
@@ -134,23 +127,33 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
       return {
         notes: "",
         current_page: "",
-        total_pages:
-          userBook.data &&
-          userBook.data.pageNum &&
-          userBook.data.pageNum!.toString()
-            ? userBook.data.pageNum!.toString()
-            : "",
+        current_percent: "",
         date_read: new Date(),
       };
     }, [userBook.data]),
   });
   async function onSubmit(data: DisplayFormValues) {
+    let currentPage;
+    let currentPercent;
+    const totalPages = userBook.data && userBook.data.pageNum;
+    if (unit == "pages" && data.current_page) {
+      currentPage = parseInt(data.current_page);
+      currentPercent = totalPages
+        ? Math.round((parseInt(data.current_page) / totalPages) * 100)
+        : 0;
+    } else if (unit == "percent" && data.current_percent) {
+      currentPercent = parseInt(data.current_percent);
+      currentPage = Math.round(
+        totalPages ? currentPercent * 0.01 * totalPages : 0
+      );
+    }
+
     await createJournalEntry({
       variables: {
         data: {
           readingNotes: data.notes,
-          currentPage: parseInt(data.current_page),
-          totalPages: parseInt(data.total_pages),
+          currentPage: currentPage,
+          currentPercent: currentPercent,
         },
         book: {
           id: userBook.data.id,
@@ -292,27 +295,27 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             {unit == "pages" && <span> on</span>}
           </div>
 
-          <FormField
-            control={form.control}
-            name="current_page"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    autoFocus
-                    className="h-7 px-2 w-[48px] py-4 text-xs "
-                    onKeyDown={handleKeyPress}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage setError={setError} />
-              </FormItem>
-            )}
-          />
-
           {unit === "pages" ? (
             <>
+              <FormField
+                control={form.control}
+                name="current_page"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        autoComplete="off"
+                        autoFocus
+                        className="h-7 px-2 w-[48px] py-4 text-xs "
+                        onKeyDown={handleKeyPress}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage setError={setError} />
+                  </FormItem>
+                )}
+              />
+
               <div className="text-primary">of</div>
               {userBook.data &&
                 userBook.data.pageNum &&
@@ -323,12 +326,32 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                 )}
             </>
           ) : (
-            <div>% done</div>
+            <>
+              <FormField
+                control={form.control}
+                name="current_percent"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        autoComplete="off"
+                        autoFocus
+                        className="h-7 px-2 w-[48px] py-4 text-xs "
+                        onKeyDown={handleKeyPress}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage setError={setError} />
+                  </FormItem>
+                )}
+              />
+              <div>% done</div>
+            </>
           )}
           <div>
             <div className="flex items-start gap-0 bg-secondary rounded-xl">
-              {unitButton("pages", unit, setUnit)}
-              {unitButton("percent", unit, setUnit)}
+              {unitButton("pages")}
+              {unitButton("percent")}
             </div>
           </div>
         </div>
@@ -373,18 +396,28 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
       </DialogHeader>
     );
   }
+  function unitButton(type: "pages" | "percent") {
+    return (
+      <Button
+        variant={`secondary`}
+        className={`${unit === type && "bg-primary text-white"}`}
+        onClick={(e) => {
+          e.preventDefault();
+          if (type == "pages") {
+            form.reset({
+              current_percent: "",
+            });
+          } else {
+            form.reset({
+              current_page: "",
+            });
+          }
+
+          setUnit(type);
+        }}
+      >
+        {type == "pages" ? "#" : "%"}
+      </Button>
+    );
+  }
 };
-function unitButton(type: string, unit: string, setUnit: any) {
-  return (
-    <Button
-      variant={`secondary`}
-      className={`${unit === type && "bg-primary text-white"}`}
-      onClick={(e) => {
-        e.preventDefault();
-        setUnit(type);
-      }}
-    >
-      {type == "pages" ? "#" : "%"}
-    </Button>
-  );
-}

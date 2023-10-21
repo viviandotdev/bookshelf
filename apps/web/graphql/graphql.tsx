@@ -226,10 +226,10 @@ export type IntFilter = {
 export type JournalEntry = {
   __typename?: 'JournalEntry';
   currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
   dateRead: Scalars['Timestamp'];
   id: Scalars['ID'];
   readingNotes?: Maybe<Scalars['String']>;
-  totalPages?: Maybe<Scalars['Int']>;
   userBook?: Maybe<UserBook>;
   userBookId?: Maybe<Scalars['String']>;
 };
@@ -237,35 +237,35 @@ export type JournalEntry = {
 export type JournalEntryAvgAggregate = {
   __typename?: 'JournalEntryAvgAggregate';
   currentPage?: Maybe<Scalars['Float']>;
-  totalPages?: Maybe<Scalars['Float']>;
+  currentPercent?: Maybe<Scalars['Float']>;
 };
 
 export type JournalEntryCountAggregate = {
   __typename?: 'JournalEntryCountAggregate';
   _all: Scalars['Int'];
   currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
   dateRead: Scalars['Int'];
   id: Scalars['Int'];
   readingNotes: Scalars['Int'];
-  totalPages: Scalars['Int'];
   userBookId: Scalars['Int'];
 };
 
 export type JournalEntryCreateInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<Scalars['String']>;
-  totalPages?: InputMaybe<Scalars['Int']>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
 };
 
 export type JournalEntryCreateManyUserBookInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<Scalars['String']>;
-  totalPages?: InputMaybe<Scalars['Int']>;
 };
 
 export type JournalEntryCreateManyUserBookInputEnvelope = {
@@ -287,10 +287,10 @@ export type JournalEntryCreateOrConnectWithoutUserBookInput = {
 
 export type JournalEntryCreateWithoutUserBookInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<Scalars['String']>;
-  totalPages?: InputMaybe<Scalars['Int']>;
 };
 
 export type JournalEntryListRelationFilter = {
@@ -302,20 +302,20 @@ export type JournalEntryListRelationFilter = {
 export type JournalEntryMaxAggregate = {
   __typename?: 'JournalEntryMaxAggregate';
   currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   readingNotes?: Maybe<Scalars['String']>;
-  totalPages?: Maybe<Scalars['Int']>;
   userBookId?: Maybe<Scalars['String']>;
 };
 
 export type JournalEntryMinAggregate = {
   __typename?: 'JournalEntryMinAggregate';
   currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   readingNotes?: Maybe<Scalars['String']>;
-  totalPages?: Maybe<Scalars['Int']>;
   userBookId?: Maybe<Scalars['String']>;
 };
 
@@ -324,25 +324,25 @@ export type JournalEntryScalarWhereInput = {
   NOT?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   readingNotes?: InputMaybe<StringFilter>;
-  totalPages?: InputMaybe<IntFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
 export type JournalEntrySumAggregate = {
   __typename?: 'JournalEntrySumAggregate';
   currentPage?: Maybe<Scalars['Int']>;
-  totalPages?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
 };
 
 export type JournalEntryUpdateManyMutationInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<Scalars['String']>;
-  totalPages?: InputMaybe<Scalars['Int']>;
 };
 
 export type JournalEntryUpdateManyWithWhereWithoutUserBookInput = {
@@ -371,10 +371,10 @@ export type JournalEntryUpdateWithWhereUniqueWithoutUserBookInput = {
 
 export type JournalEntryUpdateWithoutUserBookInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<Scalars['String']>;
-  totalPages?: InputMaybe<Scalars['Int']>;
 };
 
 export type JournalEntryUpsertWithWhereUniqueWithoutUserBookInput = {
@@ -388,10 +388,10 @@ export type JournalEntryWhereInput = {
   NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryWhereInput>>;
   currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   readingNotes?: InputMaybe<StringFilter>;
-  totalPages?: InputMaybe<IntFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
@@ -401,10 +401,10 @@ export type JournalEntryWhereUniqueInput = {
   NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryWhereInput>>;
   currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   readingNotes?: InputMaybe<StringFilter>;
-  totalPages?: InputMaybe<IntFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
@@ -490,11 +490,17 @@ export type MutationUpdateUserBookArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
   me: User;
   shelves?: Maybe<Array<Shelf>>;
   userBook?: Maybe<UserBook>;
   userBooks?: Maybe<Array<UserBook>>;
+};
+
+
+export type QueryCountJournalEntriesArgs = {
+  book?: InputMaybe<BookWhereUniqueInput>;
 };
 
 
@@ -1519,7 +1525,7 @@ export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string, expiresIn: number } };
 
 export type LogoutMutationVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -1582,6 +1588,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string } };
 
+export type CountJournalEntriesQueryVariables = Exact<{
+  book: BookWhereUniqueInput;
+}>;
+
+
+export type CountJournalEntriesQuery = { __typename?: 'Query', countJournalEntries: number };
+
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1596,8 +1609,8 @@ export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'U
 
 export type UserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
 }>;
 
 
@@ -2033,6 +2046,39 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const CountJournalEntriesDocument = gql`
+    query countJournalEntries($book: BookWhereUniqueInput!) {
+  countJournalEntries(book: $book)
+}
+    `;
+
+/**
+ * __useCountJournalEntriesQuery__
+ *
+ * To run a query within a React component, call `useCountJournalEntriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountJournalEntriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountJournalEntriesQuery({
+ *   variables: {
+ *      book: // value for 'book'
+ *   },
+ * });
+ */
+export function useCountJournalEntriesQuery(baseOptions: Apollo.QueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+      }
+export function useCountJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+        }
+export type CountJournalEntriesQueryHookResult = ReturnType<typeof useCountJournalEntriesQuery>;
+export type CountJournalEntriesLazyQueryHookResult = ReturnType<typeof useCountJournalEntriesLazyQuery>;
+export type CountJournalEntriesQueryResult = Apollo.QueryResult<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
   shelves {

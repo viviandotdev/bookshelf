@@ -202,44 +202,44 @@ input IntFilter {
 
 type JournalEntry {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp!
   id: ID!
   readingNotes: String
-  totalPages: Int
   userBook: UserBook
   userBookId: String
 }
 
 type JournalEntryAvgAggregate {
   currentPage: Float
-  totalPages: Float
+  currentPercent: Float
 }
 
 type JournalEntryCountAggregate {
   _all: Int!
   currentPage: Int!
+  currentPercent: Int!
   dateRead: Int!
   id: Int!
   readingNotes: Int!
-  totalPages: Int!
   userBookId: Int!
 }
 
 input JournalEntryCreateInput {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
   userBook: UserBookCreateNestedOneWithoutJournalEntryInput
 }
 
 input JournalEntryCreateManyUserBookInput {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
 }
 
 input JournalEntryCreateManyUserBookInputEnvelope {
@@ -261,10 +261,10 @@ input JournalEntryCreateOrConnectWithoutUserBookInput {
 
 input JournalEntryCreateWithoutUserBookInput {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
 }
 
 input JournalEntryListRelationFilter {
@@ -275,19 +275,19 @@ input JournalEntryListRelationFilter {
 
 type JournalEntryMaxAggregate {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
   userBookId: String
 }
 
 type JournalEntryMinAggregate {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
   userBookId: String
 }
 
@@ -296,24 +296,24 @@ input JournalEntryScalarWhereInput {
   NOT: [JournalEntryScalarWhereInput!]
   OR: [JournalEntryScalarWhereInput!]
   currentPage: IntFilter
+  currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: StringFilter
   readingNotes: StringFilter
-  totalPages: IntFilter
   userBookId: StringFilter
 }
 
 type JournalEntrySumAggregate {
   currentPage: Int
-  totalPages: Int
+  currentPercent: Int
 }
 
 input JournalEntryUpdateManyMutationInput {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
 }
 
 input JournalEntryUpdateManyWithWhereWithoutUserBookInput {
@@ -342,10 +342,10 @@ input JournalEntryUpdateWithWhereUniqueWithoutUserBookInput {
 
 input JournalEntryUpdateWithoutUserBookInput {
   currentPage: Int
+  currentPercent: Int
   dateRead: Timestamp
   id: String
   readingNotes: String
-  totalPages: Int
 }
 
 input JournalEntryUpsertWithWhereUniqueWithoutUserBookInput {
@@ -359,10 +359,10 @@ input JournalEntryWhereInput {
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
   currentPage: IntFilter
+  currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: StringFilter
   readingNotes: StringFilter
-  totalPages: IntFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
 }
@@ -372,10 +372,10 @@ input JournalEntryWhereUniqueInput {
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
   currentPage: IntFilter
+  currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: String
   readingNotes: StringFilter
-  totalPages: IntFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
 }

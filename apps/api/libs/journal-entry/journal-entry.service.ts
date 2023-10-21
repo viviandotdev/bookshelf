@@ -19,7 +19,7 @@ export class JournalEntryService {
         readingNotes: data.readingNotes,
         dateRead: data.dateRead,
         currentPage: data.currentPage,
-        totalPages: data.totalPages,
+        currentPercent: data.currentPercent,
         userBook: {
           connect: {
             identifier: {
