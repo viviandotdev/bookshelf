@@ -20,6 +20,7 @@ import {
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
+import AlertModal from "./modal/alert-modal";
 interface BookOperationsProps {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -40,7 +41,9 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   shelves,
 }) => {
   const jouranlEntryModal = useJouranlEntryModal();
+  const [openAlert, setOpenAlert] = useState(false);
   const addToShelfModal = useAddToShelfModal();
+  const [isLoading, setIsLoading] = useState(false);
   const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
   const updateBookId = useUserBook((state) => state.updateBookId);
@@ -76,6 +79,7 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   };
 
   const onDelete = async () => {
+    setIsLoading(true);
     const { data, errors } = await removeUserBook({
       variables: {
         where: {
@@ -92,13 +96,26 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
       });
     }
     if (data && !errors) {
+      setIsLoading(false);
+      setOpenAlert(false);
       toast({
         title: "Sucessfylly deleted book",
       });
     }
   };
+
   return (
     <div>
+      <AlertModal
+        title={"Are you sure you want to remove this book from your shelf?"}
+        description={
+          "Removing this book will clear associated ratings, reviews and reading activity"
+        }
+        isOpen={openAlert}
+        onClose={() => setOpenAlert(false)}
+        onConfirm={onDelete}
+        loading={isLoading}
+      />
       <DropdownMenu open={open} modal={false}>
         <DropdownMenuTrigger
           asChild
@@ -178,7 +195,7 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
 
             <DropdownMenuItem
               onClick={() => {
-                onDelete();
+                setOpenAlert(true);
               }}
             >
               <Icons.delete className="h-5 w-5 mr-2" />
