@@ -172,7 +172,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         totalPages ? currentPercent * 0.01 * totalPages : 0
       );
     }
-
     if (
       currentPage != currentProgress.originalPage ||
       currentPercent != currentProgress.originalPercent
@@ -182,6 +181,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
           data: {
             readingNotes: data.notes,
             currentPage: currentPage,
+            pagesRead: currentPage! - currentProgress.originalPage,
             currentPercent: currentPercent,
           },
           book: {

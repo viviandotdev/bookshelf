@@ -205,6 +205,7 @@ type JournalEntry {
   currentPercent: Int
   dateRead: Timestamp!
   id: ID!
+  pagesRead: Int
   readingNotes: String
   user: User
   userBook: UserBook
@@ -215,6 +216,7 @@ type JournalEntry {
 type JournalEntryAvgAggregate {
   currentPage: Float
   currentPercent: Float
+  pagesRead: Float
 }
 
 type JournalEntryCountAggregate {
@@ -223,6 +225,7 @@ type JournalEntryCountAggregate {
   currentPercent: Int!
   dateRead: Int!
   id: Int!
+  pagesRead: Int!
   readingNotes: Int!
   userBookId: Int!
   userId: Int!
@@ -233,6 +236,7 @@ input JournalEntryCreateInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   user: UserCreateNestedOneWithoutJournalEntryInput
   userBook: UserBookCreateNestedOneWithoutJournalEntryInput
@@ -243,6 +247,7 @@ input JournalEntryCreateManyUserBookInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userId: String
 }
@@ -257,6 +262,7 @@ input JournalEntryCreateManyUserInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userBookId: String
 }
@@ -295,6 +301,7 @@ input JournalEntryCreateWithoutUserBookInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   user: UserCreateNestedOneWithoutJournalEntryInput
 }
@@ -304,6 +311,7 @@ input JournalEntryCreateWithoutUserInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userBook: UserBookCreateNestedOneWithoutJournalEntryInput
 }
@@ -319,6 +327,7 @@ type JournalEntryMaxAggregate {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userBookId: String
   userId: String
@@ -329,6 +338,7 @@ type JournalEntryMinAggregate {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userBookId: String
   userId: String
@@ -342,6 +352,7 @@ input JournalEntryScalarWhereInput {
   currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: StringFilter
+  pagesRead: IntFilter
   readingNotes: StringFilter
   userBookId: StringFilter
   userId: StringFilter
@@ -350,6 +361,7 @@ input JournalEntryScalarWhereInput {
 type JournalEntrySumAggregate {
   currentPage: Int
   currentPercent: Int
+  pagesRead: Int
 }
 
 input JournalEntryUpdateManyMutationInput {
@@ -357,6 +369,7 @@ input JournalEntryUpdateManyMutationInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
 }
 
@@ -413,6 +426,7 @@ input JournalEntryUpdateWithoutUserBookInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   user: UserUpdateOneWithoutJournalEntryNestedInput
 }
@@ -422,6 +436,7 @@ input JournalEntryUpdateWithoutUserInput {
   currentPercent: Int
   dateRead: Timestamp
   id: String
+  pagesRead: Int
   readingNotes: String
   userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
 }
@@ -446,6 +461,7 @@ input JournalEntryWhereInput {
   currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: StringFilter
+  pagesRead: IntFilter
   readingNotes: StringFilter
   user: UserRelationFilter
   userBook: UserBookRelationFilter
@@ -461,6 +477,7 @@ input JournalEntryWhereUniqueInput {
   currentPercent: IntFilter
   dateRead: DateTimeFilter
   id: String
+  pagesRead: IntFilter
   readingNotes: StringFilter
   user: UserRelationFilter
   userBook: UserBookRelationFilter
@@ -772,8 +789,7 @@ type UserBook {
   _count: UserBookCount!
   book: Book
   bookId: String!
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp!
   id: ID!
   journalEntry: [JournalEntry!]
   rating: Int
@@ -795,8 +811,7 @@ type UserBookCount {
 type UserBookCountAggregate {
   _all: Int!
   bookId: Int!
-  dateFinished: Int!
-  dateStarted: Int!
+  dataAdded: Int!
   id: Int!
   rating: Int!
   status: Int!
@@ -804,8 +819,7 @@ type UserBookCountAggregate {
 }
 
 input UserBookCreateManyBookInput {
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   status: String!
@@ -819,8 +833,7 @@ input UserBookCreateManyBookInputEnvelope {
 
 input UserBookCreateManyUserInput {
   bookId: String!
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   status: String!
@@ -878,8 +891,7 @@ input UserBookCreateOrConnectWithoutUserInput {
 }
 
 input UserBookCreateWithoutBookInput {
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
@@ -890,8 +902,7 @@ input UserBookCreateWithoutBookInput {
 
 input UserBookCreateWithoutJournalEntryInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
@@ -901,8 +912,7 @@ input UserBookCreateWithoutJournalEntryInput {
 
 input UserBookCreateWithoutShelvesInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
@@ -912,8 +922,7 @@ input UserBookCreateWithoutShelvesInput {
 
 input UserBookCreateWithoutUserInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
@@ -934,8 +943,7 @@ input UserBookListRelationFilter {
 
 type UserBookMaxAggregate {
   bookId: String
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   status: String
@@ -944,8 +952,7 @@ type UserBookMaxAggregate {
 
 type UserBookMinAggregate {
   bookId: String
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   status: String
@@ -962,8 +969,7 @@ input UserBookScalarWhereInput {
   NOT: [UserBookScalarWhereInput!]
   OR: [UserBookScalarWhereInput!]
   bookId: StringFilter
-  dateFinished: StringFilter
-  dateStarted: StringFilter
+  dataAdded: DateTimeFilter
   id: StringFilter
   rating: IntFilter
   status: StringFilter
@@ -1170,8 +1176,7 @@ input UserBookUpdateInput {
 }
 
 input UserBookUpdateManyMutationInput {
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   status: String
@@ -1231,8 +1236,7 @@ input UserBookUpdateWithWhereUniqueWithoutUserInput {
 
 input UserBookUpdateWithoutJournalEntryInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   rating: Int
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
@@ -1242,8 +1246,7 @@ input UserBookUpdateWithoutJournalEntryInput {
 
 input UserBookUpdateWithoutShelvesInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   rating: Int
@@ -1253,8 +1256,7 @@ input UserBookUpdateWithoutShelvesInput {
 
 input UserBookUpdateWithoutUserInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dateFinished: String
-  dateStarted: String
+  dataAdded: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   rating: Int
@@ -1286,8 +1288,7 @@ input UserBookWhereInput {
   OR: [UserBookWhereInput!]
   book: BookRelationFilter
   bookId: StringFilter
-  dateFinished: StringFilter
-  dateStarted: StringFilter
+  dataAdded: DateTimeFilter
   id: StringFilter
   journalEntry: JournalEntryListRelationFilter
   rating: IntFilter
@@ -1303,8 +1304,7 @@ input UserBookWhereUniqueInput {
   OR: [UserBookWhereInput!]
   book: BookRelationFilter
   bookId: StringFilter
-  dateFinished: StringFilter
-  dateStarted: StringFilter
+  dataAdded: DateTimeFilter
   id: String
   identifier: UserBookIdentifierCompoundUniqueInput
   journalEntry: JournalEntryListRelationFilter

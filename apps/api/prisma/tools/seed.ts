@@ -52,8 +52,7 @@ async function main() {
 
   await Promise.all(
     userBooks.map(async (userBook, idx) => {
-      const { id, status, rating, dateStarted, dateFinished, userId } =
-        userBook;
+      const { id, status, rating, userId } = userBook;
       const bookId = books[idx].id;
       // You can access user and book like userBook.user and userBook.book
       // Create a UserBook record
@@ -64,8 +63,6 @@ async function main() {
           bookId,
           status,
           rating,
-          dateStarted,
-          dateFinished,
         },
       });
     }),

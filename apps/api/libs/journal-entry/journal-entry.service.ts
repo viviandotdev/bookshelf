@@ -20,6 +20,7 @@ export class JournalEntryService {
         readingNotes: data.readingNotes,
         dateRead: data.dateRead,
         currentPage: data.currentPage,
+        pagesRead: data.pagesRead,
         currentPercent: data.currentPercent,
         user: {
           connect: {

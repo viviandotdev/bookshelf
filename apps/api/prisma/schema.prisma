@@ -99,8 +99,7 @@ model UserBook {
     // Many to One: many user books belong to one book when book
     book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
     /// @Validator.ValidateNested()
-    dateStarted  String?
-    dateFinished String?
+    dataAdded    DateTime          @default(now())
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
@@ -144,6 +143,8 @@ model JournalEntry {
     dateRead       DateTime  @default(now())
     /// @Validator.IsInt()
     currentPage    Int?
+    /// @Validator.IsInt()
+    pagesRead      Int?
     /// @Validator.Min(0)
     /// @Validator.Max(100)
     /// @Validator.IsInt()

@@ -229,6 +229,7 @@ export type JournalEntry = {
   currentPercent?: Maybe<Scalars['Int']>;
   dateRead: Scalars['Timestamp'];
   id: Scalars['ID'];
+  pagesRead?: Maybe<Scalars['Int']>;
   readingNotes?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
   userBook?: Maybe<UserBook>;
@@ -240,6 +241,7 @@ export type JournalEntryAvgAggregate = {
   __typename?: 'JournalEntryAvgAggregate';
   currentPage?: Maybe<Scalars['Float']>;
   currentPercent?: Maybe<Scalars['Float']>;
+  pagesRead?: Maybe<Scalars['Float']>;
 };
 
 export type JournalEntryCountAggregate = {
@@ -249,6 +251,7 @@ export type JournalEntryCountAggregate = {
   currentPercent: Scalars['Int'];
   dateRead: Scalars['Int'];
   id: Scalars['Int'];
+  pagesRead: Scalars['Int'];
   readingNotes: Scalars['Int'];
   userBookId: Scalars['Int'];
   userId: Scalars['Int'];
@@ -259,6 +262,7 @@ export type JournalEntryCreateInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserCreateNestedOneWithoutJournalEntryInput>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
@@ -269,6 +273,7 @@ export type JournalEntryCreateManyUserBookInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -283,6 +288,7 @@ export type JournalEntryCreateManyUserInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   userBookId?: InputMaybe<Scalars['String']>;
 };
@@ -321,6 +327,7 @@ export type JournalEntryCreateWithoutUserBookInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserCreateNestedOneWithoutJournalEntryInput>;
 };
@@ -330,6 +337,7 @@ export type JournalEntryCreateWithoutUserInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
 };
@@ -346,6 +354,7 @@ export type JournalEntryMaxAggregate = {
   currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
+  pagesRead?: Maybe<Scalars['Int']>;
   readingNotes?: Maybe<Scalars['String']>;
   userBookId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
@@ -357,6 +366,7 @@ export type JournalEntryMinAggregate = {
   currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
+  pagesRead?: Maybe<Scalars['Int']>;
   readingNotes?: Maybe<Scalars['String']>;
   userBookId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
@@ -370,6 +380,7 @@ export type JournalEntryScalarWhereInput = {
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
   readingNotes?: InputMaybe<StringFilter>;
   userBookId?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -379,6 +390,7 @@ export type JournalEntrySumAggregate = {
   __typename?: 'JournalEntrySumAggregate';
   currentPage?: Maybe<Scalars['Int']>;
   currentPercent?: Maybe<Scalars['Int']>;
+  pagesRead?: Maybe<Scalars['Int']>;
 };
 
 export type JournalEntryUpdateManyMutationInput = {
@@ -386,6 +398,7 @@ export type JournalEntryUpdateManyMutationInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
 };
 
@@ -442,6 +455,7 @@ export type JournalEntryUpdateWithoutUserBookInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserUpdateOneWithoutJournalEntryNestedInput>;
 };
@@ -451,6 +465,7 @@ export type JournalEntryUpdateWithoutUserInput = {
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
   readingNotes?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutJournalEntryNestedInput>;
 };
@@ -475,6 +490,7 @@ export type JournalEntryWhereInput = {
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
   readingNotes?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
@@ -490,6 +506,7 @@ export type JournalEntryWhereUniqueInput = {
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<IntFilter>;
   readingNotes?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
@@ -898,8 +915,7 @@ export type UserBook = {
   _count: UserBookCount;
   book?: Maybe<Book>;
   bookId: Scalars['String'];
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded: Scalars['Timestamp'];
   id: Scalars['ID'];
   journalEntry?: Maybe<Array<JournalEntry>>;
   rating?: Maybe<Scalars['Int']>;
@@ -924,8 +940,7 @@ export type UserBookCountAggregate = {
   __typename?: 'UserBookCountAggregate';
   _all: Scalars['Int'];
   bookId: Scalars['Int'];
-  dateFinished: Scalars['Int'];
-  dateStarted: Scalars['Int'];
+  dataAdded: Scalars['Int'];
   id: Scalars['Int'];
   rating: Scalars['Int'];
   status: Scalars['Int'];
@@ -933,8 +948,7 @@ export type UserBookCountAggregate = {
 };
 
 export type UserBookCreateManyBookInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
@@ -948,8 +962,7 @@ export type UserBookCreateManyBookInputEnvelope = {
 
 export type UserBookCreateManyUserInput = {
   bookId: Scalars['String'];
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
@@ -1007,8 +1020,7 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 };
 
 export type UserBookCreateWithoutBookInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
@@ -1019,8 +1031,7 @@ export type UserBookCreateWithoutBookInput = {
 
 export type UserBookCreateWithoutJournalEntryInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
@@ -1030,8 +1041,7 @@ export type UserBookCreateWithoutJournalEntryInput = {
 
 export type UserBookCreateWithoutShelvesInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
@@ -1041,8 +1051,7 @@ export type UserBookCreateWithoutShelvesInput = {
 
 export type UserBookCreateWithoutUserInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
@@ -1064,8 +1073,7 @@ export type UserBookListRelationFilter = {
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
@@ -1075,8 +1083,7 @@ export type UserBookMaxAggregate = {
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
@@ -1093,8 +1100,7 @@ export type UserBookScalarWhereInput = {
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   rating?: InputMaybe<IntFilter>;
   status?: InputMaybe<StringFilter>;
@@ -1306,8 +1312,7 @@ export type UserBookUpdateInput = {
 };
 
 export type UserBookUpdateManyMutationInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Scalars['String']>;
@@ -1367,8 +1372,7 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
 
 export type UserBookUpdateWithoutJournalEntryInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
@@ -1378,8 +1382,7 @@ export type UserBookUpdateWithoutJournalEntryInput = {
 
 export type UserBookUpdateWithoutShelvesInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
@@ -1389,8 +1392,7 @@ export type UserBookUpdateWithoutShelvesInput = {
 
 export type UserBookUpdateWithoutUserInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
@@ -1422,8 +1424,7 @@ export type UserBookWhereInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   rating?: InputMaybe<IntFilter>;
@@ -1439,8 +1440,7 @@ export type UserBookWhereUniqueInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
@@ -1808,7 +1808,7 @@ export type JournalEntriesQueryVariables = Exact<{
 }>;
 
 
-export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage?: number | null, currentPercent?: number | null, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', title: string, coverImage?: string | null } | null } | null }> };
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage?: number | null, pagesRead?: number | null, currentPercent?: number | null, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', title: string, coverImage?: string | null } | null } | null }> };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2344,6 +2344,7 @@ export const JournalEntriesDocument = gql`
     readingNotes
     dateRead
     currentPage
+    pagesRead
     currentPercent
     userBook {
       status

@@ -26,6 +26,7 @@ query JournalEntries(
     readingNotes
     dateRead
     currentPage
+    pagesRead
     currentPercent
     userBook {
       status
