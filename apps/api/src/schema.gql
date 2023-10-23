@@ -206,8 +206,10 @@ type JournalEntry {
   dateRead: Timestamp!
   id: ID!
   readingNotes: String
+  user: User
   userBook: UserBook
   userBookId: String
+  userId: String
 }
 
 type JournalEntryAvgAggregate {
@@ -223,6 +225,7 @@ type JournalEntryCountAggregate {
   id: Int!
   readingNotes: Int!
   userBookId: Int!
+  userId: Int!
 }
 
 input JournalEntryCreateInput {
@@ -231,6 +234,7 @@ input JournalEntryCreateInput {
   dateRead: Timestamp
   id: String
   readingNotes: String
+  user: UserCreateNestedOneWithoutJournalEntryInput
   userBook: UserBookCreateNestedOneWithoutJournalEntryInput
 }
 
@@ -240,10 +244,25 @@ input JournalEntryCreateManyUserBookInput {
   dateRead: Timestamp
   id: String
   readingNotes: String
+  userId: String
 }
 
 input JournalEntryCreateManyUserBookInputEnvelope {
   data: [JournalEntryCreateManyUserBookInput!]!
+  skipDuplicates: Boolean
+}
+
+input JournalEntryCreateManyUserInput {
+  currentPage: Int
+  currentPercent: Int
+  dateRead: Timestamp
+  id: String
+  readingNotes: String
+  userBookId: String
+}
+
+input JournalEntryCreateManyUserInputEnvelope {
+  data: [JournalEntryCreateManyUserInput!]!
   skipDuplicates: Boolean
 }
 
@@ -254,8 +273,20 @@ input JournalEntryCreateNestedManyWithoutUserBookInput {
   createMany: JournalEntryCreateManyUserBookInputEnvelope
 }
 
+input JournalEntryCreateNestedManyWithoutUserInput {
+  connect: [JournalEntryWhereUniqueInput!]
+  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserInput!]
+  create: [JournalEntryCreateWithoutUserInput!]
+  createMany: JournalEntryCreateManyUserInputEnvelope
+}
+
 input JournalEntryCreateOrConnectWithoutUserBookInput {
   create: JournalEntryCreateWithoutUserBookInput!
+  where: JournalEntryWhereUniqueInput!
+}
+
+input JournalEntryCreateOrConnectWithoutUserInput {
+  create: JournalEntryCreateWithoutUserInput!
   where: JournalEntryWhereUniqueInput!
 }
 
@@ -265,6 +296,16 @@ input JournalEntryCreateWithoutUserBookInput {
   dateRead: Timestamp
   id: String
   readingNotes: String
+  user: UserCreateNestedOneWithoutJournalEntryInput
+}
+
+input JournalEntryCreateWithoutUserInput {
+  currentPage: Int
+  currentPercent: Int
+  dateRead: Timestamp
+  id: String
+  readingNotes: String
+  userBook: UserBookCreateNestedOneWithoutJournalEntryInput
 }
 
 input JournalEntryListRelationFilter {
@@ -280,6 +321,7 @@ type JournalEntryMaxAggregate {
   id: String
   readingNotes: String
   userBookId: String
+  userId: String
 }
 
 type JournalEntryMinAggregate {
@@ -289,6 +331,7 @@ type JournalEntryMinAggregate {
   id: String
   readingNotes: String
   userBookId: String
+  userId: String
 }
 
 input JournalEntryScalarWhereInput {
@@ -301,6 +344,7 @@ input JournalEntryScalarWhereInput {
   id: StringFilter
   readingNotes: StringFilter
   userBookId: StringFilter
+  userId: StringFilter
 }
 
 type JournalEntrySumAggregate {
@@ -321,6 +365,11 @@ input JournalEntryUpdateManyWithWhereWithoutUserBookInput {
   where: JournalEntryScalarWhereInput!
 }
 
+input JournalEntryUpdateManyWithWhereWithoutUserInput {
+  data: JournalEntryUpdateManyMutationInput!
+  where: JournalEntryScalarWhereInput!
+}
+
 input JournalEntryUpdateManyWithoutUserBookNestedInput {
   connect: [JournalEntryWhereUniqueInput!]
   connectOrCreate: [JournalEntryCreateOrConnectWithoutUserBookInput!]
@@ -335,8 +384,27 @@ input JournalEntryUpdateManyWithoutUserBookNestedInput {
   upsert: [JournalEntryUpsertWithWhereUniqueWithoutUserBookInput!]
 }
 
+input JournalEntryUpdateManyWithoutUserNestedInput {
+  connect: [JournalEntryWhereUniqueInput!]
+  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserInput!]
+  create: [JournalEntryCreateWithoutUserInput!]
+  createMany: JournalEntryCreateManyUserInputEnvelope
+  delete: [JournalEntryWhereUniqueInput!]
+  deleteMany: [JournalEntryScalarWhereInput!]
+  disconnect: [JournalEntryWhereUniqueInput!]
+  set: [JournalEntryWhereUniqueInput!]
+  update: [JournalEntryUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [JournalEntryUpdateManyWithWhereWithoutUserInput!]
+  upsert: [JournalEntryUpsertWithWhereUniqueWithoutUserInput!]
+}
+
 input JournalEntryUpdateWithWhereUniqueWithoutUserBookInput {
   data: JournalEntryUpdateWithoutUserBookInput!
+  where: JournalEntryWhereUniqueInput!
+}
+
+input JournalEntryUpdateWithWhereUniqueWithoutUserInput {
+  data: JournalEntryUpdateWithoutUserInput!
   where: JournalEntryWhereUniqueInput!
 }
 
@@ -346,11 +414,27 @@ input JournalEntryUpdateWithoutUserBookInput {
   dateRead: Timestamp
   id: String
   readingNotes: String
+  user: UserUpdateOneWithoutJournalEntryNestedInput
+}
+
+input JournalEntryUpdateWithoutUserInput {
+  currentPage: Int
+  currentPercent: Int
+  dateRead: Timestamp
+  id: String
+  readingNotes: String
+  userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
 }
 
 input JournalEntryUpsertWithWhereUniqueWithoutUserBookInput {
   create: JournalEntryCreateWithoutUserBookInput!
   update: JournalEntryUpdateWithoutUserBookInput!
+  where: JournalEntryWhereUniqueInput!
+}
+
+input JournalEntryUpsertWithWhereUniqueWithoutUserInput {
+  create: JournalEntryCreateWithoutUserInput!
+  update: JournalEntryUpdateWithoutUserInput!
   where: JournalEntryWhereUniqueInput!
 }
 
@@ -363,8 +447,10 @@ input JournalEntryWhereInput {
   dateRead: DateTimeFilter
   id: StringFilter
   readingNotes: StringFilter
+  user: UserRelationFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
+  userId: StringFilter
 }
 
 input JournalEntryWhereUniqueInput {
@@ -376,8 +462,10 @@ input JournalEntryWhereUniqueInput {
   dateRead: DateTimeFilter
   id: String
   readingNotes: StringFilter
+  user: UserRelationFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
+  userId: StringFilter
 }
 
 input LogInInput {
@@ -404,6 +492,7 @@ type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
+  journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
@@ -668,6 +757,7 @@ input StringFilter {
 scalar Timestamp
 
 type User {
+  JournalEntry: [JournalEntry!]
   _count: UserCount!
   createdAt: Timestamp!
   email: String!
@@ -1114,6 +1204,21 @@ input UserBookUpdateOneRequiredWithoutShelvesNestedInput {
   upsert: UserBookUpsertWithoutShelvesInput
 }
 
+input UserBookUpdateOneWithoutJournalEntryNestedInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
+  create: UserBookCreateWithoutJournalEntryInput
+  delete: UserBookWhereInput
+  disconnect: UserBookWhereInput
+  update: UserBookUpdateToOneWithWhereWithoutJournalEntryInput
+  upsert: UserBookUpsertWithoutJournalEntryInput
+}
+
+input UserBookUpdateToOneWithWhereWithoutJournalEntryInput {
+  data: UserBookUpdateWithoutJournalEntryInput!
+  where: UserBookWhereInput
+}
+
 input UserBookUpdateToOneWithWhereWithoutShelvesInput {
   data: UserBookUpdateWithoutShelvesInput!
   where: UserBookWhereInput
@@ -1122,6 +1227,17 @@ input UserBookUpdateToOneWithWhereWithoutShelvesInput {
 input UserBookUpdateWithWhereUniqueWithoutUserInput {
   data: UserBookUpdateWithoutUserInput!
   where: UserBookWhereUniqueInput!
+}
+
+input UserBookUpdateWithoutJournalEntryInput {
+  book: BookUpdateOneWithoutUserBookNestedInput
+  dateFinished: String
+  dateStarted: String
+  id: String
+  rating: Int
+  shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
+  status: String
+  user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutShelvesInput {
@@ -1150,6 +1266,12 @@ input UserBookUpsertWithWhereUniqueWithoutUserInput {
   create: UserBookCreateWithoutUserInput!
   update: UserBookUpdateWithoutUserInput!
   where: UserBookWhereUniqueInput!
+}
+
+input UserBookUpsertWithoutJournalEntryInput {
+  create: UserBookCreateWithoutJournalEntryInput!
+  update: UserBookUpdateWithoutJournalEntryInput!
+  where: UserBookWhereInput
 }
 
 input UserBookUpsertWithoutShelvesInput {
@@ -1194,6 +1316,7 @@ input UserBookWhereUniqueInput {
 }
 
 type UserCount {
+  JournalEntry: Int!
   shelves: Int!
   userBooks: Int!
 }
@@ -1208,6 +1331,7 @@ type UserCountAggregate {
 }
 
 input UserCreateInput {
+  JournalEntry: JournalEntryCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
   hashedPassword: String
@@ -1217,6 +1341,12 @@ input UserCreateInput {
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
   username: String
+}
+
+input UserCreateNestedOneWithoutJournalEntryInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutJournalEntryInput
+  create: UserCreateWithoutJournalEntryInput
 }
 
 input UserCreateNestedOneWithoutShelvesInput {
@@ -1231,6 +1361,11 @@ input UserCreateNestedOneWithoutUserBooksInput {
   create: UserCreateWithoutUserBooksInput
 }
 
+input UserCreateOrConnectWithoutJournalEntryInput {
+  create: UserCreateWithoutJournalEntryInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserCreateOrConnectWithoutShelvesInput {
   create: UserCreateWithoutShelvesInput!
   where: UserWhereUniqueInput!
@@ -1241,7 +1376,20 @@ input UserCreateOrConnectWithoutUserBooksInput {
   where: UserWhereUniqueInput!
 }
 
+input UserCreateWithoutJournalEntryInput {
+  createdAt: Timestamp
+  email: String!
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  shelves: ShelfCreateNestedManyWithoutUserInput
+  updatedAt: Timestamp
+  userBooks: UserBookCreateNestedManyWithoutUserInput
+  username: String
+}
+
 input UserCreateWithoutShelvesInput {
+  JournalEntry: JournalEntryCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
   hashedPassword: String
@@ -1253,6 +1401,7 @@ input UserCreateWithoutShelvesInput {
 }
 
 input UserCreateWithoutUserBooksInput {
+  JournalEntry: JournalEntryCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
   hashedPassword: String
@@ -1284,6 +1433,16 @@ input UserRelationFilter {
   isNot: UserWhereInput
 }
 
+input UserUpdateOneWithoutJournalEntryNestedInput {
+  connect: UserWhereUniqueInput
+  connectOrCreate: UserCreateOrConnectWithoutJournalEntryInput
+  create: UserCreateWithoutJournalEntryInput
+  delete: UserWhereInput
+  disconnect: UserWhereInput
+  update: UserUpdateToOneWithWhereWithoutJournalEntryInput
+  upsert: UserUpsertWithoutJournalEntryInput
+}
+
 input UserUpdateOneWithoutShelvesNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutShelvesInput
@@ -1304,6 +1463,11 @@ input UserUpdateOneWithoutUserBooksNestedInput {
   upsert: UserUpsertWithoutUserBooksInput
 }
 
+input UserUpdateToOneWithWhereWithoutJournalEntryInput {
+  data: UserUpdateWithoutJournalEntryInput!
+  where: UserWhereInput
+}
+
 input UserUpdateToOneWithWhereWithoutShelvesInput {
   data: UserUpdateWithoutShelvesInput!
   where: UserWhereInput
@@ -1314,7 +1478,20 @@ input UserUpdateToOneWithWhereWithoutUserBooksInput {
   where: UserWhereInput
 }
 
+input UserUpdateWithoutJournalEntryInput {
+  createdAt: Timestamp
+  email: String
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  shelves: ShelfUpdateManyWithoutUserNestedInput
+  updatedAt: Timestamp
+  userBooks: UserBookUpdateManyWithoutUserNestedInput
+  username: String
+}
+
 input UserUpdateWithoutShelvesInput {
+  JournalEntry: JournalEntryUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
   hashedPassword: String
@@ -1326,6 +1503,7 @@ input UserUpdateWithoutShelvesInput {
 }
 
 input UserUpdateWithoutUserBooksInput {
+  JournalEntry: JournalEntryUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
   hashedPassword: String
@@ -1334,6 +1512,12 @@ input UserUpdateWithoutUserBooksInput {
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
+}
+
+input UserUpsertWithoutJournalEntryInput {
+  create: UserCreateWithoutJournalEntryInput!
+  update: UserUpdateWithoutJournalEntryInput!
+  where: UserWhereInput
 }
 
 input UserUpsertWithoutShelvesInput {
@@ -1350,6 +1534,7 @@ input UserUpsertWithoutUserBooksInput {
 
 input UserWhereInput {
   AND: [UserWhereInput!]
+  JournalEntry: JournalEntryListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   createdAt: DateTimeFilter
@@ -1365,6 +1550,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   AND: [UserWhereInput!]
+  JournalEntry: JournalEntryListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   createdAt: DateTimeFilter

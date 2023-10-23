@@ -59,6 +59,39 @@ export class JournalEntryResolver {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Query(() => [JournalEntry])
+  async journalEntries(
+    @Args('book', { nullable: true })
+    book: BookWhereUniqueInput,
+    @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
+    @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    if (book.id) {
+      const userBook: UserBookIdentifierCompoundUniqueInput = {
+        bookId: book.id,
+        userId: currentUser.userId,
+      };
+      const userBookExists = await this.userBookService.findUnique(userBook);
+      if (!userBookExists) {
+        throw new Error('UserBook does not exist');
+      }
+      return this.service.findMany({
+        book: book.id,
+        user: currentUser.userId,
+        skip: offset,
+        take: limit,
+      });
+    } else {
+      return this.service.findMany({
+        user: currentUser.userId,
+        skip: offset,
+        take: limit,
+      });
+    }
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Query(() => JournalEntry, { nullable: true })
   async getMostRecentJournalEntry(
     @Args('book', { nullable: true })

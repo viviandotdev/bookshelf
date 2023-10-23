@@ -15,3 +15,24 @@ query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
     # }
   }
 }
+
+query JournalEntries(
+  $book: BookWhereUniqueInput
+  $limit: Int! = 20
+  $offset: Int! = 0
+) {
+  journalEntries(book: $book, offset: $offset, limit: $limit) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+    userBook {
+      status
+      book {
+        title
+        coverImage
+      }
+    }
+  }
+}

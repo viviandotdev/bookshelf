@@ -21,6 +21,11 @@ export class JournalEntryService {
         dateRead: data.dateRead,
         currentPage: data.currentPage,
         currentPercent: data.currentPercent,
+        user: {
+          connect: {
+            id: userBook.userId,
+          },
+        },
         userBook: {
           connect: {
             identifier: {
@@ -44,5 +49,42 @@ export class JournalEntryService {
       },
     });
     return journalEntryCount;
+  }
+
+  async findMany(args: {
+    user: string;
+    book?: string;
+    skip?: number;
+    take?: number;
+  }) {
+    const whereJournalEntryArgs: Prisma.JournalEntryFindManyArgs = {
+      where: args.book
+        ? {
+            userBook: {
+              bookId: args.book,
+              userId: args.user,
+            },
+          }
+        : {
+            user: {
+              id: args.user,
+            },
+          },
+    };
+    console.log(whereJournalEntryArgs);
+    const journalEntries = await this.repository.findMany({
+      where: whereJournalEntryArgs.where,
+      include: {
+        userBook: {
+          include: {
+            book: true,
+          },
+        },
+      },
+      skip: args.skip,
+      take: args.take,
+    });
+    console.log('journalEntries', journalEntries);
+    return journalEntries;
   }
 }
