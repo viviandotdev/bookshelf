@@ -23,7 +23,7 @@ export default async function Journal({ children }: HomeLayoutProps) {
         <div className="grid w-full items-center mt-5">
           <ProfileNav items={myBooksConfig.profileNav} user={user} />
           <div className="flex-col justify-center">
-            <div className="w-full grid grid-cols-4 gap-12">{children}</div>
+            <div className="w-full">{children}</div>
           </div>
         </div>
       </main>

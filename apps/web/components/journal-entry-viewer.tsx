@@ -8,9 +8,9 @@ import { BOOKS_PAGE_SIZE, MONTH } from "@/lib/constants";
 import * as R from "ramda";
 import { useEffect } from "react";
 import { NetworkStatus } from "@apollo/client";
-import JournalEntryTable from "@/components/journal-entry-table";
 import { z } from "zod";
 import { ColumnDef } from "@tanstack/react-table";
+import { JournalEntryTable } from "./journal-entry-table";
 interface JournalEntryViewer {}
 
 export const journalEntrySchema = z.object({
@@ -24,14 +24,27 @@ export const journalEntrySchema = z.object({
   abandoned: z.boolean(),
 });
 
-export const columns: ColumnDef<z.infer<typeof journalEntrySchema>>[] = [
+type JournalEntryValues = z.infer<typeof journalEntrySchema>;
+
+export const columns: ColumnDef<JournalEntryValues>[] = [
   {
     accessorKey: "month",
-    header: "MONTH",
+    header: () => <div className="text-right">MONTH</div>,
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium">{row.getValue("month")}</div>
+      );
+    },
+    enableColumnFilter: true,
   },
   {
     accessorKey: "date",
     header: "DATE",
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium">{row.getValue("date")}</div>
+      );
+    },
   },
   {
     accessorKey: "title",
@@ -87,10 +100,12 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
       id: entry.id,
       month: MONTH[date.getMonth()],
       date: date.getDate(),
-      title: entry.userBook && entry.userBook.book && entry.userBook.book.title,
+      title:
+        (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
+        "",
       pagesRead: entry.pagesRead,
       progress: entry.currentPercent,
-      notes: entry.readingNotes,
+      notes: entry.readingNotes || "",
       liked: true,
       abandoned: entry.userBook?.status === "ABANDONED",
     };
@@ -116,7 +131,11 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 relative z-0">
-        <JournalEntryTable {...{ journalEntires, loading }} />
+        <JournalEntryTable
+          data={journalEntires!}
+          columns={columns}
+          loading={loading}
+        />
       </section>
     </>
   );
