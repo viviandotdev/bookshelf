@@ -31,8 +31,17 @@ query JournalEntries(
     userBook {
       status
       book {
+        id
         title
+        author
+        pageNum
         coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
       }
     }
   }

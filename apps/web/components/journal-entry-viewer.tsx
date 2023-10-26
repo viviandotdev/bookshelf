@@ -1,77 +1,12 @@
 "use client";
-import { authOptions } from "@/lib/auth/auth";
-import { getCurrentUser } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
 import { useJournalEntriesLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { BOOKS_PAGE_SIZE, MONTH } from "@/lib/constants";
-import * as R from "ramda";
 import { useEffect } from "react";
 import { NetworkStatus } from "@apollo/client";
-import { z } from "zod";
-import { ColumnDef } from "@tanstack/react-table";
-import { JournalEntryTable } from "./journal-entry-table";
+import { columns } from "./journal-table/columns";
+import { DataTable } from "./journal-table/data-table";
 interface JournalEntryViewer {}
-
-export const journalEntrySchema = z.object({
-  month: z.string(),
-  date: z.number().int().positive().min(1).max(31),
-  title: z.string(),
-  pagesRead: z.number().int().positive(),
-  progress: z.number().int().positive(),
-  notes: z.string(),
-  liked: z.boolean(),
-  abandoned: z.boolean(),
-});
-
-type JournalEntryValues = z.infer<typeof journalEntrySchema>;
-
-export const columns: ColumnDef<JournalEntryValues>[] = [
-  {
-    accessorKey: "month",
-    header: () => <div className="text-right">MONTH</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">{row.getValue("month")}</div>
-      );
-    },
-    enableColumnFilter: true,
-  },
-  {
-    accessorKey: "date",
-    header: "DATE",
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">{row.getValue("date")}</div>
-      );
-    },
-  },
-  {
-    accessorKey: "title",
-    header: "TITLE",
-  },
-  {
-    accessorKey: "pagesRead",
-    header: "PAGES READ",
-  },
-  {
-    accessorKey: "progress",
-    header: "PROGRESS",
-  },
-  {
-    accessorKey: "notes",
-    header: "NOTES",
-  },
-  {
-    accessorKey: "liked",
-    header: "LIKED",
-  },
-  {
-    accessorKey: "abandoned",
-    header: "ABANDONED",
-  },
-];
-
 export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
   const [loadEntries, { data: journalData, fetchMore, networkStatus }] =
     useJournalEntriesLazyQuery({
@@ -98,6 +33,7 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
     const date = new Date(entry.dateRead);
     return {
       id: entry.id,
+      userBook: entry.userBook,
       month: MONTH[date.getMonth()],
       date: date.getDate(),
       title:
@@ -112,7 +48,6 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
   });
   const loading = networkStatus === NetworkStatus.loading;
   // process journal entries to table data
-
   // get all entries from this user
 
   useEffect(() => {
@@ -131,11 +66,7 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
   return (
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 relative z-0">
-        <JournalEntryTable
-          data={journalEntires!}
-          columns={columns}
-          loading={loading}
-        />
+        <DataTable data={journalEntires!} columns={columns} loading={loading} />
       </section>
     </>
   );

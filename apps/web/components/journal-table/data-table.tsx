@@ -14,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
+} from "../ui/table";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -22,7 +22,7 @@ interface DataTableProps<TData, TValue> {
   loading?: boolean;
 }
 
-export function JournalEntryTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
   loading,
@@ -39,7 +39,7 @@ export function JournalEntryTable<TData, TValue>({
 
   if (!data || data.length === 0) return <div>Loading...</div>;
   return (
-    <div className="rounded-md border">
+    <div className="">
       {data && (
         <Table>
           <TableHeader>

@@ -9,7 +9,7 @@ interface BookCoverProps {
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
-  const width = size === "sm" ? 128 : 176;
+  const width = size === "sm" ? 48 : 176;
   return (
     <div className={`relative w-${width} h-auto`}>
       <Image

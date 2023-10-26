@@ -22,26 +22,20 @@ import useUserBook from "@/hooks/use-user-book";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 import AlertModal from "./modal/alert-modal";
 interface BookOperationsProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  rating: number;
-  bookStatus: string;
-  setRating: (rating: number) => void;
-  book: Book;
-  shelves: UserBookShelves[];
+  bookStatus: string | undefined;
+  book: Book | undefined;
+  shelves: UserBookShelves[] | undefined;
 }
 
 export const BookOperations: React.FC<BookOperationsProps> = ({
-  open,
-  setOpen,
-  rating,
   bookStatus,
-  setRating,
   book,
   shelves,
 }) => {
   const jouranlEntryModal = useJouranlEntryModal();
+  const [openMenu, setOpenMenu] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const [rating, setRating] = useState(0); // Initial value
   const addToShelfModal = useAddToShelfModal();
   const [isLoading, setIsLoading] = useState(false);
   const [UpdateUserBook] = useUpdateUserBookMutation();
@@ -116,18 +110,18 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
         onConfirm={onDelete}
         loading={isLoading}
       />
-      <DropdownMenu open={open} modal={false}>
+      <DropdownMenu open={openMenu} modal={false}>
         <DropdownMenuTrigger
           asChild
           onClick={() => {
-            setOpen(!open);
+            setOpenMenu(!openMenu);
           }}
         >
           <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
           onMouseLeave={() => {
-            setOpen(false);
+            setOpenMenu(false);
           }}
           align={"start"}
           sideOffset={8}
