@@ -137,10 +137,10 @@ model Shelf {
 }
 
 model JournalEntry {
-    id             String   @id @default(uuid())
+    id             String    @id @default(uuid())
     /// @Validator.IsString()
     readingNotes   String?
-    dateRead       DateTime @default(now())
+    dateRead       DateTime  @default(now())
     /// @Validator.IsInt()
     currentPage    Int
     /// @Validator.IsInt()
@@ -150,10 +150,10 @@ model JournalEntry {
     /// @Validator.IsInt()
     currentPercent Int
     /// @Validator.IsString()
-    userId         String
-    user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId         String?
+    user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
     /// @Validator.IsString()
-    userBookId     String
+    userBookId     String?
     // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
-    userBook       UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
+    userBook       UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }

@@ -158,6 +158,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
   },
   {
     accessorKey: "userBook",
+    header: ({ column }) => <ColumnHeader column={column} title="EDIT" />,
     cell: ({ row }) => {
       const userBook = row.getValue("userBook") as UserBook;
       return (

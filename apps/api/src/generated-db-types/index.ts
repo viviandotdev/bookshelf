@@ -1485,9 +1485,9 @@ export class JournalEntryCreateManyUserBookInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
 }
 
 @InputType()
@@ -1519,9 +1519,9 @@ export class JournalEntryCreateManyUserInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -1544,12 +1544,12 @@ export class JournalEntryCreateManyInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
-    @Field(() => String, {nullable:false})
+    userId?: string;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -1624,8 +1624,8 @@ export class JournalEntryCreateWithoutUserBookInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => UserCreateNestedOneWithoutJournalEntryInput, {nullable:false})
-    user!: InstanceType<typeof UserCreateNestedOneWithoutJournalEntryInput>;
+    @Field(() => UserCreateNestedOneWithoutJournalEntryInput, {nullable:true})
+    user?: InstanceType<typeof UserCreateNestedOneWithoutJournalEntryInput>;
 }
 
 @InputType()
@@ -1648,8 +1648,8 @@ export class JournalEntryCreateWithoutUserInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:false})
-    userBook!: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
+    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
 }
 
 @InputType()
@@ -1672,10 +1672,10 @@ export class JournalEntryCreateInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => UserCreateNestedOneWithoutJournalEntryInput, {nullable:false})
-    user!: InstanceType<typeof UserCreateNestedOneWithoutJournalEntryInput>;
-    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:false})
-    userBook!: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
+    @Field(() => UserCreateNestedOneWithoutJournalEntryInput, {nullable:true})
+    user?: InstanceType<typeof UserCreateNestedOneWithoutJournalEntryInput>;
+    @Field(() => UserBookCreateNestedOneWithoutJournalEntryInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutJournalEntryInput>;
 }
 
 @ArgsType()
@@ -1726,12 +1726,12 @@ export class JournalEntryGroupBy {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
-    @Field(() => String, {nullable:false})
+    userId?: string;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
     @Field(() => JournalEntryCountAggregate, {nullable:true})
     _count?: InstanceType<typeof JournalEntryCountAggregate>;
     @Field(() => JournalEntryAvgAggregate, {nullable:true})
@@ -1910,10 +1910,10 @@ export class JournalEntryOrderByWithAggregationInput {
     pagesRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     currentPercent?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    userId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => JournalEntryCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof JournalEntryCountOrderByAggregateInput>;
     @Field(() => JournalEntryAvgOrderByAggregateInput, {nullable:true})
@@ -1940,10 +1940,10 @@ export class JournalEntryOrderByWithRelationInput {
     pagesRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     currentPercent?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    userId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
     @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
@@ -2089,9 +2089,9 @@ export class JournalEntryUncheckedCreateWithoutUserBookInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
+    userId?: string;
 }
 
 @InputType()
@@ -2114,9 +2114,9 @@ export class JournalEntryUncheckedCreateWithoutUserInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -2139,12 +2139,12 @@ export class JournalEntryUncheckedCreateInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userId!: string;
-    @Field(() => String, {nullable:false})
+    userId?: string;
+    @Field(() => String, {nullable:true})
     @Validator.IsString()
-    userBookId!: string;
+    userBookId?: string;
 }
 
 @InputType()
@@ -2533,8 +2533,8 @@ export class JournalEntryUpdateWithoutUserBookInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent?: number;
-    @Field(() => UserUpdateOneRequiredWithoutJournalEntryNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneRequiredWithoutJournalEntryNestedInput>;
+    @Field(() => UserUpdateOneWithoutJournalEntryNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneWithoutJournalEntryNestedInput>;
 }
 
 @InputType()
@@ -2557,8 +2557,8 @@ export class JournalEntryUpdateWithoutUserInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent?: number;
-    @Field(() => UserBookUpdateOneRequiredWithoutJournalEntryNestedInput, {nullable:true})
-    userBook?: InstanceType<typeof UserBookUpdateOneRequiredWithoutJournalEntryNestedInput>;
+    @Field(() => UserBookUpdateOneWithoutJournalEntryNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateOneWithoutJournalEntryNestedInput>;
 }
 
 @InputType()
@@ -2581,10 +2581,10 @@ export class JournalEntryUpdateInput {
     @Validator.Max(100)
     @Validator.IsInt()
     currentPercent?: number;
-    @Field(() => UserUpdateOneRequiredWithoutJournalEntryNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneRequiredWithoutJournalEntryNestedInput>;
-    @Field(() => UserBookUpdateOneRequiredWithoutJournalEntryNestedInput, {nullable:true})
-    userBook?: InstanceType<typeof UserBookUpdateOneRequiredWithoutJournalEntryNestedInput>;
+    @Field(() => UserUpdateOneWithoutJournalEntryNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneWithoutJournalEntryNestedInput>;
+    @Field(() => UserBookUpdateOneWithoutJournalEntryNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateOneWithoutJournalEntryNestedInput>;
 }
 
 @InputType()
@@ -2687,14 +2687,14 @@ export class JournalEntry {
     pagesRead!: number;
     @Field(() => Int, {nullable:false})
     currentPercent!: number;
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    userBookId!: string;
-    @Field(() => User, {nullable:false})
-    user?: InstanceType<typeof User>;
-    @Field(() => UserBook, {nullable:false})
-    userBook?: InstanceType<typeof UserBook>;
+    @Field(() => String, {nullable:true})
+    userId!: string | null;
+    @Field(() => String, {nullable:true})
+    userBookId!: string | null;
+    @Field(() => User, {nullable:true})
+    user?: InstanceType<typeof User> | null;
+    @Field(() => UserBook, {nullable:true})
+    userBook?: InstanceType<typeof UserBook> | null;
 }
 
 @ArgsType()
@@ -4882,7 +4882,7 @@ export class UserUpdateManyMutationInput {
 }
 
 @InputType()
-export class UserUpdateOneRequiredWithoutJournalEntryNestedInput {
+export class UserUpdateOneWithoutJournalEntryNestedInput {
     @Field(() => UserCreateWithoutJournalEntryInput, {nullable:true})
     @Type(() => UserCreateWithoutJournalEntryInput)
     create?: InstanceType<typeof UserCreateWithoutJournalEntryInput>;
@@ -4892,6 +4892,12 @@ export class UserUpdateOneRequiredWithoutJournalEntryNestedInput {
     @Field(() => UserUpsertWithoutJournalEntryInput, {nullable:true})
     @Type(() => UserUpsertWithoutJournalEntryInput)
     upsert?: InstanceType<typeof UserUpsertWithoutJournalEntryInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    disconnect?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    delete?: InstanceType<typeof UserWhereInput>;
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
@@ -6658,25 +6664,6 @@ export class UserBookUpdateManyWithoutUserNestedInput {
 }
 
 @InputType()
-export class UserBookUpdateOneRequiredWithoutJournalEntryNestedInput {
-    @Field(() => UserBookCreateWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookCreateWithoutJournalEntryInput)
-    create?: InstanceType<typeof UserBookCreateWithoutJournalEntryInput>;
-    @Field(() => UserBookCreateOrConnectWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookCreateOrConnectWithoutJournalEntryInput)
-    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutJournalEntryInput>;
-    @Field(() => UserBookUpsertWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookUpsertWithoutJournalEntryInput)
-    upsert?: InstanceType<typeof UserBookUpsertWithoutJournalEntryInput>;
-    @Field(() => UserBookWhereUniqueInput, {nullable:true})
-    @Type(() => UserBookWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
-    @Field(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput, {nullable:true})
-    @Type(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput)
-    update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutJournalEntryInput>;
-}
-
-@InputType()
 export class UserBookUpdateOneRequiredWithoutShelvesNestedInput {
     @Field(() => UserBookCreateWithoutShelvesInput, {nullable:true})
     @Type(() => UserBookCreateWithoutShelvesInput)
@@ -6693,6 +6680,31 @@ export class UserBookUpdateOneRequiredWithoutShelvesNestedInput {
     @Field(() => UserBookUpdateToOneWithWhereWithoutShelvesInput, {nullable:true})
     @Type(() => UserBookUpdateToOneWithWhereWithoutShelvesInput)
     update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutShelvesInput>;
+}
+
+@InputType()
+export class UserBookUpdateOneWithoutJournalEntryNestedInput {
+    @Field(() => UserBookCreateWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookCreateWithoutJournalEntryInput)
+    create?: InstanceType<typeof UserBookCreateWithoutJournalEntryInput>;
+    @Field(() => UserBookCreateOrConnectWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookCreateOrConnectWithoutJournalEntryInput)
+    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutJournalEntryInput>;
+    @Field(() => UserBookUpsertWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookUpsertWithoutJournalEntryInput)
+    upsert?: InstanceType<typeof UserBookUpsertWithoutJournalEntryInput>;
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    disconnect?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    delete?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => UserBookWhereUniqueInput, {nullable:true})
+    @Type(() => UserBookWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'identifier'>;
+    @Field(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput, {nullable:true})
+    @Type(() => UserBookUpdateToOneWithWhereWithoutJournalEntryInput)
+    update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutJournalEntryInput>;
 }
 
 @InputType()

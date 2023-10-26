@@ -180,9 +180,9 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         variables: {
           data: {
             readingNotes: data.notes,
-            currentPage: currentPage,
+            currentPage: currentPage!,
             pagesRead: currentPage! - currentProgress.originalPage,
-            currentPercent: currentPercent,
+            currentPercent: currentPercent!,
           },
           book: {
             id: userBook.data.id,
