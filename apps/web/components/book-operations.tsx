@@ -21,6 +21,7 @@ import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 import AlertModal from "./modal/alert-modal";
+import useUpdateUserBook from "@/actions/updateUserBook";
 interface BookOperationsProps {
   bookStatus: string | undefined;
   book: Book | undefined;
@@ -38,37 +39,16 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
   const [rating, setRating] = useState(0); // Initial value
   const addToShelfModal = useAddToShelfModal();
   const [isLoading, setIsLoading] = useState(false);
-  const [UpdateUserBook] = useUpdateUserBookMutation();
   const [removeUserBook] = useRemoveUserBookMutation();
   const updateBookId = useUserBook((state) => state.updateBookId);
-  const updateUserBook = useUserBook((state) => state.updateUserBook);
+  const updateStatus = useUserBook((state) => state.updateStatus);
+  const setUserBook = useUserBook((state) => state.setUserBook);
   const initShelves = useUserBook((state) => state.initShelves);
   const [status, setStatus] = useState(bookStatus);
+  const { updateUserBook } = useUpdateUserBook();
+
   const onUpdate = async (status: string) => {
-    const { data, errors } = await UpdateUserBook({
-      variables: {
-        data: {
-          status: status,
-        },
-        where: {
-          id: book.id,
-        },
-      },
-      errorPolicy: "all",
-    });
-
-    if (errors) {
-      toast({
-        title: "Error updating book",
-        variant: "destructive",
-      });
-    }
-
-    if (data) {
-      toast({
-        title: `Sucessfully updated book status to ${data.updateUserBook.status}`,
-      });
-    }
+    await updateUserBook(book!.id, status);
     setStatus(status);
   };
 
@@ -166,8 +146,8 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                initShelves(shelves);
-                updateBookId(book.id);
+                initShelves(shelves!);
+                updateBookId(book!.id);
 
                 addToShelfModal.onOpen();
               }}
@@ -178,7 +158,8 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
             {status == "Currently Reading" && (
               <DropdownMenuItem
                 onClick={() => {
-                  updateUserBook(book);
+                  setUserBook(book!);
+                  updateStatus(status);
                   jouranlEntryModal.onOpen();
                 }}
               >

@@ -16,12 +16,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@radix-ui/react-checkbox";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@radix-ui/react-popover";
 import { format } from "date-fns";
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
@@ -33,6 +27,9 @@ import { z } from "zod";
 import useUserBook from "@/hooks/use-user-book";
 import { useCreateJournalEntryMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
+import { Checkbox } from "../ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import useUpdateUserBook from "@/actions/updateUserBook";
 
 type progressTypes = {
   originalPage: number;
@@ -43,25 +40,30 @@ type progressTypes = {
 interface JournalEntryFormProps {
   currentProgress: progressTypes;
   setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
+  bookStatus: string;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   currentProgress,
   setCurrentProgress,
+  bookStatus,
 }) => {
   const jouranlEntryModal = useJouranlEntryModal();
   const userBook = useUserBook();
   const [createJournalEntry] = useCreateJournalEntryMutation();
   const [error, setError] = useState<string>("");
   const [unit, setUnit] = useState<"pages" | "percent">("pages");
+  const [status, setStatus] = useState(bookStatus);
+  const { updateUserBook } = useUpdateUserBook();
   useEffect(() => {
     form.reset({
       notes: "",
       current_percent: currentProgress.percent.toString() || "",
       current_page: currentProgress.page.toString() || "",
       date_read: new Date(),
+      mark_abandoned: status === "ABANDONED",
     });
-  }, [userBook.data, currentProgress]);
+  }, [userBook.data, currentProgress, status]);
 
   const handleKeyPress = (event: any) => {
     const keyCode = event.keyCode || event.which;
@@ -78,7 +80,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   const displayFormSchema = z
     .object({
       notes: z.string().max(160).optional(),
-      mark_abandoned: z.boolean().default(false),
+      mark_abandoned: z.boolean(),
       current_page: z
         .string()
         .refine(
@@ -152,25 +154,30 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         current_page: currentProgress.page.toString() || "",
         current_percent: currentProgress.percent.toString() || "",
         date_read: new Date(),
+        mark_abandoned: status === "ABANDONED",
       };
-    }, [userBook.data, currentProgress]),
+    }, [userBook.data, currentProgress, status]),
   });
 
-  async function onSubmit(data: DisplayFormValues) {
+  async function onSubmit(values: DisplayFormValues) {
     let currentPage;
     let currentPercent;
     const totalPages = userBook.data && userBook.data.pageNum;
-    if (unit == "pages" && data.current_page) {
-      currentPage = parseInt(data.current_page);
+    if (unit == "pages" && values.current_page) {
+      currentPage = parseInt(values.current_page);
       currentPercent = totalPages
-        ? Math.round((parseInt(data.current_page) / totalPages) * 100)
+        ? Math.round((parseInt(values.current_page) / totalPages) * 100)
         : 0;
-    } else if (unit == "percent" && data.current_percent) {
+    } else if (unit == "percent" && values.current_percent) {
       // if unit is percent and current percent is not empty
-      currentPercent = parseInt(data.current_percent);
+      currentPercent = parseInt(values.current_percent);
       currentPage = Math.round(
         totalPages ? currentPercent * 0.01 * totalPages : 0
       );
+    }
+    if (values.mark_abandoned) {
+      await updateUserBook(userBook.data!.id, "ABANDONED");
+      setStatus("ABANDONED");
     }
     if (
       currentPage != currentProgress.originalPage ||
@@ -179,7 +186,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
       await createJournalEntry({
         variables: {
           data: {
-            readingNotes: data.notes,
+            readingNotes: values.notes,
             currentPage: currentPage!,
             pagesRead: currentPage! - currentProgress.originalPage,
             currentPercent: currentPercent!,
@@ -191,7 +198,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         onError(error) {
           toast({
             title: error.message,
-            variant: "destructive",
           });
         },
         onCompleted(data) {
@@ -258,7 +264,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0 bg-white rounded-xl border-2"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -313,7 +322,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             Currently
             {unit == "pages" && <span> on</span>}
           </div>
-
           <div>
             <div
               className={`${
@@ -340,7 +348,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                   </FormItem>
                 )}
               />
-
               <div className="text-primary">of</div>
               {userBook.data &&
                 userBook.data.pageNum &&

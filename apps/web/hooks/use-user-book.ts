@@ -13,7 +13,7 @@ type Action = {
   updateBookId: (bookId: State["bookId"]) => void;
   updateUserId: (userId: State["userId"]) => void;
   updateStatus: (status: State["status"]) => void;
-  updateUserBook: (data: State["data"]) => void;
+  setUserBook: (data: State["data"]) => void;
   initShelves: (shelves: UserBookShelves[]) => void;
 };
 
@@ -33,7 +33,7 @@ const useUserBook = create<State & Action>((set) => ({
 
   updateStatus: (status: string) => set(() => ({ status: status })),
   updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
-  updateUserBook: (data: Book) => set(() => ({ data: data })),
+  setUserBook: (data: Book) => set(() => ({ data: data })),
   updateUserId: (userId: string) => set(() => ({ userId: userId })),
   initShelves: (shelves: UserBookShelves[]) =>
     set(() => ({ shelves: shelves })),

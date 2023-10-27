@@ -33,7 +33,7 @@ export function ColumnHeader<TData, TValue>({
   return (
     <div className={cn("flex items-center space-x-2", className)}>
       {/* toggle sorting */}
-      <span>{title}</span>
+      <div>{title}</div>
     </div>
   );
 }

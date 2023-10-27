@@ -73,6 +73,7 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
             <JournalEntryForm
               currentProgress={currentProgress}
               setCurrentProgress={setCurrentProgress}
+              bookStatus={userBook.status}
             />
           </div>
         </div>

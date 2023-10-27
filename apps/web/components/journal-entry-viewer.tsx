@@ -34,7 +34,7 @@ export const JournalEntryViewer: React.FC<JournalEntryViewer> = () => {
     return {
       id: entry.id,
       userBook: entry.userBook,
-      month: MONTH[date.getMonth()],
+      monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),
       date: date.getDate(),
       title:
         (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
