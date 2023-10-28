@@ -223,6 +223,297 @@ export type IntFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type JournalEntry = {
+  __typename?: 'JournalEntry';
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead: Scalars['Timestamp'];
+  id: Scalars['ID'];
+  pagesRead: Scalars['Int'];
+  readingNotes?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+  userBook?: Maybe<UserBook>;
+  userBookId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type JournalEntryAvgAggregate = {
+  __typename?: 'JournalEntryAvgAggregate';
+  currentPage?: Maybe<Scalars['Float']>;
+  currentPercent?: Maybe<Scalars['Float']>;
+  pagesRead?: Maybe<Scalars['Float']>;
+};
+
+export type JournalEntryCountAggregate = {
+  __typename?: 'JournalEntryCountAggregate';
+  _all: Scalars['Int'];
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead: Scalars['Int'];
+  id: Scalars['Int'];
+  pagesRead: Scalars['Int'];
+  readingNotes: Scalars['Int'];
+  userBookId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type JournalEntryCreateInput = {
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead: Scalars['Int'];
+  readingNotes?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<UserCreateNestedOneWithoutJournalEntryInput>;
+  userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
+};
+
+export type JournalEntryCreateManyUserBookInput = {
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead: Scalars['Int'];
+  readingNotes?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+export type JournalEntryCreateManyUserBookInputEnvelope = {
+  data: Array<JournalEntryCreateManyUserBookInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type JournalEntryCreateManyUserInput = {
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead: Scalars['Int'];
+  readingNotes?: InputMaybe<Scalars['String']>;
+  userBookId?: InputMaybe<Scalars['String']>;
+};
+
+export type JournalEntryCreateManyUserInputEnvelope = {
+  data: Array<JournalEntryCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type JournalEntryCreateNestedManyWithoutUserBookInput = {
+  connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserBookInput>>;
+  create?: InputMaybe<Array<JournalEntryCreateWithoutUserBookInput>>;
+  createMany?: InputMaybe<JournalEntryCreateManyUserBookInputEnvelope>;
+};
+
+export type JournalEntryCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<JournalEntryCreateWithoutUserInput>>;
+  createMany?: InputMaybe<JournalEntryCreateManyUserInputEnvelope>;
+};
+
+export type JournalEntryCreateOrConnectWithoutUserBookInput = {
+  create: JournalEntryCreateWithoutUserBookInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryCreateOrConnectWithoutUserInput = {
+  create: JournalEntryCreateWithoutUserInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryCreateWithoutUserBookInput = {
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead: Scalars['Int'];
+  readingNotes?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<UserCreateNestedOneWithoutJournalEntryInput>;
+};
+
+export type JournalEntryCreateWithoutUserInput = {
+  currentPage: Scalars['Int'];
+  currentPercent: Scalars['Int'];
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead: Scalars['Int'];
+  readingNotes?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
+};
+
+export type JournalEntryListRelationFilter = {
+  every?: InputMaybe<JournalEntryWhereInput>;
+  none?: InputMaybe<JournalEntryWhereInput>;
+  some?: InputMaybe<JournalEntryWhereInput>;
+};
+
+export type JournalEntryMaxAggregate = {
+  __typename?: 'JournalEntryMaxAggregate';
+  currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
+  dateRead?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  pagesRead?: Maybe<Scalars['Int']>;
+  readingNotes?: Maybe<Scalars['String']>;
+  userBookId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type JournalEntryMinAggregate = {
+  __typename?: 'JournalEntryMinAggregate';
+  currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
+  dateRead?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  pagesRead?: Maybe<Scalars['Int']>;
+  readingNotes?: Maybe<Scalars['String']>;
+  userBookId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type JournalEntryScalarWhereInput = {
+  AND?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  NOT?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  OR?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
+  dateRead?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
+  readingNotes?: InputMaybe<StringFilter>;
+  userBookId?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type JournalEntrySumAggregate = {
+  __typename?: 'JournalEntrySumAggregate';
+  currentPage?: Maybe<Scalars['Int']>;
+  currentPercent?: Maybe<Scalars['Int']>;
+  pagesRead?: Maybe<Scalars['Int']>;
+};
+
+export type JournalEntryUpdateManyMutationInput = {
+  currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
+  readingNotes?: InputMaybe<Scalars['String']>;
+};
+
+export type JournalEntryUpdateManyWithWhereWithoutUserBookInput = {
+  data: JournalEntryUpdateManyMutationInput;
+  where: JournalEntryScalarWhereInput;
+};
+
+export type JournalEntryUpdateManyWithWhereWithoutUserInput = {
+  data: JournalEntryUpdateManyMutationInput;
+  where: JournalEntryScalarWhereInput;
+};
+
+export type JournalEntryUpdateManyWithoutUserBookNestedInput = {
+  connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserBookInput>>;
+  create?: InputMaybe<Array<JournalEntryCreateWithoutUserBookInput>>;
+  createMany?: InputMaybe<JournalEntryCreateManyUserBookInputEnvelope>;
+  delete?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  set?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  update?: InputMaybe<Array<JournalEntryUpdateWithWhereUniqueWithoutUserBookInput>>;
+  updateMany?: InputMaybe<Array<JournalEntryUpdateManyWithWhereWithoutUserBookInput>>;
+  upsert?: InputMaybe<Array<JournalEntryUpsertWithWhereUniqueWithoutUserBookInput>>;
+};
+
+export type JournalEntryUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<JournalEntryCreateWithoutUserInput>>;
+  createMany?: InputMaybe<JournalEntryCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  set?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
+  update?: InputMaybe<Array<JournalEntryUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<JournalEntryUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<JournalEntryUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type JournalEntryUpdateWithWhereUniqueWithoutUserBookInput = {
+  data: JournalEntryUpdateWithoutUserBookInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryUpdateWithWhereUniqueWithoutUserInput = {
+  data: JournalEntryUpdateWithoutUserInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryUpdateWithoutUserBookInput = {
+  currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
+  readingNotes?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<UserUpdateOneWithoutJournalEntryNestedInput>;
+};
+
+export type JournalEntryUpdateWithoutUserInput = {
+  currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
+  readingNotes?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateOneWithoutJournalEntryNestedInput>;
+};
+
+export type JournalEntryUpsertWithWhereUniqueWithoutUserBookInput = {
+  create: JournalEntryCreateWithoutUserBookInput;
+  update: JournalEntryUpdateWithoutUserBookInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryUpsertWithWhereUniqueWithoutUserInput = {
+  create: JournalEntryCreateWithoutUserInput;
+  update: JournalEntryUpdateWithoutUserInput;
+  where: JournalEntryWhereUniqueInput;
+};
+
+export type JournalEntryWhereInput = {
+  AND?: InputMaybe<Array<JournalEntryWhereInput>>;
+  NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
+  OR?: InputMaybe<Array<JournalEntryWhereInput>>;
+  currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
+  dateRead?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
+  readingNotes?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBookId?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type JournalEntryWhereUniqueInput = {
+  AND?: InputMaybe<Array<JournalEntryWhereInput>>;
+  NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
+  OR?: InputMaybe<Array<JournalEntryWhereInput>>;
+  currentPage?: InputMaybe<IntFilter>;
+  currentPercent?: InputMaybe<IntFilter>;
+  dateRead?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<IntFilter>;
+  readingNotes?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBookId?: InputMaybe<StringFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
 export type LogInInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -231,6 +522,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBook: Book;
+  createJournalEntry: JournalEntry;
   createShelf: Shelf;
   createUser: User;
   deleteShelf?: Maybe<Shelf>;
@@ -246,6 +538,12 @@ export type Mutation = {
 
 export type MutationCreateBookArgs = {
   data: BookCreateInput;
+};
+
+
+export type MutationCreateJournalEntryArgs = {
+  book: BookWhereUniqueInput;
+  data: JournalEntryCreateInput;
 };
 
 
@@ -297,7 +595,10 @@ export type MutationUpdateUserBookArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
+  getMostRecentJournalEntry?: Maybe<JournalEntry>;
+  journalEntries: Array<JournalEntry>;
   me: User;
   shelves?: Maybe<Array<Shelf>>;
   userBook?: Maybe<UserBook>;
@@ -305,8 +606,25 @@ export type Query = {
 };
 
 
+export type QueryCountJournalEntriesArgs = {
+  book?: InputMaybe<BookWhereUniqueInput>;
+};
+
+
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryGetMostRecentJournalEntryArgs = {
+  book?: InputMaybe<BookWhereUniqueInput>;
+};
+
+
+export type QueryJournalEntriesArgs = {
+  book?: InputMaybe<BookWhereUniqueInput>;
+  limit?: Scalars['Int'];
+  offset?: Scalars['Int'];
 };
 
 
@@ -581,6 +899,7 @@ export type StringFilter = {
 
 export type User = {
   __typename?: 'User';
+  JournalEntry?: Maybe<Array<JournalEntry>>;
   _count: UserCount;
   createdAt: Scalars['Timestamp'];
   email: Scalars['String'];
@@ -596,9 +915,9 @@ export type UserBook = {
   _count: UserBookCount;
   book?: Maybe<Book>;
   bookId: Scalars['String'];
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded: Scalars['Timestamp'];
   id: Scalars['ID'];
+  journalEntry?: Maybe<Array<JournalEntry>>;
   rating?: Maybe<Scalars['Int']>;
   shelves?: Maybe<Array<UserBookShelves>>;
   status: Scalars['String'];
@@ -613,6 +932,7 @@ export type UserBookAvgAggregate = {
 
 export type UserBookCount = {
   __typename?: 'UserBookCount';
+  journalEntry: Scalars['Int'];
   shelves: Scalars['Int'];
 };
 
@@ -620,8 +940,7 @@ export type UserBookCountAggregate = {
   __typename?: 'UserBookCountAggregate';
   _all: Scalars['Int'];
   bookId: Scalars['Int'];
-  dateFinished: Scalars['Int'];
-  dateStarted: Scalars['Int'];
+  dataAdded: Scalars['Int'];
   id: Scalars['Int'];
   rating: Scalars['Int'];
   status: Scalars['Int'];
@@ -629,8 +948,7 @@ export type UserBookCountAggregate = {
 };
 
 export type UserBookCreateManyBookInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
@@ -644,8 +962,7 @@ export type UserBookCreateManyBookInputEnvelope = {
 
 export type UserBookCreateManyUserInput = {
   bookId: Scalars['String'];
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
@@ -670,6 +987,12 @@ export type UserBookCreateNestedManyWithoutUserInput = {
   createMany?: InputMaybe<UserBookCreateManyUserInputEnvelope>;
 };
 
+export type UserBookCreateNestedOneWithoutJournalEntryInput = {
+  connect?: InputMaybe<UserBookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutJournalEntryInput>;
+  create?: InputMaybe<UserBookCreateWithoutJournalEntryInput>;
+};
+
 export type UserBookCreateNestedOneWithoutShelvesInput = {
   connect?: InputMaybe<UserBookWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutShelvesInput>;
@@ -678,6 +1001,11 @@ export type UserBookCreateNestedOneWithoutShelvesInput = {
 
 export type UserBookCreateOrConnectWithoutBookInput = {
   create: UserBookCreateWithoutBookInput;
+  where: UserBookWhereUniqueInput;
+};
+
+export type UserBookCreateOrConnectWithoutJournalEntryInput = {
+  create: UserBookCreateWithoutJournalEntryInput;
   where: UserBookWhereUniqueInput;
 };
 
@@ -692,8 +1020,18 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 };
 
 export type UserBookCreateWithoutBookInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
+  rating?: InputMaybe<Scalars['Int']>;
+  shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
+  status: Scalars['String'];
+  user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
+};
+
+export type UserBookCreateWithoutJournalEntryInput = {
+  book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
@@ -703,9 +1041,9 @@ export type UserBookCreateWithoutBookInput = {
 
 export type UserBookCreateWithoutShelvesInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
@@ -713,9 +1051,9 @@ export type UserBookCreateWithoutShelvesInput = {
 
 export type UserBookCreateWithoutUserInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
@@ -735,8 +1073,7 @@ export type UserBookListRelationFilter = {
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
@@ -746,8 +1083,7 @@ export type UserBookMaxAggregate = {
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dateFinished?: Maybe<Scalars['String']>;
-  dateStarted?: Maybe<Scalars['String']>;
+  dataAdded?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
@@ -764,8 +1100,7 @@ export type UserBookScalarWhereInput = {
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   rating?: InputMaybe<IntFilter>;
   status?: InputMaybe<StringFilter>;
@@ -977,8 +1312,7 @@ export type UserBookUpdateInput = {
 };
 
 export type UserBookUpdateManyMutationInput = {
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Scalars['String']>;
@@ -1011,6 +1345,21 @@ export type UserBookUpdateOneRequiredWithoutShelvesNestedInput = {
   upsert?: InputMaybe<UserBookUpsertWithoutShelvesInput>;
 };
 
+export type UserBookUpdateOneWithoutJournalEntryNestedInput = {
+  connect?: InputMaybe<UserBookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutJournalEntryInput>;
+  create?: InputMaybe<UserBookCreateWithoutJournalEntryInput>;
+  delete?: InputMaybe<UserBookWhereInput>;
+  disconnect?: InputMaybe<UserBookWhereInput>;
+  update?: InputMaybe<UserBookUpdateToOneWithWhereWithoutJournalEntryInput>;
+  upsert?: InputMaybe<UserBookUpsertWithoutJournalEntryInput>;
+};
+
+export type UserBookUpdateToOneWithWhereWithoutJournalEntryInput = {
+  data: UserBookUpdateWithoutJournalEntryInput;
+  where?: InputMaybe<UserBookWhereInput>;
+};
+
 export type UserBookUpdateToOneWithWhereWithoutShelvesInput = {
   data: UserBookUpdateWithoutShelvesInput;
   where?: InputMaybe<UserBookWhereInput>;
@@ -1021,11 +1370,21 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
   where: UserBookWhereUniqueInput;
 };
 
+export type UserBookUpdateWithoutJournalEntryInput = {
+  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  rating?: InputMaybe<Scalars['Int']>;
+  shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
+  status?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
+};
+
 export type UserBookUpdateWithoutShelvesInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Scalars['String']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
@@ -1033,9 +1392,9 @@ export type UserBookUpdateWithoutShelvesInput = {
 
 export type UserBookUpdateWithoutUserInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dateFinished?: InputMaybe<Scalars['String']>;
-  dateStarted?: InputMaybe<Scalars['String']>;
+  dataAdded?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
@@ -1045,6 +1404,12 @@ export type UserBookUpsertWithWhereUniqueWithoutUserInput = {
   create: UserBookCreateWithoutUserInput;
   update: UserBookUpdateWithoutUserInput;
   where: UserBookWhereUniqueInput;
+};
+
+export type UserBookUpsertWithoutJournalEntryInput = {
+  create: UserBookCreateWithoutJournalEntryInput;
+  update: UserBookUpdateWithoutJournalEntryInput;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export type UserBookUpsertWithoutShelvesInput = {
@@ -1059,9 +1424,9 @@ export type UserBookWhereInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   rating?: InputMaybe<IntFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
@@ -1075,10 +1440,10 @@ export type UserBookWhereUniqueInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dateFinished?: InputMaybe<StringFilter>;
-  dateStarted?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
+  journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   rating?: InputMaybe<IntFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
@@ -1088,6 +1453,7 @@ export type UserBookWhereUniqueInput = {
 
 export type UserCount = {
   __typename?: 'UserCount';
+  JournalEntry: Scalars['Int'];
   shelves: Scalars['Int'];
   userBooks: Scalars['Int'];
 };
@@ -1103,6 +1469,7 @@ export type UserCountAggregate = {
 };
 
 export type UserCreateInput = {
+  JournalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -1112,6 +1479,12 @@ export type UserCreateInput = {
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateNestedOneWithoutJournalEntryInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutJournalEntryInput>;
+  create?: InputMaybe<UserCreateWithoutJournalEntryInput>;
 };
 
 export type UserCreateNestedOneWithoutShelvesInput = {
@@ -1126,6 +1499,11 @@ export type UserCreateNestedOneWithoutUserBooksInput = {
   create?: InputMaybe<UserCreateWithoutUserBooksInput>;
 };
 
+export type UserCreateOrConnectWithoutJournalEntryInput = {
+  create: UserCreateWithoutJournalEntryInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateOrConnectWithoutShelvesInput = {
   create: UserCreateWithoutShelvesInput;
   where: UserWhereUniqueInput;
@@ -1136,7 +1514,20 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateWithoutJournalEntryInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email: Scalars['String'];
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserCreateWithoutShelvesInput = {
+  JournalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -1148,6 +1539,7 @@ export type UserCreateWithoutShelvesInput = {
 };
 
 export type UserCreateWithoutUserBooksInput = {
+  JournalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -1181,6 +1573,16 @@ export type UserRelationFilter = {
   isNot?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpdateOneWithoutJournalEntryNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutJournalEntryInput>;
+  create?: InputMaybe<UserCreateWithoutJournalEntryInput>;
+  delete?: InputMaybe<UserWhereInput>;
+  disconnect?: InputMaybe<UserWhereInput>;
+  update?: InputMaybe<UserUpdateToOneWithWhereWithoutJournalEntryInput>;
+  upsert?: InputMaybe<UserUpsertWithoutJournalEntryInput>;
+};
+
 export type UserUpdateOneWithoutShelvesNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutShelvesInput>;
@@ -1201,6 +1603,11 @@ export type UserUpdateOneWithoutUserBooksNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutUserBooksInput>;
 };
 
+export type UserUpdateToOneWithWhereWithoutJournalEntryInput = {
+  data: UserUpdateWithoutJournalEntryInput;
+  where?: InputMaybe<UserWhereInput>;
+};
+
 export type UserUpdateToOneWithWhereWithoutShelvesInput = {
   data: UserUpdateWithoutShelvesInput;
   where?: InputMaybe<UserWhereInput>;
@@ -1211,7 +1618,20 @@ export type UserUpdateToOneWithWhereWithoutUserBooksInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpdateWithoutJournalEntryInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserUpdateWithoutShelvesInput = {
+  JournalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -1223,6 +1643,7 @@ export type UserUpdateWithoutShelvesInput = {
 };
 
 export type UserUpdateWithoutUserBooksInput = {
+  JournalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -1231,6 +1652,12 @@ export type UserUpdateWithoutUserBooksInput = {
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpsertWithoutJournalEntryInput = {
+  create: UserCreateWithoutJournalEntryInput;
+  update: UserUpdateWithoutJournalEntryInput;
+  where?: InputMaybe<UserWhereInput>;
 };
 
 export type UserUpsertWithoutShelvesInput = {
@@ -1247,6 +1674,7 @@ export type UserUpsertWithoutUserBooksInput = {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
+  JournalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -1262,6 +1690,7 @@ export type UserWhereInput = {
 
 export type UserWhereUniqueInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
+  JournalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -1295,7 +1724,7 @@ export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string, expiresIn: number } };
 
 export type LogoutMutationVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -1307,6 +1736,14 @@ export type CreateBookMutationVariables = Exact<{
 
 
 export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageNum?: number | null, pubDate?: string | null, publisher?: string | null, title: string } };
+
+export type CreateJournalEntryMutationVariables = Exact<{
+  data: JournalEntryCreateInput;
+  book: BookWhereUniqueInput;
+}>;
+
+
+export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -1350,6 +1787,29 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string } };
 
+export type CountJournalEntriesQueryVariables = Exact<{
+  book: BookWhereUniqueInput;
+}>;
+
+
+export type CountJournalEntriesQuery = { __typename?: 'Query', countJournalEntries: number };
+
+export type GetMostRecentJournalEntryQueryVariables = Exact<{
+  book: BookWhereUniqueInput;
+}>;
+
+
+export type GetMostRecentJournalEntryQuery = { __typename?: 'Query', getMostRecentJournalEntry?: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } | null };
+
+export type JournalEntriesQueryVariables = Exact<{
+  book?: InputMaybe<BookWhereUniqueInput>;
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
+}>;
+
+
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, pagesRead: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageNum?: number | null, coverImage?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null }> };
+
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1364,12 +1824,12 @@ export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'U
 
 export type UserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
 }>;
 
 
-export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null }> | null };
+export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageNum?: number | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -1560,6 +2020,44 @@ export function useCreateBookMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>;
 export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
 export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
+export const CreateJournalEntryDocument = gql`
+    mutation CreateJournalEntry($data: JournalEntryCreateInput!, $book: BookWhereUniqueInput!) {
+  createJournalEntry(data: $data, book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}
+    `;
+export type CreateJournalEntryMutationFn = Apollo.MutationFunction<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>;
+
+/**
+ * __useCreateJournalEntryMutation__
+ *
+ * To run a mutation, you first call `useCreateJournalEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateJournalEntryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createJournalEntryMutation, { data, loading, error }] = useCreateJournalEntryMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      book: // value for 'book'
+ *   },
+ * });
+ */
+export function useCreateJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>(CreateJournalEntryDocument, options);
+      }
+export type CreateJournalEntryMutationHookResult = ReturnType<typeof useCreateJournalEntryMutation>;
+export type CreateJournalEntryMutationResult = Apollo.MutationResult<CreateJournalEntryMutation>;
+export type CreateJournalEntryMutationOptions = Apollo.BaseMutationOptions<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
@@ -1767,6 +2265,136 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const CountJournalEntriesDocument = gql`
+    query countJournalEntries($book: BookWhereUniqueInput!) {
+  countJournalEntries(book: $book)
+}
+    `;
+
+/**
+ * __useCountJournalEntriesQuery__
+ *
+ * To run a query within a React component, call `useCountJournalEntriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCountJournalEntriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCountJournalEntriesQuery({
+ *   variables: {
+ *      book: // value for 'book'
+ *   },
+ * });
+ */
+export function useCountJournalEntriesQuery(baseOptions: Apollo.QueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+      }
+export function useCountJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+        }
+export type CountJournalEntriesQueryHookResult = ReturnType<typeof useCountJournalEntriesQuery>;
+export type CountJournalEntriesLazyQueryHookResult = ReturnType<typeof useCountJournalEntriesLazyQuery>;
+export type CountJournalEntriesQueryResult = Apollo.QueryResult<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>;
+export const GetMostRecentJournalEntryDocument = gql`
+    query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
+  getMostRecentJournalEntry(book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}
+    `;
+
+/**
+ * __useGetMostRecentJournalEntryQuery__
+ *
+ * To run a query within a React component, call `useGetMostRecentJournalEntryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMostRecentJournalEntryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMostRecentJournalEntryQuery({
+ *   variables: {
+ *      book: // value for 'book'
+ *   },
+ * });
+ */
+export function useGetMostRecentJournalEntryQuery(baseOptions: Apollo.QueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+      }
+export function useGetMostRecentJournalEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+        }
+export type GetMostRecentJournalEntryQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryQuery>;
+export type GetMostRecentJournalEntryLazyQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryLazyQuery>;
+export type GetMostRecentJournalEntryQueryResult = Apollo.QueryResult<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>;
+export const JournalEntriesDocument = gql`
+    query JournalEntries($book: BookWhereUniqueInput, $limit: Int! = 20, $offset: Int! = 0) {
+  journalEntries(book: $book, offset: $offset, limit: $limit) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    pagesRead
+    currentPercent
+    userBook {
+      status
+      book {
+        id
+        title
+        author
+        pageNum
+        coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useJournalEntriesQuery__
+ *
+ * To run a query within a React component, call `useJournalEntriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useJournalEntriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useJournalEntriesQuery({
+ *   variables: {
+ *      book: // value for 'book'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useJournalEntriesQuery(baseOptions?: Apollo.QueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+      }
+export function useJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+        }
+export type JournalEntriesQueryHookResult = ReturnType<typeof useJournalEntriesQuery>;
+export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntriesLazyQuery>;
+export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
   shelves {
@@ -1853,6 +2481,7 @@ export const UserBooksDocument = gql`
       id
       title
       author
+      pageNum
       coverImage
       categories
     }

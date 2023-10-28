@@ -10,3 +10,18 @@ export const BOOKS_PAGE_SIZE = 10;
 export const REVIEWS_PAGE_SIZE = 20;
 export const BOOKS_FETCH_MORE_INTERVAL = 15; // seconds
 export const REVIEWS_FETCH_MORE_INTERVAL = 15;
+
+export const MONTH = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];

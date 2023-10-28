@@ -14,6 +14,7 @@ function SearchInput() {
         <Icons.search className="ml-1 h-4 w-4 bg-secondary" />
       </kbd>
       <Input
+        variant="rings"
         type="search"
         placeholder="Search bookshelves..."
         className="h-7 w-full px-8 py-4 text-xs "

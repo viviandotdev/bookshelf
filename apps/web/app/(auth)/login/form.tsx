@@ -71,6 +71,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
               className="w-full"
               id="email"
               type="email"
+              variant="rings"
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
@@ -91,6 +92,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
             <Input
               className="w-full"
               required
+              variant="rings"
               id="password"
               type="password"
               disabled={isLoading}

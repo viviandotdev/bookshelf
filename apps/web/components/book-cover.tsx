@@ -9,12 +9,13 @@ interface BookCoverProps {
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
+  const width = size === "sm" ? 48 : 176;
   return (
-    <div className="relative w-176 h-auto">
+    <div className={`relative w-${width} h-auto`}>
       <Image
         src={src ? src : DEFAULT_BOOKCOVER_PLACEHOLDER}
         alt={`Book cover`}
-        width={176}
+        width={width}
         height={264}
       />
     </div>

@@ -1,0 +1,12 @@
+mutation CreateJournalEntry(
+  $data: JournalEntryCreateInput!
+  $book: BookWhereUniqueInput!
+) {
+  createJournalEntry(data: $data, book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}

@@ -29,6 +29,7 @@ import {
   CheckCircle2,
   FileDown,
   FileUp,
+  BanIcon,
 } from "lucide-react";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 
@@ -62,7 +63,9 @@ export const Icons = {
   edit: Pencil,
   check: Check,
   shelf: AlignLeft,
+  notes: AlignLeft,
   import: FileDown,
   export: FileUp,
   more: DotsVerticalIcon,
+  abondoned: BanIcon,
 };

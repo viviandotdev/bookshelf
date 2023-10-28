@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "JournalEntry" ALTER COLUMN "userBookId" DROP NOT NULL,
+ALTER COLUMN "userId" DROP NOT NULL;

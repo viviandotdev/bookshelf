@@ -81,6 +81,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
         data: {
           id: book.id,
           title: book.title,
+          pageNum: parseInt(book.pageNum),
           author: book.author,
           publisher: book.publisher,
           coverImage: book.image,
@@ -145,10 +146,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
             Review
           </div>
           <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-            Add to lists
-          </div>
-          <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-            Edit my activity
+            Add to shelf
           </div>
         </div>
       </>

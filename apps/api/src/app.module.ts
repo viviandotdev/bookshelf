@@ -11,6 +11,7 @@ import { UserModule } from 'libs/user/user.module';
 import { BookModule } from 'libs/book/book.module';
 import { UserBookModule } from 'libs/user-book/user-book.module';
 import { AuthModule } from 'libs/auth/auth.module';
+import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +28,7 @@ import { AuthModule } from 'libs/auth/auth.module';
     BookModule,
     UserBookModule,
     ShelfModule,
+    JournalEntryModule,
   ],
   providers: [PrismaRepository],
 })

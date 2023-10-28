@@ -8,12 +8,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary",
         outline:
-          "bg-white border-2 font-semibold border-primary text-primary items-center text-center p-2 cursor-pointer hover:bg-white",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-secondary hover:text-secondary-foreground",
+          "bg-white border-2 font-semibold border-primary text-primary items-center text-center p-2 cursor-pointer",
+        secondary: "bg-secondary text-secondary-foreground",
         link: "underline-offset-4 hover:underline text-primary",
         tag: "text-[12px] bg-secondary text-secondary-foreground",
         action:
@@ -41,7 +39,7 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ label, icon, className, variant, size, ...props }, ref) => {
+  ({ label, children, icon, className, variant, size, ...props }, ref) => {
     return (
       <button
         className={cn(buttonVariants({ variant, size, className }))}
@@ -49,7 +47,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {icon && <span>{icon}</span>}
-        {label}
+        {label ? label : children}
       </button>
     );
   }

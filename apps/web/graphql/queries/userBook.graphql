@@ -19,6 +19,7 @@ query UserBooks(
       id
       title
       author
+      pageNum
       coverImage
       categories
     }

@@ -41,6 +41,7 @@
         "nx": "^16.9.0"
     },
     "dependencies": {
+        "@graphql-codegen/typescript-operations": "^4.0.1",
         "typescript": "5.0.4"
     },
     "engines": {

@@ -46,12 +46,13 @@ model User {
     /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?
-    createdAt          DateTime   @default(now())
-    updatedAt          DateTime   @updatedAt
+    createdAt          DateTime       @default(now())
+    updatedAt          DateTime       @updatedAt
     //  One to Many: one user has many user books
     userBooks          UserBook[]
     //  One to Many: one user has many shelves
     shelves            Shelf[]
+    JournalEntry       JournalEntry[]
 }
 
 // Table stores all books
@@ -88,7 +89,7 @@ model UserBook {
     /// @Validator.IsString()
     bookId       String
     /// @Validator.IsString()
-    status       String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
+    status       String //WANT TO READ, READ, READING, ABANDONED, UP NEXT
     /// @Validator.Min(1)
     /// @Validator.Max(5)
     /// @Validator.IsInt()
@@ -98,9 +99,10 @@ model UserBook {
     // Many to One: many user books belong to one book when book
     book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
     /// @Validator.ValidateNested()
-    dateStarted  String?
-    dateFinished String?
+    dataAdded    DateTime          @default(now())
     shelves      UserBookShelves[]
+    // One to Many: one user book has many journal entries
+    journalEntry JournalEntry[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
@@ -132,4 +134,26 @@ model Shelf {
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, name], name: "identifier")
+}
+
+model JournalEntry {
+    id             String    @id @default(uuid())
+    /// @Validator.IsString()
+    readingNotes   String?
+    dateRead       DateTime  @default(now())
+    /// @Validator.IsInt()
+    currentPage    Int
+    /// @Validator.IsInt()
+    pagesRead      Int
+    /// @Validator.Min(0)
+    /// @Validator.Max(100)
+    /// @Validator.IsInt()
+    currentPercent Int
+    /// @Validator.IsString()
+    userId         String?
+    user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    /// @Validator.IsString()
+    userBookId     String?
+    // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
+    userBook       UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }
