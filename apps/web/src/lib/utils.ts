@@ -1,4 +1,4 @@
-import { BookData } from "@/src/types/interfaces";
+import { BookData } from "@/types/interfaces";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 

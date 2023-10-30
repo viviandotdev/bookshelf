@@ -1,4 +1,4 @@
-import { BookData } from "@/src/types/interfaces";
+import { BookData } from "@/types/interfaces";
 
 const fakeBookData: BookData[] = [
   {

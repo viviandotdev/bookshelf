@@ -1,4 +1,4 @@
-import useShelves from "@/src/hooks/use-shelves";
+import useShelves from "@/hooks/use-shelves";
 import { useState, useEffect } from "react";
 
 const useBookFilters = () => {

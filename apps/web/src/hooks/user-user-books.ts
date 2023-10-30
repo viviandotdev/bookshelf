@@ -1,4 +1,4 @@
-import { Shelf, UserBook } from "@/src/graphql/graphql";
+import { Shelf, UserBook } from "@/graphql/graphql";
 import { create } from "zustand";
 
 type State = {

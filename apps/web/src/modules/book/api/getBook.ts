@@ -1,5 +1,5 @@
-import { processBook } from "@/src/lib/utils";
-import { BookData } from "@/src/types/interfaces";
+import { processBook } from "@/lib/utils";
+import { BookData } from "@/types/interfaces";
 import axios from "axios";
 import { redirect, notFound } from "next/navigation";
 

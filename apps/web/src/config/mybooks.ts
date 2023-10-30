@@ -1,4 +1,4 @@
-import { MyBooksConfig } from "@/src/types";
+import { MyBooksConfig } from "@/types";
 
 export const myBooksConfig: MyBooksConfig = {
   profileNav: [

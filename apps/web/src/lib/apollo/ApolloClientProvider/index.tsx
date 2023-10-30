@@ -2,19 +2,19 @@
 
 import { ApolloProvider } from "@apollo/client";
 import { ReactNode, useMemo } from "react";
-import { getApolloClient } from "@/src/lib/apollo";
+import { getApolloClient } from "@/lib/apollo";
 
 export type ApolloClientProviderProps = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
 /**
  * Create apollo client on 'client'
  */
 export const ApolloClientProvider = ({
-  children,
+    children,
 }: ApolloClientProviderProps) => {
-  const client = useMemo(() => getApolloClient(), []);
+    const client = useMemo(() => getApolloClient(), []);
 
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+    return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

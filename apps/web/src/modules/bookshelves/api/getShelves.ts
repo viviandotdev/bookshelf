@@ -3,9 +3,9 @@ import {
   ShelvesDocument,
   CountUserBooksQuery,
   CountUserBooksDocument,
-} from "@/src/graphql/graphql";
-import { getApolloClient, setAuthToken, httpLink } from "@/src/lib/apollo";
-import { getCurrentUser } from "@/src/lib/auth/session";
+} from "@/graphql/graphql";
+import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
+import { getCurrentUser } from "@/lib/auth/session";
 
 export async function getShelves() {
   const user = await getCurrentUser();

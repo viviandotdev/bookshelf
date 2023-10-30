@@ -1,5 +1,5 @@
-import { useUpdateUserBookMutation } from "@/src/graphql/graphql";
-import { toast } from "@/src/hooks/use-toast";
+import { useUpdateUserBookMutation } from "@/graphql/graphql";
+import { toast } from "@/hooks/use-toast";
 
 const useUpdateUserBook = () => {
   const [UpdateUserBook] = useUpdateUserBookMutation();
