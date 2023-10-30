@@ -2,8 +2,8 @@ import { UserBookQuery, UserBookDocument, UserBook } from "@/graphql/graphql";
 import { dm_sefif_display } from "@/lib/fonts";
 import { formatDate, cn } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
-import ActionsPanel from "../components/ActionsPanel";
-import BookDetails from "../components/BookDetails";
+import ActionsPanel from "../components/actions-panel";
+import BookDetails from "../components/book-details";
 import Image from "next/image";
 interface BookTemplateProps {
   book: BookData;
