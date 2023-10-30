@@ -23,7 +23,6 @@ export default withAuth(
     }
 
     if (!isAuth) {
-      console.log("test");
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;

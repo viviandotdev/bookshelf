@@ -11,11 +11,6 @@ interface MyBookLayoutProps {
 }
 
 export default async function MyBook({ children }: MyBookLayoutProps) {
-  const user = await getCurrentUser();
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login");
-  }
-
   const { library, shelves } = await getShelves();
 
   return (

@@ -72,7 +72,6 @@ export class JournalEntryService {
             },
           },
     };
-    console.log(whereJournalEntryArgs);
     const journalEntries = await this.repository.findMany({
       where: whereJournalEntryArgs.where,
       include: {
@@ -85,7 +84,6 @@ export class JournalEntryService {
       skip: args.skip,
       take: args.take,
     });
-    console.log('journalEntries', journalEntries);
     return journalEntries;
   }
 }

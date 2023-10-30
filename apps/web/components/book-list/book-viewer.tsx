@@ -26,7 +26,6 @@ export const BookViewer: React.FC<BookViewerProps> = ({ queryFilter }) => {
         });
       },
       onCompleted: (data) => {
-        console.log("data", data.userBooks);
         if (data && data.userBooks && data.userBooks.length === 0) {
           toast({
             title: "No books are here... yet",
