@@ -5,21 +5,21 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "../../../components/ui/dropdown-menu";
 import qs from "query-string";
-import { Icons } from "./icons";
+import { Icons } from "../../../components/icons";
 import useShelves from "@/hooks/use-shelves";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
 
-interface ShelfItemProps {
+interface ShelfActionsProps {
     shelf: Shelf;
     isShelves?: boolean;
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ShelfItem: React.FC<ShelfItemProps> = ({
+export const ShelfActions: React.FC<ShelfActionsProps> = ({
     shelf,
     isShelves,
     setOpenAlert,
@@ -61,8 +61,8 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
         <div key={shelf.id}>
             <div
                 className={`${shelf.name === selected
-                        ? "bg-secondary"
-                        : "hover:bg-slate-100 hover:bg-opacity-70"
+                    ? "bg-secondary"
+                    : "hover:bg-slate-100 hover:bg-opacity-70"
                     }  group/item flex rounded-lg px-3 font-medium`}
             >
                 <div
@@ -140,4 +140,4 @@ const nameIcon = (iconName: string) => {
         </>
     );
 };
-export default ShelfItem;
+export default ShelfActions;

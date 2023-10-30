@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect } from "react";
-import BookList from "./book-list";
 import {
     UserBooksQueryVariables,
     useUserBooksLazyQuery,
@@ -9,11 +8,12 @@ import { NetworkStatus } from "@apollo/client";
 import { toast } from "@/hooks/use-toast";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import * as R from "ramda";
-interface BookViewerProps {
+import Book from "../../../components/book";
+interface BookListProps {
     queryFilter: UserBooksQueryVariables;
 }
 
-export const BookViewer: React.FC<BookViewerProps> = ({ queryFilter }) => {
+export const BookList: React.FC<BookListProps> = ({ queryFilter }) => {
     const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
         useUserBooksLazyQuery({
             fetchPolicy: "cache-and-network",
@@ -26,6 +26,7 @@ export const BookViewer: React.FC<BookViewerProps> = ({ queryFilter }) => {
                 });
             },
             onCompleted: (data) => {
+                console.log("data", data.userBooks);
                 if (data && data.userBooks && data.userBooks.length === 0) {
                     toast({
                         title: "No books are here... yet",
@@ -52,11 +53,19 @@ export const BookViewer: React.FC<BookViewerProps> = ({ queryFilter }) => {
 
         loadData();
     }, [queryFilter, loadBooks]);
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
-            <BookList {...{ books, loading }} />
+            {books &&
+                books?.map((book) => (
+                    <div key={book.id}>
+                        <Book userBook={book} />
+                    </div>
+                ))}
         </>
     );
 };
-export default BookViewer;
+export default BookList;

@@ -1,30 +1,66 @@
 "use client";
-import React from "react";
-import useBookFilters from "../hooks/useBookFilters";
-import BookViewer from "../components/BookList";
-import Shelves from "../components/Shelves";
-import { Icons } from "@/components/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { Shelf } from "@/graphql/graphql";
+import { ContentNav } from "@/components/content-nav";
+import React, { use, useEffect, useState } from "react";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { ContentNav } from "@/components/content-nav";
+import { buttonVariants } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
+import useShelves from "@/hooks/use-shelves";
+
+import { Shelf, UserBooksQueryVariables } from "@/graphql/graphql";
+import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
+import BookList from "../components/book-list";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
 }
 
-export const BookshelvesTemplate: React.FC<BookshelvesTemplateProps> = ({
-    librarySelections,
-    shelfSelections,
-}) => {
+export default function BookshelvesTemplate({ librarySelections,
+    shelfSelections }: BookshelvesTemplateProps) {
+    const { selected } = useShelves();
+    const [queryFilter, setQueryFilter] = useState<UserBooksQueryVariables>({});
     const totalPages = 10;
-    const queryFilter = useBookFilters();
+
+    useEffect(() => {
+        console.log("selected", selected);
+        if (selected === "Unshelved") {
+            setQueryFilter(noShelvesFilter);
+        } else if (selected === "All") {
+            setQueryFilter({});
+        } else {
+            setQueryFilter(shelfQueryFilter);
+        }
+    }, [selected]);
+
+    const noShelvesFilter: UserBooksQueryVariables = {
+        where: {
+            shelves: {
+                none: {}, // Checks if the shelves array is empty
+            },
+        },
+    };
+    const shelfQueryFilter: UserBooksQueryVariables = {
+        where: {
+            shelves: {
+                some: {
+                    shelf: {
+                        is: {
+                            name: {
+                                equals: selected,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    };
+
+    // const [currentPage, setCurrentPage] = React.useState(0);
 
     return (
-        <div className="w-full grid grid-cols-4 gap-12">
-            <Shelves
+        <div className="w-full grid grid-cols-4 gap-6">
+            <SideBar
                 librarySelections={librarySelections}
                 shelfSelections={shelfSelections}
             />
@@ -55,13 +91,14 @@ export const BookshelvesTemplate: React.FC<BookshelvesTemplateProps> = ({
                     </div>
                 </nav>
                 <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-                    <BookViewer {...{ queryFilter }} />
+                    <BookList {...{ queryFilter }} />
                 </div>
                 <Pagination
                     totalPages={totalPages}
                 // currentPage={currentPage}
                 // setCurrentPage={setCurrentPage}
                 />
+
                 {/* List View */}
                 {/* <div>
               {booksData.map((book) => {
@@ -71,5 +108,4 @@ export const BookshelvesTemplate: React.FC<BookshelvesTemplateProps> = ({
             </div>
         </div>
     );
-};
-export default BookshelvesTemplate;
+}

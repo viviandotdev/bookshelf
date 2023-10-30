@@ -1,22 +1,22 @@
-import { Icons } from "./icons";
-import { Button } from "./ui/button";
+import { Icons } from "../../../components/icons";
+import { Button } from "../../../components/ui/button";
 import useShelves from "@/hooks/use-shelves";
-import Collapsible from "./ui/collapsible";
+import Collapsible from "../../../components/ui/collapsible";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useState } from "react";
-import AlertModal from "./modal/alert-modal";
+import AlertModal from "../../../components/modal/alert-modal";
 import { toast } from "@/hooks/use-toast";
 import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
-import ShelfItem from "./shelf-item";
+import { ShelfActions } from "./shelf-actions";
 
-interface SidebarSectionProps {
+interface ShelfGroupProps {
     title: string;
     shelves: Shelf[];
     isShelves?: boolean;
     collapsible?: boolean;
 }
 
-const SidebarSection: React.FC<SidebarSectionProps> = ({
+const ShelfGroup: React.FC<ShelfGroupProps> = ({
     title,
     shelves,
     isShelves,
@@ -73,7 +73,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
             <Collapsible title={title} collapsible={collapsible}>
                 <>
                     {shelves.map((shelf, i) => (
-                        <ShelfItem
+                        <ShelfActions
                             shelf={shelf}
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
@@ -97,4 +97,4 @@ const SidebarSection: React.FC<SidebarSectionProps> = ({
     );
 };
 
-export default SidebarSection;
+export default ShelfGroup;

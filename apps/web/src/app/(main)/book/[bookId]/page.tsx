@@ -1,7 +1,7 @@
 import React from "react";
 import { getBook } from "@/modules/book/api/getBook";
 import { getUserBook } from "@/modules/book/api/getUserBook";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import BookTemplate from "@/modules/book/templates";
 
 interface BookPageProps {

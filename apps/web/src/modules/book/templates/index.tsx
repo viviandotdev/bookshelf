@@ -1,14 +1,11 @@
-import {
-    UserBookQuery,
-    UserBookDocument,
-    UserBook,
-} from "@/graphql/graphql";
 import { dm_sefif_display } from "@/lib/fonts";
-import { formatDate, cn } from "@/lib/utils";
+import { cn, formatDate, processBook } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
-import ActionsPanel from "../components/actions-panel";
-import BookDetails from "../components/book-details";
+import React from "react";
 import Image from "next/image";
+import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
+import ActionsPanel from "@/components/actions-panel";
+import BookInfo from "@/components/book-info";
 interface BookTemplateProps {
     book: BookData;
     userBook: UserBookQuery["userBook"];
@@ -42,11 +39,11 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                             >
                                 {book.title}
                             </h1>
+                            <span className="inline text-base">by {book.author}</span>
                         </div>
-                        <div className="inline text-base">by {book.author}</div>
                         <div className="grid grid-cols-6 gap-2">
                             <section className="flex flex-col gap-2 col-span-4 pr-4">
-                                <BookDetails processedBook={book} />
+                                <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
                                 <ActionsPanel book={book} bookStatus={userBook?.status} />
