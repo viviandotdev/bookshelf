@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/auth/session";
-import MarketingTemplate from "@/modules/main/templates/MarketingTemplate";
-import HomeTemplate from "@/modules/main/templates/HomeTemplate";
+import HomeTemplate from "@/modules/home/templates";
+import MarketingTemplate from "@/modules/marketing/templates";
 
 export default async function IndexPage() {
   const user = await getCurrentUser();
