@@ -1,15 +1,15 @@
 "use client";
-import { Icons } from "@/src/components/icons";
-import { buttonVariants } from "@/src/components/ui/button";
-import { dm_sefif_display } from "@/src/lib/fonts";
-import { cn } from "@/src/lib/utils";
 import React from "react";
-import { ContentNav } from "../components/ContentNav";
 import useBookFilters from "../hooks/useBookFilters";
 import BookViewer from "../components/BookList";
-import { Pagination } from "../components/Pagination";
-import { Shelf } from "@/src/graphql/graphql";
 import Shelves from "../components/Shelves";
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { Shelf } from "@/graphql/graphql";
+import { dm_sefif_display } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import { ContentNav } from "@/components/content-nav";
+import { Pagination } from "@tanstack/react-table";
 interface BookshelvesTemplateProps {
   librarySelections: Shelf[];
   shelfSelections: Shelf[];

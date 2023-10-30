@@ -2,8 +2,8 @@
 import React, { useEffect } from "react";
 import SidebarSection from "./ShelfGroup";
 import { useSearchParams } from "next/navigation";
-import { Shelf } from "@/src/graphql/graphql";
-import useShelves from "@/src/hooks/use-shelves";
+import { Shelf } from "@/graphql/graphql";
+import useShelves from "@/hooks/use-shelves";
 
 interface SidebarProps {
   librarySelections: Shelf[];

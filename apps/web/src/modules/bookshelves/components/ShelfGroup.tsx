@@ -1,13 +1,13 @@
 import { Button } from "../../../components/ui/button";
-import useShelves from "@/src/hooks/use-shelves";
 import Collapsible from "../../../components/ui/collapsible";
-import { useShelfModal } from "@/src/hooks/use-shelf-modal";
 import { useState } from "react";
 import AlertModal from "../../../components/modal/alert-modal";
-import { toast } from "@/src/hooks/use-toast";
-import { Shelf, useDeleteShelfMutation } from "@/src/graphql/graphql";
 import ShelfItem from "./ShelfActions";
-import { Icons } from "@/src/components/icons";
+import { Icons } from "@/components/icons";
+import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
+import { useShelfModal } from "@/hooks/use-shelf-modal";
+import useShelves from "@/hooks/use-shelves";
+import { toast } from "@/hooks/use-toast";
 
 interface SidebarSectionProps {
   title: string;
