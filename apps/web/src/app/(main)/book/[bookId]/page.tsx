@@ -1,0 +1,22 @@
+import React from "react";
+import { getBook } from "@/src/modules/book/api/getBook";
+import { getUserBook } from "@/src/modules/book/api/getUserBook";
+import { redirect, notFound } from "next/navigation";
+import BookTemplate from "@/src/modules/book/templates";
+
+interface BookPageProps {
+  params: { bookId: string };
+}
+
+export default async function BookPage({ params }: BookPageProps) {
+  const book = await getBook(params.bookId);
+  if (!book) {
+    notFound();
+  }
+  const userBook = await getUserBook(params.bookId);
+  return (
+    <>
+      <BookTemplate book={book} userBook={userBook} />
+    </>
+  );
+}
