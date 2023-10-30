@@ -60,8 +60,8 @@ const BookList: React.FC<BookListProps> = ({ queryFilter }) => {
     return (
         <>
             {books &&
-                books?.map((book) => (
-                    <div key={book.id}>
+                books?.map((book, idx) => (
+                    <div key={idx}>
                         <Book userBook={book} />
                     </div>
                 ))}

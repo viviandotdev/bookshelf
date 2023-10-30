@@ -74,6 +74,7 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                 <>
                     {shelves.map((shelf, i) => (
                         <ShelfActions
+                            key={i}
                             shelf={shelf}
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
