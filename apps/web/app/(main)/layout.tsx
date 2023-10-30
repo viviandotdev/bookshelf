@@ -3,13 +3,11 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import SiteHeader from "@/components/site-header";
 
-interface MarketingLayoutProps {
+interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-export default async function MarketingLayout({
-  children,
-}: MarketingLayoutProps) {
+export default async function PageLayout({ children }: PageLayoutProps) {
   const user = await getCurrentUser();
 
   if (user) {
