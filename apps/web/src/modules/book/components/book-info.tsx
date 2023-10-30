@@ -11,7 +11,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Icons } from "./icons";
+import { Icons } from "../../../components/icons";
 
 interface BookInfoProps {
     processedBook: BookData;
