@@ -1,9 +1,9 @@
-import { SiteFooter } from "@/components/site-footer";
+import { SiteFooter } from "@/modules/layout/templates/site-footer";
 import { getCurrentUser } from "@/lib/auth/session";
 import { authOptions } from "@/lib/auth/auth";
 import { notFound, redirect } from "next/navigation";
 import { myBooksConfig } from "@/config/mybooks";
-import { AccountNav } from "@/components/account-nav";
+import { AccountNav } from "@/modules/layout/components/account-nav";
 
 interface AccountLayoutProps {
     children: React.ReactNode;

@@ -1,7 +1,7 @@
-import { SiteFooter } from "@/components/site-footer";
+import { SiteFooter } from "@/modules/layout/templates/site-footer";
 import { getCurrentUser } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
-import SiteHeader from "@/components/site-header";
+import SiteHeader from "@/modules/layout/templates/site-header";
 
 interface PageLayoutProps {
     children: React.ReactNode;

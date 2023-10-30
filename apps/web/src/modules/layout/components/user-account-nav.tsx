@@ -11,7 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserAvatar } from "@/components/user-avatar";
+import { UserAvatar } from "@/modules/layout/components/user-avatar";
 import { useLogoutMutation } from "@/graphql/graphql";
 import { useApolloClient } from "@apollo/client";
 

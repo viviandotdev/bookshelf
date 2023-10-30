@@ -1,5 +1,4 @@
 "use client";
-import { ContentNav } from "@/components/content-nav";
 import React, { use, useEffect, useState } from "react";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -12,6 +11,7 @@ import { Shelf, UserBooksQueryVariables } from "@/graphql/graphql";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";
+import { ContentNav } from "@/modules/layout/components/content-nav";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];

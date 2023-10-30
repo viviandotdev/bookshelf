@@ -4,13 +4,13 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { BookProgressCard } from "@/components/book-progress-card";
 import { useSearchParams } from "next/navigation";
 import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
-import { ContentNav } from "@/components/content-nav";
 import { Pagination } from "@/components/pagination";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { myBooksConfig } from "@/config/mybooks";
 import fakeBookData from "@/lib/testData/fakeBookData";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
+import { ContentNav } from "@/modules/layout/components/content-nav";
 
 export default function SearchPage() {
     const booksData = fakeBookData;

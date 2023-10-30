@@ -3,7 +3,7 @@ import { cn, formatDate, processBook } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
+import { UserBookQuery } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 interface BookTemplateProps {

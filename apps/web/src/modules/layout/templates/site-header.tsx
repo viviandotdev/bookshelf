@@ -3,13 +3,13 @@ import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { MainNav } from "@/components/main-nav";
+import { MainNav } from "@/modules/layout/components/main-nav";
 import { CommandMenu } from "@/components/command-menu";
-import { UserAccountNav } from "@/components/user-account-nav";
+import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { marketingConfig } from "@/config/marketing";
 import { User } from "next-auth";
-import { Icons } from "./icons";
-import { JouranlEntryModal } from "./modal/journal-entry-modal";
+import { Icons } from "../../../components/icons";
+import { JouranlEntryModal } from "../../../components/modal/journal-entry-modal";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 
 interface SiteHeaderProps {
