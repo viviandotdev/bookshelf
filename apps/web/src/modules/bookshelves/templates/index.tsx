@@ -11,6 +11,7 @@ import useShelves from "@/hooks/use-shelves";
 import { Shelf, UserBooksQueryVariables } from "@/graphql/graphql";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
+import useBookFilters from "../hooks/useBookFilters";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
@@ -18,44 +19,8 @@ interface BookshelvesTemplateProps {
 
 export default function BookshelvesTemplate({ librarySelections,
     shelfSelections }: BookshelvesTemplateProps) {
-    const { selected } = useShelves();
-    const [queryFilter, setQueryFilter] = useState<UserBooksQueryVariables>({});
-    const totalPages = 10;
-
-    useEffect(() => {
-        console.log("selected", selected);
-        if (selected === "Unshelved") {
-            setQueryFilter(noShelvesFilter);
-        } else if (selected === "All") {
-            setQueryFilter({});
-        } else {
-            setQueryFilter(shelfQueryFilter);
-        }
-    }, [selected]);
-
-    const noShelvesFilter: UserBooksQueryVariables = {
-        where: {
-            shelves: {
-                none: {}, // Checks if the shelves array is empty
-            },
-        },
-    };
-    const shelfQueryFilter: UserBooksQueryVariables = {
-        where: {
-            shelves: {
-                some: {
-                    shelf: {
-                        is: {
-                            name: {
-                                equals: selected,
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    };
-
+    const queryFilter = useBookFilters();
+    const totalPages = 10;;
     // const [currentPage, setCurrentPage] = React.useState(0);
 
     return (
