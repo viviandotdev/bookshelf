@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
-import BookOperations from "./book-operations";
+import BookActions from "./book-actions";
 import { UserBook } from "@/graphql/graphql";
 
 interface BookProps {
@@ -67,11 +67,7 @@ export const Book: React.FC<BookProps> = ({
           >
             <Icons.book className="cursor-pointer h-6 w-6 text-primary" />
             <Icons.heart className="cursor-pointer h-6 w-6 text-primary" />
-            <BookOperations
-              bookStatus={status}
-              book={book!}
-              shelves={shelves!}
-            />
+            <BookActions bookStatus={status} book={book!} shelves={shelves!} />
           </div>
         </div>
       </div>

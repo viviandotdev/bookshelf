@@ -5,7 +5,7 @@ import { z } from "zod";
 import { ColumnHeader } from "./column-header";
 import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
-import BookOperations from "@/components/book-operations";
+import BookActions from "@/components/book-actions";
 import { Icons } from "@/components/icons";
 
 export const journalEntrySchema = z.object({
@@ -205,7 +205,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
       return (
         <div className="text-center cursor-pointer px-2">
           {userBook && (
-            <BookOperations
+            <BookActions
               bookStatus={userBook.status ?? undefined}
               book={userBook.book ?? undefined}
               shelves={userBook?.shelves ?? undefined}

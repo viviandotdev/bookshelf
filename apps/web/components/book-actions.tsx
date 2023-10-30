@@ -22,13 +22,13 @@ import useUserBook from "@/hooks/use-user-book";
 import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 import AlertModal from "./modal/alert-modal";
 import useUpdateUserBook from "@/actions/updateUserBook";
-interface BookOperationsProps {
+interface BookActionsProps {
   bookStatus: string | undefined;
   book: Book | undefined;
   shelves: UserBookShelves[] | undefined;
 }
 
-export const BookOperations: React.FC<BookOperationsProps> = ({
+export const BookActions: React.FC<BookActionsProps> = ({
   bookStatus,
   book,
   shelves,
@@ -182,4 +182,4 @@ export const BookOperations: React.FC<BookOperationsProps> = ({
     </div>
   );
 };
-export default BookOperations;
+export default BookActions;
