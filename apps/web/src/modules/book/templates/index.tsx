@@ -1,11 +1,11 @@
-import ActionsPanel from "@/modules/book/components/actions-panel";
-import BookInfo from "@/modules/book/components/book-info";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn, formatDate, processBook } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
 import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
+import ActionsPanel from "@/components/actions-panel";
+import { BookInfo } from "@/components/book-card";
 interface BookTemplateProps {
     book: BookData;
     userBook: UserBookQuery["userBook"];
