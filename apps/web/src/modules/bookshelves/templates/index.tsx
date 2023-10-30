@@ -23,7 +23,7 @@ export const BookshelvesTemplate: React.FC<BookshelvesTemplateProps> = ({
   const queryFilter = useBookFilters();
 
   return (
-    <>
+    <div className="w-full grid grid-cols-4 gap-12">
       <Shelves
         librarySelections={librarySelections}
         shelfSelections={shelfSelections}
@@ -69,7 +69,7 @@ export const BookshelvesTemplate: React.FC<BookshelvesTemplateProps> = ({
               })}
             </div> */}
       </div>
-    </>
+    </div>
   );
 };
 export default BookshelvesTemplate;

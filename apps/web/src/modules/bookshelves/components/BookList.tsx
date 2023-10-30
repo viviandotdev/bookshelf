@@ -1,14 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+
 import {
   UserBooksQueryVariables,
   useUserBooksLazyQuery,
-} from "@/src/graphql/graphql";
+} from "@/graphql/graphql";
+import { toast } from "@/hooks/use-toast";
+import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
-import { toast } from "@/src/hooks/use-toast";
-import { BOOKS_PAGE_SIZE } from "@/src/lib/constants";
-import * as R from "ramda";
-import { Book } from "../../../components/Book";
+import { Book } from "lucide-react";
+import { useEffect } from "react";
+
 interface BookListProps {
   queryFilter: UserBooksQueryVariables;
 }

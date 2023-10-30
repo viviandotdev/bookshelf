@@ -7,13 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "../../../components/ui/dropdown-menu";
 import qs from "query-string";
-import useShelves from "@/src/hooks/use-shelves";
-import { useShelfModal } from "@/src/hooks/use-shelf-modal";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Shelf } from "@/src/graphql/graphql";
-import { Icons } from "@/src/components/icons";
+import { Icons } from "@/components/icons";
+import { Shelf } from "@/graphql/graphql";
+import { useShelfModal } from "@/hooks/use-shelf-modal";
+import useShelves from "@/hooks/use-shelves";
 import { useSession } from "next-auth/react";
-
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 interface ShelfActionsProps {
   shelf: Shelf;
   isShelves?: boolean;
