@@ -16,14 +16,13 @@ export default withAuth(
 
     if (isAuthPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/home", req.url));
+        return NextResponse.redirect(new URL("/", req.url));
       }
 
       return null; //allow rendering of the page
     }
 
     if (!isAuth) {
-      console.log("test");
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) {
         from += req.nextUrl.search;
