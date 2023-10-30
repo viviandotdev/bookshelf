@@ -1,19 +1,11 @@
-import { cn } from "@/lib/utils";
-import { dm_sefif_display } from "@/lib/fonts";
-import { authOptions } from "@/lib/auth/auth";
-import { getCurrentUser } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
 import { BooksSection } from "@/components/books-section";
-import fakeBookData from "@/lib/testData/fakeBookData";
+import { dm_sefif_display } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import React from "react";
 
-export default async function HomePage() {
-  const user = await getCurrentUser();
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login");
-  }
+interface HomeTemplateProps {}
 
-  const booksData = fakeBookData;
-
+export const HomeTemplate: React.FC<HomeTemplateProps> = ({}) => {
   const headings = [
     "New York Times Bestsellers",
     "Most Recommended Non-Fiction Books",
@@ -38,32 +30,34 @@ export default async function HomePage() {
         <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Currently Reading
         </h1>
-        <BooksSection
+        {/* <BooksSection
           details={{ progress: 90, date_started: "Sept 12" }}
           booksData={booksData}
-        />
+        /> */}
       </section>
       <section className="container space-y-4 ">
         <h1 className={cn(dm_sefif_display.className, "text-2xl")}>Up Next</h1>
-        <BooksSection
+        {/* <BooksSection
           details={{ progress: 90, date_started: "Sept 12" }}
           booksData={booksData}
-        />
+        /> */}
       </section>
       <section className="container space-y-4 ">
         <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Read This Month
         </h1>
-        <BooksSection booksData={booksData} />
+        {/* <BooksSection booksData={booksData} /> */}
       </section>
       <section className="container space-y-2">
         <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
           Featured Lists
         </h1>
         {headings.map((heading, idx) => (
-          <BooksSection heading={heading} booksData={booksData} />
+          //   <BooksSection heading={heading} booksData={booksData} />
+          <div></div>
         ))}
       </section>
     </>
   );
-}
+};
+export default HomeTemplate;

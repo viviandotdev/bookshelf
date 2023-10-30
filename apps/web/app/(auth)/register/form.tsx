@@ -28,7 +28,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
   });
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/home";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [signup] = useSignUpMutation();
   const onSubmit = async (data: FormData) => {

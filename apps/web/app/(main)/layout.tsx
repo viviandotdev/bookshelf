@@ -10,10 +10,6 @@ interface PageLayoutProps {
 export default async function PageLayout({ children }: PageLayoutProps) {
   const user = await getCurrentUser();
 
-  if (user) {
-    redirect("/home");
-  }
-
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader user={user} />

@@ -16,7 +16,7 @@ export default withAuth(
 
     if (isAuthPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/home", req.url));
+        return NextResponse.redirect(new URL("/", req.url));
       }
 
       return null; //allow rendering of the page
