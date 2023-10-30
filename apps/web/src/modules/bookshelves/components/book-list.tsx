@@ -13,7 +13,7 @@ interface BookListProps {
     queryFilter: UserBooksQueryVariables;
 }
 
-export const BookList: React.FC<BookListProps> = ({ queryFilter }) => {
+const BookList: React.FC<BookListProps> = ({ queryFilter }) => {
     const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
         useUserBooksLazyQuery({
             fetchPolicy: "cache-and-network",
