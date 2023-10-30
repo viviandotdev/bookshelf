@@ -11,7 +11,7 @@ import useShelves from "@/hooks/use-shelves";
 import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import { Icons } from "@/components/Icons";
+import { Icons } from "@/components/icons";
 import { useSession } from "next-auth/react";
 
 interface ShelfActionsProps {

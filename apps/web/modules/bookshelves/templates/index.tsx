@@ -1,5 +1,5 @@
 "use client";
-import { Icons } from "@/components/Icons";
+import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";

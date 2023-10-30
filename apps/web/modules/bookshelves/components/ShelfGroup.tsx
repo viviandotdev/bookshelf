@@ -7,7 +7,7 @@ import AlertModal from "../../../components/modal/alert-modal";
 import { toast } from "@/hooks/use-toast";
 import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import ShelfItem from "./ShelfActions";
-import { Icons } from "@/components/Icons";
+import { Icons } from "@/components/icons";
 
 interface SidebarSectionProps {
   title: string;

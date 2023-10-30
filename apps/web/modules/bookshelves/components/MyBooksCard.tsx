@@ -3,7 +3,7 @@
 import React from "react";
 import { BookCard, BookInfo, BookShelves } from "@/components/BookCard";
 import BookCover from "../../../components/BookCover";
-import { Icons } from "../../../components/Icons";
+import { Icons } from "../../../components/icons";
 import { BookData } from "@/types/interfaces";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "../../../components/ui/button";

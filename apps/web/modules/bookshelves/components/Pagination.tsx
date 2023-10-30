@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import ReactPaginate from "react-paginate";
-import { Icons } from "../../../components/Icons";
+import { Icons } from "../../../components/icons";
 interface PaginationProps {
   totalPages: number;
 }

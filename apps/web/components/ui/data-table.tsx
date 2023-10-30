@@ -1,5 +1,4 @@
 "use client";
-import { JournalEntry } from "@/graphql/graphql";
 import React, { useState } from "react";
 import {
   ColumnDef,
