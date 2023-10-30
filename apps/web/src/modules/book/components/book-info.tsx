@@ -2,6 +2,7 @@
 import { cn, formatDate } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
+import { Icons } from "../../../components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import {
     Dialog,
@@ -11,13 +12,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Icons } from "@/components/icons";
 
-interface BookDetailsProps {
+interface BookInfoProps {
     processedBook: BookData;
 }
 
-export default function BookDetails({ processedBook }: BookDetailsProps) {
+export default function BookInfo({ processedBook }: BookInfoProps) {
     //TODO: Add a show more button
     return (
         <>
