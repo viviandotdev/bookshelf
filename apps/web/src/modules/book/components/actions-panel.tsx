@@ -23,7 +23,7 @@ const myStyles = {
 
 function ActionItem({ icon, label, onClick }: ActionItemProps) {
     return (
-        <div className="grid place-items-center cursor-pointer" onClick={onClick}>
+        <div className="flex flex-col cursor-pointer items-center" onClick={onClick}>
             {icon}
             <button className="p-1">{label}</button>
         </div>
@@ -36,15 +36,25 @@ function ActionGroup() {
         // shelfModal.onOpen();
     };
     return (
-        <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">
-            <ActionItem icon={<Icons.log className="h-8 w-8 " />} label="Log" />
+        <>
+
+            <ActionItem icon={<Icons.log className="h-8 w-8 items-center" />} label="Log" />
             <ActionItem
                 onClick={onShelveClick}
-                icon={<Icons.library className="h-8 w-8" />}
+                icon={<Icons.library className="h-8 w-8 items-center" />}
                 label="Shelve"
             />
-            <ActionItem icon={<Icons.heart className="h-8 w-8" />} label="Like" />
-        </div>
+            <ActionItem icon={<Icons.heart className="h-8 w-8 items-center" />} label="Like" />
+            {/* <div className="grid grid-cols-3 gap-4 bg-secondary rounded-lg p-3">
+                <ActionItem icon={<Icons.log className="h-8 w-8 " />} label="Log" />
+                <ActionItem
+                    onClick={onShelveClick}
+                    icon={<Icons.library className="h-8 w-8" />}
+                    label="Shelve"
+                />
+                <ActionItem icon={<Icons.heart className="h-8 w-8" />} label="Like" />
+            </div> */}
+        </>
     );
 }
 
@@ -111,11 +121,10 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
         <>
             <>
                 <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
-                    <div className="grid items-center grid-cols-3 w-[fill-available]">
-                        <div className="col-span-3">
-                            <ActionGroup />
-                        </div>
+                    <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
+                        <ActionGroup />
                     </div>
+
                     <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                         <span>Rating</span>
                         <Rating
@@ -142,6 +151,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
                             Want to Read
                         </button>
                     )}
+
                     <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                         Review
                     </div>
