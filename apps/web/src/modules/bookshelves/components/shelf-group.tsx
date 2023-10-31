@@ -7,7 +7,7 @@ import AlertModal from "../../../components/modals/alert-modal";
 import { toast } from "@/hooks/use-toast";
 import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
-import useToggleState from "@/hooks/use-modal";
+import useToggleState from "@/modules/book/hooks/use-book-status-modal";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 
 interface ShelfGroupProps {

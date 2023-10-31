@@ -12,7 +12,7 @@ type Action = {
     onEdit: (id: string) => void;
 };
 
-const useModal = create<State & Action>((set) => ({
+const useBookStatusModal = create<State & Action>((set) => ({
     isOpen: false,
     isEdit: false,
     editId: undefined,
@@ -21,4 +21,4 @@ const useModal = create<State & Action>((set) => ({
     onClose: () => set({ isOpen: false }),
 }));
 
-export default useModal;
+export default useBookStatusModal;

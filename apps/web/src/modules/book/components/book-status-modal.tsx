@@ -12,12 +12,12 @@ import {
 import { toast } from "@/hooks/use-toast";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "../../../components/modals/alert-modal";
-import useModal from "@/hooks/use-modal";
+import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
 
 interface BookStatusModalProps { }
 
 export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
-    const statusModal = useModal();
+    const statusModal = useBookStatusModal();
     const userBook = useUserBook();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
