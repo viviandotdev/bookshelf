@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import useShelves from "@/stores/use-shelves";
+import useShelves from "@/stores/shelf-store";
 import ShelfGroup from "./shelf-group";
 
 interface SidebarProps {

@@ -15,7 +15,7 @@ type Action = {
   incrementShelfCount: (name: string) => void;
 };
 
-const useShelves = create<State & Action>((set) => ({
+const shelfStore = create<State & Action>((set) => ({
   selected: "",
   shelves: [],
   updateSelected: (selected: string) => set(() => ({ selected: selected })),
@@ -53,4 +53,4 @@ const useShelves = create<State & Action>((set) => ({
   initShelves: (shelves: Shelf[]) => set(() => ({ shelves: shelves })),
 }));
 
-export default useShelves;
+export default shelfStore;
