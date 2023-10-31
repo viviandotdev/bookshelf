@@ -1,24 +1,18 @@
 import { create } from "zustand";
-
-type State = {
+interface useJournalEntryModalStore {
     isOpen: boolean;
     isEdit: boolean;
     editId?: string;
-};
-
-type Action = {
     onOpen: () => void;
-    onClose: () => void;
     onEdit: (id: string) => void;
-};
+    onClose: () => void;
+}
 
-const useModal = create<State & Action>((set) => ({
+export const useJournalEntryModal = create<useJournalEntryModalStore>((set) => ({
     isOpen: false,
     isEdit: false,
     editId: undefined,
     onOpen: () => set({ isOpen: true }),
     onEdit: (id: string) => set({ isOpen: true, isEdit: true, editId: id }),
-    onClose: () => set({ isOpen: false }),
+    onClose: () => set({ isOpen: false, isEdit: false, editId: undefined }),
 }));
-
-export default useModal;

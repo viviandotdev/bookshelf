@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { use, useCallback } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,10 +8,11 @@ import {
 } from "../../../components/ui/dropdown-menu";
 import qs from "query-string";
 import { Icons } from "../../../components/icons";
-import useShelves from "@/hooks/use-shelves";
-import { useShelfModal } from "@/hooks/use-shelf-modal";
+import useShelves from "@/stores/use-shelves";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
+import useModal from "@/hooks/use-modal";
+import { useSession } from "next-auth/react";
 
 interface ShelfActionsProps {
     shelf: Shelf;
@@ -25,9 +26,9 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     setOpenAlert,
 }) => {
     const { selected } = useShelves();
-    const shelfModal = useShelfModal();
+    const shelfModal = useModal();
     const updateSelected = useShelves((state) => state.updateSelected);
-
+    const { data: session } = useSession();
     const router = useRouter();
     const params = useSearchParams();
 
@@ -49,13 +50,13 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
 
         const url = qs.stringifyUrl(
             {
-                url: "/mybooks",
+                url: `/${session!.user.name}/books`,
                 query: updatedQuery,
             },
             { skipNull: true }
         );
         router.push(url);
-    }, [shelf, router, params]);
+    }, [shelf, router, params, session]);
 
     return (
         <div key={shelf.id}>

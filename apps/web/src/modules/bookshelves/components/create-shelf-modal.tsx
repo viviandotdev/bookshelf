@@ -14,21 +14,22 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { useShelfModal } from "@/hooks/use-shelf-modal";
+import { useShelfModal } from "@/modules/bookshelves/hooks/use-shelf-modal";
 import { Button } from "@/components/ui/button";
-import useShelves from "@/hooks/use-shelves";
+import useShelves from "@/stores/use-shelves";
 import {
     useCreateShelfMutation,
     useUpdateShelfMutation,
 } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
+import useModal from "@/hooks/use-modal";
 
 const formSchema = z.object({
     name: z.string().min(1),
 });
 
-export const ShelfModal = () => {
-    const shelfModal = useShelfModal();
+export const CreateShelfModal = () => {
+    const shelfModal = useModal();
     const [createShelf] = useCreateShelfMutation();
     const [updateShelf] = useUpdateShelfMutation();
     const renameShelf = useShelves((state) => state.renameShelf);

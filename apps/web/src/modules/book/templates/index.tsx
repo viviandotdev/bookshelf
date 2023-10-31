@@ -6,6 +6,7 @@ import Image from "next/image";
 import { UserBookQuery } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
+import { BookStatusModal } from "../components/book-status-modal";
 interface BookTemplateProps {
     book: BookData;
     userBook: UserBookQuery["userBook"];
@@ -14,6 +15,7 @@ interface BookTemplateProps {
 export default function BookTemplate({ book, userBook }: BookTemplateProps) {
     return (
         <>
+            <BookStatusModal />
             <div className="grid w-full grid-cols-5 gap-2 ">
                 <section className="p-4 hidden xl:block xl:col-span-1">
                     <Image
