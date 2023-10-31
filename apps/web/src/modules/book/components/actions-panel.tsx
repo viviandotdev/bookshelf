@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
 import { useCreateBookMutation } from "@/graphql/graphql";

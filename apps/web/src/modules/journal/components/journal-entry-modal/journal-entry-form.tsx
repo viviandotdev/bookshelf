@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import {
     Form,
     FormControl,
@@ -14,22 +14,22 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../ui/form";
+} from "../../../../components/ui/form";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Textarea } from "../ui/textarea";
-import { Input } from "../ui/input";
-import { Calendar } from "../ui/calender";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
+import { Textarea } from "../../../../components/ui/textarea";
+import { Input } from "../../../../components/ui/input";
+import { Calendar } from "../../../../components/ui/calender";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/hooks/use-user-book";
 import { useCreateJournalEntryMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import { Checkbox } from "../ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Checkbox } from "../../../../components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../../components/ui/popover";
 import useUpdateUserBook from "@/actions/updateUserBook";
+import { useModal } from "@/hooks/use-modal";
 
 type progressTypes = {
     originalPage: number;
@@ -48,7 +48,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     setCurrentProgress,
     bookStatus,
 }) => {
-    const jouranlEntryModal = useJouranlEntryModal();
+    const jouranlEntryModal = useModal();
     const userBook = useUserBook();
     const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");

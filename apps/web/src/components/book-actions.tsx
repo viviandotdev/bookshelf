@@ -19,9 +19,9 @@ import {
 } from "@/graphql/graphql";
 import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/hooks/use-user-book";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 import AlertModal from "./modal/alert-modal";
 import useUpdateUserBook from "@/actions/updateUserBook";
+import { useModal } from "@/hooks/use-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -33,7 +33,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     book,
     shelves,
 }) => {
-    const jouranlEntryModal = useJouranlEntryModal();
+    const jouranlEntryModal = useModal();
     const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [rating, setRating] = useState(0); // Initial value

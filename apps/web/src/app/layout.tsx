@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import StatusModal from "@/components/modal/status-modal";
 import { ShelfModal } from "@/components/modal/shelf-modal";
 import { AddToShelfModal } from "@/components/modal/add-to-shelf-modal";
-import { JouranlEntryModal } from "@/components/modal/journal-entry-modal";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 
 const inter = Inter({ subsets: ["latin"] });
 

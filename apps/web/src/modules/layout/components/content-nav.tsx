@@ -2,9 +2,9 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../../../components/ui/button";
-import { Icons } from "../../../components/icons";
-import { Input } from "../../../components/ui/input";
+import { Icons } from "@/components/icons";
+import { buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 // Component for the search input
 function SearchInput() {

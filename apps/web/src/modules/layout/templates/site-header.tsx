@@ -9,15 +9,14 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { marketingConfig } from "@/config/marketing";
 import { User } from "next-auth";
 import { Icons } from "../../../components/icons";
-import { JouranlEntryModal } from "../../../components/modal/journal-entry-modal";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
+import { useModal } from "@/hooks/use-modal";
 
 interface SiteHeaderProps {
     user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
-    const jouranlEntryModal = useJouranlEntryModal();
+    const jouranlEntryModal = useModal();
     return (
         <header className="container bg-background mx-auto">
             <div className="flex h-20 items-center justify-between py-6 space-x-4">
