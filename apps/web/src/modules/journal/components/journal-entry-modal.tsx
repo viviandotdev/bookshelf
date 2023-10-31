@@ -1,22 +1,17 @@
 "use client";
-import useUserBook from "@/hooks/use-user-book";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "../ui/dialog";
-import BookCover from "../book-cover";
+import useUserBook from "@/stores/use-user-book";
+
 import { useState } from "react";
 import { useGetMostRecentJournalEntryQuery } from "@/graphql/graphql";
-import JournalEntryForm from "./journal-entry-form";
+import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
+import BookCover from "@/components/book-cover";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface AddToShelfModalProps { }
 
 export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
-    const jouranlEntryModal = useJouranlEntryModal();
+    const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
     const [currentProgress, setCurrentProgress] = useState({
         originalPage: 0,

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BookRating } from "./book-card";
 import { Icons } from "./icons";
 import {
@@ -15,13 +15,12 @@ import {
     Book,
     UserBookShelves,
     useRemoveUserBookMutation,
-    useUpdateUserBookMutation,
 } from "@/graphql/graphql";
-import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
-import useUserBook from "@/hooks/use-user-book";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
-import AlertModal from "./modal/alert-modal";
+import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
+import useUserBook from "@/stores/use-user-book";
+import AlertModal from "./modals/alert-modal";
 import useUpdateUserBook from "@/actions/updateUserBook";
+import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -33,7 +32,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     book,
     shelves,
 }) => {
-    const jouranlEntryModal = useJouranlEntryModal();
+    const jouranlEntryModal = useJournalEntryModal();
     const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [rating, setRating] = useState(0); // Initial value

@@ -1,14 +1,14 @@
 "use client";
-import React, { use, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
 import { useCreateBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
-import useStatusModal from "@/hooks/use-status-modal";
 import { useFirstRender } from "@/hooks/use-first-render";
-import useUserBook from "@/hooks/use-user-book";
+import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
+import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -56,7 +56,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
     const [rating, setRating] = useState(0);
     const [status, setStatus] = useState(bookStatus);
     const { data: session } = useSession();
-    const statusModal = useStatusModal();
+    const statusModal = useBookStatusModal();
     const userBook = useUserBook();
     const updateUserId = useUserBook((state) => state.updateUserId);
     const updateStatus = useUserBook((state) => state.updateStatus);

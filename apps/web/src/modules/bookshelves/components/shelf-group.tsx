@@ -1,13 +1,14 @@
 import { Icons } from "../../../components/icons";
 import { Button } from "../../../components/ui/button";
-import useShelves from "@/hooks/use-shelves";
+import useShelves from "@/stores/shelf-store";
 import Collapsible from "../../../components/ui/collapsible";
-import { useShelfModal } from "@/hooks/use-shelf-modal";
 import { useState } from "react";
-import AlertModal from "../../../components/modal/alert-modal";
+import AlertModal from "../../../components/modals/alert-modal";
 import { toast } from "@/hooks/use-toast";
 import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
+import useToggleState from "@/modules/book/hooks/use-book-status-modal";
+import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 
 interface ShelfGroupProps {
     title: string;
@@ -24,16 +25,13 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
 }) => {
     const { removeShelf } = useShelves();
     const [openAlert, setOpenAlert] = useState(false);
-    const shelfModal = useShelfModal();
+    const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
     const [deleteShelf] = useDeleteShelfMutation();
 
     const onDelete = async () => {
         setIsLoading(true);
-        if (!shelfModal.isOpen) {
-            return;
-        }
-        setIsLoading(true);
+
         await deleteShelf({
             variables: {
                 where: {
@@ -55,8 +53,8 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
 
         setIsLoading(false);
         removeShelf(shelfModal.editId!);
-        shelfModal.onClose();
         setOpenAlert(false);
+        shelfModal.onClose();
     };
     return (
         <>

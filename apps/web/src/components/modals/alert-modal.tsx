@@ -4,7 +4,7 @@ import { Modal } from "@/components/ui/modal";
 import { Button } from "../ui/button";
 interface AlertModalProps {
     title: string;
-    description: string;
+    description?: string;
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
@@ -24,7 +24,7 @@ export const AlertModal: React.FC<AlertModalProps> = ({
             isOpen={isOpen}
             onClose={onClose}
             title={title}
-            description={description}
+            description={description ? description : ''}
         >
             <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                 <Button

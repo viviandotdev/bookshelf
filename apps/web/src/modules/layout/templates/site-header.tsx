@@ -9,15 +9,12 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { marketingConfig } from "@/config/marketing";
 import { User } from "next-auth";
 import { Icons } from "../../../components/icons";
-import { JouranlEntryModal } from "../../../components/modal/journal-entry-modal";
-import useJouranlEntryModal from "@/hooks/use-journal-entry-modal";
 
 interface SiteHeaderProps {
     user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
-    const jouranlEntryModal = useJouranlEntryModal();
     return (
         <header className="container bg-background mx-auto">
             <div className="flex h-20 items-center justify-between py-6 space-x-4">
@@ -36,7 +33,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                         id: user.id,
                                     }}
                                 />
-                                <button
+                                {/* <button
                                     className={cn(
                                         buttonVariants({ variant: "tag", size: "xs" }),
                                         "pl-2 pr-3"
@@ -45,7 +42,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                 >
                                     <Icons.plus className="h-4 w-4 mr-1" />
                                     Log
-                                </button>
+                                </button> */}
                             </div>
                         ) : (
                             <Link

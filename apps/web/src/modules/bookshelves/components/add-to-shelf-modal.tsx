@@ -14,12 +14,12 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../../components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-import useAddToShelfModal from "@/hooks/use-add-to-shelf-modal";
-import useShelves from "@/hooks/use-shelves";
-import { Button } from "../ui/button";
-import useUserBook from "@/hooks/use-user-book";
+import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
+import useShelves from "@/stores/shelf-store";
+import { Button } from "../../../components/ui/button";
+import useUserBook from "@/stores/use-user-book";
 import { useUpdateUserBookMutation } from "@/graphql/graphql";
 
 interface AddToShelfModalProps { }

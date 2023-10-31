@@ -1,22 +1,23 @@
 "use client";
 import React, { ReactNode, use, useState } from "react";
-import Modal from "./modal";
-import useStatusModal from "@/hooks/use-status-modal";
-import { Button, buttonVariants } from "../ui/button";
+// import Modal from "../../../components/modals/modal";
+import { Modal } from "@/components/ui/modal";
+import { Button, buttonVariants } from "../../../components/ui/button";
 import { cn } from "@/lib/utils";
-import { Icons } from "../icons";
+import { Icons } from "../../../components/icons";
 import {
     useRemoveUserBookMutation,
     useUpdateUserBookMutation,
 } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import useUserBook from "@/hooks/use-user-book";
-import AlertModal from "./alert-modal";
+import useUserBook from "@/stores/use-user-book";
+import AlertModal from "../../../components/modals/alert-modal";
+import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
 
-interface StatusModalProps { }
+interface BookStatusModalProps { }
 
-export const StatusModal: React.FC<StatusModalProps> = ({ }) => {
-    const statusModal = useStatusModal();
+export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
+    const statusModal = useBookStatusModal();
     const userBook = useUserBook();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -131,13 +132,12 @@ export const StatusModal: React.FC<StatusModalProps> = ({ }) => {
                 loading={isLoading}
             />
             <Modal
-                disabled={isLoading}
                 isOpen={statusModal.isOpen}
                 onClose={statusModal.onClose}
                 title={`Choose a shelf for this book`}
-                body={bodyContent}
-            />
+            >
+                {bodyContent}
+            </Modal>
         </>
     );
 };
-export default StatusModal;
