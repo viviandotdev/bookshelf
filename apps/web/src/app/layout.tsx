@@ -6,6 +6,8 @@ import { ApolloClientProvider } from "@/lib/apollo/ApolloClientProvider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import { ModalProvider } from "@/providers/modal-provider";
+import { Provider } from 'react-redux';
+import { store } from "@/stores";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +23,11 @@ export default function RootLayout({
             <body className={`${inter.className}`}>
                 <SessionProvider session={session}>
                     <ApolloClientProvider>
-                        <ModalProvider />
-                        <Toaster />
-                        {children}
+                        <Provider store={store}>
+                            <ModalProvider />
+                            <Toaster />
+                            {children}
+                        </Provider>
                     </ApolloClientProvider>
                 </SessionProvider>
             </body>

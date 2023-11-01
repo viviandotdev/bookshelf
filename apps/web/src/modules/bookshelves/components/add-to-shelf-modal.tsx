@@ -17,16 +17,20 @@ import {
 import { Checkbox } from "../../../components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
-import useShelves from "@/stores/shelf-store";
 import { Button } from "../../../components/ui/button";
 import useUserBook from "@/stores/use-user-book";
 import { useUpdateUserBookMutation } from "@/graphql/graphql";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
-    const { shelves, incrementShelfCount } = useShelves();
+    // const { shelves, incrementShelfCount } = ;
+    const dispath = useAppDispatch();
+    const shelves = useAppSelector(selectShelves)
+
     const userBook = useUserBook();
     const [UpdateUserBook] = useUpdateUserBookMutation();
 
@@ -69,8 +73,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
             });
 
             shelves.map((item) => {
-                console.log("item", item);
-                incrementShelfCount(item);
+                console.log("shelf name", item);
+                dispath(incrementShelfCount({ name: item }))
             });
         } else {
             toast({

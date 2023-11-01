@@ -1,6 +1,5 @@
 import { Icons } from "../../../components/icons";
 import { Button } from "../../../components/ui/button";
-import useShelves from "@/stores/shelf-store";
 import Collapsible from "../../../components/ui/collapsible";
 import { useState } from "react";
 import AlertModal from "../../../components/modals/alert-modal";
@@ -9,6 +8,8 @@ import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
 import useToggleState from "@/modules/book/hooks/use-book-status-modal";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
+import { useAppDispatch } from "@/stores";
+import { removeShelf } from "@/stores/shelf-slice";
 
 interface ShelfGroupProps {
     title: string;
@@ -23,7 +24,7 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     isShelves,
     collapsible,
 }) => {
-    const { removeShelf } = useShelves();
+    const dispatch = useAppDispatch();
     const [openAlert, setOpenAlert] = useState(false);
     const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +53,8 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
         });
 
         setIsLoading(false);
-        removeShelf(shelfModal.editId!);
+
+        dispatch(removeShelf(shelfModal.editId!));
         setOpenAlert(false);
         shelfModal.onClose();
     };

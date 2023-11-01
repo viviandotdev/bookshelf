@@ -1,8 +1,8 @@
-import useShelves from "@/stores/shelf-store";
+import { useAppSelector } from "@/stores";
 import { useState, useEffect } from "react";
 
 const useBookFilters = () => {
-  const { selected } = useShelves();
+  const selected = useAppSelector((state) => state.shelf.selected);
   const [queryFilter, setQueryFilter] = useState({});
 
   useEffect(() => {

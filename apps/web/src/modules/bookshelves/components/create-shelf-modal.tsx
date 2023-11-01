@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,8 @@ import {
 } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
+import { useAppDispatch } from "@/stores";
+import { addShelf, renameShelf } from "@/stores/shelf-slice";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -31,8 +33,8 @@ export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
     const [createShelf] = useCreateShelfMutation();
     const [updateShelf] = useUpdateShelfMutation();
-    const renameShelf = useShelves((state) => state.renameShelf);
-    const addShelf = useShelves((state) => state.addShelf);
+    const dispatch = useAppDispatch();
+    // const addShelf = useShelves((state) => state.addShelf);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -66,14 +68,15 @@ export const CreateShelfModal = () => {
                 });
             },
             onCompleted(data) {
-                addShelf({
+                dispatch(addShelf({
                     id: data.createShelf.id,
                     name: data.createShelf.name,
                     _count: {
                         userBooks: 0,
                     },
                     userId: "",
-                });
+                }))
+
                 toast({
                     title: "Sucessfylly created shelf",
                 });
@@ -104,7 +107,7 @@ export const CreateShelfModal = () => {
                 });
             },
             onCompleted(data) {
-                renameShelf(shelfModal.editId!, data.updateShelf?.name!);
+                dispatch(renameShelf({ id: shelfModal.editId!, name: data.updateShelf?.name! }))
                 toast({
                     title: "Sucessfylly renamed shelf",
                 });

@@ -2,8 +2,10 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import useShelves from "@/stores/shelf-store";
 import ShelfGroup from "./shelf-group";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";
+import { update } from "ramda";
 
 interface SidebarProps {
     librarySelections: Shelf[];
@@ -14,20 +16,23 @@ const SideBar: React.FC<SidebarProps> = ({
     librarySelections,
     shelfSelections,
 }) => {
-    const { shelves } = useShelves();
-    const updateSelected = useShelves((state) => state.updateSelected);
-    const initShelves = useShelves((state) => state.initShelves);
+    const shelves = useAppSelector(selectShelves)
+    const dispath = useAppDispatch();
+    // const updateSelected = useShelves((state) => state.updateSelected);
+    // const initShelves = useShelves((state) => state.initShelves);
 
     const params = useSearchParams();
     const shelf = params?.get("shelf");
 
     useEffect(() => {
         if (shelf) {
-            updateSelected(shelf);
+            dispath(updateSelected(shelf));
+
         } else {
-            updateSelected("All");
+            dispath(updateSelected("All"));
+
         }
-        initShelves(shelfSelections);
+        dispath(initShelves(shelfSelections));
     }, []);
 
     return (
