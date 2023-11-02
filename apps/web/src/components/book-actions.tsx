@@ -25,15 +25,18 @@ interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
+    openDropdown: boolean;
+    setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const BookActions: React.FC<BookActionsProps> = ({
     bookStatus,
     book,
     shelves,
+    openDropdown,
+    setOpenDropdown
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
-    const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [rating, setRating] = useState(0); // Initial value
     const addToShelfModal = useAddToShelfModal();
@@ -89,18 +92,18 @@ export const BookActions: React.FC<BookActionsProps> = ({
                 onConfirm={onDelete}
                 loading={isLoading}
             />
-            <DropdownMenu open={openMenu} modal={false}>
+            <DropdownMenu open={openDropdown} modal={false}>
                 <DropdownMenuTrigger
                     asChild
                     onClick={() => {
-                        setOpenMenu(!openMenu);
+                        setOpenDropdown(!openDropdown);
                     }}
                 >
                     <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     onMouseLeave={() => {
-                        setOpenMenu(false);
+                        setOpenDropdown(false);
                     }}
                     align={"start"}
                     sideOffset={8}
