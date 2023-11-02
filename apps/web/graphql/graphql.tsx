@@ -528,7 +528,7 @@ export type Mutation = {
   deleteShelf?: Maybe<Shelf>;
   logout: Scalars['Boolean'];
   refreshAuth: RefreshResponse;
-  removeUserBook: Scalars['Boolean'];
+  removeUserBook: UserBook;
   signin: AuthResponse;
   signup: User;
   updateShelf?: Maybe<Shelf>;
@@ -1780,7 +1780,7 @@ export type RemoveUserBookMutationVariables = Exact<{
 }>;
 
 
-export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: boolean };
+export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2201,7 +2201,13 @@ export type UpdateUserBookMutationResult = Apollo.MutationResult<UpdateUserBookM
 export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
 export const RemoveUserBookDocument = gql`
     mutation RemoveUserBook($where: BookWhereUniqueInput!) {
-  removeUserBook(where: $where)
+  removeUserBook(where: $where) {
+    shelves {
+      shelf {
+        name
+      }
+    }
+  }
 }
     `;
 export type RemoveUserBookMutationFn = Apollo.MutationFunction<RemoveUserBookMutation, RemoveUserBookMutationVariables>;

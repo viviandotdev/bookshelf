@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 
-import { Shelf } from "@/graphql/graphql";
+import { Shelf } from "../../../../graphql/graphql";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";

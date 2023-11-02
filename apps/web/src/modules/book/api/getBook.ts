@@ -1,7 +1,6 @@
 import { processBook } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import axios from "axios";
-import { redirect, notFound } from "next/navigation";
 
 export async function getBook(bookId: string) {
   try {

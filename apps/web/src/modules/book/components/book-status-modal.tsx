@@ -1,18 +1,13 @@
 "use client";
 import React, { ReactNode, use, useState } from "react";
-// import Modal from "../../../components/modals/modal";
 import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "../../../components/ui/button";
 import { cn } from "@/lib/utils";
 import { Icons } from "../../../components/icons";
-import {
-    useRemoveUserBookMutation,
-    useUpdateUserBookMutation,
-} from "@/graphql/graphql";
-import { toast } from "@/hooks/use-toast";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "../../../components/modals/alert-modal";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
+import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 
 interface BookStatusModalProps { }
 
@@ -21,11 +16,11 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const userBook = useUserBook();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [removeUserBook] = useRemoveUserBookMutation();
     const updateUserId = useUserBook((state) => state.updateUserId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const updateBookId = useUserBook((state) => state.updateBookId);
-    const [UpdateUserBook] = useUpdateUserBookMutation();
+    const { updateUserBook } = useUpdateUserBook();
+    const { removeUserBook } = useRemoveUserBook();
     const status = [
         "Currently Reading",
         "Want to Read",
@@ -34,56 +29,25 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
         "Did not Finish",
     ];
     const handleStatusClick = async (newStatus: string) => {
-        updateStatus(newStatus);
-        const { data, errors } = await UpdateUserBook({
-            variables: {
-                data: {
-                    status: newStatus,
-                },
-                where: {
-                    id: userBook.bookId,
-                },
-            },
-        });
-        if (data) {
-            toast({
-                title: `Sucessfully updated book status to ${data.updateUserBook.status}`,
-            });
-        } else {
-            toast({
-                title: "Error updating book!",
-            });
+
+        const updatedBook = await updateUserBook(userBook.bookId, { status: newStatus });
+        if (updatedBook) {
+            updateStatus(newStatus);
         }
         statusModal.onClose();
     };
 
     const onDelete = async () => {
         setIsLoading(true);
-        const { data, errors } = await removeUserBook({
-            variables: {
-                where: {
-                    id: userBook.bookId,
-                },
-            },
-        });
-
-        if (errors) {
-            toast({
-                title: "Something went wrong",
-                variant: "destructive",
-            });
-        }
-
-        if (data) {
+        const isRemoved = await removeUserBook(userBook.bookId);
+        if (isRemoved) {
             updateUserId("");
             updateStatus("");
             updateBookId("");
-            toast({
-                title: "Sucessfylly deleted book",
-            });
             setIsLoading(false);
+            setOpen(false);
         }
-        setOpen(false);
+
     };
 
     const bodyContent = (

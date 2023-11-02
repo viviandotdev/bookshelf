@@ -24,12 +24,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { useCreateJournalEntryMutation } from "@/graphql/graphql";
+import { useCreateJournalEntryMutation } from "../../../../graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import useUpdateUserBook from "@/actions/updateUserBook";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 
 type progressTypes = {
     originalPage: number;
@@ -40,20 +40,23 @@ type progressTypes = {
 interface JournalEntryFormProps {
     currentProgress: progressTypes;
     setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
-    bookStatus: string;
+    status: string | undefined;
+    setStatus: Dispatch<SetStateAction<string>>;
+    onClose: () => void;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     currentProgress,
     setCurrentProgress,
-    bookStatus,
+    status,
+    setStatus,
+    onClose,
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
     const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const [status, setStatus] = useState(bookStatus);
     const { updateUserBook } = useUpdateUserBook();
     useEffect(() => {
         form.reset({
@@ -61,7 +64,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             current_percent: currentProgress.percent.toString() || "",
             current_page: currentProgress.page.toString() || "",
             date_read: new Date(),
-            mark_abandoned: status === "ABANDONED",
+            mark_abandoned: status === "Abandoned",
         });
     }, [userBook.data, currentProgress, status]);
 
@@ -154,7 +157,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 current_page: currentProgress.page.toString() || "",
                 current_percent: currentProgress.percent.toString() || "",
                 date_read: new Date(),
-                mark_abandoned: status === "ABANDONED",
+                mark_abandoned: status === "Abandoned",
             };
         }, [userBook.data, currentProgress, status]),
     });
@@ -176,8 +179,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             );
         }
         if (values.mark_abandoned) {
-            await updateUserBook(userBook.data!.id, "ABANDONED");
-            setStatus("ABANDONED");
+            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
+            if (updatedBook) {
+                setStatus("Abandoned");
+            }
         }
         if (
             currentPage != currentProgress.originalPage ||
@@ -213,8 +218,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 },
             });
         }
-
-        jouranlEntryModal.onClose();
+        onClose();
     }
     return (
         <div>
@@ -403,7 +407,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         variant="outline"
                         onClick={(e) => {
                             e.preventDefault();
-                            jouranlEntryModal.onClose();
+                            onClose();
                         }}
                     >
                         {jouranlEntryModal.isEdit ? "Delete" : "Close"}

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { UserBook } from "@/graphql/graphql";
+import { UserBook } from "../../graphql/graphql";
 
 interface BookProps {
     details?: {
@@ -21,6 +21,7 @@ export const Book: React.FC<BookProps> = ({
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves, status } = userBook;
     return (
         <div
@@ -59,12 +60,13 @@ export const Book: React.FC<BookProps> = ({
                     <div
                         onMouseLeave={() => {
                             setOpenMenu(false);
+                            setOpenDropdown(false);
                         }}
                         className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
                     >
                         <Icons.book className="cursor-pointer h-6 w-6 text-primary" />
                         <Icons.heart className="cursor-pointer h-6 w-6 text-primary" />
-                        <BookActions bookStatus={status} book={book!} shelves={shelves!} />
+                        <BookActions openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} bookStatus={status} book={book!} shelves={shelves!} />
                     </div>
                 </div>
             </div>

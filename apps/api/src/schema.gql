@@ -498,7 +498,7 @@ type Mutation {
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
-  removeUserBook(where: BookWhereUniqueInput!): Boolean!
+  removeUserBook(where: BookWhereUniqueInput!): UserBook!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf

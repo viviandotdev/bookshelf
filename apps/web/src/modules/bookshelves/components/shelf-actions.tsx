@@ -8,11 +8,13 @@ import {
 } from "../../../components/ui/dropdown-menu";
 import qs from "query-string";
 import { Icons } from "../../../components/icons";
-import useShelves from "@/stores/shelf-store";
+// import useShelves from "@/stores/shelf-store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shelf } from "@/graphql/graphql";
+import { Shelf } from "../../../../graphql/graphql";
 import { useSession } from "next-auth/react";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { updateSelected } from "@/stores/shelf-slice";
 
 interface ShelfActionsProps {
     shelf: Shelf;
@@ -25,9 +27,12 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     isShelves,
     setOpenAlert,
 }) => {
-    const { selected } = useShelves();
+    // const { selected } = useShelves();
+
     const shelfModal = useCreateShelfModal();
-    const updateSelected = useShelves((state) => state.updateSelected);
+    const dispatch = useAppDispatch();
+    const selected = useAppSelector((state) => state.shelf.selected);
+    // const updateSelected = useShelves((state) => state.updateSelected);
     const { data: session } = useSession();
     const router = useRouter();
     const params = useSearchParams();
@@ -69,7 +74,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
                 <div
                     className={`w-[fill-available] cursor-pointer justify-between py-2`}
                     onClick={() => {
-                        updateSelected(shelf.name!);
+                        dispatch(updateSelected(shelf.name!));
                         handleClick();
                     }}
                 >
@@ -133,12 +138,4 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     );
 };
 
-const nameIcon = (iconName: string) => {
-    const Icon = Icons[iconName];
-    return (
-        <>
-            <Icon className="h-5 w-5 mr-4" />
-        </>
-    );
-};
 export default ShelfActions;

@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -15,13 +15,10 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import useShelves from "@/stores/shelf-store";
-import {
-    useCreateShelfMutation,
-    useUpdateShelfMutation,
-} from "@/graphql/graphql";
-import { toast } from "@/hooks/use-toast";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
+import { useAppDispatch } from "@/stores";
+import { addShelf, renameShelf } from "@/stores/shelf-slice";
+import { useCreateShelf, useUpdateShelf } from "@/hooks/shelf/mutations";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -29,10 +26,11 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-    const [createShelf] = useCreateShelfMutation();
-    const [updateShelf] = useUpdateShelfMutation();
-    const renameShelf = useShelves((state) => state.renameShelf);
-    const addShelf = useShelves((state) => state.addShelf);
+    const { createShelf } = useCreateShelf();
+    const { updateShelf } = useUpdateShelf();
+
+    const dispatch = useAppDispatch();
+    // const addShelf = useShelves((state) => state.addShelf);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -53,33 +51,19 @@ export const CreateShelfModal = () => {
         }
         setIsLoading(true);
         // Query or mutation execution
-        await createShelf({
-            variables: {
-                data: {
-                    name: name,
-                },
-            },
-            onError(error) {
-                toast({
-                    title: error.message,
-                    variant: "destructive",
-                });
-            },
-            onCompleted(data) {
-                addShelf({
-                    id: data.createShelf.id,
-                    name: data.createShelf.name,
+        const createdShelf = await createShelf(name);
+        if (createdShelf) {
+            dispatch(addShelf(
+                {
+                    id: createdShelf.id,
+                    name: createdShelf.name,
                     _count: {
                         userBooks: 0,
                     },
                     userId: "",
-                });
-                toast({
-                    title: "Sucessfylly created shelf",
-                });
-            },
-        });
-
+                }
+            ))
+        }
         setIsLoading(false);
         shelfModal.onClose();
     };
@@ -88,28 +72,10 @@ export const CreateShelfModal = () => {
             return;
         }
         setIsLoading(true);
-        await updateShelf({
-            variables: {
-                data: {
-                    name: name,
-                },
-                where: {
-                    id: shelfModal.editId,
-                },
-            },
-            onError(error) {
-                toast({
-                    title: error.message,
-                    variant: "destructive",
-                });
-            },
-            onCompleted(data) {
-                renameShelf(shelfModal.editId!, data.updateShelf?.name!);
-                toast({
-                    title: "Sucessfylly renamed shelf",
-                });
-            },
-        });
+        const updatedShelf = await updateShelf(shelfModal.editId!, name);
+        if (updatedShelf) {
+            dispatch(renameShelf({ id: shelfModal.editId!, name: updatedShelf.name }))
+        }
 
         setIsLoading(false);
         shelfModal.onClose();

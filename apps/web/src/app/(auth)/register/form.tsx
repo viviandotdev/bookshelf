@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useSignUpMutation } from "@/graphql/graphql";
+import { useSignUpMutation } from "../../../../graphql/graphql";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
