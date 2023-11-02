@@ -1,15 +1,17 @@
+'use client'
 import { Icons } from "../../../components/icons";
 import { Button } from "../../../components/ui/button";
 import Collapsible from "../../../components/ui/collapsible";
 import { useState } from "react";
 import AlertModal from "../../../components/modals/alert-modal";
-import { toast } from "@/hooks/use-toast";
 import { Shelf, useDeleteShelfMutation } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
 import useToggleState from "@/modules/book/hooks/use-book-status-modal";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch } from "@/stores";
 import { removeShelf } from "@/stores/shelf-slice";
+import { useDeleteShelf } from "@/hooks/shelf/mutations";
+import { toast } from "@/hooks/use-toast";
 
 interface ShelfGroupProps {
     title: string;
@@ -28,33 +30,15 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     const [openAlert, setOpenAlert] = useState(false);
     const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
-    const [deleteShelf] = useDeleteShelfMutation();
+    const { deleteShelf } = useDeleteShelf();
 
     const onDelete = async () => {
         setIsLoading(true);
-
-        await deleteShelf({
-            variables: {
-                where: {
-                    id: shelfModal.editId,
-                },
-            },
-            onError: (err) => {
-                toast({
-                    title: "Error deleting shelf",
-                    variant: "destructive",
-                });
-            },
-            onCompleted: (data) => {
-                toast({
-                    title: "Sucessfylly deleted shelf",
-                });
-            },
-        });
-
+        const deletedShelf = await deleteShelf(shelfModal.editId!);
+        if (deletedShelf) {
+            dispatch(removeShelf(shelfModal.editId!));
+        }
         setIsLoading(false);
-
-        dispatch(removeShelf(shelfModal.editId!));
         setOpenAlert(false);
         shelfModal.onClose();
     };

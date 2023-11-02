@@ -110,9 +110,9 @@ model UserBook {
 }
 
 model UserBookShelves {
-    userBook   UserBook @relation(fields: [userBookId], references: [id])
+    userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
     userBookId String
-    shelf      Shelf    @relation(fields: [shelfId], references: [id])
+    shelf      Shelf    @relation(fields: [shelfId], references: [id], onDelete: Cascade)
     shelfId    String
 
     @@id([userBookId, shelfId])
