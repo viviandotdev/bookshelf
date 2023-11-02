@@ -28,8 +28,8 @@ import { useCreateJournalEntryMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import useUpdateUserBook from "@/actions/updateUserBook";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { useUpdateUserBookStatus } from "@/hooks/user-books/mutations";
 
 type progressTypes = {
     originalPage: number;
@@ -57,14 +57,14 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const { updateUserBook } = useUpdateUserBook();
+    const { updateUserBookStatus } = useUpdateUserBookStatus();
     useEffect(() => {
         form.reset({
             notes: "",
             current_percent: currentProgress.percent.toString() || "",
             current_page: currentProgress.page.toString() || "",
             date_read: new Date(),
-            mark_abandoned: status === "ABANDONED",
+            mark_abandoned: status === "Abandoned",
         });
     }, [userBook.data, currentProgress, status]);
 
@@ -157,7 +157,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 current_page: currentProgress.page.toString() || "",
                 current_percent: currentProgress.percent.toString() || "",
                 date_read: new Date(),
-                mark_abandoned: status === "ABANDONED",
+                mark_abandoned: status === "Abandoned",
             };
         }, [userBook.data, currentProgress, status]),
     });
@@ -179,7 +179,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             );
         }
         if (values.mark_abandoned) {
-            await updateUserBook(userBook.data!.id, "Abandoned");
+            await updateUserBookStatus(userBook.data!.id, "Abandoned");
             setStatus("Abandoned");
         }
         if (

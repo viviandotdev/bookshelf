@@ -19,10 +19,9 @@ import {
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "./modals/alert-modal";
-import useUpdateUserBook from "@/actions/updateUserBook";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
-import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
+import { useRemoveUserBook, useUpdateUserBookStatus } from "@/hooks/user-books/mutations";
 // import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
@@ -45,43 +44,27 @@ export const BookActions: React.FC<BookActionsProps> = ({
     const [rating, setRating] = useState(0); // Initial value
     const addToShelfModal = useAddToShelfModal();
     const [isLoading, setIsLoading] = useState(false);
-    const [removeUserBook] = useRemoveUserBookMutation();
+    const [status, setStatus] = useState(bookStatus ? bookStatus : "");
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
     const initShelves = useUserBook((state) => state.initShelves);
-    const [status, setStatus] = useState(bookStatus ? bookStatus : "");
-    const { updateUserBook } = useUpdateUserBook();
+    const { updateUserBookStatus } = useUpdateUserBookStatus();
+    const { removeUserBook } = useRemoveUserBook();
 
     const onUpdate = async (status: string) => {
-        await updateUserBook(book!.id, status);
-        setStatus(status);
+        const isUpdated = await updateUserBookStatus(book!.id, status);
+        if (isUpdated) {
+            setStatus(status);
+        }
     };
 
     const onDelete = async () => {
         setIsLoading(true);
-        const { data, errors } = await removeUserBook({
-            variables: {
-                where: {
-                    id: book.id,
-                },
-            },
-            errorPolicy: "all",
-        });
+        await removeUserBook(book!.id);
+        setIsLoading(false);
+        setOpenAlert(false);
 
-        if (errors) {
-            toast({
-                title: errors[0].message,
-                variant: "destructive",
-            });
-        }
-        if (data && !errors) {
-            setIsLoading(false);
-            setOpenAlert(false);
-            toast({
-                title: "Sucessfylly deleted book",
-            });
-        }
     };
 
     return (
