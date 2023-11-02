@@ -1,4 +1,5 @@
 import {
+  UserBookUpdateInput,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
 } from "@/graphql/graphql";
@@ -30,14 +31,15 @@ export const useRemoveUserBook = () => {
   return { removeUserBook };
 };
 
-export const useUpdateUserBookStatus = () => {
+export const useUpdateUserBook = () => {
   const [UpdateUserBook] = useUpdateUserBookMutation();
-  const updateUserBookStatus = async (bookId: string, status: string) => {
+  const updateUserBook = async (
+    bookId: string,
+    updateInput: UserBookUpdateInput
+  ) => {
     const { data, errors } = await UpdateUserBook({
       variables: {
-        data: {
-          status: status,
-        },
+        data: updateInput,
         where: {
           id: bookId,
         },
@@ -53,15 +55,12 @@ export const useUpdateUserBookStatus = () => {
     }
 
     if (data && !errors) {
-      toast({
-        title: `Successfully updated book status to ${data.updateUserBook.status}`,
-      });
-      return true;
+      return data.updateUserBook;
     }
-    return false;
+    return null;
   };
 
   return {
-    updateUserBookStatus,
+    updateUserBook,
   };
 };

@@ -7,7 +7,7 @@ import { Icons } from "../../../components/icons";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "../../../components/modals/alert-modal";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
-import { useRemoveUserBook, useUpdateUserBookStatus } from "@/hooks/user-books/mutations";
+import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 
 interface BookStatusModalProps { }
 
@@ -19,7 +19,7 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const updateUserId = useUserBook((state) => state.updateUserId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const updateBookId = useUserBook((state) => state.updateBookId);
-    const { updateUserBookStatus } = useUpdateUserBookStatus();
+    const { updateUserBook } = useUpdateUserBook();
     const { removeUserBook } = useRemoveUserBook();
     const status = [
         "Currently Reading",
@@ -29,8 +29,11 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
         "Did not Finish",
     ];
     const handleStatusClick = async (newStatus: string) => {
-        updateStatus(newStatus);
-        await updateUserBookStatus(userBook.bookId, newStatus);
+
+        const updatedBook = await updateUserBook(userBook.bookId, { status: newStatus });
+        if (updatedBook) {
+            updateStatus(newStatus);
+        }
         statusModal.onClose();
     };
 

@@ -14,14 +14,13 @@ import { toast } from "@/hooks/use-toast";
 import {
     Book,
     UserBookShelves,
-    useRemoveUserBookMutation,
 } from "@/graphql/graphql";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "./modals/alert-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
-import { useRemoveUserBook, useUpdateUserBookStatus } from "@/hooks/user-books/mutations";
+import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 // import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
@@ -49,12 +48,12 @@ export const BookActions: React.FC<BookActionsProps> = ({
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
     const initShelves = useUserBook((state) => state.initShelves);
-    const { updateUserBookStatus } = useUpdateUserBookStatus();
+    const { updateUserBook } = useUpdateUserBook();
     const { removeUserBook } = useRemoveUserBook();
 
     const onUpdate = async (status: string) => {
-        const isUpdated = await updateUserBookStatus(book!.id, status);
-        if (isUpdated) {
+        const updatedBook = await updateUserBook(book!.id, { status });
+        if (updatedBook) {
             setStatus(status);
         }
     };

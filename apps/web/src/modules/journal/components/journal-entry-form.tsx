@@ -29,7 +29,7 @@ import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
-import { useUpdateUserBookStatus } from "@/hooks/user-books/mutations";
+import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 
 type progressTypes = {
     originalPage: number;
@@ -57,7 +57,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const { updateUserBookStatus } = useUpdateUserBookStatus();
+    const { updateUserBook } = useUpdateUserBook();
     useEffect(() => {
         form.reset({
             notes: "",
@@ -179,8 +179,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             );
         }
         if (values.mark_abandoned) {
-            await updateUserBookStatus(userBook.data!.id, "Abandoned");
-            setStatus("Abandoned");
+            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
+            if (updatedBook) {
+                setStatus("Abandoned");
+            }
         }
         if (
             currentPage != currentProgress.originalPage ||
