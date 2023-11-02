@@ -40,20 +40,23 @@ type progressTypes = {
 interface JournalEntryFormProps {
     currentProgress: progressTypes;
     setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
-    bookStatus: string;
+    status: string | undefined;
+    setStatus: Dispatch<SetStateAction<string>>;
+    onClose: () => void;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     currentProgress,
     setCurrentProgress,
-    bookStatus,
+    status,
+    setStatus,
+    onClose,
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
     const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const [status, setStatus] = useState(bookStatus);
     const { updateUserBook } = useUpdateUserBook();
     useEffect(() => {
         form.reset({
@@ -176,8 +179,8 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             );
         }
         if (values.mark_abandoned) {
-            await updateUserBook(userBook.data!.id, "ABANDONED");
-            setStatus("ABANDONED");
+            await updateUserBook(userBook.data!.id, "Abandoned");
+            setStatus("Abandoned");
         }
         if (
             currentPage != currentProgress.originalPage ||
@@ -213,8 +216,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 },
             });
         }
-
-        jouranlEntryModal.onClose();
+        onClose();
     }
     return (
         <div>
@@ -403,7 +405,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         variant="outline"
                         onClick={(e) => {
                             e.preventDefault();
-                            jouranlEntryModal.onClose();
+                            onClose();
                         }}
                     >
                         {jouranlEntryModal.isEdit ? "Delete" : "Close"}

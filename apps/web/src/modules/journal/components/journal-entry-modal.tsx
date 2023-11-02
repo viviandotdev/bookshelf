@@ -1,17 +1,25 @@
 "use client";
 import useUserBook from "@/stores/use-user-book";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useGetMostRecentJournalEntryQuery } from "@/graphql/graphql";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-interface AddToShelfModalProps { }
+interface JouranlEntryModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    status: string;
+    setStatus: Dispatch<SetStateAction<string>>;
+}
 
-export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
-    const jouranlEntryModal = useJournalEntryModal();
+export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
+    isOpen,
+    onClose,
+    status,
+    setStatus
+}) => {
     const userBook = useUserBook();
     const [currentProgress, setCurrentProgress] = useState({
         originalPage: 0,
@@ -47,12 +55,12 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
 
     const onChange = (open: boolean) => {
         if (!open) {
-            jouranlEntryModal.onClose();
+            onClose();
         }
     };
 
     return (
-        <Dialog open={jouranlEntryModal.isOpen} onOpenChange={onChange}>
+        <Dialog open={isOpen} onOpenChange={onChange}>
             <DialogContent className="flex min-w-[720px]">
                 <div className="flex gap-8 min-w-full">
                     <BookCover src={null} />
@@ -68,7 +76,9 @@ export const JouranlEntryModal: React.FC<AddToShelfModalProps> = () => {
                         <JournalEntryForm
                             currentProgress={currentProgress}
                             setCurrentProgress={setCurrentProgress}
-                            bookStatus={userBook.status}
+                            status={status}
+                            setStatus={setStatus}
+                            onClose={onClose}
                         />
                     </div>
                 </div>

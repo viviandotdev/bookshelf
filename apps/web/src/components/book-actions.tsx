@@ -21,6 +21,9 @@ import useUserBook from "@/stores/use-user-book";
 import AlertModal from "./modals/alert-modal";
 import useUpdateUserBook from "@/actions/updateUserBook";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
+import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
+// import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -38,6 +41,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const [openAlert, setOpenAlert] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [rating, setRating] = useState(0); // Initial value
     const addToShelfModal = useAddToShelfModal();
     const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +50,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
     const initShelves = useUserBook((state) => state.initShelves);
-    const [status, setStatus] = useState(bookStatus);
+    const [status, setStatus] = useState(bookStatus ? bookStatus : "");
     const { updateUserBook } = useUpdateUserBook();
 
     const onUpdate = async (status: string) => {
@@ -81,7 +85,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     };
 
     return (
-        <div>
+        <>
             <AlertModal
                 title={"Are you sure you want to remove this book from your shelf?"}
                 description={
@@ -91,6 +95,12 @@ export const BookActions: React.FC<BookActionsProps> = ({
                 onClose={() => setOpenAlert(false)}
                 onConfirm={onDelete}
                 loading={isLoading}
+            />
+            <JouranlEntryModal
+                isOpen={openModal}
+                onClose={() => setOpenModal(false)}
+                status={status!}
+                setStatus={setStatus}
             />
             <DropdownMenu open={openDropdown} modal={false}>
                 <DropdownMenuTrigger
@@ -110,76 +120,84 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem
-                            className={`${status === "Want to Read" && "bg-accent text-primary"
-                                }`}
-                            onClick={() => {
-                                onUpdate("Want to Read");
-                            }}
-                        >
-                            <Icons.bookPlus className="h-5 w-5 mr-2" />
-                            Want to Read
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className={`${status === "Currently Reading" && "bg-accent text-primary"
-                                }`}
-                            onClick={() => {
-                                onUpdate("Currently Reading");
-                            }}
-                        >
-                            <Icons.bookOpen className={`h-5 w-5 mr-2`} />
-                            Currently Reading
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className={`${status === "Read" && "bg-accent text-primary"}`}
-                            onClick={() => {
-                                onUpdate("Read");
-                            }}
-                        >
-                            <Icons.read className="h-5 w-5 mr-2" />
-                            Read
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator></DropdownMenuSeparator>
-                        <DropdownMenuItem>
-                            <BookRating rating={rating} setRating={setRating} />
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => {
-                                initShelves(shelves!);
-                                updateBookId(book!.id);
+                    <DropdownMenuItem
+                        className={`${status === "Want to Read" && "bg-accent text-primary"
+                            }`}
+                        onClick={() => {
+                            onUpdate("Want to Read");
+                        }}
+                    >
+                        <Icons.bookPlus className="h-5 w-5 mr-2" />
+                        Want to Read
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className={`${status === "Currently Reading" && "bg-accent text-primary"
+                            }`}
+                        onClick={() => {
+                            onUpdate("Currently Reading");
+                        }}
+                    >
+                        <Icons.bookOpen className={`h-5 w-5 mr-2`} />
+                        Currently Reading
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className={`${status === "Read" && "bg-accent text-primary"}`}
+                        onClick={() => {
+                            onUpdate("Read");
+                        }}
+                    >
+                        <Icons.read className="h-5 w-5 mr-2" />
+                        Read
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className={`${status === "Abandoned" && "bg-accent text-primary"}`}
+                        onClick={() => {
+                            onUpdate("Abandoned");
+                        }}
+                    >
+                        <Icons.read className="h-5 w-5 mr-2" />
+                        Abaondoned
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator></DropdownMenuSeparator>
+                    <DropdownMenuItem>
+                        <BookRating rating={rating} setRating={setRating} />
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() => {
+                            initShelves(shelves!);
+                            updateBookId(book!.id);
 
-                                addToShelfModal.onOpen();
-                            }}
-                        >
-                            <Icons.shelf className="h-5 w-5 mr-2" />
-                            Add to shelf
-                        </DropdownMenuItem>
-                        {status == "Currently Reading" && (
-                            <DropdownMenuItem
-                                onClick={() => {
-                                    setUserBook(book!);
-                                    updateStatus(status);
-                                    jouranlEntryModal.onOpen();
-                                }}
-                            >
-                                <Icons.plus className="h-5 w-5 mr-2" />
-                                Update Progress
-                            </DropdownMenuItem>
-                        )}
-
+                            addToShelfModal.onOpen();
+                        }}
+                    >
+                        <Icons.shelf className="h-5 w-5 mr-2" />
+                        Add to shelf
+                    </DropdownMenuItem>
+                    {status == "Currently Reading" && (
                         <DropdownMenuItem
                             onClick={() => {
-                                setOpenAlert(true);
+                                setUserBook(book!);
+                                updateStatus(status);
+                                setOpenModal(true);
+                                jouranlEntryModal.onOpen();
                             }}
                         >
-                            <Icons.delete className="h-5 w-5 mr-2" />
-                            Remove...
+                            <Icons.plus className="h-5 w-5 mr-2" />
+                            Update Progress
                         </DropdownMenuItem>
-                    </DropdownMenuGroup>
+                    )}
+
+                    <DropdownMenuItem
+                        onClick={() => {
+                            setOpenAlert(true);
+                        }}
+                    >
+                        <Icons.delete className="h-5 w-5 mr-2" />
+                        Remove...
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-        </div>
+        </>
     );
 };
 export default BookActions;
