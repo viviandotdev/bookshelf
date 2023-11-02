@@ -12,5 +12,11 @@ mutation UpdateUserBook(
 }
 
 mutation RemoveUserBook($where: BookWhereUniqueInput!) {
-  removeUserBook(where: $where)
+  removeUserBook(where: $where) {
+    shelves {
+      shelf {
+        name
+      }
+    }
+  }
 }

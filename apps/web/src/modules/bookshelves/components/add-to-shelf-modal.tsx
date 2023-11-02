@@ -27,7 +27,7 @@ interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
-    const dispath = useAppDispatch();
+    const dispatch = useAppDispatch();
     const shelves = useAppSelector(selectShelves)
 
     const userBook = useUserBook();
@@ -58,7 +58,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         const updatedBook = await updateUserBook(userBook.bookId, { shelves });
         if (updatedBook) {
             shelves.map((item) => {
-                dispath(incrementShelfCount({ name: item }))
+                dispatch(incrementShelfCount({ name: item }))
             });
             toast({
                 title: `Sucessfully shelved book`,

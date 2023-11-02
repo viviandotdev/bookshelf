@@ -14,13 +14,15 @@ import { toast } from "@/hooks/use-toast";
 import {
     Book,
     UserBookShelves,
-} from "@/graphql/graphql";
+} from "../../graphql/graphql";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "./modals/alert-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useAppDispatch } from "@/stores";
+import { decrementShelfCount } from "@/stores/shelf-slice";
 // import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
 interface BookActionsProps {
     bookStatus: string | undefined;
@@ -50,7 +52,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     const initShelves = useUserBook((state) => state.initShelves);
     const { updateUserBook } = useUpdateUserBook();
     const { removeUserBook } = useRemoveUserBook();
-
+    const dispatch = useAppDispatch();
     const onUpdate = async (status: string) => {
         const updatedBook = await updateUserBook(book!.id, { status });
         if (updatedBook) {
@@ -60,7 +62,12 @@ export const BookActions: React.FC<BookActionsProps> = ({
 
     const onDelete = async () => {
         setIsLoading(true);
-        await removeUserBook(book!.id);
+        const deletedBook = await removeUserBook(book!.id);
+        if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
+            deletedBook.shelves.map((item) => {
+                dispatch(decrementShelfCount({ name: item.shelf.name }))
+            })
+        }
         setIsLoading(false);
         setOpenAlert(false);
 

@@ -1,4 +1,4 @@
-import { useJournalEntriesLazyQuery } from "@/graphql/graphql";
+import { useJournalEntriesLazyQuery } from "../../../../graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { MONTH, BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";

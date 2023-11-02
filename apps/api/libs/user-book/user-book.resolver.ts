@@ -85,7 +85,7 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => UserBook)
   removeUserBook(
     @Args('where')
     where: BookWhereUniqueInput,

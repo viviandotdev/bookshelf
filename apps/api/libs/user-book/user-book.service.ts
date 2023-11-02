@@ -122,14 +122,21 @@ export class UserBookService {
 
   async remove(where: UserBookIdentifierCompoundUniqueInput) {
     const { userId, bookId } = where;
-    await this.repository.delete({
+    const userBook = await this.repository.delete({
       where: {
         identifier: {
           userId,
           bookId,
         },
       },
+      include: {
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
+      },
     });
-    return true;
+    return userBook;
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Shelf } from "@/graphql/graphql";
+import { Shelf } from "../../../../graphql/graphql";
 import ShelfGroup from "./shelf-group";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";

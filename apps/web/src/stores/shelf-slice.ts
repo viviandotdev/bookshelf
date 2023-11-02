@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { Shelf } from "@/graphql/graphql";
+import { Shelf } from "../../graphql/graphql";
 import { RootState } from ".";
 
 // Define a type for the slice state
@@ -34,6 +34,13 @@ const shelvesSlice = createSlice({
         shelf.name = name;
       }
     },
+    decrementShelfCount: (state, action) => {
+      const { name } = action.payload;
+      const shelf = state.shelves.find((s) => s.name === name);
+      if (shelf) {
+        shelf._count.userBooks -= 1;
+      }
+    },
     incrementShelfCount: (state, action) => {
       const { name } = action.payload;
       const shelf = state.shelves.find((s) => s.name === name);
@@ -53,6 +60,7 @@ export const {
   removeShelf,
   renameShelf,
   incrementShelfCount,
+  decrementShelfCount,
   initShelves,
 } = shelvesSlice.actions;
 

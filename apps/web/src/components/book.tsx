@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { UserBook } from "@/graphql/graphql";
+import { UserBook } from "../../graphql/graphql";
 
 interface BookProps {
     details?: {

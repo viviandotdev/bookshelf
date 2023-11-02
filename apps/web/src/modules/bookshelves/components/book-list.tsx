@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import {
     UserBooksQueryVariables,
     useUserBooksLazyQuery,
-} from "@/graphql/graphql";
+} from "../../../../graphql/graphql";
 import { NetworkStatus } from "@apollo/client";
 import { toast } from "@/hooks/use-toast";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";

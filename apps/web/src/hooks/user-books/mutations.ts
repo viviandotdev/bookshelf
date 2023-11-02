@@ -2,7 +2,7 @@ import {
   UserBookUpdateInput,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
-} from "@/graphql/graphql";
+} from "../../../graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 export const useRemoveUserBook = () => {
@@ -23,9 +23,9 @@ export const useRemoveUserBook = () => {
 
     if (data && !errors) {
       toast({ title: "Successfully deleted book" });
-      return true;
+      return data.removeUserBook;
     }
-    return false;
+    return null;
   };
 
   return { removeUserBook };

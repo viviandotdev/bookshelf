@@ -2,7 +2,7 @@ import {
   useCreateShelfMutation,
   useDeleteShelfMutation,
   useUpdateShelfMutation,
-} from "@/graphql/graphql";
+} from "../../../graphql/graphql";
 import { toast } from "../use-toast";
 
 export const useCreateShelf = () => {

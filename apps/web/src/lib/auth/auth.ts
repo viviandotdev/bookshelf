@@ -1,4 +1,4 @@
-import { SignInMutation, SignInDocument } from "@/graphql/graphql";
+import { SignInMutation, SignInDocument } from "../../../graphql/graphql";
 import { NextAuthOptions } from "next-auth";
 import { getApolloClient } from "../apollo";
 import CredentialsProvider from "next-auth/providers/credentials";

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { z } from "zod";
 import { ColumnHeader } from "./column-header";
-import { UserBook } from "@/graphql/graphql";
+import { UserBook } from "../../../../graphql/graphql";
 import BookCover from "@/components/book-cover";
 import BookActions from "@/components/book-actions";
 import { Icons } from "@/components/icons";
