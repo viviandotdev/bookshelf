@@ -138,12 +138,4 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     );
 };
 
-const nameIcon = (iconName: string) => {
-    const Icon = Icons[iconName];
-    return (
-        <>
-            <Icon className="h-5 w-5 mr-4" />
-        </>
-    );
-};
 export default ShelfActions;

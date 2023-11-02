@@ -27,7 +27,6 @@ interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
-    // const { shelves, incrementShelfCount } = ;
     const dispath = useAppDispatch();
     const shelves = useAppSelector(selectShelves)
 
