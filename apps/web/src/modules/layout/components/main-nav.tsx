@@ -10,16 +10,30 @@ import { Icons } from "@/components/icons";
 import { MainNavItem } from "@/types";
 import { MobileNav } from "@/modules/layout/components/mobile-nav";
 import { dm_sefif_display } from "@/lib/fonts";
+import { useSession } from "next-auth/react";
 
 interface MainNavProps {
-    items?: MainNavItem[];
     children?: React.ReactNode;
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ children }: MainNavProps) {
+    const { data: session } = useSession();
     const segment = useSelectedLayoutSegment();
     const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
-
+    const items = [
+        {
+            title: "Home",
+            href: "/",
+        },
+        {
+            title: "My Books",
+            href: `/${session?.user.name}/books`,
+        },
+        {
+            title: "Browse",
+            href: "/browse",
+        },
+    ]
     return (
         <div className="flex gap-6 md:gap-10">
             <Link href="/" className="hidden items-center space-x-2 md:flex">

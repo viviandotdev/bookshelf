@@ -73,8 +73,8 @@ export default function BookshelvesTemplate({ librarySelections,
               })}
             </div> */}
                 </div>
-
-                <CreateShelfModal />            </div></>
+                <CreateShelfModal />
+            </div></>
 
     );
 }
