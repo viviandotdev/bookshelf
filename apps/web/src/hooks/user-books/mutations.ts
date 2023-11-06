@@ -11,6 +11,9 @@ export const useRemoveUserBook = () => {
   const removeUserBook = async (bookId: string) => {
     const { data, errors } = await RemoveUserBook({
       variables: { where: { id: bookId } },
+      update: (cache) => {
+        cache.evict({ id: `Book:${bookId}` });
+      },
       errorPolicy: "all",
     });
 
