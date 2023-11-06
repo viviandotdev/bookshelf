@@ -1,17 +1,21 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 
-import { Shelf } from "../../../../graphql/graphql";
+import { Shelf, useUserBooksLazyQuery } from "../../../../graphql/graphql";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";
 import { ContentNav } from "@/modules/layout/components/content-nav";
 import { CreateShelfModal } from "../components/create-shelf-modal";
+import { BOOKS_PAGE_SIZE } from "@/lib/constants";
+import { NetworkStatus } from "@apollo/client";
+import { toast } from "@/hooks/use-toast";
+import * as R from "ramda";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
@@ -19,10 +23,58 @@ interface BookshelvesTemplateProps {
 
 export default function BookshelvesTemplate({ librarySelections,
     shelfSelections }: BookshelvesTemplateProps) {
-    const queryFilter = useBookFilters();
-    const totalPages = 10;;
-    // const [currentPage, setCurrentPage] = React.useState(0);
 
+    const queryFilter = useBookFilters();
+    const [totalPages, setTotalPages] = React.useState(librarySelections[0]._count.userBooks / BOOKS_PAGE_SIZE);
+    const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
+        useUserBooksLazyQuery({
+            fetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-first",
+            notifyOnNetworkStatusChange: true,
+            onError: (error) => {
+                toast({
+                    title: error.message,
+                    variant: "destructive",
+                });
+            },
+            onCompleted: (data) => {
+                console.log("data", data.userBooks);
+                if (data && data.userBooks && data.userBooks.length === 0) {
+                    toast({
+                        title: "No books are here... yet",
+                        variant: "destructive",
+                    });
+                }
+            },
+            errorPolicy: "all",
+        });
+
+    const books = booksData && booksData?.userBooks;
+    const loading = networkStatus === NetworkStatus.loading;
+    const loadMoreLoading = networkStatus === NetworkStatus.fetchMore;
+    useEffect(() => {
+        const loadData = async () => {
+            const pagedQueryFilter = R.mergeRight(queryFilter, {
+                offset: 0,
+                limit: BOOKS_PAGE_SIZE,
+            });
+            await loadBooks({ variables: { ...pagedQueryFilter } });
+        };
+
+        loadData();
+    }, [queryFilter, loadBooks]);
+
+    const handlePageClick = (data: { selected: any; }) => {
+        let selected = data.selected;
+        let offset = Math.ceil(selected * BOOKS_PAGE_SIZE);
+        fetchMore({
+            variables: {
+                offset: offset
+            }, updateQuery: (prev, { fetchMoreResult }) => {
+                return fetchMoreResult ? fetchMoreResult : prev;
+            }
+        })
+    };
     return (
         <>
             <CreateShelfModal />
@@ -58,20 +110,14 @@ export default function BookshelvesTemplate({ librarySelections,
                         </div>
                     </nav>
                     <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-                        <BookList {...{ queryFilter }} />
+                        <BookList books={books} />
                     </div>
                     <Pagination
+                        handlePageClick={handlePageClick}
                         totalPages={totalPages}
                     // currentPage={currentPage}
                     // setCurrentPage={setCurrentPage}
                     />
-
-                    {/* List View */}
-                    {/* <div>
-              {booksData.map((book) => {
-                return <MyBooksCard book={book} />;
-              })}
-            </div> */}
                 </div>
                 <CreateShelfModal />
             </div></>

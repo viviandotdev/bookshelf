@@ -5,12 +5,10 @@ import { Icons } from "./icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { toast } from "@/hooks/use-toast";
 import {
     Book,
     UserBookShelves,
@@ -23,7 +21,8 @@ import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-mo
 import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
 import { decrementShelfCount } from "@/stores/shelf-slice";
-// import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -40,6 +39,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     setOpenDropdown
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
+    const router = useRouter();
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [rating, setRating] = useState(0); // Initial value

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import {
+    UserBook,
     UserBooksQueryVariables,
     useUserBooksLazyQuery,
 } from "../../../../graphql/graphql";
@@ -10,52 +11,11 @@ import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import * as R from "ramda";
 import Book from "../../../components/book";
 interface BookListProps {
-    queryFilter: UserBooksQueryVariables;
+    books: UserBook[];
 }
 
-const BookList: React.FC<BookListProps> = ({ queryFilter }) => {
-    const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
-        useUserBooksLazyQuery({
-            fetchPolicy: "cache-and-network",
-            nextFetchPolicy: "cache-first",
-            notifyOnNetworkStatusChange: true,
-            onError: (error) => {
-                toast({
-                    title: error.message,
-                    variant: "destructive",
-                });
-            },
-            onCompleted: (data) => {
-                console.log("data", data.userBooks);
-                if (data && data.userBooks && data.userBooks.length === 0) {
-                    toast({
-                        title: "No books are here... yet",
-                        variant: "destructive",
-                    });
-                }
-            },
-            errorPolicy: "all",
-        });
+const BookList: React.FC<BookListProps> = ({ books }) => {
 
-    const books = booksData && booksData?.userBooks;
-    const loading = networkStatus === NetworkStatus.loading;
-    const first = books && books.length && books[0].id;
-    const last = books && books.length && books[books.length - 1].id;
-    const loadMoreLoading = networkStatus === NetworkStatus.fetchMore;
-    useEffect(() => {
-        const loadData = async () => {
-            const pagedQueryFilter = R.mergeRight(queryFilter, {
-                offset: 0,
-                limit: BOOKS_PAGE_SIZE,
-            });
-            await loadBooks({ variables: { ...pagedQueryFilter } });
-        };
-
-        loadData();
-    }, [queryFilter, loadBooks]);
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <>

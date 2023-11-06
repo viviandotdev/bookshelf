@@ -6,9 +6,11 @@ export const BASE_URL =
     ? "http://localhost:3000"
     : "https://deplyed-url.com";
 
-export const BOOKS_PAGE_SIZE = 10;
+export const BOOKS_PAGE_SIZE = 15;
 export const REVIEWS_PAGE_SIZE = 20;
+export const RESULTS_PAGE_SIZE = 20;
 export const BOOKS_FETCH_MORE_INTERVAL = 15; // seconds
+export const RESULTS_FETCH_MORE_INTERVAL = 20;
 export const REVIEWS_FETCH_MORE_INTERVAL = 15;
 
 export const MONTH = [
