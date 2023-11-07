@@ -137,7 +137,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className={`${status === "Read" && "bg-accent text-primary"}`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Read");
                         }}
                     >
@@ -151,7 +152,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
                             onUpdate("Abandoned");
                         }}
                     >
-                        <Icons.read className="h-5 w-5 mr-2" />
+                        <Icons.abondoned className="h-5 w-5 mr-2" />
                         Abaondoned
                     </DropdownMenuItem>
                     <DropdownMenuSeparator></DropdownMenuSeparator>

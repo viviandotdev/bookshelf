@@ -42,7 +42,6 @@ export const Book: React.FC<BookProps> = ({
                 >
                     {
                         <BookCover
-
                             src={book && book.coverImage ? book.coverImage : null}
                             size={"dynamic"}
                         />
