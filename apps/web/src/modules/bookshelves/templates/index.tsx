@@ -36,6 +36,10 @@ export default function BookshelvesTemplate({ librarySelections,
     const dispatch = useAppDispatch();
     const router = useRouter();
     const params = useSearchParams();
+    useEffect(() => {
+        // setTotalPages();
+        // to get more specific query the counts of a filter
+    }, [params])
     const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
         useUserBooksLazyQuery({
             fetchPolicy: "cache-and-network",

@@ -4,6 +4,7 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import { UserBook } from "../../graphql/graphql";
+import { useRouter } from "next/navigation";
 
 interface BookProps {
     details?: {
@@ -19,6 +20,7 @@ export const Book: React.FC<BookProps> = ({
     details,
     responsive,
 }) => {
+    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -33,6 +35,10 @@ export const Book: React.FC<BookProps> = ({
                 setOpenMenu(false);
                 setIsHovered(false);
             }}
+            onClick={() => {
+                router.push(`/book/${book!.id}`)
+            }
+            }
         >
             <div className={`flex-row cursor-pointer `}>
                 <div>
