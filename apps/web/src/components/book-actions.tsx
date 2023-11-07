@@ -96,14 +96,16 @@ export const BookActions: React.FC<BookActionsProps> = ({
             <DropdownMenu open={openDropdown} modal={false}>
                 <DropdownMenuTrigger
                     asChild
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         setOpenDropdown(!openDropdown);
                     }}
                 >
                     <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    onMouseLeave={() => {
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
                         setOpenDropdown(false);
                     }}
                     align={"start"}
@@ -114,7 +116,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     <DropdownMenuItem
                         className={`${status === "Want to Read" && "bg-accent text-primary"
                             }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Want to Read");
                         }}
                     >
@@ -124,7 +127,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     <DropdownMenuItem
                         className={`${status === "Currently Reading" && "bg-accent text-primary"
                             }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Currently Reading");
                         }}
                     >
@@ -142,7 +146,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className={`${status === "Abandoned" && "bg-accent text-primary"}`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Abandoned");
                         }}
                     >
@@ -166,7 +171,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     {status == "Currently Reading" && (
                         <DropdownMenuItem
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
@@ -179,7 +185,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     )}
 
                     <DropdownMenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             setOpenAlert(true);
                         }}
                     >
