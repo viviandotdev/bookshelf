@@ -72,7 +72,7 @@ export function ContentNav({
                     </button>
                 </div>
                 <div className="flex text-sm gap-2 items-center">
-                    {showSearch && <SearchInput />}
+                    {/* {showSearch && <SearchInput />} */}
                     {showSort && <SortingOptions />}
                 </div>
             </div>

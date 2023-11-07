@@ -14,7 +14,7 @@ import { Shelf } from "../../../../graphql/graphql";
 import { useSession } from "next-auth/react";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
-import { updateSelected } from "@/stores/shelf-slice";
+import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
 
 interface ShelfActionsProps {
     shelf: Shelf;
@@ -26,9 +26,9 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     shelf,
     isShelves,
     setOpenAlert,
+
 }) => {
     // const { selected } = useShelves();
-
     const shelfModal = useCreateShelfModal();
     const dispatch = useAppDispatch();
     const selected = useAppSelector((state) => state.shelf.selected);
@@ -47,6 +47,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
         const updatedQuery: any = {
             ...currentQuery,
             shelf: shelf.name,
+            page: 1,
         };
 
         if (params?.get("shelf") === shelf.name) {
@@ -60,6 +61,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
             },
             { skipNull: true }
         );
+        dispatch(setCurrentPage(0))
         router.push(url);
     }, [shelf, router, params, session]);
 

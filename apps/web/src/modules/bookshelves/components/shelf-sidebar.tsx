@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { Shelf } from "../../../../graphql/graphql";
 import ShelfGroup from "./shelf-group";
 import { useAppDispatch, useAppSelector } from "@/stores";
-import { initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";
+import { initLibrary, initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";
 import { update } from "ramda";
 
 interface SidebarProps {
@@ -17,12 +17,15 @@ const SideBar: React.FC<SidebarProps> = ({
     shelfSelections,
 }) => {
     const shelves = useAppSelector(selectShelves)
+    const library = useAppSelector((state) => state.shelf.library);
     const dispath = useAppDispatch();
+
     // const updateSelected = useShelves((state) => state.updateSelected);
     // const initShelves = useShelves((state) => state.initShelves);
 
     const params = useSearchParams();
     const shelf = params?.get("shelf");
+
 
     useEffect(() => {
         if (shelf) {
@@ -33,6 +36,7 @@ const SideBar: React.FC<SidebarProps> = ({
 
         }
         dispath(initShelves(shelfSelections));
+        dispath(initLibrary(librarySelections));
     }, []);
 
     return (
@@ -41,7 +45,7 @@ const SideBar: React.FC<SidebarProps> = ({
                 <ShelfGroup
                     key={0}
                     title="Library"
-                    shelves={librarySelections}
+                    shelves={library}
                     isShelves={false}
                 />
 

@@ -67,12 +67,22 @@ export class UserBookService {
 
   async count(args: { where: Prisma.UserBookWhereInput; userId: string }) {
     const { userId } = args;
+
     const userBooksCount = await this.repository.count({
       where: {
         ...args.where,
         userId,
       },
     });
+    const unshelvedBooks = await this.repository.count({
+      where: {
+        shelves: {
+          none: {}, // Checks if the shelves array is empty
+        },
+        userId,
+      },
+    });
+    console.log(`Number of unshelved user books: ${unshelvedBooks}`);
     return userBooksCount;
   }
 

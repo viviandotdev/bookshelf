@@ -4,6 +4,7 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import { UserBook } from "../../graphql/graphql";
+import { useRouter } from "next/navigation";
 
 interface BookProps {
     details?: {
@@ -19,6 +20,7 @@ export const Book: React.FC<BookProps> = ({
     details,
     responsive,
 }) => {
+    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -33,11 +35,14 @@ export const Book: React.FC<BookProps> = ({
                 setOpenMenu(false);
                 setIsHovered(false);
             }}
+
         >
             <div className={`flex-row cursor-pointer `}>
-                <div>
+                <div
+                >
                     {
                         <BookCover
+
                             src={book && book.coverImage ? book.coverImage : null}
                             size={"dynamic"}
                         />
@@ -52,26 +57,39 @@ export const Book: React.FC<BookProps> = ({
                 )}
             </div>
 
-            <div
-                className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"
-                    } flex inset-2 items-end justify-center opacity-90 absolute`}
-            >
-                <div className="flex-col justify-end">
-                    <div
-                        onMouseLeave={() => {
-                            setOpenMenu(false);
-                            setOpenDropdown(false);
-                        }}
-                        className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
-                    >
-                        <Icons.book className="cursor-pointer h-6 w-6 text-primary" />
-                        <Icons.heart className="cursor-pointer h-6 w-6 text-primary" />
-                        <BookActions openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} bookStatus={status} book={book!} shelves={shelves!} />
-                    </div>
+            {bookActions()}
+        </div >
+    );
+
+    function bookActions() {
+        return <div
+            className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
+            onClick={() => {
+                router.push(`/book/${book?.id}`);
+
+            }}
+        >
+            <div className="flex-col justify-end" onClick={(e) => {
+                e.stopPropagation();
+            }}>
+                <div
+                    onMouseLeave={() => {
+                        setOpenMenu(false);
+                        setOpenDropdown(false);
+                    }}
+                    className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
+                >
+                    <Icons.book className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                        e.stopPropagation();
+                    }} />
+                    <Icons.heart className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                        e.stopPropagation();
+                    }} />
+                    <BookActions openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} bookStatus={status} book={book!} shelves={shelves!} />
                 </div>
             </div>
-        </div>
-    );
+        </div>;
+    }
 };
 
 interface BookDetailsProps {

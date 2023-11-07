@@ -5,12 +5,10 @@ import { Icons } from "./icons";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { toast } from "@/hooks/use-toast";
 import {
     Book,
     UserBookShelves,
@@ -22,8 +20,9 @@ import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
-import { decrementShelfCount } from "@/stores/shelf-slice";
-// import { JouranlEntryModal } from "@/components/modals/journal-entry-modal";
+import { decrementLibraryCount, decrementShelfCount } from "@/stores/shelf-slice";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -40,6 +39,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
     setOpenDropdown
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
+    const router = useRouter();
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [rating, setRating] = useState(0); // Initial value
@@ -67,10 +67,12 @@ export const BookActions: React.FC<BookActionsProps> = ({
             deletedBook.shelves.map((item) => {
                 dispatch(decrementShelfCount({ name: item.shelf.name }))
             })
+        } else {
+            dispatch(decrementLibraryCount({ name: "Unshelved" }))
         }
+        dispatch(decrementLibraryCount({ name: "All" }))
         setIsLoading(false);
         setOpenAlert(false);
-
     };
 
     return (
@@ -94,14 +96,16 @@ export const BookActions: React.FC<BookActionsProps> = ({
             <DropdownMenu open={openDropdown} modal={false}>
                 <DropdownMenuTrigger
                     asChild
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
                         setOpenDropdown(!openDropdown);
                     }}
                 >
                     <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    onMouseLeave={() => {
+                    onMouseLeave={(e) => {
+                        e.stopPropagation();
                         setOpenDropdown(false);
                     }}
                     align={"start"}
@@ -112,7 +116,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     <DropdownMenuItem
                         className={`${status === "Want to Read" && "bg-accent text-primary"
                             }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Want to Read");
                         }}
                     >
@@ -122,7 +127,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     <DropdownMenuItem
                         className={`${status === "Currently Reading" && "bg-accent text-primary"
                             }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Currently Reading");
                         }}
                     >
@@ -140,7 +146,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         className={`${status === "Abandoned" && "bg-accent text-primary"}`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onUpdate("Abandoned");
                         }}
                     >
@@ -164,7 +171,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     {status == "Currently Reading" && (
                         <DropdownMenuItem
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
@@ -177,7 +185,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     )}
 
                     <DropdownMenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             setOpenAlert(true);
                         }}
                     >

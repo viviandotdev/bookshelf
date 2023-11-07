@@ -1,5 +1,3 @@
-// BookCover.tsx
-
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
 import Image from "next/image";
 
