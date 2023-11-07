@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 
-import { Shelf, useUserBooksLazyQuery } from "../../../../graphql/graphql";
+import { Shelf, useCountUserBooksLazyQuery, useCountUserBooksQuery, useUserBooksLazyQuery } from "../../../../graphql/graphql";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";
@@ -31,15 +31,18 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const queryFilter = useBookFilters();
     // loook at query params to set total pages
-    const [totalPages, setTotalPages] = React.useState(librarySelections[0]._count.userBooks / BOOKS_PAGE_SIZE);
+    const [totalPages, setTotalPages] = useState(0);
     const { data: session, status } = useSession();
     const dispatch = useAppDispatch();
     const router = useRouter();
     const params = useSearchParams();
-    useEffect(() => {
-        // setTotalPages();
-        // to get more specific query the counts of a filter
-    }, [params])
+
+    const [getCount] = useCountUserBooksLazyQuery({
+        onCompleted: (data) => {
+            setTotalPages(data!.countUserBooks / BOOKS_PAGE_SIZE)
+        }
+    });
+
     const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
         useUserBooksLazyQuery({
             fetchPolicy: "cache-and-network",
@@ -74,6 +77,7 @@ export default function BookshelvesTemplate({ librarySelections,
                 limit: BOOKS_PAGE_SIZE,
             });
             await loadBooks({ variables: { ...pagedQueryFilter } });
+            await getCount({ variables: { ...queryFilter } });
         };
 
         loadData();
@@ -81,7 +85,6 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const handlePageClick = (data: { selected: any; }) => {
         let selected = data.selected;
-        console.log(selected)
         dispatch(setCurrentPage(selected))
         let currentQuery = {};
         if (params) {
