@@ -20,8 +20,9 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import { Button } from "../../../components/ui/button";
 import useUserBook from "@/stores/use-user-book";
 import { useAppDispatch, useAppSelector } from "@/stores";
-import { incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
+import { decrementLibraryCount, decrementShelfCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { getApolloClient } from "@/lib/apollo";
 
 interface AddToShelfModalProps { }
 
@@ -29,7 +30,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
     const dispatch = useAppDispatch();
     const shelves = useAppSelector(selectShelves)
-
+    const client = getApolloClient();
     const userBook = useUserBook();
     const { updateUserBook } = useUpdateUserBook();
 
@@ -57,9 +58,22 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     async function onSubmit({ shelves }: DisplayFormValues) {
         const updatedBook = await updateUserBook(userBook.bookId, { shelves });
         if (updatedBook) {
+            if (userBook.shelves.length == 0) {
+                dispatch(decrementLibraryCount({ name: "Unshelved" }))
+            }
+            // should only increment shelves that are new
             shelves.map((item) => {
-                dispatch(incrementShelfCount({ name: item }))
+                if (!userBook.shelves.map((item) => item.shelf.name).includes(item)) {
+                    dispatch(incrementShelfCount({ name: item }))
+                }
             });
+            // should decrement unselected shelves
+            userBook.shelves.map((item) => {
+                if (!shelves.includes(item.shelf.name)) {
+                    dispatch(decrementShelfCount({ name: item.shelf.name }))
+                }
+            })
+            console.log(client.cache);
             toast({
                 title: `Sucessfully shelved book`,
             });

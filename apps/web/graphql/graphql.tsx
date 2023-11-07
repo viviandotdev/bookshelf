@@ -612,7 +612,7 @@ export type QueryCountJournalEntriesArgs = {
 
 
 export type QueryCountUserBooksArgs = {
-  where?: InputMaybe<UserBookWhereInput>;
+  where?: InputMaybe<WhereUserBookInput>;
 };
 
 
@@ -636,7 +636,7 @@ export type QueryUserBookArgs = {
 export type QueryUserBooksArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
-  where?: InputMaybe<UserBookWhereInput>;
+  where?: InputMaybe<WhereUserBookInput>;
 };
 
 export enum QueryMode {
@@ -1704,6 +1704,19 @@ export type UserWhereUniqueInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
+export type WhereUserBookInput = {
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<StringFilter>;
+  dataAdded?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
+  rating?: InputMaybe<IntFilter>;
+  shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
+  status?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
 export type SignInMutationVariables = Exact<{
   input: LogInInput;
 }>;
@@ -1780,7 +1793,7 @@ export type RemoveUserBookMutationVariables = Exact<{
 }>;
 
 
-export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
+export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', id: string, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1823,7 +1836,7 @@ export type UserBookQueryVariables = Exact<{
 export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string } | null };
 
 export type UserBooksQueryVariables = Exact<{
-  where?: InputMaybe<UserBookWhereInput>;
+  where?: InputMaybe<WhereUserBookInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 }>;
@@ -1832,7 +1845,7 @@ export type UserBooksQueryVariables = Exact<{
 export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageNum?: number | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
-  where?: InputMaybe<UserBookWhereInput>;
+  where?: InputMaybe<WhereUserBookInput>;
 }>;
 
 
@@ -2202,6 +2215,7 @@ export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUse
 export const RemoveUserBookDocument = gql`
     mutation RemoveUserBook($where: BookWhereUniqueInput!) {
   removeUserBook(where: $where) {
+    id
     shelves {
       shelf {
         name
@@ -2478,7 +2492,7 @@ export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const UserBooksDocument = gql`
-    query UserBooks($where: UserBookWhereInput, $limit: Int! = 20, $offset: Int! = 0) {
+    query UserBooks($where: WhereUserBookInput, $limit: Int! = 100, $offset: Int! = 0) {
   userBooks(where: $where, offset: $offset, limit: $limit) {
     userId
     bookId
@@ -2531,7 +2545,7 @@ export type UserBooksQueryHookResult = ReturnType<typeof useUserBooksQuery>;
 export type UserBooksLazyQueryHookResult = ReturnType<typeof useUserBooksLazyQuery>;
 export type UserBooksQueryResult = Apollo.QueryResult<UserBooksQuery, UserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
-    query CountUserBooks($where: UserBookWhereInput) {
+    query CountUserBooks($where: WhereUserBookInput) {
   countUserBooks(where: $where)
 }
     `;

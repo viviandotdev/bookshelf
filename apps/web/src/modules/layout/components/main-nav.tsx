@@ -17,7 +17,8 @@ interface MainNavProps {
 }
 
 export function MainNav({ children }: MainNavProps) {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+
     const segment = useSelectedLayoutSegment();
     const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
     const items = [
@@ -34,6 +35,13 @@ export function MainNav({ children }: MainNavProps) {
             href: "/browse",
         },
     ]
+    if (status == "loading") {
+        return (
+            <>
+                <div>Loading...</div>
+            </>
+        );
+    }
     return (
         <div className="flex gap-6 md:gap-10">
             <Link href="/" className="hidden items-center space-x-2 md:flex">

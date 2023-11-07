@@ -20,7 +20,7 @@ import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
-import { decrementShelfCount } from "@/stores/shelf-slice";
+import { decrementLibraryCount, decrementShelfCount } from "@/stores/shelf-slice";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 interface BookActionsProps {
@@ -67,10 +67,12 @@ export const BookActions: React.FC<BookActionsProps> = ({
             deletedBook.shelves.map((item) => {
                 dispatch(decrementShelfCount({ name: item.shelf.name }))
             })
+        } else {
+            dispatch(decrementLibraryCount({ name: "Unshelved" }))
         }
+        dispatch(decrementLibraryCount({ name: "All" }))
         setIsLoading(false);
         setOpenAlert(false);
-
     };
 
     return (

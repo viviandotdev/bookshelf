@@ -6,18 +6,25 @@ import { RootState } from ".";
 interface ShelfState {
   selected: string;
   shelves: Shelf[];
+  library: Shelf[];
+  currentPage: number;
 }
 
 // Define the initial state using that type
 const initialState: ShelfState = {
   selected: "",
+  currentPage: 0,
   shelves: [],
+  library: [],
 };
 
 const shelvesSlice = createSlice({
   name: "shelves",
   initialState,
   reducers: {
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
     updateSelected: (state, action) => {
       state.selected = action.payload;
     },
@@ -34,6 +41,20 @@ const shelvesSlice = createSlice({
         shelf.name = name;
       }
     },
+    decrementLibraryCount: (state, action) => {
+      const { name } = action.payload;
+      const shelf = state.library.find((s) => s.name === name);
+      if (shelf) {
+        shelf._count.userBooks -= 1;
+      }
+    },
+    incrementLibraryCount: (state, action) => {
+      const { name } = action.payload;
+      const shelf = state.library.find((s) => s.name === name);
+      if (shelf) {
+        shelf._count.userBooks += 1;
+      }
+    },
     decrementShelfCount: (state, action) => {
       const { name } = action.payload;
       const shelf = state.shelves.find((s) => s.name === name);
@@ -48,6 +69,9 @@ const shelvesSlice = createSlice({
         shelf._count.userBooks += 1;
       }
     },
+    initLibrary: (state, action) => {
+      state.library = action.payload;
+    },
     initShelves: (state, action) => {
       state.shelves = action.payload;
     },
@@ -61,7 +85,11 @@ export const {
   renameShelf,
   incrementShelfCount,
   decrementShelfCount,
+  decrementLibraryCount,
+  incrementLibraryCount,
   initShelves,
+  initLibrary,
+  setCurrentPage,
 } = shelvesSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
