@@ -36,7 +36,7 @@ export const Book: React.FC<BookProps> = ({
     const { removeUserBook } = useRemoveUserBook();
     const dispatch = useAppDispatch();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
-    const [rating, setRating] = useState(0); // Initial value
+    const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [currentProgress, setCurrentProgress] = useState({
         originalPage: 0,
         originalPercent: 0,
@@ -111,7 +111,7 @@ export const Book: React.FC<BookProps> = ({
                 )}
             </div>
             {bookActions()}
-        </div >
+        </div>
     );
 
     function bookActions() {

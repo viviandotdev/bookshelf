@@ -15,6 +15,7 @@ query UserBooks(
     userId
     bookId
     status
+    rating
     book {
       id
       title

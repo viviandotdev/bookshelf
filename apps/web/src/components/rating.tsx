@@ -1,3 +1,4 @@
+import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { Rating, Star } from "@smastrom/react-rating";
 
 
@@ -9,13 +10,21 @@ const myStyles = {
 
 
 interface BookRatingProps {
+    bookId: string;
     rating: number;
     setRating: (rating: number) => void;
 }
 
 // Book Rating Component
-export function BookRating({ rating, setRating }: BookRatingProps) {
+export function BookRating({ rating, setRating, bookId }: BookRatingProps) {
     // get the userbook context
+    const { updateUserBook } = useUpdateUserBook();
+    async function updateRating(selectedValue: number) {
+        const updatedBook = await updateUserBook(bookId, { rating: selectedValue });
+        if (updatedBook) {
+            setRating(selectedValue);
+        }
+    }
 
     return (
         <div className="flex justify-end items-center gap-2">
@@ -25,7 +34,7 @@ export function BookRating({ rating, setRating }: BookRatingProps) {
                 itemStyles={myStyles}
                 style={{ maxWidth: 100 }}
                 value={rating}
-                onChange={setRating}
+                onChange={updateRating}
             />
         </div>
     );

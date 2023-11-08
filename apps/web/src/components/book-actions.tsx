@@ -96,7 +96,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     ))}
                     <DropdownMenuSeparator></DropdownMenuSeparator>
                     <DropdownMenuItem>
-                        <BookRating rating={rating} setRating={setRating} />
+                        <BookRating bookId={book.id} rating={rating} setRating={setRating} />
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
