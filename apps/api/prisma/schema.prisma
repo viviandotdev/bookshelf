@@ -53,12 +53,13 @@ model User {
     //  One to Many: one user has many shelves
     shelves            Shelf[]
     JournalEntry       JournalEntry[]
+    favoriteBooks      Book[]         @relation("FavoritedBooks")
 }
 
 // Table stores all books
 model Book {
     /// @Validator.IsString()
-    id          String     @unique
+    id          String     @id @unique
     /// @Validator.IsString()
     title       String
     /// @Validator.IsString()
@@ -78,6 +79,7 @@ model Book {
     // One to Many: multiple users can own the same book
     /// @Validator.ValidateNested()
     userBook    UserBook[]
+    favoritedBy User[]     @relation("FavoritedBooks")
 }
 
 // Table stores all user books
