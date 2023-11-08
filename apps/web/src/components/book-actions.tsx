@@ -113,7 +113,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-
                     {BOOK_STATUSES.map(item => (
                         <DropdownMenuItem
                             className={`${status === item.name && "bg-accent text-primary"
