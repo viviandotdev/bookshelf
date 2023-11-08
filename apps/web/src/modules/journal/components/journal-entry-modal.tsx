@@ -6,6 +6,7 @@ import { useGetMostRecentJournalEntryQuery } from "../../../../graphql/graphql";
 import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useGetMostRecentJournalEntry } from "../hooks/useMostRecentEntry";
 
 interface JouranlEntryModalProps {
     isOpen: boolean;

@@ -1,5 +1,4 @@
 import React from "react";
-import BookCover from "./book-cover";
 import { Icons } from "./icons";
 import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,6 +20,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
     heading,
     details,
 }) => {
+    console.log(booksData)
     return (
         <>
             {heading && (
@@ -33,10 +33,11 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                 </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-                {booksData.map((book, idx) => (
+                {booksData && booksData.map((book, idx) => (
                     <>
+                        {/* {book.book?.title} */}
                         {/* Cover View */}
-                        <Book book={book} details={details} responsive />
+                        <Book userBook={book} details={details} responsive />
                         {/* Responsive View */}
                         <div className="flex flex-col md:hidden">
                             <div className="pt-4">

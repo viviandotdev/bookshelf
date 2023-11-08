@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { UserBook } from "../../graphql/graphql";
+import { UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
 import { useRouter } from "next/navigation";
 
 interface BookProps {
@@ -25,6 +25,36 @@ export const Book: React.FC<BookProps> = ({
     const [openMenu, setOpenMenu] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves, status } = userBook;
+    const [currentProgress, setCurrentProgress] = useState({
+        originalPage: 0,
+        originalPercent: 0,
+        page: 0,
+        percent: 0,
+    });
+    useGetMostRecentJournalEntryQuery({
+        variables: {
+            book: {
+                id: book!.id,
+            },
+        },
+        onCompleted(data) {
+            if (data.getMostRecentJournalEntry) {
+                setCurrentProgress({
+                    originalPage: data.getMostRecentJournalEntry.currentPage || 0,
+                    originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
+                    page: data.getMostRecentJournalEntry.currentPage || 0,
+                    percent: data.getMostRecentJournalEntry.currentPercent || 0,
+                });
+            } else {
+                setCurrentProgress({
+                    originalPage: 0,
+                    originalPercent: 0,
+                    page: 0,
+                    percent: 0,
+                });
+            }
+        },
+    });
     return (
         <div
             className={`${responsive && "hidden md:block"
@@ -50,7 +80,7 @@ export const Book: React.FC<BookProps> = ({
                 </div>
                 {details && (
                     <BookDetails
-                        progress={details.progress}
+                        progress={currentProgress.percent}
                         dateStarted={details.date_started}
                     />
                 )}

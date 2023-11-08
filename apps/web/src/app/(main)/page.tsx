@@ -6,7 +6,12 @@ import MarketingTemplate from "@/modules/marketing/templates";
 export default async function IndexPage() {
     const user = await getCurrentUser();
     if (user) {
-        const currentlyReading = await getUserBooks();
+        const currentlyReading = await getUserBooks({
+            status: {
+                equals: "Currently Reading"
+            }
+        });
+        
         return <HomeTemplate currentlyReading={currentlyReading} />;
     }
     else {

@@ -9,7 +9,6 @@ interface HomeTemplateProps {
 }
 
 export default function HomeTemplate({ currentlyReading }: HomeTemplateProps) {
-
     const headings = [
         "New York Times Bestsellers",
         "Most Recommended Non-Fiction Books",
@@ -41,10 +40,10 @@ export default function HomeTemplate({ currentlyReading }: HomeTemplateProps) {
             </section>
             <section className="container space-y-4 ">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>Up Next</h1>
-                {/* <BooksSection
-          details={{ progress: 90, date_started: "Sept 12" }}
-          booksData={booksData}
-        /> */}
+                {/* {<BooksSection
+                    details={{ progress: 90, date_started: "Sept 12" }}
+                    booksData={currentlyReading}
+                />} */}
             </section>
             <section className="container space-y-4 ">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
