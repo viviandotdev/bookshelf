@@ -37,7 +37,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                     <>
                         {/* {book.book?.title} */}
                         {/* Cover View */}
-                        <Book userBook={book} details={details} responsive />
+                        <Book userBook={book} details={details} responsive showRemoveBook={false} />
                         {/* Responsive View */}
                         <div className="flex flex-col md:hidden">
                             <div className="pt-4">

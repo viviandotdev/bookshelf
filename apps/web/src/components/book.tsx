@@ -18,12 +18,14 @@ interface BookProps {
     };
     userBook: UserBook;
     responsive?: boolean;
+    showRemoveBook?: boolean;
 }
 
 export const Book: React.FC<BookProps> = ({
     userBook,
     details,
     responsive,
+    showRemoveBook
 }) => {
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
@@ -166,7 +168,9 @@ export const Book: React.FC<BookProps> = ({
                             setStatus={setStatus} book={book!}
                             setRating={setRating}
                             rating={rating}
-                            shelves={shelves!} />
+                            shelves={shelves!}
+                            showRemoveBook={showRemoveBook}
+                        />
                     </div>
                 </div>
             </div>

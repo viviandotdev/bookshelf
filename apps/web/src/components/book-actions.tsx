@@ -30,6 +30,7 @@ interface BookActionsProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+    showRemoveBook?: boolean
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -42,7 +43,8 @@ const BookActions: React.FC<BookActionsProps> = ({
     setOpenModal,
     setRating,
     rating,
-    setOpenDropdown
+    setOpenDropdown,
+    showRemoveBook
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
@@ -123,15 +125,17 @@ const BookActions: React.FC<BookActionsProps> = ({
                         </DropdownMenuItem>
                     )}
 
-                    <DropdownMenuItem
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenAlert(true);
-                        }}
-                    >
-                        <Icons.delete className="h-5 w-5 mr-2" />
-                        Remove...
-                    </DropdownMenuItem>
+                    {showRemoveBook &&
+                        <DropdownMenuItem
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenAlert(true);
+                            }}
+                        >
+                            <Icons.delete className="h-5 w-5 mr-2" />
+                            Remove...
+                        </DropdownMenuItem>
+                    }
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
