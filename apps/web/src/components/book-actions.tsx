@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { BookRating } from "./book-card";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -23,6 +22,7 @@ import { useAppDispatch } from "@/stores";
 import { decrementLibraryCount, decrementShelfCount } from "@/stores/shelf-slice";
 import { BOOK_STATUSES } from "@/lib/constants";
 import DynamicIcon from "./icon";
+import { BookRating } from "./rating";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -41,10 +41,10 @@ const BookActions: React.FC<BookActionsProps> = ({
     const jouranlEntryModal = useJournalEntryModal();
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const [rating, setRating] = useState(0); // Initial value
     const addToShelfModal = useAddToShelfModal();
     const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState(bookStatus ? bookStatus : "");
+    const [rating, setRating] = useState(0); // Initial value
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
