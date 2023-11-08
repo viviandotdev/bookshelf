@@ -16,7 +16,6 @@ interface BookRatingProps {
 // Book Rating Component
 export function BookRating({ rating, setRating }: BookRatingProps) {
     // get the userbook context
-    // each on change will update the databases of this book with new rating
 
     return (
         <div className="flex justify-end items-center gap-2">
