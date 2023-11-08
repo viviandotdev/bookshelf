@@ -612,7 +612,7 @@ export type QueryCountJournalEntriesArgs = {
 
 
 export type QueryCountUserBooksArgs = {
-  where?: InputMaybe<WhereUserBookInput>;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 
@@ -636,7 +636,7 @@ export type QueryUserBookArgs = {
 export type QueryUserBooksArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
-  where?: InputMaybe<WhereUserBookInput>;
+  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export enum QueryMode {
@@ -1704,19 +1704,6 @@ export type UserWhereUniqueInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
-export type WhereUserBookInput = {
-  book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
-  dataAdded?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<StringFilter>;
-  journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
-  rating?: InputMaybe<IntFilter>;
-  shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
-  status?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
 export type SignInMutationVariables = Exact<{
   input: LogInInput;
 }>;
@@ -1836,7 +1823,7 @@ export type UserBookQueryVariables = Exact<{
 export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string } | null };
 
 export type UserBooksQueryVariables = Exact<{
-  where?: InputMaybe<WhereUserBookInput>;
+  where?: InputMaybe<UserBookWhereInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
 }>;
@@ -1845,7 +1832,7 @@ export type UserBooksQueryVariables = Exact<{
 export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', userId: string, bookId: string, status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageNum?: number | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null }> | null };
 
 export type CountUserBooksQueryVariables = Exact<{
-  where?: InputMaybe<WhereUserBookInput>;
+  where?: InputMaybe<UserBookWhereInput>;
 }>;
 
 
@@ -2492,7 +2479,7 @@ export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const UserBooksDocument = gql`
-    query UserBooks($where: WhereUserBookInput, $limit: Int! = 100, $offset: Int! = 0) {
+    query UserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0) {
   userBooks(where: $where, offset: $offset, limit: $limit) {
     userId
     bookId
@@ -2545,7 +2532,7 @@ export type UserBooksQueryHookResult = ReturnType<typeof useUserBooksQuery>;
 export type UserBooksLazyQueryHookResult = ReturnType<typeof useUserBooksLazyQuery>;
 export type UserBooksQueryResult = Apollo.QueryResult<UserBooksQuery, UserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
-    query CountUserBooks($where: WhereUserBookInput) {
+    query CountUserBooks($where: UserBookWhereInput) {
   countUserBooks(where: $where)
 }
     `;

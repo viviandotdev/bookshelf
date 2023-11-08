@@ -5,10 +5,10 @@ import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
-import { Book as BookData } from "../../graphql/graphql";
+import { Book as BookData, UserBook } from "../../graphql/graphql";
 
 interface BooksSectionProps {
-    booksData: BookData[];
+    booksData: UserBook[];
     heading?: string;
     details?: {
         progress: number;

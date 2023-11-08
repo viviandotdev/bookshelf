@@ -7,7 +7,7 @@ query UserBook($where: BookWhereUniqueInput!) {
 }
 
 query UserBooks(
-  $where: WhereUserBookInput
+  $where: UserBookWhereInput
   $limit: Int! = 100
   $offset: Int! = 0
 ) {
@@ -32,6 +32,6 @@ query UserBooks(
   }
 }
 
-query CountUserBooks($where: WhereUserBookInput) {
+query CountUserBooks($where: UserBookWhereInput) {
   countUserBooks(where: $where)
 }

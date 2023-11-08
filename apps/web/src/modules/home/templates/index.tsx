@@ -2,10 +2,14 @@ import { BooksSection } from "@/components/books-section";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { UserBook } from "../../../../graphql/graphql";
 
-interface HomeTemplateProps { }
+interface HomeTemplateProps {
+    currentlyReading: UserBook[];
+}
 
-export const HomeTemplate: React.FC<HomeTemplateProps> = ({ }) => {
+export default function HomeTemplate({ currentlyReading }: HomeTemplateProps) {
+
     const headings = [
         "New York Times Bestsellers",
         "Most Recommended Non-Fiction Books",
@@ -30,10 +34,10 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ }) => {
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
                     Currently Reading
                 </h1>
-                {/* <BooksSection
-          details={{ progress: 90, date_started: "Sept 12" }}
-          booksData={booksData}
-        /> */}
+                <BooksSection
+                    details={{ progress: 90, date_started: "Sept 12" }}
+                    booksData={currentlyReading}
+                />
             </section>
             <section className="container space-y-4 ">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>Up Next</h1>
@@ -60,4 +64,3 @@ export const HomeTemplate: React.FC<HomeTemplateProps> = ({ }) => {
         </>
     );
 };
-export default HomeTemplate;

@@ -10,7 +10,7 @@ async function bootstrap() {
   const port = configService.get<string>('api.port');
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
+      validationError: { target: false },
       transform: true,
       skipMissingProperties: true,
     }),

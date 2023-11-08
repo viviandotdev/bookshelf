@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
-import { Rating, Star } from "@smastrom/react-rating";
 import { Dot } from "lucide-react";
 import { createContext, useContext } from "react";
 import { BookData } from "@/types/interfaces";
