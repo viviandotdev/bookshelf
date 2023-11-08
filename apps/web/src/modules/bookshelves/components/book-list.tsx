@@ -16,7 +16,6 @@ interface BookListProps {
 
 const BookList: React.FC<BookListProps> = ({ books }) => {
 
-
     return (
         <>
             {books &&

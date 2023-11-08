@@ -21,8 +21,8 @@ import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-mo
 import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
 import { decrementLibraryCount, decrementShelfCount } from "@/stores/shelf-slice";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { BOOK_STATUSES } from "@/lib/constants";
+import DynamicIcon from "./icon";
 interface BookActionsProps {
     bookStatus: string | undefined;
     book: Book | undefined;
@@ -31,7 +31,7 @@ interface BookActionsProps {
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BookActions: React.FC<BookActionsProps> = ({
+const BookActions: React.FC<BookActionsProps> = ({
     bookStatus,
     book,
     shelves,
@@ -39,7 +39,6 @@ export const BookActions: React.FC<BookActionsProps> = ({
     setOpenDropdown
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
-    const router = useRouter();
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [rating, setRating] = useState(0); // Initial value
@@ -74,6 +73,7 @@ export const BookActions: React.FC<BookActionsProps> = ({
         setIsLoading(false);
         setOpenAlert(false);
     };
+
 
     return (
         <>
@@ -113,48 +113,20 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-                    <DropdownMenuItem
-                        className={`${status === "Want to Read" && "bg-accent text-primary"
-                            }`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Want to Read");
-                        }}
-                    >
-                        <Icons.bookPlus className="h-5 w-5 mr-2" />
-                        Want to Read
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Currently Reading" && "bg-accent text-primary"
-                            }`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Currently Reading");
-                        }}
-                    >
-                        <Icons.bookOpen className={`h-5 w-5 mr-2`} />
-                        Currently Reading
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Read" && "bg-accent text-primary"}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Read");
-                        }}
-                    >
-                        <Icons.read className="h-5 w-5 mr-2" />
-                        Read
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Abandoned" && "bg-accent text-primary"}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Abandoned");
-                        }}
-                    >
-                        <Icons.abondoned className="h-5 w-5 mr-2" />
-                        Abaondoned
-                    </DropdownMenuItem>
+
+                    {BOOK_STATUSES.map(item => (
+                        <DropdownMenuItem
+                            className={`${status === item.name && "bg-accent text-primary"
+                                }`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onUpdate(item.name);
+                            }}
+                        >
+                            <DynamicIcon iconName={item.icon} />
+                            {item.name}
+                        </DropdownMenuItem>
+                    ))}
                     <DropdownMenuSeparator></DropdownMenuSeparator>
                     <DropdownMenuItem>
                         <BookRating rating={rating} setRating={setRating} />
@@ -199,4 +171,5 @@ export const BookActions: React.FC<BookActionsProps> = ({
         </>
     );
 };
+
 export default BookActions;
