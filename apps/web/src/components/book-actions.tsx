@@ -102,6 +102,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
+                            // Shelves this part is part of
                             initShelves(shelves!);
                             updateBookId(book!.id);
                             addToShelfModal.onOpen();

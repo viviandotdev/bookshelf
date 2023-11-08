@@ -1,14 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
+import { Shelf, UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
 import { useRouter } from "next/navigation";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
-import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
+import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 
 interface BookProps {
@@ -25,7 +25,7 @@ export const Book: React.FC<BookProps> = ({
     userBook,
     details,
     responsive,
-    showRemoveBook
+    showRemoveBook,
 }) => {
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
@@ -36,7 +36,6 @@ export const Book: React.FC<BookProps> = ({
     const { book, shelves } = userBook;
     const [isLoading, setIsLoading] = useState(false);
     const { removeUserBook } = useRemoveUserBook();
-    const dispatch = useAppDispatch();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [currentProgress, setCurrentProgress] = useState({
@@ -45,6 +44,8 @@ export const Book: React.FC<BookProps> = ({
         page: 0,
         percent: 0,
     });
+    const dispatch = useAppDispatch();
+
 
     const onDelete = async () => {
         setIsLoading(true);

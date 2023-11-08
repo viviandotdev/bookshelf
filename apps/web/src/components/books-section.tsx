@@ -1,10 +1,13 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import { Icons } from "./icons";
 import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
-import { Book as BookData, UserBook } from "../../graphql/graphql";
+import { Shelf, UserBook } from "../../graphql/graphql";
+import { useAppDispatch } from "@/stores";
+import { initShelves } from "@/stores/shelf-slice";
 
 interface BooksSectionProps {
     booksData: UserBook[];
@@ -13,14 +16,20 @@ interface BooksSectionProps {
         progress: number;
         date_started: string;
     };
+    shelves: Shelf[]
 }
 
 export const BooksSection: React.FC<BooksSectionProps> = ({
     booksData,
     heading,
     details,
+    shelves
 }) => {
-    console.log(booksData)
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(initShelves(shelves));
+    }, []);
+
     return (
         <>
             {heading && (

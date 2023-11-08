@@ -15,7 +15,7 @@ type Book {
   categories: String
   coverImage: String
   description: String
-  id: String!
+  id: ID!
   pageNum: Int
   pubDate: String
   publisher: String

@@ -2,13 +2,14 @@ import { BooksSection } from "@/components/books-section";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { UserBook } from "../../../../graphql/graphql";
+import { Shelf, UserBook } from "../../../../graphql/graphql";
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
+    shelves: Shelf[];
 }
 
-export default function HomeTemplate({ currentlyReading }: HomeTemplateProps) {
+export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplateProps) {
     const headings = [
         "New York Times Bestsellers",
         "Most Recommended Non-Fiction Books",
@@ -36,6 +37,7 @@ export default function HomeTemplate({ currentlyReading }: HomeTemplateProps) {
                 <BooksSection
                     details={{ progress: 90, date_started: "Sept 12" }}
                     booksData={currentlyReading}
+                    shelves={shelves}
                 />
             </section>
             <section className="container space-y-4 ">
