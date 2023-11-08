@@ -29,10 +29,10 @@ interface AddToShelfModalProps { }
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
     const dispatch = useAppDispatch();
+    const { updateUserBook } = useUpdateUserBook();
     const shelves = useAppSelector(selectShelves)
     const client = getApolloClient();
     const userBook = useUserBook();
-    const { updateUserBook } = useUpdateUserBook();
 
     const displayFormSchema = z.object({
         shelves: z.array(z.string()).refine((value) => value.some((item) => item), {

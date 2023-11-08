@@ -15,7 +15,7 @@ type Book {
   categories: String
   coverImage: String
   description: String
-  id: String!
+  id: ID!
   pageNum: Int
   pubDate: String
   publisher: String
@@ -507,13 +507,13 @@ type Mutation {
 
 type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
-  countUserBooks(where: WhereUserBookInput): Int!
+  countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(limit: Int! = 20, offset: Int! = 0, where: WhereUserBookInput): [UserBook!]
+  userBooks(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {
@@ -1562,17 +1562,4 @@ input UserWhereUniqueInput {
   updatedAt: DateTimeFilter
   userBooks: UserBookListRelationFilter
   username: String
-}
-
-input WhereUserBookInput {
-  book: BookRelationFilter
-  bookId: StringFilter
-  dataAdded: DateTimeFilter
-  id: StringFilter
-  journalEntry: JournalEntryListRelationFilter
-  rating: IntFilter
-  shelves: UserBookShelvesListRelationFilter
-  status: StringFilter
-  user: UserRelationFilter
-  userId: StringFilter
 }

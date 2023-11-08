@@ -1,12 +1,15 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
-import { BookWhereUniqueInput, UserBook } from '../../src/generated-db-types';
+import {
+  BookWhereUniqueInput,
+  UserBook,
+  UserBookWhereInput,
+} from '../../src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
-import { WhereUserBookInput } from './models/user-book-where.input';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -28,7 +31,7 @@ export class UserBookResolver {
   @Query(() => [UserBook], { nullable: true })
   userBooks(
     @Args('where', { nullable: true })
-    where: WhereUserBookInput,
+    where: UserBookWhereInput,
     @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
     @CurrentUser() user: JwtPayload,
@@ -45,7 +48,7 @@ export class UserBookResolver {
   @Query(() => Int)
   countUserBooks(
     @Args('where', { nullable: true })
-    where: WhereUserBookInput,
+    where: UserBookWhereInput,
     @CurrentUser() user: JwtPayload,
   ) {
     console.log(where);

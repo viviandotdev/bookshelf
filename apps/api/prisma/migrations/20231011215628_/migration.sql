@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Shelf" ALTER COLUMN "userId" DROP NOT NULL;

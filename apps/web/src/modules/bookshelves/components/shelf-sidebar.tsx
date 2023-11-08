@@ -18,7 +18,7 @@ const SideBar: React.FC<SidebarProps> = ({
 }) => {
     const shelves = useAppSelector(selectShelves)
     const library = useAppSelector((state) => state.shelf.library);
-    const dispath = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     // const updateSelected = useShelves((state) => state.updateSelected);
     // const initShelves = useShelves((state) => state.initShelves);
@@ -29,14 +29,14 @@ const SideBar: React.FC<SidebarProps> = ({
 
     useEffect(() => {
         if (shelf) {
-            dispath(updateSelected(shelf));
+            dispatch(updateSelected(shelf));
 
         } else {
-            dispath(updateSelected("All"));
+            dispatch(updateSelected("All"));
 
         }
-        dispath(initShelves(shelfSelections));
-        dispath(initLibrary(librarySelections));
+        dispatch(initShelves(shelfSelections));
+        dispatch(initLibrary(librarySelections));
     }, []);
 
     return (

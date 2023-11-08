@@ -32,6 +32,7 @@ export default function BookshelvesTemplate({ librarySelections,
     const queryFilter = useBookFilters();
     // loook at query params to set total pages
     const [totalPages, setTotalPages] = useState(0);
+    const [totalResults, setTotalResults] = useState(0);
     const { data: session, status } = useSession();
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -40,6 +41,7 @@ export default function BookshelvesTemplate({ librarySelections,
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {
             setTotalPages(data!.countUserBooks / BOOKS_PAGE_SIZE)
+            setTotalResults(data!.countUserBooks)
         }
     });
 
@@ -137,7 +139,7 @@ export default function BookshelvesTemplate({ librarySelections,
                         >
                             Bookshelves
                         </h1>
-                        <ContentNav resultText="23 Books" showSearch showSort />
+                        <ContentNav resultText={`${totalResults} Books`} showSearch showSort />
 
                         <hr className="my-2 border-t-1 border-primary" />
                         <div className="flex gap-2 text-sm items-center justify-between relative w-full">

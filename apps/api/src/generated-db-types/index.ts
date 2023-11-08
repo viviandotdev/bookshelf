@@ -1047,7 +1047,7 @@ export class BookWhereInput {
 
 @ObjectType()
 export class Book {
-    @Field(() => String, {nullable:false})
+    @Field(() => ID, {nullable:false})
     id!: string;
     @Field(() => String, {nullable:false})
     title!: string;

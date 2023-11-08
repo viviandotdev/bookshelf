@@ -1,26 +1,35 @@
-import React from "react";
-import BookCover from "./book-cover";
+"use client"
+import React, { useEffect } from "react";
 import { Icons } from "./icons";
 import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
-import { Book as BookData } from "../../graphql/graphql";
+import { Shelf, UserBook } from "../../graphql/graphql";
+import { useAppDispatch } from "@/stores";
+import { initShelves } from "@/stores/shelf-slice";
 
 interface BooksSectionProps {
-    booksData: BookData[];
+    booksData: UserBook[];
     heading?: string;
     details?: {
         progress: number;
         date_started: string;
     };
+    shelves: Shelf[]
 }
 
 export const BooksSection: React.FC<BooksSectionProps> = ({
     booksData,
     heading,
     details,
+    shelves
 }) => {
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(initShelves(shelves));
+    }, []);
+
     return (
         <>
             {heading && (
@@ -33,10 +42,10 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                 </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-                {booksData.map((book, idx) => (
+                {booksData && booksData.map((book, idx) => (
                     <>
                         {/* Cover View */}
-                        <Book book={book} details={details} responsive />
+                        <Book userBook={book} details={details} responsive showRemoveBook={false} />
                         {/* Responsive View */}
                         <div className="flex flex-col md:hidden">
                             <div className="pt-4">

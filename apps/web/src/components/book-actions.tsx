@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { BookRating } from "./book-card";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -15,44 +14,46 @@ import {
 } from "../../graphql/graphql";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
-import AlertModal from "./modals/alert-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
-import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { useAppDispatch } from "@/stores";
-import { decrementLibraryCount, decrementShelfCount } from "@/stores/shelf-slice";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { BOOK_STATUSES } from "@/lib/constants";
+import DynamicIcon from "./icon";
+import { BookRating } from "./rating";
 interface BookActionsProps {
-    bookStatus: string | undefined;
+    setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
     openDropdown: boolean;
+    setRating: React.Dispatch<React.SetStateAction<number>>;
+    rating: number;
+    status: string;
+    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+    showRemoveBook?: boolean
 }
 
-export const BookActions: React.FC<BookActionsProps> = ({
-    bookStatus,
+const BookActions: React.FC<BookActionsProps> = ({
+    setStatus,
     book,
     shelves,
+    status,
     openDropdown,
-    setOpenDropdown
+    setOpenAlert,
+    setOpenModal,
+    setRating,
+    rating,
+    setOpenDropdown,
+    showRemoveBook
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
-    const router = useRouter();
-    const [openAlert, setOpenAlert] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const [rating, setRating] = useState(0); // Initial value
     const addToShelfModal = useAddToShelfModal();
-    const [isLoading, setIsLoading] = useState(false);
-    const [status, setStatus] = useState(bookStatus ? bookStatus : "");
+
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
     const initShelves = useUserBook((state) => state.initShelves);
     const { updateUserBook } = useUpdateUserBook();
-    const { removeUserBook } = useRemoveUserBook();
-    const dispatch = useAppDispatch();
     const onUpdate = async (status: string) => {
         const updatedBook = await updateUserBook(book!.id, { status });
         if (updatedBook) {
@@ -60,39 +61,8 @@ export const BookActions: React.FC<BookActionsProps> = ({
         }
     };
 
-    const onDelete = async () => {
-        setIsLoading(true);
-        const deletedBook = await removeUserBook(book!.id);
-        if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
-            deletedBook.shelves.map((item) => {
-                dispatch(decrementShelfCount({ name: item.shelf.name }))
-            })
-        } else {
-            dispatch(decrementLibraryCount({ name: "Unshelved" }))
-        }
-        dispatch(decrementLibraryCount({ name: "All" }))
-        setIsLoading(false);
-        setOpenAlert(false);
-    };
-
     return (
         <>
-            <AlertModal
-                title={"Are you sure you want to remove this book from your shelf?"}
-                description={
-                    "Removing this book will clear associated ratings, reviews and reading activity"
-                }
-                isOpen={openAlert}
-                onClose={() => setOpenAlert(false)}
-                onConfirm={onDelete}
-                loading={isLoading}
-            />
-            <JouranlEntryModal
-                isOpen={openModal}
-                onClose={() => setOpenModal(false)}
-                status={status!}
-                setStatus={setStatus}
-            />
             <DropdownMenu open={openDropdown} modal={false}>
                 <DropdownMenuTrigger
                     asChild
@@ -113,56 +83,28 @@ export const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-                    <DropdownMenuItem
-                        className={`${status === "Want to Read" && "bg-accent text-primary"
-                            }`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Want to Read");
-                        }}
-                    >
-                        <Icons.bookPlus className="h-5 w-5 mr-2" />
-                        Want to Read
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Currently Reading" && "bg-accent text-primary"
-                            }`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Currently Reading");
-                        }}
-                    >
-                        <Icons.bookOpen className={`h-5 w-5 mr-2`} />
-                        Currently Reading
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Read" && "bg-accent text-primary"}`}
-                        onClick={() => {
-                            onUpdate("Read");
-                        }}
-                    >
-                        <Icons.read className="h-5 w-5 mr-2" />
-                        Read
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className={`${status === "Abandoned" && "bg-accent text-primary"}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onUpdate("Abandoned");
-                        }}
-                    >
-                        <Icons.read className="h-5 w-5 mr-2" />
-                        Abaondoned
-                    </DropdownMenuItem>
+                    {BOOK_STATUSES.map(item => (
+                        <DropdownMenuItem
+                            className={`${status === item.name && "bg-accent text-primary"
+                                }`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onUpdate(item.name);
+                            }}
+                        >
+                            <DynamicIcon iconName={item.icon} />
+                            {item.name}
+                        </DropdownMenuItem>
+                    ))}
                     <DropdownMenuSeparator></DropdownMenuSeparator>
                     <DropdownMenuItem>
-                        <BookRating rating={rating} setRating={setRating} />
+                        <BookRating bookId={book.id} rating={rating} setRating={setRating} />
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
+                            // Shelves this part is part of
                             initShelves(shelves!);
                             updateBookId(book!.id);
-
                             addToShelfModal.onOpen();
                         }}
                     >
@@ -184,18 +126,21 @@ export const BookActions: React.FC<BookActionsProps> = ({
                         </DropdownMenuItem>
                     )}
 
-                    <DropdownMenuItem
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenAlert(true);
-                        }}
-                    >
-                        <Icons.delete className="h-5 w-5 mr-2" />
-                        Remove...
-                    </DropdownMenuItem>
+                    {showRemoveBook &&
+                        <DropdownMenuItem
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenAlert(true);
+                            }}
+                        >
+                            <Icons.delete className="h-5 w-5 mr-2" />
+                            Remove...
+                        </DropdownMenuItem>
+                    }
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
     );
 };
+
 export default BookActions;

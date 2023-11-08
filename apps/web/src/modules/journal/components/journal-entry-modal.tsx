@@ -7,51 +7,30 @@ import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
+type progressTypes = {
+    originalPage: number;
+    originalPercent: number;
+    page: number;
+    percent: number;
+}
 interface JouranlEntryModalProps {
     isOpen: boolean;
     onClose: () => void;
     status: string;
     setStatus: Dispatch<SetStateAction<string>>;
+    currentProgress: progressTypes;
+    setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
 }
 
 export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
+    currentProgress,
+    setCurrentProgress,
     isOpen,
     onClose,
     status,
     setStatus
 }) => {
     const userBook = useUserBook();
-    const [currentProgress, setCurrentProgress] = useState({
-        originalPage: 0,
-        originalPercent: 0,
-        page: 0,
-        percent: 0,
-    });
-
-    useGetMostRecentJournalEntryQuery({
-        variables: {
-            book: {
-                id: userBook.data.id,
-            },
-        },
-        onCompleted(data) {
-            if (data.getMostRecentJournalEntry) {
-                setCurrentProgress({
-                    originalPage: data.getMostRecentJournalEntry.currentPage || 0,
-                    originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
-                    page: data.getMostRecentJournalEntry.currentPage || 0,
-                    percent: data.getMostRecentJournalEntry.currentPercent || 0,
-                });
-            } else {
-                setCurrentProgress({
-                    originalPage: 0,
-                    originalPercent: 0,
-                    page: 0,
-                    percent: 0,
-                });
-            }
-        },
-    });
 
     const onChange = (open: boolean) => {
         if (!open) {

@@ -5,16 +5,10 @@ import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
-import { Rating, Star } from "@smastrom/react-rating";
 import { Dot } from "lucide-react";
 import { createContext, useContext } from "react";
 import { BookData } from "@/types/interfaces";
-
-const myStyles = {
-    itemShapes: Star,
-    activeFillColor: "#F4CC49",
-    inactiveFillColor: "#c6cdd6",
-};
+import { BookRating } from "./rating";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -100,26 +94,9 @@ export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
         </div>
     );
 }
-interface BookRatingProps {
-    rating: number;
-    setRating: (rating: number) => void;
-}
 
-// Book Rating Component
-export function BookRating({ rating, setRating }: BookRatingProps) {
-    return (
-        <div className="flex justify-end items-center gap-2">
-            My Rating:
-            <Rating
-                halfFillMode="box"
-                itemStyles={myStyles}
-                style={{ maxWidth: 100 }}
-                value={rating}
-                onChange={setRating}
-            />
-        </div>
-    );
-}
+
+
 
 interface BookCardProps {
     book: BookData;

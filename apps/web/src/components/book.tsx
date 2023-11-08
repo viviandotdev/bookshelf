@@ -1,10 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { UserBook } from "../../graphql/graphql";
+import { Shelf, UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
 import { useRouter } from "next/navigation";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
+import AlertModal from "./modals/alert-modal";
+import { useRemoveUserBook } from "@/hooks/user-books/mutations";
+import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
+import { useAppDispatch } from "@/stores";
 
 interface BookProps {
     details?: {
@@ -13,18 +18,74 @@ interface BookProps {
     };
     userBook: UserBook;
     responsive?: boolean;
+    showRemoveBook?: boolean;
 }
 
 export const Book: React.FC<BookProps> = ({
     userBook,
     details,
     responsive,
+    showRemoveBook,
 }) => {
     const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
+    const [openAlert, setOpenAlert] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { book, shelves, status } = userBook;
+    const { book, shelves } = userBook;
+    const [isLoading, setIsLoading] = useState(false);
+    const { removeUserBook } = useRemoveUserBook();
+    const [status, setStatus] = useState(userBook.status ? userBook.status : "");
+    const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+    const [currentProgress, setCurrentProgress] = useState({
+        originalPage: 0,
+        originalPercent: 0,
+        page: 0,
+        percent: 0,
+    });
+    const dispatch = useAppDispatch();
+
+
+    const onDelete = async () => {
+        setIsLoading(true);
+        const deletedBook = await removeUserBook(book!.id);
+        if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
+            deletedBook.shelves.map((item) => {
+                dispatch(decrementShelfCount({ name: item.shelf.name }))
+            })
+        } else {
+            dispatch(decrementLibraryCount({ name: "Unshelved" }))
+        }
+        dispatch(decrementLibraryCount({ name: "All" }))
+        setIsLoading(false);
+        setOpenAlert(false);
+    };
+
+    useGetMostRecentJournalEntryQuery({
+        variables: {
+            book: {
+                id: book!.id,
+            },
+        },
+        onCompleted(data) {
+            if (data.getMostRecentJournalEntry) {
+                setCurrentProgress({
+                    originalPage: data.getMostRecentJournalEntry.currentPage || 0,
+                    originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
+                    page: data.getMostRecentJournalEntry.currentPage || 0,
+                    percent: data.getMostRecentJournalEntry.currentPercent || 0,
+                });
+            } else {
+                setCurrentProgress({
+                    originalPage: 0,
+                    originalPercent: 0,
+                    page: 0,
+                    percent: 0,
+                });
+            }
+        },
+    });
     return (
         <div
             className={`${responsive && "hidden md:block"
@@ -38,57 +99,83 @@ export const Book: React.FC<BookProps> = ({
 
         >
             <div className={`flex-row cursor-pointer `}>
-                <div
-                >
-                    {
-                        <BookCover
-
-                            src={book && book.coverImage ? book.coverImage : null}
-                            size={"dynamic"}
-                        />
-                    }
+                <div>
+                    <BookCover
+                        src={book && book.coverImage ? book.coverImage : null}
+                        size={"dynamic"}
+                    />
                     <div className="top-0 absolute"></div>
                 </div>
                 {details && (
                     <BookDetails
-                        progress={details.progress}
+                        progress={currentProgress.percent}
                         dateStarted={details.date_started}
                     />
                 )}
             </div>
-
             {bookActions()}
-        </div >
+        </div>
     );
 
     function bookActions() {
-        return <div
-            className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
-            onClick={() => {
-                router.push(`/book/${book?.id}`);
+        return <>
+            <AlertModal
+                title={"Are you sure you want to remove this book from your shelf?"}
+                description={
+                    "Removing this book will clear associated ratings, reviews and reading activity"
+                }
+                isOpen={openAlert}
+                onClose={() => setOpenAlert(false)}
+                onConfirm={onDelete}
+                loading={isLoading}
+            />
+            <JouranlEntryModal
+                currentProgress={currentProgress}
+                setCurrentProgress={setCurrentProgress}
+                isOpen={openModal}
+                onClose={() => setOpenModal(false)}
+                status={status!}
+                setStatus={setStatus}
+            />
+            <div
+                className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
+                onClick={() => {
+                    router.push(`/book/${book?.id}`);
 
-            }}
-        >
-            <div className="flex-col justify-end" onClick={(e) => {
-                e.stopPropagation();
-            }}>
-                <div
-                    onMouseLeave={() => {
-                        setOpenMenu(false);
-                        setOpenDropdown(false);
-                    }}
-                    className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
-                >
-                    <Icons.book className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
-                        e.stopPropagation();
-                    }} />
-                    <Icons.heart className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
-                        e.stopPropagation();
-                    }} />
-                    <BookActions openDropdown={openDropdown} setOpenDropdown={setOpenDropdown} bookStatus={status} book={book!} shelves={shelves!} />
+                }}
+            >
+                <div className="flex-col justify-end" onClick={(e) => {
+                    e.stopPropagation();
+                }}>
+                    <div
+                        onMouseLeave={() => {
+                            setOpenMenu(false);
+                            setOpenDropdown(false);
+                        }}
+                        className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
+                    >
+                        <Icons.book className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                            e.stopPropagation();
+                        }} />
+                        <Icons.heart className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                            e.stopPropagation();
+                        }} />
+                        <BookActions
+                            openDropdown={openDropdown}
+                            setOpenDropdown={setOpenDropdown}
+                            setOpenModal={setOpenModal}
+                            setOpenAlert={setOpenAlert}
+                            status={status}
+                            setStatus={setStatus} book={book!}
+                            setRating={setRating}
+                            rating={rating}
+                            shelves={shelves!}
+                            showRemoveBook={showRemoveBook}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>;
+        </>
     }
 };
 
