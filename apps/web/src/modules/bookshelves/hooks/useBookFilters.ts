@@ -35,7 +35,7 @@ const useBookFilters = () => {
     }
   }, [selected]);
 
-  return queryFilter;
+  return { queryFilter, setQueryFilter };
 };
 
 export default useBookFilters;

@@ -54,26 +54,23 @@ function SortingOptions() {
 interface ContentNavProps {
     showSearch?: boolean;
     showSort?: boolean;
-    resultText: string;
+    setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export function ContentNav({
     showSearch,
     showSort,
-    resultText,
+    setQueryFilter
 }: ContentNavProps) {
     return (
         <>
             <div className="flex gap-2 text-sm items-center justify-between relative w-full">
                 <div className="flex gap-2 text-sm items-start">
-                    <button
-                        className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
-                    >
-                        {resultText}
-                    </button>
+                    <ProgressMenu setQueryFilter={setQueryFilter} />
+
                 </div>
                 <div className="flex text-sm gap-2 items-center">
-                {/* {showSearch && <SearchInput />} */}
+                    {/* {showSearch && <SearchInput />} */}
                     {showSort && <SortingOptions />}
                 </div>
             </div>
@@ -81,7 +78,6 @@ export function ContentNav({
             <hr className="my-2 border-t-1 border-primary" />
             <div className="flex gap-2 text-sm items-center justify-between relative w-full">
                 <div className="flex text-sm items-start relative">
-                    <ProgressMenu />
                     {/* <div className="block h-full bg-slate-300 w-0.5 absolute left-16"></div> */}
                 </div>
                 <div className="flex text-sm gap-2 items-center"></div>

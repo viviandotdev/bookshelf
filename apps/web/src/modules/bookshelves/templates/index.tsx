@@ -29,19 +29,23 @@ interface BookshelvesTemplateProps {
 export default function BookshelvesTemplate({ librarySelections,
     shelfSelections }: BookshelvesTemplateProps) {
 
-    const queryFilter = useBookFilters();
-    // loook at query params to set total pages
+    const { queryFilter, setQueryFilter } = useBookFilters();
     const [totalPages, setTotalPages] = useState(0);
-    const [totalResults, setTotalResults] = useState(0);
     const { data: session, status } = useSession();
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const library = useAppSelector((state) => state.shelf.library);
     const params = useSearchParams();
+
+    useEffect(() => {
+        const currentQuery = qs.parse(params.toString());
+        const currentPage = currentQuery.page ? parseInt(currentQuery.page as string) : 1;
+        dispatch(setCurrentPage(currentPage - 1))
+    }, [])
 
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {
             setTotalPages(data!.countUserBooks / BOOKS_PAGE_SIZE)
-            setTotalResults(data!.countUserBooks)
         }
     });
 
@@ -83,7 +87,7 @@ export default function BookshelvesTemplate({ librarySelections,
         };
 
         loadData();
-    }, [queryFilter, loadBooks]);
+    }, [queryFilter, loadBooks, getCount, library]);
 
     const handlePageClick = (data: { selected: any; }) => {
         let selected = data.selected;
@@ -139,7 +143,7 @@ export default function BookshelvesTemplate({ librarySelections,
                         >
                             Bookshelves
                         </h1>
-                        <ContentNav resultText={`${totalResults} Books`} showSearch showSort />
+                        <ContentNav setQueryFilter={setQueryFilter} showSearch showSort />
 
                     </nav>
                     <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">

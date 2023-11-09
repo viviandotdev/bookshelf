@@ -1,14 +1,13 @@
 import { Icons } from '@/components/icons';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { Command, LucideIcon } from 'lucide-react';
 import React from 'react'
-
+import { UserBookWhereInput } from '../../../../graphql/graphql';
+import * as R from "ramda";
 interface ProgressMenuProps {
-
+    setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 type Status = {
@@ -19,6 +18,7 @@ type Status = {
 const statuses = [
     {
         name: "All",
+
         icon: Icons.bookPlus,
     },
     {
@@ -40,11 +40,13 @@ const statuses = [
 ];
 
 export const ProgressMenu: React.FC<ProgressMenuProps> = ({
+    setQueryFilter
 }) => {
     const [open, setOpen] = React.useState(false)
     const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
         statuses[0]
     )
+
     return (
         <div className="flex items-center space-x-4">
             <DropdownMenu>
@@ -67,9 +69,25 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
                         statuses.map((status) => (
                             <DropdownMenuItem
                                 key={status.name}
-                                onSelect={(value) => {
-                                    console.log(value)
+                                onSelect={() => {
                                     setSelectedStatus(status)
+                                    if (status.name === "All") {
+                                        setQueryFilter((prev: { where: UserBookWhereInput }) =>
+                                        (
+                                            {
+                                                where: R.mergeRight(prev.where, { status: {} })
+
+                                            }))
+                                    } else {
+                                        setQueryFilter((prev: { where: UserBookWhereInput }) => ({
+                                            where: R.mergeRight(prev.where, {
+                                                status: {
+                                                    equals: status.name
+                                                }
+                                            })
+                                        }))
+                                    }
+
                                     setOpen(false)
                                 }}
                                 className={cn(status.name === selectedStatus?.name && "bg-secondary")}
