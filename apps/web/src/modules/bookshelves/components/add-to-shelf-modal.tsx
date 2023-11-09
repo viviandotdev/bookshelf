@@ -20,10 +20,10 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import { Button } from "../../../components/ui/button";
 import useUserBook from "@/stores/use-user-book";
 import { useAppDispatch, useAppSelector } from "@/stores";
-import { decrementLibraryCount, decrementShelfCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
+import { decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { getApolloClient } from "@/lib/apollo";
-
+// import { getApolloClient } from "@/lib/apollo";
+import { useApolloClient } from '@apollo/client';
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -31,13 +31,11 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const dispatch = useAppDispatch();
     const { updateUserBook } = useUpdateUserBook();
     const shelves = useAppSelector(selectShelves)
-    const client = getApolloClient();
+    const client = useApolloClient();
     const userBook = useUserBook();
 
     const displayFormSchema = z.object({
-        shelves: z.array(z.string()).refine((value) => value.some((item) => item), {
-            message: "You have to select at least one item.",
-        }),
+        shelves: z.array(z.string())
     });
 
     type DisplayFormValues = z.infer<typeof displayFormSchema>;
@@ -73,7 +71,12 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
                     dispatch(decrementShelfCount({ name: item.shelf.name }))
                 }
             })
-            console.log(client.cache);
+            if (shelves.length == 0) {
+                dispatch(incrementLibraryCount({ name: "Unshelved" }))
+            }
+            // Update the cache
+            client.cache.evict({ id: `Book:${userBook.bookId}` });
+
             toast({
                 title: `Sucessfully shelved book`,
             });

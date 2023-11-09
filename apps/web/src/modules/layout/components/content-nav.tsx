@@ -76,6 +76,20 @@ export function ContentNav({
                     {showSort && <SortingOptions />}
                 </div>
             </div>
+
+            <hr className="my-2 border-t-1 border-primary" />
+            <div className="flex gap-2 text-sm items-center justify-between relative w-full">
+                <div className="flex text-sm items-start relative">
+                    <button
+                        className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
+                    >
+                        Read
+                        <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
+                    </button>
+                    <div className="block h-full bg-slate-300 w-0.5 absolute left-16"></div>
+                </div>
+                <div className="flex text-sm gap-2 items-center"></div>
+            </div>
         </>
     );
 }
