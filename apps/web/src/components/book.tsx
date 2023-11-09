@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { Shelf, UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
+import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
 import { useRouter } from "next/navigation";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";
@@ -47,6 +47,7 @@ export const Book: React.FC<BookProps> = ({
     const dispatch = useAppDispatch();
 
 
+
     const onDelete = async () => {
         setIsLoading(true);
         const deletedBook = await removeUserBook(book!.id);
@@ -62,7 +63,7 @@ export const Book: React.FC<BookProps> = ({
         setOpenAlert(false);
     };
 
-    useGetMostRecentJournalEntryQuery({
+    const [loadEntry] = useGetMostRecentJournalEntryLazyQuery({
         variables: {
             book: {
                 id: book!.id,
@@ -86,6 +87,13 @@ export const Book: React.FC<BookProps> = ({
             }
         },
     });
+
+    useEffect(() => {
+        const loadData = async () => {
+            await loadEntry();
+        };
+        loadData();
+    }, [loadEntry]);
     return (
         <div
             className={`${responsive && "hidden md:block"
@@ -170,6 +178,7 @@ export const Book: React.FC<BookProps> = ({
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
+                            loadEntry={loadEntry}
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

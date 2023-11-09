@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { dm_sefif_display } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 
@@ -21,9 +18,7 @@ import qs from "query-string";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
-import { Progress } from "@radix-ui/react-progress";
 import ProgressMenu from "../components/progress-menu";
-import { current } from "@reduxjs/toolkit";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
@@ -57,7 +52,7 @@ export default function BookshelvesTemplate({ librarySelections,
         const currentPage = currentQuery.page ? parseInt(currentQuery.page as string) : 1;
         dispatch(setCurrentPage(currentPage - 1))
     }, [params])
-    // on shelf change reset the filters
+    // on shelf change reset the fi
     useEffect(() => {
         setSelectedStatus(statuses[0])
     }, [currentShelf])
@@ -149,7 +144,6 @@ export default function BookshelvesTemplate({ librarySelections,
             <CreateShelfModal />
             <div className="w-full grid grid-cols-4 gap-6">
                 <SideBar
-                    setSelectedStatus={setSelectedStatus}
                     librarySelections={librarySelections}
                     shelfSelections={shelfSelections}
                 />
