@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import {
     UserBook,
 
@@ -14,12 +14,14 @@ const BookList: React.FC<BookListProps> = ({ books }) => {
 
     return (
         <>
-            {books &&
-                books?.map((book, idx) => (
-                    <div key={idx}>
-                        <Book userBook={book} showRemoveBook={true} />
-                    </div>
-                ))}
+            <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
+                {books &&
+                    books?.map((book, idx) => (
+                        <div key={idx}>
+                            <Book userBook={book} showRemoveBook={true} />
+                        </div>
+                    ))}
+            </div>
         </>
     );
 };

@@ -19,6 +19,7 @@ import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BOOK_STATUSES } from "@/lib/constants";
 import DynamicIcon from "./icon";
 import { BookRating } from "./rating";
+import { useApolloClient } from "@apollo/client";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -48,7 +49,6 @@ const BookActions: React.FC<BookActionsProps> = ({
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
-
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
@@ -60,6 +60,7 @@ const BookActions: React.FC<BookActionsProps> = ({
             setStatus(status);
         }
     };
+
 
     return (
         <>
@@ -92,7 +93,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 onUpdate(item.name);
                             }}
                         >
-                            <DynamicIcon iconName={item.icon} />
+                            <item.icon className="h-5 w-5 mr-2" />
                             {item.name}
                         </DropdownMenuItem>
                     ))}

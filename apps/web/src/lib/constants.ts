@@ -1,3 +1,5 @@
+import { Icons } from "@/components/icons";
+
 export const DEFAULT_BOOKCOVER_PLACEHOLDER =
   "https://m.media-amazon.com/images/I/118BLwxozkL.jpg";
 
@@ -9,19 +11,19 @@ export const BASE_URL =
 export const BOOK_STATUSES = [
   {
     name: "Want to Read",
-    icon: "bookPlus",
+    icon: Icons.bookPlus,
   },
   {
     name: "Currently Reading",
-    icon: "bookOpen",
+    icon: Icons.bookPlus,
   },
   {
     name: "Read",
-    icon: "read",
+    icon: Icons.bookOpen,
   },
   {
     name: "Abandoned",
-    icon: "abondoned",
+    icon: Icons.abondoned,
   },
 ];
 export const BOOKS_PAGE_SIZE = 15;
