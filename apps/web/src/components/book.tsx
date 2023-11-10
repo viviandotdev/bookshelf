@@ -48,6 +48,8 @@ export const Book: React.FC<BookProps> = ({
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
+        loadEntry();
+        // update journal entry
     }, [userBook]);
 
     const onDelete = async () => {
@@ -95,7 +97,7 @@ export const Book: React.FC<BookProps> = ({
             await loadEntry();
         };
         loadData();
-    }, [loadEntry]);
+    }, [loadEntry, userBook]);
     return (
         <div
             className={`${responsive && "hidden md:block"

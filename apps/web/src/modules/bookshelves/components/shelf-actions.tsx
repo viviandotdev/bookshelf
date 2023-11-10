@@ -19,7 +19,7 @@ import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
 interface ShelfActionsProps {
     shelf: Shelf;
     isShelves?: boolean;
-    setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ShelfActions: React.FC<ShelfActionsProps> = ({
@@ -28,11 +28,10 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     setOpenAlert,
 
 }) => {
-    // const { selected } = useShelves();
     const shelfModal = useCreateShelfModal();
     const dispatch = useAppDispatch();
     const selected = useAppSelector((state) => state.shelf.selected);
-    
+
     const { data: session } = useSession();
     const router = useRouter();
     const params = useSearchParams();
@@ -86,7 +85,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
                     </span>
                 </div>
 
-                {isShelves ? (
+                {setOpenAlert && isShelves ? (
                     <>
                         <DropdownMenu modal={false}>
                             <DropdownMenuTrigger>
