@@ -48,8 +48,14 @@ export const Book: React.FC<BookProps> = ({
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
-        loadEntry();
-        // update journal entry
+        if (userBook.journalEntry && userBook.journalEntry.length > 0) {
+            setCurrentProgress({
+                originalPage: userBook.journalEntry[0].currentPage || 0,
+                originalPercent: userBook.journalEntry[0].currentPercent || 0,
+                page: userBook.journalEntry[0].currentPage || 0,
+                percent: userBook.journalEntry[0].currentPercent || 0,
+            });
+        }
     }, [userBook]);
 
     const onDelete = async () => {
@@ -66,38 +72,6 @@ export const Book: React.FC<BookProps> = ({
         setIsLoading(false);
         setOpenAlert(false);
     };
-
-    const [loadEntry] = useGetMostRecentJournalEntryLazyQuery({
-        variables: {
-            book: {
-                id: book!.id,
-            },
-        },
-        onCompleted(data) {
-            if (data.getMostRecentJournalEntry) {
-                setCurrentProgress({
-                    originalPage: data.getMostRecentJournalEntry.currentPage || 0,
-                    originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
-                    page: data.getMostRecentJournalEntry.currentPage || 0,
-                    percent: data.getMostRecentJournalEntry.currentPercent || 0,
-                });
-            } else {
-                setCurrentProgress({
-                    originalPage: 0,
-                    originalPercent: 0,
-                    page: 0,
-                    percent: 0,
-                });
-            }
-        },
-    });
-
-    useEffect(() => {
-        const loadData = async () => {
-            await loadEntry();
-        };
-        loadData();
-    }, [loadEntry, userBook]);
     return (
         <div
             className={`${responsive && "hidden md:block"
@@ -182,7 +156,7 @@ export const Book: React.FC<BookProps> = ({
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
-                            loadEntry={loadEntry}
+                            // loadEntry={loadEntry}
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

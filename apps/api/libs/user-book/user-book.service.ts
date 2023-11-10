@@ -58,6 +58,12 @@ export class UserBookService {
             shelf: true,
           },
         },
+        journalEntry: {
+          orderBy: {
+            dateRead: 'desc', // Order by dateRead in descending order
+          },
+          take: 1, // Take only the last element
+        },
       },
       skip: args.skip,
       take: args.take,

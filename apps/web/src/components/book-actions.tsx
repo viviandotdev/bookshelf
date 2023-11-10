@@ -32,7 +32,7 @@ interface BookActionsProps {
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     showRemoveBook?: boolean;
-    loadEntry: () => void;
+    // loadEntry: () => void;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -47,7 +47,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     rating,
     setOpenDropdown,
     showRemoveBook,
-    loadEntry
+    // loadEntry
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();

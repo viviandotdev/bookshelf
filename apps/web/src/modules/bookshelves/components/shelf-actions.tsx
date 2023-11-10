@@ -12,7 +12,6 @@ import { Icons } from "../../../components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "../../../../graphql/graphql";
 import { useSession } from "next-auth/react";
-import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
 import EditShelfMenu from "./edit-shelf-menu";
