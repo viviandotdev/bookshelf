@@ -23,8 +23,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
 }) => {
     const statuses = [
         {
-            name: "All",
-            icon: Icons.bookPlus,
+            name: "Any Status",
         },
         ...bookStatuses
 
@@ -46,9 +45,8 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
-                    align={"end"}
+                    align={"start"}
                     side={"bottom"}
-                    alignOffset={-122}
                 >
                     {
                         statuses.map((status) => (
@@ -74,7 +72,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                     }
                                     // update query url
                                     setSelectedStatus(status)
-                                    if (status.name === "All") {
+                                    if (status.name === "Any Status") {
                                         setQueryFilter((prev: { where: UserBookWhereInput }) =>
                                         (
                                             {
@@ -95,14 +93,16 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                 }}
                                 className={cn(status.name === selectedStatus?.name && "bg-secondary")}
                             >
-                                <status.icon
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        status.name === selectedStatus?.name
-                                            ? "opacity-100"
-                                            : "opacity-40"
-                                    )}
-                                />
+                                {status.icon &&
+                                    <status.icon
+                                        className={cn(
+                                            "mr-2 h-4 w-4",
+                                            status.name === selectedStatus?.name
+                                                ? "opacity-100"
+                                                : "opacity-40"
+                                        )}
+                                    />
+                                }
                                 <span>{status.name}</span>
                             </DropdownMenuItem>
                         ))

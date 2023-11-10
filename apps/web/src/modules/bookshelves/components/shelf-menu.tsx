@@ -15,6 +15,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     const shelves = useAppSelector(selectShelves)
     const library = useAppSelector((state) => state.shelf.library);
     const selected = useAppSelector((state) => state.shelf.selected);
+    const selections = [...library, ...shelves]
     const [_, setOpen] = React.useState(false)
 
     return (
@@ -30,24 +31,23 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
-                    align={"end"}
+                    align={"start"}
                     side={"bottom"}
-                    alignOffset={-132}
                 >
-                    {library.map((shelf, i) => (
-                        <DropdownMenuItem>
-                            <ShelfActions
-                                key={i}
-                                shelf={shelf}
-                            />
-                        </DropdownMenuItem>
-                    ))}
-                    {shelves.map((shelf, i) => (
-                        <DropdownMenuItem>
-                            <ShelfActions
-                                key={i}
-                                shelf={shelf}
-                            />
+                    {selections.map((shelf, i) => (
+                        <DropdownMenuItem className={`${shelf.name === selected
+                            ? "bg-secondary"
+                            : "hover:bg-opacity-70"
+                            } `}>
+                            <div className={` w-[fill-available] flex`}>
+                                <ShelfActions
+                                    key={i}
+                                    shelf={shelf}
+                                    padding={"py-0"}
+                                >
+                                    {shelf.name}
+                                </ShelfActions>
+                            </div>
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuContent>

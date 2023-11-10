@@ -40,8 +40,7 @@ export default function BookshelvesTemplate({ librarySelections,
     const currentShelf = currentQuery.shelf ? currentQuery.shelf : "";
     const statuses = [
         {
-            name: "All",
-            icon: Icons.bookPlus,
+            name: "Any Status",
         },
         ...bookStatuses
 

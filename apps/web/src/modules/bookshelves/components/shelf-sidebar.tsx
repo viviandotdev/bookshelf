@@ -5,7 +5,6 @@ import { Shelf } from "../../../../graphql/graphql";
 import ShelfGroup from "./shelf-group";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { initLibrary, initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";
-import { update } from "ramda";
 
 interface SidebarProps {
     librarySelections: Shelf[];
@@ -29,7 +28,7 @@ const SideBar: React.FC<SidebarProps> = ({
             dispatch(updateSelected(shelf));
 
         } else {
-            dispatch(updateSelected("All"));
+            dispatch(updateSelected("All Books"));
 
         }
         dispatch(initShelves(shelfSelections));
