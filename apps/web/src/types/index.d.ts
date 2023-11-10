@@ -20,16 +20,6 @@ export type SiteConfig = {
   links: {
     github: string;
   };
-};
-
-export type MarketingConfig = {
-  mainNav: NavItem[];
-};
-
-export type MyBooksConfig = {
-  profileNav: NavItem[];
-  sortingSelects: NavItem[];
-  shelfSelections: NavItem[];
-  librarySelections: NavItem[];
-  toolSelections: NavItem[];
+  mainNav: MainNavItem[];
+  accountNav: NavItem[];
 };

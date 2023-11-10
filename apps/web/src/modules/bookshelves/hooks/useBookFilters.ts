@@ -1,8 +1,11 @@
 import { useAppSelector } from "@/stores";
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-
+import qs from "query-string";
 const useBookFilters = () => {
   const selected = useAppSelector((state) => state.shelf.selected);
+  const params = useSearchParams();
+  const currentQuery = qs.parse(params.toString());
   const [queryFilter, setQueryFilter] = useState({});
 
   useEffect(() => {
@@ -14,7 +17,7 @@ const useBookFilters = () => {
           },
         },
       });
-    } else if (selected === "All") {
+    } else if (selected === "All Books") {
       setQueryFilter({});
     } else {
       setQueryFilter({

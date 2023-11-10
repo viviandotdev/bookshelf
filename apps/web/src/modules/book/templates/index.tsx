@@ -3,16 +3,18 @@ import { cn, formatDate, processBook } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { UserBookQuery } from "../../../../graphql/graphql";
+import { Shelf, UserBookQuery } from "../../../../graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
 interface BookTemplateProps {
     book: BookData;
+    shelves: Shelf[];
     userBook: UserBookQuery["userBook"];
 }
 
-export default function BookTemplate({ book, userBook }: BookTemplateProps) {
+export default function BookTemplate({ book, shelves, userBook }: BookTemplateProps) {
+
     return (
         <>
             <BookStatusModal />
@@ -48,7 +50,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} bookStatus={userBook?.status} />
+                                <ActionsPanel book={book} shelves={shelves} bookStatus={userBook?.status} bookRating={userBook?.rating} />
                             </section>
                         </div>
                     </div>

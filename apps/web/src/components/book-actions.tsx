@@ -16,10 +16,10 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import useUserBook from "@/stores/use-user-book";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { BOOK_STATUSES } from "@/lib/constants";
-import DynamicIcon from "./icon";
 import { BookRating } from "./rating";
 import { useApolloClient } from "@apollo/client";
+import { update } from "ramda";
+import { bookStatuses } from "@/config/books";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -31,7 +31,8 @@ interface BookActionsProps {
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
-    showRemoveBook?: boolean
+    showRemoveBook?: boolean;
+    // loadEntry: () => void;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -45,10 +46,12 @@ const BookActions: React.FC<BookActionsProps> = ({
     setRating,
     rating,
     setOpenDropdown,
-    showRemoveBook
+    showRemoveBook,
+    // loadEntry
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
+    const client = useApolloClient();
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
@@ -61,7 +64,6 @@ const BookActions: React.FC<BookActionsProps> = ({
         }
     };
 
-
     return (
         <>
             <DropdownMenu open={openDropdown} modal={false}>
@@ -69,6 +71,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     asChild
                     onClick={(e) => {
                         e.stopPropagation();
+                        console.log(status)
                         setOpenDropdown(!openDropdown);
                     }}
                 >
@@ -84,13 +87,15 @@ const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-                    {BOOK_STATUSES.map(item => (
+                    {bookStatuses.map(item => (
                         <DropdownMenuItem
                             className={`${status === item.name && "bg-accent text-primary"
                                 }`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onUpdate(item.name);
+                                client.cache.evict({ id: `Book:${book!.id}` });
+                                setOpenDropdown(false);
                             }}
                         >
                             <item.icon className="h-5 w-5 mr-2" />
@@ -99,7 +104,10 @@ const BookActions: React.FC<BookActionsProps> = ({
                     ))}
                     <DropdownMenuSeparator></DropdownMenuSeparator>
                     <DropdownMenuItem>
-                        <BookRating bookId={book.id} rating={rating} setRating={setRating} />
+                        <div className="flex gap-2">
+                            My Rating:
+                            <BookRating bookId={book.id} rating={rating} setRating={setRating} />
+                        </div>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
@@ -119,6 +127,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
+                                // loadEntry();
                                 jouranlEntryModal.onOpen();
                             }}
                         >

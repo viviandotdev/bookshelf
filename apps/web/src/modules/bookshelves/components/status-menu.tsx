@@ -6,29 +6,32 @@ import { Command, LucideIcon } from 'lucide-react';
 import React from 'react'
 import { UserBookWhereInput } from '../../../../graphql/graphql';
 import * as R from "ramda";
-
-import { BOOK_STATUSES } from '@/lib/constants';
-interface ProgressMenuProps {
+import qs from "query-string";
+import { useSession } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { bookStatuses } from '@/config/books';
+interface StatusMenuProps {
     selectedStatus: { name: string, icon: LucideIcon };
     setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
     setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-export const ProgressMenu: React.FC<ProgressMenuProps> = ({
+export const StatusMenu: React.FC<StatusMenuProps> = ({
     selectedStatus,
     setSelectedStatus,
     setQueryFilter
 }) => {
     const statuses = [
         {
-            name: "All",
-            icon: Icons.bookPlus,
+            name: "Any Status",
         },
-        ...BOOK_STATUSES
+        ...bookStatuses
 
     ]
     const [_, setOpen] = React.useState(false)
-
+    const params = useSearchParams();
+    const { data: session, status } = useSession();
+    const router = useRouter();
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
@@ -36,24 +39,40 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
                     <button
                         className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
                     >
-                        Progress
+                        {selectedStatus.name}
                         <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
-                    align={"end"}
-                    side={"top"}
-                    alignOffset={-88}
-                    sideOffset={-200}
+                    align={"start"}
+                    side={"bottom"}
                 >
                     {
                         statuses.map((status) => (
                             <DropdownMenuItem
                                 key={status.name}
                                 onSelect={() => {
+                                    let currentQuery = {};
+                                    if (params) {
+                                        currentQuery = qs.parse(params.toString());
+                                    }
+                                    if (session) {
+                                        const url = qs.stringifyUrl(
+                                            {
+                                                url: `/${session!.user.name}/books`,
+                                                query: {
+                                                    ...currentQuery,
+                                                    status: status.name,
+                                                },
+                                            },
+                                            { skipNull: true }
+                                        );
+                                        router.push(url);
+                                    }
+                                    // update query url
                                     setSelectedStatus(status)
-                                    if (status.name === "All") {
+                                    if (status.name === "Any Status") {
                                         setQueryFilter((prev: { where: UserBookWhereInput }) =>
                                         (
                                             {
@@ -74,14 +93,16 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
                                 }}
                                 className={cn(status.name === selectedStatus?.name && "bg-secondary")}
                             >
-                                <status.icon
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        status.name === selectedStatus?.name
-                                            ? "opacity-100"
-                                            : "opacity-40"
-                                    )}
-                                />
+                                {status.icon &&
+                                    <status.icon
+                                        className={cn(
+                                            "mr-2 h-4 w-4",
+                                            status.name === selectedStatus?.name
+                                                ? "opacity-100"
+                                                : "opacity-40"
+                                        )}
+                                    />
+                                }
                                 <span>{status.name}</span>
                             </DropdownMenuItem>
                         ))
@@ -92,4 +113,4 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
 
     );
 }
-export default ProgressMenu
+export default StatusMenu

@@ -8,4 +8,40 @@ export const siteConfig: SiteConfig = {
   links: {
     github: "https://github.com/VivianLin61/bookcue",
   },
+  mainNav: [
+    {
+      title: "Home",
+      href: "/",
+    },
+    {
+      title: "My Books",
+      href: "/mybooks",
+    },
+    {
+      title: "Browse",
+      href: "/browse",
+    },
+  ],
+  accountNav: [
+    {
+      title: "Activity",
+      href: "/",
+    },
+    {
+      title: "Books",
+      href: "/mybooks",
+    },
+    {
+      title: "Journal",
+      href: "/journal",
+    },
+    {
+      title: "Statistics",
+      href: "/state",
+    },
+    {
+      title: "Goals",
+      href: "/goals",
+    },
+  ],
 };

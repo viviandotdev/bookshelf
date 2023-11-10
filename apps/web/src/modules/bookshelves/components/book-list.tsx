@@ -11,7 +11,7 @@ interface BookListProps {
 }
 
 const BookList: React.FC<BookListProps> = ({ books }) => {
-
+    
     return (
         <>
             <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">

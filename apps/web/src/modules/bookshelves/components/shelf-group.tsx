@@ -8,10 +8,11 @@ import { Shelf, useDeleteShelfMutation } from "../../../../graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
 import useToggleState from "@/modules/book/hooks/use-book-status-modal";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
-import { useAppDispatch } from "@/stores";
+import { useAppDispatch, useAppSelector } from "@/stores";
 import { removeShelf } from "@/stores/shelf-slice";
 import { useDeleteShelf } from "@/hooks/shelf/mutations";
 import { toast } from "@/hooks/use-toast";
+import { CreateShelfModal } from "./create-shelf-modal";
 
 interface ShelfGroupProps {
     title: string;
@@ -31,7 +32,7 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
     const { deleteShelf } = useDeleteShelf();
-
+    const selected = useAppSelector((state) => state.shelf.selected);
     const onDelete = async () => {
         setIsLoading(true);
         const deletedShelf = await deleteShelf(shelfModal.editId!);
@@ -57,16 +58,28 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
             <Collapsible title={title} collapsible={collapsible}>
                 <>
                     {shelves.map((shelf, i) => (
-                        <ShelfActions
-                            key={i}
-                            shelf={shelf}
-                            isShelves={isShelves}
-                            setOpenAlert={setOpenAlert}
-                        />
+                        <div
+                            className={`${shelf.name === selected
+                                ? "bg-secondary"
+                                : "hover:bg-slate-100 hover:bg-opacity-70"
+                                }  group/item flex rounded-lg px-3 font-medium `}
+                        >
+                            <ShelfActions
+                                key={i}
+                                shelf={shelf}
+                                isShelves={isShelves}
+                                setOpenAlert={setOpenAlert}
+                            >
+                                <Icons.shelf className="h-5 w-5 mr-4" />
+                                {shelf.name}
+                            </ShelfActions>
+                        </div>
+
                     ))}
 
                     {isShelves && (
                         <div className="pt-1.5">
+                            <CreateShelfModal />
                             <Button
                                 className="w-[fill-available]"
                                 size="sm"

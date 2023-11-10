@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { Shelf, UserBook, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
+import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
 import { useRouter } from "next/navigation";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";
@@ -45,7 +45,18 @@ export const Book: React.FC<BookProps> = ({
         percent: 0,
     });
     const dispatch = useAppDispatch();
-
+    useEffect(() => {
+        setStatus(userBook.status ? userBook.status : "");
+        setRating(userBook.rating ? userBook.rating : 0);
+        if (userBook.journalEntry && userBook.journalEntry.length > 0) {
+            setCurrentProgress({
+                originalPage: userBook.journalEntry[0].currentPage || 0,
+                originalPercent: userBook.journalEntry[0].currentPercent || 0,
+                page: userBook.journalEntry[0].currentPage || 0,
+                percent: userBook.journalEntry[0].currentPercent || 0,
+            });
+        }
+    }, [userBook]);
 
     const onDelete = async () => {
         setIsLoading(true);
@@ -61,31 +72,6 @@ export const Book: React.FC<BookProps> = ({
         setIsLoading(false);
         setOpenAlert(false);
     };
-
-    useGetMostRecentJournalEntryQuery({
-        variables: {
-            book: {
-                id: book!.id,
-            },
-        },
-        onCompleted(data) {
-            if (data.getMostRecentJournalEntry) {
-                setCurrentProgress({
-                    originalPage: data.getMostRecentJournalEntry.currentPage || 0,
-                    originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
-                    page: data.getMostRecentJournalEntry.currentPage || 0,
-                    percent: data.getMostRecentJournalEntry.currentPercent || 0,
-                });
-            } else {
-                setCurrentProgress({
-                    originalPage: 0,
-                    originalPercent: 0,
-                    page: 0,
-                    percent: 0,
-                });
-            }
-        },
-    });
     return (
         <div
             className={`${responsive && "hidden md:block"
@@ -170,6 +156,7 @@ export const Book: React.FC<BookProps> = ({
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
+                            // loadEntry={loadEntry}
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

@@ -12,32 +12,34 @@ import { Icons } from "../../../components/icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shelf } from "../../../../graphql/graphql";
 import { useSession } from "next-auth/react";
-import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
+import EditShelfMenu from "./edit-shelf-menu";
 
 interface ShelfActionsProps {
     shelf: Shelf;
     isShelves?: boolean;
-    setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
+    padding?: string;
+    children?: React.ReactNode
 }
 
 export const ShelfActions: React.FC<ShelfActionsProps> = ({
     shelf,
     isShelves,
     setOpenAlert,
+    padding = "py-2",
+    children
 
 }) => {
-    // const { selected } = useShelves();
-    const shelfModal = useCreateShelfModal();
     const dispatch = useAppDispatch();
-    const selected = useAppSelector((state) => state.shelf.selected);
-    // const updateSelected = useShelves((state) => state.updateSelected);
+
     const { data: session } = useSession();
     const router = useRouter();
     const params = useSearchParams();
 
     const handleClick = useCallback(() => {
+        dispatch(updateSelected(shelf.name!));
         let currentQuery = {};
 
         if (params) {
@@ -66,78 +68,31 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     }, [shelf, router, params, session]);
 
     return (
-        <div key={shelf.id}>
+        <>
             <div
-                className={`${shelf.name === selected
-                    ? "bg-secondary"
-                    : "hover:bg-slate-100 hover:bg-opacity-70"
-                    }  group/item flex rounded-lg px-3 font-medium`}
+                className={`w-[fill-available] cursor-pointer ${padding}`}
+                onClick={handleClick}
             >
-                <div
-                    className={`w-[fill-available] cursor-pointer justify-between py-2`}
-                    onClick={() => {
-                        dispatch(updateSelected(shelf.name!));
-                        handleClick();
-                    }}
-                >
-                    <span className="flex">
-                        <Icons.shelf className="h-5 w-5 mr-4" />
-                        {shelf.name}
-                    </span>
-                </div>
-
-                {isShelves ? (
-                    <>
-                        <DropdownMenu modal={false}>
-                            <DropdownMenuTrigger>
-                                <span>
-                                    <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
-                                        <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
-                                    </a>
-
-                                    <span
-                                        className={`block group-hover/item:hidden cursor-pointer px-1 rounded-sm`}
-                                    >
-                                        {shelf._count.userBooks}
-                                    </span>
-                                </span>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                                align={"end"}
-                                side={"bottom"}
-                                alignOffset={-100}
-                            >
-                                <DropdownMenuItem
-                                    onClick={() => {
-                                        shelfModal.onEdit(shelf.id!);
-                                    }}
-                                >
-                                    Rename
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                    onClick={() => {
-                                        shelfModal.setEditId(shelf.id!);
-                                        setOpenAlert(true);
-                                    }}
-                                >
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </>
-                ) : (
-                    <>
-                        <span
-                            className={`${isShelves ? "block group-hover/item:hidden" : ""
-                                } cursor-pointer px-1 rounded-sm py-2`}
-                        >
-                            {shelf._count.userBooks}
-                        </span>
-                    </>
-                )}
+                <span className="flex">
+                    {children}
+                </span>
             </div>
-        </div>
+
+            {
+                setOpenAlert && isShelves ? (
+                    <EditShelfMenu shelf={shelf} setOpenAlert={setOpenAlert} />
+                ) : (
+                    <span
+                        className={`${isShelves ? "block group-hover/item:hidden items-end" : ""
+                            } cursor-pointer px-1 rounded-sm ${padding}`}
+                    >
+                        {shelf._count.userBooks}
+                    </span>
+                )
+            }
+        </>
     );
 };
+
 
 export default ShelfActions;

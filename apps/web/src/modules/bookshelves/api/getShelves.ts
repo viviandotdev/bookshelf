@@ -1,8 +1,10 @@
+import { librarySelects } from "@/config/books";
 import {
   ShelvesQuery,
   ShelvesDocument,
   CountUserBooksQuery,
   CountUserBooksDocument,
+  Shelf,
 } from "../../../../graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -33,17 +35,17 @@ export async function getShelves() {
 
   return {
     shelves: shelvesData.shelves ? shelvesData.shelves : [],
-    library: [
-      {
-        id: "all",
-        name: "All",
-        _count: { userBooks: AllBooks.countUserBooks },
-      },
-      {
-        id: "unshelved",
-        name: "Unshelved",
-        _count: { userBooks: UnShelvedBooks.countUserBooks },
-      },
-    ],
+    library: librarySelects.map((item, i): Shelf => {
+      return {
+        id: i.toString(),
+        name: item.name,
+        _count: {
+          userBooks:
+            item.name == "All Books"
+              ? AllBooks.countUserBooks
+              : UnShelvedBooks.countUserBooks,
+        },
+      };
+    }),
   };
 }

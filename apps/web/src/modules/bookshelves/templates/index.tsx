@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { dm_sefif_display } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { Pagination } from "@/components/pagination";
 
@@ -12,7 +9,7 @@ import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";
 import { ContentNav, SortingOptions } from "@/modules/layout/components/content-nav";
 import { CreateShelfModal } from "../components/create-shelf-modal";
-import { BOOKS_PAGE_SIZE, BOOK_STATUSES } from "@/lib/constants";
+import { BOOKS_PAGE_SIZE, } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
 import { toast } from "@/hooks/use-toast";
 import * as R from "ramda";
@@ -21,9 +18,9 @@ import qs from "query-string";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
-import { Progress } from "@radix-ui/react-progress";
-import ProgressMenu from "../components/progress-menu";
-import { current } from "@reduxjs/toolkit";
+import StatusMenu from "../components/status-menu";
+import { ShelfMenu } from "../components/shelf-menu";
+import { bookStatuses } from "@/config/books";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
@@ -43,10 +40,9 @@ export default function BookshelvesTemplate({ librarySelections,
     const currentShelf = currentQuery.shelf ? currentQuery.shelf : "";
     const statuses = [
         {
-            name: "All",
-            icon: Icons.bookPlus,
+            name: "Any Status",
         },
-        ...BOOK_STATUSES
+        ...bookStatuses
 
     ]
     const [selectedStatus, setSelectedStatus] = React.useState(
@@ -57,7 +53,7 @@ export default function BookshelvesTemplate({ librarySelections,
         const currentPage = currentQuery.page ? parseInt(currentQuery.page as string) : 1;
         dispatch(setCurrentPage(currentPage - 1))
     }, [params])
-    // on shelf change reset the filters
+    // on shelf change reset the fi
     useEffect(() => {
         setSelectedStatus(statuses[0])
     }, [currentShelf])
@@ -149,13 +145,15 @@ export default function BookshelvesTemplate({ librarySelections,
             <CreateShelfModal />
             <div className="w-full grid grid-cols-4 gap-6">
                 <SideBar
-                    setSelectedStatus={setSelectedStatus}
                     librarySelections={librarySelections}
                     shelfSelections={shelfSelections}
                 />
                 <div className="col-span-4 xl:col-span-3 pt-1.5">
                     <ContentNav>
-                        <ProgressMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
+                        <div className="flex gap-2">
+                            <ShelfMenu />
+                            <StatusMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
+                        </div>
                         <SortingOptions />
                     </ContentNav>
                     <BookList books={books} />
