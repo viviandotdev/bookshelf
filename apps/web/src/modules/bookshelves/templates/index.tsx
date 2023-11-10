@@ -15,15 +15,12 @@ import {
     bookStatuses
 } from "@/config/books";
 import { Pagination } from "@/components/pagination";
-import { StatusMenu } from "@/modules/bookshelves/components/status-menu";
-import { ShelfMenu } from "@/modules/bookshelves/components/shelf-menu";
 import { Shelf, useCountUserBooksLazyQuery, useUserBooksLazyQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
 import { toast } from "@/hooks/use-toast";
 import * as R from "ramda";
 import qs from "query-string";
-import useCreateQueryString from "../hooks/use-create-query-string";
 
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
@@ -35,7 +32,6 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const { queryFilter, setQueryFilter } = useBookFilters();
     const [totalPages, setTotalPages] = useState(0);
-    const { data: session, status } = useSession();
     const dispatch = useAppDispatch();
     const library = useAppSelector((state) => state.shelf.library);
     const params = useSearchParams();
@@ -63,7 +59,7 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {
-            setTotalPages(data!.countUserBooks / BOOKS_PAGE_SIZE)
+            setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
         }
     });
 
@@ -107,13 +103,6 @@ export default function BookshelvesTemplate({ librarySelections,
         loadData();
     }, [queryFilter, loadBooks, getCount, library]);
 
-    if (status == "loading") {
-        return (
-            <>
-                <div>Loading...</div>
-            </>
-        );
-    }
     return (
         <>
             <CreateShelfModal />

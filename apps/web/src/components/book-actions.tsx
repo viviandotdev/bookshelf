@@ -89,6 +89,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                 >
                     {bookStatuses.map(item => (
                         <DropdownMenuItem
+                            key={item.name}
                             className={`${status === item.name && "bg-accent text-primary"
                                 }`}
                             onClick={(e) => {

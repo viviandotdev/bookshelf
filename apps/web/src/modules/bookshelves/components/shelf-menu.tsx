@@ -21,13 +21,9 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <button
-                        className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
-                    >
-                        {selected}
-                        <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
-                    </button>
+                <DropdownMenuTrigger className={cn(buttonVariants({ variant: "tag", size: "xs" }))}>
+                    {selected}
+                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
@@ -35,10 +31,12 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                     side={"bottom"}
                 >
                     {selections.map((shelf, i) => (
-                        <DropdownMenuItem className={`${shelf.name === selected
-                            ? "bg-secondary"
-                            : "hover:bg-opacity-70"
-                            } `}>
+                        <DropdownMenuItem
+                            key={i}
+                            className={`${shelf.name === selected
+                                ? "bg-secondary"
+                                : "hover:bg-opacity-70"
+                                } `}>
                             <div className={` w-[fill-available] flex`}>
                                 <ShelfActions
                                     key={i}

@@ -59,13 +59,13 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                 <>
                     {shelves.map((shelf, i) => (
                         <div
+                            key={i}
                             className={`${shelf.name === selected
                                 ? "bg-secondary"
                                 : "hover:bg-slate-100 hover:bg-opacity-70"
                                 }  group/item flex rounded-lg px-3 font-medium `}
                         >
                             <ShelfActions
-                                key={i}
                                 shelf={shelf}
                                 isShelves={isShelves}
                                 setOpenAlert={setOpenAlert}

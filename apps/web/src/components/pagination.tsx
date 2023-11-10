@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
 import useCreateQueryString from "@/modules/bookshelves/hooks/use-create-query-string";
-import { ApolloQueryResult } from "@apollo/client";
 import { UserBooksQuery } from "@/graphql/graphql";
 interface PaginationProps {
     totalPages: number;
@@ -22,7 +21,7 @@ export function Pagination({ totalPages, fetchMore }: PaginationProps) {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const pathname = usePathname();
-    // rereender this compoennet
+    // Rereender this compoennet
     const handlePageClick = (data: { selected: any; }) => {
         let selected = data.selected;
         dispatch(setCurrentPage(selected))
@@ -47,7 +46,7 @@ export function Pagination({ totalPages, fetchMore }: PaginationProps) {
     const showPrevButton = true
     return (
         <ReactPaginate
-            breakLabel={<span classNames="mr-2">...</span>}
+            breakLabel={<span className="mr-2">...</span>}
             nextLabel={
                 showNextButton ? (
                     <span className="bg-secondary text-primary w-10 h-10 flex items-center justify-center rounded-md">
