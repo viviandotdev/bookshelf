@@ -9,7 +9,7 @@ import BookList from "@/modules/bookshelves/components/book-list";
 import useBookFilters from "../hooks/useBookFilters";
 import { ContentNav, SortingOptions } from "@/modules/layout/components/content-nav";
 import { CreateShelfModal } from "../components/create-shelf-modal";
-import { BOOKS_PAGE_SIZE, BOOK_STATUSES } from "@/lib/constants";
+import { BOOKS_PAGE_SIZE, } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
 import { toast } from "@/hooks/use-toast";
 import * as R from "ramda";
@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
 import StatusMenu from "../components/status-menu";
 import { ShelfMenu } from "../components/shelf-menu";
+import { bookStatuses } from "@/config/books";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
@@ -42,7 +43,7 @@ export default function BookshelvesTemplate({ librarySelections,
             name: "All",
             icon: Icons.bookPlus,
         },
-        ...BOOK_STATUSES
+        ...bookStatuses
 
     ]
     const [selectedStatus, setSelectedStatus] = React.useState(
@@ -151,7 +152,7 @@ export default function BookshelvesTemplate({ librarySelections,
                 <div className="col-span-4 xl:col-span-3 pt-1.5">
                     <ContentNav>
                         <div className="flex gap-2">
-                            <ShelfMenu librarySelections={librarySelections} shelfSelections={shelfSelections} />
+                            <ShelfMenu />
                             <StatusMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
                         </div>
                         <SortingOptions />

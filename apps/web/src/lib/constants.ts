@@ -8,24 +8,6 @@ export const BASE_URL =
     ? "http://localhost:3000"
     : "https://deplyed-url.com";
 
-export const BOOK_STATUSES = [
-  {
-    name: "Want to Read",
-    icon: Icons.bookPlus,
-  },
-  {
-    name: "Currently Reading",
-    icon: Icons.bookPlus,
-  },
-  {
-    name: "Read",
-    icon: Icons.bookOpen,
-  },
-  {
-    name: "Abandoned",
-    icon: Icons.abondoned,
-  },
-];
 export const BOOKS_PAGE_SIZE = 15;
 export const REVIEWS_PAGE_SIZE = 20;
 export const RESULTS_PAGE_SIZE = 20;

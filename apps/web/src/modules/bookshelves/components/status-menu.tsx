@@ -7,9 +7,9 @@ import React from 'react'
 import { UserBookWhereInput } from '../../../../graphql/graphql';
 import * as R from "ramda";
 import qs from "query-string";
-import { BOOK_STATUSES } from '@/lib/constants';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { bookStatuses } from '@/config/books';
 interface StatusMenuProps {
     selectedStatus: { name: string, icon: LucideIcon };
     setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
@@ -26,7 +26,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
             name: "All",
             icon: Icons.bookPlus,
         },
-        ...BOOK_STATUSES
+        ...bookStatuses
 
     ]
     const [_, setOpen] = React.useState(false)

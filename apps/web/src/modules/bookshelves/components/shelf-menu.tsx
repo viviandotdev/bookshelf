@@ -1,15 +1,8 @@
 import { Icons } from '@/components/icons';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { Command, LucideIcon } from 'lucide-react';
 import React from 'react'
-import { Shelf, UserBookWhereInput } from '../../../../graphql/graphql';
-import * as R from "ramda";
-import qs from "query-string";
-import { BOOK_STATUSES } from '@/lib/constants';
-import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppSelector } from '@/stores';
 import { selectShelves } from '@/stores/shelf-slice';
 import ShelfActions from './shelf-actions';

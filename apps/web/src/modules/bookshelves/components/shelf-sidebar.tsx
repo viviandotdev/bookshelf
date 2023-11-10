@@ -20,9 +20,6 @@ const SideBar: React.FC<SidebarProps> = ({
     const library = useAppSelector((state) => state.shelf.library);
     const dispatch = useAppDispatch();
 
-    // const updateSelected = useShelves((state) => state.updateSelected);
-    // const initShelves = useShelves((state) => state.initShelves);
-
     const params = useSearchParams();
     const shelf = params?.get("shelf");
 

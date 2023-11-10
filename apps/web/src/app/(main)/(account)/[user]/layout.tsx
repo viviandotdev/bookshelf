@@ -1,10 +1,8 @@
-import { SiteFooter } from "@/modules/layout/templates/site-footer";
 import { getCurrentUser } from "@/lib/auth/session";
 import { authOptions } from "@/lib/auth/auth";
 import { notFound, redirect } from "next/navigation";
-import { myBooksConfig } from "@/config/mybooks";
 import { AccountNav } from "@/modules/layout/components/account-nav";
-
+import { siteConfig } from "@/config/site";
 interface AccountLayoutProps {
     children: React.ReactNode;
     params: { user: string };
@@ -23,7 +21,7 @@ export default async function Account({
     }
     return (
         <div className="grid w-full items-center mt-5">
-            <AccountNav items={myBooksConfig.profileNav} user={user} />
+            <AccountNav items={siteConfig.accountNav} user={user} />
             <div className="flex-col justify-center">{children}</div>
         </div>
     );

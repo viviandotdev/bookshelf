@@ -16,10 +16,10 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import useUserBook from "@/stores/use-user-book";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { BOOK_STATUSES } from "@/lib/constants";
 import { BookRating } from "./rating";
 import { useApolloClient } from "@apollo/client";
 import { update } from "ramda";
+import { bookStatuses } from "@/config/books";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -87,7 +87,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     side={"top"}
                     className="w-56"
                 >
-                    {BOOK_STATUSES.map(item => (
+                    {bookStatuses.map(item => (
                         <DropdownMenuItem
                             className={`${status === item.name && "bg-accent text-primary"
                                 }`}

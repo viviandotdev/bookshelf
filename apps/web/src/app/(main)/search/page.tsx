@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
 import { Pagination } from "@/components/pagination";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { myBooksConfig } from "@/config/mybooks";
 import fakeBookData from "@/lib/testData/fakeBookData";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
