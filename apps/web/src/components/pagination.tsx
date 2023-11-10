@@ -4,18 +4,44 @@ import * as React from "react";
 import ReactPaginate from "react-paginate";
 import { Icons } from "./icons";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/stores";
-import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/stores";
+import { setCurrentPage } from "@/stores/shelf-slice";
+import useCreateQueryString from "@/modules/bookshelves/hooks/use-create-query-string";
+import { ApolloQueryResult } from "@apollo/client";
+import { UserBooksQuery } from "@/graphql/graphql";
 interface PaginationProps {
-    handlePageClick: (data: { selected: any; }) => void;
     totalPages: number;
+    fetchMore: any;
 }
 
-export function Pagination({ totalPages, handlePageClick }: PaginationProps) {
+export function Pagination({ totalPages, fetchMore }: PaginationProps) {
     const selected = useAppSelector((state) => state.shelf.currentPage);
+    const createQueryString = useCreateQueryString();
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const pathname = usePathname();
     // rereender this compoennet
+    const handlePageClick = (data: { selected: any; }) => {
+        let selected = data.selected;
+        dispatch(setCurrentPage(selected))
+
+        router.push(
+            `${pathname}?${createQueryString({
+                page: selected + 1,
+            })}`,
+        )
+
+        let offset = Math.ceil(selected * BOOKS_PAGE_SIZE);
+        fetchMore({
+            variables: {
+                offset: offset
+            }, updateQuery: (prev: UserBooksQuery, { fetchMoreResult }: { fetchMoreResult: UserBooksQuery }) => {
+                return fetchMoreResult ? fetchMoreResult : prev;
+            }
+        })
+    };
 
     const showNextButton = true
     const showPrevButton = true

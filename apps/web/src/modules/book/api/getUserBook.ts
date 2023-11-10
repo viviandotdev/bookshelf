@@ -1,4 +1,4 @@
-import { UserBookDocument, UserBookQuery } from "../../../../graphql/graphql";
+import { UserBookDocument, UserBookQuery } from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
 import { getCurrentUser } from "@/lib/auth/session";
 

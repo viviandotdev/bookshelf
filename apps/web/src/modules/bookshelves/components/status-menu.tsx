@@ -3,13 +3,14 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { Command, LucideIcon } from 'lucide-react';
-import React from 'react'
-import { UserBookWhereInput } from '../../../../graphql/graphql';
+import React, { startTransition, useTransition } from 'react'
+import { UserBookWhereInput } from '@/graphql/graphql';
 import * as R from "ramda";
 import qs from "query-string";
 import { useSession } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { bookStatuses } from '@/config/books';
+import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
     selectedStatus: { name: string, icon: LucideIcon };
     setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
@@ -29,19 +30,22 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
 
     ]
     const [_, setOpen] = React.useState(false)
-    const params = useSearchParams();
-    const { data: session, status } = useSession();
     const router = useRouter();
+    const createQueryString = useCreateQueryString();
+    const pathname = usePathname()
+    const [isPending, startTransition] = useTransition()
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <button
-                        className={cn(buttonVariants({ variant: "tag", size: "xs" }))}
+                    <Button
+                        disabled={isPending}
+                        variant={"tag"}
+                        size={"xs"}
                     >
                         {selectedStatus.name}
                         <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
-                    </button>
+                    </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
@@ -53,23 +57,14 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                             <DropdownMenuItem
                                 key={status.name}
                                 onSelect={() => {
-                                    let currentQuery = {};
-                                    if (params) {
-                                        currentQuery = qs.parse(params.toString());
-                                    }
-                                    if (session) {
-                                        const url = qs.stringifyUrl(
-                                            {
-                                                url: `/${session!.user.name}/books`,
-                                                query: {
-                                                    ...currentQuery,
-                                                    status: status.name,
-                                                },
-                                            },
-                                            { skipNull: true }
-                                        );
-                                        router.push(url);
-                                    }
+                                    startTransition(() => {
+                                        router.push(
+                                            `${pathname}?${createQueryString({
+                                                status: status.name,
+                                            })}`,
+                                        )
+                                    })
+
                                     // update query url
                                     setSelectedStatus(status)
                                     if (status.name === "Any Status") {

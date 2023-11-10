@@ -3,7 +3,7 @@ import React, { use, useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../../graphql/graphql";
+import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../graphql/graphql";
 import { useRouter } from "next/navigation";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";

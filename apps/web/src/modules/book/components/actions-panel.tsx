@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { Shelf, useCreateBookMutation } from "../../../../graphql/graphql";
+import { Shelf, useCreateBookMutation } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
 import { useFirstRender } from "@/hooks/use-first-render";

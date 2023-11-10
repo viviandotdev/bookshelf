@@ -1,17 +1,26 @@
 import { Icons } from "@/components/icons";
 
 export const sortingSelects = [
+  { label: "Date: Old to new", value: "createdAt.asc" },
   {
-    title: "Date Added",
-    icon: "chevronDown",
+    label: "Date: New to old",
+    value: "createdAt.desc",
   },
   {
-    title: "Title",
-    icon: "chevronDown",
+    label: "Title: A to Z",
+    value: "title.asc",
   },
   {
-    title: "Author",
-    icon: "chevronDown",
+    label: "Title: Z to A",
+    value: "title.desc",
+  },
+  {
+    label: "Author: A to Z",
+    value: "author.asc",
+  },
+  {
+    label: "Author: Z to A",
+    value: "author.desc",
   },
 ];
 

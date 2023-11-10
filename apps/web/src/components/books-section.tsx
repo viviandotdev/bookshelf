@@ -5,7 +5,7 @@ import { Dot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
-import { Shelf, UserBook } from "../../graphql/graphql";
+import { Shelf, UserBook } from "../graphql/graphql";
 import { useAppDispatch } from "@/stores";
 import { initShelves } from "@/stores/shelf-slice";
 

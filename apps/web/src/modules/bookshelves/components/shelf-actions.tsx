@@ -10,7 +10,7 @@ import qs from "query-string";
 import { Icons } from "../../../components/icons";
 // import useShelves from "@/stores/shelf-store";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Shelf } from "../../../../graphql/graphql";
+import { Shelf } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";

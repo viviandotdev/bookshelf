@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { Shelf } from "../../graphql/graphql";
+import { Shelf } from "../graphql/graphql";
 import { RootState } from ".";
 
 // Define a type for the slice state
