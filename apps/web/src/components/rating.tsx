@@ -10,13 +10,14 @@ const myStyles = {
 
 
 interface BookRatingProps {
+    size?: "lg" | "sm";
     bookId: string;
     rating: number;
     setRating: (rating: number) => void;
 }
 
 // Book Rating Component
-export function BookRating({ rating, setRating, bookId }: BookRatingProps) {
+export function BookRating({ size = "sm", rating, setRating, bookId }: BookRatingProps) {
     // get the userbook context
     const { updateUserBook } = useUpdateUserBook();
     async function updateRating(selectedValue: number) {
@@ -26,13 +27,13 @@ export function BookRating({ rating, setRating, bookId }: BookRatingProps) {
         }
     }
 
+    const width = size == "lg" ? 200 : 100
     return (
         <div className="flex justify-end items-center gap-2">
-            My Rating:
             <Rating
                 halfFillMode="box"
                 itemStyles={myStyles}
-                style={{ maxWidth: 100 }}
+                style={{ maxWidth: width }}
                 value={rating}
                 onChange={updateRating}
             />

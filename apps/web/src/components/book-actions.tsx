@@ -104,7 +104,10 @@ const BookActions: React.FC<BookActionsProps> = ({
                     ))}
                     <DropdownMenuSeparator></DropdownMenuSeparator>
                     <DropdownMenuItem>
-                        <BookRating bookId={book.id} rating={rating} setRating={setRating} />
+                        <div className="flex gap-2">
+                            My Rating:
+                            <BookRating bookId={book.id} rating={rating} setRating={setRating} />
+                        </div>
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {

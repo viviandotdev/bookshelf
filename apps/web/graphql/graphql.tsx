@@ -32,7 +32,7 @@ export type Book = {
   categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  id: Scalars['ID'];
   pageNum?: Maybe<Scalars['Int']>;
   pubDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
@@ -1820,7 +1820,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null } | null };
 
 export type UserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -2447,6 +2447,7 @@ export const UserBookDocument = gql`
     userId
     bookId
     status
+    rating
   }
 }
     `;

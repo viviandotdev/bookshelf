@@ -9,6 +9,7 @@ import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
+import { BookRating } from "@/components/rating";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -51,9 +52,10 @@ function ActionGroup() {
 interface ActionsPanelProps {
     book: BookData;
     bookStatus: string | undefined;
+    bookRating: number | undefined;
 }
-export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
-    const [rating, setRating] = useState(0);
+export default function ActionsPanel({ book, bookStatus, bookRating }: ActionsPanelProps) {
+    const [rating, setRating] = useState(bookRating);
     const [status, setStatus] = useState(bookStatus);
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
@@ -117,13 +119,7 @@ export default function ActionsPanel({ book, bookStatus }: ActionsPanelProps) {
 
                     <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                         <span>Rating</span>
-                        <Rating
-                            halfFillMode="box"
-                            itemStyles={myStyles}
-                            style={{ maxWidth: 200 }}
-                            value={rating}
-                            onChange={setRating}
-                        />
+                        <BookRating size={"lg"} bookId={book.id} rating={rating} setRating={setRating} />
                     </div>
                     {status ? (
                         <button

@@ -3,6 +3,7 @@ query UserBook($where: BookWhereUniqueInput!) {
     userId
     bookId
     status
+    rating
   }
 }
 

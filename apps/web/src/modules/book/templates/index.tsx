@@ -48,7 +48,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} bookStatus={userBook?.status} />
+                                <ActionsPanel book={book} bookStatus={userBook?.status} bookRating={userBook?.rating} />
                             </section>
                         </div>
                     </div>
