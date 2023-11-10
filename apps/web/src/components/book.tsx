@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
@@ -33,7 +33,7 @@ export const Book: React.FC<BookProps> = ({
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { book, shelves } = userBook;
+    const { book, shelves, status: userBookStatus, rating: userBookRating } = userBook;
     const [isLoading, setIsLoading] = useState(false);
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
@@ -45,8 +45,10 @@ export const Book: React.FC<BookProps> = ({
         percent: 0,
     });
     const dispatch = useAppDispatch();
-
-
+    useEffect(() => {
+        setStatus(userBook.status ? userBook.status : "");
+        setRating(userBook.rating ? userBook.rating : 0);
+    }, [userBook]);
 
     const onDelete = async () => {
         setIsLoading(true);

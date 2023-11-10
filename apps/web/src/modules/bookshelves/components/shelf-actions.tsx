@@ -32,7 +32,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     const shelfModal = useCreateShelfModal();
     const dispatch = useAppDispatch();
     const selected = useAppSelector((state) => state.shelf.selected);
-    // const updateSelected = useShelves((state) => state.updateSelected);
+    
     const { data: session } = useSession();
     const router = useRouter();
     const params = useSearchParams();
