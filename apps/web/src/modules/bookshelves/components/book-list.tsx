@@ -1,40 +1,33 @@
 "use client";
 import React from "react";
 import {
-    Shelf,
     UserBook,
 
 } from "@/graphql/graphql";
 
 import Book from "../../../components/book";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ContentNav } from "@/modules/layout/components/content-nav";
 import ShelfMenu from "./shelf-menu";
 import StatusMenu from "./status-menu";
-import { LucideIcon } from "lucide-react";
-import useCreateQueryString from "../hooks/use-create-query-string";
 import { SortingOptions } from "./sorting-options";
+import { Pagination } from "@/components/pagination";
 interface BookListProps {
     books: UserBook[];
-    selectedStatus: { name: string, icon: LucideIcon };
-    setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
+    fetchMore: any;
+    totalPages: number;
     setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, selectedStatus,
-    setSelectedStatus,
+const BookList: React.FC<BookListProps> = ({ books, fetchMore, totalPages,
     setQueryFilter }) => {
-    const router = useRouter()
-    const pathname = usePathname()
     const searchParams = useSearchParams()
-    const [isPending, startTransition] = React.useTransition()
+
     // Search params
     const page = searchParams?.get("page") ?? "1"
+    const status = searchParams?.get("status") ?? "Any Status"
     const sort = searchParams?.get("sort") ?? "createdAt.desc"
-    const shelvesParam = searchParams?.get("shelves")
-    // Use the custom hook
-
+    const shelfParam = searchParams?.get("shelf")
 
 
     return (
@@ -42,7 +35,8 @@ const BookList: React.FC<BookListProps> = ({ books, selectedStatus,
             <ContentNav>
                 <div className="flex gap-2">
                     <ShelfMenu />
-                    <StatusMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
+                    <StatusMenu status={status} setQueryFilter={setQueryFilter} />
+
                 </div>
                 <SortingOptions sort={sort} />
             </ContentNav>
@@ -54,6 +48,11 @@ const BookList: React.FC<BookListProps> = ({ books, selectedStatus,
                         </div>
                     ))}
             </div>
+            <Pagination
+                page={page}
+                totalPages={totalPages}
+                fetchMore={fetchMore}
+            />
         </>
     );
 };

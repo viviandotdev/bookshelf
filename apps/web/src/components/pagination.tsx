@@ -11,26 +11,27 @@ import { setCurrentPage } from "@/stores/shelf-slice";
 import useCreateQueryString from "@/modules/bookshelves/hooks/use-create-query-string";
 import { UserBooksQuery } from "@/graphql/graphql";
 interface PaginationProps {
+    page: string;
     totalPages: number;
     fetchMore: any;
 }
 
-export function Pagination({ totalPages, fetchMore }: PaginationProps) {
-    const selected = useAppSelector((state) => state.shelf.currentPage);
+export function Pagination({ page, totalPages, fetchMore }: PaginationProps) {
     const createQueryString = useCreateQueryString();
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [isPending, startTransition] = React.useTransition()
     const pathname = usePathname();
     // Rereender this compoennet
     const handlePageClick = (data: { selected: any; }) => {
         let selected = data.selected;
-        dispatch(setCurrentPage(selected))
-
-        router.push(
-            `${pathname}?${createQueryString({
-                page: selected + 1,
-            })}`,
-        )
+        startTransition(() => {
+            router.push(
+                `${pathname}?${createQueryString({
+                    page: selected + 1,
+                })}`,
+            )
+        })
 
         let offset = Math.ceil(selected * BOOKS_PAGE_SIZE);
         fetchMore({
@@ -63,7 +64,7 @@ export function Pagination({ totalPages, fetchMore }: PaginationProps) {
                     </span>
                 ) : null
             }
-            forcePage={selected}
+            forcePage={Number(page) - 1}
             containerClassName="flex items-center justify-center mt-8 mb-4"
             pageClassName="cursor-pointer block border- border-solid hover:bg-secondary w-10 h-10 flex items-center justify-center rounded-md mr-4"
             activeClassName="text-primary text-sm"

@@ -32,30 +32,7 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const { queryFilter, setQueryFilter } = useBookFilters();
     const [totalPages, setTotalPages] = useState(0);
-    const dispatch = useAppDispatch();
     const library = useAppSelector((state) => state.shelf.library);
-    const params = useSearchParams();
-    const currentQuery = qs.parse(params.toString());
-    const currentShelf = currentQuery.shelf ? currentQuery.shelf : "";
-    const statuses = [
-        {
-            name: "Any Status",
-        },
-        ...bookStatuses
-
-    ]
-    const [selectedStatus, setSelectedStatus] = React.useState(
-        statuses[0]
-    )
-    useEffect(() => {
-        const currentQuery = qs.parse(params.toString());
-        const currentPage = currentQuery.page ? parseInt(currentQuery.page as string) : 1;
-        dispatch(setCurrentPage(currentPage - 1))
-    }, [params])
-    // on shelf change reset the fi
-    useEffect(() => {
-        setSelectedStatus(statuses[0])
-    }, [currentShelf])
 
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {
@@ -113,11 +90,13 @@ export default function BookshelvesTemplate({ librarySelections,
                 />
                 <div className="col-span-4 xl:col-span-3 pt-1.5">
 
-                    <BookList books={books} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
-                    <Pagination
+                    <BookList
+                        books={books}
+                        setQueryFilter={setQueryFilter}
                         fetchMore={fetchMore}
                         totalPages={totalPages}
                     />
+
                 </div>
                 <CreateShelfModal />
             </div ></>

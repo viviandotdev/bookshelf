@@ -12,14 +12,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { bookStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
-    selectedStatus: { name: string, icon: LucideIcon };
-    setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
+    status: string;
     setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export const StatusMenu: React.FC<StatusMenuProps> = ({
-    selectedStatus,
-    setSelectedStatus,
+    status,
     setQueryFilter
 }) => {
     const statuses = [
@@ -42,7 +40,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                     "px-4"
                 )} disabled={isPending}>
 
-                    {selectedStatus.name}
+                    {status}
                     <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -51,21 +49,19 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                     side={"bottom"}
                 >
                     {
-                        statuses.map((status) => (
+                        statuses.map((s) => (
                             <DropdownMenuItem
-                                key={status.name}
+                                key={s.name}
                                 onSelect={() => {
                                     startTransition(() => {
                                         router.push(
                                             `${pathname}?${createQueryString({
-                                                status: status.name,
+                                                status: s.name,
                                             })}`,
                                         )
                                     })
-
                                     // update query url
-                                    setSelectedStatus(status)
-                                    if (status.name === "Any Status") {
+                                    if (s.name === "Any Status") {
                                         setQueryFilter((prev: { where: UserBookWhereInput }) =>
                                         (
                                             {
@@ -76,7 +72,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                         setQueryFilter((prev: { where: UserBookWhereInput }) => ({
                                             where: R.mergeRight(prev.where, {
                                                 status: {
-                                                    equals: status.name
+                                                    equals: s.name
                                                 }
                                             })
                                         }))
@@ -84,19 +80,19 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
 
                                     setOpen(false)
                                 }}
-                                className={cn(status.name === selectedStatus?.name && "bg-secondary")}
+                                className={cn(s.name === status && "bg-secondary")}
                             >
-                                {status.icon &&
-                                    <status.icon
+                                {s.icon &&
+                                    <s.icon
                                         className={cn(
                                             "mr-2 h-4 w-4",
-                                            status.name === selectedStatus?.name
+                                            s.name === status
                                                 ? "opacity-100"
                                                 : "opacity-40"
                                         )}
                                     />
                                 }
-                                <span>{status.name}</span>
+                                <span>{s.name}</span>
                             </DropdownMenuItem>
                         ))
                     }
