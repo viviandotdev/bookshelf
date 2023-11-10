@@ -10,13 +10,13 @@ import qs from "query-string";
 import { BOOK_STATUSES } from '@/lib/constants';
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
-interface ProgressMenuProps {
+interface StatusMenuProps {
     selectedStatus: { name: string, icon: LucideIcon };
     setSelectedStatus: React.Dispatch<React.SetStateAction<{ name: string, icon: LucideIcon }>>;
     setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-export const ProgressMenu: React.FC<ProgressMenuProps> = ({
+export const StatusMenu: React.FC<StatusMenuProps> = ({
     selectedStatus,
     setSelectedStatus,
     setQueryFilter
@@ -47,9 +47,8 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
                 <DropdownMenuContent
                     avoidCollisions={false}
                     align={"end"}
-                    side={"top"}
-                    alignOffset={-88}
-                    sideOffset={-200}
+                    side={"bottom"}
+                    alignOffset={-122}
                 >
                     {
                         statuses.map((status) => (
@@ -114,4 +113,4 @@ export const ProgressMenu: React.FC<ProgressMenuProps> = ({
 
     );
 }
-export default ProgressMenu
+export default StatusMenu

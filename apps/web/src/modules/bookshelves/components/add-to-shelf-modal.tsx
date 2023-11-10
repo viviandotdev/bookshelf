@@ -30,7 +30,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const dispatch = useAppDispatch();
     const { updateUserBook } = useUpdateUserBook();
     const shelves = useAppSelector(selectShelves)
-    console.log(shelves)
     const client = useApolloClient();
     const userBook = useUserBook();
 

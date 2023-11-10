@@ -17,7 +17,7 @@ const useBookFilters = () => {
           },
         },
       });
-    } else if (selected === "All") {
+    } else if (selected === "All Books") {
       setQueryFilter({});
     } else {
       setQueryFilter({

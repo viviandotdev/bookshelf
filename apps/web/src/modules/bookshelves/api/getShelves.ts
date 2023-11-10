@@ -35,12 +35,12 @@ export async function getShelves() {
     shelves: shelvesData.shelves ? shelvesData.shelves : [],
     library: [
       {
-        id: "all",
-        name: "All",
+        id: "All",
+        name: "All Books",
         _count: { userBooks: AllBooks.countUserBooks },
       },
       {
-        id: "unshelved",
+        id: "Unshelved",
         name: "Unshelved",
         _count: { userBooks: UnShelvedBooks.countUserBooks },
       },

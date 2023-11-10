@@ -18,7 +18,7 @@ import qs from "query-string";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
-import ProgressMenu from "../components/progress-menu";
+import StatusMenu from "../components/status-menu";
 import { ShelfMenu } from "../components/shelf-menu";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
@@ -152,7 +152,7 @@ export default function BookshelvesTemplate({ librarySelections,
                     <ContentNav>
                         <div className="flex gap-2">
                             <ShelfMenu librarySelections={librarySelections} shelfSelections={shelfSelections} />
-                            <ProgressMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
+                            <StatusMenu selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} setQueryFilter={setQueryFilter} />
                         </div>
                         <SortingOptions />
                     </ContentNav>

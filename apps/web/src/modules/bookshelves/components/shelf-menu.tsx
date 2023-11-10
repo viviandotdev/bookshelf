@@ -14,13 +14,9 @@ import { useAppSelector } from '@/stores';
 import { selectShelves } from '@/stores/shelf-slice';
 import ShelfActions from './shelf-actions';
 interface ShelfMenuProps {
-    librarySelections: Shelf[];
-    shelfSelections: Shelf[];
 }
 
 export const ShelfMenu: React.FC<ShelfMenuProps> = ({
-    librarySelections,
-    shelfSelections,
 
 }) => {
     const shelves = useAppSelector(selectShelves)
@@ -42,10 +38,17 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                 <DropdownMenuContent
                     avoidCollisions={false}
                     align={"end"}
-                    side={"top"}
-                    alignOffset={-88}
-                    sideOffset={-200}
+                    side={"bottom"}
+                    alignOffset={-132}
                 >
+                    {library.map((shelf, i) => (
+                        <DropdownMenuItem>
+                            <ShelfActions
+                                key={i}
+                                shelf={shelf}
+                            />
+                        </DropdownMenuItem>
+                    ))}
                     {shelves.map((shelf, i) => (
                         <DropdownMenuItem>
                             <ShelfActions

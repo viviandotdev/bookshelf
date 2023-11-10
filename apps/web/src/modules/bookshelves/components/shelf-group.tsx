@@ -12,6 +12,7 @@ import { useAppDispatch } from "@/stores";
 import { removeShelf } from "@/stores/shelf-slice";
 import { useDeleteShelf } from "@/hooks/shelf/mutations";
 import { toast } from "@/hooks/use-toast";
+import { CreateShelfModal } from "./create-shelf-modal";
 
 interface ShelfGroupProps {
     title: string;
@@ -67,6 +68,7 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
 
                     {isShelves && (
                         <div className="pt-1.5">
+                            <CreateShelfModal/>
                             <Button
                                 className="w-[fill-available]"
                                 size="sm"

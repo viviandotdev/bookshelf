@@ -65,6 +65,7 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
     const [CreateBook] = useCreateBookMutation();
     const firstRender = useFirstRender();
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         updateStatus(bookStatus as string);
         dispatch(initShelves(shelves));

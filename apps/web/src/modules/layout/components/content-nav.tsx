@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import ProgressMenu from "@/modules/bookshelves/components/progress-menu";
+import ProgressMenu from "@/modules/bookshelves/components/status-menu";
 import { dm_sefif_display } from "@/lib/fonts";
 
 // Component for the search input
