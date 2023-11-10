@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { useCreateBookMutation } from "../../../../graphql/graphql";
+import { Shelf, useCreateBookMutation } from "../../../../graphql/graphql";
 import { useSession } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
 import { useFirstRender } from "@/hooks/use-first-render";
@@ -10,17 +10,14 @@ import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
 import { BookRating } from "@/components/rating";
+import { initShelves } from "@/stores/shelf-slice";
+import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
+import { useAppDispatch } from "@/stores";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
-    onClick?: () => void;
+    onClick?: () => void
 }
-
-const myStyles = {
-    itemShapes: Star,
-    activeFillColor: "#F4CC49",
-    inactiveFillColor: "#c6cdd6",
-};
 
 function ActionItem({ icon, label, onClick }: ActionItemProps) {
     return (
@@ -53,20 +50,24 @@ interface ActionsPanelProps {
     book: BookData;
     bookStatus: string | undefined;
     bookRating: number | undefined;
+    shelves: Shelf[];
 }
-export default function ActionsPanel({ book, bookStatus, bookRating }: ActionsPanelProps) {
+export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: ActionsPanelProps) {
     const [rating, setRating] = useState(bookRating);
     const [status, setStatus] = useState(bookStatus);
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
+    const addToShelfModal = useAddToShelfModal();
     const userBook = useUserBook();
     const updateUserId = useUserBook((state) => state.updateUserId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const updateBookId = useUserBook((state) => state.updateBookId);
     const [CreateBook] = useCreateBookMutation();
     const firstRender = useFirstRender();
+    const dispatch = useAppDispatch();
     useEffect(() => {
         updateStatus(bookStatus as string);
+        dispatch(initShelves(shelves));
     }, []);
 
     useEffect(() => {
@@ -141,7 +142,12 @@ export default function ActionsPanel({ book, bookStatus, bookRating }: ActionsPa
                     <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                         Review
                     </div>
-                    <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+                    <div onClick={() => {
+                        // Shelves this part is part of
+                        updateBookId(book!.id);
+                        addToShelfModal.onOpen();
+
+                    }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                         Add to shelf
                     </div>
                 </div>

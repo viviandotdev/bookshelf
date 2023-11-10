@@ -1820,7 +1820,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type UserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -2448,6 +2448,12 @@ export const UserBookDocument = gql`
     bookId
     status
     rating
+    shelves {
+      shelf {
+        id
+        name
+      }
+    }
   }
 }
     `;

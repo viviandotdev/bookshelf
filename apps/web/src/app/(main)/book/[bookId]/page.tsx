@@ -3,6 +3,7 @@ import { getBook } from "@/modules/book/api/getBook";
 import { getUserBook } from "@/modules/book/api/getUserBook";
 import { notFound } from "next/navigation";
 import BookTemplate from "@/modules/book/templates";
+import { getShelves } from "@/modules/bookshelves/api/getShelves";
 
 interface BookPageProps {
     params: { bookId: string };
@@ -14,9 +15,11 @@ export default async function BookPage({ params }: BookPageProps) {
         notFound();
     }
     const userBook = await getUserBook(params.bookId);
+    const { shelves } = await getShelves();
+    console.log(shelves)
     return (
         <>
-            <BookTemplate book={book} userBook={userBook} />
+            <BookTemplate book={book} shelves={shelves} userBook={userBook} />
         </>
     );
 }

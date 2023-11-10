@@ -22,7 +22,6 @@ import useUserBook from "@/stores/use-user-book";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-// import { getApolloClient } from "@/lib/apollo";
 import { useApolloClient } from '@apollo/client';
 interface AddToShelfModalProps { }
 
@@ -31,6 +30,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const dispatch = useAppDispatch();
     const { updateUserBook } = useUpdateUserBook();
     const shelves = useAppSelector(selectShelves)
+    console.log(shelves)
     const client = useApolloClient();
     const userBook = useUserBook();
 
