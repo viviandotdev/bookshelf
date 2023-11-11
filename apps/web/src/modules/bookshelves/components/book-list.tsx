@@ -14,30 +14,28 @@ import { SortingOptions } from "./sorting-options";
 import { Pagination } from "@/components/pagination";
 interface BookListProps {
     books: UserBook[];
-    fetchMore: any;
     totalPages: number;
-    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, fetchMore, totalPages,
-    setQuery }) => {
+const BookList: React.FC<BookListProps> = ({ books, totalPages,
+}) => {
     const searchParams = useSearchParams()
 
     // Search params
     const page = searchParams?.get("page") ?? "1"
     const status = searchParams?.get("status") ?? "Any Status"
     const sort = searchParams?.get("sort") ?? "createdAt.desc"
-    const shelfParam = searchParams?.get("shelf")
+    const shelf = searchParams?.get("shelf")
 
 
     return (
         <>
             <ContentNav>
                 <div className="flex gap-2">
-                    <ShelfMenu setQuery={setQuery} />
-                    <StatusMenu status={status} setQuery={setQuery} />
+                    <ShelfMenu />
+                    <StatusMenu status={status} />
                 </div>
-                <SortingOptions setQuery={setQuery} sort={sort} />
+                <SortingOptions sort={sort} />
             </ContentNav>
             <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
                 {books &&
@@ -50,7 +48,6 @@ const BookList: React.FC<BookListProps> = ({ books, fetchMore, totalPages,
             <Pagination
                 page={page}
                 totalPages={totalPages}
-                fetchMore={fetchMore}
             />
         </>
     );

@@ -11,9 +11,8 @@ import { UserBookWhereInput } from "@/graphql/graphql";
 import * as R from "ramda";
 interface SortingOptionsProps {
     sort: string;
-    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
-export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort, setQuery }) => {
+export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort }) => {
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
     const createQueryString = useCreateQueryString();
@@ -51,12 +50,6 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort, setQuery }
                                         })}`,
                                     )
                                 })
-                                setQuery((prev: { where: UserBookWhereInput }) =>
-                                (
-                                    {
-                                        where: R.mergeRight(prev.where, { status: {} })
-
-                                    }))
                             }}
                         >
                             {option.label}

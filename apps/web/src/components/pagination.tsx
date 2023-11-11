@@ -3,43 +3,28 @@
 import * as React from "react";
 import ReactPaginate from "react-paginate";
 import { Icons } from "./icons";
-import { BOOKS_PAGE_SIZE } from "@/lib/constants";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/stores";
-import { setCurrentPage } from "@/stores/shelf-slice";
+import { useAppDispatch } from "@/stores";
 import useCreateQueryString from "@/modules/bookshelves/hooks/use-create-query-string";
-import { UserBooksQuery } from "@/graphql/graphql";
 interface PaginationProps {
     page: string;
     totalPages: number;
-    fetchMore: any;
 }
 
-export function Pagination({ page, totalPages, fetchMore }: PaginationProps) {
+export function Pagination({ page, totalPages }: PaginationProps) {
     const createQueryString = useCreateQueryString();
-    const dispatch = useAppDispatch();
     const router = useRouter();
     const [isPending, startTransition] = React.useTransition()
     const pathname = usePathname();
     // Rereender this compoennet
     const handlePageClick = (data: { selected: any; }) => {
-        let selected = data.selected;
         startTransition(() => {
             router.push(
                 `${pathname}?${createQueryString({
-                    page: selected + 1,
+                    page: data.selected + 1,
                 })}`,
             )
-        })
-
-        let offset = Math.ceil(selected * BOOKS_PAGE_SIZE);
-        fetchMore({
-            variables: {
-                offset: offset
-            }, updateQuery: (prev: UserBooksQuery, { fetchMoreResult }: { fetchMoreResult: UserBooksQuery }) => {
-                return fetchMoreResult ? fetchMoreResult : prev;
-            }
         })
     };
 

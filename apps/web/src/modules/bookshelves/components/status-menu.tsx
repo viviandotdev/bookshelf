@@ -11,12 +11,10 @@ import { bookStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
     status: string;
-    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export const StatusMenu: React.FC<StatusMenuProps> = ({
     status,
-    setQuery
 }) => {
     const statuses = [
         {
@@ -58,24 +56,6 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                             })}`,
                                         )
                                     })
-                                    // update query url
-                                    if (s.name === "Any Status") {
-                                        setQuery((prev: { where: UserBookWhereInput }) =>
-                                        (
-                                            {
-                                                where: R.mergeRight(prev.where, { status: {} })
-
-                                            }))
-                                    } else {
-                                        setQuery((prev: { where: UserBookWhereInput }) => ({
-                                            where: R.mergeRight(prev.where, {
-                                                status: {
-                                                    equals: s.name
-                                                }
-                                            })
-                                        }))
-                                    }
-
                                     setOpen(false)
                                 }}
                                 className={cn(s.name === status && "bg-secondary")}

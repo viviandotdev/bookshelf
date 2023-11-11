@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage } from "@/stores/shelf-slice";
 import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
 import BookList from "@/modules/bookshelves/components/book-list";
-import useBookFilters from "@/modules/bookshelves/hooks/useBookFilters";
+import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
 import {
     ContentNav,
 } from "@/modules/layout/components/content-nav";
@@ -25,12 +25,15 @@ import qs from "query-string";
 interface BookshelvesTemplateProps {
     librarySelections: Shelf[];
     shelfSelections: Shelf[];
+    searchParams: {
+        [key: string]: string | string[] | undefined
+    }
 }
 
 export default function BookshelvesTemplate({ librarySelections,
     shelfSelections }: BookshelvesTemplateProps) {
 
-    const { query, setQuery } = useBookFilters();
+    const query = useUserBookQuery();
     const [totalPages, setTotalPages] = useState(0);
     const library = useAppSelector((state) => state.shelf.library);
 
@@ -40,7 +43,7 @@ export default function BookshelvesTemplate({ librarySelections,
         }
     });
 
-    const [loadBooks, { data: booksData, fetchMore, networkStatus }] =
+    const [loadBooks, { data: booksData, networkStatus }] =
         useUserBooksLazyQuery({
             fetchPolicy: "cache-and-network",
             nextFetchPolicy: "cache-first",
@@ -65,12 +68,11 @@ export default function BookshelvesTemplate({ librarySelections,
 
     const books = booksData && booksData?.userBooks;
     const loading = networkStatus === NetworkStatus.loading;
-    const loadMoreLoading = networkStatus === NetworkStatus.fetchMore;
 
     useEffect(() => {
         const loadData = async () => {
+
             const pagedQuery = R.mergeRight(query, {
-                offset: 0,
                 limit: BOOKS_PAGE_SIZE,
             });
             await loadBooks({ variables: { ...pagedQuery } });
@@ -80,9 +82,12 @@ export default function BookshelvesTemplate({ librarySelections,
         loadData();
     }, [query, loadBooks, getCount, library]);
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <>
-            <CreateShelfModal />
             <div className="w-full grid grid-cols-4 gap-6">
                 <SideBar
                     librarySelections={librarySelections}
@@ -92,14 +97,13 @@ export default function BookshelvesTemplate({ librarySelections,
 
                     <BookList
                         books={books}
-                        setQuery={setQuery}
-                        fetchMore={fetchMore}
                         totalPages={totalPages}
                     />
 
                 </div>
                 <CreateShelfModal />
-            </div ></>
+            </div >
+        </>
 
     );
 }

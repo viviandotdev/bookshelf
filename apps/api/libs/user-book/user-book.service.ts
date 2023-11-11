@@ -44,6 +44,7 @@ export class UserBookService {
     userId: string;
     skip?: number;
     take?: number;
+    orderBy?: Prisma.UserBookOrderByWithRelationInput;
   }) {
     const { userId } = args;
     const userBooks = await this.repository.findMany({
@@ -65,6 +66,7 @@ export class UserBookService {
           take: 1, // Take only the last element
         },
       },
+      orderBy: args.orderBy,
       skip: args.skip,
       take: args.take,
     });

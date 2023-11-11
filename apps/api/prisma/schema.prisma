@@ -85,23 +85,25 @@ model Book {
 // Table stores all user books
 model UserBook {
     /// @Validator.IsString()
-    id           String            @id @default(uuid())
+    id        String   @id @default(uuid())
     /// @Validator.IsString()
-    userId       String
+    userId    String
     /// @Validator.IsString()
-    bookId       String
+    bookId    String
     /// @Validator.IsString()
-    status       String //WANT TO READ, READ, READING, ABANDONED, UP NEXT
+    status    String //WANT TO READ, READ, READING, ABANDONED, UP NEXT
     /// @Validator.Min(1)
     /// @Validator.Max(5)
     /// @Validator.IsInt()
-    rating       Int?
+    rating    Int?
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
-    user         User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    book      Book?    @relation(fields: [bookId], references: [id], onDelete: Cascade)
     /// @Validator.ValidateNested()
-    dataAdded    DateTime          @default(now())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]

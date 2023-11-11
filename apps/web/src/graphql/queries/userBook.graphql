@@ -17,8 +17,9 @@ query UserBooks(
   $where: UserBookWhereInput
   $limit: Int! = 100
   $offset: Int! = 0
+  $orderBy: UserBookOrderByWithRelationInput
 ) {
-  userBooks(where: $where, offset: $offset, limit: $limit) {
+  userBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
     userId
     bookId
     status

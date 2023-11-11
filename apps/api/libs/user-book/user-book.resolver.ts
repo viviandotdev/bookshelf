@@ -3,6 +3,8 @@ import { UserBookService } from './user-book.service';
 import {
   BookWhereUniqueInput,
   UserBook,
+  UserBookOrderByWithAggregationInput,
+  UserBookOrderByWithRelationInput,
   UserBookWhereInput,
 } from '../../src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
@@ -34,6 +36,8 @@ export class UserBookResolver {
     where: UserBookWhereInput,
     @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
+    @Args('orderBy', { nullable: true })
+    orderBy: UserBookOrderByWithRelationInput,
     @CurrentUser() user: JwtPayload,
   ) {
     return this.userBookService.findMany({
@@ -41,6 +45,7 @@ export class UserBookResolver {
       userId: user.userId,
       skip: offset,
       take: limit,
+      orderBy: orderBy,
     });
   }
 
