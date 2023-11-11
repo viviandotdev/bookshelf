@@ -71,11 +71,7 @@ export default function BookshelvesTemplate({ librarySelections,
 
     useEffect(() => {
         const loadData = async () => {
-
-            const pagedQuery = R.mergeRight(query, {
-                limit: BOOKS_PAGE_SIZE,
-            });
-            await loadBooks({ variables: { ...pagedQuery } });
+            await loadBooks({ variables: { ...query } });
             await getCount({ variables: { ...query } });
         };
 

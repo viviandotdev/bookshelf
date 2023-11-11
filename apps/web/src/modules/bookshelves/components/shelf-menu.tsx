@@ -15,7 +15,6 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     const library = useAppSelector((state) => state.shelf.library);
     const selected = useAppSelector((state) => state.shelf.selected);
     const selections = [...library, ...shelves]
-    const [_, setOpen] = React.useState(false)
 
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">

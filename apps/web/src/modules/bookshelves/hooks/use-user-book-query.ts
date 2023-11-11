@@ -45,11 +45,28 @@ const useUserBookQuery = () => {
     }
   };
 
+  const buildSortQuery = (sortParam: string) => {
+    const sortBy = R.split(".", sortParam)[0];
+    const sortOrder = R.split(".", sortParam)[1];
+
+    if (sortBy == "title" || sortBy == "author") {
+      return {
+        orderBy: {
+          book: {
+            [sortBy]: sortOrder,
+          },
+        },
+      };
+    }
+    return {
+      orderBy: {
+        [sortBy]: sortOrder,
+      },
+    };
+  };
+
   useEffect(() => {
     const { page, status, sort, shelf } = parseSearchParams();
-
-    const sortBy = R.split(".", sort)[0];
-    const sortOrder = R.split(".", sort)[1];
     const pageAsNumber = Number(page) - 1;
     const fallbackPage =
       isNaN(pageAsNumber) || pageAsNumber < 0 ? 0 : pageAsNumber;
@@ -58,10 +75,10 @@ const useUserBookQuery = () => {
     // Common query parameters
     const commonQuery = {
       offset: offset,
-      orderBy: {
-        [sortBy]: sortOrder === "asc" ? "desc" : "asc",
-      },
+      limit: BOOKS_PAGE_SIZE,
     };
+
+    const sortQuery = buildSortQuery(sort);
 
     // Build query based on shelf parameter
     const shelfQuery = buildQueryByShelf(shelf);
@@ -73,6 +90,7 @@ const useUserBookQuery = () => {
     // Merge the shelf and status queries
     const finalQuery = {
       ...commonQuery,
+      ...sortQuery,
       where: {
         ...shelfQuery,
         ...statusQuery,

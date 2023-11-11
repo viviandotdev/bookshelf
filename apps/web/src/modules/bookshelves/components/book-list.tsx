@@ -2,7 +2,6 @@
 import React from "react";
 import {
     UserBook,
-
 } from "@/graphql/graphql";
 
 import Book from "../../../components/book";
