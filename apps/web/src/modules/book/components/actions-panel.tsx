@@ -75,7 +75,6 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
         // Check if userBook.status is different from the current status state
         if (!firstRender && userBook.status !== status) {
             setStatus(userBook.status); // Update the status in ActionsPanel
-            //   console.log(`Status updated in ActionsPanel: ${userBook.status}`);
         }
     }, [userBook.status]); // Run the effect whenever userBook.status changes
 

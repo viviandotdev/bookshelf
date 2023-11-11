@@ -20,6 +20,7 @@ import { BookRating } from "./rating";
 import { useApolloClient } from "@apollo/client";
 import { update } from "ramda";
 import { bookStatuses } from "@/config/books";
+import { useSearchParams } from "next/navigation";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -32,7 +33,6 @@ interface BookActionsProps {
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     showRemoveBook?: boolean;
-    // loadEntry: () => void;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -47,7 +47,6 @@ const BookActions: React.FC<BookActionsProps> = ({
     rating,
     setOpenDropdown,
     showRemoveBook,
-    // loadEntry
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
@@ -63,7 +62,6 @@ const BookActions: React.FC<BookActionsProps> = ({
             setStatus(status);
         }
     };
-
     return (
         <>
             <DropdownMenu open={openDropdown} modal={false}>
@@ -71,7 +69,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                     asChild
                     onClick={(e) => {
                         e.stopPropagation();
-                        console.log(status)
                         setOpenDropdown(!openDropdown);
                     }}
                 >
@@ -95,8 +92,8 @@ const BookActions: React.FC<BookActionsProps> = ({
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onUpdate(item.name);
-                                client.cache.evict({ id: `Book:${book!.id}` });
-                                setOpenDropdown(false);
+                                // Selected is not the same as the current status params
+
                             }}
                         >
                             <item.icon className="h-5 w-5 mr-2" />
@@ -128,7 +125,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
-                                // loadEntry();
                                 jouranlEntryModal.onOpen();
                             }}
                         >
