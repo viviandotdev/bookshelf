@@ -1,21 +1,15 @@
-"use client";
-import { cn } from "@/lib/utils";
-import { dm_sefif_display } from "@/lib/fonts";
-import { BookProgressCard } from "@/components/book-progress-card";
 import { useSearchParams } from "next/navigation";
 import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
-import { Pagination } from "@/components/pagination";
-import { Button, buttonVariants } from "@/components/ui/button";
-import fakeBookData from "@/lib/testData/fakeBookData";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
-import { ContentNav } from "@/modules/layout/components/content-nav";
+interface SearchPageProps {
+    searchParams: {
+        [key: string]: string | string[] | undefined
+    }
+}
 
-export default function SearchPage() {
-    const booksData = fakeBookData;
-    const search = useSearchParams();
-    const searchQuery = search ? search.get("q") : null;
-    const encodedSearch = encodeURIComponent(searchQuery || "");
+
+export default function SearchPage({ searchParams }: SearchPageProps) {
     const resultSelections = ["All", "Title", "Author"];
 
     function selection(title: string) {
@@ -31,9 +25,9 @@ export default function SearchPage() {
                 <div className="flex-col justify-center">
                     <div className="w-full grid grid-cols-4 gap-4">
                         <div className="col-span-4 xl:col-span-3">
-                            <ContentNav
+                            {/* <ContentNav
                                 resultText={`Found at least 200 matches for “${searchQuery}”`}
-                            />
+                            /> */}
                             <hr className="mt-1 border-t-1 border-primary" />
                             <div>
                                 <BookCard
@@ -47,19 +41,14 @@ export default function SearchPage() {
                                     actions={
                                         <BookCard.BookActions
                                             buttons={[
-                                                <Button
-                                                    className={cn(
-                                                        buttonVariants({ variant: "action", size: "xs" })
-                                                    )}
-                                                    label="Currently Reading"
-                                                    icon={<Icons.chevronDown className="h-4 w-4" />}
-                                                />,
-                                                <Button
-                                                    className={cn(
-                                                        buttonVariants({ variant: "action", size: "xs" })
-                                                    )}
-                                                    label="Edit"
-                                                />,
+                                                <>
+                                                    Currently reading
+                                                    <Icons.chevronDown className="h-4 w-4" />
+                                                </>
+                                                ,
+                                                <>
+                                                    Edit
+                                                </>
                                             ]}
                                         />
                                     }
@@ -78,11 +67,6 @@ export default function SearchPage() {
                             </div>
                         </div>
                     </div>
-                    <Pagination
-                        totalPages={10}
-                    // currentPage={currentPage}
-                    // setCurrentPage={setCurrentPage}
-                    />
                 </div>
             </>
         </>

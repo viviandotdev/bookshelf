@@ -3,7 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { Dot } from "lucide-react";
 import { createContext, useContext } from "react";
@@ -89,7 +89,12 @@ export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
     return (
         <div className="flex flex-grow justify-end gap-2">
             {buttons.map((button, index) => (
-                <div key={index}>{button}</div>
+                <div key={index}>
+                    <Button variant={"action"}
+                        size={"xs"}>
+                        {button}
+                    </Button>
+                </div>
             ))}
         </div>
     );
