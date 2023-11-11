@@ -126,6 +126,19 @@ export type BookMinAggregate = {
   title?: Maybe<Scalars['String']>;
 };
 
+export type BookOrderByWithRelationInput = {
+  author?: InputMaybe<SortOrderInput>;
+  categories?: InputMaybe<SortOrderInput>;
+  coverImage?: InputMaybe<SortOrderInput>;
+  description?: InputMaybe<SortOrderInput>;
+  id?: InputMaybe<SortOrder>;
+  pageNum?: InputMaybe<SortOrderInput>;
+  pubDate?: InputMaybe<SortOrderInput>;
+  publisher?: InputMaybe<SortOrderInput>;
+  title?: InputMaybe<SortOrder>;
+  userBook?: InputMaybe<UserBookOrderByRelationAggregateInput>;
+};
+
 export type BookRelationFilter = {
   is?: InputMaybe<BookWhereInput>;
   isNot?: InputMaybe<BookWhereInput>;
@@ -372,6 +385,10 @@ export type JournalEntryMinAggregate = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type JournalEntryOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
 export type JournalEntryScalarWhereInput = {
   AND?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   NOT?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
@@ -593,6 +610,11 @@ export type MutationUpdateUserBookArgs = {
   where: BookWhereUniqueInput;
 };
 
+export enum NullsOrder {
+  First = 'first',
+  Last = 'last'
+}
+
 export type Query = {
   __typename?: 'Query';
   countJournalEntries: Scalars['Int'];
@@ -636,6 +658,7 @@ export type QueryUserBookArgs = {
 export type QueryUserBooksArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
+  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereInput>;
 };
 
@@ -765,6 +788,10 @@ export type ShelfMinAggregate = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type ShelfOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
 export type ShelfRelationFilter = {
   is?: InputMaybe<ShelfWhereInput>;
   isNot?: InputMaybe<ShelfWhereInput>;
@@ -882,6 +909,16 @@ export type ShelfWhereUniqueInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export enum SortOrder {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
+export type SortOrderInput = {
+  nulls?: InputMaybe<NullsOrder>;
+  sort: SortOrder;
+};
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -915,12 +952,13 @@ export type UserBook = {
   _count: UserBookCount;
   book?: Maybe<Book>;
   bookId: Scalars['String'];
-  dataAdded: Scalars['Timestamp'];
+  createdAt: Scalars['Timestamp'];
   id: Scalars['ID'];
   journalEntry?: Maybe<Array<JournalEntry>>;
   rating?: Maybe<Scalars['Int']>;
   shelves?: Maybe<Array<UserBookShelves>>;
   status: Scalars['String'];
+  updatedAt: Scalars['Timestamp'];
   user?: Maybe<User>;
   userId: Scalars['String'];
 };
@@ -940,18 +978,20 @@ export type UserBookCountAggregate = {
   __typename?: 'UserBookCountAggregate';
   _all: Scalars['Int'];
   bookId: Scalars['Int'];
-  dataAdded: Scalars['Int'];
+  createdAt: Scalars['Int'];
   id: Scalars['Int'];
   rating: Scalars['Int'];
   status: Scalars['Int'];
+  updatedAt: Scalars['Int'];
   userId: Scalars['Int'];
 };
 
 export type UserBookCreateManyBookInput = {
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userId: Scalars['String'];
 };
 
@@ -962,10 +1002,11 @@ export type UserBookCreateManyBookInputEnvelope = {
 
 export type UserBookCreateManyUserInput = {
   bookId: Scalars['String'];
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
 export type UserBookCreateManyUserInputEnvelope = {
@@ -1020,43 +1061,47 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 };
 
 export type UserBookCreateWithoutBookInput = {
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutJournalEntryInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutShelvesInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutUserInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
 export type UserBookIdentifierCompoundUniqueInput = {
@@ -1073,21 +1118,41 @@ export type UserBookListRelationFilter = {
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dataAdded?: Maybe<Scalars['Timestamp']>;
+  createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
 };
 
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
   bookId?: Maybe<Scalars['String']>;
-  dataAdded?: Maybe<Scalars['Timestamp']>;
+  createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   rating?: Maybe<Scalars['Int']>;
   status?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
+};
+
+export type UserBookOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type UserBookOrderByWithRelationInput = {
+  book?: InputMaybe<BookOrderByWithRelationInput>;
+  bookId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  journalEntry?: InputMaybe<JournalEntryOrderByRelationAggregateInput>;
+  rating?: InputMaybe<SortOrderInput>;
+  shelves?: InputMaybe<UserBookShelvesOrderByRelationAggregateInput>;
+  status?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
 };
 
 export type UserBookRelationFilter = {
@@ -1100,10 +1165,11 @@ export type UserBookScalarWhereInput = {
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
   bookId?: InputMaybe<StringFilter>;
-  dataAdded?: InputMaybe<DateTimeFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   rating?: InputMaybe<IntFilter>;
   status?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -1188,6 +1254,10 @@ export type UserBookShelvesMinAggregate = {
   __typename?: 'UserBookShelvesMinAggregate';
   shelfId?: Maybe<Scalars['String']>;
   userBookId?: Maybe<Scalars['String']>;
+};
+
+export type UserBookShelvesOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type UserBookShelvesScalarWhereInput = {
@@ -1312,10 +1382,11 @@ export type UserBookUpdateInput = {
 };
 
 export type UserBookUpdateManyMutationInput = {
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
 export type UserBookUpdateManyWithWhereWithoutUserInput = {
@@ -1372,32 +1443,35 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
 
 export type UserBookUpdateWithoutJournalEntryInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutShelvesInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
   status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutUserInput = {
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  dataAdded?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   rating?: InputMaybe<Scalars['Int']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
 export type UserBookUpsertWithWhereUniqueWithoutUserInput = {
@@ -1424,12 +1498,13 @@ export type UserBookWhereInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dataAdded?: InputMaybe<DateTimeFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   rating?: InputMaybe<IntFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -1440,13 +1515,14 @@ export type UserBookWhereUniqueInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  dataAdded?: InputMaybe<DateTimeFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   rating?: InputMaybe<IntFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -1566,6 +1642,19 @@ export type UserMinAggregate = {
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type UserOrderByWithRelationInput = {
+  JournalEntry?: InputMaybe<JournalEntryOrderByRelationAggregateInput>;
+  createdAt?: InputMaybe<SortOrder>;
+  email?: InputMaybe<SortOrder>;
+  hashedPassword?: InputMaybe<SortOrderInput>;
+  hashedRefreshToken?: InputMaybe<SortOrderInput>;
+  id?: InputMaybe<SortOrder>;
+  shelves?: InputMaybe<ShelfOrderByRelationAggregateInput>;
+  updatedAt?: InputMaybe<SortOrder>;
+  userBooks?: InputMaybe<UserBookOrderByRelationAggregateInput>;
+  username?: InputMaybe<SortOrderInput>;
 };
 
 export type UserRelationFilter = {
@@ -1826,6 +1915,7 @@ export type UserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
+  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
 }>;
 
 
@@ -2486,8 +2576,8 @@ export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const UserBooksDocument = gql`
-    query UserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0) {
-  userBooks(where: $where, offset: $offset, limit: $limit) {
+    query UserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
+  userBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
     userId
     bookId
     status
@@ -2532,6 +2622,7 @@ export const UserBooksDocument = gql`
  *      where: // value for 'where'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

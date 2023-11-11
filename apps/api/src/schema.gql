@@ -104,6 +104,19 @@ type BookMinAggregate {
   title: String
 }
 
+input BookOrderByWithRelationInput {
+  author: SortOrderInput
+  categories: SortOrderInput
+  coverImage: SortOrderInput
+  description: SortOrderInput
+  id: SortOrder
+  pageNum: SortOrderInput
+  pubDate: SortOrderInput
+  publisher: SortOrderInput
+  title: SortOrder
+  userBook: UserBookOrderByRelationAggregateInput
+}
+
 input BookRelationFilter {
   is: BookWhereInput
   isNot: BookWhereInput
@@ -344,6 +357,10 @@ type JournalEntryMinAggregate {
   userId: String
 }
 
+input JournalEntryOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
 input JournalEntryScalarWhereInput {
   AND: [JournalEntryScalarWhereInput!]
   NOT: [JournalEntryScalarWhereInput!]
@@ -505,6 +522,11 @@ type Mutation {
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }
 
+enum NullsOrder {
+  first
+  last
+}
+
 type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
@@ -513,7 +535,7 @@ type Query {
   me: User!
   shelves: [Shelf!]
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereInput): [UserBook!]
+  userBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {
@@ -636,6 +658,10 @@ type ShelfMinAggregate {
   userId: String
 }
 
+input ShelfOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
 input ShelfRelationFilter {
   is: ShelfWhereInput
   isNot: ShelfWhereInput
@@ -753,6 +779,16 @@ input ShelfWhereUniqueInput {
   userId: StringFilter
 }
 
+enum SortOrder {
+  asc
+  desc
+}
+
+input SortOrderInput {
+  nulls: NullsOrder
+  sort: SortOrder!
+}
+
 input StringFilter {
   contains: String
   endsWith: String
@@ -789,12 +825,13 @@ type UserBook {
   _count: UserBookCount!
   book: Book
   bookId: String!
-  dataAdded: Timestamp!
+  createdAt: Timestamp!
   id: ID!
   journalEntry: [JournalEntry!]
   rating: Int
   shelves: [UserBookShelves!]
   status: String!
+  updatedAt: Timestamp!
   user: User
   userId: String!
 }
@@ -811,18 +848,20 @@ type UserBookCount {
 type UserBookCountAggregate {
   _all: Int!
   bookId: Int!
-  dataAdded: Int!
+  createdAt: Int!
   id: Int!
   rating: Int!
   status: Int!
+  updatedAt: Int!
   userId: Int!
 }
 
 input UserBookCreateManyBookInput {
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   status: String!
+  updatedAt: Timestamp
   userId: String!
 }
 
@@ -833,10 +872,11 @@ input UserBookCreateManyBookInputEnvelope {
 
 input UserBookCreateManyUserInput {
   bookId: String!
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   status: String!
+  updatedAt: Timestamp
 }
 
 input UserBookCreateManyUserInputEnvelope {
@@ -891,43 +931,47 @@ input UserBookCreateOrConnectWithoutUserInput {
 }
 
 input UserBookCreateWithoutBookInput {
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
+  updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutJournalEntryInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
+  updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutShelvesInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
   status: String!
+  updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutUserInput {
   book: BookCreateNestedOneWithoutUserBookInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
+  updatedAt: Timestamp
 }
 
 input UserBookIdentifierCompoundUniqueInput {
@@ -943,20 +987,40 @@ input UserBookListRelationFilter {
 
 type UserBookMaxAggregate {
   bookId: String
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   status: String
+  updatedAt: Timestamp
   userId: String
 }
 
 type UserBookMinAggregate {
   bookId: String
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   status: String
+  updatedAt: Timestamp
   userId: String
+}
+
+input UserBookOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input UserBookOrderByWithRelationInput {
+  book: BookOrderByWithRelationInput
+  bookId: SortOrder
+  createdAt: SortOrder
+  id: SortOrder
+  journalEntry: JournalEntryOrderByRelationAggregateInput
+  rating: SortOrderInput
+  shelves: UserBookShelvesOrderByRelationAggregateInput
+  status: SortOrder
+  updatedAt: SortOrder
+  user: UserOrderByWithRelationInput
+  userId: SortOrder
 }
 
 input UserBookRelationFilter {
@@ -969,10 +1033,11 @@ input UserBookScalarWhereInput {
   NOT: [UserBookScalarWhereInput!]
   OR: [UserBookScalarWhereInput!]
   bookId: StringFilter
-  dataAdded: DateTimeFilter
+  createdAt: DateTimeFilter
   id: StringFilter
   rating: IntFilter
   status: StringFilter
+  updatedAt: DateTimeFilter
   userId: StringFilter
 }
 
@@ -1053,6 +1118,10 @@ type UserBookShelvesMaxAggregate {
 type UserBookShelvesMinAggregate {
   shelfId: String
   userBookId: String
+}
+
+input UserBookShelvesOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input UserBookShelvesScalarWhereInput {
@@ -1176,10 +1245,11 @@ input UserBookUpdateInput {
 }
 
 input UserBookUpdateManyMutationInput {
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   status: String
+  updatedAt: Timestamp
 }
 
 input UserBookUpdateManyWithWhereWithoutUserInput {
@@ -1236,32 +1306,35 @@ input UserBookUpdateWithWhereUniqueWithoutUserInput {
 
 input UserBookUpdateWithoutJournalEntryInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   rating: Int
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: String
+  updatedAt: Timestamp
   user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutShelvesInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   rating: Int
   status: String
+  updatedAt: Timestamp
   user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutUserInput {
   book: BookUpdateOneWithoutUserBookNestedInput
-  dataAdded: Timestamp
+  createdAt: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   rating: Int
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: String
+  updatedAt: Timestamp
 }
 
 input UserBookUpsertWithWhereUniqueWithoutUserInput {
@@ -1288,12 +1361,13 @@ input UserBookWhereInput {
   OR: [UserBookWhereInput!]
   book: BookRelationFilter
   bookId: StringFilter
-  dataAdded: DateTimeFilter
+  createdAt: DateTimeFilter
   id: StringFilter
   journalEntry: JournalEntryListRelationFilter
   rating: IntFilter
   shelves: UserBookShelvesListRelationFilter
   status: StringFilter
+  updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
 }
@@ -1304,13 +1378,14 @@ input UserBookWhereUniqueInput {
   OR: [UserBookWhereInput!]
   book: BookRelationFilter
   bookId: StringFilter
-  dataAdded: DateTimeFilter
+  createdAt: DateTimeFilter
   id: String
   identifier: UserBookIdentifierCompoundUniqueInput
   journalEntry: JournalEntryListRelationFilter
   rating: IntFilter
   shelves: UserBookShelvesListRelationFilter
   status: StringFilter
+  updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
 }
@@ -1426,6 +1501,19 @@ type UserMinAggregate {
   id: String
   updatedAt: Timestamp
   username: String
+}
+
+input UserOrderByWithRelationInput {
+  JournalEntry: JournalEntryOrderByRelationAggregateInput
+  createdAt: SortOrder
+  email: SortOrder
+  hashedPassword: SortOrderInput
+  hashedRefreshToken: SortOrderInput
+  id: SortOrder
+  shelves: ShelfOrderByRelationAggregateInput
+  updatedAt: SortOrder
+  userBooks: UserBookOrderByRelationAggregateInput
+  username: SortOrderInput
 }
 
 input UserRelationFilter {

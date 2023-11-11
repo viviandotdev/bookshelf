@@ -44,6 +44,7 @@ export class UserBookService {
     userId: string;
     skip?: number;
     take?: number;
+    orderBy?: Prisma.UserBookOrderByWithRelationInput;
   }) {
     const { userId } = args;
     const userBooks = await this.repository.findMany({
@@ -65,6 +66,7 @@ export class UserBookService {
           take: 1, // Take only the last element
         },
       },
+      orderBy: args.orderBy,
       skip: args.skip,
       take: args.take,
     });
@@ -80,15 +82,7 @@ export class UserBookService {
         userId,
       },
     });
-    const unshelvedBooks = await this.repository.count({
-      where: {
-        shelves: {
-          none: {}, // Checks if the shelves array is empty
-        },
-        userId,
-      },
-    });
-    console.log(`Number of unshelved user books: ${unshelvedBooks}`);
+
     return userBooksCount;
   }
 
@@ -100,6 +94,7 @@ export class UserBookService {
 
     const origin = await this.findUnique(args.where);
     const shelfList = args.data.shelves;
+
     const updateUserBook = await this.repository.update({
       where: {
         identifier: {
@@ -110,19 +105,19 @@ export class UserBookService {
       data: {
         status: args.data.status,
         rating: args.data.rating,
-        shelves: {
-          deleteMany: { userBookId: origin.id },
-          create: shelfList?.map((name: string) => {
-            return {
-              shelf: {
-                connectOrCreate: {
-                  where: { identifier: { userId, name } },
-                  create: { name },
+        shelves: shelfList
+          ? {
+              deleteMany: { userBookId: origin.id },
+              create: shelfList.map((name: string) => ({
+                shelf: {
+                  connectOrCreate: {
+                    where: { identifier: { userId, name } },
+                    create: { name },
+                  },
                 },
-              },
-            };
-          }),
-        },
+              })),
+            }
+          : undefined,
       },
       include: {
         book: true,

@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useCallback } from "react";
+import React, { use, useCallback, useTransition } from "react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,12 +9,13 @@ import {
 import qs from "query-string";
 import { Icons } from "../../../components/icons";
 // import useShelves from "@/stores/shelf-store";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Shelf } from "../../../../graphql/graphql";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Shelf } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
 import EditShelfMenu from "./edit-shelf-menu";
+import useCreateQueryString from "../hooks/use-create-query-string";
 
 interface ShelfActionsProps {
     shelf: Shelf;
@@ -32,40 +33,23 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     children
 
 }) => {
+    const [isPending, startTransition] = useTransition()
+    const pathname = usePathname()
     const dispatch = useAppDispatch();
-
-    const { data: session } = useSession();
     const router = useRouter();
-    const params = useSearchParams();
-
+    const createQueryString = useCreateQueryString();
     const handleClick = useCallback(() => {
         dispatch(updateSelected(shelf.name!));
-        let currentQuery = {};
-
-        if (params) {
-            currentQuery = qs.parse(params.toString());
-        }
-
-        const updatedQuery: any = {
-            ...currentQuery,
-            shelf: shelf.name,
-            page: 1,
-        };
-
-        if (params?.get("shelf") === shelf.name) {
-            delete updatedQuery.shelf;
-        }
-
-        const url = qs.stringifyUrl(
-            {
-                url: `/${session!.user.name}/books`,
-                query: updatedQuery,
-            },
-            { skipNull: true }
-        );
-        dispatch(setCurrentPage(0))
-        router.push(url);
-    }, [shelf, router, params, session]);
+        startTransition(() => {
+            router.push(
+                `${pathname}?${createQueryString({
+                    shelf: shelf.name,
+                    page: 1,
+                    status: "Any Status",
+                })}`,
+            )
+        })
+    }, [shelf]);
 
     return (
         <>

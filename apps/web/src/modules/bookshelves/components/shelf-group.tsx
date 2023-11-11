@@ -4,14 +4,12 @@ import { Button } from "../../../components/ui/button";
 import Collapsible from "../../../components/ui/collapsible";
 import { useState } from "react";
 import AlertModal from "../../../components/modals/alert-modal";
-import { Shelf, useDeleteShelfMutation } from "../../../../graphql/graphql";
+import { Shelf } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
-import useToggleState from "@/modules/book/hooks/use-book-status-modal";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { removeShelf } from "@/stores/shelf-slice";
 import { useDeleteShelf } from "@/hooks/shelf/mutations";
-import { toast } from "@/hooks/use-toast";
 import { CreateShelfModal } from "./create-shelf-modal";
 
 interface ShelfGroupProps {
@@ -59,13 +57,13 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                 <>
                     {shelves.map((shelf, i) => (
                         <div
+                            key={i}
                             className={`${shelf.name === selected
                                 ? "bg-secondary"
                                 : "hover:bg-slate-100 hover:bg-opacity-70"
                                 }  group/item flex rounded-lg px-3 font-medium `}
                         >
                             <ShelfActions
-                                key={i}
                                 shelf={shelf}
                                 isShelves={isShelves}
                                 setOpenAlert={setOpenAlert}

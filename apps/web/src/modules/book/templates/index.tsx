@@ -1,9 +1,9 @@
 import { dm_sefif_display } from "@/lib/fonts";
-import { cn, formatDate, processBook } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { Shelf, UserBookQuery } from "../../../../graphql/graphql";
+import { Shelf, UserBookQuery } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
@@ -14,7 +14,6 @@ interface BookTemplateProps {
 }
 
 export default function BookTemplate({ book, shelves, userBook }: BookTemplateProps) {
-
     return (
         <>
             <BookStatusModal />

@@ -2,7 +2,7 @@ import {
   UserBookUpdateInput,
   useRemoveUserBookMutation,
   useUpdateUserBookMutation,
-} from "../../../graphql/graphql";
+} from "../../graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 export const useRemoveUserBook = () => {

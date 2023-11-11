@@ -5,7 +5,7 @@ import {
   CountUserBooksQuery,
   CountUserBooksDocument,
   Shelf,
-} from "../../../../graphql/graphql";
+} from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
 import { getCurrentUser } from "@/lib/auth/session";
 

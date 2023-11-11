@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { useCreateJournalEntryMutation } from "../../../../graphql/graphql";
+import { useCreateJournalEntryMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";

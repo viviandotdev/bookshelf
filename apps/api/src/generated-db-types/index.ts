@@ -23,7 +23,8 @@ export enum UserBookScalarFieldEnum {
     bookId = "bookId",
     status = "status",
     rating = "rating",
-    dataAdded = "dataAdded"
+    createdAt = "createdAt",
+    updatedAt = "updatedAt"
 }
 
 export enum UserScalarFieldEnum {
@@ -5442,7 +5443,9 @@ export class UserBookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
     @Field(() => Boolean, {nullable:true})
-    dataAdded?: true;
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
@@ -5463,7 +5466,9 @@ export class UserBookCountAggregate {
     @Validator.IsInt()
     rating!: number;
     @Field(() => Int, {nullable:false})
-    dataAdded!: number;
+    createdAt!: number;
+    @Field(() => Int, {nullable:false})
+    updatedAt!: number;
     @Field(() => Int, {nullable:false})
     _all!: number;
 }
@@ -5481,7 +5486,9 @@ export class UserBookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dataAdded?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @ObjectType()
@@ -5519,7 +5526,9 @@ export class UserBookCreateManyBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -5549,7 +5558,9 @@ export class UserBookCreateManyUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -5573,7 +5584,9 @@ export class UserBookCreateManyInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -5689,7 +5702,9 @@ export class UserBookCreateWithoutBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -5713,7 +5728,9 @@ export class UserBookCreateWithoutJournalEntryInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -5737,7 +5754,9 @@ export class UserBookCreateWithoutShelvesInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -5761,7 +5780,9 @@ export class UserBookCreateWithoutUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
     book?: InstanceType<typeof BookCreateNestedOneWithoutUserBookInput>;
     @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -5785,7 +5806,9 @@ export class UserBookCreateInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -5845,7 +5868,9 @@ export class UserBookGroupBy {
     rating?: number;
     @Field(() => Date, {nullable:false})
     @Validator.ValidateNested()
-    dataAdded!: Date | string;
+    createdAt!: Date | string;
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date | string;
     @Field(() => UserBookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof UserBookCountAggregate>;
     @Field(() => UserBookAvgAggregate, {nullable:true})
@@ -5891,7 +5916,9 @@ export class UserBookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
     @Field(() => Boolean, {nullable:true})
-    dataAdded?: true;
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
 }
 
 @ObjectType()
@@ -5915,7 +5942,9 @@ export class UserBookMaxAggregate {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -5931,7 +5960,9 @@ export class UserBookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dataAdded?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -5947,7 +5978,9 @@ export class UserBookMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
     @Field(() => Boolean, {nullable:true})
-    dataAdded?: true;
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    updatedAt?: true;
 }
 
 @ObjectType()
@@ -5971,7 +6004,9 @@ export class UserBookMinAggregate {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -5987,7 +6022,9 @@ export class UserBookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dataAdded?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -6009,7 +6046,9 @@ export class UserBookOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     rating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    dataAdded?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
     @Field(() => UserBookCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserBookCountOrderByAggregateInput>;
     @Field(() => UserBookAvgOrderByAggregateInput, {nullable:true})
@@ -6035,7 +6074,9 @@ export class UserBookOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     rating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    dataAdded?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    updatedAt?: keyof typeof SortOrder;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -6073,7 +6114,9 @@ export class UserBookScalarWhereWithAggregatesInput {
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     rating?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    dataAdded?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
 
 @InputType()
@@ -6095,7 +6138,9 @@ export class UserBookScalarWhereInput {
     @Field(() => IntFilter, {nullable:true})
     rating?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
-    dataAdded?: InstanceType<typeof DateTimeFilter>;
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
 }
 
 @InputType()
@@ -6169,7 +6214,9 @@ export class UserBookUncheckedCreateWithoutBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -6197,7 +6244,9 @@ export class UserBookUncheckedCreateWithoutJournalEntryInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
 }
@@ -6223,7 +6272,9 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     journalEntry?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserBookInput>;
 }
@@ -6246,7 +6297,9 @@ export class UserBookUncheckedCreateWithoutUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -6274,7 +6327,9 @@ export class UserBookUncheckedCreateInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -6336,7 +6391,9 @@ export class UserBookUncheckedUpdateManyWithoutBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -6394,7 +6451,9 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -6418,7 +6477,9 @@ export class UserBookUncheckedUpdateManyInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -6439,7 +6500,9 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -6467,7 +6530,9 @@ export class UserBookUncheckedUpdateWithoutJournalEntryInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
@@ -6493,7 +6558,9 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     journalEntry?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
@@ -6516,7 +6583,9 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -6544,7 +6613,9 @@ export class UserBookUncheckedUpdateInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -6566,7 +6637,9 @@ export class UserBookUpdateManyMutationInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -6762,7 +6835,9 @@ export class UserBookUpdateWithoutBookInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -6786,7 +6861,9 @@ export class UserBookUpdateWithoutJournalEntryInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -6810,7 +6887,9 @@ export class UserBookUpdateWithoutShelvesInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -6834,7 +6913,9 @@ export class UserBookUpdateWithoutUserInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
     book?: InstanceType<typeof BookUpdateOneWithoutUserBookNestedInput>;
     @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -6858,7 +6939,9 @@ export class UserBookUpdateInput {
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
-    dataAdded?: Date | string;
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -6943,7 +7026,9 @@ export class UserBookWhereUniqueInput {
     @Field(() => IntFilter, {nullable:true})
     rating?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
-    dataAdded?: InstanceType<typeof DateTimeFilter>;
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
     @Field(() => BookRelationFilter, {nullable:true})
@@ -6973,7 +7058,9 @@ export class UserBookWhereInput {
     @Field(() => IntFilter, {nullable:true})
     rating?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
-    dataAdded?: InstanceType<typeof DateTimeFilter>;
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
     @Field(() => BookRelationFilter, {nullable:true})
@@ -6997,7 +7084,9 @@ export class UserBook {
     @Field(() => Int, {nullable:true})
     rating!: number | null;
     @Field(() => Date, {nullable:false})
-    dataAdded!: Date;
+    createdAt!: Date;
+    @Field(() => Date, {nullable:false})
+    updatedAt!: Date;
     @Field(() => User, {nullable:true})
     user?: InstanceType<typeof User> | null;
     @Field(() => Book, {nullable:true})

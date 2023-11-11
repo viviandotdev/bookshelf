@@ -16,7 +16,6 @@ export default async function BookPage({ params }: BookPageProps) {
     }
     const userBook = await getUserBook(params.bookId);
     const { shelves } = await getShelves();
-    console.log(shelves)
     return (
         <>
             <BookTemplate book={book} shelves={shelves} userBook={userBook} />

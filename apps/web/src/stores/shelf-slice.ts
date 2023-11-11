@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { Shelf } from "../../graphql/graphql";
+import { Shelf } from "../graphql/graphql";
 import { RootState } from ".";
 
 // Define a type for the slice state
@@ -7,13 +7,11 @@ interface ShelfState {
   selected: string;
   shelves: Shelf[];
   library: Shelf[];
-  currentPage: number;
 }
 
 // Define the initial state using that type
 const initialState: ShelfState = {
   selected: "",
-  currentPage: 0,
   shelves: [],
   library: [],
 };
@@ -22,9 +20,6 @@ const shelvesSlice = createSlice({
   name: "shelves",
   initialState,
   reducers: {
-    setCurrentPage: (state, action) => {
-      state.currentPage = action.payload;
-    },
     updateSelected: (state, action) => {
       state.selected = action.payload;
     },

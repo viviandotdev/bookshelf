@@ -64,8 +64,6 @@ export class ShelfResolver {
   @Mutation(() => Shelf, { nullable: true })
   @UseGuards(AccessTokenGuard)
   async deleteShelf(@Args('where') where: ShelfWhereUniqueInput) {
-    console.log(where.id);
-    // 7ff55683-b7d2-4483-97ab-009e476458a4
     const shelf = await this.service.findUnique({ where: { id: where.id } });
 
     if (!shelf) {

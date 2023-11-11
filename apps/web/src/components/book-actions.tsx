@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -11,14 +11,12 @@ import {
 import {
     Book,
     UserBookShelves,
-} from "../../graphql/graphql";
+} from "../graphql/graphql";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./rating";
-import { useApolloClient } from "@apollo/client";
-import { update } from "ramda";
 import { bookStatuses } from "@/config/books";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
@@ -32,7 +30,6 @@ interface BookActionsProps {
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     showRemoveBook?: boolean;
-    // loadEntry: () => void;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -47,11 +44,9 @@ const BookActions: React.FC<BookActionsProps> = ({
     rating,
     setOpenDropdown,
     showRemoveBook,
-    // loadEntry
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
-    const client = useApolloClient();
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
@@ -63,7 +58,6 @@ const BookActions: React.FC<BookActionsProps> = ({
             setStatus(status);
         }
     };
-
     return (
         <>
             <DropdownMenu open={openDropdown} modal={false}>
@@ -71,7 +65,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                     asChild
                     onClick={(e) => {
                         e.stopPropagation();
-                        console.log(status)
                         setOpenDropdown(!openDropdown);
                     }}
                 >
@@ -89,13 +82,14 @@ const BookActions: React.FC<BookActionsProps> = ({
                 >
                     {bookStatuses.map(item => (
                         <DropdownMenuItem
+                            key={item.name}
                             className={`${status === item.name && "bg-accent text-primary"
                                 }`}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 onUpdate(item.name);
-                                client.cache.evict({ id: `Book:${book!.id}` });
-                                setOpenDropdown(false);
+                                // Selected is not the same as the current status params
+
                             }}
                         >
                             <item.icon className="h-5 w-5 mr-2" />
@@ -127,7 +121,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
-                                // loadEntry();
                                 jouranlEntryModal.onOpen();
                             }}
                         >

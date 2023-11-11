@@ -2,7 +2,7 @@ import { BooksSection } from "@/components/books-section";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
-import { Shelf, UserBook } from "../../../../graphql/graphql";
+import { Shelf, UserBook } from "@/graphql/graphql";
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
