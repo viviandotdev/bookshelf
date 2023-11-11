@@ -36,9 +36,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     const [isPending, startTransition] = useTransition()
     const pathname = usePathname()
     const dispatch = useAppDispatch();
-    const { data: session } = useSession();
     const router = useRouter();
-    const params = useSearchParams();
     const createQueryString = useCreateQueryString();
     const handleClick = useCallback(() => {
         dispatch(updateSelected(shelf.name!));
@@ -51,7 +49,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
                 })}`,
             )
         })
-    }, [shelf, router, params, session]);
+    }, [shelf]);
 
     return (
         <>

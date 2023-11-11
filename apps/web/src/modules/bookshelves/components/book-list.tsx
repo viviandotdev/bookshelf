@@ -19,19 +19,18 @@ interface BookListProps {
 const BookList: React.FC<BookListProps> = ({ books, totalPages,
 }) => {
     const searchParams = useSearchParams()
-
     // Search params
     const page = searchParams?.get("page") ?? "1"
     const status = searchParams?.get("status") ?? "Any Status"
     const sort = searchParams?.get("sort") ?? "createdAt.desc"
-    const shelf = searchParams?.get("shelf")
+    const shelf = searchParams?.get("shelf") ?? "All Books"
 
 
     return (
         <>
             <ContentNav>
                 <div className="flex gap-2">
-                    <ShelfMenu />
+                    <ShelfMenu shelf={shelf} />
                     <StatusMenu status={status} />
                 </div>
                 <SortingOptions sort={sort} />

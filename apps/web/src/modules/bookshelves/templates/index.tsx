@@ -23,15 +23,9 @@ import * as R from "ramda";
 import qs from "query-string";
 
 interface BookshelvesTemplateProps {
-    librarySelections: Shelf[];
-    shelfSelections: Shelf[];
-    searchParams: {
-        [key: string]: string | string[] | undefined
-    }
 }
 
-export default function BookshelvesTemplate({ librarySelections,
-    shelfSelections }: BookshelvesTemplateProps) {
+export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
 
     const query = useUserBookQuery();
     const [totalPages, setTotalPages] = useState(0);
@@ -84,21 +78,14 @@ export default function BookshelvesTemplate({ librarySelections,
 
     return (
         <>
-            <div className="w-full grid grid-cols-4 gap-6">
-                <SideBar
-                    librarySelections={librarySelections}
-                    shelfSelections={shelfSelections}
+            <div className="col-span-4 xl:col-span-3 pt-1.5">
+                <BookList
+                    books={books}
+                    totalPages={totalPages}
                 />
-                <div className="col-span-4 xl:col-span-3 pt-1.5">
 
-                    <BookList
-                        books={books}
-                        totalPages={totalPages}
-                    />
-
-                </div>
-                <CreateShelfModal />
-            </div >
+            </div>
+            <CreateShelfModal />
         </>
 
     );
