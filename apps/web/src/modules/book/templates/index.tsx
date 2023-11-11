@@ -1,5 +1,5 @@
 import { dm_sefif_display } from "@/lib/fonts";
-import { cn, formatDate, processBook } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
@@ -14,7 +14,6 @@ interface BookTemplateProps {
 }
 
 export default function BookTemplate({ book, shelves, userBook }: BookTemplateProps) {
-
     return (
         <>
             <BookStatusModal />
@@ -50,7 +49,9 @@ export default function BookTemplate({ book, shelves, userBook }: BookTemplatePr
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} bookStatus={userBook?.status} bookRating={userBook?.rating} />
+                                {userBook &&
+                                    <ActionsPanel book={book} shelves={shelves} bookStatus={userBook.status} bookRating={userBook.rating || 0} />
+                                }
                             </section>
                         </div>
                     </div>

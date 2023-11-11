@@ -1,12 +1,9 @@
 import { Icons } from '@/components/icons';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { buttonVariants } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { Command, LucideIcon } from 'lucide-react';
-import React, { startTransition, useTransition } from 'react'
-import { UserBookWhereInput } from '@/graphql/graphql';
-import * as R from "ramda";
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React, { useTransition } from 'react'
+import { usePathname, useRouter } from 'next/navigation';
 import { bookStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
@@ -19,6 +16,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
     const statuses = [
         {
             name: "Any Status",
+            icon: null,
         },
         ...bookStatuses
 

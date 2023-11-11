@@ -48,8 +48,8 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
     book: BookData;
-    bookStatus: string | undefined;
-    bookRating: number | undefined;
+    bookStatus: string;
+    bookRating: number;
     shelves: Shelf[];
 }
 export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: ActionsPanelProps) {
@@ -112,46 +112,44 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
 
     return (
         <>
-            <>
-                <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
-                    <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
-                        <ActionGroup />
-                    </div>
-
-                    <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-                        <span>Rating</span>
-                        <BookRating size={"lg"} bookId={book.id} rating={rating} setRating={setRating} />
-                    </div>
-                    {status ? (
-                        <button
-                            onClick={() => openUpdateStatusModal()}
-                            className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
-                        >
-                            <Icons.edit className="mr-2 h-4 w-4 " />
-                            {status}
-                        </button>
-                    ) : (
-                        <button
-                            onClick={() => createBook(book)}
-                            className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
-                        >
-                            Want to Read
-                        </button>
-                    )}
-
-                    <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-                        Review
-                    </div>
-                    <div onClick={() => {
-                        // Shelves this part is part of
-                        updateBookId(book!.id);
-                        addToShelfModal.onOpen();
-
-                    }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-                        Add to shelf
-                    </div>
+            <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
+                <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
+                    <ActionGroup />
                 </div>
-            </>
+
+                <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+                    <span>Rating</span>
+                    <BookRating size={"lg"} bookId={book.id} rating={rating} setRating={setRating} />
+                </div>
+                {status ? (
+                    <button
+                        onClick={() => openUpdateStatusModal()}
+                        className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                    >
+                        <Icons.edit className="mr-2 h-4 w-4 " />
+                        {status}
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => createBook(book)}
+                        className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                    >
+                        Want to Read
+                    </button>
+                )}
+
+                <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+                    Review
+                </div>
+                <div onClick={() => {
+                    // Shelves this part is part of
+                    updateBookId(book!.id);
+                    addToShelfModal.onOpen();
+
+                }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+                    Add to shelf
+                </div>
+            </div>
         </>
     );
 }

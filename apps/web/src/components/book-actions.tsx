@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -17,10 +17,7 @@ import useUserBook from "@/stores/use-user-book";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./rating";
-import { useApolloClient } from "@apollo/client";
-import { update } from "ramda";
 import { bookStatuses } from "@/config/books";
-import { useSearchParams } from "next/navigation";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -50,7 +47,6 @@ const BookActions: React.FC<BookActionsProps> = ({
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
-    const client = useApolloClient();
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
