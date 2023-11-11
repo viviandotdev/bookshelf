@@ -7,10 +7,13 @@ import { useTransition } from "react";
 import useCreateQueryString from "../hooks/use-create-query-string";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { UserBookWhereInput } from "@/graphql/graphql";
+import * as R from "ramda";
 interface SortingOptionsProps {
     sort: string;
+    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
-export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort }) => {
+export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort, setQuery }) => {
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
     const createQueryString = useCreateQueryString();
@@ -48,6 +51,12 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort }) => {
                                         })}`,
                                     )
                                 })
+                                setQuery((prev: { where: UserBookWhereInput }) =>
+                                (
+                                    {
+                                        where: R.mergeRight(prev.where, { status: {} })
+
+                                    }))
                             }}
                         >
                             {option.label}

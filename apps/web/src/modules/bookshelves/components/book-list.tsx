@@ -16,11 +16,11 @@ interface BookListProps {
     books: UserBook[];
     fetchMore: any;
     totalPages: number;
-    setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
+    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 const BookList: React.FC<BookListProps> = ({ books, fetchMore, totalPages,
-    setQueryFilter }) => {
+    setQuery }) => {
     const searchParams = useSearchParams()
 
     // Search params
@@ -34,11 +34,10 @@ const BookList: React.FC<BookListProps> = ({ books, fetchMore, totalPages,
         <>
             <ContentNav>
                 <div className="flex gap-2">
-                    <ShelfMenu />
-                    <StatusMenu status={status} setQueryFilter={setQueryFilter} />
-
+                    <ShelfMenu setQuery={setQuery} />
+                    <StatusMenu status={status} setQuery={setQuery} />
                 </div>
-                <SortingOptions sort={sort} />
+                <SortingOptions setQuery={setQuery} sort={sort} />
             </ContentNav>
             <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
                 {books &&

@@ -6,19 +6,17 @@ import { Command, LucideIcon } from 'lucide-react';
 import React, { startTransition, useTransition } from 'react'
 import { UserBookWhereInput } from '@/graphql/graphql';
 import * as R from "ramda";
-import qs from "query-string";
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { bookStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
     status: string;
-    setQueryFilter: React.Dispatch<React.SetStateAction<{}>>;
+    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export const StatusMenu: React.FC<StatusMenuProps> = ({
     status,
-    setQueryFilter
+    setQuery
 }) => {
     const statuses = [
         {
@@ -62,14 +60,14 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                     })
                                     // update query url
                                     if (s.name === "Any Status") {
-                                        setQueryFilter((prev: { where: UserBookWhereInput }) =>
+                                        setQuery((prev: { where: UserBookWhereInput }) =>
                                         (
                                             {
                                                 where: R.mergeRight(prev.where, { status: {} })
 
                                             }))
                                     } else {
-                                        setQueryFilter((prev: { where: UserBookWhereInput }) => ({
+                                        setQuery((prev: { where: UserBookWhereInput }) => ({
                                             where: R.mergeRight(prev.where, {
                                                 status: {
                                                     equals: s.name

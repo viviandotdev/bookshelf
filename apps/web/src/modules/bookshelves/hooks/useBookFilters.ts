@@ -6,11 +6,11 @@ const useBookFilters = () => {
   const selected = useAppSelector((state) => state.shelf.selected);
   const params = useSearchParams();
   const currentQuery = qs.parse(params.toString());
-  const [queryFilter, setQueryFilter] = useState({});
+  const [query, setQuery] = useState({});
 
   useEffect(() => {
     if (selected === "Unshelved") {
-      setQueryFilter({
+      setQuery({
         where: {
           shelves: {
             none: {}, // Checks if the shelves array is empty
@@ -18,9 +18,9 @@ const useBookFilters = () => {
         },
       });
     } else if (selected === "All Books") {
-      setQueryFilter({});
+      setQuery({});
     } else {
-      setQueryFilter({
+      setQuery({
         where: {
           shelves: {
             some: {
@@ -38,7 +38,7 @@ const useBookFilters = () => {
     }
   }, [selected]);
 
-  return { queryFilter, setQueryFilter };
+  return { query, setQuery };
 };
 
 export default useBookFilters;

@@ -7,10 +7,11 @@ import { useAppSelector } from '@/stores';
 import { selectShelves } from '@/stores/shelf-slice';
 import ShelfActions from './shelf-actions';
 interface ShelfMenuProps {
+    setQuery: React.Dispatch<React.SetStateAction<{}>>;
 }
 
 export const ShelfMenu: React.FC<ShelfMenuProps> = ({
-
+    setQuery
 }) => {
     const shelves = useAppSelector(selectShelves)
     const library = useAppSelector((state) => state.shelf.library);

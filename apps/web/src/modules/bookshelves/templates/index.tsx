@@ -30,7 +30,7 @@ interface BookshelvesTemplateProps {
 export default function BookshelvesTemplate({ librarySelections,
     shelfSelections }: BookshelvesTemplateProps) {
 
-    const { queryFilter, setQueryFilter } = useBookFilters();
+    const { query, setQuery } = useBookFilters();
     const [totalPages, setTotalPages] = useState(0);
     const library = useAppSelector((state) => state.shelf.library);
 
@@ -69,16 +69,16 @@ export default function BookshelvesTemplate({ librarySelections,
 
     useEffect(() => {
         const loadData = async () => {
-            const pagedQueryFilter = R.mergeRight(queryFilter, {
+            const pagedQuery = R.mergeRight(query, {
                 offset: 0,
                 limit: BOOKS_PAGE_SIZE,
             });
-            await loadBooks({ variables: { ...pagedQueryFilter } });
-            await getCount({ variables: { ...queryFilter } });
+            await loadBooks({ variables: { ...pagedQuery } });
+            await getCount({ variables: { ...query } });
         };
 
         loadData();
-    }, [queryFilter, loadBooks, getCount, library]);
+    }, [query, loadBooks, getCount, library]);
 
     return (
         <>
@@ -92,7 +92,7 @@ export default function BookshelvesTemplate({ librarySelections,
 
                     <BookList
                         books={books}
-                        setQueryFilter={setQueryFilter}
+                        setQuery={setQuery}
                         fetchMore={fetchMore}
                         totalPages={totalPages}
                     />
