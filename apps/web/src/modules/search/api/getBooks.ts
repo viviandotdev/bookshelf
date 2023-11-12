@@ -4,6 +4,7 @@ import axios from "axios";
 const URL = "http://openlibrary.org/search.json?title=";
 export async function getBooks(search: string) {
   try {
+    console.log(search);
     const searchUrl = `${URL}${search}&limit=30&sort=readinglog`;
 
     const response = await axios.get(searchUrl);
@@ -48,10 +49,7 @@ export async function getBooks(search: string) {
     );
 
     const filteredBooks = books.filter((book) => book !== null);
-
-    console.log(filteredBooks);
-
-    return filteredBooks;
+    return { hits: filteredBooks, count: docs.numFound };
   } catch (error) {
     // Handle Axios errors here
     console.error("Error Searching Books :", error);

@@ -21,7 +21,6 @@ export type HitProps = {
 }
 
 const Hit = ({ hit }: HitProps) => {
-    console.log(hit.title)
     return (
         <BookCard
             book={hit}
@@ -46,13 +45,6 @@ const Hit = ({ hit }: HitProps) => {
                 />
             }
         />
-
-        // <>
-        //     {/* <BookCard /> */}
-        //     <div>{hit.id}</div>
-        //     <div>{hit.title}</div>
-        // </>
-
     )
 }
 

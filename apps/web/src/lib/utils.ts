@@ -2,6 +2,10 @@ import { BookData } from "@/types/interfaces";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export const repeat = (times: number) => {
+  return Array.from(Array(times).keys());
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

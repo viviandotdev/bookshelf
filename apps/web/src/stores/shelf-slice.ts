@@ -4,6 +4,7 @@ import { RootState } from ".";
 
 // Define a type for the slice state
 interface ShelfState {
+  loadingRoute: boolean;
   selected: string;
   shelves: Shelf[];
   library: Shelf[];
@@ -11,6 +12,7 @@ interface ShelfState {
 
 // Define the initial state using that type
 const initialState: ShelfState = {
+  loadingRoute: false,
   selected: "",
   shelves: [],
   library: [],
@@ -20,6 +22,9 @@ const shelvesSlice = createSlice({
   name: "shelves",
   initialState,
   reducers: {
+    setLoadingRoute: (state, action) => {
+      state.selected = action.payload;
+    },
     updateSelected: (state, action) => {
       state.selected = action.payload;
     },
@@ -84,7 +89,7 @@ export const {
   incrementLibraryCount,
   initShelves,
   initLibrary,
-  setCurrentPage,
+  setLoadingRoute,
 } = shelvesSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
