@@ -13,38 +13,28 @@ export async function getBooks(search: string) {
     const books = await Promise.all(
       docs.map(async (doc: any) => {
         const olid = doc.key.split("/")[2];
-        if (doc.id_google && doc.id_google.length > 0) {
-          const book = await getBook(doc.id_google[0]);
+        // if (doc.id_google && doc.id_google.length > 0) {
+        //   const book = await getBook(doc.id_google[0]);
 
-          return {
-            ...book,
-            source: "google",
-          };
-        }
+        //   return {
+        //     ...book,
+        //     source: "google",
+        //   };
+        // }
+        const coverUrl = `http://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`;
+        const details = await getBook(olid);
 
-        try {
-          const bookDetailsUrl = `http://openlibrary.org/works/${olid}.json`;
-          const bookDetailsResponse = await axios.get(bookDetailsUrl);
-          const bookDetails = bookDetailsResponse.data;
-
-          const coverUrl = `http://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`;
-
-          return {
-            id: olid,
-            title: doc.title,
-            author: doc.author_name,
-            description: bookDetails.description
-              ? bookDetails.description.value
-              : "N/A",
-            image: doc.cover_i ? coverUrl : DEFAULT_BOOKCOVER_PLACEHOLDER,
-            categores: bookDetails.subject,
-            source: "openlibrary",
-            // Add more properties from bookDetails as needed
-          };
-        } catch (error) {
-          console.error("Error fetching book details:", error);
-          return null;
-        }
+        return {
+          id: olid,
+          title: doc.title,
+          author: doc.author_name,
+          date: doc.first_publish_year,
+          rating: doc.ratings_average,
+          pageNum: doc.number_of_pages_median,
+          image: doc.cover_i ? coverUrl : DEFAULT_BOOKCOVER_PLACEHOLDER,
+          ...details,
+          // Add more properties from bookDetails as needed
+        };
       })
     );
 

@@ -10,6 +10,7 @@ import { createContext, useContext } from "react";
 import { BookData } from "@/types/interfaces";
 import { BookRating } from "./rating";
 import BookCover from "./book-cover";
+import { useRouter } from "next/navigation";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -102,8 +103,6 @@ export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
 }
 
 
-
-
 interface BookCardProps {
     book: BookData;
     content?: React.ReactNode;
@@ -112,11 +111,14 @@ interface BookCardProps {
 
 export function BookCard({ content, actions, book }: BookCardProps) {
     const [rating, setRating] = React.useState(0); // Initial value
-
+    const router = useRouter();
     return (
         <BookCardContext.Provider value={{ book }}>
             <div>
-                <Card className={cn("border-none shadow-none p-0 overflow-hidden")}>
+                <Card onClick={() => {
+                    router.push(`/book/${book?.id}`);
+
+                }} className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
                     <CardContent className="p-4 flex gap-4 justify-between">
                         {content}
                         <div>
