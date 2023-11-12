@@ -4,10 +4,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { MainNav } from "@/modules/layout/components/main-nav";
-import { CommandMenu } from "@/components/command-menu";
 import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { User } from "next-auth";
 import { siteConfig } from "@/config/site";
+import SearchInput from "../components/search-input";
 
 interface SiteHeaderProps {
     user?: User;
@@ -20,7 +20,8 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                 <MainNav items={siteConfig.mainNav} />
                 <div className="flex flex-1 items-center space-x-4 sm:justify-end">
                     <div className="flex-1 sm:grow-0">
-                        <CommandMenu />
+                        <SearchInput />
+                        {/* <CommandMenu /> */}
                     </div>
                     <nav>
                         {user ? (

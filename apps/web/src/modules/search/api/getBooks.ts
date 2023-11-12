@@ -1,6 +1,6 @@
 import { processBookData } from "@/lib/utils";
 import axios from "axios";
-
+const URL = "http://openlibrary.org/search.json?title=";
 export async function getBooks(search: string) {
   try {
     const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${search}&maxResults=20&key=${process.env.GOOGLE_BOOKS_API_KEY}`;
