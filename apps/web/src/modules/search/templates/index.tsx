@@ -8,7 +8,6 @@ interface SeachTemplateProps {
 }
 
 export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits }) => {
-
     const resultSelections = ["All", "Title", "Author"];
     function selection(title: string) {
         return (
@@ -21,7 +20,7 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits }) => {
         <div>
             <div className="flex-col justify-center">
                 <div className="w-full grid grid-cols-4 gap-4">
-                <div className="col-span-4 xl:col-span-3">
+                    <div className="col-span-4 xl:col-span-3">
 
                         <hr className="mt-1 border-t-1 border-primary" />
                         <div>

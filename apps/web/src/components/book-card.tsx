@@ -9,6 +9,7 @@ import { Dot } from "lucide-react";
 import { createContext, useContext } from "react";
 import { BookData } from "@/types/interfaces";
 import { BookRating } from "./rating";
+import BookCover from "./book-cover";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -69,7 +70,7 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
     const { book } = useBookCardContext();
     return (
         <div className="flex items-start space-x-4 rounded-md">
-            <div>{image}</div>
+            <BookCover src={book.image} size={"sm"} />
             <div className="flex items-start flex-col justify-center gap-1">
                 <CardTitle className="text-[16px] leading-tight ">
                     {book.title}
@@ -120,7 +121,7 @@ export function BookCard({ content, actions, book }: BookCardProps) {
                         {content}
                         <div>
                             {actions}
-                            <BookRating rating={rating} setRating={setRating} />
+                            <BookRating rating={rating} setRating={setRating} bookId={book.id} />
                         </div>
                     </CardContent>
                 </Card>

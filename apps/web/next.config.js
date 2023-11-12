@@ -16,6 +16,11 @@ const nextConfig = {
         hostname: "m.media-amazon.com",
         port: "",
       },
+      {
+        protocol: "http",
+        hostname: "covers.openlibrary.org",
+        port: "",
+      },
     ],
   },
 };
