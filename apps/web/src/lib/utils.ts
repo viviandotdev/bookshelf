@@ -28,7 +28,7 @@ export function processBook(
   const preview: string = book.volumeInfo.previewLink;
   const plot: string = book.volumeInfo.description || "N/A";
   const pageNum: string = book.volumeInfo.pageCount?.toString() || "N/A";
-  const rating: string = book.volumeInfo.averageRating?.toString() || "N/A";
+  const averageRating: Number = book.volumeInfo.averageRating || 0;
   let isbn: string = "N/A";
   let isbn13: string = "N/A";
   if (book.volumeInfo.industryIdentifiers) {
@@ -38,7 +38,7 @@ export function processBook(
     if (identifier1) isbn = identifier1;
     if (identifier2) isbn13 = identifier2;
   }
-
+  let ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(" / ")
@@ -51,7 +51,8 @@ export function processBook(
   const bookData: BookData = {
     id,
     title,
-    rating,
+    averageRating,
+    ratingsCount,
     author,
     date,
     publisher,

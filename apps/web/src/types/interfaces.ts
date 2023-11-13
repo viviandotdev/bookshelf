@@ -9,7 +9,8 @@ export interface BookData {
   id: string;
   title: string;
   author: string;
-  rating: string;
+  averageRating: Number;
+  ratingsCount: number;
   date: string;
   publisher: string;
   image: string;
