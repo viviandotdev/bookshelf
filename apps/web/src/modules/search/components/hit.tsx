@@ -18,7 +18,6 @@ export type HitProps = {
 }
 
 const Hit = ({ hit }: HitProps) => {
-    console.log(hit)
     return (
         <BookCard
             book={hit}

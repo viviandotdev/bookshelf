@@ -1,6 +1,5 @@
 import SeachTemplate from "@/modules/search/templates";
 import { getBooks } from "@/modules/search/api/getBooks";
-import { Suspense } from "react";
 interface SearchPageProps {
     searchParams: {
         [key: string]: string | string[] | undefined
