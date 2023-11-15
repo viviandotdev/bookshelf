@@ -10,6 +10,7 @@ import AlertModal from "./modals/alert-modal";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
+import Link from "next/link";
 
 interface BookProps {
     details?: {
@@ -123,12 +124,9 @@ export const Book: React.FC<BookProps> = ({
                 status={status!}
                 setStatus={setStatus}
             />
-            <div
+            <Link
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
-                onClick={() => {
-                    router.push(`/book/${book?.id}`);
-
-                }}
+                href={`/book/${book?.id}`}
             >
                 <div className="flex-col justify-end" onClick={(e) => {
                     e.stopPropagation();
@@ -161,7 +159,7 @@ export const Book: React.FC<BookProps> = ({
                         />
                     </div>
                 </div>
-            </div>
+            </Link>
         </>
     }
 };

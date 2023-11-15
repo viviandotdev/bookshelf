@@ -11,6 +11,7 @@ import { BookData } from "@/types/interfaces";
 import { BookRating } from "./rating";
 import BookCover from "./book-cover";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -108,14 +109,11 @@ interface BookCardProps {
 
 export function BookCard({ content, actions, book }: BookCardProps) {
     const [rating, setRating] = React.useState(0); // Initial value
-    const router = useRouter();
     return (
         <BookCardContext.Provider value={{ book }}>
-            <div>
-                <Card onClick={() => {
-                    router.push(`/book/${book?.id}`);
-
-                }} className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
+            <Link
+                href={`/book/${book?.id}`}>
+                <Card className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
                     <CardContent className="p-4 flex gap-4 justify-between">
                         {content}
                         <div>
@@ -124,7 +122,7 @@ export function BookCard({ content, actions, book }: BookCardProps) {
                         </div>
                     </CardContent>
                 </Card>
-            </div>
+            </Link>
         </BookCardContext.Provider>
     );
 }
