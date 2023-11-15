@@ -55,10 +55,9 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             {status.map((s: string, index: number) => (
                 <Button
                     key={index}
-                    className={cn(
-                        buttonVariants({ variant: "outline", size: "lg" }),
-                        "text-md rounded-xl"
-                    )}
+                    variant={"outline"}
+                    size={"lg"}
+                    className="text-md rounded-xl hover:text-white hover:bg-primary"
                     label={s}
                     onClick={() => handleStatusClick(s)}
                     icon={
@@ -71,7 +70,7 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             <Button
                 className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "text-md rounded-xl border-none"
+                    "text-md rounded-xl border-none hover:bg-white"
                 )}
                 onClick={() => {
                     statusModal.onClose();

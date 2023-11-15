@@ -13,6 +13,7 @@ import { BookRating } from "@/components/rating";
 import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
+import { Button } from "@/components/ui/button";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -62,6 +63,7 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
     const updateUserId = useUserBook((state) => state.updateUserId);
     const updateStatus = useUserBook((state) => state.updateStatus);
     const updateBookId = useUserBook((state) => state.updateBookId);
+    const [loading, setLoading] = useState(false)
     const [CreateBook] = useCreateBookMutation();
     const firstRender = useFirstRender();
     const dispatch = useAppDispatch();
@@ -79,6 +81,7 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
     }, [userBook.status]); // Run the effect whenever userBook.status changes
 
     async function createBook(book: BookData) {
+        setLoading(true)
         const { data, errors } = await CreateBook({
             variables: {
                 data: {
@@ -91,7 +94,7 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
                 },
             },
         });
-        setStatus("Want to Read");
+
         if (data) {
             toast({
                 title: "Sucessfully saved book!",
@@ -101,6 +104,8 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
                 title: "Error saving book!",
             });
         }
+        setStatus("Want to Read");
+        setLoading(false)
     }
 
     async function openUpdateStatusModal() {
@@ -122,20 +127,22 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
                     <BookRating size={"lg"} bookId={book.id} rating={rating} setRating={setRating} />
                 </div>
                 {status ? (
-                    <button
+                    <Button
                         onClick={() => openUpdateStatusModal()}
-                        className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                        disabled={loading}
+                        className="hover:bg-secondary text-sm text-muted-foreground font-light bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
                     >
                         <Icons.edit className="mr-2 h-4 w-4 " />
                         {status}
-                    </button>
+                    </Button>
                 ) : (
-                    <button
+                    <Button
+                        disabled={loading}
                         onClick={() => createBook(book)}
-                        className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                        className="bg-primary text-white items-center text-center font-light w-[fill-available] rounded-lg p-2 cursor-pointer"
                     >
                         Want to Read
-                    </button>
+                    </Button>
                 )}
 
                 <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">

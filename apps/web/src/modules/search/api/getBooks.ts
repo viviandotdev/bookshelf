@@ -1,4 +1,5 @@
 import { processBookData } from "@/lib/utils";
+import { getUserBook } from "@/modules/book/api/getUserBook";
 import axios from "axios";
 const URL = "http://openlibrary.org/search.json?title=";
 export async function getBooks(search: string) {
@@ -15,7 +16,28 @@ export async function getBooks(search: string) {
       hits.sort((a, b) => {
         return b.ratingsCount - a.ratingsCount;
       });
+
       let count = response.data.totalItems;
+
+      // Use Promise.all to wait for all userBook requests to complete
+      hits = await Promise.all(
+        hits.map(async (hit) => {
+          const userBook = await getUserBook(hit.id);
+
+          // Add additional userBook properties if it exists
+          if (userBook) {
+            return {
+              ...hit,
+              userBook: {
+                status: userBook.status,
+                rating: userBook.rating,
+                shelves: userBook.shelves,
+              },
+            };
+          }
+          return hit;
+        })
+      );
       //   sort by numbers of ratings and average rating
       return { hits, count };
     } else {

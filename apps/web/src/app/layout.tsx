@@ -9,8 +9,6 @@ import { ModalProvider } from "@/providers/modal-provider";
 import { Provider } from 'react-redux';
 import { store } from "@/stores";
 import NextTopLoader from 'nextjs-toploader';
-import { RouteChangeHandler } from "@/hooks/use-route-change";
-import PageLoadingIndicator from "@/modules/layout/components/page-load-indicator";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -25,7 +23,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={`${inter.className}`}>
                 <NextTopLoader
-                    color="#2299DD"
+                    // color="#2299DD"
                     initialPosition={0.08}
                     crawlSpeed={200}
                     height={3}

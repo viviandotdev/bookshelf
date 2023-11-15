@@ -43,7 +43,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
             )}
             <div className="grid grid-cols-1 md:grid-cols-6 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
                 {booksData && booksData.map((book, idx) => (
-                    <>
+                    <div key={idx}>
                         {/* Cover View */}
                         <Book userBook={book} details={details} responsive showRemoveBook={false} />
                         {/* Responsive View */}
@@ -81,7 +81,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                                 <hr className="mt-1" />
                             </div>
                         </div>
-                    </>
+                    </div>
                 ))}
             </div>
         </>

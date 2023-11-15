@@ -14,5 +14,9 @@ export async function getUserBook(bookId: string) {
       },
     },
   });
-  return data.userBook;
+  if (data.userBook) {
+    return data.userBook;
+  } else {
+    return null;
+  }
 }

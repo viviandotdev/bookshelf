@@ -1,26 +1,24 @@
 "use client"
-export type BookHit = {
-    key: string
-    id: string
-    title: string
-    author: string
-    isbn: string
-    description: string | null
-    cover_i: string | null
-    collection_handle: string | null
-    collection_id: string | null
-}
+export type BookHit = BookData & {
+    userBook?: {
+        // Add any additional properties related to userBook here
+        status: boolean;
+        rating: number;
+    };
+};
 
 import { BookCard, BookInfo } from "@/components/book-card"
 import BookCover from "@/components/book-cover"
 import { Icons } from "@/components/icons"
+import { Button } from "@/components/ui/button"
 import { BookData } from "@/types/interfaces"
 
 export type HitProps = {
-    hit: BookData
+    hit: BookHit
 }
 
 const Hit = ({ hit }: HitProps) => {
+    console.log(hit)
     return (
         <BookCard
             book={hit}
@@ -31,18 +29,35 @@ const Hit = ({ hit }: HitProps) => {
                 />
             }
             actions={
-                <BookCard.BookActions
-                    buttons={[
-                        <>
-                            Currently reading
-                            <Icons.chevronDown className="h-4 w-4" />
-                        </>
-                        ,
-                        <>
-                            Edit
-                        </>
-                    ]}
-                />
+                hit.userBook ?
+                    < BookCard.BookActions
+                        buttons={[
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    console.log("currently reading clicked")
+                                }}
+                                variant={"tag"}
+                                size={"xs"}
+                            >
+                                Currently reading
+                                <Icons.chevronDown className="h-4 w-4" />
+                            </Button>,
+                            <Button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    console.log("currently reading clicked")
+                                }}
+                                variant={"tag"}
+                                size={"xs"}
+                            >
+                                Edit
+                            </Button>,
+                            ,
+                        ]}
+                    />
+                    : <></>
+
             }
         />
     )

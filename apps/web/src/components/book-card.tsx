@@ -92,10 +92,7 @@ export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
         <div className="flex flex-grow justify-end gap-2">
             {buttons.map((button, index) => (
                 <div key={index}>
-                    <Button variant={"action"}
-                        size={"xs"}>
-                        {button}
-                    </Button>
+                    {button}
                 </div>
             ))}
         </div>

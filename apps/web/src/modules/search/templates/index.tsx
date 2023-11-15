@@ -16,6 +16,7 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits }) => {
             </div>
         );
     }
+
     return (
         <div>
             <div className="flex-col justify-center">
