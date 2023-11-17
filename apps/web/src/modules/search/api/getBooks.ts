@@ -1,10 +1,11 @@
+import { RESULTS_PAGE_SIZE } from "@/lib/constants";
 import { processBookData } from "@/lib/utils";
 import { getUserBook } from "@/modules/book/api/getUserBook";
 import axios from "axios";
 
-export async function getBooks(search: string) {
+export async function getBooks(search: string, offset: number) {
   try {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${search}&maxResults=20&key=${process.env.GOOGLE_BOOKS_API_KEY}`;
+    const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${search}&maxResults=${RESULTS_PAGE_SIZE}&startIndex=${offset}`;
     const response = await axios.get(url);
 
     // Check if the response status is successful (status code 2xx)
@@ -21,7 +22,6 @@ export async function getBooks(search: string) {
     // Use Promise.all to wait for all userBook requests to complete
     const results = await Promise.all(
       hits.map(async (hit) => {
-        console.log("hit here", hit);
         const userBook = await getUserBook(hit.id);
 
         // Add additional userBook properties if it exists

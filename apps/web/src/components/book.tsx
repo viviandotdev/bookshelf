@@ -28,7 +28,6 @@ export const Book: React.FC<BookProps> = ({
     responsive,
     showRemoveBook,
 }) => {
-    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);

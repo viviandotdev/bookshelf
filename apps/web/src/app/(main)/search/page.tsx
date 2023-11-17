@@ -1,5 +1,6 @@
 import SeachTemplate from "@/modules/search/templates";
 import { getBooks } from "@/modules/search/api/getBooks";
+import { RESULTS_PAGE_SIZE } from "@/lib/constants";
 interface SearchPageProps {
     searchParams: {
         [key: string]: string | string[] | undefined
@@ -8,10 +9,20 @@ interface SearchPageProps {
 
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-    const { q } = searchParams
+    const { q, page, author, categories } = searchParams
     const searchQuery = q as string
-    const { hits, count } = await getBooks(searchQuery);
+
+    const pageAsNumber = Number(page) - 1;
+    const fallbackPage =
+        isNaN(pageAsNumber) || pageAsNumber < 0 ? 0 : pageAsNumber;
+    const offset = Math.ceil(Number(fallbackPage) * RESULTS_PAGE_SIZE);
+
+    const { hits, count } = await getBooks(searchQuery, offset);
+
     return (
-        <SeachTemplate hits={hits} count={count} query={searchQuery}/>
+        <SeachTemplate hits={hits} count={count} query={{
+            q: searchQuery,
+            page: page
+        }} />
     );
 }
