@@ -17,6 +17,7 @@ export type HitProps = {
 const Hit = ({ hit }: HitProps) => {
     const [status, setStatus] = useState(hit.userBook?.status);
     const [rating, setRating] = useState(hit.userBook?.rating);
+    const [isLoading, setIsLoading] = useState(false);
     const firstRender = useFirstRender();
     const [openAlert, setOpenAlert] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -41,19 +42,6 @@ const Hit = ({ hit }: HitProps) => {
                 status ?
                     < BookCard.BookActions
                         buttons={[
-                            <Button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    console.log("currently reading clicked")
-                                }}
-                                className="gap-2"
-                                variant={"tag"}
-                                size={"xs"}
-                            >
-                                {status}
-                                <Icons.chevronDown className="h-4 w-4" />
-                            </Button>,
-                            ,
                             <BookActions
                                 openDropdown={openDropdown}
                                 setOpenDropdown={setOpenDropdown}
@@ -66,6 +54,7 @@ const Hit = ({ hit }: HitProps) => {
                                 rating={rating}
                                 shelves={hit.userBook?.shelves!}
                                 // loadEntry={loadEntry}
+                                type="button"
                                 showRemoveBook={false}
                             />
                         ]}
@@ -81,9 +70,12 @@ const Hit = ({ hit }: HitProps) => {
                                 <Button
                                     onClick={async (e) => {
                                         e.stopPropagation();
+                                        setIsLoading(true)
                                         await createUserBook(hit.book);
+                                        setIsLoading(false)
                                         setStatus("Want to Read")
                                     }}
+                                    disabled={isLoading}
                                     className="bg-primary text-white"
                                     variant={"tag"}
                                     size={"xs"}

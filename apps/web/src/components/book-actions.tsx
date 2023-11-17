@@ -18,6 +18,7 @@ import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./rating";
 import { bookStatuses } from "@/config/books";
+import { Button } from "./ui/button";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -30,6 +31,7 @@ interface BookActionsProps {
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
     showRemoveBook?: boolean;
+    type: "button" | "icon";
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -44,6 +46,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     rating,
     setOpenDropdown,
     showRemoveBook,
+    type = "icon",
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
@@ -59,6 +62,7 @@ const BookActions: React.FC<BookActionsProps> = ({
             setStatus(status);
         }
     };
+
     return (
         <>
             <DropdownMenu open={openDropdown} modal={false}>
@@ -69,7 +73,18 @@ const BookActions: React.FC<BookActionsProps> = ({
                         setOpenDropdown(!openDropdown);
                     }}
                 >
-                    <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                    {type === "button" ? ( // Check the type prop to render the trigger as button or icon
+                        <Button
+                            className="gap-2"
+                            variant={"tag"}
+                            size={"xs"}
+                        >
+                            {status}
+                            <Icons.chevronDown className="h-4 w-4" />
+                        </Button>
+                    ) : (
+                        <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                    )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     onMouseLeave={(e) => {
