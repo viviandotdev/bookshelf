@@ -1,9 +1,13 @@
 import React from 'react'
 import Hit from '../components/hit';
 import { BookData } from '@/types/interfaces';
+import { UserBook } from '@/graphql/graphql';
 
+export type BookHit = BookData & {
+    userBook?: UserBook
+};
 interface SeachTemplateProps {
-    hits: BookData[]
+    hits: BookHit[]
 
 }
 

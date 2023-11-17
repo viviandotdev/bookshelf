@@ -6,7 +6,7 @@ import { Icons } from "./icons";
 import { Button, buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { Dot } from "lucide-react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useRef } from "react";
 import { BookData } from "@/types/interfaces";
 import { BookRating } from "./rating";
 import BookCover from "./book-cover";
@@ -53,9 +53,8 @@ export function BookShelves() {
 export function BookInfo() {
     return (
         <div className="flex text-xs font-medium w-max items-center">
-            <div>Currently Reading</div>
-            <Dot />
-            <div>Finished on April 20, 2023</div>
+            {/* <div>Book Year</div> */}
+            <div>Published 2018</div>
             <Dot />
             <div>Avg Rating 4.8</div>
         </div>
@@ -88,15 +87,19 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
 }
 
 // Book Actions Component
-export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
+export function BookActions({ buttons, rating }: { buttons: React.ReactNode[], rating?: React.ReactNode }) {
     return (
-        <div className="flex flex-grow justify-end gap-2">
-            {buttons.map((button, index) => (
-                <div key={index}>
-                    {button}
-                </div>
-            ))}
-        </div>
+        <>
+            {rating}
+            <div className="flex flex-grow justify-end gap-2">
+                {buttons.map((button, index) => (
+                    <div key={index}>
+                        {button}
+                    </div>
+                ))}
+            </div>
+
+        </>
     );
 }
 
@@ -108,21 +111,25 @@ interface BookCardProps {
 }
 
 export function BookCard({ content, actions, book }: BookCardProps) {
-    const [rating, setRating] = React.useState(0); // Initial value
+    const linkRef = useRef<HTMLAnchorElement>(null);
     return (
         <BookCardContext.Provider value={{ book }}>
-            <Link
-                href={`/book/${book?.id}`}>
-                <Card className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
+            <div>
+                <Card onClick={() => {
+                    if (linkRef.current) {
+                        linkRef.current.click();
+                    }
+                }} className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
                     <CardContent className="p-4 flex gap-4 justify-between">
                         {content}
                         <div>
                             {actions}
-                            <BookRating rating={rating} setRating={setRating} bookId={book.id} />
                         </div>
                     </CardContent>
                 </Card>
-            </Link>
+            </div>
+            <Link ref={linkRef} href={`/book/${book?.id}`} className="hidden"></Link>
+
         </BookCardContext.Provider>
     );
 }

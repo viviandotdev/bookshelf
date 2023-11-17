@@ -11,12 +11,12 @@ export interface BookData {
   author: string;
   averageRating: Number;
   ratingsCount: number;
-  date: string;
+  publishedDate: string;
   publisher: string;
   image: string;
   preview: string;
-  plot: string;
-  pageNum: string;
+  description: string;
+  pageCount: string;
   isbn: string;
   categories: string[];
   isbn13: string;

@@ -14,6 +14,8 @@ import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
+import useCreateBook from "../hooks/use-create-user-book";
+import useCreateUserBook from "../hooks/use-create-user-book";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -64,7 +66,7 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
     const updateStatus = useUserBook((state) => state.updateStatus);
     const updateBookId = useUserBook((state) => state.updateBookId);
     const [loading, setLoading] = useState(false)
-    const [CreateBook] = useCreateBookMutation();
+    const { createUserBook } = useCreateUserBook();
     const firstRender = useFirstRender();
     const dispatch = useAppDispatch();
 
@@ -81,31 +83,9 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
     }, [userBook.status]); // Run the effect whenever userBook.status changes
 
     async function createBook(book: BookData) {
-        setLoading(true)
-        const { data, errors } = await CreateBook({
-            variables: {
-                data: {
-                    id: book.id,
-                    title: book.title,
-                    pageNum: parseInt(book.pageNum),
-                    author: book.author,
-                    publisher: book.publisher,
-                    coverImage: book.image,
-                },
-            },
-        });
+        await createUserBook(book);
+        setStatus("Want to Read")
 
-        if (data) {
-            toast({
-                title: "Sucessfully saved book!",
-            });
-        } else {
-            toast({
-                title: "Error saving book!",
-            });
-        }
-        setStatus("Want to Read");
-        setLoading(false)
     }
 
     async function openUpdateStatusModal() {
