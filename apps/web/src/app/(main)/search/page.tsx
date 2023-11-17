@@ -11,8 +11,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     const { q } = searchParams
     const searchQuery = q as string
     const { hits, count } = await getBooks(searchQuery);
-    // console.log(results)
     return (
-        <SeachTemplate hits={hits} count={count} />
+        <SeachTemplate hits={hits} count={count} query={searchQuery}/>
     );
 }

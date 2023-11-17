@@ -5,15 +5,20 @@ import { UserBook } from '@/graphql/graphql';
 
 export type BookHit = {
     book: BookData,
-    userBook: UserBook
+    userBook: UserBook,
+    query: string
 }
 interface SeachTemplateProps {
-    hits: BookHit[]
+    hits: BookHit[],
+    count: number
+    query: string
+
 
 }
 
-export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits }) => {
+export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits, count, query }) => {
     const resultSelections = ["All", "Title", "Author"];
+
     function selection(title: string) {
         return (
             <div className="text-xs bg-secondary w-[fill-available] rounded-lg p-2 cursor-pointer">
@@ -26,9 +31,11 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits }) => {
         <div>
             <div className="flex-col justify-center">
                 <div className="w-full grid grid-cols-4 gap-4">
-                    <div className="col-span-4 xl:col-span-3">
-
-                        <hr className="mt-1 border-t-1 border-primary" />
+                    <div className="col-span-4 xl:col-span-3 mt-8 ">
+                        <div className="leading-7 items-start text-primary font-semibold ">
+                            Found {count} results for "{query}"
+                        </div>
+                        <hr className="mt-2 border-t-1 border-primary" />
                         <div>
                             {hits && hits.map((hit, index) => (
                                 <li key={index} className="list-none">
