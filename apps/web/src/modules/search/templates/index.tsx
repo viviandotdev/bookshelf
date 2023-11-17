@@ -3,9 +3,10 @@ import Hit from '../components/hit';
 import { BookData } from '@/types/interfaces';
 import { UserBook } from '@/graphql/graphql';
 
-export type BookHit = BookData & {
-    userBook?: UserBook
-};
+export type BookHit = {
+    book: BookData,
+    userBook: UserBook
+}
 interface SeachTemplateProps {
     hits: BookHit[]
 

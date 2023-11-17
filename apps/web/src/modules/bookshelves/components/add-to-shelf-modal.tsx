@@ -49,6 +49,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     });
 
     useEffect(() => {
+        console.log(shelves)
         form.reset({ shelves: userBook.shelves.map((item) => item.shelf.name) });
     }, [userBook.shelves]);
 

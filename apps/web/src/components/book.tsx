@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState, useRef } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
@@ -36,6 +36,7 @@ export const Book: React.FC<BookProps> = ({
     const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves } = userBook;
     const [isLoading, setIsLoading] = useState(false);
+    const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
@@ -124,9 +125,13 @@ export const Book: React.FC<BookProps> = ({
                 status={status!}
                 setStatus={setStatus}
             />
-            <Link
+            <div
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
-                href={`/book/${book?.id}`}
+                onClick={() => {
+                    if (linkRef.current) {
+                        linkRef.current.click();
+                    }
+                }}
             >
                 <div className="flex-col justify-end" onClick={(e) => {
                     e.stopPropagation();
@@ -159,7 +164,8 @@ export const Book: React.FC<BookProps> = ({
                         />
                     </div>
                 </div>
-            </Link>
+            </div>
+            <Link ref={linkRef} href={`/book/${book?.id}`} className="hidden"></Link>
         </>
     }
 };

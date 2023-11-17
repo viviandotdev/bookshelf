@@ -51,6 +51,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     const updateStatus = useUserBook((state) => state.updateStatus);
     const setUserBook = useUserBook((state) => state.setUserBook);
     const initShelves = useUserBook((state) => state.initShelves);
+    const setShelves = useAddToShelfModal((state) => state.setShelves);
     const { updateUserBook } = useUpdateUserBook();
     const onUpdate = async (status: string) => {
         const updatedBook = await updateUserBook(book!.id, { status });
@@ -107,6 +108,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                         onClick={() => {
                             // Shelves this part is part of
                             initShelves(shelves!);
+                            setShelves(shelves!)
                             updateBookId(book!.id);
                             addToShelfModal.onOpen();
                         }}
