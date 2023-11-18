@@ -3,9 +3,15 @@ import { processBookData } from "@/lib/utils";
 import { getUserBook } from "@/modules/book/api/getUserBook";
 import axios from "axios";
 
-export async function getBooks(search: string, offset: number) {
+export async function getBooks(search: string, field: string, offset: number) {
   try {
-    const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${search}&maxResults=${RESULTS_PAGE_SIZE}&startIndex=${offset}`;
+    let inField: string = "intitle";
+    if (field === "author") {
+      inField = "inauthor";
+    } else if (field === "categories") {
+      inField = "insubject";
+    }
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${inField}:${search}&maxResults=${RESULTS_PAGE_SIZE}&startIndex=${offset}`;
     const response = await axios.get(url);
 
     // Check if the response status is successful (status code 2xx)
@@ -35,8 +41,6 @@ export async function getBooks(search: string, offset: number) {
             },
           };
         }
-        console.log(hit);
-
         return { book: { ...hit } };
       })
     );

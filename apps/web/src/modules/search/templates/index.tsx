@@ -1,11 +1,9 @@
-
-import React from 'react'
 import Hit from '../components/hit';
 import { BookData } from '@/types/interfaces';
 import { UserBook } from '@/graphql/graphql';
-import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination';
 import { RESULTS_PAGE_SIZE } from '@/lib/constants';
+import FieldSelector from '../components/field-selector';
 
 export type BookHit = {
     book: BookData,
@@ -16,25 +14,16 @@ interface SeachTemplateProps {
     count: number
     query: {
         q: string,
-        page: string | string[] | undefined
+        page: string | string[] | undefined,
+        field: string | string[] | undefined
     }
 
 
 }
 
 export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits, count, query }) => {
+    const currentPage = query.page ? Number(query.page) : 1
     const pageCount = Math.ceil(count / RESULTS_PAGE_SIZE)
-    const resultSelections = ["Title", "Author", "Categories"];
-    // Search params
-
-
-    function selection(title: string) {
-        return (
-            <div className="text-xs bg-secondary w-[fill-available] rounded-lg p-2 cursor-pointer">
-                {title}
-            </div>
-        );
-    }
 
     return (
         <div>
@@ -42,7 +31,7 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits, count, query
                 <div className="w-full grid grid-cols-4 gap-4">
                     <div className="col-span-4 xl:col-span-3 mt-8 ">
                         <div className="leading-7 items-start text-primary font-semibold ">
-                            Found {count} results for "{query.q}"
+                            Found {count} results for "{query.q}" in {query.field ? query.field : "title"}
                         </div>
                         <hr className="mt-2 border-t-1 border-primary" />
                         <div>
@@ -53,20 +42,10 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({ hits, count, query
                             ))}
                         </div>
                     </div>
-                    <div className="hidden xl:block">
-                        <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-muted-foreground font-light">
-                            <div className="leading-7 items-start text-primary font-semibold ">
-                                Field to search
-                            </div>
-                            <hr className="mt-1 border-t-1 border-primary" />
-                            {resultSelections.map((heading) => {
-                                return selection(heading);
-                            })}
-                        </div>
-                    </div>
+                    <FieldSelector selectedField={query.field ? query.field : "title"} />
                 </div>
                 <Pagination
-                    page={(query.page)}
+                    page={currentPage}
                     totalPages={pageCount}
                 />
             </div>

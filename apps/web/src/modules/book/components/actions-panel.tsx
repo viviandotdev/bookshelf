@@ -52,8 +52,8 @@ interface ActionsPanelProps {
     shelves: Shelf[];
 }
 export default function ActionsPanel({ book, userBook, shelves }: ActionsPanelProps) {
-    const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-    const [status, setStatus] = useState(userBook.status);
+    const [rating, setRating] = useState(userBook && userBook.rating ? userBook.rating : 0); // Initial value
+    const [status, setStatus] = useState(userBook && userBook.status);
     const [loading, setLoading] = useState(false)
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
@@ -125,9 +125,7 @@ export default function ActionsPanel({ book, userBook, shelves }: ActionsPanelPr
                 </div>
                 <div onClick={() => {
                     // userbook selected shelves vs the shelves that is being created are different
-                    console.log(userBook)
                     initShelves(userBook.shelves!);
-                    console.log(userBook.shelves)
                     updateBookId(book!.id);
                     addToShelfModal.onOpen();
 
