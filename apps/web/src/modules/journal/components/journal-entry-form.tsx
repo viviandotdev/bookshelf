@@ -43,6 +43,7 @@ interface JournalEntryFormProps {
     status: string | undefined;
     setStatus: Dispatch<SetStateAction<string>>;
     onClose: () => void;
+    onDelete?: () => void;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
@@ -51,6 +52,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     status,
     setStatus,
     onClose,
+    onDelete
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
@@ -58,6 +60,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
     const { updateUserBook } = useUpdateUserBook();
+    const isEdit = typeof onDelete === "function";
     useEffect(() => {
         form.reset({
             notes: "",
@@ -407,10 +410,15 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         variant="outline"
                         onClick={(e) => {
                             e.preventDefault();
-                            onClose();
+                            if (typeof onDelete !== "undefined") {
+                                onDelete();
+                            } else {
+                                onClose();
+                            }
+
                         }}
                     >
-                        {jouranlEntryModal.isEdit ? "Delete" : "Close"}
+                        {typeof onDelete !== "undefined" ? "Delete" : "Close"}
                     </Button>
                     <Button type="submit" variant="default">
                         Save

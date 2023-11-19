@@ -16,6 +16,7 @@ import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
 import { useRemoveEntry } from "../hooks/use-remove-entry";
 import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import useUserBook from "@/stores/use-user-book";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),
@@ -55,6 +56,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         // header: ({ column }) => <div>Month</div>,
         header: ({ column }) => <ColumnHeader column={column} title="MONTH" />,
         cell: ({ row }) => {
+            const monthYear = row.getValue("monthYear").split(" ") as string[];
             return (
                 <div className="text-center font-bold">
                     <svg
@@ -91,7 +93,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             font-size="140"
                             fill="black"
                         >
-                            OCT
+                            {monthYear[0]}
                         </text>
                         <text
                             x="46%"
@@ -101,7 +103,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             font-size="110"
                             fill="black"
                         >
-                            2023
+                            {monthYear[1]}
                         </text>
                     </svg>
                 </div>
@@ -236,8 +238,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 const deletedEntry = await removeEntry(progress.id);
 
             }
+            const updateStatus = useUserBook((state) => state.updateStatus);
+            const setUserBook = useUserBook((state) => state.setUserBook);
             return (
                 <div className="text-center cursor-pointer px-2">
+                    {/* just edit entry modal button here, user can delete and edit their entries  */}
                     <JouranlEntryModal
                         currentProgress={currentProgress}
                         setCurrentProgress={setCurrentProgress}
@@ -252,7 +257,17 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         status={status!}
                         setStatus={setStatus}
                     />
-                    {userBook && (
+                    <div
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setUserBook(userBook.book);
+                            updateStatus(status);
+                            setOpenModal(true);
+                        }}
+                    >
+                        <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                    </div>
+                    {/* {userBook && (
                         <BookActions
                             openDropdown={openDropdown}
                             setOpenDropdown={setOpenDropdown}
@@ -265,7 +280,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             rating={rating}
                             shelves={userBook?.shelves ?? undefined}
                         />
-                    )}
+                    )} */}
                 </div>
             );
         },

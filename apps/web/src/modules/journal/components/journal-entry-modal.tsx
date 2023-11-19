@@ -33,7 +33,7 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
     setStatus
 }) => {
     const userBook = useUserBook();
-
+    const isEdit = typeof onDelete === "function";
     const onChange = (open: boolean) => {
         if (!open) {
             onClose();
@@ -59,6 +59,7 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                             setCurrentProgress={setCurrentProgress}
                             status={status}
                             setStatus={setStatus}
+                            onDelete={onDelete}
                             onClose={onClose}
                         />
                     </div>
