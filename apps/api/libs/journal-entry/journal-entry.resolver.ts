@@ -4,9 +4,10 @@ import {
   BookWhereUniqueInput,
   JournalEntry,
   JournalEntryCreateInput,
+  JournalEntryWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';
@@ -59,6 +60,29 @@ export class JournalEntryResolver {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Mutation(() => JournalEntry)
+  removeJournalEntry(
+    @Args('where')
+    where: JournalEntryWhereUniqueInput,
+  ) {
+    const entry = this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+    if (!entry) {
+      throw new NotFoundException(
+        `Entry ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return this.service.delete({
+      where: {
+        id: where.id,
+      },
+    });
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Query(() => [JournalEntry])
   async journalEntries(
     @Args('book', { nullable: true })
@@ -81,6 +105,9 @@ export class JournalEntryResolver {
         user: currentUser.userId,
         skip: offset,
         take: limit,
+        orderBy: {
+          dateRead: 'desc',
+        },
       });
     } else {
       return this.service.findMany({

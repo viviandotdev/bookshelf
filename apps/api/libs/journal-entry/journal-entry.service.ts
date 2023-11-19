@@ -8,6 +8,7 @@ import {
 @Injectable()
 export class JournalEntryService {
   findUnique = this.repository.findUnique;
+  delete = this.repository.delete;
   findFirst = this.repository.findFirst;
   constructor(private readonly repository: JournalEntryRepository) {}
 
@@ -57,6 +58,7 @@ export class JournalEntryService {
     book?: string;
     skip?: number;
     take?: number;
+    orderBy?: Prisma.JournalEntryOrderByWithRelationInput;
   }) {
     const whereJournalEntryArgs: Prisma.JournalEntryFindManyArgs = {
       where: args.book
@@ -81,6 +83,7 @@ export class JournalEntryService {
           },
         },
       },
+      orderBy: args.orderBy,
       skip: args.skip,
       take: args.take,
     });

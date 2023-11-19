@@ -14,6 +14,8 @@ import book from "@/components/book";
 import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 import { useAppDispatch } from "@/stores";
+import { useRemoveEntry } from "../hooks/use-remove-entry";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),
@@ -216,7 +218,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const [openDropdown, setOpenDropdown] = useState(false);
             const [status, setStatus] = useState(userBook.status ? userBook.status : "");
             const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-            const { removeUserBook } = useRemoveUserBook();
+            const { removeEntry } = useRemoveEntry();
             const [isLoading, setIsLoading] = useState(false);
             const dispatch = useAppDispatch();
             const [currentProgress, setCurrentProgress] = useState({
@@ -226,49 +228,26 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 percent: Number(progress.currentPercent),
             });
             useEffect(() => {
+                console.log(progress.id)
                 setStatus(userBook.status ? userBook.status : "");
                 setRating(userBook.rating ? userBook.rating : 0);
             }, [userBook]);
-            const onDelete = async () => {
-                setIsLoading(true);
-                const deletedBook = await removeUserBook(book!.id);
-                if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
-                    deletedBook.shelves.map((item) => {
-                        dispatch(decrementShelfCount({ name: item.shelf.name }))
-                    })
-                } else {
-                    dispatch(decrementLibraryCount({ name: "Unshelved" }))
-                }
-                dispatch(decrementLibraryCount({ name: "All" }))
-                setIsLoading(false);
-                setOpenAlert(false);
-            };
-
             const deleteEntry = async () => {
-                // const deletedEntry = await removeJournalEntry(book!.id);
+                const deletedEntry = await removeEntry(progress.id);
 
             }
             return (
                 <div className="text-center cursor-pointer px-2">
-                    <AlertModal
-                        title={"Are you sure you want to remove this book from your shelf?"}
-                        description={
-                            "Removing this book will clear associated ratings, reviews and reading activity"
-                        }
-                        isOpen={openAlert}
-                        onClose={() => setOpenAlert(false)}
-                        onConfirm={onDelete}
-                        loading={isLoading}
-                    />
                     <JouranlEntryModal
                         currentProgress={currentProgress}
                         setCurrentProgress={setCurrentProgress}
                         isOpen={openModal}
                         onClose={() => {
+                            setOpenModal(false);
+                        }}
+                        onDelete={() => {
                             deleteEntry();
                             setOpenModal(false);
-
-
                         }}
                         status={status!}
                         setStatus={setStatus}

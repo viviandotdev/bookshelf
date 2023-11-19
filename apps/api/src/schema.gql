@@ -515,6 +515,7 @@ type Mutation {
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
+  removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!

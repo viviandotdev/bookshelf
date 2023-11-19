@@ -545,6 +545,7 @@ export type Mutation = {
   deleteShelf?: Maybe<Shelf>;
   logout: Scalars['Boolean'];
   refreshAuth: RefreshResponse;
+  removeJournalEntry: JournalEntry;
   removeUserBook: UserBook;
   signin: AuthResponse;
   signup: User;
@@ -581,6 +582,11 @@ export type MutationDeleteShelfArgs = {
 
 export type MutationLogoutArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationRemoveJournalEntryArgs = {
+  where: JournalEntryWhereUniqueInput;
 };
 
 
@@ -1834,6 +1840,13 @@ export type CreateJournalEntryMutationVariables = Exact<{
 
 export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } };
 
+export type RemoveJournalEntryMutationVariables = Exact<{
+  where: JournalEntryWhereUniqueInput;
+}>;
+
+
+export type RemoveJournalEntryMutation = { __typename?: 'Mutation', removeJournalEntry: { __typename?: 'JournalEntry', id: string } };
+
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
 }>;
@@ -2148,6 +2161,39 @@ export function useCreateJournalEntryMutation(baseOptions?: Apollo.MutationHookO
 export type CreateJournalEntryMutationHookResult = ReturnType<typeof useCreateJournalEntryMutation>;
 export type CreateJournalEntryMutationResult = Apollo.MutationResult<CreateJournalEntryMutation>;
 export type CreateJournalEntryMutationOptions = Apollo.BaseMutationOptions<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>;
+export const RemoveJournalEntryDocument = gql`
+    mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
+  removeJournalEntry(where: $where) {
+    id
+  }
+}
+    `;
+export type RemoveJournalEntryMutationFn = Apollo.MutationFunction<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>;
+
+/**
+ * __useRemoveJournalEntryMutation__
+ *
+ * To run a mutation, you first call `useRemoveJournalEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveJournalEntryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeJournalEntryMutation, { data, loading, error }] = useRemoveJournalEntryMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useRemoveJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>(RemoveJournalEntryDocument, options);
+      }
+export type RemoveJournalEntryMutationHookResult = ReturnType<typeof useRemoveJournalEntryMutation>;
+export type RemoveJournalEntryMutationResult = Apollo.MutationResult<RemoveJournalEntryMutation>;
+export type RemoveJournalEntryMutationOptions = Apollo.BaseMutationOptions<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {

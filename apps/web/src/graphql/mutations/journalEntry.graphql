@@ -10,3 +10,9 @@ mutation CreateJournalEntry(
     currentPercent
   }
 }
+
+mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
+  removeJournalEntry(where: $where) {
+    id
+  }
+}

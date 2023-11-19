@@ -1,3 +1,4 @@
+"use client"
 import { useJournalEntriesLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { MONTH, BOOKS_PAGE_SIZE } from "@/lib/constants";
@@ -32,9 +33,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
 
     const journalEntires = journalData?.journalEntries.map((entry) => {
         const date = new Date(entry.dateRead);
-        console.log(entry.userBook)
         return {
-            id: entry.id,
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),
             date: date.getDate(),
@@ -43,6 +42,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
                 "",
             pagesRead: entry.pagesRead,
             progress: {
+                id: entry.id,
                 currentPercent: entry.currentPercent,
                 currentPage: entry.currentPage,
                 totalPages: entry.userBook?.book?.pageNum,

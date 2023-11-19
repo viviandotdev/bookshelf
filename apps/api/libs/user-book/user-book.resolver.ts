@@ -3,7 +3,6 @@ import { UserBookService } from './user-book.service';
 import {
   BookWhereUniqueInput,
   UserBook,
-  UserBookOrderByWithAggregationInput,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
 } from '../../src/generated-db-types';

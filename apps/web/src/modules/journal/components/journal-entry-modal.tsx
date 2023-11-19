@@ -16,6 +16,7 @@ type progressTypes = {
 interface JouranlEntryModalProps {
     isOpen: boolean;
     onClose: () => void;
+    onDelete?: () => void;
     status: string;
     setStatus: Dispatch<SetStateAction<string>>;
     currentProgress: progressTypes;
@@ -27,6 +28,7 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
     setCurrentProgress,
     isOpen,
     onClose,
+    onDelete,
     status,
     setStatus
 }) => {
