@@ -5,12 +5,9 @@ import { Pagination } from '@/components/pagination';
 import { RESULTS_PAGE_SIZE } from '@/lib/constants';
 import FieldSelector from '../components/field-selector';
 
-export type BookHit = {
-    book: BookData,
-    userBook: UserBook,
-}
+
 interface SeachTemplateProps {
-    hits: BookHit[],
+    hits: BookData[],
     count: number
     query: {
         q: string,

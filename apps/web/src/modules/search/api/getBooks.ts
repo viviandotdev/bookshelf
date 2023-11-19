@@ -26,25 +26,7 @@ export async function getBooks(search: string, field: string, offset: number) {
     let count = response.data.totalItems;
 
     // Use Promise.all to wait for all userBook requests to complete
-    const results = await Promise.all(
-      hits.map(async (hit) => {
-        const userBook = await getUserBook(hit.id);
-
-        // Add additional userBook properties if it exists
-        if (userBook) {
-          return {
-            book: { ...hit },
-            userBook: {
-              status: userBook.status,
-              rating: userBook.rating,
-              shelves: userBook.shelves,
-            },
-          };
-        }
-        return { book: { ...hit } };
-      })
-    );
-    return { hits: results.length > 0 ? results : [], count: count };
+    return { hits: hits.length > 0 ? hits : [], count: count };
   } catch (error) {
     return {
       hits: [],
