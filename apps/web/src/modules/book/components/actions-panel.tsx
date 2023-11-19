@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
-import { Shelf, UserBook } from "@/graphql/graphql";
+import { Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/stores/use-user-book";
@@ -13,6 +13,8 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../hooks/use-create-user-book";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -48,39 +50,54 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
     book: BookData;
-    userBook: UserBook;
     shelves: Shelf[];
 }
-export default function ActionsPanel({ book, userBook, shelves }: ActionsPanelProps) {
-    const [rating, setRating] = useState(userBook && userBook.rating ? userBook.rating : 0); // Initial value
-    const [status, setStatus] = useState(userBook && userBook.status);
+export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
+    const [rating, setRating] = useState(0); // Initial value
+    const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false)
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
     const { updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
     const { createUserBook } = useCreateUserBook();
-    const firstRender = useFirstRender();
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const [loadBook] =
+        useUserBookLazyQuery({
+            fetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-first",
+            notifyOnNetworkStatusChange: true,
+            onError: (error) => {
+                toast({
+                    title: error.message,
+                    variant: "destructive",
+                });
+            },
+            onCompleted: (data) => {
+                setStatus(data.userBook?.status as string);
+                setRating(data.userBook?.rating as number);
+            },
+            errorPolicy: "all",
+        })
 
     useEffect(() => {
-        updateStatus(userBookStatus as string);
         dispatch(initShelves(shelves));
     }, []);
 
+
     useEffect(() => {
-        // Check if userBook.status is different from the current status state
-        if (!firstRender && userBookStatus !== status) {
-            setStatus(userBookStatus); // Update the status in ActionsPanel
-        }
-    }, [userBookStatus]); // Run the effect whenever userBook.status changes
+        const loadData = async () => {
+            await loadBook({ variables: { where: { id: book.id } } });
+        };
+        loadData();
+    }, [loadBook, router]);
 
     async function createBook(book: BookData) {
         setLoading(true)
         await createUserBook(book);
         setLoading(false)
         setStatus("Want to Read")
-
     }
 
     async function openUpdateStatusModal() {
@@ -89,7 +106,6 @@ export default function ActionsPanel({ book, userBook, shelves }: ActionsPanelPr
         updateStatus(status as string);
         statusModal.onOpen();
     }
-
     return (
         <>
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
@@ -125,7 +141,6 @@ export default function ActionsPanel({ book, userBook, shelves }: ActionsPanelPr
                 </div>
                 <div onClick={() => {
                     // userbook selected shelves vs the shelves that is being created are different
-                    initShelves(userBook.shelves!);
                     updateBookId(book!.id);
                     addToShelfModal.onOpen();
 

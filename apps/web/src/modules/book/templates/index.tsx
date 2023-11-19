@@ -10,10 +10,9 @@ import { BookStatusModal } from "../components/book-status-modal";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
-    userBook: UserBook;
 }
 
-export default function BookTemplate({ book, shelves, userBook }: BookTemplateProps) {
+export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
     return (
         <>
             <BookStatusModal />
@@ -49,7 +48,7 @@ export default function BookTemplate({ book, shelves, userBook }: BookTemplatePr
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} userBook={userBook} />
+                                <ActionsPanel book={book} shelves={shelves} />
                             </section>
                         </div>
                     </div>

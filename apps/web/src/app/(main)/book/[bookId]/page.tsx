@@ -14,11 +14,10 @@ export default async function BookPage({ params }: BookPageProps) {
     if (!book) {
         notFound();
     }
-    const userBook = await getUserBook(params.bookId);
     const { shelves } = await getShelves();
     return (
         <>
-            <BookTemplate book={book} shelves={shelves} userBook={userBook} />
+            <BookTemplate book={book} shelves={shelves} />
         </>
     );
 }
