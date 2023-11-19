@@ -32,6 +32,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
 
     const journalEntires = journalData?.journalEntries.map((entry) => {
         const date = new Date(entry.dateRead);
+        console.log(entry.userBook)
         return {
             id: entry.id,
             userBook: entry.userBook,
@@ -41,7 +42,11 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
                 (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
                 "",
             pagesRead: entry.pagesRead,
-            progress: entry.currentPercent,
+            progress: {
+                currentPercent: entry.currentPercent,
+                currentPage: entry.currentPage,
+                totalPages: entry.userBook?.book?.pageNum,
+            },
             notes: entry.readingNotes || "",
             liked: true,
             abandoned: entry.userBook?.status === "ABANDONED",

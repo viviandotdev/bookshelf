@@ -7,6 +7,13 @@ import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
 import BookActions from "@/components/book-actions";
 import { Icons } from "@/components/icons";
+import { useEffect, useState } from "react";
+import AlertModal from "@/components/modals/alert-modal";
+import { JouranlEntryModal } from "./journal-entry-modal";
+import book from "@/components/book";
+import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
+import { useRemoveUserBook } from "@/hooks/user-books/mutations";
+import { useAppDispatch } from "@/stores";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),
@@ -142,7 +149,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         cell: ({ row }) => {
             return (
                 <div className="text-center text-primary text-lg px-2">
-                    {row.getValue("progress")}%
+                    {row.getValue("progress").currentPercent}%
                 </div>
             );
         },
@@ -202,12 +209,81 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="EDIT" />,
         cell: ({ row }) => {
             const userBook = row.getValue("userBook") as UserBook;
+            const progress = row.getValue("progress");
+            const [openMenu, setOpenMenu] = useState(false);
+            const [openAlert, setOpenAlert] = useState(false);
+            const [openModal, setOpenModal] = useState(false);
+            const [openDropdown, setOpenDropdown] = useState(false);
+            const [status, setStatus] = useState(userBook.status ? userBook.status : "");
+            const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+            const { removeUserBook } = useRemoveUserBook();
+            const [isLoading, setIsLoading] = useState(false);
+            const dispatch = useAppDispatch();
+            const [currentProgress, setCurrentProgress] = useState({
+                originalPage: Number(progress.currentPage),
+                originalPercent: Number(progress.currentPercent),
+                page: Number(progress.currentPage),
+                percent: Number(progress.currentPercent),
+            });
+            useEffect(() => {
+                setStatus(userBook.status ? userBook.status : "");
+                setRating(userBook.rating ? userBook.rating : 0);
+            }, [userBook]);
+            const onDelete = async () => {
+                setIsLoading(true);
+                const deletedBook = await removeUserBook(book!.id);
+                if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
+                    deletedBook.shelves.map((item) => {
+                        dispatch(decrementShelfCount({ name: item.shelf.name }))
+                    })
+                } else {
+                    dispatch(decrementLibraryCount({ name: "Unshelved" }))
+                }
+                dispatch(decrementLibraryCount({ name: "All" }))
+                setIsLoading(false);
+                setOpenAlert(false);
+            };
+
+            const deleteEntry = async () => {
+                // const deletedEntry = await removeJournalEntry(book!.id);
+
+            }
             return (
                 <div className="text-center cursor-pointer px-2">
+                    <AlertModal
+                        title={"Are you sure you want to remove this book from your shelf?"}
+                        description={
+                            "Removing this book will clear associated ratings, reviews and reading activity"
+                        }
+                        isOpen={openAlert}
+                        onClose={() => setOpenAlert(false)}
+                        onConfirm={onDelete}
+                        loading={isLoading}
+                    />
+                    <JouranlEntryModal
+                        currentProgress={currentProgress}
+                        setCurrentProgress={setCurrentProgress}
+                        isOpen={openModal}
+                        onClose={() => {
+                            deleteEntry();
+                            setOpenModal(false);
+
+
+                        }}
+                        status={status!}
+                        setStatus={setStatus}
+                    />
                     {userBook && (
                         <BookActions
-                            bookStatus={userBook.status ?? undefined}
-                            book={userBook.book ?? undefined}
+                            openDropdown={openDropdown}
+                            setOpenDropdown={setOpenDropdown}
+                            setOpenModal={setOpenModal}
+                            setOpenAlert={setOpenAlert}
+                            book={userBook.book}
+                            setStatus={setStatus}
+                            setRating={setRating}
+                            status={status}
+                            rating={rating}
                             shelves={userBook?.shelves ?? undefined}
                         />
                     )}

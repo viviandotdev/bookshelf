@@ -142,7 +142,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                             }}
                         >
                             <Icons.plus className="h-5 w-5 mr-2" />
-                            Update Progress
+                            Log reading
                         </DropdownMenuItem>
                     )}
 
