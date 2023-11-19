@@ -38,61 +38,61 @@ const Hit = ({ hit }: HitProps) => {
                     info={<BookInfo />}
                 />
             }
-            actions={
-                status ?
-                    < BookCard.BookActions
-                        buttons={[
-                            <BookActions
-                                openDropdown={openDropdown}
-                                setOpenDropdown={setOpenDropdown}
-                                setOpenModal={setOpenModal}
-                                setOpenAlert={setOpenAlert}
-                                status={status}
-                                setStatus={setStatus}
-                                book={hit.book}
-                                setRating={setRating}
-                                rating={rating}
-                                shelves={hit.userBook?.shelves!}
-                                // loadEntry={loadEntry}
-                                type="button"
-                                showRemoveBook={false}
-                            />
-                        ]}
-                        rating={
-                            <div className="flex gap-2 text-sm font-medium pb-2">
-                                My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.book.id} />
-                            </div>
-                        }
-                    />
-                    : <>
-                        < BookCard.BookActions
-                            buttons={[
-                                <Button
-                                    onClick={async (e) => {
-                                        e.stopPropagation();
-                                        setIsLoading(true)
-                                        await createUserBook(hit.book);
-                                        setIsLoading(false)
-                                        setStatus("Want to Read")
-                                    }}
-                                    disabled={isLoading}
-                                    className="bg-primary text-white"
-                                    variant={"tag"}
-                                    size={"xs"}
-                                >
-                                    Want to Read
-                                </Button>,
-                                ,
-                            ]}
-                            rating={
-                                <div className="flex gap-2 text-sm font-medium pb-2">
-                                    My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.book.id} />
-                                </div>
-                            }
-                        />
-                    </>
+        // actions={
+        //     status ?
+        //         < BookCard.BookActions
+        //             buttons={[
+        //                 <BookActions
+        //                     openDropdown={openDropdown}
+        //                     setOpenDropdown={setOpenDropdown}
+        //                     setOpenModal={setOpenModal}
+        //                     setOpenAlert={setOpenAlert}
+        //                     status={status}
+        //                     setStatus={setStatus}
+        //                     book={hit.book}
+        //                     setRating={setRating}
+        //                     rating={rating}
+        //                     shelves={hit.userBook?.shelves!}
+        //                     // loadEntry={loadEntry}
+        //                     type="button"
+        //                     showRemoveBook={false}
+        //                 />
+        //             ]}
+        //             rating={
+        //                 <div className="flex gap-2 text-sm font-medium pb-2">
+        //                     My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.book.id} />
+        //                 </div>
+        //             }
+        //         />
+        //         : <>
+        //             < BookCard.BookActions
+        //                 buttons={[
+        //                     <Button
+        //                         onClick={async (e) => {
+        //                             e.stopPropagation();
+        //                             setIsLoading(true)
+        //                             await createUserBook(hit.book);
+        //                             setIsLoading(false)
+        //                             setStatus("Want to Read")
+        //                         }}
+        //                         disabled={isLoading}
+        //                         className="bg-primary text-white"
+        //                         variant={"tag"}
+        //                         size={"xs"}
+        //                     >
+        //                         Want to Read
+        //                     </Button>,
+        //                     ,
+        //                 ]}
+        //                 rating={
+        //                     <div className="flex gap-2 text-sm font-medium pb-2">
+        //                         My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.book.id} />
+        //                     </div>
+        //                 }
+        //             />
+        //         </>
 
-            }
+        // }
         />
     )
 }
