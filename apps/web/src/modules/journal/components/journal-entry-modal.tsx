@@ -18,6 +18,7 @@ interface JouranlEntryModalProps {
     onClose: () => void;
     onDelete?: () => void;
     status: string;
+    editId: string,
     setStatus: Dispatch<SetStateAction<string>>;
     currentProgress: progressTypes;
     setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
@@ -28,6 +29,7 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
     setCurrentProgress,
     isOpen,
     onClose,
+    editId,
     onDelete,
     status,
     setStatus
@@ -55,6 +57,7 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                             </DialogDescription>
                         </DialogHeader>
                         <JournalEntryForm
+                            editId={editId}
                             currentProgress={currentProgress}
                             setCurrentProgress={setCurrentProgress}
                             status={status}

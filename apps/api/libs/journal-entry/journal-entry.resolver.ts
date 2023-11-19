@@ -4,6 +4,7 @@ import {
   BookWhereUniqueInput,
   JournalEntry,
   JournalEntryCreateInput,
+  JournalEntryUpdateInput,
   JournalEntryWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
@@ -139,5 +140,29 @@ export class JournalEntryResolver {
     });
 
     return mostRecentEntry;
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => JournalEntry)
+  async updateJournalEntry(
+    @Args('data') data: JournalEntryUpdateInput,
+    @Args('where') where: JournalEntryWhereUniqueInput,
+  ) {
+    const entry = this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+    if (!entry) {
+      throw new NotFoundException(
+        `Entry ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return this.service.update({
+      data,
+      where: {
+        id: where.id,
+      },
+    });
   }
 }

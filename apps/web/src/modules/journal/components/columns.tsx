@@ -254,6 +254,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             deleteEntry();
                             setOpenModal(false);
                         }}
+                        editId={progress.id}
                         status={status!}
                         setStatus={setStatus}
                     />
@@ -267,20 +268,6 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                     >
                         <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
                     </div>
-                    {/* {userBook && (
-                        <BookActions
-                            openDropdown={openDropdown}
-                            setOpenDropdown={setOpenDropdown}
-                            setOpenModal={setOpenModal}
-                            setOpenAlert={setOpenAlert}
-                            book={userBook.book}
-                            setStatus={setStatus}
-                            setRating={setRating}
-                            status={status}
-                            rating={rating}
-                            shelves={userBook?.shelves ?? undefined}
-                        />
-                    )} */}
                 </div>
             );
         },

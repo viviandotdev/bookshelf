@@ -381,6 +381,17 @@ type JournalEntrySumAggregate {
   pagesRead: Int
 }
 
+input JournalEntryUpdateInput {
+  currentPage: Int
+  currentPercent: Int
+  dateRead: Timestamp
+  id: String
+  pagesRead: Int
+  readingNotes: String
+  user: UserUpdateOneWithoutJournalEntryNestedInput
+  userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
+}
+
 input JournalEntryUpdateManyMutationInput {
   currentPage: Int
   currentPercent: Int
@@ -519,6 +530,7 @@ type Mutation {
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
+  updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }

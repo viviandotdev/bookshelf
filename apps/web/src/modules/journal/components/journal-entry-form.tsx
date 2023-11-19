@@ -30,6 +30,8 @@ import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useCreateJournalEntry } from "../hooks/use-create-entry";
+import { useUpdateJournalEntry } from "../hooks/use-update-entry";
 
 type progressTypes = {
     originalPage: number;
@@ -43,6 +45,7 @@ interface JournalEntryFormProps {
     status: string | undefined;
     setStatus: Dispatch<SetStateAction<string>>;
     onClose: () => void;
+    editId?: string;
     onDelete?: () => void;
 }
 
@@ -52,15 +55,17 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     status,
     setStatus,
     onClose,
+    editId,
     onDelete
 }) => {
     const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
-    const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const { updateUserBook } = useUpdateUserBook();
     const isEdit = typeof onDelete === "function";
+    const { createJournalEntry } = useCreateJournalEntry();
+    const { updateJournalEntry } = useUpdateJournalEntry();
+    const { updateUserBook } = useUpdateUserBook();
     useEffect(() => {
         form.reset({
             notes: "",
@@ -191,35 +196,42 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             currentPage != currentProgress.originalPage ||
             currentPercent != currentProgress.originalPercent
         ) {
-            await createJournalEntry({
-                variables: {
-                    data: {
+            if (!editId) {
+                const createdEntry = await createJournalEntry(userBook.data!.id, {
+                    readingNotes: values.notes,
+                    currentPage: currentPage!,
+                    pagesRead: currentPage! - currentProgress.originalPage,
+                    currentPercent: currentPercent!,
+                });
+                if (createdEntry) {
+                    setCurrentProgress({
+                        originalPage: createdEntry.currentPage || 0,
+                        originalPercent: createdEntry.currentPercent || 0,
+                        page: createdEntry.currentPage || 0,
+                        percent: createdEntry.currentPercent || 0,
+                    });
+                }
+            } else {
+                const updatedEntry = await updateJournalEntry(
+                    editId,
+                    {
                         readingNotes: values.notes,
                         currentPage: currentPage!,
                         pagesRead: currentPage! - currentProgress.originalPage,
                         currentPercent: currentPercent!,
-                    },
-                    book: {
-                        id: userBook.data.id,
-                    },
-                },
-                onError(error) {
-                    toast({
-                        title: error.message,
-                    });
-                },
-                onCompleted(data) {
+                    }
+                );
+                if (updatedEntry) {
                     setCurrentProgress({
-                        originalPage: data.createJournalEntry.currentPage || 0,
-                        originalPercent: data.createJournalEntry.currentPercent || 0,
-                        page: data.createJournalEntry.currentPage || 0,
-                        percent: data.createJournalEntry.currentPercent || 0,
+                        originalPage: updatedEntry.currentPage || 0,
+                        originalPercent: updatedEntry.currentPercent || 0,
+                        page: updatedEntry.currentPage || 0,
+                        percent: updatedEntry.currentPercent || 0,
                     });
-                    toast({
-                        title: "Sucessfylly create journal entry",
-                    });
-                },
-            });
+                }
+            }
+
+
         }
         onClose();
     }

@@ -33,6 +33,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
 
     const journalEntires = journalData?.journalEntries.map((entry) => {
         const date = new Date(entry.dateRead);
+        console.log(entry)
         return {
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),

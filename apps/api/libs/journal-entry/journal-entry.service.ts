@@ -4,6 +4,8 @@ import { Prisma } from '@prisma/client';
 import {
   UserBookIdentifierCompoundUniqueInput,
   JournalEntryCreateInput,
+  JournalEntryUpdateInput,
+  JournalEntryWhereUniqueInput,
 } from '@bookcue/api/generated-db-types';
 @Injectable()
 export class JournalEntryService {
@@ -88,5 +90,24 @@ export class JournalEntryService {
       take: args.take,
     });
     return journalEntries;
+  }
+
+  async update(args: {
+    data: JournalEntryUpdateInput;
+    where: JournalEntryWhereUniqueInput;
+  }) {
+    const updateJournalEntry = await this.repository.update({
+      where: {
+        id: args.where.id,
+      },
+      data: {
+        dateRead: args.data.dateRead,
+        currentPage: args.data.currentPage,
+        pagesRead: args.data.pagesRead,
+        currentPercent: args.data.currentPercent,
+        readingNotes: args.data.readingNotes,
+      },
+    });
+    return updateJournalEntry;
   }
 }

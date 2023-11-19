@@ -16,3 +16,16 @@ mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
     id
   }
 }
+
+mutation UpdateJournalEntry(
+  $data: JournalEntryUpdateInput!
+  $where: JournalEntryWhereUniqueInput!
+) {
+  updateJournalEntry(data: $data, where: $where) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}

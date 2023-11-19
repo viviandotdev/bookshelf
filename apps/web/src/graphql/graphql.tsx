@@ -410,6 +410,17 @@ export type JournalEntrySumAggregate = {
   pagesRead?: Maybe<Scalars['Int']>;
 };
 
+export type JournalEntryUpdateInput = {
+  currentPage?: InputMaybe<Scalars['Int']>;
+  currentPercent?: InputMaybe<Scalars['Int']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  pagesRead?: InputMaybe<Scalars['Int']>;
+  readingNotes?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<UserUpdateOneWithoutJournalEntryNestedInput>;
+  userBook?: InputMaybe<UserBookUpdateOneWithoutJournalEntryNestedInput>;
+};
+
 export type JournalEntryUpdateManyMutationInput = {
   currentPage?: InputMaybe<Scalars['Int']>;
   currentPercent?: InputMaybe<Scalars['Int']>;
@@ -549,6 +560,7 @@ export type Mutation = {
   removeUserBook: UserBook;
   signin: AuthResponse;
   signup: User;
+  updateJournalEntry: JournalEntry;
   updateShelf?: Maybe<Shelf>;
   updateUserBook: UserBook;
 };
@@ -602,6 +614,12 @@ export type MutationSigninArgs = {
 
 export type MutationSignupArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationUpdateJournalEntryArgs = {
+  data: JournalEntryUpdateInput;
+  where: JournalEntryWhereUniqueInput;
 };
 
 
@@ -1847,6 +1865,14 @@ export type RemoveJournalEntryMutationVariables = Exact<{
 
 export type RemoveJournalEntryMutation = { __typename?: 'Mutation', removeJournalEntry: { __typename?: 'JournalEntry', id: string } };
 
+export type UpdateJournalEntryMutationVariables = Exact<{
+  data: JournalEntryUpdateInput;
+  where: JournalEntryWhereUniqueInput;
+}>;
+
+
+export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } };
+
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
 }>;
@@ -2194,6 +2220,44 @@ export function useRemoveJournalEntryMutation(baseOptions?: Apollo.MutationHookO
 export type RemoveJournalEntryMutationHookResult = ReturnType<typeof useRemoveJournalEntryMutation>;
 export type RemoveJournalEntryMutationResult = Apollo.MutationResult<RemoveJournalEntryMutation>;
 export type RemoveJournalEntryMutationOptions = Apollo.BaseMutationOptions<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>;
+export const UpdateJournalEntryDocument = gql`
+    mutation UpdateJournalEntry($data: JournalEntryUpdateInput!, $where: JournalEntryWhereUniqueInput!) {
+  updateJournalEntry(data: $data, where: $where) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
+  }
+}
+    `;
+export type UpdateJournalEntryMutationFn = Apollo.MutationFunction<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
+
+/**
+ * __useUpdateJournalEntryMutation__
+ *
+ * To run a mutation, you first call `useUpdateJournalEntryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateJournalEntryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateJournalEntryMutation, { data, loading, error }] = useUpdateJournalEntryMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUpdateJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>(UpdateJournalEntryDocument, options);
+      }
+export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJournalEntryMutation>;
+export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
+export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
