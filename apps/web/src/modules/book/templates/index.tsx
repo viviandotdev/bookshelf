@@ -3,17 +3,16 @@ import { cn, formatDate } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { Shelf, UserBookQuery } from "@/graphql/graphql";
+import { Shelf, UserBook } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
-    userBook: UserBookQuery["userBook"];
 }
 
-export default function BookTemplate({ book, shelves, userBook }: BookTemplateProps) {
+export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
     return (
         <>
             <BookStatusModal />
@@ -27,8 +26,8 @@ export default function BookTemplate({ book, shelves, userBook }: BookTemplatePr
                         alt="Picture of the author"
                     />
                     <div className="mt-3 text-[12px] font-light">
-                        <div>{book.pageNum} Pages</div>
-                        <div>First published {formatDate(book.date)}</div>
+                        <div>{book.pageCount} Pages</div>
+                        <div>First published {formatDate(book.publishedDate)}</div>
                     </div>
                 </section>
                 <section className=" p-4 col-span-5 xl:col-span-4 grid gap-2">
@@ -49,7 +48,7 @@ export default function BookTemplate({ book, shelves, userBook }: BookTemplatePr
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} bookStatus={userBook?.status} bookRating={userBook?.rating} />
+                                <ActionsPanel book={book} shelves={shelves} />
                             </section>
                         </div>
                     </div>

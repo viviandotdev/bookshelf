@@ -3,12 +3,15 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
-import { buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { Dot } from "lucide-react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useRef } from "react";
 import { BookData } from "@/types/interfaces";
 import { BookRating } from "./rating";
+import BookCover from "./book-cover";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -50,9 +53,8 @@ export function BookShelves() {
 export function BookInfo() {
     return (
         <div className="flex text-xs font-medium w-max items-center">
-            <div>Currently Reading</div>
-            <Dot />
-            <div>Finished on April 20, 2023</div>
+            {/* <div>Book Year</div> */}
+            <div>Published 2018</div>
             <Dot />
             <div>Avg Rating 4.8</div>
         </div>
@@ -69,7 +71,7 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
     const { book } = useBookCardContext();
     return (
         <div className="flex items-start space-x-4 rounded-md">
-            <div>{image}</div>
+            <BookCover src={book.image} size={"sm"} />
             <div className="flex items-start flex-col justify-center gap-1">
                 <CardTitle className="text-[16px] leading-tight ">
                     {book.title}
@@ -85,17 +87,21 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
 }
 
 // Book Actions Component
-export function BookActions({ buttons }: { buttons: React.ReactNode[] }) {
+export function BookActions({ buttons, rating }: { buttons: React.ReactNode[], rating?: React.ReactNode }) {
     return (
-        <div className="flex flex-grow justify-end gap-2">
-            {buttons.map((button, index) => (
-                <div key={index}>{button}</div>
-            ))}
-        </div>
+        <>
+            {rating}
+            <div className="flex flex-grow justify-end gap-2">
+                {buttons.map((button, index) => (
+                    <div key={index}>
+                        {button}
+                    </div>
+                ))}
+            </div>
+
+        </>
     );
 }
-
-
 
 
 interface BookCardProps {
@@ -105,21 +111,25 @@ interface BookCardProps {
 }
 
 export function BookCard({ content, actions, book }: BookCardProps) {
-    const [rating, setRating] = React.useState(0); // Initial value
-
+    const linkRef = useRef<HTMLAnchorElement>(null);
     return (
         <BookCardContext.Provider value={{ book }}>
             <div>
-                <Card className={cn("border-none shadow-none p-0 overflow-hidden")}>
+                <Card onClick={() => {
+                    if (linkRef.current) {
+                        linkRef.current.click();
+                    }
+                }} className={cn("border-none shadow-none p-0 overflow-hidden cursor-pointer")}>
                     <CardContent className="p-4 flex gap-4 justify-between">
                         {content}
                         <div>
                             {actions}
-                            <BookRating rating={rating} setRating={setRating} />
                         </div>
                     </CardContent>
                 </Card>
             </div>
+            <Link ref={linkRef} href={`/book/${book?.id}`} className="hidden"></Link>
+
         </BookCardContext.Provider>
     );
 }

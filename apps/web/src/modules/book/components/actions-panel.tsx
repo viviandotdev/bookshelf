@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Rating, Star } from "@smastrom/react-rating";
 import { BookData } from "@/types/interfaces";
-import { Shelf, useCreateBookMutation } from "@/graphql/graphql";
+import { Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
-import { toast } from "@/hooks/use-toast";
 import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
@@ -13,6 +11,10 @@ import { BookRating } from "@/components/rating";
 import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
+import { Button } from "@/components/ui/button";
+import useCreateUserBook from "../hooks/use-create-user-book";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -48,59 +50,54 @@ function ActionGroup() {
 
 interface ActionsPanelProps {
     book: BookData;
-    bookStatus?: string | null;
-    bookRating?: number | null;
     shelves: Shelf[];
 }
-export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: ActionsPanelProps) {
-    const [rating, setRating] = useState(bookRating);
-    const [status, setStatus] = useState(bookStatus);
+export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
+    const [rating, setRating] = useState(0); // Initial value
+    const [status, setStatus] = useState("");
+    const [loading, setLoading] = useState(false)
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
-    const userBook = useUserBook();
-    const updateUserId = useUserBook((state) => state.updateUserId);
-    const updateStatus = useUserBook((state) => state.updateStatus);
-    const updateBookId = useUserBook((state) => state.updateBookId);
-    const [CreateBook] = useCreateBookMutation();
-    const firstRender = useFirstRender();
+    const { updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
+    const { createUserBook } = useCreateUserBook();
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const [loadBook] =
+        useUserBookLazyQuery({
+            fetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-first",
+            notifyOnNetworkStatusChange: true,
+            onError: (error) => {
+                toast({
+                    title: error.message,
+                    variant: "destructive",
+                });
+            },
+            onCompleted: (data) => {
+                setStatus(data.userBook?.status as string);
+                setRating(data.userBook?.rating as number);
+            },
+            errorPolicy: "all",
+        })
 
     useEffect(() => {
-        updateStatus(bookStatus as string);
         dispatch(initShelves(shelves));
     }, []);
 
+
     useEffect(() => {
-        // Check if userBook.status is different from the current status state
-        if (!firstRender && userBook.status !== status) {
-            setStatus(userBook.status); // Update the status in ActionsPanel
-        }
-    }, [userBook.status]); // Run the effect whenever userBook.status changes
+        const loadData = async () => {
+            await loadBook({ variables: { where: { id: book.id } } });
+        };
+        loadData();
+    }, [loadBook, router]);
 
     async function createBook(book: BookData) {
-        const { data, errors } = await CreateBook({
-            variables: {
-                data: {
-                    id: book.id,
-                    title: book.title,
-                    pageNum: parseInt(book.pageNum),
-                    author: book.author,
-                    publisher: book.publisher,
-                    coverImage: book.image,
-                },
-            },
-        });
-        setStatus("Want to Read");
-        if (data) {
-            toast({
-                title: "Sucessfully saved book!",
-            });
-        } else {
-            toast({
-                title: "Error saving book!",
-            });
-        }
+        setLoading(true)
+        await createUserBook(book);
+        setLoading(false)
+        setStatus("Want to Read")
     }
 
     async function openUpdateStatusModal() {
@@ -109,7 +106,6 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
         updateStatus(status as string);
         statusModal.onOpen();
     }
-
     return (
         <>
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
@@ -122,27 +118,29 @@ export default function ActionsPanel({ book, bookStatus, bookRating, shelves }: 
                     <BookRating size={"lg"} bookId={book.id} rating={rating} setRating={setRating} />
                 </div>
                 {status ? (
-                    <button
+                    <Button
                         onClick={() => openUpdateStatusModal()}
-                        className="bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                        disabled={loading}
+                        className="hover:bg-secondary text-sm text-muted-foreground font-light bg-secondary inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
                     >
                         <Icons.edit className="mr-2 h-4 w-4 " />
                         {status}
-                    </button>
+                    </Button>
                 ) : (
-                    <button
+                    <Button
+                        disabled={loading}
                         onClick={() => createBook(book)}
-                        className="bg-primary text-white items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                        className="bg-primary text-white items-center text-center font-light w-[fill-available] rounded-lg p-2 cursor-pointer"
                     >
                         Want to Read
-                    </button>
+                    </Button>
                 )}
 
                 <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                     Review
                 </div>
                 <div onClick={() => {
-                    // Shelves this part is part of
+                    // userbook selected shelves vs the shelves that is being created are different
                     updateBookId(book!.id);
                     addToShelfModal.onOpen();
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState, useRef } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
@@ -10,6 +10,7 @@ import AlertModal from "./modals/alert-modal";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
+import Link from "next/link";
 
 interface BookProps {
     details?: {
@@ -27,7 +28,6 @@ export const Book: React.FC<BookProps> = ({
     responsive,
     showRemoveBook,
 }) => {
-    const router = useRouter();
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
@@ -35,6 +35,7 @@ export const Book: React.FC<BookProps> = ({
     const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves } = userBook;
     const [isLoading, setIsLoading] = useState(false);
+    const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
@@ -126,8 +127,9 @@ export const Book: React.FC<BookProps> = ({
             <div
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
                 onClick={() => {
-                    router.push(`/book/${book?.id}`);
-
+                    if (linkRef.current) {
+                        linkRef.current.click();
+                    }
                 }}
             >
                 <div className="flex-col justify-end" onClick={(e) => {
@@ -162,6 +164,7 @@ export const Book: React.FC<BookProps> = ({
                     </div>
                 </div>
             </div>
+            <Link ref={linkRef} href={`/book/${book?.id}`} className="hidden"></Link>
         </>
     }
 };

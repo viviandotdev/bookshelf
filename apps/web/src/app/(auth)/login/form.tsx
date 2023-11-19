@@ -43,9 +43,10 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                 callbackUrl,
             });
 
-            setIsLoading(false);
+
             if (!res?.error) {
                 router.push(callbackUrl);
+                setIsLoading(false);
             } else {
                 setError("Invalid email or password");
             }

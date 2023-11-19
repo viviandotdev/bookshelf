@@ -9,13 +9,14 @@ export interface BookData {
   id: string;
   title: string;
   author: string;
-  rating: string;
-  date: string;
+  averageRating: Number;
+  ratingsCount: number;
+  publishedDate: string;
   publisher: string;
   image: string;
   preview: string;
-  plot: string;
-  pageNum: string;
+  description: string;
+  pageCount: string;
   isbn: string;
   categories: string[];
   isbn13: string;

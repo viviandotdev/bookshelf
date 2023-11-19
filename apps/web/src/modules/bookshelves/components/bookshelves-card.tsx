@@ -29,14 +29,19 @@ export const BookshelvesCard: React.FC<BookshelvesCardProps> = ({
                 <BookCard.BookActions
                     buttons={[
                         <Button
-                            className={cn(buttonVariants({ variant: "action", size: "xs" }))}
+                            // onClick={(e) => {
+                            //     e.stopPropagation();
+                            //     console.log("currently reading clicked")
+                            // }}
+                            variant={"tag"}
+                            size={"xs"}
                             label="Currently Reading"
                             icon={<Icons.chevronDown className="h-4 w-4" />}
                         />,
-                        <Button
-                            className={cn(buttonVariants({ variant: "action", size: "xs" }))}
-                            icon={<Icons.delete className="h-4 w-4" />}
-                        />,
+                        <div>
+                            <Icons.delete className="h-4 w-4" />
+                        </div>
+
                     ]}
                 />
             }

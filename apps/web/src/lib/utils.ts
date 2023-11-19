@@ -2,6 +2,10 @@ import { BookData } from "@/types/interfaces";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export const repeat = (times: number) => {
+  return Array.from(Array(times).keys());
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -17,14 +21,14 @@ export function processBook(
   // Skip processing the book if the title and author is already encountered
   if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
-  const date: string = book.volumeInfo.publishedDate || "N/A";
+  const publishedDate: string = book.volumeInfo.publishedDate || "N/A";
   const publisher: string = book.volumeInfo.publisher || "N/A";
   const image: string =
     book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
   const preview: string = book.volumeInfo.previewLink;
-  const plot: string = book.volumeInfo.description || "N/A";
-  const pageNum: string = book.volumeInfo.pageCount?.toString() || "N/A";
-  const rating: string = book.volumeInfo.averageRating?.toString() || "N/A";
+  const description: string = book.volumeInfo.description || "N/A";
+  const pageCount: string = book.volumeInfo.pageCount?.toString() || "N/A";
+  const averageRating: Number = book.volumeInfo.averageRating || 0;
   let isbn: string = "N/A";
   let isbn13: string = "N/A";
   if (book.volumeInfo.industryIdentifiers) {
@@ -34,7 +38,7 @@ export function processBook(
     if (identifier1) isbn = identifier1;
     if (identifier2) isbn13 = identifier2;
   }
-
+  let ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(" / ")
@@ -47,15 +51,16 @@ export function processBook(
   const bookData: BookData = {
     id,
     title,
-    rating,
+    averageRating,
+    ratingsCount,
     author,
-    date,
+    publishedDate,
     publisher,
     categories,
     image,
     preview,
-    plot,
-    pageNum,
+    description,
+    pageCount,
     isbn,
     isbn13,
   };

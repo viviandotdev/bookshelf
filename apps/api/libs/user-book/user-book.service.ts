@@ -35,6 +35,13 @@ export class UserBookService {
           bookId,
         },
       },
+      include: {
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
+      },
     });
     return userBook;
   }
