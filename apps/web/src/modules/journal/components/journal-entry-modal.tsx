@@ -49,10 +49,18 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                     <BookCover src={null} />
                     <div className="flex text-sm flex-col w-[fill-available] justify-between">
                         <DialogHeader>
-                            <DialogTitle className="text-muted-foreground font-light">
-                                I read...
-                            </DialogTitle>
-                            <DialogDescription className="text-black font-medium">
+                            {
+                                editId ? (
+                                    <DialogTitle className="text-muted-foreground font-light">
+                                        Edit Journal Entry
+                                    </DialogTitle>
+                                ) : (
+                                    <DialogTitle className="text-muted-foreground font-light">
+                                        Add Journal Entry
+                                    </DialogTitle>
+                                )
+                            }
+                            <DialogDescription className="text-black font-medium text-md">
                                 {userBook.data.title}
                             </DialogDescription>
                         </DialogHeader>

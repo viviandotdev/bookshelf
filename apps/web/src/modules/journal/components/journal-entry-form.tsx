@@ -58,11 +58,9 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     editId,
     onDelete
 }) => {
-    const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const isEdit = typeof onDelete === "function";
     const { createJournalEntry } = useCreateJournalEntry();
     const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();

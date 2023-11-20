@@ -38,12 +38,14 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),
             date: date.getDate(),
-            title:
-                (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
-                "",
+            entry: {
+                id: entry.id,
+                title: (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
+                    "",
+                image: (entry.userBook && entry.userBook.book && entry.userBook.book.coverImage)
+            },
             pagesRead: entry.pagesRead,
             progress: {
-                id: entry.id,
                 currentPercent: entry.currentPercent,
                 currentPage: entry.currentPage,
                 totalPages: entry.userBook?.book?.pageNum,

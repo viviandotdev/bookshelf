@@ -123,14 +123,16 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         },
     },
     {
-        accessorKey: "title",
+        accessorKey: "entry",
         header: ({ column }) => <ColumnHeader column={column} title="TITLE" />,
         cell: ({ row }) => {
+            const title = row.getValue("entry").title;
+            const image = row.getValue("entry").image;
             return (
                 <div className="text-left text-lg px-2 flex gap-2">
-                    <BookCover size={"sm"} src={null} />
+                    <BookCover size={"xs"} src={image} />
                     <span className={cn(dm_sefif_display.className, "")}>
-                        {row.getValue("title")}
+                        {title}
                     </span>
                 </div>
             );
@@ -214,6 +216,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         cell: ({ row }) => {
             const userBook = row.getValue("userBook") as UserBook;
             const progress = row.getValue("progress");
+            const entry = row.getValue("entry");
             const [openMenu, setOpenMenu] = useState(false);
             const [openAlert, setOpenAlert] = useState(false);
             const [openModal, setOpenModal] = useState(false);
@@ -230,12 +233,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 percent: Number(progress.currentPercent),
             });
             useEffect(() => {
-                console.log(progress.id)
                 setStatus(userBook.status ? userBook.status : "");
                 setRating(userBook.rating ? userBook.rating : 0);
             }, [userBook]);
             const deleteEntry = async () => {
-                const deletedEntry = await removeEntry(progress.id);
+                const deletedEntry = await removeEntry(entry.id);
 
             }
             const updateStatus = useUserBook((state) => state.updateStatus);
