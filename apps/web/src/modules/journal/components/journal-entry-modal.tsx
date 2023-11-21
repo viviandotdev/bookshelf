@@ -1,17 +1,10 @@
 "use client";
 import useUserBook from "@/stores/use-user-book";
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-
-type progressTypes = {
-    originalPage: number;
-    originalPercent: number;
-    page: number;
-    percent: number;
-}
 interface JouranlEntryModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -19,27 +12,19 @@ interface JouranlEntryModalProps {
     status: string;
     editId: string,
     setStatus: Dispatch<SetStateAction<string>>;
-    notes: string;
-    setNotes: Dispatch<SetStateAction<string>>;
-    date: Date;
-    setDate: Dispatch<SetStateAction<Date>>;
-    currentProgress: progressTypes;
-    setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
+    journalEntry: any;
+    setJournalEntry: Dispatch<SetStateAction<any>>;
 }
 
 export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
-    currentProgress,
-    setCurrentProgress,
     isOpen,
     onClose,
     editId,
     onDelete,
-    date,
-    setDate,
-    notes,
-    setNotes,
     status,
-    setStatus
+    setStatus,
+    journalEntry,
+    setJournalEntry
 }) => {
     const userBook = useUserBook();
     const onChange = (open: boolean) => {
@@ -72,16 +57,12 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                         </DialogHeader>
                         <JournalEntryForm
                             editId={editId}
-                            currentProgress={currentProgress}
-                            setCurrentProgress={setCurrentProgress}
+                            journalEntry={journalEntry}
+                            setJournalEntry={setJournalEntry}
                             status={status}
-                            date={date}
-                            setDate={setDate}
                             setStatus={setStatus}
                             onDelete={onDelete}
                             onClose={onClose}
-                            notes={notes}
-                            setNotes={setNotes}
                         />
                     </div>
                 </div>

@@ -208,33 +208,34 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="EDIT" />,
         cell: ({ row }) => {
             const userBook = row.getValue("userBook") as UserBook;
-            const progress = row.getValue("progress");
-            const entry = row.getValue("entry");
-            const readingNotes = row.getValue("notes");
-            const [openMenu, setOpenMenu] = useState(false);
-            const [openAlert, setOpenAlert] = useState(false);
-            const [openModal, setOpenModal] = useState(false);
-            const [openDropdown, setOpenDropdown] = useState(false);
-            const [status, setStatus] = useState(userBook.status ? userBook.status : "");
-            const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-            const { removeEntry } = useRemoveEntry();
-            const [isLoading, setIsLoading] = useState(false);
+            const progress = row.getValue("progress") as { currentPage: number; currentPercent: number };
+            const entry = row.getValue("entry") as { id: string, title: string, image: string };
+            const readingNotes = row.getValue("notes") as string;
             const monthYear = row.getValue("monthYear").split(" ") as string[];
             const day = row.getValue("date")
-            const [date, setDate] = useState(new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`));
-            const [currentProgress, setCurrentProgress] = useState({
+            const [openModal, setOpenModal] = useState(false);
+            const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
+                return { ...prev, ...next }
+            }, {
                 originalPage: Number(progress.currentPage),
                 originalPercent: Number(progress.currentPercent),
                 page: Number(progress.currentPage),
                 percent: Number(progress.currentPercent),
-            });
-            const [notes, setNotes] = useState(readingNotes ? readingNotes : "");
+                notes: readingNotes ? readingNotes : "",
+                date: new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`),
+            })
+
+            const [status, setStatus] = useState(userBook.status ? userBook.status : "");
+            const [isLoading, setIsLoading] = useState(false);
+
             useEffect(() => {
                 setStatus(userBook.status ? userBook.status : "");
-                setRating(userBook.rating ? userBook.rating : 0);
             }, [userBook]);
+            const { removeEntry } = useRemoveEntry();
             const deleteEntry = async () => {
-                const deletedEntry = await removeEntry(entry.id);
+                setIsLoading(true)
+                await removeEntry(entry.id);
+                setIsLoading(false)
 
             }
             const updateStatus = useUserBook((state) => state.updateStatus);
@@ -242,10 +243,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             return (
                 <div className="text-center cursor-pointer px-2">
                     <JouranlEntryModal
-                        currentProgress={currentProgress}
-                        setCurrentProgress={setCurrentProgress}
-                        date={date}
-                        setDate={setDate}
+
                         isOpen={openModal}
                         onClose={() => {
                             setOpenModal(false);
@@ -255,8 +253,8 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             setOpenModal(false);
                         }}
                         editId={entry.id}
-                        notes={notes}
-                        setNotes={setNotes}
+                        journalEntry={journalEntry}
+                        setJournalEntry={setJournalEntry}
                         status={status!}
                         setStatus={setStatus}
                     />

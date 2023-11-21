@@ -38,31 +38,23 @@ type progressTypes = {
     percent: number;
 };
 interface JournalEntryFormProps {
-    currentProgress: progressTypes;
-    setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
     status: string | undefined;
     setStatus: Dispatch<SetStateAction<string>>;
-    date: Date;
-    setDate: Dispatch<SetStateAction<Date>>;
     onClose: () => void;
     editId?: string;
-    notes: string;
-    setNotes: Dispatch<SetStateAction<string>>;
     onDelete?: () => void;
+    journalEntry: any;
+    setJournalEntry: Dispatch<SetStateAction<any>>;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
-    currentProgress,
-    setCurrentProgress,
     status,
     setStatus,
     onClose,
-    date,
-    notes,
-    setNotes,
-    setDate,
     editId,
-    onDelete
+    onDelete,
+    journalEntry,
+    setJournalEntry
 }) => {
     const userBook = useUserBook();
     const [error, setError] = useState<string>("");
@@ -70,15 +62,16 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const { createJournalEntry } = useCreateJournalEntry();
     const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();
+    const { notes, date, percent, page, originalPage, originalPercent } = journalEntry;
     useEffect(() => {
         form.reset({
             notes: notes || "",
-            current_percent: currentProgress.percent.toString() || "",
-            current_page: currentProgress.page.toString() || "",
-            date_read: date,
+            current_percent: percent.toString() || "",
+            current_page: page.toString() || "",
+            date_read: date || new Date(),
             mark_abandoned: status === "Abandoned",
         });
-    }, [userBook.data, currentProgress, status]);
+    }, [userBook.data, journalEntry, status]);
 
     const handleKeyPress = (event: any) => {
         const keyCode = event.keyCode || event.which;
@@ -101,7 +94,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 .refine(
                     (val) => {
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
-                        return parseInt(val, 10) >= currentProgress.page;
+                        return parseInt(val, 10) >= page;
                     },
                     {
                         message: `The value is less than the previous value`,
@@ -129,7 +122,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 .refine(
                     (val) => {
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
-                        return parseInt(val, 10) >= currentProgress.percent;
+                        return parseInt(val, 10) >= percent;
                     },
                     {
                         message: `The value is less than the previous value`,
@@ -166,12 +159,12 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         defaultValues: useMemo(() => {
             return {
                 notes: notes || "",
-                current_page: currentProgress.page.toString() || "",
-                current_percent: currentProgress.percent.toString() || "",
+                current_page: page.toString() || "",
+                current_percent: percent.toString() || "",
                 date_read: date || new Date(),
                 mark_abandoned: status === "Abandoned",
             };
-        }, [userBook.data, currentProgress, status]),
+        }, [userBook.data, journalEntry, status]),
     });
 
     async function onSubmit(values: DisplayFormValues) {
@@ -197,53 +190,46 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 setStatus("Abandoned");
             }
         }
-        let entryData: JournalEntryCreateInput = {}
+        let entryInput: JournalEntryCreateInput = {}
+
         if (values.date_read) {
-            entryData = { ...entryData, dateRead: values.date_read }
+            entryInput = { ...entryInput, dateRead: values.date_read }
         }
 
         if (values.notes) {
-            entryData = { ...entryData, readingNotes: values.notes }
+            entryInput = { ...entryInput, readingNotes: values.notes }
         }
         if (
-            currentPage != currentProgress.originalPage ||
-            currentPercent != currentProgress.originalPercent
+            currentPage != originalPage ||
+            currentPercent != originalPercent
         ) {
-            entryData = {
-                ...entryData, currentPage: currentPage!,
-                pagesRead: currentPage! - currentProgress.originalPage,
+            entryInput = {
+                ...entryInput, currentPage: currentPage!,
+                pagesRead: currentPage! - originalPage,
                 currentPercent: currentPercent!,
             }
 
         }
+        let data;
 
         if (!editId) {
-            const createdEntry = await createJournalEntry(userBook.data!.id, { ...entryData });
-            if (createdEntry) {
-                setDate(new Date(createdEntry.dateRead) || new Date());
-                setNotes(createdEntry.readingNotes || "")
-                setCurrentProgress({
-                    originalPage: createdEntry.currentPage || 0,
-                    originalPercent: createdEntry.currentPercent || 0,
-                    page: createdEntry.currentPage || 0,
-                    percent: createdEntry.currentPercent || 0,
-                });
-            }
+            data = await createJournalEntry(userBook.data!.id, { ...entryInput }); s
         } else {
-            const updatedEntry = await updateJournalEntry(
-                editId, { ...entryData }
+            data = await updateJournalEntry(
+                editId, { ...entryInput }
             );
-            if (updatedEntry) {
-                setDate(new Date(updatedEntry.dateRead) || new Date());
-                setNotes(updatedEntry.readingNotes || "")
-                setCurrentProgress({
-                    originalPage: updatedEntry.currentPage || 0,
-                    originalPercent: updatedEntry.currentPercent || 0,
-                    page: updatedEntry.currentPage || 0,
-                    percent: updatedEntry.currentPercent || 0,
-                });
-            }
         }
+        if (data) {
+            setJournalEntry({
+                date: new Date(data.dateRead) || new Date(),
+                notes: data.readingNotes || "",
+                originalPage: data.currentPage || 0,
+                originalPercent: data.currentPercent || 0,
+                page: data.currentPage || 0,
+                percent: data.currentPercent || 0,
+            })
+        }
+
         onClose();
     }
     return (
@@ -460,8 +446,8 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 onClick={(e) => {
                     e.preventDefault();
                     form.reset({
-                        current_percent: currentProgress.percent.toString() || "",
-                        current_page: currentProgress.page.toString() || "",
+                        current_percent: percent.toString() || "",
+                        current_page: page.toString() || "",
                     });
                     setUnit(type);
                 }}
