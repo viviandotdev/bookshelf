@@ -19,13 +19,14 @@ export class UserBookUpdateInput {
   @IsOptional()
   @IsNotEmpty()
   @Field(() => String, { nullable: true })
-  status: string;
+  status?: string;
 
+  @IsOptional()
   @Min(1)
   @Max(5)
   @IsInt()
   @Field(() => Number, { nullable: true })
-  rating: number;
+  rating?: number;
 
   @IsOptional()
   @IsString({ each: true })

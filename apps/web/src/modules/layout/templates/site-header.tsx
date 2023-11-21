@@ -8,6 +8,7 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { User } from "next-auth";
 import { siteConfig } from "@/config/site";
 import SearchInput from "../components/search-input";
+import { Icons } from "@/components/icons";
 
 interface SiteHeaderProps {
     user?: User;
@@ -33,16 +34,16 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                         id: user.id,
                                     }}
                                 />
-                                {/* <button
+                                <button
                                     className={cn(
                                         buttonVariants({ variant: "tag", size: "xs" }),
                                         "pl-2 pr-3"
                                     )}
-                                    onClick={jouranlEntryModal.onOpen}
+                                // onClick={jouranlEntryModal.onOpen}
                                 >
                                     <Icons.plus className="h-4 w-4 mr-1" />
                                     Log
-                                </button> */}
+                                </button>
                             </div>
                         ) : (
                             <Link

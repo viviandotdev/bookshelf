@@ -38,8 +38,6 @@ type progressTypes = {
     percent: number;
 };
 interface JournalEntryFormProps {
-    status: string | undefined;
-    setStatus: Dispatch<SetStateAction<string>>;
     onClose: () => void;
     editId?: string;
     onDelete?: () => void;
@@ -48,8 +46,6 @@ interface JournalEntryFormProps {
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
-    status,
-    setStatus,
     onClose,
     editId,
     onDelete,
@@ -62,7 +58,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const { createJournalEntry } = useCreateJournalEntry();
     const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();
-    const { notes, date, percent, page, originalPage, originalPercent } = journalEntry;
+    const { notes, date, percent, page, originalPage, originalPercent, status } = journalEntry;
     useEffect(() => {
         form.reset({
             notes: notes || "",
@@ -168,7 +164,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     });
 
     async function onSubmit(values: DisplayFormValues) {
-        console.log(values.date_read)
         let currentPage;
         let currentPercent;
         const totalPages = userBook.data && userBook.data.pageNum;
@@ -184,21 +179,16 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 totalPages ? currentPercent * 0.01 * totalPages : 0
             );
         }
-        if (values.mark_abandoned) {
-            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
-            if (updatedBook) {
-                setStatus("Abandoned");
-            }
-        }
+
         let entryInput: JournalEntryCreateInput = {}
+
 
         if (values.date_read) {
             entryInput = { ...entryInput, dateRead: values.date_read }
         }
 
-        if (values.notes) {
-            entryInput = { ...entryInput, readingNotes: values.notes }
-        }
+        entryInput = { ...entryInput, readingNotes: values.notes }
+
         if (
             currentPage != originalPage ||
             currentPercent != originalPercent
@@ -210,17 +200,27 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             }
 
         }
+        if (values.mark_abandoned) {
+            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
+            console.log("abandoned book")
+
+        } else {
+            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Currently Reading" });
+
+        }
         let data;
 
         if (!editId) {
-            data = await createJournalEntry(userBook.data!.id, { ...entryInput }); s
+            data = await createJournalEntry(userBook.data!.id, { ...entryInput });
         } else {
+
             data = await updateJournalEntry(
                 editId, { ...entryInput }
-            );
+            )
         }
         if (data) {
             setJournalEntry({
+                status: values.mark_abandoned ? "Abandoned" : "Currently Reading",
                 date: new Date(data.dateRead) || new Date(),
                 notes: data.readingNotes || "",
                 originalPage: data.currentPage || 0,

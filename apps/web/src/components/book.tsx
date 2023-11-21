@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useState, useRef } from "react";
+import React, { use, useEffect, useState, useRef, useReducer } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
@@ -39,18 +39,22 @@ export const Book: React.FC<BookProps> = ({
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-    const [currentProgress, setCurrentProgress] = useState({
+    const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
+        return { ...prev, ...next }
+    }, {
         originalPage: 0,
         originalPercent: 0,
         page: 0,
         percent: 0,
-    });
+        notes: "",
+        date: new Date(),
+    })
     const dispatch = useAppDispatch();
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
         if (userBook.journalEntry && userBook.journalEntry.length > 0) {
-            setCurrentProgress({
+            setJournalEntry({
                 originalPage: userBook.journalEntry[0].currentPage || 0,
                 originalPercent: userBook.journalEntry[0].currentPercent || 0,
                 page: userBook.journalEntry[0].currentPage || 0,
@@ -95,7 +99,7 @@ export const Book: React.FC<BookProps> = ({
                 </div>
                 {details && (
                     <BookDetails
-                        progress={currentProgress.percent}
+                        progress={journalEntry.percent}
                         dateStarted={details.date_started}
                     />
                 )}
@@ -117,8 +121,8 @@ export const Book: React.FC<BookProps> = ({
                 loading={isLoading}
             />
             <JouranlEntryModal
-                currentProgress={currentProgress}
-                setCurrentProgress={setCurrentProgress}
+                journalEntry={journalEntry}
+                setJournalEntry={setJournalEntry}
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
                 status={status!}

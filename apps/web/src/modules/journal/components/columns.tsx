@@ -81,9 +81,9 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         <text
                             x="46%"
                             y="42%"
-                            dominant-baseline="middle"
-                            text-anchor="middle"
-                            font-size="140"
+                            dominantBaseline="middle"
+                            textAnchor="middle"
+                            fontSize="140"
                             fill="black"
                         >
                             {monthYear[0]}
@@ -91,9 +91,9 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         <text
                             x="46%"
                             y="68%"
-                            dominant-baseline="middle"
-                            text-anchor="middle"
-                            font-size="110"
+                            dominantBaseline="middle"
+                            textAnchor="middle"
+                            fontSize="110"
                             fill="black"
                         >
                             {monthYear[1]}
@@ -158,6 +158,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="ABANDONED" />,
         cell: ({ row }) => {
             const abandoned = row.getValue("abandoned");
+            // get the abandoned state of this entry
             return (
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
@@ -214,9 +215,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const monthYear = row.getValue("monthYear").split(" ") as string[];
             const day = row.getValue("date")
             const [openModal, setOpenModal] = useState(false);
+            // put this in a global state?
             const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
                 return { ...prev, ...next }
             }, {
+                status: userBook.status ? userBook.status : "",
                 originalPage: Number(progress.currentPage),
                 originalPercent: Number(progress.currentPercent),
                 page: Number(progress.currentPage),
@@ -225,12 +228,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 date: new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`),
             })
 
-            const [status, setStatus] = useState(userBook.status ? userBook.status : "");
             const [isLoading, setIsLoading] = useState(false);
 
-            useEffect(() => {
-                setStatus(userBook.status ? userBook.status : "");
-            }, [userBook]);
+            // useEffect(() => {
+            //     setStatus(userBook.status ? userBook.status : "");
+            // }, [userBook]);
             const { removeEntry } = useRemoveEntry();
             const deleteEntry = async () => {
                 setIsLoading(true)
@@ -243,7 +245,6 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             return (
                 <div className="text-center cursor-pointer px-2">
                     <JouranlEntryModal
-
                         isOpen={openModal}
                         onClose={() => {
                             setOpenModal(false);
@@ -255,14 +256,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         editId={entry.id}
                         journalEntry={journalEntry}
                         setJournalEntry={setJournalEntry}
-                        status={status!}
-                        setStatus={setStatus}
                     />
                     <div
                         onClick={(e) => {
                             e.stopPropagation();
                             setUserBook(userBook.book);
-                            updateStatus(status);
                             setOpenModal(true);
                         }}
                     >

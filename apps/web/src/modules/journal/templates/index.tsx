@@ -30,10 +30,10 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
             },
             errorPolicy: "all",
         });
-
+        
     const journalEntires = journalData?.journalEntries.map((entry) => {
         const date = new Date(entry.dateRead);
-        console.log(entry)
+        console.log(entry.userBook?.status)
         return {
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),
@@ -52,7 +52,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
             },
             notes: entry.readingNotes || "",
             liked: true,
-            abandoned: entry.userBook?.status === "ABANDONED",
+            abandoned: entry.userBook?.status === "Abandoned",
         };
     });
     const loading = networkStatus === NetworkStatus.loading;

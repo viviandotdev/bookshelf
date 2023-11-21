@@ -9,9 +9,7 @@ interface JouranlEntryModalProps {
     isOpen: boolean;
     onClose: () => void;
     onDelete?: () => void;
-    status: string;
-    editId: string,
-    setStatus: Dispatch<SetStateAction<string>>;
+    editId?: string,
     journalEntry: any;
     setJournalEntry: Dispatch<SetStateAction<any>>;
 }
@@ -21,8 +19,6 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
     onClose,
     editId,
     onDelete,
-    status,
-    setStatus,
     journalEntry,
     setJournalEntry
 }) => {
@@ -59,8 +55,6 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                             editId={editId}
                             journalEntry={journalEntry}
                             setJournalEntry={setJournalEntry}
-                            status={status}
-                            setStatus={setStatus}
                             onDelete={onDelete}
                             onClose={onClose}
                         />

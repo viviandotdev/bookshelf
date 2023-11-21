@@ -23,7 +23,7 @@ export const useRemoveEntry = () => {
     }
 
     if (data && !errors) {
-      toast({ title: "Successfully deleted book" });
+      toast({ title: "Successfully deleted journal entry" });
       return data.removeJournalEntry;
     }
     return null;
