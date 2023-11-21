@@ -7,17 +7,16 @@ import { CardDescription } from '../ui/card';
 import { UserBook } from '@/graphql/graphql';
 import { JouranlEntryModal } from '@/modules/journal/components/journal-entry-modal';
 import useLogBookModal from '@/hooks/use-log-book-modal';
+import { useJournalEntryModal } from '@/modules/journal/hooks/use-journal-entry-modal';
 
 interface LogBookCardProps {
     userBook: UserBook;
-    // openEntryModal: boolean;
-    // setOpenEntryModal: (open: boolean) => void;
 
 }
 
-export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook, }) => {
+export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
     const logBookModal = useLogBookModal()
-    const [openEntryModal, setOpenEntryModal] = useState(false)
+    const journalEntryModal = useJournalEntryModal()
     const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
         return { ...prev, ...next }
     }, {
@@ -28,29 +27,24 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook, }) => {
         notes: "",
         date: new Date(),
     })
-    useEffect(() => {
-        if (userBook.journalEntry && userBook.journalEntry.length > 0) {
-            setJournalEntry({
-                originalPage: userBook.journalEntry[0].currentPage || 0,
-                originalPercent: userBook.journalEntry[0].currentPercent || 0,
-                page: userBook.journalEntry[0].currentPage || 0,
-                percent: userBook.journalEntry[0].currentPercent || 0,
-            });
-        }
-    }, [userBook]);
+    // useEffect(() => {
+    //     if (userBook.journalEntry && userBook.journalEntry.length > 0) {
+    //         setJournalEntry({
+    //             originalPage: userBook.journalEntry[0].currentPage || 0,
+    //             originalPercent: userBook.journalEntry[0].currentPercent || 0,
+    //             page: userBook.journalEntry[0].currentPage || 0,
+    //             percent: userBook.journalEntry[0].currentPercent || 0,
+    //         });
+    //     }
+    // }, [userBook]);
     return (
-        <div onClick={() => {
+        <div onClick={(e) => {
+            e.stopPropagation();
             console.log("cleck")
             logBookModal.onClose()
-            setOpenEntryModal(true)
+            journalEntryModal.onOpen();
 
         }}>
-            <JouranlEntryModal
-                journalEntry={journalEntry}
-                setJournalEntry={setJournalEntry}
-                isOpen={openEntryModal}
-                onClose={() => setOpenEntryModal(false)}
-            />
             <BookCover size={"xs"} src={userBook.book?.coverImage} />
             <div className="flex-col">
                 <div className={cn(dm_sefif_display.className, "text-[18px]")}>

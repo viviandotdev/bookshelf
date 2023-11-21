@@ -100,6 +100,13 @@ export class JournalEntryService {
       where: {
         id: args.where.id,
       },
+      include: {
+        userBook: {
+          include: {
+            book: true,
+          },
+        },
+      },
       data: {
         dateRead: args.data.dateRead,
         currentPage: args.data.currentPage,

@@ -216,10 +216,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const day = row.getValue("date")
             const [openModal, setOpenModal] = useState(false);
             // put this in a global state?
+            const abandoned = row.getValue("abandoned");
             const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
                 return { ...prev, ...next }
             }, {
-                status: userBook.status ? userBook.status : "",
+                status: abandoned ? "Abandoned" : "Currently Reading",
                 originalPage: Number(progress.currentPage),
                 originalPercent: Number(progress.currentPercent),
                 page: Number(progress.currentPage),
