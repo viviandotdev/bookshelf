@@ -115,6 +115,9 @@ export class JournalEntryResolver {
         user: currentUser.userId,
         skip: offset,
         take: limit,
+        orderBy: {
+          dateRead: 'desc',
+        },
       });
     }
   }

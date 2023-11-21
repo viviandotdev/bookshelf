@@ -5,17 +5,10 @@ import { z } from "zod";
 import { ColumnHeader } from "./column-header";
 import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
-import BookActions from "@/components/book-actions";
 import { Icons } from "@/components/icons";
-import { useEffect, useState } from "react";
-import AlertModal from "@/components/modals/alert-modal";
+import { useEffect, useReducer, useState } from "react";
 import { JouranlEntryModal } from "./journal-entry-modal";
-import book from "@/components/book";
-import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
-import { useRemoveUserBook } from "@/hooks/user-books/mutations";
-import { useAppDispatch } from "@/stores";
 import { useRemoveEntry } from "../hooks/use-remove-entry";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 import useUserBook from "@/stores/use-user-book";
 
 export const journalEntrySchema = z.object({
@@ -140,7 +133,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
     },
     {
         accessorKey: "pagesRead",
-        header: ({ column }) => <ColumnHeader column={column} title="PAGES" />,
+        header: ({ column }) => <ColumnHeader column={column} title="PAGES READ" />,
         cell: ({ row }) => {
             return (
                 <div className="text-center text-primary text-lg px-2">
@@ -184,7 +177,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
                     onClick={() => {
-                        console.log("open notes");
+                        console.log(row.getValue("notes"));
                     }}
                 >
                     {showNotes && <Icons.notes className="h-5" />}
@@ -217,6 +210,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const userBook = row.getValue("userBook") as UserBook;
             const progress = row.getValue("progress");
             const entry = row.getValue("entry");
+            const readingNotes = row.getValue("notes");
             const [openMenu, setOpenMenu] = useState(false);
             const [openAlert, setOpenAlert] = useState(false);
             const [openModal, setOpenModal] = useState(false);
@@ -225,13 +219,16 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
             const { removeEntry } = useRemoveEntry();
             const [isLoading, setIsLoading] = useState(false);
-            const dispatch = useAppDispatch();
+            const monthYear = row.getValue("monthYear").split(" ") as string[];
+            const day = row.getValue("date")
+            const [date, setDate] = useState(new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`));
             const [currentProgress, setCurrentProgress] = useState({
                 originalPage: Number(progress.currentPage),
                 originalPercent: Number(progress.currentPercent),
                 page: Number(progress.currentPage),
                 percent: Number(progress.currentPercent),
             });
+            const [notes, setNotes] = useState(readingNotes ? readingNotes : "");
             useEffect(() => {
                 setStatus(userBook.status ? userBook.status : "");
                 setRating(userBook.rating ? userBook.rating : 0);
@@ -244,10 +241,11 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const setUserBook = useUserBook((state) => state.setUserBook);
             return (
                 <div className="text-center cursor-pointer px-2">
-                    {/* just edit entry modal button here, user can delete and edit their entries  */}
                     <JouranlEntryModal
                         currentProgress={currentProgress}
                         setCurrentProgress={setCurrentProgress}
+                        date={date}
+                        setDate={setDate}
                         isOpen={openModal}
                         onClose={() => {
                             setOpenModal(false);
@@ -256,7 +254,9 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             deleteEntry();
                             setOpenModal(false);
                         }}
-                        editId={progress.id}
+                        editId={entry.id}
+                        notes={notes}
+                        setNotes={setNotes}
                         status={status!}
                         setStatus={setStatus}
                     />

@@ -5,6 +5,7 @@ mutation CreateJournalEntry(
   createJournalEntry(data: $data, book: $book) {
     id
     readingNotes
+    pagesRead
     dateRead
     currentPage
     currentPercent
@@ -24,6 +25,7 @@ mutation UpdateJournalEntry(
   updateJournalEntry(data: $data, where: $where) {
     id
     readingNotes
+    pagesRead
     dateRead
     currentPage
     currentPercent

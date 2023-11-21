@@ -24,11 +24,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { useCreateJournalEntryMutation } from "@/graphql/graphql";
-import { toast } from "@/hooks/use-toast";
+import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useCreateJournalEntry } from "../hooks/use-create-entry";
 import { useUpdateJournalEntry } from "../hooks/use-update-entry";
@@ -44,8 +42,12 @@ interface JournalEntryFormProps {
     setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
     status: string | undefined;
     setStatus: Dispatch<SetStateAction<string>>;
+    date: Date;
+    setDate: Dispatch<SetStateAction<Date>>;
     onClose: () => void;
     editId?: string;
+    notes: string;
+    setNotes: Dispatch<SetStateAction<string>>;
     onDelete?: () => void;
 }
 
@@ -55,6 +57,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     status,
     setStatus,
     onClose,
+    date,
+    notes,
+    setNotes,
+    setDate,
     editId,
     onDelete
 }) => {
@@ -66,10 +72,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const { updateUserBook } = useUpdateUserBook();
     useEffect(() => {
         form.reset({
-            notes: "",
+            notes: notes || "",
             current_percent: currentProgress.percent.toString() || "",
             current_page: currentProgress.page.toString() || "",
-            date_read: new Date(),
+            date_read: date,
             mark_abandoned: status === "Abandoned",
         });
     }, [userBook.data, currentProgress, status]);
@@ -159,16 +165,17 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         resolver: zodResolver(displayFormSchema),
         defaultValues: useMemo(() => {
             return {
-                notes: "",
+                notes: notes || "",
                 current_page: currentProgress.page.toString() || "",
                 current_percent: currentProgress.percent.toString() || "",
-                date_read: new Date(),
+                date_read: date || new Date(),
                 mark_abandoned: status === "Abandoned",
             };
         }, [userBook.data, currentProgress, status]),
     });
 
     async function onSubmit(values: DisplayFormValues) {
+        console.log(values.date_read)
         let currentPage;
         let currentPercent;
         const totalPages = userBook.data && userBook.data.pageNum;
@@ -190,46 +197,52 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 setStatus("Abandoned");
             }
         }
+        let entryData: JournalEntryCreateInput = {}
+        if (values.date_read) {
+            entryData = { ...entryData, dateRead: values.date_read }
+        }
+
+        if (values.notes) {
+            entryData = { ...entryData, readingNotes: values.notes }
+        }
         if (
             currentPage != currentProgress.originalPage ||
             currentPercent != currentProgress.originalPercent
         ) {
-            if (!editId) {
-                const createdEntry = await createJournalEntry(userBook.data!.id, {
-                    readingNotes: values.notes,
-                    currentPage: currentPage!,
-                    pagesRead: currentPage! - currentProgress.originalPage,
-                    currentPercent: currentPercent!,
-                });
-                if (createdEntry) {
-                    setCurrentProgress({
-                        originalPage: createdEntry.currentPage || 0,
-                        originalPercent: createdEntry.currentPercent || 0,
-                        page: createdEntry.currentPage || 0,
-                        percent: createdEntry.currentPercent || 0,
-                    });
-                }
-            } else {
-                const updatedEntry = await updateJournalEntry(
-                    editId,
-                    {
-                        readingNotes: values.notes,
-                        currentPage: currentPage!,
-                        pagesRead: currentPage! - currentProgress.originalPage,
-                        currentPercent: currentPercent!,
-                    }
-                );
-                if (updatedEntry) {
-                    setCurrentProgress({
-                        originalPage: updatedEntry.currentPage || 0,
-                        originalPercent: updatedEntry.currentPercent || 0,
-                        page: updatedEntry.currentPage || 0,
-                        percent: updatedEntry.currentPercent || 0,
-                    });
-                }
+            entryData = {
+                ...entryData, currentPage: currentPage!,
+                pagesRead: currentPage! - currentProgress.originalPage,
+                currentPercent: currentPercent!,
             }
 
+        }
 
+        if (!editId) {
+            const createdEntry = await createJournalEntry(userBook.data!.id, { ...entryData });
+            if (createdEntry) {
+                setDate(new Date(createdEntry.dateRead) || new Date());
+                setNotes(createdEntry.readingNotes || "")
+                setCurrentProgress({
+                    originalPage: createdEntry.currentPage || 0,
+                    originalPercent: createdEntry.currentPercent || 0,
+                    page: createdEntry.currentPage || 0,
+                    percent: createdEntry.currentPercent || 0,
+                });
+            }
+        } else {
+            const updatedEntry = await updateJournalEntry(
+                editId, { ...entryData }
+            );
+            if (updatedEntry) {
+                setDate(new Date(updatedEntry.dateRead) || new Date());
+                setNotes(updatedEntry.readingNotes || "")
+                setCurrentProgress({
+                    originalPage: updatedEntry.currentPage || 0,
+                    originalPercent: updatedEntry.currentPercent || 0,
+                    page: updatedEntry.currentPage || 0,
+                    percent: updatedEntry.currentPercent || 0,
+                });
+            }
         }
         onClose();
     }
@@ -351,6 +364,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                                     <FormItem>
                                         <FormControl>
                                             <Input
+                                                disabled={editId ? true : false}
                                                 autoComplete="off"
                                                 autoFocus
                                                 className={` ${unit == "pages" ? "block" : "hidden"
@@ -384,6 +398,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                                     <FormItem>
                                         <FormControl>
                                             <Input
+                                                disabled={editId ? true : false}
                                                 autoComplete="off"
                                                 autoFocus
                                                 className={` h-7 px-2 w-[48px] py-4 text-xs `}

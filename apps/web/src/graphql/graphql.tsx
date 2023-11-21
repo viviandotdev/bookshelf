@@ -1856,7 +1856,7 @@ export type CreateJournalEntryMutationVariables = Exact<{
 }>;
 
 
-export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } };
+export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number } };
 
 export type RemoveJournalEntryMutationVariables = Exact<{
   where: JournalEntryWhereUniqueInput;
@@ -1871,7 +1871,7 @@ export type UpdateJournalEntryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } };
+export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -2154,6 +2154,7 @@ export const CreateJournalEntryDocument = gql`
   createJournalEntry(data: $data, book: $book) {
     id
     readingNotes
+    pagesRead
     dateRead
     currentPage
     currentPercent
@@ -2225,6 +2226,7 @@ export const UpdateJournalEntryDocument = gql`
   updateJournalEntry(data: $data, where: $where) {
     id
     readingNotes
+    pagesRead
     dateRead
     currentPage
     currentPercent

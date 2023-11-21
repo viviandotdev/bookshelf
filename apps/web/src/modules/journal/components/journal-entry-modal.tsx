@@ -1,8 +1,7 @@
 "use client";
 import useUserBook from "@/stores/use-user-book";
 
-import { Dispatch, SetStateAction, useState } from "react";
-import { useGetMostRecentJournalEntryQuery } from "@/graphql/graphql";
+import { Dispatch, SetStateAction } from "react";
 import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -20,6 +19,10 @@ interface JouranlEntryModalProps {
     status: string;
     editId: string,
     setStatus: Dispatch<SetStateAction<string>>;
+    notes: string;
+    setNotes: Dispatch<SetStateAction<string>>;
+    date: Date;
+    setDate: Dispatch<SetStateAction<Date>>;
     currentProgress: progressTypes;
     setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
 }
@@ -31,11 +34,14 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
     onClose,
     editId,
     onDelete,
+    date,
+    setDate,
+    notes,
+    setNotes,
     status,
     setStatus
 }) => {
     const userBook = useUserBook();
-    const isEdit = typeof onDelete === "function";
     const onChange = (open: boolean) => {
         if (!open) {
             onClose();
@@ -69,9 +75,13 @@ export const JouranlEntryModal: React.FC<JouranlEntryModalProps> = ({
                             currentProgress={currentProgress}
                             setCurrentProgress={setCurrentProgress}
                             status={status}
+                            date={date}
+                            setDate={setDate}
                             setStatus={setStatus}
                             onDelete={onDelete}
                             onClose={onClose}
+                            notes={notes}
+                            setNotes={setNotes}
                         />
                     </div>
                 </div>
