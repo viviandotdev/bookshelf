@@ -46,7 +46,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
             errorPolicy: "all",
         });
 
-    const books = booksData && booksData?.userBooks;
+    const books = booksData && booksData?.userBooks
     const loading = networkStatus === NetworkStatus.loading;
 
     useEffect(() => {
