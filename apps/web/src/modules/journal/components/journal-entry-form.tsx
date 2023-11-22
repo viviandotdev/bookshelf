@@ -24,12 +24,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { JournalEntryCreateInput, useGetMostRecentJournalEntryLazyQuery } from "@/graphql/graphql";
+import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useCreateJournalEntry } from "../hooks/use-create-entry";
 import { useUpdateJournalEntry } from "../hooks/use-update-entry";
+import useLoadJournalEntry from "../hooks/use-load-entry";
 
 type progressTypes = {
     originalPage: number;
@@ -53,30 +54,23 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     setJournalEntry
 }) => {
     const userBook = useUserBook();
-    const [loadEntry] =
-        useGetMostRecentJournalEntryLazyQuery({
-            onError: (error) => {
-                console.log(error)
-            },
-            fetchPolicy: 'network-only', // This ensures fetching from the network and bypassing the cache
-            onCompleted: (data) => {
-                if (data.getMostRecentJournalEntry && setJournalEntry) {
-                    setJournalEntry({
-                        originalPage: data.getMostRecentJournalEntry.currentPage || 0,
-                        originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
-                        page: data.getMostRecentJournalEntry.currentPage || 0,
-                        percent: data.getMostRecentJournalEntry.currentPercent || 0,
-                    });
-                } else if (setJournalEntry) {
-                    setJournalEntry({
-                        originalPage: 0,
-                        originalPercent: 0,
-                        page: 0,
-                        percent: 0,
-                    });
-                }
-            },
+    const [error, setError] = useState<string>("");
+    const [unit, setUnit] = useState<"pages" | "percent">("pages");
+    const loadEntry = useLoadJournalEntry(setJournalEntry);
+    const { createJournalEntry } = useCreateJournalEntry();
+    const { updateJournalEntry } = useUpdateJournalEntry();
+    const { updateUserBook } = useUpdateUserBook();
+    const { notes, date, percent, page, originalPage, originalPercent, status } = journalEntry;
+
+    useEffect(() => {
+        form.reset({
+            notes: notes || "",
+            current_percent: percent.toString() || "",
+            current_page: page.toString() || "",
+            date_read: date || new Date(),
+            mark_abandoned: status === "Abandoned",
         });
+    }, [journalEntry, status]);
 
     useEffect(() => {
         if (!editId) {
@@ -93,21 +87,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             loadData()
         }
     }, [loadEntry]);
-    const [error, setError] = useState<string>("");
-    const [unit, setUnit] = useState<"pages" | "percent">("pages");
-    const { createJournalEntry } = useCreateJournalEntry();
-    const { updateJournalEntry } = useUpdateJournalEntry();
-    const { updateUserBook } = useUpdateUserBook();
-    const { notes, date, percent, page, originalPage, originalPercent, status } = journalEntry;
-    useEffect(() => {
-        form.reset({
-            notes: notes || "",
-            current_percent: percent.toString() || "",
-            current_page: page.toString() || "",
-            date_read: date || new Date(),
-            mark_abandoned: status === "Abandoned",
-        });
-    }, [journalEntry, status]);
 
     const handleKeyPress = (event: any) => {
         const keyCode = event.keyCode || event.which;
@@ -118,7 +97,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         if (!/^\d$/.test(keyValue) && keyCode !== 8 && keyCode !== 9) {
             event.preventDefault();
         }
-        // skip prevent default
     };
 
     const displayFormSchema = z
@@ -189,6 +167,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 });
             }
         });
+
     type DisplayFormValues = z.infer<typeof displayFormSchema>;
     const form = useForm<DisplayFormValues>({
         resolver: zodResolver(displayFormSchema),
@@ -245,7 +224,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             )
         }
 
-        if (data) {
+        if (data && setJournalEntry) {
             setJournalEntry({
                 date: new Date(data.dateRead) || new Date(),
                 notes: data.readingNotes || "",

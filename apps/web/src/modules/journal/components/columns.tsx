@@ -132,23 +132,23 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         },
     },
     {
-        accessorKey: "pagesRead",
-        header: ({ column }) => <ColumnHeader column={column} title="PAGES READ" />,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center text-primary text-lg px-2">
-                    {row.getValue("pagesRead")}
-                </div>
-            );
-        },
-    },
-    {
         accessorKey: "progress",
         header: ({ column }) => <ColumnHeader column={column} title="PROGRESS" />,
         cell: ({ row }) => {
             return (
                 <div className="text-center text-primary text-lg px-2">
                     {row.getValue("progress").currentPercent}%
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "pagesRead",
+        header: ({ column }) => <ColumnHeader column={column} title="PAGES READ" />,
+        cell: ({ row }) => {
+            return (
+                <div className="text-center text-primary text-lg px-2">
+                    {row.getValue("pagesRead")}
                 </div>
             );
         },
@@ -178,6 +178,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
                     onClick={() => {
+                        console.log(row.getValue("notes"));
                     }}
                 >
                     {showNotes && <Icons.notes className="h-5" />}
