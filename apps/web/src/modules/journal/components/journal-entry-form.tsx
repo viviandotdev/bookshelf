@@ -80,6 +80,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 
     useEffect(() => {
         if (!editId) {
+            // Fetch most recent entry if adding new journal entry
             const loadData = async () => {
                 await loadEntry({
                     variables: {
@@ -106,7 +107,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             date_read: date || new Date(),
             mark_abandoned: status === "Abandoned",
         });
-    }, [userBook.data, journalEntry, status]);
+    }, [journalEntry, status]);
 
     const handleKeyPress = (event: any) => {
         const keyCode = event.keyCode || event.which;
@@ -199,7 +200,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 date_read: date || new Date(),
                 mark_abandoned: status === "Abandoned",
             };
-        }, [userBook.data, journalEntry, status]),
+        }, [userBook.data, status]),
     });
 
     async function onSubmit(values: DisplayFormValues) {
@@ -219,54 +220,42 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             );
         }
 
-        let entryInput: JournalEntryCreateInput = {}
-
-
-        if (values.date_read) {
-            entryInput = { ...entryInput, dateRead: values.date_read }
+        let entryInput: JournalEntryCreateInput = {
+            dateRead: values.date_read,
+            readingNotes: values.notes,
+            currentPage: currentPage!,
+            pagesRead: currentPage! - originalPage,
+            currentPercent: currentPercent!,
         }
+        await updateUserBook(userBook.data!.id, { status: values.mark_abandoned ? "Abandoned" : "Currently Reading" });
 
-        entryInput = { ...entryInput, readingNotes: values.notes }
-
-        if (
-            currentPage != originalPage ||
-            currentPercent != originalPercent
-        ) {
-            entryInput = {
-                ...entryInput, currentPage: currentPage!,
-                pagesRead: currentPage! - originalPage,
-                currentPercent: currentPercent!,
-            }
-
-        }
-        if (values.mark_abandoned) {
-            await updateUserBook(userBook.data!.id, { status: "Abandoned" });
-
-        } else {
-            await updateUserBook(userBook.data!.id, { status: "Currently Reading" });
-
-        }
         let data;
         if (!editId) {
-            data = await createJournalEntry(userBook.data!.id, { ...entryInput });
+            // Only create entry if there is a change in the current page or percent
+            if (currentPage != originalPage ||
+                currentPercent != originalPercent) {
+                data = await createJournalEntry(userBook.data!.id, { ...entryInput });
+            } else {
+                setError("Please enter a updated progress")
+                return
+            }
         } else {
-
             data = await updateJournalEntry(
                 editId, { ...entryInput }
             )
         }
+
         if (data) {
             setJournalEntry({
-                status: values.mark_abandoned ? "Abandoned" : "Currently Reading",
                 date: new Date(data.dateRead) || new Date(),
                 notes: data.readingNotes || "",
                 originalPage: data.currentPage || 0,
                 originalPercent: data.currentPercent || 0,
                 page: data.currentPage || 0,
                 percent: data.currentPercent || 0,
+                abandoned: values.mark_abandoned
             })
         }
-
         onClose();
     }
     return (

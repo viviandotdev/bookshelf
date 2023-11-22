@@ -22,7 +22,6 @@ export const useUpdateJournalEntry = () => {
     });
 
     if (errors) {
-      console.log(errors);
       toast({
         title: "Error updating journal entry",
         variant: "destructive",

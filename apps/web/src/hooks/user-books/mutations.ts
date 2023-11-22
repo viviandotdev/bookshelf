@@ -50,18 +50,17 @@ export const useUpdateUserBook = () => {
       },
       update: (cache, { data }) => {
         // update the status of the book
-        // cache.writeFragment({
-        //   id: `UserBook:${data?.updateUserBook.id}`,
-        //   fragment: gql`
-        //     fragment MyUserBook on UserBook {
-        //       status
-        //     }
-        //   `,
-        //   data: {
-        //     status: "Read",
-        //   },
-        // });
-        // console.log(cache);
+        cache.writeFragment({
+          id: `UserBook:${data?.updateUserBook.id}`,
+          fragment: gql`
+            fragment MyUserBook on UserBook {
+              status
+            }
+          `,
+          data: {
+            status: data?.updateUserBook.status,
+          },
+        });
       },
 
       errorPolicy: "all",

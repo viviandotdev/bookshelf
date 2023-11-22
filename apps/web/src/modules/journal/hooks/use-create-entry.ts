@@ -20,7 +20,6 @@ export const useCreateJournalEntry = () => {
       },
       errorPolicy: "all",
     });
-
     if (errors) {
       toast({
         title: "Error updating journal entry",

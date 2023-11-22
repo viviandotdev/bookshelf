@@ -39,6 +39,7 @@ export const Book: React.FC<BookProps> = ({
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+    // initial journal entry state
     const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
         return { ...prev, ...next }
     }, {
@@ -48,6 +49,7 @@ export const Book: React.FC<BookProps> = ({
         percent: 0,
         notes: "",
         date: new Date(),
+        abandoned: status == "Abandoned" ? true : false,
     })
     const dispatch = useAppDispatch();
     useEffect(() => {
@@ -62,6 +64,12 @@ export const Book: React.FC<BookProps> = ({
             });
         }
     }, [userBook]);
+
+    useEffect(() => {
+        if (journalEntry.abandoned) {
+            setStatus("Abandoned");
+        }
+    }, [journalEntry]);
 
     const onDelete = async () => {
         setIsLoading(true);
