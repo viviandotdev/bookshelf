@@ -214,6 +214,7 @@ input IntFilter {
 }
 
 type JournalEntry {
+  createdAt: Timestamp!
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp!
@@ -234,6 +235,7 @@ type JournalEntryAvgAggregate {
 
 type JournalEntryCountAggregate {
   _all: Int!
+  createdAt: Int!
   currentPage: Int!
   currentPercent: Int!
   dateRead: Int!
@@ -245,6 +247,7 @@ type JournalEntryCountAggregate {
 }
 
 input JournalEntryCreateInput {
+  createdAt: Timestamp
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp
@@ -256,6 +259,7 @@ input JournalEntryCreateInput {
 }
 
 input JournalEntryCreateManyUserBookInput {
+  createdAt: Timestamp
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp
@@ -271,6 +275,7 @@ input JournalEntryCreateManyUserBookInputEnvelope {
 }
 
 input JournalEntryCreateManyUserInput {
+  createdAt: Timestamp
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp
@@ -310,6 +315,7 @@ input JournalEntryCreateOrConnectWithoutUserInput {
 }
 
 input JournalEntryCreateWithoutUserBookInput {
+  createdAt: Timestamp
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp
@@ -320,6 +326,7 @@ input JournalEntryCreateWithoutUserBookInput {
 }
 
 input JournalEntryCreateWithoutUserInput {
+  createdAt: Timestamp
   currentPage: Int!
   currentPercent: Int!
   dateRead: Timestamp
@@ -336,6 +343,7 @@ input JournalEntryListRelationFilter {
 }
 
 type JournalEntryMaxAggregate {
+  createdAt: Timestamp
   currentPage: Int
   currentPercent: Int
   dateRead: Timestamp
@@ -347,6 +355,7 @@ type JournalEntryMaxAggregate {
 }
 
 type JournalEntryMinAggregate {
+  createdAt: Timestamp
   currentPage: Int
   currentPercent: Int
   dateRead: Timestamp
@@ -365,6 +374,7 @@ input JournalEntryScalarWhereInput {
   AND: [JournalEntryScalarWhereInput!]
   NOT: [JournalEntryScalarWhereInput!]
   OR: [JournalEntryScalarWhereInput!]
+  createdAt: DateTimeFilter
   currentPage: IntFilter
   currentPercent: IntFilter
   dateRead: DateTimeFilter
@@ -381,7 +391,20 @@ type JournalEntrySumAggregate {
   pagesRead: Int
 }
 
+input JournalEntryUpdateInput {
+  createdAt: Timestamp
+  currentPage: Int
+  currentPercent: Int
+  dateRead: Timestamp
+  id: String
+  pagesRead: Int
+  readingNotes: String
+  user: UserUpdateOneWithoutJournalEntryNestedInput
+  userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
+}
+
 input JournalEntryUpdateManyMutationInput {
+  createdAt: Timestamp
   currentPage: Int
   currentPercent: Int
   dateRead: Timestamp
@@ -439,6 +462,7 @@ input JournalEntryUpdateWithWhereUniqueWithoutUserInput {
 }
 
 input JournalEntryUpdateWithoutUserBookInput {
+  createdAt: Timestamp
   currentPage: Int
   currentPercent: Int
   dateRead: Timestamp
@@ -449,6 +473,7 @@ input JournalEntryUpdateWithoutUserBookInput {
 }
 
 input JournalEntryUpdateWithoutUserInput {
+  createdAt: Timestamp
   currentPage: Int
   currentPercent: Int
   dateRead: Timestamp
@@ -474,6 +499,7 @@ input JournalEntryWhereInput {
   AND: [JournalEntryWhereInput!]
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
+  createdAt: DateTimeFilter
   currentPage: IntFilter
   currentPercent: IntFilter
   dateRead: DateTimeFilter
@@ -490,6 +516,7 @@ input JournalEntryWhereUniqueInput {
   AND: [JournalEntryWhereInput!]
   NOT: [JournalEntryWhereInput!]
   OR: [JournalEntryWhereInput!]
+  createdAt: DateTimeFilter
   currentPage: IntFilter
   currentPercent: IntFilter
   dateRead: DateTimeFilter
@@ -515,9 +542,11 @@ type Mutation {
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
+  removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
+  updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }

@@ -3,7 +3,6 @@ import { UserBookService } from './user-book.service';
 import {
   BookWhereUniqueInput,
   UserBook,
-  UserBookOrderByWithAggregationInput,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
 } from '../../src/generated-db-types';
@@ -56,7 +55,6 @@ export class UserBookResolver {
     where: UserBookWhereInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    console.log(where);
     return this.userBookService.count({
       where,
       userId: user.userId,
@@ -80,7 +78,6 @@ export class UserBookResolver {
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
-    console.log('userBook', data);
     return this.userBookService.update({
       data,
       where: {

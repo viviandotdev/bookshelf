@@ -6,6 +6,7 @@ interface useJournalEntryModalStore {
     onOpen: () => void;
     onEdit: (id: string) => void;
     onClose: () => void;
+
 }
 
 export const useJournalEntryModal = create<useJournalEntryModalStore>((set) => ({

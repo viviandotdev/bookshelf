@@ -5,13 +5,14 @@ import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
 import { UserAccountNav } from "./user-account-nav";
 import { User } from "next-auth";
+import Link from "next/link";
 
 interface AccountNavProps {
     items?: NavItem[];
     user: User;
 }
 
-export function AccountNav({ items, user }: AccountNavProps) {
+export function AccountNav({ user, items }: AccountNavProps) {
     return (
         <nav className="bg-secondary flex w-full p-3 gap-20 rounded-lg items-center">
             <div className="flex items-center font-medium gap-3">
@@ -26,9 +27,9 @@ export function AccountNav({ items, user }: AccountNavProps) {
             </div>
             <div className="flex gap-3 text-sm">
                 {items?.map((item, index) => (
-                    <button key={index} className={cn("flex")}>
+                    <Link href={`/${user.name}${item.href}`} key={index} className={cn("flex")}>
                         {item.title}
-                    </button>
+                    </Link>
                 ))}
             </div>
         </nav>

@@ -43,7 +43,6 @@ const Hit = ({ hit }: HitProps) => {
             errorPolicy: "all",
         })
     useEffect(() => {
-        console.log("fetch book" + hit.id + hit.title)
         const loadData = async () => {
             await loadBook({ variables: { where: { id: hit.id } } });
         };

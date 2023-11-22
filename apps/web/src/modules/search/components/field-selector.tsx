@@ -23,6 +23,7 @@ export const FieldSelector: React.FC<FieldSelectorProps> = ({
 
         return (
             <div
+                key={title}
                 className={`text-xs ${isSelected ? 'bg-secondary' : ''} w-[fill-available] rounded-lg p-2 cursor-pointer`}
                 onClick={() => {
                     startTransition(() => {

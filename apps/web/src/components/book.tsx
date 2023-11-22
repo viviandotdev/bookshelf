@@ -1,16 +1,15 @@
 "use client";
-import React, { use, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useReducer } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../graphql/graphql";
-import { useRouter } from "next/navigation";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
-import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
+import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
+import { UserBook } from "@/graphql/graphql";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 
 interface BookProps {
     details?: {
@@ -39,18 +38,25 @@ export const Book: React.FC<BookProps> = ({
     const { removeUserBook } = useRemoveUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-    const [currentProgress, setCurrentProgress] = useState({
+    // initial journal entry state
+    const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
+        return { ...prev, ...next }
+    }, {
         originalPage: 0,
         originalPercent: 0,
         page: 0,
         percent: 0,
-    });
+        notes: "",
+        date: new Date(),
+        abandoned: status == "Abandoned" ? true : false,
+    })
     const dispatch = useAppDispatch();
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
         if (userBook.journalEntry && userBook.journalEntry.length > 0) {
-            setCurrentProgress({
+            setJournalEntry({
+                status: userBook.status,
                 originalPage: userBook.journalEntry[0].currentPage || 0,
                 originalPercent: userBook.journalEntry[0].currentPercent || 0,
                 page: userBook.journalEntry[0].currentPage || 0,
@@ -58,6 +64,12 @@ export const Book: React.FC<BookProps> = ({
             });
         }
     }, [userBook]);
+
+    useEffect(() => {
+        if (journalEntry.status == "Abandoned") {
+            setStatus("Abandoned");
+        }
+    }, [journalEntry]);
 
     const onDelete = async () => {
         setIsLoading(true);
@@ -95,7 +107,7 @@ export const Book: React.FC<BookProps> = ({
                 </div>
                 {details && (
                     <BookDetails
-                        progress={currentProgress.percent}
+                        progress={journalEntry.percent}
                         dateStarted={details.date_started}
                     />
                 )}
@@ -117,12 +129,10 @@ export const Book: React.FC<BookProps> = ({
                 loading={isLoading}
             />
             <JouranlEntryModal
-                currentProgress={currentProgress}
-                setCurrentProgress={setCurrentProgress}
+                journalEntry={journalEntry}
+                setJournalEntry={setJournalEntry}
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
-                status={status!}
-                setStatus={setStatus}
             />
             <div
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
@@ -154,11 +164,11 @@ export const Book: React.FC<BookProps> = ({
                             setOpenModal={setOpenModal}
                             setOpenAlert={setOpenAlert}
                             status={status}
-                            setStatus={setStatus} book={book!}
+                            setStatus={setStatus}
+                            book={book!}
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
-                            // loadEntry={loadEntry}
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

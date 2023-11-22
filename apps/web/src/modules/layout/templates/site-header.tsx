@@ -8,12 +8,15 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { User } from "next-auth";
 import { siteConfig } from "@/config/site";
 import SearchInput from "../components/search-input";
+import { Icons } from "@/components/icons";
+import useLogBookModal from "@/hooks/use-log-book-modal";
 
 interface SiteHeaderProps {
     user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
+    const logBookModal = useLogBookModal();
     return (
         <header className="container bg-background mx-auto">
             <div className="flex h-20 items-center justify-between py-6 space-x-4">
@@ -33,16 +36,16 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                         id: user.id,
                                     }}
                                 />
-                                {/* <button
+                                <button
+                                    onClick={() => logBookModal.onOpen()}
                                     className={cn(
                                         buttonVariants({ variant: "tag", size: "xs" }),
                                         "pl-2 pr-3"
                                     )}
-                                    onClick={jouranlEntryModal.onOpen}
                                 >
                                     <Icons.plus className="h-4 w-4 mr-1" />
                                     Log
-                                </button> */}
+                                </button>
                             </div>
                         ) : (
                             <Link

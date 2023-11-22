@@ -24,12 +24,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { useCreateJournalEntryMutation } from "@/graphql/graphql";
-import { toast } from "@/hooks/use-toast";
+import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useCreateJournalEntry } from "../hooks/use-create-entry";
+import { useUpdateJournalEntry } from "../hooks/use-update-entry";
+import useLoadJournalEntry from "../hooks/use-load-entry";
 
 type progressTypes = {
     originalPage: number;
@@ -38,35 +39,54 @@ type progressTypes = {
     percent: number;
 };
 interface JournalEntryFormProps {
-    currentProgress: progressTypes;
-    setCurrentProgress: Dispatch<SetStateAction<progressTypes>>;
-    status: string | undefined;
-    setStatus: Dispatch<SetStateAction<string>>;
     onClose: () => void;
+    editId?: string;
+    onDelete?: () => void;
+    journalEntry?: any;
+    setJournalEntry?: Dispatch<SetStateAction<any>>;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
-    currentProgress,
-    setCurrentProgress,
-    status,
-    setStatus,
     onClose,
+    editId,
+    onDelete,
+    journalEntry,
+    setJournalEntry
 }) => {
-    const jouranlEntryModal = useJournalEntryModal();
     const userBook = useUserBook();
-    const [createJournalEntry] = useCreateJournalEntryMutation();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
+    const loadEntry = useLoadJournalEntry(setJournalEntry);
+    const { createJournalEntry } = useCreateJournalEntry();
+    const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();
+    const { notes, date, percent, page, originalPage, originalPercent, pagesRead } = journalEntry;
+
     useEffect(() => {
         form.reset({
-            notes: "",
-            current_percent: currentProgress.percent.toString() || "",
-            current_page: currentProgress.page.toString() || "",
-            date_read: new Date(),
-            mark_abandoned: status === "Abandoned",
+            notes: notes || "",
+            current_percent: percent.toString() || "",
+            current_page: page.toString() || "",
+            date_read: date || new Date(),
+            mark_abandoned: userBook.status === "Abandoned",
         });
-    }, [userBook.data, currentProgress, status]);
+    }, [journalEntry, userBook]);
+
+    useEffect(() => {
+        if (!editId) {
+            // Fetch most recent entry if adding new journal entry
+            const loadData = async () => {
+                await loadEntry({
+                    variables: {
+                        book: {
+                            id: userBook!.data.id,
+                        },
+                    }
+                });
+            };
+            loadData()
+        }
+    }, [loadEntry]);
 
     const handleKeyPress = (event: any) => {
         const keyCode = event.keyCode || event.which;
@@ -77,7 +97,6 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         if (!/^\d$/.test(keyValue) && keyCode !== 8 && keyCode !== 9) {
             event.preventDefault();
         }
-        // skip prevent default
     };
 
     const displayFormSchema = z
@@ -89,10 +108,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 .refine(
                     (val) => {
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
-                        return parseInt(val, 10) >= currentProgress.page;
+                        return parseInt(val, 10) >= page;
                     },
                     {
-                        message: `The value is less than the previous value`,
+                        message: `Enter a value greater than the previous end page ${page}`,
                     }
                 )
                 .refine(
@@ -117,10 +136,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 .refine(
                     (val) => {
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
-                        return parseInt(val, 10) >= currentProgress.percent;
+                        return parseInt(val, 10) >= percent;
                     },
                     {
-                        message: `The value is less than the previous value`,
+                        message: `Enter a value greater than the previous value ${percent}`,
                     }
                 )
                 .refine(
@@ -148,18 +167,19 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 });
             }
         });
+
     type DisplayFormValues = z.infer<typeof displayFormSchema>;
     const form = useForm<DisplayFormValues>({
         resolver: zodResolver(displayFormSchema),
         defaultValues: useMemo(() => {
             return {
-                notes: "",
-                current_page: currentProgress.page.toString() || "",
-                current_percent: currentProgress.percent.toString() || "",
-                date_read: new Date(),
-                mark_abandoned: status === "Abandoned",
+                notes: notes || "",
+                current_page: page.toString() || "",
+                current_percent: percent.toString() || "",
+                date_read: date || new Date(),
+                mark_abandoned: userBook.status === "Abandoned",
             };
-        }, [userBook.data, currentProgress, status]),
+        }, [userBook]),
     });
 
     async function onSubmit(values: DisplayFormValues) {
@@ -178,45 +198,45 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 totalPages ? currentPercent * 0.01 * totalPages : 0
             );
         }
-        if (values.mark_abandoned) {
-            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
-            if (updatedBook) {
-                setStatus("Abandoned");
-            }
+
+        let entryInput: JournalEntryCreateInput = {
+            dateRead: values.date_read,
+            readingNotes: values.notes,
+            currentPage: currentPage!,
+            pagesRead: currentPage! - originalPage > 0 ? currentPage! - originalPage : pagesRead,
+            currentPercent: currentPercent!,
         }
-        if (
-            currentPage != currentProgress.originalPage ||
-            currentPercent != currentProgress.originalPercent
-        ) {
-            await createJournalEntry({
-                variables: {
-                    data: {
-                        readingNotes: values.notes,
-                        currentPage: currentPage!,
-                        pagesRead: currentPage! - currentProgress.originalPage,
-                        currentPercent: currentPercent!,
-                    },
-                    book: {
-                        id: userBook.data.id,
-                    },
-                },
-                onError(error) {
-                    toast({
-                        title: error.message,
-                    });
-                },
-                onCompleted(data) {
-                    setCurrentProgress({
-                        originalPage: data.createJournalEntry.currentPage || 0,
-                        originalPercent: data.createJournalEntry.currentPercent || 0,
-                        page: data.createJournalEntry.currentPage || 0,
-                        percent: data.createJournalEntry.currentPercent || 0,
-                    });
-                    toast({
-                        title: "Sucessfylly create journal entry",
-                    });
-                },
-            });
+        //  if editing journal entry
+        if (editId) {
+            await updateUserBook(userBook.data!.id, { status: values.mark_abandoned ? "Abandoned" : "Currently Reading" });
+        }
+
+        let data;
+        if (!editId) {
+            // Only create entry if there is a change in the current page or percent
+            if (currentPage != originalPage ||
+                currentPercent != originalPercent) {
+                data = await createJournalEntry(userBook.data!.id, { ...entryInput });
+            } else {
+                setError("Please enter a updated progress")
+                return
+            }
+        } else {
+            data = await updateJournalEntry(
+                editId, { ...entryInput }
+            )
+        }
+
+        if (data && setJournalEntry) {
+            setJournalEntry({
+                date: new Date(data.dateRead),
+                notes: data.readingNotes,
+                originalPage: data.currentPage,
+                originalPercent: data.currentPercent,
+                page: data.currentPage,
+                percent: data.currentPercent,
+                status: values.mark_abandoned ? "Abandoned" : "Currently Reading",
+            })
         }
         onClose();
     }
@@ -287,23 +307,25 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                             )}
                         />
                     </div>
-                    <FormField
-                        control={form.control}
-                        name="mark_abandoned"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                                <FormControl>
-                                    <Checkbox
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <div className="space-y-1 leading-none">
-                                    <FormLabel>Mark as adandoned</FormLabel>
-                                </div>
-                            </FormItem>
-                        )}
-                    />
+                    {editId &&
+                        <FormField
+                            control={form.control}
+                            name="mark_abandoned"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>Mark as adandoned</FormLabel>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+                    }
                 </div>
                 <FormField
                     control={form.control}
@@ -338,6 +360,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                                     <FormItem>
                                         <FormControl>
                                             <Input
+                                                disabled={editId ? true : false}
                                                 autoComplete="off"
                                                 autoFocus
                                                 className={` ${unit == "pages" ? "block" : "hidden"
@@ -371,6 +394,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                                     <FormItem>
                                         <FormControl>
                                             <Input
+                                                disabled={editId ? true : false}
                                                 autoComplete="off"
                                                 autoFocus
                                                 className={` h-7 px-2 w-[48px] py-4 text-xs `}
@@ -407,10 +431,15 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         variant="outline"
                         onClick={(e) => {
                             e.preventDefault();
-                            onClose();
+                            if (typeof onDelete !== "undefined") {
+                                onDelete();
+                            } else {
+                                onClose();
+                            }
+
                         }}
                     >
-                        {jouranlEntryModal.isEdit ? "Delete" : "Close"}
+                        {typeof onDelete !== "undefined" ? "Delete" : "Close"}
                     </Button>
                     <Button type="submit" variant="default">
                         Save
@@ -427,8 +456,8 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                 onClick={(e) => {
                     e.preventDefault();
                     form.reset({
-                        current_percent: currentProgress.percent.toString() || "",
-                        current_page: currentProgress.page.toString() || "",
+                        current_percent: percent.toString() || "",
+                        current_page: page.toString() || "",
                     });
                     setUnit(type);
                 }}

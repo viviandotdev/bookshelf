@@ -29,7 +29,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       title: "Books",
-      href: "/mybooks",
+      href: "/books",
     },
     {
       title: "Journal",

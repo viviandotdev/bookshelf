@@ -5,8 +5,11 @@ import { z } from "zod";
 import { ColumnHeader } from "./column-header";
 import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
-import BookActions from "@/components/book-actions";
 import { Icons } from "@/components/icons";
+import { useEffect, useReducer, useState } from "react";
+import { JouranlEntryModal } from "./journal-entry-modal";
+import { useRemoveEntry } from "../hooks/use-remove-entry";
+import useUserBook from "@/stores/use-user-book";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),
@@ -46,6 +49,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         // header: ({ column }) => <div>Month</div>,
         header: ({ column }) => <ColumnHeader column={column} title="MONTH" />,
         cell: ({ row }) => {
+            const monthYear = row.getValue("monthYear").split(" ") as string[];
             return (
                 <div className="text-center font-bold">
                     <svg
@@ -77,22 +81,22 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         <text
                             x="46%"
                             y="42%"
-                            dominant-baseline="middle"
-                            text-anchor="middle"
-                            font-size="140"
+                            dominantBaseline="middle"
+                            textAnchor="middle"
+                            fontSize="140"
                             fill="black"
                         >
-                            OCT
+                            {monthYear[0]}
                         </text>
                         <text
                             x="46%"
                             y="68%"
-                            dominant-baseline="middle"
-                            text-anchor="middle"
-                            font-size="110"
+                            dominantBaseline="middle"
+                            textAnchor="middle"
+                            fontSize="110"
                             fill="black"
                         >
-                            2023
+                            {monthYear[1]}
                         </text>
                     </svg>
                 </div>
@@ -112,26 +116,17 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         },
     },
     {
-        accessorKey: "title",
+        accessorKey: "entry",
         header: ({ column }) => <ColumnHeader column={column} title="TITLE" />,
         cell: ({ row }) => {
+            const title = row.getValue("entry").title;
+            const image = row.getValue("entry").image;
             return (
                 <div className="text-left text-lg px-2 flex gap-2">
-                    <BookCover size={"sm"} src={null} />
+                    <BookCover size={"xs"} src={image} />
                     <span className={cn(dm_sefif_display.className, "")}>
-                        {row.getValue("title")}
+                        {title}
                     </span>
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "pagesRead",
-        header: ({ column }) => <ColumnHeader column={column} title="PAGES" />,
-        cell: ({ row }) => {
-            return (
-                <div className="text-center text-primary text-lg px-2">
-                    {row.getValue("pagesRead")}
                 </div>
             );
         },
@@ -142,7 +137,18 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         cell: ({ row }) => {
             return (
                 <div className="text-center text-primary text-lg px-2">
-                    {row.getValue("progress")}%
+                    {row.getValue("progress").currentPercent}%
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "pagesRead",
+        header: ({ column }) => <ColumnHeader column={column} title="PAGES READ" />,
+        cell: ({ row }) => {
+            return (
+                <div className="text-center text-primary text-lg px-2">
+                    {row.getValue("pagesRead")}
                 </div>
             );
         },
@@ -152,6 +158,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="ABANDONED" />,
         cell: ({ row }) => {
             const abandoned = row.getValue("abandoned");
+            // get the abandoned state of this entry
             return (
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
@@ -171,7 +178,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
                     onClick={() => {
-                        console.log("open notes");
+                        console.log(row.getValue("notes"));
                     }}
                 >
                     {showNotes && <Icons.notes className="h-5" />}
@@ -202,15 +209,63 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="EDIT" />,
         cell: ({ row }) => {
             const userBook = row.getValue("userBook") as UserBook;
+            const progress = row.getValue("progress") as { currentPage: number; currentPercent: number };
+            const entry = row.getValue("entry") as { id: string, title: string, image: string };
+            const readingNotes = row.getValue("notes") as string;
+            const monthYear = row.getValue("monthYear").split(" ") as string[];
+            const day = row.getValue("date")
+            const [openModal, setOpenModal] = useState(false);
+            // put this in a global state?
+            const abandoned = row.getValue("abandoned");
+            const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
+                return { ...prev, ...next }
+            }, {
+                originalPage: Number(progress.currentPage),
+                originalPercent: Number(progress.currentPercent),
+                page: Number(progress.currentPage),
+                percent: Number(progress.currentPercent),
+                notes: readingNotes ? readingNotes : "",
+                date: new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`),
+                pagesRead: Number(row.getValue("pagesRead")),
+            })
+
+
+            const [isLoading, setIsLoading] = useState(false);
+
+            const { removeEntry } = useRemoveEntry();
+            const deleteEntry = async () => {
+                setIsLoading(true)
+                await removeEntry(entry.id);
+                setIsLoading(false)
+
+            }
+            const setUserBook = useUserBook((state) => state.setUserBook);
+            const updateStatus = useUserBook((state) => state.updateStatus);
             return (
                 <div className="text-center cursor-pointer px-2">
-                    {userBook && (
-                        <BookActions
-                            bookStatus={userBook.status ?? undefined}
-                            book={userBook.book ?? undefined}
-                            shelves={userBook?.shelves ?? undefined}
-                        />
-                    )}
+                    <JouranlEntryModal
+                        isOpen={openModal}
+                        onClose={() => {
+                            setOpenModal(false);
+                        }}
+                        onDelete={() => {
+                            deleteEntry();
+                            setOpenModal(false);
+                        }}
+                        editId={entry.id}
+                        journalEntry={journalEntry}
+                        setJournalEntry={setJournalEntry}
+                    />
+                    <div
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setUserBook(userBook.book);
+                            updateStatus(abandoned ? "Abandoned" : "Currently Reading",)
+                            setOpenModal(true);
+                        }}
+                    >
+                        <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                    </div>
                 </div>
             );
         },

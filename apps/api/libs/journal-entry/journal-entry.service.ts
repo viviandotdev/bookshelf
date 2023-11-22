@@ -4,10 +4,13 @@ import { Prisma } from '@prisma/client';
 import {
   UserBookIdentifierCompoundUniqueInput,
   JournalEntryCreateInput,
+  JournalEntryUpdateInput,
+  JournalEntryWhereUniqueInput,
 } from '@bookcue/api/generated-db-types';
 @Injectable()
 export class JournalEntryService {
   findUnique = this.repository.findUnique;
+  delete = this.repository.delete;
   findFirst = this.repository.findFirst;
   constructor(private readonly repository: JournalEntryRepository) {}
 
@@ -37,6 +40,7 @@ export class JournalEntryService {
         },
       },
     };
+
     return this.repository.create(createJournalEntryArgs);
   }
 
@@ -57,6 +61,7 @@ export class JournalEntryService {
     book?: string;
     skip?: number;
     take?: number;
+    orderBy?: Prisma.JournalEntryOrderByWithRelationInput;
   }) {
     const whereJournalEntryArgs: Prisma.JournalEntryFindManyArgs = {
       where: args.book
@@ -81,9 +86,36 @@ export class JournalEntryService {
           },
         },
       },
+      orderBy: args.orderBy,
       skip: args.skip,
       take: args.take,
     });
     return journalEntries;
+  }
+
+  async update(args: {
+    data: JournalEntryUpdateInput;
+    where: JournalEntryWhereUniqueInput;
+  }) {
+    const updateJournalEntry = await this.repository.update({
+      where: {
+        id: args.where.id,
+      },
+      include: {
+        userBook: {
+          include: {
+            book: true,
+          },
+        },
+      },
+      data: {
+        dateRead: args.data.dateRead,
+        currentPage: args.data.currentPage,
+        pagesRead: args.data.pagesRead,
+        currentPercent: args.data.currentPercent,
+        readingNotes: args.data.readingNotes,
+      },
+    });
+    return updateJournalEntry;
   }
 }

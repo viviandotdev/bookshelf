@@ -5,8 +5,45 @@ mutation CreateJournalEntry(
   createJournalEntry(data: $data, book: $book) {
     id
     readingNotes
+    pagesRead
     dateRead
     currentPage
     currentPercent
+  }
+}
+
+mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
+  removeJournalEntry(where: $where) {
+    id
+  }
+}
+
+mutation UpdateJournalEntry(
+  $data: JournalEntryUpdateInput!
+  $where: JournalEntryWhereUniqueInput!
+) {
+  updateJournalEntry(data: $data, where: $where) {
+    id
+    readingNotes
+    pagesRead
+    dateRead
+    currentPage
+    currentPercent
+    userBook {
+      status
+      book {
+        id
+        title
+        author
+        pageNum
+        coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
+    }
   }
 }

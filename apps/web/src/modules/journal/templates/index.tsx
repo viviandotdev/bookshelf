@@ -1,3 +1,4 @@
+"use client"
 import { useJournalEntriesLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { MONTH, BOOKS_PAGE_SIZE } from "@/lib/constants";
@@ -33,18 +34,24 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
     const journalEntires = journalData?.journalEntries.map((entry) => {
         const date = new Date(entry.dateRead);
         return {
-            id: entry.id,
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(" "),
             date: date.getDate(),
-            title:
-                (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
-                "",
+            entry: {
+                id: entry.id,
+                title: (entry.userBook && entry.userBook.book && entry.userBook.book.title) ||
+                    "",
+                image: (entry.userBook && entry.userBook.book && entry.userBook.book.coverImage)
+            },
             pagesRead: entry.pagesRead,
-            progress: entry.currentPercent,
+            progress: {
+                currentPercent: entry.currentPercent,
+                currentPage: entry.currentPage,
+                totalPages: entry.userBook?.book?.pageNum,
+            },
             notes: entry.readingNotes || "",
             liked: true,
-            abandoned: entry.userBook?.status === "ABANDONED",
+            abandoned: entry.userBook?.status === "Abandoned",
         };
     });
     const loading = networkStatus === NetworkStatus.loading;

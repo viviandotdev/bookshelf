@@ -3,11 +3,28 @@ import Image from "next/image";
 
 interface BookCoverProps {
     src: string | null;
-    size?: "sm" | "lg" | "dynamic";
+    size?: "xs" | "sm" | "lg" | "dynamic";
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
-    const width = size === "sm" ? 76 : 176;
+    let width: number;
+
+    switch (size) {
+        case "xs":
+            width = 42;
+            break;
+        case "sm":
+            width = 76;
+            break;
+        case "lg":
+            width = 176;
+            break;
+        case "dynamic":
+        default:
+            width = 176; // Set a default width for "dynamic" or unrecognized sizes
+            break;
+    }
+
     return (
         <div className={`relative flex items-start`}>
             <Image
@@ -16,7 +33,6 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
                 alt={`Book cover`}
                 width={width}
                 height={width * 1.5}
-            // priority={false}
             />
         </div>
     );

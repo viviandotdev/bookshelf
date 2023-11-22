@@ -4,9 +4,11 @@ import {
   BookWhereUniqueInput,
   JournalEntry,
   JournalEntryCreateInput,
+  JournalEntryUpdateInput,
+  JournalEntryWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';
@@ -35,7 +37,8 @@ export class JournalEntryResolver {
     if (!userBookExists) {
       throw new Error('UserBook does not exist');
     }
-    return this.service.create(data, userBook);
+    const journalEntry = await this.service.create(data, userBook);
+    return journalEntry;
   }
 
   @UseGuards(AccessTokenGuard)
@@ -56,6 +59,29 @@ export class JournalEntryResolver {
     }
 
     return this.service.count(userBook);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => JournalEntry)
+  removeJournalEntry(
+    @Args('where')
+    where: JournalEntryWhereUniqueInput,
+  ) {
+    const entry = this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+    if (!entry) {
+      throw new NotFoundException(
+        `Entry ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return this.service.delete({
+      where: {
+        id: where.id,
+      },
+    });
   }
 
   @UseGuards(AccessTokenGuard)
@@ -81,12 +107,18 @@ export class JournalEntryResolver {
         user: currentUser.userId,
         skip: offset,
         take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
     } else {
       return this.service.findMany({
         user: currentUser.userId,
         skip: offset,
         take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
     }
   }
@@ -106,11 +138,34 @@ export class JournalEntryResolver {
         },
       },
       orderBy: {
-        dateRead: 'desc',
+        createdAt: 'desc',
       },
       take: 1,
     });
-
     return mostRecentEntry;
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => JournalEntry)
+  async updateJournalEntry(
+    @Args('data') data: JournalEntryUpdateInput,
+    @Args('where') where: JournalEntryWhereUniqueInput,
+  ) {
+    const entry = this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+    if (!entry) {
+      throw new NotFoundException(
+        `Entry ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return this.service.update({
+      data,
+      where: {
+        id: where.id,
+      },
+    });
   }
 }
