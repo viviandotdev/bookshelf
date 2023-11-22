@@ -22,7 +22,7 @@ export const siteConfig: SiteConfig = {
       href: "/browse",
     },
   ],
-  accountNav: [
+  userNav: [
     {
       title: "Activity",
       href: "/",

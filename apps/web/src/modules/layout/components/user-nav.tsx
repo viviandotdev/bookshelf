@@ -7,12 +7,12 @@ import { UserAccountNav } from "./user-account-nav";
 import { User } from "next-auth";
 import Link from "next/link";
 
-interface AccountNavProps {
+interface UserNavProps {
     items?: NavItem[];
     user: User;
 }
 
-export function AccountNav({ user, items }: AccountNavProps) {
+export function UserNav({ user, items }: UserNavProps) {
     return (
         <nav className="bg-secondary flex w-full p-3 gap-20 rounded-lg items-center">
             <div className="flex items-center font-medium gap-3">
