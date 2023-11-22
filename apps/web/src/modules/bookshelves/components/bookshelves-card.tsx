@@ -5,8 +5,7 @@ import { BookCard, BookInfo, BookShelves } from "@/components/book-card";
 import BookCover from "../../../components/book-cover";
 import { Icons } from "../../../components/icons";
 import { BookData } from "@/types/interfaces";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 interface BookshelvesCardProps {
     book: BookData;

@@ -1,16 +1,15 @@
 "use client";
-import React, { use, useEffect, useState, useRef, useReducer } from "react";
+import React, { useEffect, useState, useRef, useReducer } from "react";
 import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
-import { Shelf, UserBook, useGetMostRecentJournalEntryLazyQuery, useGetMostRecentJournalEntryQuery } from "../graphql/graphql";
-import { useRouter } from "next/navigation";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import AlertModal from "./modals/alert-modal";
 import { useRemoveUserBook } from "@/hooks/user-books/mutations";
-import { decrementShelfCount, decrementLibraryCount, initLibrary, initShelves } from "@/stores/shelf-slice";
+import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
+import { UserBook } from "@/graphql/graphql";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 
 interface BookProps {
     details?: {
@@ -164,11 +163,11 @@ export const Book: React.FC<BookProps> = ({
                             setOpenModal={setOpenModal}
                             setOpenAlert={setOpenAlert}
                             status={status}
-                            setStatus={setStatus} book={book!}
+                            setStatus={setStatus}
+                            book={book!}
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
-                            // loadEntry={loadEntry}
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

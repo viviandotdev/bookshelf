@@ -4,10 +4,10 @@ import { useAppSelector } from "@/stores";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
 import { CreateShelfModal } from "@/modules/bookshelves/components/create-shelf-modal";
-import { useCountUserBooksLazyQuery, useUserBooksLazyQuery } from "@/graphql/graphql";
+import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
-import { toast } from "@/hooks/use-toast";
+import useLoadBooks from "@/hooks/user-books/queries";
 
 interface BookshelvesTemplateProps {
 }
@@ -22,29 +22,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
             setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
         }
     });
-
-    const [loadBooks, { data: booksData, networkStatus }] =
-        useUserBooksLazyQuery({
-            fetchPolicy: "cache-and-network",
-            nextFetchPolicy: "cache-first",
-            notifyOnNetworkStatusChange: true,
-            onError: (error) => {
-                toast({
-                    title: error.message,
-                    variant: "destructive",
-                });
-            },
-            onCompleted: (data) => {
-                console.log("data", data.userBooks);
-                if (data && data.userBooks && data.userBooks.length === 0) {
-                    toast({
-                        title: "No books are here... yet",
-                        variant: "destructive",
-                    });
-                }
-            },
-            errorPolicy: "all",
-        });
+    const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
     const books = booksData && booksData?.userBooks
     const loading = networkStatus === NetworkStatus.loading;

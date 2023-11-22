@@ -2,12 +2,12 @@
 import React, { useEffect, useReducer } from "react";
 import { Modal } from "@/components/ui/modal";
 import useLogBookModal from "@/hooks/use-log-book-modal";
-import { useUserBooksLazyQuery, useUserBooksQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
-import { toast } from "@/hooks/use-toast";
 import LogBookCard from "./log-book-card";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import useLoadBooks from "@/hooks/user-books/queries";
+import { NetworkStatus } from "@apollo/client";
 interface LogBookModalProps {
 }
 
@@ -25,21 +25,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
         notes: "",
         date: new Date(),
     })
-    const [loadBooks, { data: booksData, networkStatus }] =
-        useUserBooksLazyQuery({
-            fetchPolicy: "cache-and-network",
-            nextFetchPolicy: "cache-first",
-            notifyOnNetworkStatusChange: true,
-            onError: (error) => {
-                toast({
-                    title: error.message,
-                    variant: "destructive",
-                });
-            },
-            onCompleted: (data) => {
-            },
-            errorPolicy: "all",
-        });
+    const { loadBooks, booksData, networkStatus } = useLoadBooks();
     useEffect(() => {
         const loadData = async () => {
             await loadBooks({
@@ -58,6 +44,10 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
         loadData();
     }, [loadBooks, logBookModal.isOpen]);
     const userBooks = booksData && booksData?.userBooks
+    const loading = networkStatus === NetworkStatus.loading;
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <>

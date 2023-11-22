@@ -3,7 +3,6 @@ import {
   useUpdateJournalEntryMutation,
 } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import { gql } from "@apollo/client";
 
 export const useUpdateJournalEntry = () => {
   const [UpdateJournalEntry] = useUpdateJournalEntryMutation();

@@ -14,7 +14,6 @@ import {
 } from "../graphql/graphql";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./rating";
 import { bookStatuses } from "@/config/books";
