@@ -37,7 +37,8 @@ export class JournalEntryResolver {
     if (!userBookExists) {
       throw new Error('UserBook does not exist');
     }
-    return this.service.create(data, userBook);
+    const journalEntry = await this.service.create(data, userBook);
+    return journalEntry;
   }
 
   @UseGuards(AccessTokenGuard)
@@ -107,7 +108,7 @@ export class JournalEntryResolver {
         skip: offset,
         take: limit,
         orderBy: {
-          dateRead: 'desc',
+          createdAt: 'desc',
         },
       });
     } else {
@@ -116,7 +117,7 @@ export class JournalEntryResolver {
         skip: offset,
         take: limit,
         orderBy: {
-          dateRead: 'desc',
+          createdAt: 'desc',
         },
       });
     }
@@ -137,11 +138,10 @@ export class JournalEntryResolver {
         },
       },
       orderBy: {
-        dateRead: 'desc',
+        createdAt: 'desc',
       },
       take: 1,
     });
-
     return mostRecentEntry;
   }
 

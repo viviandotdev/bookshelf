@@ -125,8 +125,6 @@ export const Book: React.FC<BookProps> = ({
                 setJournalEntry={setJournalEntry}
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
-                status={status!}
-                setStatus={setStatus}
             />
             <div
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}

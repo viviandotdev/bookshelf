@@ -6,7 +6,6 @@ export const useRemoveEntry = () => {
   const [RemoveJournalEntry] = useRemoveJournalEntryMutation();
 
   const removeEntry = async (entryId: string) => {
-    console.log("entryId", entryId);
     const { data, errors } = await RemoveJournalEntry({
       variables: { where: { id: entryId } },
       update: (cache) => {

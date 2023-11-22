@@ -29,10 +29,6 @@ export const BookshelvesCard: React.FC<BookshelvesCardProps> = ({
                 <BookCard.BookActions
                     buttons={[
                         <Button
-                            // onClick={(e) => {
-                            //     e.stopPropagation();
-                            //     console.log("currently reading clicked")
-                            // }}
                             variant={"tag"}
                             size={"xs"}
                             label="Currently Reading"

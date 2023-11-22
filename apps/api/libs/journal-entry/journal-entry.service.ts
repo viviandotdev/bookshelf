@@ -40,6 +40,7 @@ export class JournalEntryService {
         },
       },
     };
+
     return this.repository.create(createJournalEntryArgs);
   }
 

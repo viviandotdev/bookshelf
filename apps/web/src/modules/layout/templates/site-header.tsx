@@ -42,7 +42,6 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                         buttonVariants({ variant: "tag", size: "xs" }),
                                         "pl-2 pr-3"
                                     )}
-                                // onClick={jouranlEntryModal.onOpen}
                                 >
                                     <Icons.plus className="h-4 w-4 mr-1" />
                                     Log

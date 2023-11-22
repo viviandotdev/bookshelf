@@ -178,7 +178,6 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                 <div
                     className="text-center text-primary px-2 cursor-pointer"
                     onClick={() => {
-                        console.log(row.getValue("notes"));
                     }}
                 >
                     {showNotes && <Icons.notes className="h-5" />}

@@ -28,21 +28,21 @@ query JournalEntries(
     currentPage
     pagesRead
     currentPercent
-userBook {
-    status
-    book {
-    id
-    title
-    author
-    pageNum
-    coverImage
-    }
-    shelves {
-    shelf {
+    userBook {
+      status
+      book {
         id
-        name
+        title
+        author
+        pageNum
+        coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
     }
-    }
-}
-}
+  }
 }

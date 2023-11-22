@@ -48,7 +48,6 @@ const BookActions: React.FC<BookActionsProps> = ({
     showRemoveBook,
     type = "icon",
 }) => {
-    const jouranlEntryModal = useJournalEntryModal();
     const addToShelfModal = useAddToShelfModal();
     const updateBookId = useUserBook((state) => state.updateBookId);
     const updateStatus = useUserBook((state) => state.updateStatus);
@@ -138,7 +137,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 setUserBook(book!);
                                 updateStatus(status);
                                 setOpenModal(true);
-                                jouranlEntryModal.onOpen();
                             }}
                         >
                             <Icons.plus className="h-5 w-5 mr-2" />

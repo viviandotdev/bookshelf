@@ -24,7 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
-import { JournalEntryCreateInput } from "@/graphql/graphql";
+import { JournalEntryCreateInput, useGetMostRecentJournalEntryLazyQuery } from "@/graphql/graphql";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
@@ -41,8 +41,8 @@ interface JournalEntryFormProps {
     onClose: () => void;
     editId?: string;
     onDelete?: () => void;
-    journalEntry: any;
-    setJournalEntry: Dispatch<SetStateAction<any>>;
+    journalEntry?: any;
+    setJournalEntry?: Dispatch<SetStateAction<any>>;
 }
 
 export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
@@ -53,6 +53,45 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     setJournalEntry
 }) => {
     const userBook = useUserBook();
+    const [loadEntry] =
+        useGetMostRecentJournalEntryLazyQuery({
+            onError: (error) => {
+                console.log(error)
+            },
+            fetchPolicy: 'network-only', // This ensures fetching from the network and bypassing the cache
+            onCompleted: (data) => {
+                if (data.getMostRecentJournalEntry && setJournalEntry) {
+                    setJournalEntry({
+                        originalPage: data.getMostRecentJournalEntry.currentPage || 0,
+                        originalPercent: data.getMostRecentJournalEntry.currentPercent || 0,
+                        page: data.getMostRecentJournalEntry.currentPage || 0,
+                        percent: data.getMostRecentJournalEntry.currentPercent || 0,
+                    });
+                } else if (setJournalEntry) {
+                    setJournalEntry({
+                        originalPage: 0,
+                        originalPercent: 0,
+                        page: 0,
+                        percent: 0,
+                    });
+                }
+            },
+        });
+
+    useEffect(() => {
+        if (!editId) {
+            const loadData = async () => {
+                await loadEntry({
+                    variables: {
+                        book: {
+                            id: userBook!.data.id,
+                        },
+                    }
+                });
+            };
+            loadData()
+        }
+    }, [loadEntry]);
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
     const { createJournalEntry } = useCreateJournalEntry();
@@ -201,15 +240,13 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 
         }
         if (values.mark_abandoned) {
-            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Abandoned" });
-            console.log("abandoned book")
+            await updateUserBook(userBook.data!.id, { status: "Abandoned" });
 
         } else {
-            const updatedBook = await updateUserBook(userBook.data!.id, { status: "Currently Reading" });
+            await updateUserBook(userBook.data!.id, { status: "Currently Reading" });
 
         }
         let data;
-
         if (!editId) {
             data = await createJournalEntry(userBook.data!.id, { ...entryInput });
         } else {

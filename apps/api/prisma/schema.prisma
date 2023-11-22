@@ -145,6 +145,7 @@ model JournalEntry {
     /// @Validator.IsString()
     readingNotes   String?
     dateRead       DateTime  @default(now())
+    createdAt      DateTime  @default(now())
     /// @Validator.IsInt()
     currentPage    Int
     /// @Validator.IsInt()

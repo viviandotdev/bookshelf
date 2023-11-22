@@ -1,15 +1,10 @@
 "use client";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Modal } from "@/components/ui/modal";
-import { Button } from "../ui/button";
 import useLogBookModal from "@/hooks/use-log-book-modal";
-import { useUserBooksQuery } from "@/graphql/graphql";
+import { useUserBooksLazyQuery, useUserBooksQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { toast } from "@/hooks/use-toast";
-import { dm_sefif_display } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import BookCover from "../book-cover";
-import { CardDescription, CardTitle } from "../ui/card";
 import LogBookCard from "./log-book-card";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
@@ -30,18 +25,11 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
         notes: "",
         date: new Date(),
     })
-    const { data } =
-        useUserBooksQuery({
-            variables: {
-                offset: 0,
-                limit: BOOKS_PAGE_SIZE,
-                where: {
-                    status: {
-                        equals: "Currently Reading"
-                    }
-                }
-
-            },
+    const [loadBooks, { data: booksData, networkStatus }] =
+        useUserBooksLazyQuery({
+            fetchPolicy: "cache-and-network",
+            nextFetchPolicy: "cache-first",
+            notifyOnNetworkStatusChange: true,
             onError: (error) => {
                 toast({
                     title: error.message,
@@ -49,19 +37,27 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
                 });
             },
             onCompleted: (data) => {
-                console.log("data", data.userBooks);
-                if (data && data.userBooks && data.userBooks.length === 0) {
-                    toast({
-                        title: "No books are here... yet",
-                        variant: "destructive",
-                    });
-                }
             },
             errorPolicy: "all",
         });
-    const userBooks = data && data.userBooks
-    // fetch currently reading books
+    useEffect(() => {
+        const loadData = async () => {
+            await loadBooks({
+                variables: {
+                    offset: 0,
+                    limit: BOOKS_PAGE_SIZE,
+                    where: {
+                        status: {
+                            equals: "Currently Reading"
+                        }
+                    }
+                }
+            });
+        };
 
+        loadData();
+    }, [loadBooks, logBookModal.isOpen]);
+    const userBooks = booksData && booksData?.userBooks
 
     return (
         <>
@@ -86,7 +82,6 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
                                 className={`py-2 flex gap-2 cursor-pointer ${i !== userBooks.length - 1 ? "border-b" : ""
                                     }`}
                             >
-                                {/* Display book details */}
                                 <LogBookCard userBook={userBook} />
                             </div>
                         ))

@@ -8,16 +8,16 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaRepository extends PrismaClient implements OnModuleInit {
-  private readonly logger = new Logger(PrismaRepository.name);
+  //   private readonly logger = new Logger(PrismaRepository.name);
 
   constructor() {
     super({
-      log: [
-        { emit: 'event', level: 'query' },
-        { emit: 'stdout', level: 'info' },
-        { emit: 'stdout', level: 'warn' },
-        { emit: 'stdout', level: 'error' },
-      ],
+      //   log: [
+      //     { emit: 'event', level: 'query' },
+      //     { emit: 'stdout', level: 'info' },
+      //     { emit: 'stdout', level: 'warn' },
+      //     { emit: 'stdout', level: 'error' },
+      //   ],
     });
   }
 

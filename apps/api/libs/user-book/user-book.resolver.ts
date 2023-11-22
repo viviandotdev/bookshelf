@@ -55,7 +55,6 @@ export class UserBookResolver {
     where: UserBookWhereInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    console.log(where);
     return this.userBookService.count({
       where,
       userId: user.userId,
@@ -79,7 +78,6 @@ export class UserBookResolver {
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
-    console.log('userBook', data);
     return this.userBookService.update({
       data,
       where: {

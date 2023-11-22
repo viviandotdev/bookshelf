@@ -70,6 +70,7 @@ export enum JournalEntryScalarFieldEnum {
     id = "id",
     readingNotes = "readingNotes",
     dateRead = "dateRead",
+    createdAt = "createdAt",
     currentPage = "currentPage",
     pagesRead = "pagesRead",
     currentPercent = "currentPercent",
@@ -1397,6 +1398,8 @@ export class JournalEntryCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
     @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
     currentPage?: true;
     @Field(() => Boolean, {nullable:true})
     pagesRead?: true;
@@ -1418,6 +1421,8 @@ export class JournalEntryCountAggregate {
     readingNotes!: number;
     @Field(() => Int, {nullable:false})
     dateRead!: number;
+    @Field(() => Int, {nullable:false})
+    createdAt!: number;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1445,6 +1450,8 @@ export class JournalEntryCountOrderByAggregateInput {
     readingNotes?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -1475,6 +1482,8 @@ export class JournalEntryCreateManyUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1509,6 +1518,8 @@ export class JournalEntryCreateManyUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1534,6 +1545,8 @@ export class JournalEntryCreateManyInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1614,6 +1627,8 @@ export class JournalEntryCreateWithoutUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1638,6 +1653,8 @@ export class JournalEntryCreateWithoutUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1662,6 +1679,8 @@ export class JournalEntryCreateInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1716,6 +1735,8 @@ export class JournalEntryGroupBy {
     readingNotes?: string;
     @Field(() => Date, {nullable:false})
     dateRead!: Date | string;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -1764,6 +1785,8 @@ export class JournalEntryMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
     @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
     currentPage?: true;
     @Field(() => Boolean, {nullable:true})
     pagesRead?: true;
@@ -1784,6 +1807,8 @@ export class JournalEntryMaxAggregate {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -1812,6 +1837,8 @@ export class JournalEntryMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pagesRead?: keyof typeof SortOrder;
@@ -1831,6 +1858,8 @@ export class JournalEntryMinAggregateInput {
     readingNotes?: true;
     @Field(() => Boolean, {nullable:true})
     dateRead?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     currentPage?: true;
     @Field(() => Boolean, {nullable:true})
@@ -1852,6 +1881,8 @@ export class JournalEntryMinAggregate {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -1880,6 +1911,8 @@ export class JournalEntryMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pagesRead?: keyof typeof SortOrder;
@@ -1905,6 +1938,8 @@ export class JournalEntryOrderByWithAggregationInput {
     readingNotes?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -1936,6 +1971,8 @@ export class JournalEntryOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     dateRead?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    createdAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     currentPage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pagesRead?: keyof typeof SortOrder;
@@ -1965,6 +2002,8 @@ export class JournalEntryScalarWhereWithAggregatesInput {
     readingNotes?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     currentPage?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
@@ -1991,6 +2030,8 @@ export class JournalEntryScalarWhereInput {
     readingNotes?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
     currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -2079,6 +2120,8 @@ export class JournalEntryUncheckedCreateWithoutUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -2104,6 +2147,8 @@ export class JournalEntryUncheckedCreateWithoutUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -2129,6 +2174,8 @@ export class JournalEntryUncheckedCreateInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     currentPage!: number;
@@ -2194,6 +2241,8 @@ export class JournalEntryUncheckedUpdateManyWithoutUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2256,6 +2305,8 @@ export class JournalEntryUncheckedUpdateManyWithoutUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2281,6 +2332,8 @@ export class JournalEntryUncheckedUpdateManyInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2309,6 +2362,8 @@ export class JournalEntryUncheckedUpdateWithoutUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2334,6 +2389,8 @@ export class JournalEntryUncheckedUpdateWithoutUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2359,6 +2416,8 @@ export class JournalEntryUncheckedUpdateInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2387,6 +2446,8 @@ export class JournalEntryUpdateManyMutationInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2523,6 +2584,8 @@ export class JournalEntryUpdateWithoutUserBookInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2547,6 +2610,8 @@ export class JournalEntryUpdateWithoutUserInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2571,6 +2636,8 @@ export class JournalEntryUpdateInput {
     readingNotes?: string;
     @Field(() => Date, {nullable:true})
     dateRead?: Date | string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     currentPage?: number;
@@ -2628,6 +2695,8 @@ export class JournalEntryWhereUniqueInput {
     readingNotes?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
     currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -2658,6 +2727,8 @@ export class JournalEntryWhereInput {
     readingNotes?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateRead?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => IntFilter, {nullable:true})
     currentPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -2682,6 +2753,8 @@ export class JournalEntry {
     readingNotes!: string | null;
     @Field(() => Date, {nullable:false})
     dateRead!: Date;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date;
     @Field(() => Int, {nullable:false})
     currentPage!: number;
     @Field(() => Int, {nullable:false})
