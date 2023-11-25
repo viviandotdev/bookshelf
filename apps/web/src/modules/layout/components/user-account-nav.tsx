@@ -54,7 +54,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                     <Link href="/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href="/import">Import Books</Link>
+                    <Link href="/account/import">Import Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem

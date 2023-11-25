@@ -92,10 +92,10 @@ model UserBook {
     bookId    String
     /// @Validator.IsString()
     status    String //WANT TO READ, READ, READING, ABANDONED, UP NEXT
-    /// @Validator.Min(1)
+    /// @Validator.Min(0)
     /// @Validator.Max(5)
     /// @Validator.IsInt()
-    rating    Int?
+    rating    Int?     @default(0)
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
     user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book

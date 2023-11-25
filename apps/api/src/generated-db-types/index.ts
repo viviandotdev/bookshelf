@@ -5534,7 +5534,7 @@ export class UserBookCountAggregate {
     @Field(() => Int, {nullable:false})
     status!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating!: number;
@@ -5593,7 +5593,7 @@ export class UserBookCreateManyBookInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5625,7 +5625,7 @@ export class UserBookCreateManyUserInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5651,7 +5651,7 @@ export class UserBookCreateManyInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5769,7 +5769,7 @@ export class UserBookCreateWithoutBookInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5795,7 +5795,7 @@ export class UserBookCreateWithoutJournalEntryInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5821,7 +5821,7 @@ export class UserBookCreateWithoutShelvesInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5847,7 +5847,7 @@ export class UserBookCreateWithoutUserInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5873,7 +5873,7 @@ export class UserBookCreateInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -5935,7 +5935,7 @@ export class UserBookGroupBy {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6009,7 +6009,7 @@ export class UserBookMaxAggregate {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6071,7 +6071,7 @@ export class UserBookMinAggregate {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6225,7 +6225,7 @@ export class UserBookSumAggregateInput {
 @ObjectType()
 export class UserBookSumAggregate {
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6281,7 +6281,7 @@ export class UserBookUncheckedCreateWithoutBookInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6311,7 +6311,7 @@ export class UserBookUncheckedCreateWithoutJournalEntryInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6339,7 +6339,7 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6364,7 +6364,7 @@ export class UserBookUncheckedCreateWithoutUserInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6394,7 +6394,7 @@ export class UserBookUncheckedCreateInput {
     @Validator.IsString()
     status!: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6458,7 +6458,7 @@ export class UserBookUncheckedUpdateManyWithoutBookInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6518,7 +6518,7 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6544,7 +6544,7 @@ export class UserBookUncheckedUpdateManyInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6567,7 +6567,7 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6597,7 +6597,7 @@ export class UserBookUncheckedUpdateWithoutJournalEntryInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6625,7 +6625,7 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6650,7 +6650,7 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6680,7 +6680,7 @@ export class UserBookUncheckedUpdateInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6704,7 +6704,7 @@ export class UserBookUpdateManyMutationInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6902,7 +6902,7 @@ export class UserBookUpdateWithoutBookInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6928,7 +6928,7 @@ export class UserBookUpdateWithoutJournalEntryInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6954,7 +6954,7 @@ export class UserBookUpdateWithoutShelvesInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -6980,7 +6980,7 @@ export class UserBookUpdateWithoutUserInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -7006,7 +7006,7 @@ export class UserBookUpdateInput {
     @Validator.IsString()
     status?: string;
     @Field(() => Int, {nullable:true})
-    @Validator.Min(1)
+    @Validator.Min(0)
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
@@ -7154,7 +7154,7 @@ export class UserBook {
     bookId!: string;
     @Field(() => String, {nullable:false})
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Int, {nullable:true,defaultValue:0})
     rating!: number | null;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;

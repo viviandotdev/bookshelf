@@ -9,6 +9,11 @@ export const repeat = (times: number) => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+export function cleanText(text: string) {
+  // Remove any non-alphanumeric characters from the
+  let cleanText = text.replace(/[^a-zA-Z0-9]/g, "");
+  return cleanText;
+}
 
 export function processBook(
   book: any,

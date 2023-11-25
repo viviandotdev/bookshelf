@@ -1,6 +1,5 @@
 import { RESULTS_PAGE_SIZE } from "@/lib/constants";
 import { processBookData } from "@/lib/utils";
-import { getUserBook } from "@/modules/book/api/getUserBook";
 import axios from "axios";
 
 export async function getBooks(search: string, field: string, offset: number) {

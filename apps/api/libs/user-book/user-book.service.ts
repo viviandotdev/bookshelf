@@ -119,7 +119,7 @@ export class UserBookService {
                 shelf: {
                   connectOrCreate: {
                     where: { identifier: { userId, name } },
-                    create: { name },
+                    create: { userId, name },
                   },
                 },
               })),

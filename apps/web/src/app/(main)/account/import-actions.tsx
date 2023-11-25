@@ -1,54 +1,110 @@
 "use client"
 import { Button, buttonVariants } from '@/components/ui/button';
 import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+import { cleanText, cn } from '@/lib/utils';
+import { getBookFromISBN } from '@/modules/book/api/getBookFromISBN';
+import useCreateUserBook from '@/modules/book/hooks/use-create-user-book';
+import { GoodreadsBook, GoodreadsBookKeys } from '@/types/interfaces';
+import { request } from 'http';
 import Link from 'next/link';
 import React from 'react'
 import { useForm } from 'react-hook-form';
-
+import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 interface ImportActionsProps {
 
 }
 
+
 export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
     const { register, handleSubmit } = useForm();
-    const handleFileUpload = (data) => {
+    const { createUserBook } = useCreateUserBook();
+    const { updateUserBook } = useUpdateUserBook();
+    let requestsCounter = 0;
+    const handleFileUpload = (data: any) => {
         const file = data.file[0];
         const reader = new FileReader();
 
         reader.onload = (e) => {
             const contents = e.target?.result;
             // Process the CSV content
-            parseCSV(contents);
+            if (contents) {
+                parseCSV(contents as string);
+            }
         };
 
         reader.readAsText(file);
     };
 
-    const parseCSV = (csvContent) => {
+    const parseCSV = async (csvContent: string) => {
         const lines = csvContent.split('\n');
         const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
         console.log(lines.length)
-        for (let i = 1; i < lines.length; i++) {
+        for (let i = 1; i < lines.length - 1; i++) {
             const line = lines[i];
             const parsedData = parseLineWithQuotes(line);
 
-            const objectFromCSV = {};
-            mappings.forEach((key, index) => {
-                objectFromCSV[key] = parsedData[index];
+            const objectFromCSV: GoodreadsBook = {};
+            mappings.forEach((key: GoodreadsBookKeys, index) => {
+                if (key == 'ISBN' || key == 'ISBN13') {
+                    objectFromCSV[key] = cleanText(parsedData[index]);
+                } else {
+                    objectFromCSV[key] = parsedData[index];
+                }
+
             });
+            // Get isbn
+            let isbn = objectFromCSV['ISBN'] && objectFromCSV['ISBN'].length > 0 ? objectFromCSV['ISBN'] : null;
+            if (!isbn) {
+                isbn = objectFromCSV['ISBN13'] && objectFromCSV['ISBN13'].length > 0 ? objectFromCSV['ISBN13'] : null;
+            }
 
-            // add book to database
-            // look up book in google books api by isbn
-            // add book to database if it does not exist
-            // create user book based on this data
+            if (isbn) {
+                requestsCounter++;
+                const book = await getBookFromISBN(isbn);
+                // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
+                // Check if the number of requests exceeds the limit (10 requests per second)
+                if (requestsCounter > 0) {
+                    // Wait for 100 ms before making the next request
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                    requestsCounter = 0; // Reset the counter after waiting
+                }
+                console.log(book)
+                if (book) {
+                    let shelves: string[] = []; // get shelves
+                    if (objectFromCSV['Bookshelves']) {
+                        const cleanShelves = objectFromCSV['Bookshelves'].split(',').map(shelf => shelf.trim());
 
-            console.log(objectFromCSV);
-            // You can further process the objectFromCSV or perform any operations here
+                        // Remove 'to-read', 'currently-reading', 'read' shelves
+                        const excludedShelves = ['to-read', 'currently-reading', 'read'];
+                        shelves = cleanShelves.filter(shelf => !excludedShelves.includes(shelf));
+
+                    }
+                    let status;
+                    if (objectFromCSV['Exclusive Shelf']) { // get status
+                        if (objectFromCSV['Exclusive Shelf'] == 'to-read') {
+                            status = 'Want to Read'
+                        } else if (objectFromCSV['Exclusive Shelf'] == 'currently-reading') {
+                            status = 'Currently Reading'
+                        } else if (objectFromCSV['Exclusive Shelf'] == 'read') {
+                            status = 'Read'
+                        }
+                    }
+
+                    let rating; // get rating
+                    if (objectFromCSV['My Rating']) {
+                        rating = objectFromCSV['My Rating'];
+                    }
+                    await createUserBook(book);
+                    await updateUserBook(book!.id, { rating: Number(rating), status, shelves });
+
+                }
+            } else {
+                // Could not import invalid isbn
+            }
         }
     };
 
-    function parseLineWithQuotes(csvContent) {
+    function parseLineWithQuotes(csvContent: string) {
         const pattern = /(?:,|\r?\n|\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^",\r\n]*))/gi;
         const matches = csvContent.matchAll(pattern);
         const values = [];
