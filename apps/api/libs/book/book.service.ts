@@ -4,10 +4,9 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { BookRepository } from './book.repository';
-import { HttpService } from '@nestjs/axios';
 import { processBook } from 'libs/user-book/utils';
 import { BookData } from 'libs/user-book/types';
-
+import axiosInstance from 'src/config/axios.config';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
@@ -15,7 +14,6 @@ export class BookService {
     private readonly prisma: PrismaRepository,
     private readonly userBook: UserBookService,
     private readonly repository: BookRepository,
-    private readonly httpService: HttpService,
   ) {}
 
   async findBookByISBN(isbn: string) {
@@ -25,7 +23,7 @@ export class BookService {
       // Wait for 100 ms before making the next request
       // wait 300ms after every request
       const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
-      const response = await this.httpService.axiosRef.get(url);
+      const response = await axiosInstance.get(url);
       await new Promise((resolve) => setTimeout(resolve, 300));
       // Check if the response status is successful (status code 2xx)
       if (response.status >= 200 && response.status < 300) {
