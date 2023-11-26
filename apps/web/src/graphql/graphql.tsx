@@ -238,6 +238,7 @@ export type IntFilter = {
 
 export type JournalEntry = {
   __typename?: 'JournalEntry';
+  createdAt: Scalars['Timestamp'];
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead: Scalars['Timestamp'];
@@ -260,6 +261,7 @@ export type JournalEntryAvgAggregate = {
 export type JournalEntryCountAggregate = {
   __typename?: 'JournalEntryCountAggregate';
   _all: Scalars['Int'];
+  createdAt: Scalars['Int'];
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead: Scalars['Int'];
@@ -271,6 +273,7 @@ export type JournalEntryCountAggregate = {
 };
 
 export type JournalEntryCreateInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -282,6 +285,7 @@ export type JournalEntryCreateInput = {
 };
 
 export type JournalEntryCreateManyUserBookInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -297,6 +301,7 @@ export type JournalEntryCreateManyUserBookInputEnvelope = {
 };
 
 export type JournalEntryCreateManyUserInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -336,6 +341,7 @@ export type JournalEntryCreateOrConnectWithoutUserInput = {
 };
 
 export type JournalEntryCreateWithoutUserBookInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -346,6 +352,7 @@ export type JournalEntryCreateWithoutUserBookInput = {
 };
 
 export type JournalEntryCreateWithoutUserInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage: Scalars['Int'];
   currentPercent: Scalars['Int'];
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -363,6 +370,7 @@ export type JournalEntryListRelationFilter = {
 
 export type JournalEntryMaxAggregate = {
   __typename?: 'JournalEntryMaxAggregate';
+  createdAt?: Maybe<Scalars['Timestamp']>;
   currentPage?: Maybe<Scalars['Int']>;
   currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
@@ -375,6 +383,7 @@ export type JournalEntryMaxAggregate = {
 
 export type JournalEntryMinAggregate = {
   __typename?: 'JournalEntryMinAggregate';
+  createdAt?: Maybe<Scalars['Timestamp']>;
   currentPage?: Maybe<Scalars['Int']>;
   currentPercent?: Maybe<Scalars['Int']>;
   dateRead?: Maybe<Scalars['Timestamp']>;
@@ -393,6 +402,7 @@ export type JournalEntryScalarWhereInput = {
   AND?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   NOT?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   currentPage?: InputMaybe<IntFilter>;
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
@@ -411,6 +421,7 @@ export type JournalEntrySumAggregate = {
 };
 
 export type JournalEntryUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage?: InputMaybe<Scalars['Int']>;
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -422,6 +433,7 @@ export type JournalEntryUpdateInput = {
 };
 
 export type JournalEntryUpdateManyMutationInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage?: InputMaybe<Scalars['Int']>;
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -479,6 +491,7 @@ export type JournalEntryUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type JournalEntryUpdateWithoutUserBookInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage?: InputMaybe<Scalars['Int']>;
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -489,6 +502,7 @@ export type JournalEntryUpdateWithoutUserBookInput = {
 };
 
 export type JournalEntryUpdateWithoutUserInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
   currentPage?: InputMaybe<Scalars['Int']>;
   currentPercent?: InputMaybe<Scalars['Int']>;
   dateRead?: InputMaybe<Scalars['Timestamp']>;
@@ -514,6 +528,7 @@ export type JournalEntryWhereInput = {
   AND?: InputMaybe<Array<JournalEntryWhereInput>>;
   NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   currentPage?: InputMaybe<IntFilter>;
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
@@ -530,6 +545,7 @@ export type JournalEntryWhereUniqueInput = {
   AND?: InputMaybe<Array<JournalEntryWhereInput>>;
   NOT?: InputMaybe<Array<JournalEntryWhereInput>>;
   OR?: InputMaybe<Array<JournalEntryWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
   currentPage?: InputMaybe<IntFilter>;
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
@@ -554,6 +570,7 @@ export type Mutation = {
   createShelf: Shelf;
   createUser: User;
   deleteShelf?: Maybe<Shelf>;
+  importUserBooks: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   refreshAuth: RefreshResponse;
   removeJournalEntry: JournalEntry;
@@ -589,6 +606,11 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
+};
+
+
+export type MutationImportUserBooksArgs = {
+  content: Scalars['String'];
 };
 
 
@@ -1910,6 +1932,13 @@ export type RemoveUserBookMutationVariables = Exact<{
 
 export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', id: string, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
 
+export type ImportUserBooksMutationVariables = Exact<{
+  content: Scalars['String']['input'];
+}>;
+
+
+export type ImportUserBooksMutation = { __typename?: 'Mutation', importUserBooks: boolean };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2455,6 +2484,37 @@ export function useRemoveUserBookMutation(baseOptions?: Apollo.MutationHookOptio
 export type RemoveUserBookMutationHookResult = ReturnType<typeof useRemoveUserBookMutation>;
 export type RemoveUserBookMutationResult = Apollo.MutationResult<RemoveUserBookMutation>;
 export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
+export const ImportUserBooksDocument = gql`
+    mutation ImportUserBooks($content: String!) {
+  importUserBooks(content: $content)
+}
+    `;
+export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
+
+/**
+ * __useImportUserBooksMutation__
+ *
+ * To run a mutation, you first call `useImportUserBooksMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useImportUserBooksMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [importUserBooksMutation, { data, loading, error }] = useImportUserBooksMutation({
+ *   variables: {
+ *      content: // value for 'content'
+ *   },
+ * });
+ */
+export function useImportUserBooksMutation(baseOptions?: Apollo.MutationHookOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ImportUserBooksMutation, ImportUserBooksMutationVariables>(ImportUserBooksDocument, options);
+      }
+export type ImportUserBooksMutationHookResult = ReturnType<typeof useImportUserBooksMutation>;
+export type ImportUserBooksMutationResult = Apollo.MutationResult<ImportUserBooksMutation>;
+export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

@@ -540,6 +540,7 @@ type Mutation {
   createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
+  importUserBooks(content: String!): Boolean!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!

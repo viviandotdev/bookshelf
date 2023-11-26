@@ -10,6 +10,7 @@ import Link from 'next/link';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useImportUserBooksMutation } from '@/graphql/graphql';
 interface ImportActionsProps {
 
 }
@@ -19,6 +20,8 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
     const { register, handleSubmit } = useForm();
     const { createUserBook } = useCreateUserBook();
     const { updateUserBook } = useUpdateUserBook();
+    const [ImportUserBooks] = useImportUserBooksMutation();
+
     let requestsCounter = 0;
     const handleFileUpload = (data: any) => {
         const file = data.file[0];
@@ -28,17 +31,20 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
             const contents = e.target?.result;
             // Process the CSV content
             if (contents) {
-                parseCSV(contents as string);
+                sendCSV(contents as string);
             }
         };
-
         reader.readAsText(file);
     };
+    const sendCSV = async (csvContent: string) => {
 
+        if (csvContent) {
+            await ImportUserBooks({ variables: { content: csvContent } });
+        }
+    };
     const parseCSV = async (csvContent: string) => {
         const lines = csvContent.split('\n');
         const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
-        console.log(lines.length)
         for (let i = 1; i < lines.length - 1; i++) {
             const line = lines[i];
             const parsedData = parseLineWithQuotes(line);
@@ -61,23 +67,14 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
             if (isbn) {
                 requestsCounter++;
                 const book = await getBookFromISBN(isbn);
-                // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
-                // Check if the number of requests exceeds the limit (10 requests per second)
-                if (requestsCounter > 0) {
-                    // Wait for 100 ms before making the next request
-                    await new Promise(resolve => setTimeout(resolve, 300));
-                    requestsCounter = 0; // Reset the counter after waiting
-                }
+
                 console.log(book)
                 if (book) {
                     let shelves: string[] = []; // get shelves
                     if (objectFromCSV['Bookshelves']) {
                         const cleanShelves = objectFromCSV['Bookshelves'].split(',').map(shelf => shelf.trim());
-
-                        // Remove 'to-read', 'currently-reading', 'read' shelves
                         const excludedShelves = ['to-read', 'currently-reading', 'read'];
                         shelves = cleanShelves.filter(shelf => !excludedShelves.includes(shelf));
-
                     }
                     let status;
                     if (objectFromCSV['Exclusive Shelf']) { // get status
@@ -94,6 +91,7 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                     if (objectFromCSV['My Rating']) {
                         rating = objectFromCSV['My Rating'];
                     }
+
                     await createUserBook(book);
                     await updateUserBook(book!.id, { rating: Number(rating), status, shelves });
 

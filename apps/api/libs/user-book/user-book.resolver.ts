@@ -11,6 +11,7 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
+import { parseLineWithQuotes, processCSVLine } from './utils';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -85,6 +86,42 @@ export class UserBookResolver {
         bookId: where.id,
       },
     });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Boolean)
+  importUserBooks(
+    @Args('content')
+    content: string,
+    // @CurrentUser() user: JwtPayload,
+  ) {
+    const lines = content.split('\n');
+    console.log(lines);
+    const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
+    for (let i = 1; i < lines.length - 1; i++) {
+      const line = lines[i];
+      const objectFromCSV = processCSVLine(line, mappings);
+      // Get isbn
+      let isbn =
+        objectFromCSV['ISBN'] && objectFromCSV['ISBN'].length > 0
+          ? objectFromCSV['ISBN']
+          : null;
+      if (!isbn) {
+        isbn =
+          objectFromCSV['ISBN13'] && objectFromCSV['ISBN13'].length > 0
+            ? objectFromCSV['ISBN13']
+            : null;
+      }
+
+      if (isbn) {
+        console.log(isbn);
+        // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
+      } else {
+        // Could not import invalid isbn
+      }
+    }
+    return true;
+    // email user once import is done
   }
 
   @UseGuards(AccessTokenGuard)
