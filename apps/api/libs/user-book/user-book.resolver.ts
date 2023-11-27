@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
 import {
+  BookCreateInput,
   BookWhereUniqueInput,
   UserBook,
   UserBookOrderByWithRelationInput,
@@ -11,10 +12,15 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
+import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
+import { BookService } from 'libs/book/book.service';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
-  constructor(private readonly userBookService: UserBookService) {}
+  constructor(
+    private readonly userBookService: UserBookService,
+    private readonly bookService: BookService,
+  ) {}
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
   userBook(
@@ -85,6 +91,74 @@ export class UserBookResolver {
         bookId: where.id,
       },
     });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Boolean)
+  async importUserBooks(
+    @Args('content')
+    content: string,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    console.log('test');
+    const lines = content.split('\n');
+    const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
+    for (let i = 1; i < lines.length - 1; i++) {
+      const line = lines[i];
+      const objectFromCSV = processCSVLine(line, mappings);
+      // Get isbn
+      let isbn =
+        objectFromCSV['ISBN'] && objectFromCSV['ISBN'].length > 0
+          ? objectFromCSV['ISBN']
+          : null;
+      if (!isbn) {
+        isbn =
+          objectFromCSV['ISBN13'] && objectFromCSV['ISBN13'].length > 0
+            ? objectFromCSV['ISBN13']
+            : null;
+      }
+      
+
+      if (isbn) {
+        // console.log(isbn);
+        // this.bookService.findBookByISBN(isbn).then((book) => {
+        //   console.log(book);
+        // });
+        const book = await this.bookService.findBookByISBN(isbn);
+        // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
+        // Check if the number of requests exceeds the limit (10 requests per second)
+        console.log(book);
+        if (book) {
+          const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
+          const bookData: BookCreateInput = {
+            id: book.id,
+            title: book.title,
+            pageNum: parseInt(book.pageCount),
+            author: book.author,
+            publisher: book.publisher,
+            coverImage: book.image,
+          };
+          await this.bookService.create(bookData, user.userId);
+          const userBookData: UserBookUpdateInput = {
+            rating: Number(rating),
+            status,
+            shelves,
+          };
+          await this.userBookService.update({
+            data: userBookData,
+            where: {
+              userId: user.userId,
+              bookId: book.id,
+            },
+          });
+        } else {
+          console.log('Book not found');
+        }
+      }
+      // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
+    }
+    return true;
+    // email user once import is done
   }
 
   @UseGuards(AccessTokenGuard)

@@ -22,7 +22,7 @@ export class UserBookUpdateInput {
   status?: string;
 
   @IsOptional()
-  @Min(1)
+  @Min(0)
   @Max(5)
   @IsInt()
   @Field(() => Number, { nullable: true })

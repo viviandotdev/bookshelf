@@ -24,9 +24,8 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const status = [
         "Currently Reading",
         "Want to Read",
-        "Reading",
-        "Read Next",
-        "Did not Finish",
+        "Read",
+        "Abandoned",
     ];
     const handleStatusClick = async (newStatus: string) => {
 

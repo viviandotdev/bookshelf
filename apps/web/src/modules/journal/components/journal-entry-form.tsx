@@ -61,7 +61,9 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();
     const { notes, date, percent, page, originalPage, originalPercent, pagesRead } = journalEntry;
-
+    useEffect(() => {
+        console.log(error)
+    }, [error, setError])
     useEffect(() => {
         form.reset({
             notes: notes || "",
@@ -102,7 +104,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     const displayFormSchema = z
         .object({
             notes: z.string().max(160).optional(),
-            mark_abandoned: z.boolean(),
+            mark_abandoned: z.boolean().optional(),
             current_page: z
                 .string()
                 .refine(
@@ -168,6 +170,7 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             }
         });
 
+
     type DisplayFormValues = z.infer<typeof displayFormSchema>;
     const form = useForm<DisplayFormValues>({
         resolver: zodResolver(displayFormSchema),
@@ -182,7 +185,16 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         }, [userBook]),
     });
 
+    useEffect(() => {
+        if (form.formState.errors) {
+
+            console.log(form.formState.errors)
+            // do the your logic here
+        }
+    }, [form.formState]);
+
     async function onSubmit(values: DisplayFormValues) {
+        console.log("values", values);
         let currentPage;
         let currentPercent;
         const totalPages = userBook.data && userBook.data.pageNum;

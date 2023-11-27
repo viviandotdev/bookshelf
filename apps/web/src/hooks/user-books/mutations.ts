@@ -67,6 +67,7 @@ export const useUpdateUserBook = () => {
     });
 
     if (errors) {
+        console.log(errors)
       toast({
         title: "Error updating book",
         variant: "destructive",

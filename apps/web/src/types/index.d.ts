@@ -21,5 +21,5 @@ export type SiteConfig = {
     github: string;
   };
   mainNav: MainNavItem[];
-  accountNav: NavItem[];
+  userNav: NavItem[];
 };

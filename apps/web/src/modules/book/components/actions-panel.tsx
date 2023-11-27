@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
 import { Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
@@ -84,11 +84,15 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
     useEffect(() => {
         dispatch(initShelves(shelves));
     }, []);
-
+    useEffect(() => {
+        setStatus(userBookStatus)
+    }, [userBookStatus])
 
     useEffect(() => {
         const loadData = async () => {
+            setLoading(true)
             await loadBook({ variables: { where: { id: book.id } } });
+            setLoading(false)
         };
         loadData();
     }, [loadBook, router]);
@@ -106,6 +110,7 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
         updateStatus(status as string);
         statusModal.onOpen();
     }
+
     return (
         <>
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">

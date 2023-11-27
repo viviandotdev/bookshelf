@@ -1,5 +1,3 @@
-import { Icons } from "@/components/icons";
-
 export const DEFAULT_BOOKCOVER_PLACEHOLDER =
   "https://m.media-amazon.com/images/I/118BLwxozkL.jpg";
 
