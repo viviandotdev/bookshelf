@@ -5,7 +5,7 @@ mutation CreateBook($data: BookCreateInput!) {
     coverImage
     description
     id
-    pageNum
+    pageCount
     pubDate
     publisher
     title

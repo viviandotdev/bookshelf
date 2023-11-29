@@ -4,8 +4,6 @@ import { Modal } from "@/components/ui/modal";
 import useLogBookModal from "@/hooks/use-log-book-modal";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import LogBookCard from "./log-book-card";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import useLoadBooks from "@/hooks/user-books/queries";
 import { NetworkStatus } from "@apollo/client";
 interface LogBookModalProps {
@@ -14,17 +12,6 @@ interface LogBookModalProps {
 export const LogBookModal: React.FC<LogBookModalProps> = ({
 }) => {
     const logBookModal = useLogBookModal();
-    const journalEntryModal = useJournalEntryModal()
-    const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
-        return { ...prev, ...next }
-    }, {
-        originalPage: 0,
-        originalPercent: 0,
-        page: 0,
-        percent: 0,
-        notes: "",
-        date: new Date(),
-    })
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
     useEffect(() => {
         const loadData = async () => {
@@ -51,12 +38,6 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
 
     return (
         <>
-            <JouranlEntryModal
-                journalEntry={journalEntry}
-                setJournalEntry={setJournalEntry}
-                isOpen={journalEntryModal.isOpen}
-                onClose={journalEntryModal.onClose}
-            />
             <Modal
                 isOpen={logBookModal.isOpen}
                 onClose={logBookModal.onClose}

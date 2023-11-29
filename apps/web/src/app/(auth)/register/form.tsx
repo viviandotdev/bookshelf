@@ -33,11 +33,6 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     const [signup] = useSignUpMutation();
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
-        const errorMessage = toast({
-            title: "Something went wrong.",
-            description: "Your sign up request failed. Please try again.",
-            variant: "destructive",
-        });
         try {
             const { errors } = await signup({
                 variables: {
@@ -48,7 +43,15 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                     },
                 },
             });
-            if (!errors) {
+            if (errors !== undefined) {
+                setIsLoading(false);
+                toast({
+                    title: "Something went wrong.",
+                    description: "Your sign up request failed. Please try again.",
+                    variant: "destructive",
+                });
+
+            } else {
                 const res = await signIn("credentials", {
                     redirect: false,
                     email: data.email.toLowerCase(),
@@ -59,13 +62,15 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                 if (!res?.error) {
                     router.push(callbackUrl);
                 }
-            } else {
-                setIsLoading(false);
-                return errorMessage;
             }
         } catch (error: any) {
             setIsLoading(false);
-            return errorMessage;
+            toast({
+                title: "Something went wrong.",
+                description: "Your sign up request failed. Please try again.",
+                variant: "destructive",
+            });
+
         }
     };
 

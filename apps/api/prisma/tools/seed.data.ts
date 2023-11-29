@@ -26,7 +26,7 @@ export function createRandomBook(): Book {
     publisher: faker.company.name(),
     coverImage: faker.image.url(),
     description: faker.lorem.sentence(),
-    pageNum: faker.number.int({ min: 1, max: 1000 }),
+    pageCount: faker.number.int({ min: 1, max: 1000 }),
     categories: faker.lorem.words(),
   };
 }

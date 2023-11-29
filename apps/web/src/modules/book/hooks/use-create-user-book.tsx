@@ -17,7 +17,7 @@ const useCreateUserBook = () => {
                     data: {
                         id: book.id,
                         title: book.title,
-                        pageNum: parseInt(book.pageCount),
+                        pageCount: parseInt(book.pageCount),
                         author: book.author,
                         publisher: book.publisher,
                         coverImage: book.image,
@@ -29,10 +29,12 @@ const useCreateUserBook = () => {
                 toast({
                     title: 'Successfully saved book!',
                 });
+                return data.createBook
             } else {
                 toast({
                     title: 'Error saving book!',
                 });
+                return null
             }
         } catch (error) {
             // Handle error appropriately, such as logging or displaying an error message
@@ -40,6 +42,7 @@ const useCreateUserBook = () => {
             toast({
                 title: 'Error saving book!',
             });
+            return null
         } finally {
             setLoading(false);
         }

@@ -6,10 +6,9 @@ import { ColumnHeader } from "./column-header";
 import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
-import { useEffect, useReducer, useState } from "react";
-import { JouranlEntryModal } from "./journal-entry-modal";
-import { useRemoveEntry } from "../hooks/use-remove-entry";
+import { useEffect, useState } from "react";
 import useUserBook from "@/stores/use-user-book";
+import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),
@@ -46,7 +45,6 @@ type JournalEntryValues = z.infer<typeof journalEntrySchema>;
 export const columns: ColumnDef<JournalEntryValues>[] = [
     {
         accessorKey: "monthYear",
-        // header: ({ column }) => <div>Month</div>,
         header: ({ column }) => <ColumnHeader column={column} title="MONTH" />,
         cell: ({ row }) => {
             const monthYear = row.getValue("monthYear").split(" ") as string[];
@@ -214,54 +212,30 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const readingNotes = row.getValue("notes") as string;
             const monthYear = row.getValue("monthYear").split(" ") as string[];
             const day = row.getValue("date")
-            const [openModal, setOpenModal] = useState(false);
             // put this in a global state?
             const abandoned = row.getValue("abandoned");
-            const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
-                return { ...prev, ...next }
-            }, {
-                originalPage: Number(progress.currentPage),
-                originalPercent: Number(progress.currentPercent),
-                page: Number(progress.currentPage),
-                percent: Number(progress.currentPercent),
-                notes: readingNotes ? readingNotes : "",
-                date: new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`),
-                pagesRead: Number(row.getValue("pagesRead")),
-            })
-
-
-            const [isLoading, setIsLoading] = useState(false);
-
-            const { removeEntry } = useRemoveEntry();
-            const deleteEntry = async () => {
-                setIsLoading(true)
-                await removeEntry(entry.id);
-                setIsLoading(false)
-
-            }
+            const { setJournalEntry, onEdit } = useJournalEntryModal();
+            useEffect(() => {
+                setJournalEntry({
+                    originalPage: Number(progress.currentPage),
+                    originalPercent: Number(progress.currentPercent),
+                    page: Number(progress.currentPage),
+                    percent: Number(progress.currentPercent),
+                    notes: readingNotes ? readingNotes : "",
+                    date: new Date(`${monthYear[0]} ${day}, ${monthYear[1]}`),
+                    pagesRead: Number(row.getValue("pagesRead")),
+                })
+            }, [])
             const setUserBook = useUserBook((state) => state.setUserBook);
             const updateStatus = useUserBook((state) => state.updateStatus);
             return (
                 <div className="text-center cursor-pointer px-2">
-                    <JouranlEntryModal
-                        isOpen={openModal}
-                        onClose={() => {
-                            setOpenModal(false);
-                        }}
-                        onDelete={() => {
-                            deleteEntry();
-                            setOpenModal(false);
-                        }}
-                        editId={entry.id}
-                        journalEntry={journalEntry}
-                        setJournalEntry={setJournalEntry}
-                    />
                     <div
                         onClick={(e) => {
                             e.stopPropagation();
                             setUserBook(userBook.book);
                             updateStatus(abandoned ? "Abandoned" : "Currently Reading",)
-                            setOpenModal(true);
+                            onEdit(entry.id)
                         }}
                     >
                         <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />

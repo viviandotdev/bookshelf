@@ -44,7 +44,7 @@ async function main() {
           publisher: book.publisher,
           coverImage: book.coverImage,
           description: book.description,
-          pageNum: book.pageNum,
+          pageCount: book.pageCount,
         },
       });
     }),

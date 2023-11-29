@@ -117,7 +117,7 @@ export class UserBookResolver {
             ? objectFromCSV['ISBN13']
             : null;
       }
-      
+
 
       if (isbn) {
         // console.log(isbn);
@@ -133,7 +133,7 @@ export class UserBookResolver {
           const bookData: BookCreateInput = {
             id: book.id,
             title: book.title,
-            pageNum: parseInt(book.pageCount),
+            pageCount: parseInt(book.pageCount),
             author: book.author,
             publisher: book.publisher,
             coverImage: book.image,

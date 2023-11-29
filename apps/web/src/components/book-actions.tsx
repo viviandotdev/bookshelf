@@ -18,6 +18,7 @@ import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./rating";
 import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
+import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
@@ -54,6 +55,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     const initShelves = useUserBook((state) => state.initShelves);
     const setShelves = useAddToShelfModal((state) => state.setShelves);
     const { updateUserBook } = useUpdateUserBook();
+    const journalEntryModal = useJournalEntryModal()
     const onUpdate = async (status: string) => {
         const updatedBook = await updateUserBook(book!.id, { status });
         if (updatedBook) {
@@ -135,7 +137,9 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 e.stopPropagation();
                                 setUserBook(book!);
                                 updateStatus(status);
-                                setOpenModal(true);
+                                updateBookId(book!.id);
+                                journalEntryModal.onOpen();
+
                             }}
                         >
                             <Icons.plus className="h-5 w-5 mr-2" />

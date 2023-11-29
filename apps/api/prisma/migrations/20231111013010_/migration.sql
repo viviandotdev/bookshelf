@@ -20,7 +20,7 @@ CREATE TABLE "Book" (
     "publisher" TEXT,
     "coverImage" TEXT,
     "description" TEXT,
-    "pageNum" INTEGER,
+    "pageCount" INTEGER,
     "categories" TEXT,
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")

@@ -73,7 +73,7 @@ model Book {
     /// @Validator.IsString()
     description String?
     /// @Validator.IsInt()
-    pageNum     Int?
+    pageCount   Int?
     /// @Validator.IsString()
     categories  String?
     // One to Many: multiple users can own the same book

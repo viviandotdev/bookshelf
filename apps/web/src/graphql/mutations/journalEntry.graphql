@@ -35,7 +35,7 @@ mutation UpdateJournalEntry(
         id
         title
         author
-        pageNum
+        pageCount
         coverImage
       }
       shelves {

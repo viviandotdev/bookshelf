@@ -4,6 +4,14 @@ query UserBook($where: BookWhereUniqueInput!) {
     bookId
     status
     rating
+    book {
+      id
+      title
+      author
+      pageCount
+      coverImage
+      categories
+    }
     shelves {
       shelf {
         id
@@ -28,7 +36,7 @@ query UserBooks(
       id
       title
       author
-      pageNum
+      pageCount
       coverImage
       categories
     }

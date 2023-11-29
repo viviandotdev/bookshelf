@@ -34,7 +34,7 @@ query JournalEntries(
         id
         title
         author
-        pageNum
+        pageCount
         coverImage
       }
       shelves {

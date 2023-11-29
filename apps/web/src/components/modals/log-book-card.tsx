@@ -15,19 +15,20 @@ interface LogBookCardProps {
 
 }
 
-export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook, setJournalEntry }) => {
+export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
     const logBookModal = useLogBookModal()
     const journalEntryModal = useJournalEntryModal()
     const setUserBook = useUserBook((state) => state.setUserBook);
+    const setJournalEntry = useJournalEntryModal((state) => state.setJournalEntry);
 
     return (
         <div
             className="flex gap-4 cursor-pointer"
             onClick={(e) => {
                 e.stopPropagation();
-                console.log("cleck")
                 logBookModal.onClose()
                 setUserBook(userBook.book)
+
                 journalEntryModal.onOpen();
 
             }}>

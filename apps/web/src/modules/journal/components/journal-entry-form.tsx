@@ -31,40 +31,24 @@ import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useCreateJournalEntry } from "../hooks/use-create-entry";
 import { useUpdateJournalEntry } from "../hooks/use-update-entry";
 import useLoadJournalEntry from "../hooks/use-load-entry";
+import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
+import { useRemoveEntry } from "../hooks/use-remove-entry";
 
-type progressTypes = {
-    originalPage: number;
-    originalPercent: number;
-    page: number;
-    percent: number;
-};
-interface JournalEntryFormProps {
-    onClose: () => void;
-    editId?: string;
-    onDelete?: () => void;
-    journalEntry?: any;
-    setJournalEntry?: Dispatch<SetStateAction<any>>;
-}
-
-export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
-    onClose,
-    editId,
-    onDelete,
-    journalEntry,
-    setJournalEntry
+export const JournalEntryForm: React.FC = ({
 }) => {
     const userBook = useUserBook();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
+    const { onClose, editId, setJournalEntry, journalEntry } = useJournalEntryModal();
     const loadEntry = useLoadJournalEntry(setJournalEntry);
     const { createJournalEntry } = useCreateJournalEntry();
     const { updateJournalEntry } = useUpdateJournalEntry();
     const { updateUserBook } = useUpdateUserBook();
+
     const { notes, date, percent, page, originalPage, originalPercent, pagesRead } = journalEntry;
+
     useEffect(() => {
-        console.log(error)
-    }, [error, setError])
-    useEffect(() => {
+        console.log(userBook)
         form.reset({
             notes: notes || "",
             current_percent: percent.toString() || "",
@@ -121,8 +105,8 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
                         return (
                             parseInt(val, 10) <=
-                            (userBook.data && userBook.data.pageNum
-                                ? userBook.data.pageNum
+                            (userBook.data && userBook.data.pageCount
+                                ? userBook.data.pageCount
                                 : 0)
                         );
                     },
@@ -185,19 +169,12 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         }, [userBook]),
     });
 
-    useEffect(() => {
-        if (form.formState.errors) {
-
-            console.log(form.formState.errors)
-            // do the your logic here
-        }
-    }, [form.formState]);
 
     async function onSubmit(values: DisplayFormValues) {
         console.log("values", values);
         let currentPage;
         let currentPercent;
-        const totalPages = userBook.data && userBook.data.pageNum;
+        const totalPages = userBook.data && userBook.data.pageCount;
         if (unit == "pages" && values.current_page) {
             currentPage = parseInt(values.current_page);
             currentPercent = totalPages
@@ -251,6 +228,14 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
             })
         }
         onClose();
+    }
+
+    const { removeEntry } = useRemoveEntry();
+    const deleteEntry = async () => {
+        if (editId) {
+            await removeEntry(editId);
+        }
+
     }
     return (
         <div>
@@ -387,10 +372,10 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                             />
                             <div className="text-primary">of</div>
                             {userBook.data &&
-                                userBook.data.pageNum &&
-                                userBook.data.pageNum!.toString() && (
+                                userBook.data.pageCount &&
+                                userBook.data.pageCount!.toString() && (
                                     <div className="text-primary font-bold">
-                                        {userBook.data.pageNum!.toString()}
+                                        {userBook.data.pageCount!.toString()}
                                     </div>
                                 )}
                         </div>
@@ -443,15 +428,15 @@ export const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
                         variant="outline"
                         onClick={(e) => {
                             e.preventDefault();
-                            if (typeof onDelete !== "undefined") {
-                                onDelete();
+                            if (editId) {
+                                deleteEntry();
                             } else {
                                 onClose();
                             }
 
                         }}
                     >
-                        {typeof onDelete !== "undefined" ? "Delete" : "Close"}
+                        {editId ? "Delete" : "Close"}
                     </Button>
                     <Button type="submit" variant="default">
                         Save

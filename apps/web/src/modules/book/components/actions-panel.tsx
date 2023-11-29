@@ -1,7 +1,7 @@
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useReducer, useState } from "react";
 import { BookData } from "@/types/interfaces";
-import { Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
+import { Book, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/stores/use-user-book";
@@ -15,6 +15,9 @@ import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../hooks/use-create-user-book";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
+import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
+import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { current } from "@reduxjs/toolkit";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -32,12 +35,20 @@ function ActionItem({ icon, label, onClick }: ActionItemProps) {
 
 function ActionGroup() {
     //   const shelfModal = useSheleveModal();
+    const { setUserBook, updateStatus } = useUserBook();
+    const journalEntryModal = useJournalEntryModal()
+    const onLogClick = () => {
+        setUserBook(book!);
+        updateStatus(status);
+        journalEntryModal.onOpen();
+    };
     const onShelveClick = () => {
         // shelfModal.onOpen();
     };
     return (
         <>
-            <ActionItem icon={<Icons.log className="h-8 w-8 items-center" />} label="Log" />
+            <ActionItem onClick={onLogClick}
+                icon={<Icons.log className="h-8 w-8 items-center" />} label="Abandoned" />
             <ActionItem
                 onClick={onShelveClick}
                 icon={<Icons.library className="h-8 w-8 items-center" />}
@@ -59,10 +70,13 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
-    const { updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
+    const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
     const { createUserBook } = useCreateUserBook();
+    const [currentBook, setCurrentBook] = useState();
+    // show differnt action item based on the status
     const dispatch = useAppDispatch();
     const router = useRouter();
+
     const [loadBook] =
         useUserBookLazyQuery({
             fetchPolicy: "cache-and-network",
@@ -75,6 +89,7 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
                 });
             },
             onCompleted: (data) => {
+                setUserBook(data.userBook?.book as Book);
                 setStatus(data.userBook?.status as string);
                 setRating(data.userBook?.rating as number);
             },
@@ -97,11 +112,13 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
         loadData();
     }, [loadBook, router]);
 
+    const journalEntryModal = useJournalEntryModal()
+
     async function createBook(book: BookData) {
         setLoading(true)
         await createUserBook(book);
-        setLoading(false)
         setStatus("Want to Read")
+        setLoading(false)
     }
 
     async function openUpdateStatusModal() {
@@ -111,11 +128,60 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
         statusModal.onOpen();
     }
 
+
+    const handleLogClick = () => {
+        if (status == "Currently Reading") {
+            // console.log(currentBook)
+            // console.log(book)
+            setUserBook(book!);
+            updateStatus(status);
+            journalEntryModal.onOpen();
+        };
+    }
+
+    let actionItemToShow;
+    switch (status) {
+        case 'Currently Reading':
+            actionItemToShow = (
+                <ActionItem onClick={handleLogClick} icon={<Icons.log className="h-8 w-8 items-center" />} label="Log" />
+            );
+            break;
+        case 'Abandoned':
+            actionItemToShow = (
+                <ActionItem onClick={() => openUpdateStatusModal()} icon={<Icons.abondoned className="h-8 w-8 items-center" />} label="Abandoned" />
+            );
+            break;
+        case 'Read':
+            actionItemToShow = (
+                <ActionItem onClick={() => openUpdateStatusModal()} icon={<Icons.book className="h-8 w-8 items-center" />} label="Read" />
+            );
+            break;
+        case 'Want to Read':
+            actionItemToShow = (
+                <ActionItem onClick={() => openUpdateStatusModal()} icon={<Icons.save color={"#64748b"} fill="#64748b" className="h-8 w-8 items-center " />} label="To Read" />
+            );
+            break;
+        default:
+            actionItemToShow = (
+                <ActionItem onClick={() => createBook(book)} icon={<Icons.save className="h-8 w-8 items-center" />} label="To Read" />
+            );
+    }
+
     return (
         <>
+
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
                 <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
-                    <ActionGroup />
+                    {/* <ActionItem onClick={onLogClick}
+
+                        icon={<Icons.log className="h-8 w-8 items-center" />} label="Log" /> */}
+                    {actionItemToShow && actionItemToShow}
+                    <ActionItem
+                        // onClick={}
+                        icon={<Icons.library className="h-8 w-8 items-center" />}
+                        label="Shelve"
+                    />
+                    <ActionItem icon={<Icons.heart className="h-8 w-8 items-center" />} label="Like" />
                 </div>
 
                 <div className="flex flex-col justify-center bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">

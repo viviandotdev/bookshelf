@@ -47,7 +47,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
             progress: {
                 currentPercent: entry.currentPercent,
                 currentPage: entry.currentPage,
-                totalPages: entry.userBook?.book?.pageNum,
+                totalPages: entry.userBook?.book?.pageCount,
             },
             notes: entry.readingNotes || "",
             liked: true,

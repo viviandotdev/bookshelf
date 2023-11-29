@@ -10,6 +10,8 @@ import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
+import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import useUserBook from "@/stores/use-user-book";
 
 interface BookProps {
     details?: {
@@ -30,58 +32,45 @@ export const Book: React.FC<BookProps> = ({
     const [isHovered, setIsHovered] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves } = userBook;
     const [isLoading, setIsLoading] = useState(false);
     const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
+    const { data } = useUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-    // initial journal entry state
-    const [journalEntry, setJournalEntry] = useReducer((prev: any, next: any) => {
-        return { ...prev, ...next }
-    }, {
-        originalPage: 0,
-        originalPercent: 0,
-        page: 0,
-        percent: 0,
-        notes: "",
-        date: new Date(),
-        abandoned: status == "Abandoned" ? true : false,
-    })
+    const [percent, setPercent] = useState(0);
+    const { journalEntry } = useJournalEntryModal();
     const dispatch = useAppDispatch();
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
         if (userBook.journalEntry && userBook.journalEntry.length > 0) {
-            setJournalEntry({
-                status: userBook.status,
-                originalPage: userBook.journalEntry[0].currentPage || 0,
-                originalPercent: userBook.journalEntry[0].currentPercent || 0,
-                page: userBook.journalEntry[0].currentPage || 0,
-                percent: userBook.journalEntry[0].currentPercent || 0,
-            });
+            setPercent(userBook.journalEntry[0].currentPercent || 0,)
         }
     }, [userBook]);
 
     useEffect(() => {
-        if (journalEntry.status == "Abandoned") {
-            setStatus("Abandoned");
+        // update percent detail
+        if (data.id === userBook.book?.id) {
+            setPercent(journalEntry.percent)
         }
+
     }, [journalEntry]);
 
     const onDelete = async () => {
         setIsLoading(true);
         const deletedBook = await removeUserBook(book!.id);
         if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
+            // delete from all shelves
             deletedBook.shelves.map((item) => {
                 dispatch(decrementShelfCount({ name: item.shelf.name }))
             })
         } else {
             dispatch(decrementLibraryCount({ name: "Unshelved" }))
         }
-        dispatch(decrementLibraryCount({ name: "All" }))
+        dispatch(decrementLibraryCount({ name: "All Books" }))
         setIsLoading(false);
         setOpenAlert(false);
     };
@@ -107,7 +96,7 @@ export const Book: React.FC<BookProps> = ({
                 </div>
                 {details && (
                     <BookDetails
-                        progress={journalEntry.percent}
+                        progress={percent}
                         dateStarted={details.date_started}
                     />
                 )}
@@ -127,12 +116,6 @@ export const Book: React.FC<BookProps> = ({
                 onClose={() => setOpenAlert(false)}
                 onConfirm={onDelete}
                 loading={isLoading}
-            />
-            <JouranlEntryModal
-                journalEntry={journalEntry}
-                setJournalEntry={setJournalEntry}
-                isOpen={openModal}
-                onClose={() => setOpenModal(false)}
             />
             <div
                 className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
@@ -161,7 +144,6 @@ export const Book: React.FC<BookProps> = ({
                         <BookActions
                             openDropdown={openDropdown}
                             setOpenDropdown={setOpenDropdown}
-                            setOpenModal={setOpenModal}
                             setOpenAlert={setOpenAlert}
                             status={status}
                             setStatus={setStatus}

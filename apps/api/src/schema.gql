@@ -16,7 +16,7 @@ type Book {
   coverImage: String
   description: String
   id: ID!
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String!
@@ -24,7 +24,7 @@ type Book {
 }
 
 type BookAvgAggregate {
-  pageNum: Float
+  pageCount: Float
 }
 
 type BookCount {
@@ -38,7 +38,7 @@ type BookCountAggregate {
   coverImage: Int!
   description: Int!
   id: Int!
-  pageNum: Int!
+  pageCount: Int!
   pubDate: Int!
   publisher: Int!
   title: Int!
@@ -50,7 +50,7 @@ input BookCreateInput {
   coverImage: String
   description: String
   id: String!
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String!
@@ -74,7 +74,7 @@ input BookCreateWithoutUserBookInput {
   coverImage: String
   description: String
   id: String!
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String!
@@ -86,7 +86,7 @@ type BookMaxAggregate {
   coverImage: String
   description: String
   id: String
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String
@@ -98,7 +98,7 @@ type BookMinAggregate {
   coverImage: String
   description: String
   id: String
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String
@@ -110,7 +110,7 @@ input BookOrderByWithRelationInput {
   coverImage: SortOrderInput
   description: SortOrderInput
   id: SortOrder
-  pageNum: SortOrderInput
+  pageCount: SortOrderInput
   pubDate: SortOrderInput
   publisher: SortOrderInput
   title: SortOrder
@@ -123,7 +123,7 @@ input BookRelationFilter {
 }
 
 type BookSumAggregate {
-  pageNum: Int
+  pageCount: Int
 }
 
 input BookUpdateOneWithoutUserBookNestedInput {
@@ -147,7 +147,7 @@ input BookUpdateWithoutUserBookInput {
   coverImage: String
   description: String
   id: String
-  pageNum: Int
+  pageCount: Int
   pubDate: String
   publisher: String
   title: String
@@ -168,7 +168,7 @@ input BookWhereInput {
   coverImage: StringFilter
   description: StringFilter
   id: StringFilter
-  pageNum: IntFilter
+  pageCount: IntFilter
   pubDate: StringFilter
   publisher: StringFilter
   title: StringFilter
@@ -184,7 +184,7 @@ input BookWhereUniqueInput {
   coverImage: StringFilter
   description: StringFilter
   id: String
-  pageNum: IntFilter
+  pageCount: IntFilter
   pubDate: StringFilter
   publisher: StringFilter
   title: StringFilter
