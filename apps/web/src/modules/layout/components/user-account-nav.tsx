@@ -33,7 +33,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                 />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <div className="flex items-center justify-start gap-2 p-2">
+                <Link className="flex items-center justify-start gap-2 p-2" href={`${user.name}`}>
                     <div className="flex flex-col space-y-1 leading-none">
                         {user.name && <p className="font-medium">{user.name}</p>}
                         {user.email && (
@@ -42,19 +42,19 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                             </p>
                         )}
                     </div>
-                </div>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href="/">Home</Link>
+                    <Link className="cursor-pointer" href="/">Home</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href="/books">Books</Link>
+                    <Link className="cursor-pointer" href={`${user.name}/books`}>Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href="/settings">Settings</Link>
+                    <Link className="cursor-pointer" href="/settings">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link href="/account/import">Import Books</Link>
+                    <Link className="cursor-pointer" href="/account/import">Import Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
