@@ -7,6 +7,7 @@ import { Shelf, UserBook } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
+import Review from "../components/review";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
@@ -51,6 +52,19 @@ export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
                                 <ActionsPanel book={book} shelves={shelves} />
                             </section>
                         </div>
+                        <div className="pt-8">
+                            <div className="flex justify-between">
+                                <div className="text-sm text-primary">POPULAR REVIEWS</div>
+                                <div className="text-sm text-primary">MORE</div>
+                            </div>
+                            <hr className="border-t-1 border-primary" />
+
+                            <div>
+                                {/* review card */}
+                                <Review name={"test"} rating={0} comments={0} content={"asldfjlasdf"} likes={0} />
+                            </div>
+                        </div>
+
                     </div>
                 </section>
             </div>
