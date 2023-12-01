@@ -19,14 +19,12 @@ export const JouranlEntryModal: React.FC = ({
     };
     return (
         <>
-
             {userBook && userBook.data &&
-
                 < Dialog open={journalEntryModal.isOpen} onOpenChange={onChange}>
                     <DialogContent className="flex min-w-[720px]">
                         <div className="flex gap-8 min-w-full">
                             <BookCover src={userBook.data.coverImage} />
-                            <div className="flex text-sm flex-col w-[fill-available] justify-between">
+                            <div className="flex text-sm flex-col w-[fill-available] justify-evenly">
                                 <DialogHeader>
                                     {
                                         journalEntryModal.editId ? (

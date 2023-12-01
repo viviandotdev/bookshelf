@@ -18,6 +18,8 @@ import { toast } from "@/hooks/use-toast";
 import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import { current } from "@reduxjs/toolkit";
+import { update } from "ramda";
+import useCreateReviewModal from "@/hooks/use-create-review.modal";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -70,6 +72,7 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
+    const createReviewModal = useCreateReviewModal();
     const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
     const { createUserBook } = useCreateUserBook();
     const [currentBook, setCurrentBook] = useState();
@@ -172,10 +175,7 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
 
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
                 <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
-                    {/* <ActionItem onClick={onLogClick}
-
-                        icon={<Icons.log className="h-8 w-8 items-center" />} label="Log" /> */}
-                    {actionItemToShow && actionItemToShow}
+                    {actionItemToShow}
                     <ActionItem
                         // onClick={}
                         icon={<Icons.library className="h-8 w-8 items-center" />}
@@ -207,7 +207,12 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
                     </Button>
                 )}
 
-                <div className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
+                <div onClick={() => {
+
+                    updateBookId(book!.id);
+                    setUserBook(book!);
+                    createReviewModal.onOpen();
+                }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                     Review
                 </div>
                 <div onClick={() => {
@@ -218,7 +223,7 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
                 }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
                     Add to shelf
                 </div>
-            </div>
+            </div >
         </>
     );
 }

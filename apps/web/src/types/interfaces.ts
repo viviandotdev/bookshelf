@@ -13,7 +13,7 @@ export interface BookData {
   ratingsCount: number;
   publishedDate: string;
   publisher: string;
-  image: string;
+  coverImage: string;
   preview: string;
   description: string;
   pageCount: string;

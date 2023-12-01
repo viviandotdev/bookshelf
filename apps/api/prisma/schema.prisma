@@ -96,6 +96,7 @@ model Review {
     User      User?         @relation(fields: [userId], references: [id])
     userId    String?
     likes     LikedReview[]
+    spoilers  Boolean       @default(false)
     comments  Comment[]
 }
 

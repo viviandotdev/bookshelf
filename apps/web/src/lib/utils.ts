@@ -28,7 +28,7 @@ export function processBook(
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || "N/A";
   const publisher: string = book.volumeInfo.publisher || "N/A";
-  const image: string =
+  const coverImage: string =
     book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
   const preview: string = book.volumeInfo.previewLink;
   const description: string = book.volumeInfo.description || "N/A";
@@ -62,7 +62,7 @@ export function processBook(
     publishedDate,
     publisher,
     categories,
-    image,
+    coverImage,
     preview,
     description,
     pageCount,
