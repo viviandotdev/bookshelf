@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { Modal } from "@/components/ui/modal";
 import useCreateReviewModal from "@/hooks/use-create-review.modal";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { useForm } from "react-hook-form";
@@ -62,11 +61,12 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
     });
 
     async function onSubmit(values: DisplayFormValues) {
-        let entryInput: ReviewCreateInput = {
+        let reviewInput: ReviewCreateInput = {
             content: values.review,
             spoilers: values.spoilers,
+            rating: values.rating,
         };
-        let data = await createReview(userBook.data!.id, { ...entryInput });
+        let data = await createReview(userBook.data!.id, { ...reviewInput });
         if (data) {
             createReviewModal.onClose();
         }

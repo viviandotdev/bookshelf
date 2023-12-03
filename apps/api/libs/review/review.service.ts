@@ -2,32 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { ReviewRepository } from './review.repository';
 import {
   BookWhereUniqueInput,
-  ReviewCreateInput,
+  UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { Prisma } from '@prisma/client';
+import { ReviewCreateInput } from './models/review-create.input';
 
 @Injectable()
 export class ReviewService {
   constructor(private readonly repository: ReviewRepository) {}
   async create(
     data: ReviewCreateInput,
-    where: BookWhereUniqueInput,
-    author: string,
+    where: UserBookIdentifierCompoundUniqueInput,
   ) {
     const reviewCreateArgs: Prisma.ReviewCreateArgs = {
       data: {
         content: data.content,
+        spoilers: data.spoilers,
         user: {
-          connect: { id: author },
+          connect: { id: where.userId },
         },
         book: {
-          connect: { id: where.id },
+          connect: { id: where.bookId },
         },
       },
       include: {
         user: true,
       },
     };
+
     return this.repository.create(reviewCreateArgs);
   }
 

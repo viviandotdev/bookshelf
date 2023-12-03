@@ -1449,14 +1449,9 @@ export type ReviewCountAggregate = {
 };
 
 export type ReviewCreateInput = {
-  book?: InputMaybe<BookCreateNestedOneWithoutReviewsInput>;
-  comments?: InputMaybe<CommentCreateNestedManyWithoutReviewInput>;
   content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
+  rating?: InputMaybe<Scalars['Float']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
-  user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
 };
 
 export type ReviewCreateManyBookInput = {

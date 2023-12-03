@@ -1282,14 +1282,9 @@ type ReviewCountAggregate {
 }
 
 input ReviewCreateInput {
-  book: BookCreateNestedOneWithoutReviewsInput
-  comments: CommentCreateNestedManyWithoutReviewInput
   content: String
-  createdAt: Timestamp
-  id: String
-  likes: LikedReviewCreateNestedManyWithoutReviewInput
+  rating: Float
   spoilers: Boolean
-  user: UserCreateNestedOneWithoutReviewsInput
 }
 
 input ReviewCreateManyBookInput {

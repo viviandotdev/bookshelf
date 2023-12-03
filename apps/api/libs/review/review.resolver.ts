@@ -3,19 +3,23 @@ import { ReviewService } from './review.service';
 import {
   BookWhereUniqueInput,
   Review,
-  ReviewCreateInput,
+  UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';
 import { BookService } from 'libs/book/book.service';
+import { ReviewCreateInput } from './models/review-create.input';
+import { UserBookService } from 'libs/user-book/user-book.service';
+import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.input';
 
 @Resolver()
 export class ReviewResolver {
   constructor(
     private readonly service: ReviewService,
     private readonly bookService: BookService,
+    private readonly userBookService: UserBookService,
   ) {}
   @Query(() => [Review])
   async bookReviews(
@@ -43,6 +47,7 @@ export class ReviewResolver {
   async createReview(
     @Args('data') data: ReviewCreateInput,
     @Args('where') where: BookWhereUniqueInput,
+
     @CurrentUser() currentUser: JwtPayload,
   ) {
     const bookExists = await this.bookService.findUnique({
@@ -53,7 +58,30 @@ export class ReviewResolver {
     if (!bookExists) {
       throw new Error('Cannot review a book that does not exist');
     }
-    const review = await this.service.create(data, where, currentUser.userId);
+
+    const userBook: UserBookIdentifierCompoundUniqueInput = {
+      bookId: where.id,
+      userId: currentUser.userId,
+    };
+    const userBookExists = await this.userBookService.findUnique(userBook);
+    if (!userBookExists) {
+      await this.userBookService.create(userBook.bookId, userBook.userId);
+    }
+
+    const userBookData: UserBookUpdateInput = {
+      rating: Number(data.rating),
+      status: 'Read',
+    };
+    // Update userbook status and rating
+    await this.userBookService.update({
+      data: userBookData,
+      where: {
+        userId: userBook.userId,
+        bookId: userBook.bookId,
+      },
+    });
+    // Create review
+    const review = await this.service.create(data, userBook);
     return review;
   }
 }
