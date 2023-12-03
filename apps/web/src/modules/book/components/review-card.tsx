@@ -2,7 +2,7 @@ import { Icons } from '@/components/icons';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import React from 'react';
 
-interface ReviewProps {
+interface ReviewCardProps {
     name: string;
     rating: number;
     comments: number;
@@ -10,7 +10,7 @@ interface ReviewProps {
     likes: number;
 }
 
-export const Review: React.FC<ReviewProps> = ({ name, rating, comments, content, likes }) => {
+export const ReviewCard: React.FC<ReviewCardProps> = ({ name, rating, comments, content, likes }) => {
     return (
         <div className="flex gap-8 mt-4">
             <div className="">
@@ -39,7 +39,7 @@ export const Review: React.FC<ReviewProps> = ({ name, rating, comments, content,
                 <div className="flex gap-2">
                     <div className="flex gap-2 items-center font-bold">
                         <Icons.heart className="h-5 w-5" />
-                        Like review
+                        Like
                     </div>
                     <div>
                         {likes} likes
@@ -73,4 +73,4 @@ const Rating = (value: number) => {
     );
 };
 
-export default Review;
+export default ReviewCard;

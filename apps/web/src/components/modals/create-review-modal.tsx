@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverTrigger, PopoverContent } from "@radix-ui/react-popover";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { format } from "date-fns";
 import { Textarea } from "../ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
@@ -67,7 +67,9 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             spoilers: values.spoilers,
         };
         let data = await createReview(userBook.data!.id, { ...entryInput });
-        console.log(data)
+        if (data) {
+            createReviewModal.onClose();
+        }
 
     }
 

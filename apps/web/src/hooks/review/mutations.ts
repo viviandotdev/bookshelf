@@ -1,10 +1,4 @@
-import {
-  JournalEntryCreateInput,
-  Review,
-  ReviewCreateInput,
-  useCreateJournalEntryMutation,
-  useCreateReviewMutation,
-} from "@/graphql/graphql";
+import { ReviewCreateInput, useCreateReviewMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 export const useCreateReview = () => {

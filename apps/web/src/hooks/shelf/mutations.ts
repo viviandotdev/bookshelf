@@ -17,7 +17,7 @@ export const useCreateShelf = () => {
       },
     });
     if (errors) {
-      toast({
+    toast({
         title: errors[0].message,
         variant: "destructive",
       });

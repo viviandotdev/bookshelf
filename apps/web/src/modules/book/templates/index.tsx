@@ -3,17 +3,20 @@ import { cn, formatDate } from "@/lib/utils";
 import { BookData } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { Shelf, UserBook } from "@/graphql/graphql";
+import { Shelf, Review } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
-import Review from "../components/review";
+import ReviewCard from "../components/review-card";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
+    reviews: Review[];
+
 }
 
-export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
+export default function BookTemplate({ book, shelves, reviews }: BookTemplateProps) {
+    console.log(reviews)
     return (
         <>
             <BookStatusModal />
@@ -60,8 +63,20 @@ export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
                             <hr className="border-t-1 border-primary" />
 
                             <div>
-                                {/* review card */}
-                                <Review name={"test"} rating={0} comments={0} content={"asldfjlasdf"} likes={0} />
+
+                                {reviews.map((review) => {
+                                    return (
+                                        <ReviewCard
+                                            key={review.id}
+                                            name={review.user ? review.user.username : ""}
+                                            rating={0}
+                                            comments={review.comments ? review.comments.length : 0}
+                                            content={review.content ? review.content : ""}
+                                            likes={review.likes ? review.likes.length : 0}
+                                        />
+                                    );
+
+                                })}
                             </div>
                         </div>
 
