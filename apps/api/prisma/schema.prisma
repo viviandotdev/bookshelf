@@ -52,11 +52,11 @@ model User {
     userBooks          UserBook[]
     //  One to Many: one user has many shelves
     shelves            Shelf[]
-    JournalEntry       JournalEntry[]
+    journalEntries     JournalEntry[]
     // favoriteBooks      Book[]         @relation("FavoritedBooks")
     reviews            Review[]
-    Comment            Comment[]
-    LikedReview        LikedReview[]
+    comments           Comment[]
+    likedReviews       LikedReview[]
 }
 
 // Table stores all books
@@ -84,16 +84,16 @@ model Book {
     userBook    UserBook[]
     reviews     Review[]
     // favoritedBy User[]     @relation("FavoritedBooks")
-    Comment     Comment[]
+    comments    Comment[]
 }
 
 model Review {
     id        String        @id @default(uuid())
     createdAt DateTime      @default(now())
     content   String?
-    Book      Book?         @relation(fields: [bookId], references: [id])
+    book      Book?         @relation(fields: [bookId], references: [id])
     bookId    String?
-    User      User?         @relation(fields: [userId], references: [id])
+    user      User?         @relation(fields: [userId], references: [id])
     userId    String?
     likes     LikedReview[]
     spoilers  Boolean       @default(false)
@@ -105,7 +105,7 @@ model LikedReview {
     review   Review   @relation(fields: [reviewId], references: [id])
     likedAt  DateTime @default(now())
     userId   String?
-    User     User?    @relation(fields: [userId], references: [id])
+    user     User?    @relation(fields: [userId], references: [id])
     reviewId String
 }
 
@@ -114,11 +114,11 @@ model Comment {
     createdAt DateTime @default(now())
     content   String?
 
-    User     User?   @relation(fields: [userId], references: [id])
+    user     User?   @relation(fields: [userId], references: [id])
     userId   String?
-    Book     Book?   @relation(fields: [bookId], references: [id])
+    book     Book?   @relation(fields: [bookId], references: [id])
     bookId   String?
-    Review   Review? @relation(fields: [reviewId], references: [id])
+    review   Review? @relation(fields: [reviewId], references: [id])
     reviewId String?
 }
 

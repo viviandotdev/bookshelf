@@ -12,6 +12,7 @@ import { BookModule } from 'libs/book/book.module';
 import { UserBookModule } from 'libs/user-book/user-book.module';
 import { AuthModule } from 'libs/auth/auth.module';
 import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
+import { ReviewModule } from 'libs/review/review.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +28,7 @@ import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
     AuthModule,
     BookModule,
     UserBookModule,
+    ReviewModule,
     ShelfModule,
     JournalEntryModule,
   ],

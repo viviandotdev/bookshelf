@@ -14,8 +14,9 @@ import { Textarea } from "../ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import BookCover from "../book-cover";
 import useUserBook from "@/stores/use-user-book";
-import { Calendar } from "../ui/calender";
 import { Checkbox } from "../ui/checkbox";
+import { ReviewCreateInput } from "@/graphql/graphql";
+import { useCreateReview } from "@/hooks/review/mutations";
 interface CreateReviewModal {
 }
 
@@ -28,6 +29,8 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             createReviewModal.onClose();
         }
     };
+
+    const { createReview } = useCreateReview();
     useEffect(() => {
         console.log(userBook)
     }, [userBook]);
@@ -40,8 +43,7 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
         .object({
             review: z.string().max(160).optional(),
             rating: z.number().min(0).max(5).optional(),
-            shelves: z.array(z.string()).optional(),
-            review_date: z.date().optional(),
+            review_date: z.date(),
             spoilers: z.boolean().optional(),
         })
 
@@ -53,7 +55,6 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             return {
                 review: "",
                 rating: 0,
-                shelves: [],
                 review_date: new Date(),
                 spoilers: false,
             };
@@ -61,7 +62,13 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
     });
 
     async function onSubmit(values: DisplayFormValues) {
-        console.log(values)
+        let entryInput: ReviewCreateInput = {
+            content: values.review,
+            spoilers: values.spoilers,
+        };
+        let data = await createReview(userBook.data!.id, { ...entryInput });
+        console.log(data)
+
     }
 
     return (
@@ -134,27 +141,12 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                                         !field.value && "text-muted-foreground"
                                                     )}
                                                 >
-                                                    {field.value ? (
-                                                        format(field.value, "PPP")
-                                                    ) : (
-                                                        <span className="text-black">Pick Date</span>
-                                                    )}
+                                                    {field.value &&
+                                                        format(field.value, "PPP")}
+
                                                 </Button>
                                             </FormControl>
                                         </PopoverTrigger>
-                                        <PopoverContent
-                                            className="w-auto p-0 bg-white rounded-xl border-2 z-10"
-                                            align="start"
-                                        >
-                                            <Calendar
-                                                mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
-                                                disabled={(date) =>
-                                                    date > new Date() || date < new Date("1900-01-01")
-                                                }
-                                            />
-                                        </PopoverContent>
                                     </Popover>
                                     <FormMessage setError={setError} />
                                 </FormItem>
