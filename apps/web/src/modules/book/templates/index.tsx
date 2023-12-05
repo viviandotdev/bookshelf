@@ -1,6 +1,6 @@
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
-import { BookData } from "@/types/interfaces";
+import { BookData, User } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
 import { Shelf, Review } from "@/graphql/graphql";
@@ -12,11 +12,16 @@ interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
     reviews: Review[];
+    user: User;
 
 }
 
-export default function BookTemplate({ book, shelves, reviews }: BookTemplateProps) {
-    console.log(reviews)
+export default function BookTemplate({ book, shelves, reviews, user }: BookTemplateProps) {
+
+
+    const reviewed = reviews.filter((review) => review.userBook?.user?.id === user?.id);
+    console.log(reviewed.length > 0)
+    // current user
     return (
         <>
             <BookStatusModal />
@@ -52,7 +57,7 @@ export default function BookTemplate({ book, shelves, reviews }: BookTemplatePro
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} />
+                                <ActionsPanel book={book} shelves={shelves} reviewed={reviewed.length > 0} />
                             </section>
                         </div>
                         <div className="pt-8">
@@ -68,8 +73,8 @@ export default function BookTemplate({ book, shelves, reviews }: BookTemplatePro
                                     return (
                                         <ReviewCard
                                             key={review.id}
-                                            name={review.user ? review.user.username : ""}
-                                            rating={0}
+                                            name={review.userBook?.user?.username ? review.userBook?.user?.username : ""}
+                                            rating={review.userBook?.rating ? review.userBook?.rating : 0}
                                             comments={review.comments ? review.comments.length : 0}
                                             content={review.content ? review.content : ""}
                                             likes={review.likes ? review.likes.length : 0}

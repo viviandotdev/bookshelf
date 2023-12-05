@@ -24,6 +24,14 @@ export class ReviewService {
         book: {
           connect: { id: where.bookId },
         },
+        userBook: {
+          connect: {
+            identifier: {
+              userId: where.userId,
+              bookId: where.bookId,
+            },
+          },
+        },
       },
       include: {
         user: true,
@@ -45,7 +53,11 @@ export class ReviewService {
         },
       },
       include: {
-        user: true,
+        userBook: {
+          include: {
+            user: true,
+          },
+        },
       },
       skip: args.skip,
       take: args.take,

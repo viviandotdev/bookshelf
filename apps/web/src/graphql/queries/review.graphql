@@ -8,9 +8,13 @@ query BookReviews(
     content
     createdAt
     spoilers
-    user {
+    userBook {
       id
-      username
+      rating
+      user {
+        id
+        username
+      }
     }
     comments {
       id

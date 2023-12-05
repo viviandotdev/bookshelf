@@ -16,6 +16,8 @@ import useUserBook from "@/stores/use-user-book";
 import { Checkbox } from "../ui/checkbox";
 import { ReviewCreateInput } from "@/graphql/graphql";
 import { useCreateReview } from "@/hooks/review/mutations";
+import { Rating } from "@smastrom/react-rating";
+import { myStyles } from "../rating";
 interface CreateReviewModal {
 }
 
@@ -155,22 +157,22 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
                             )}
                         />
                     </div>
-                    {/* <FormField
+                    <FormField
                         control={form.control}
                         name="rating"
                         render={({ field }) => (
                             <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                                <div className="flex flex-row items-center space-x-2 space-y-0">
-                                    <div>My Rating</div>
-                                    <BookRating bookId={book.id} rating={rating} setRating={setRating} />
-                                </div>
+                                <div>My Rating</div>
+                                <Rating
+                                    halfFillMode="box"
+                                    itemStyles={myStyles}
+                                    style={{ maxWidth: 100 }}
+                                    value={field.value || 0}
+                                    onChange={field.onChange}
+                                />
                             </FormItem>
                         )}
-                    /> */}
-                    <div className="flex flex-row items-center space-x-2 space-y-0">
-                        <div>My Rating</div>
-                        {/* <BookRating bookId={book.id} rating={rating} setRating={setRating} /> */}
-                    </div>
+                    />
                 </div>
                 <FormField
                     control={form.control}

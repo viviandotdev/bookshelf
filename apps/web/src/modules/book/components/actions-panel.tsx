@@ -64,8 +64,10 @@ function ActionGroup() {
 interface ActionsPanelProps {
     book: BookData;
     shelves: Shelf[];
+    reviewed: boolean;
 }
-export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
+export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelProps) {
+    console.log(reviewed)
     const [rating, setRating] = useState(0); // Initial value
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false)
@@ -208,12 +210,11 @@ export default function ActionsPanel({ book, shelves }: ActionsPanelProps) {
                 )}
 
                 <div onClick={() => {
-
                     updateBookId(book!.id);
                     setUserBook(book!);
                     createReviewModal.onOpen();
                 }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-                    Review
+                    {reviewed ? "Review Again" : " Review"}
                 </div>
                 <div onClick={() => {
                     // userbook selected shelves vs the shelves that is being created are different

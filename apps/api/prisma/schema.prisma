@@ -88,16 +88,18 @@ model Book {
 }
 
 model Review {
-    id        String        @id @default(uuid())
-    createdAt DateTime      @default(now())
-    content   String?
-    book      Book?         @relation(fields: [bookId], references: [id])
-    bookId    String?
-    user      User?         @relation(fields: [userId], references: [id])
-    userId    String?
-    likes     LikedReview[]
-    spoilers  Boolean       @default(false)
-    comments  Comment[]
+    id         String        @id @default(uuid())
+    createdAt  DateTime      @default(now())
+    content    String?
+    userBook   UserBook?     @relation(fields: [userBookId], references: [id])
+    userBookId String?
+    likes      LikedReview[]
+    spoilers   Boolean       @default(false)
+    comments   Comment[]
+    user       User?         @relation(fields: [userId], references: [id])
+    userId     String?
+    book       Book?         @relation(fields: [bookId], references: [id])
+    bookId     String?
 }
 
 model LikedReview {
@@ -147,6 +149,7 @@ model UserBook {
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
+    reviews      Review[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()

@@ -2,7 +2,7 @@ import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { Rating, Star } from "@smastrom/react-rating";
 
 
-const myStyles = {
+export const myStyles = {
     itemShapes: Star,
     activeFillColor: "#F4CC49",
     inactiveFillColor: "#c6cdd6",
