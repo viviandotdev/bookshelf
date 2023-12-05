@@ -27,3 +27,37 @@ query BookReviews(
     }
   }
 }
+
+query BookReview($where: ReviewWhereUniqueInput!) {
+  bookReview(where: $where) {
+    id
+    content
+    createdAt
+    spoilers
+    book {
+      id
+      title
+      author
+      pageCount
+      coverImage
+      publishedDate
+    }
+    userBook {
+      id
+      rating
+      user {
+        id
+        username
+      }
+    }
+    comments {
+      id
+      content
+      createdAt
+      user {
+        id
+        username
+      }
+    }
+  }
+}

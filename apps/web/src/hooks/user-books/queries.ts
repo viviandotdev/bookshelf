@@ -15,10 +15,7 @@ const useLoadBooks = () => {
       },
       onCompleted: (data) => {
         if (data && data.userBooks && data.userBooks.length === 0) {
-          toast({
-            title: "No books are here... yet",
-            variant: "destructive",
-          });
+          console.log("no books loaded");
         }
       },
       errorPolicy: "all",

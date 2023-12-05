@@ -14,7 +14,6 @@ export interface BookData {
   publishedDate: string;
   publisher: string;
   coverImage: string;
-  preview: string;
   description: string;
   pageCount: string;
   isbn: string;

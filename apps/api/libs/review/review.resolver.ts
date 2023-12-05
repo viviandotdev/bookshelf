@@ -3,6 +3,7 @@ import { ReviewService } from './review.service';
 import {
   BookWhereUniqueInput,
   Review,
+  ReviewWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { UseGuards } from '@nestjs/common';
@@ -21,6 +22,32 @@ export class ReviewResolver {
     private readonly bookService: BookService,
     private readonly userBookService: UserBookService,
   ) {}
+
+  @Query(() => Review)
+  async bookReview(@Args('where') where: ReviewWhereUniqueInput) {
+    const reviewExists = await this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+    if (!reviewExists) {
+      throw new Error('Review does not exist');
+    }
+    return this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+      include: {
+        userBook: {
+          include: {
+            user: true,
+          },
+        },
+        book: true,
+      },
+    });
+  }
+
   @Query(() => [Review])
   async bookReviews(
     @Args('where') where: BookWhereUniqueInput,

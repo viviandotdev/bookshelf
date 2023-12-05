@@ -1,9 +1,8 @@
 "use client";
-import React, { use, useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
 import { Book, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
-import { useFirstRender } from "@/hooks/use-first-render";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
@@ -15,10 +14,7 @@ import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../hooks/use-create-user-book";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
-import { current } from "@reduxjs/toolkit";
-import { update } from "ramda";
 import useCreateReviewModal from "@/hooks/use-create-review.modal";
 interface ActionItemProps {
     icon: React.ReactNode;
@@ -34,40 +30,12 @@ function ActionItem({ icon, label, onClick }: ActionItemProps) {
         </div>
     );
 }
-
-function ActionGroup() {
-    //   const shelfModal = useSheleveModal();
-    const { setUserBook, updateStatus } = useUserBook();
-    const journalEntryModal = useJournalEntryModal()
-    const onLogClick = () => {
-        setUserBook(book!);
-        updateStatus(status);
-        journalEntryModal.onOpen();
-    };
-    const onShelveClick = () => {
-        // shelfModal.onOpen();
-    };
-    return (
-        <>
-            <ActionItem onClick={onLogClick}
-                icon={<Icons.log className="h-8 w-8 items-center" />} label="Abandoned" />
-            <ActionItem
-                onClick={onShelveClick}
-                icon={<Icons.library className="h-8 w-8 items-center" />}
-                label="Shelve"
-            />
-            <ActionItem icon={<Icons.heart className="h-8 w-8 items-center" />} label="Like" />
-        </>
-    );
-}
-
 interface ActionsPanelProps {
-    book: BookData;
+    book: Book;
     shelves: Shelf[];
     reviewed: boolean;
 }
 export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelProps) {
-    console.log(reviewed)
     const [rating, setRating] = useState(0); // Initial value
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false)
@@ -77,8 +45,6 @@ export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelPr
     const createReviewModal = useCreateReviewModal();
     const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
     const { createUserBook } = useCreateUserBook();
-    const [currentBook, setCurrentBook] = useState();
-    // show differnt action item based on the status
     const dispatch = useAppDispatch();
     const router = useRouter();
 

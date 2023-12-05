@@ -22,7 +22,7 @@ export function createRandomBook(): Book {
     id: faker.string.uuid(),
     title: faker.lorem.words(),
     author: faker.person.fullName(),
-    pubDate: faker.date.past().toISOString(),
+    publishedDate: faker.date.past().toISOString(),
     publisher: faker.company.name(),
     coverImage: faker.image.url(),
     description: faker.lorem.sentence(),

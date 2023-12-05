@@ -10,6 +10,7 @@ import { ReviewCreateInput } from './models/review-create.input';
 @Injectable()
 export class ReviewService {
   constructor(private readonly repository: ReviewRepository) {}
+  findUnique = this.repository.findUnique
   async create(
     data: ReviewCreateInput,
     where: UserBookIdentifierCompoundUniqueInput,

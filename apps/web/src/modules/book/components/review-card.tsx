@@ -1,8 +1,11 @@
 import { Icons } from '@/components/icons';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
+import Link from 'next/link';
 import React from 'react';
 
 interface ReviewCardProps {
+    key: string,
+    id: string
     name: string;
     rating: number;
     comments: number;
@@ -10,9 +13,9 @@ interface ReviewCardProps {
     likes: number;
 }
 
-export const ReviewCard: React.FC<ReviewCardProps> = ({ name, rating, comments, content, likes }) => {
+export const ReviewCard: React.FC<ReviewCardProps> = ({ key, id, name, rating, comments, content, likes }) => {
     return (
-        <div className="flex gap-8 mt-4">
+        <Link className="flex gap-8 mt-4" href={`review/${id}`}>
             <div className="">
                 <UserAvatar
                     user={{ name: name || null }}
@@ -46,11 +49,11 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ name, rating, comments, 
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 
-const Rating = (value: number) => {
+export const Rating = (value: number) => {
     const svgElements = [];
     for (let i = 0; i < value; i++) {
         svgElements.push(

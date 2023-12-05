@@ -62,29 +62,27 @@ model User {
 // Table stores all books
 model Book {
     /// @Validator.IsString()
-    id          String     @id @unique
+    id            String     @id @unique
     /// @Validator.IsString()
-    title       String
+    title         String
     /// @Validator.IsString()
-    author      String?
+    author        String?
     /// @Validator.IsString()
-    pubDate     String?
+    publishedDate String?
     /// @Validator.IsString()
-    publisher   String?
+    publisher     String?
     /// @Validator.IsString()
-    coverImage  String?
+    coverImage    String?
     /// @Validator.IsString()
-    description String?
+    description   String?
     /// @Validator.IsInt()
-    pageCount   Int?
+    pageCount     Int?
     /// @Validator.IsString()
-    categories  String?
+    categories    String?
     // One to Many: multiple users can own the same book
     /// @Validator.ValidateNested()
-    userBook    UserBook[]
-    reviews     Review[]
-    // favoritedBy User[]     @relation("FavoritedBooks")
-    comments    Comment[]
+    userBook      UserBook[]
+    reviews       Review[]
 }
 
 model Review {
@@ -115,13 +113,10 @@ model Comment {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
     content   String?
-
-    user     User?   @relation(fields: [userId], references: [id])
-    userId   String?
-    book     Book?   @relation(fields: [bookId], references: [id])
-    bookId   String?
-    review   Review? @relation(fields: [reviewId], references: [id])
-    reviewId String?
+    user      User?    @relation(fields: [userId], references: [id])
+    userId    String?
+    review    Review?  @relation(fields: [reviewId], references: [id])
+    reviewId  String?
 }
 
 // Table stores all user books

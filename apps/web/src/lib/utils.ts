@@ -30,7 +30,6 @@ export function processBook(
   const publisher: string = book.volumeInfo.publisher || "N/A";
   const coverImage: string =
     book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
-  const preview: string = book.volumeInfo.previewLink;
   const description: string = book.volumeInfo.description || "N/A";
   const pageCount: string = book.volumeInfo.pageCount?.toString() || "N/A";
   const averageRating: Number = book.volumeInfo.averageRating || 0;
@@ -63,7 +62,6 @@ export function processBook(
     publisher,
     categories,
     coverImage,
-    preview,
     description,
     pageCount,
     isbn,

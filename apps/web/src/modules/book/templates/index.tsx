@@ -73,6 +73,7 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                                     return (
                                         <ReviewCard
                                             key={review.id}
+                                            id={review.id}
                                             name={review.userBook?.user?.username ? review.userBook?.user?.username : ""}
                                             rating={review.userBook?.rating ? review.userBook?.rating : 0}
                                             comments={review.comments ? review.comments.length : 0}
