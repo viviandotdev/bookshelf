@@ -29,11 +29,13 @@ export class CommentResolver {
       where: {
         id: where.id,
       },
+      include: {
+        user: true,
+      },
     });
     if (!reviewExists) {
       throw new Error('Cannot comment on a review that does not exist');
     }
-    console.log(user);
     return this.service.create(data, where, user.userId);
   }
 
@@ -51,13 +53,22 @@ export class CommentResolver {
     if (!reviewExists) {
       throw new Error('Cannot load comments for a review that does not exist');
     }
-    return this.service.findMany({
-      where,
+    const comments = await this.service.findMany({
+      where: {
+        reviewId: {
+          equals: where.id,
+        },
+      },
+      include: {
+        user: true,
+      },
       skip: offset,
       take: limit,
       orderBy: {
         createdAt: 'desc', // Order by createdAt field in descending order (most recent first)
       },
     });
+    console.log(comments);
+    return comments;
   }
 }

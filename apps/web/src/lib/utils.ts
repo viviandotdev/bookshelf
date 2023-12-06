@@ -95,10 +95,12 @@ export function formatDate(dateString: string): string {
 }
 
 export function timeAgo(createdAt: number) {
+  if (!createdAt || isNaN(createdAt) || createdAt <= 0) {
+    return "Invalid date";
+  }
+
   const now = Date.now();
-
   const diff = now - createdAt;
-
   const minutes = Math.round(diff / 1000 / 60);
 
   let unit;

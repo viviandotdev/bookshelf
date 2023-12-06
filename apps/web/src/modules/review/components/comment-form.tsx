@@ -10,11 +10,10 @@ import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import { User } from 'next-auth';
 import useCreateComment from '../hooks/use-create-comment';
 interface CommentFormProps {
-
     reviewId: string
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ reviewId }) => {
+export const CommentForm: React.FC<CommentFormProps> = ({ reviewId, }) => {
     const [error, setError] = useState<string>("");
     const { loading, createComment } = useCreateComment();
 
@@ -35,9 +34,12 @@ export const CommentForm: React.FC<CommentFormProps> = ({ reviewId }) => {
     async function onSubmit(values: DisplayFormValues) {
         console.log(values)
         if (values.comment) {
-            await createComment(values.comment, reviewId);
-        }
+            let newComment = await createComment(values.comment, reviewId);
+            if (newComment) {
+                form.reset();
+            }
 
+        }
 
     }
 

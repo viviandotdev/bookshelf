@@ -11,6 +11,7 @@ import Image from "next/image";
 import ReviewInfo from '../components/review-info';
 import CommentForm from '../components/comment-form';
 import CommentCard from '../components/comment-card';
+import CommentSection from '../components/comment-section';
 
 interface ReviewTemplateProps {
     book: Book
@@ -21,7 +22,6 @@ interface ReviewTemplateProps {
 
 export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, review, book, user }) => {
     const { comments } = review
-    console.log(review)
 
     return (
         <>
@@ -67,22 +67,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, review,
                                 {/* <div className="text-sm text-primary">MORE</div> */}
                             </div>
                             <hr className="border-t-1 border-primary" />
-                            <CommentForm reviewId={review.id} />
-                            <div className="flex flex-col gap-3">
-
-                                {comments && comments.length > 0 && comments.map((comment) => {
-                                    return (
-                                        <CommentCard
-                                            key={comment.id}
-                                            content={comment.content || ""}
-                                            createdAt={comment.createdAt}
-                                            user={comment.user}
-
-                                        />
-                                    );
-
-                                })}
-                            </div>
+                            <CommentSection comments={comments || []} reviewId={review.id} />
                         </div>
 
                     </div>

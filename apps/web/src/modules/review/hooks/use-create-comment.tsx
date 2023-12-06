@@ -1,4 +1,4 @@
-import { useCreateCommentMutation } from '@/graphql/graphql';
+import { CommentsDocument, CommentsQuery, useCreateCommentMutation } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { useState } from 'react';
 
@@ -18,6 +18,28 @@ const useCreateComment = () => {
                         id: reviewId
                     }
                 },
+                update: (cache, { data: { createComment } }) => {
+                    const existingComments = cache.readQuery({
+                        query: CommentsDocument,
+                        variables: { where: { id: reviewId } },
+                    }) as CommentsQuery | null;
+
+                    if (existingComments) {
+                        cache.writeQuery({
+                            query: CommentsDocument,
+                            variables: {
+                                where: {
+                                    id: reviewId
+                                }
+                            },
+                            data: {
+                                comments: [...existingComments.comments, createComment]
+                                // Assuming createComment contains the newly created comment data
+                            }
+                        });
+                    }
+                }
+
             });
             if (data) {
                 toast({
@@ -25,7 +47,7 @@ const useCreateComment = () => {
                 });
                 return data.createComment
             } else {
-                // console.log(error)
+                console.log(error)
                 toast({
                     title: 'Error creating comment!',
                 });

@@ -5,5 +5,10 @@ mutation CreateComment(
   createComment(data: $data, where: $where) {
     id
     content
+    createdAt
+    user {
+      id
+      username
+    }
   }
 }

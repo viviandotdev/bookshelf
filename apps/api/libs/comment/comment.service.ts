@@ -28,7 +28,6 @@ export class CommentService {
           },
         },
       },
-
       include: {
         review: true,
       },
