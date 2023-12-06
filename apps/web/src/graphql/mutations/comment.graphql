@@ -1,0 +1,9 @@
+mutation CreateComment(
+  $data: CommentCreateInput!
+  $where: ReviewWhereUniqueInput!
+) {
+  createComment(data: $data, where: $where) {
+    id
+    content
+  }
+}

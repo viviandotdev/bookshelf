@@ -281,6 +281,14 @@ type CommentCountAggregate {
   userId: Int!
 }
 
+input CommentCreateInput {
+  content: String
+  createdAt: Timestamp
+  id: String
+  review: ReviewCreateNestedOneWithoutCommentsInput
+  user: UserCreateNestedOneWithoutCommentsInput
+}
+
 input CommentCreateManyReviewInput {
   content: String
   createdAt: Timestamp
@@ -1044,6 +1052,7 @@ input LogInInput {
 
 type Mutation {
   createBook(data: BookCreateInput!): Book!
+  createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
   createReview(data: ReviewCreateInput!, where: BookWhereUniqueInput!): Review!
   createShelf(data: ShelfCreateInput!): Shelf!
@@ -1069,6 +1078,7 @@ enum NullsOrder {
 type Query {
   bookReview(where: ReviewWhereUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
+  comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry

@@ -13,6 +13,7 @@ import { UserBookModule } from 'libs/user-book/user-book.module';
 import { AuthModule } from 'libs/auth/auth.module';
 import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
 import { ReviewModule } from 'libs/review/review.module';
+import { CommentModule } from 'libs/comment/comment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,6 +31,7 @@ import { ReviewModule } from 'libs/review/review.module';
     UserBookModule,
     ReviewModule,
     ShelfModule,
+    CommentModule,
     JournalEntryModule,
   ],
   providers: [PrismaRepository],

@@ -44,6 +44,11 @@ export class ReviewResolver {
           },
         },
         book: true,
+        comments: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
   }

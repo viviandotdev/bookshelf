@@ -10,6 +10,7 @@ import React from 'react'
 import Image from "next/image";
 import ReviewInfo from '../components/review-info';
 import CommentForm from '../components/comment-form';
+import CommentCard from '../components/comment-card';
 
 interface ReviewTemplateProps {
     book: Book
@@ -20,6 +21,8 @@ interface ReviewTemplateProps {
 
 export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, review, book, user }) => {
     const { comments } = review
+    console.log(review)
+
     return (
         <>
             <BookStatusModal />
@@ -64,21 +67,18 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, review,
                                 {/* <div className="text-sm text-primary">MORE</div> */}
                             </div>
                             <hr className="border-t-1 border-primary" />
-                            <CommentForm user={user} />
-                            <div>
+                            <CommentForm reviewId={review.id} />
+                            <div className="flex flex-col gap-3">
 
                                 {comments && comments.length > 0 && comments.map((comment) => {
                                     return (
-                                        <div> </div>
-                                        // <CommentCard
-                                        //     key={review.id}
-                                        //     id={review.id}
-                                        //     name={review.userBook?.user?.username ? review.userBook?.user?.username : ""}
-                                        //     rating={review.userBook?.rating ? review.userBook?.rating : 0}
-                                        //     comments={review.comments ? review.comments.length : 0}
-                                        //     content={review.content ? review.content : ""}
-                                        //     likes={review.likes ? review.likes.length : 0}
-                                        // />
+                                        <CommentCard
+                                            key={comment.id}
+                                            content={comment.content || ""}
+                                            createdAt={comment.createdAt}
+                                            user={comment.user}
+
+                                        />
                                     );
 
                                 })}

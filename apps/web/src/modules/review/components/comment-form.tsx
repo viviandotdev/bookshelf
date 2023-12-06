@@ -8,12 +8,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import { User } from 'next-auth';
+import useCreateComment from '../hooks/use-create-comment';
 interface CommentFormProps {
-    user: User
+
+    reviewId: string
 }
 
-export const CommentForm: React.FC<CommentFormProps> = ({ }) => {
+export const CommentForm: React.FC<CommentFormProps> = ({ reviewId }) => {
     const [error, setError] = useState<string>("");
+    const { loading, createComment } = useCreateComment();
+
     const displayFormSchema = z
         .object({
             comment: z.string().max(160).optional(),
@@ -30,15 +34,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({ }) => {
 
     async function onSubmit(values: DisplayFormValues) {
         console.log(values)
-        // let commentInput: CommentCreateInpt = {
-        //     content: values.review,
-        //     spoilers: values.spoilers,
-        //     rating: values.rating,
-        // };
-        // let data = await createReview(userBook.data!.id, { ...reviewInput });
-        // if (data) {
-        //     createReviewModal.onClose();
-        // }
+        if (values.comment) {
+            await createComment(values.comment, reviewId);
+        }
+
 
     }
 
@@ -78,7 +77,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ }) => {
                         </p>
                     )}
                     <div className="mt-2 flex justify-end">
-                        <Button type="submit" variant="default" className="fit-content-width" >
+                        <Button disabled={loading} type="submit" variant="default" className="fit-content-width" >
                             Comment
                         </Button>
 

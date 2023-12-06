@@ -306,6 +306,14 @@ export type CommentCountAggregate = {
   userId: Scalars['Int'];
 };
 
+export type CommentCreateInput = {
+  content?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  review?: InputMaybe<ReviewCreateNestedOneWithoutCommentsInput>;
+  user?: InputMaybe<UserCreateNestedOneWithoutCommentsInput>;
+};
+
 export type CommentCreateManyReviewInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
@@ -1084,6 +1092,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createBook: Book;
+  createComment: Comment;
   createJournalEntry: JournalEntry;
   createReview: Review;
   createShelf: Shelf;
@@ -1104,6 +1113,12 @@ export type Mutation = {
 
 export type MutationCreateBookArgs = {
   data: BookCreateInput;
+};
+
+
+export type MutationCreateCommentArgs = {
+  data: CommentCreateInput;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -1190,6 +1205,7 @@ export type Query = {
   __typename?: 'Query';
   bookReview: Review;
   bookReviews: Array<Review>;
+  comments: Array<Comment>;
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
@@ -1210,6 +1226,13 @@ export type QueryBookReviewsArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
   where: BookWhereUniqueInput;
+};
+
+
+export type QueryCommentsArgs = {
+  limit?: Scalars['Int'];
+  offset?: Scalars['Int'];
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -3217,6 +3240,14 @@ export type CreateBookMutationVariables = Exact<{
 
 export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', author?: string | null, categories?: string | null, coverImage?: string | null, description?: string | null, id: string, pageCount?: number | null, publishedDate?: string | null, publisher?: string | null, title: string } };
 
+export type CreateCommentMutationVariables = Exact<{
+  data: CommentCreateInput;
+  where: ReviewWhereUniqueInput;
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, content?: string | null } };
+
 export type CreateJournalEntryMutationVariables = Exact<{
   data: JournalEntryCreateInput;
   book: BookWhereUniqueInput;
@@ -3296,6 +3327,15 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id: string, email: string } };
+
+export type CommentsQueryVariables = Exact<{
+  where: ReviewWhereUniqueInput;
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
+}>;
+
+
+export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> };
 
 export type CountJournalEntriesQueryVariables = Exact<{
   book: BookWhereUniqueInput;
@@ -3547,6 +3587,41 @@ export function useCreateBookMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>;
 export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
 export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
+export const CreateCommentDocument = gql`
+    mutation CreateComment($data: CommentCreateInput!, $where: ReviewWhereUniqueInput!) {
+  createComment(data: $data, where: $where) {
+    id
+    content
+  }
+}
+    `;
+export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
+      }
+export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
+export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const CreateJournalEntryDocument = gql`
     mutation CreateJournalEntry($data: JournalEntryCreateInput!, $book: BookWhereUniqueInput!) {
   createJournalEntry(data: $data, book: $book) {
@@ -3954,6 +4029,49 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const CommentsDocument = gql`
+    query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
+  comments(where: $where, offset: $offset, limit: $limit) {
+    id
+    content
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+}
+    `;
+
+/**
+ * __useCommentsQuery__
+ *
+ * To run a query within a React component, call `useCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
+      }
+export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
+        }
+export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
+export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
+export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const CountJournalEntriesDocument = gql`
     query countJournalEntries($book: BookWhereUniqueInput!) {
   countJournalEntries(book: $book)
