@@ -58,7 +58,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, review,
                                 <ReviewInfo review={review} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} reviewed={review.userBook?.user.id == user.id} />
+                                <ActionsPanel book={book} shelves={shelves} reviewed={review.userBook?.user.id == user.id} reviewId={review.id} />
                             </section>
                         </div>
                         <div className="pt-8">

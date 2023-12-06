@@ -11,6 +11,9 @@ import { getCurrentUser } from "@/lib/auth/session";
 
 export async function getShelves() {
   const user = await getCurrentUser();
+  if (!user) {
+    return null;
+  }
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 

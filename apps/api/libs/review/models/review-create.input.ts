@@ -12,7 +12,7 @@ import {
  * Create review input.
  */
 @InputType()
-export class ReviewCreateInput {
+export class ReviewDataInput {
   @IsOptional()
   @IsNotEmpty()
   @Field(() => String, { nullable: true })

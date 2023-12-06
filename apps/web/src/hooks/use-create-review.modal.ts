@@ -16,7 +16,7 @@ const useCreateReviewModal = create<State & Action>((set) => ({
   isOpen: false,
   isEdit: false,
   editId: undefined,
-  onOpen: () => set({ isOpen: true }),
+  onOpen: () => set({ isOpen: true, isEdit: false, editId: undefined }),
   onEdit: (id: string) => set({ isOpen: true, isEdit: true, editId: id }),
   onClose: () => set({ isOpen: false }),
 }));

@@ -11,7 +11,7 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';
 import { BookService } from 'libs/book/book.service';
-import { ReviewCreateInput } from './models/review-create.input';
+import { ReviewDataInput } from './models/review-create.input';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.input';
 
@@ -76,8 +76,54 @@ export class ReviewResolver {
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Review)
+  async updateReview(
+    @Args('where') where: ReviewWhereUniqueInput,
+    @Args('data') data: ReviewDataInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const review = await this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+
+    if (!review) {
+      throw new Error('Review does not exist');
+    }
+
+    const userBook: UserBookIdentifierCompoundUniqueInput = {
+      bookId: review.bookId,
+      userId: currentUser.userId,
+    };
+    const userBookExists = await this.userBookService.findUnique(userBook);
+    if (!userBookExists) {
+      await this.userBookService.create(userBook.bookId, userBook.userId);
+    }
+
+    const userBookData: UserBookUpdateInput = {
+      rating: Number(data.rating),
+    };
+    // Update userbook status and rating
+    await this.userBookService.update({
+      data: userBookData,
+      where: {
+        userId: userBook.userId,
+        bookId: userBook.bookId,
+      },
+    });
+
+    const updatedReview = await this.service.update({
+      where: { id: where.id },
+      data,
+    });
+
+    return updatedReview;
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Review)
   async createReview(
-    @Args('data') data: ReviewCreateInput,
+    @Args('data') data: ReviewDataInput,
     @Args('where') where: BookWhereUniqueInput,
 
     @CurrentUser() currentUser: JwtPayload,

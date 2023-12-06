@@ -50,14 +50,5 @@ query BookReview($where: ReviewWhereUniqueInput!) {
         username
       }
     }
-    comments {
-      id
-      content
-      createdAt
-      user {
-        id
-        username
-      }
-    }
   }
 }

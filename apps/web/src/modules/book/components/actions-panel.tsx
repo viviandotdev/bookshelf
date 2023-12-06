@@ -12,7 +12,7 @@ import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-mod
 import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../hooks/use-create-user-book";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import useCreateReviewModal from "@/hooks/use-create-review.modal";
@@ -34,8 +34,9 @@ interface ActionsPanelProps {
     book: Book;
     shelves: Shelf[];
     reviewed: boolean;
+    reviewId?: string;
 }
-export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelProps) {
+export default function ActionsPanel({ book, shelves, reviewed, reviewId }: ActionsPanelProps) {
     const [rating, setRating] = useState(0); // Initial value
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false)
@@ -47,6 +48,8 @@ export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelPr
     const { createUserBook } = useCreateUserBook();
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const pathname = usePathname()
+    const editReview = pathname.includes("review")
 
     const [loadBook] =
         useUserBookLazyQuery({
@@ -102,8 +105,6 @@ export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelPr
 
     const handleLogClick = () => {
         if (status == "Currently Reading") {
-            // console.log(currentBook)
-            // console.log(book)
             setUserBook(book!);
             updateStatus(status);
             journalEntryModal.onOpen();
@@ -145,7 +146,6 @@ export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelPr
                 <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
                     {actionItemToShow}
                     <ActionItem
-                        // onClick={}
                         icon={<Icons.library className="h-8 w-8 items-center" />}
                         label="Shelve"
                     />
@@ -176,11 +176,17 @@ export default function ActionsPanel({ book, shelves, reviewed }: ActionsPanelPr
                 )}
 
                 <div onClick={() => {
+                    console.log(editReview)
                     updateBookId(book!.id);
-                    setUserBook(book!);
-                    createReviewModal.onOpen();
+                    setUserBook(book!)
+                    if (!editReview) {
+                        createReviewModal.onOpen();
+                    } else {
+                        createReviewModal.onEdit(reviewId || "");
+                    }
+
                 }} className="bg-secondary items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer">
-                    {reviewed ? "Review Again" : " Review"}
+                    {reviewed ? `${editReview ? "Edit Review" : "Review Again"}` : " Review"}
                 </div>
                 <div onClick={() => {
                     // userbook selected shelves vs the shelves that is being created are different

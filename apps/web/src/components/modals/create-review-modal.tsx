@@ -14,10 +14,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import BookCover from "../book-cover";
 import useUserBook from "@/stores/use-user-book";
 import { Checkbox } from "../ui/checkbox";
-import { ReviewCreateInput } from "@/graphql/graphql";
 import { useCreateReview } from "@/hooks/review/mutations";
 import { Rating } from "@smastrom/react-rating";
 import { myStyles } from "../rating";
+import { ReviewDataInput } from "@/graphql/graphql";
+import { useUpdateReview } from "@/modules/review/hooks/use-update-review";
 interface CreateReviewModal {
 }
 
@@ -32,6 +33,7 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
     };
 
     const { createReview } = useCreateReview();
+    const { updateReview } = useUpdateReview();
     useEffect(() => {
         console.log(userBook)
     }, [userBook]);
@@ -63,15 +65,25 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
     });
 
     async function onSubmit(values: DisplayFormValues) {
-        let reviewInput: ReviewCreateInput = {
+        let reviewInput: ReviewDataInput = {
             content: values.review,
             spoilers: values.spoilers,
             rating: values.rating,
         };
-        let data = await createReview(userBook.data!.id, { ...reviewInput });
-        if (data) {
-            createReviewModal.onClose();
+        if (!createReviewModal.editId) {
+
+            let data = await createReview(userBook.data!.id, { ...reviewInput });
+            if (data) {
+                createReviewModal.onClose();
+            }
+        } else {
+            // update review
+            let data = await updateReview(createReviewModal.editId, { ...reviewInput });
+            if (data) {
+                createReviewModal.onClose();
+            }
         }
+
 
     }
 

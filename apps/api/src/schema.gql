@@ -1054,7 +1054,7 @@ type Mutation {
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
-  createReview(data: ReviewCreateInput!, where: BookWhereUniqueInput!): Review!
+  createReview(data: ReviewDataInput!, where: BookWhereUniqueInput!): Review!
   createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
@@ -1066,6 +1066,7 @@ type Mutation {
   signin(logInInput: LogInInput!): AuthResponse!
   signup(registerInput: RegisterInput!): User!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
+  updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }
@@ -1136,12 +1137,6 @@ type ReviewCountAggregate {
   spoilers: Int!
   userBookId: Int!
   userId: Int!
-}
-
-input ReviewCreateInput {
-  content: String
-  rating: Float
-  spoilers: Boolean
 }
 
 input ReviewCreateManyBookInput {
@@ -1297,6 +1292,12 @@ input ReviewCreateWithoutUserInput {
   likes: LikedReviewCreateNestedManyWithoutReviewInput
   spoilers: Boolean
   userBook: UserBookCreateNestedOneWithoutReviewsInput
+}
+
+input ReviewDataInput {
+  content: String
+  rating: Float
+  spoilers: Boolean
 }
 
 input ReviewListRelationFilter {

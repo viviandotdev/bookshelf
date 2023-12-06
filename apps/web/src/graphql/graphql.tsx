@@ -1106,6 +1106,7 @@ export type Mutation = {
   signin: AuthResponse;
   signup: User;
   updateJournalEntry: JournalEntry;
+  updateReview: Review;
   updateShelf?: Maybe<Shelf>;
   updateUserBook: UserBook;
 };
@@ -1129,7 +1130,7 @@ export type MutationCreateJournalEntryArgs = {
 
 
 export type MutationCreateReviewArgs = {
-  data: ReviewCreateInput;
+  data: ReviewDataInput;
   where: BookWhereUniqueInput;
 };
 
@@ -1182,6 +1183,12 @@ export type MutationSignupArgs = {
 export type MutationUpdateJournalEntryArgs = {
   data: JournalEntryUpdateInput;
   where: JournalEntryWhereUniqueInput;
+};
+
+
+export type MutationUpdateReviewArgs = {
+  data: ReviewDataInput;
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -1321,12 +1328,6 @@ export type ReviewCountAggregate = {
   spoilers: Scalars['Int'];
   userBookId: Scalars['Int'];
   userId: Scalars['Int'];
-};
-
-export type ReviewCreateInput = {
-  content?: InputMaybe<Scalars['String']>;
-  rating?: InputMaybe<Scalars['Float']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ReviewCreateManyBookInput = {
@@ -1482,6 +1483,12 @@ export type ReviewCreateWithoutUserInput = {
   likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutReviewsInput>;
+};
+
+export type ReviewDataInput = {
+  content?: InputMaybe<Scalars['String']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  spoilers?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ReviewListRelationFilter = {
@@ -3246,7 +3253,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, content?: string | null } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null } };
 
 export type CreateJournalEntryMutationVariables = Exact<{
   data: JournalEntryCreateInput;
@@ -3272,12 +3279,20 @@ export type UpdateJournalEntryMutationVariables = Exact<{
 export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null } };
 
 export type CreateReviewMutationVariables = Exact<{
-  data: ReviewCreateInput;
+  data: ReviewDataInput;
   where: BookWhereUniqueInput;
 }>;
 
 
 export type CreateReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'Review', id: string, content?: string | null } };
+
+export type UpdateReviewMutationVariables = Exact<{
+  where: ReviewWhereUniqueInput;
+  data: ReviewDataInput;
+}>;
+
+
+export type UpdateReviewMutation = { __typename?: 'Mutation', updateReview: { __typename?: 'Review', id: string, content?: string | null, spoilers: boolean } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -3592,6 +3607,11 @@ export const CreateCommentDocument = gql`
   createComment(data: $data, where: $where) {
     id
     content
+    createdAt
+    user {
+      id
+      username
+    }
   }
 }
     `;
@@ -3750,7 +3770,7 @@ export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJo
 export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
 export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 export const CreateReviewDocument = gql`
-    mutation CreateReview($data: ReviewCreateInput!, $where: BookWhereUniqueInput!) {
+    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!) {
   createReview(data: $data, where: $where) {
     id
     content
@@ -3784,6 +3804,42 @@ export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
 export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
 export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
+export const UpdateReviewDocument = gql`
+    mutation UpdateReview($where: ReviewWhereUniqueInput!, $data: ReviewDataInput!) {
+  updateReview(where: $where, data: $data) {
+    id
+    content
+    spoilers
+  }
+}
+    `;
+export type UpdateReviewMutationFn = Apollo.MutationFunction<UpdateReviewMutation, UpdateReviewMutationVariables>;
+
+/**
+ * __useUpdateReviewMutation__
+ *
+ * To run a mutation, you first call `useUpdateReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReviewMutation, { data, loading, error }] = useUpdateReviewMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateReviewMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReviewMutation, UpdateReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateReviewMutation, UpdateReviewMutationVariables>(UpdateReviewDocument, options);
+      }
+export type UpdateReviewMutationHookResult = ReturnType<typeof useUpdateReviewMutation>;
+export type UpdateReviewMutationResult = Apollo.MutationResult<UpdateReviewMutation>;
+export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<UpdateReviewMutation, UpdateReviewMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
