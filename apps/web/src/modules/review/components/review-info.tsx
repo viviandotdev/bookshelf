@@ -1,3 +1,4 @@
+"use client"
 import { Review } from '@/graphql/graphql';
 import { formatDate } from '@/lib/utils';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
@@ -11,7 +12,6 @@ interface ReviewInfoProps {
 export const ReviewInfo: React.FC<ReviewInfoProps> = ({ review }) => {
     const rating = review.userBook?.rating ? review.userBook?.rating : 0
     const user = review.userBook?.user
-
     return (
         <div>
 

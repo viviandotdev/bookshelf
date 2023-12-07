@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
-import { Book, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
+import { Book, Review, ReviewDataInput, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
@@ -35,8 +35,9 @@ interface ActionsPanelProps {
     shelves: Shelf[];
     reviewed: boolean;
     reviewId?: string;
+    review: Review
 }
-export default function ActionsPanel({ book, shelves, reviewed, reviewId }: ActionsPanelProps) {
+export default function ActionsPanel({ book, review, shelves, reviewed, reviewId }: ActionsPanelProps) {
     const [rating, setRating] = useState(0); // Initial value
     const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(false)
@@ -75,6 +76,7 @@ export default function ActionsPanel({ book, shelves, reviewed, reviewId }: Acti
     }, []);
     useEffect(() => {
         setStatus(userBookStatus)
+        // update the rating too>
     }, [userBookStatus])
 
     useEffect(() => {
@@ -176,12 +178,16 @@ export default function ActionsPanel({ book, shelves, reviewed, reviewId }: Acti
                 )}
 
                 <div onClick={() => {
-                    console.log(editReview)
                     updateBookId(book!.id);
                     setUserBook(book!)
                     if (!editReview) {
                         createReviewModal.onOpen();
                     } else {
+                        createReviewModal.setReview({
+                            spoilers: review.spoilers || false,
+                            content: review.content || "",
+                            rating: review.userBook.rating || 0,
+                        })
                         createReviewModal.onEdit(reviewId || "");
                     }
 

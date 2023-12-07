@@ -6,7 +6,6 @@ import { NetworkStatus } from '@apollo/client';
 import useLoadComments from '../hooks/use-load-comments';
 interface CommentSectionProps {
     reviewId: string
-    comments: Comment[]
 }
 
 export const CommentSection: React.FC<CommentSectionProps> = ({ reviewId }) => {
@@ -31,6 +30,11 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ reviewId }) => {
     }
     return (
         <>
+            <div className="flex justify-between">
+                <div className="text-sm text-primary">122 COMMENTS Showing 1-20 of 20</div>
+                {/* <div className="text-sm text-primary">MORE</div> */}
+            </div>
+            <hr className="border-t-1 border-primary" />
             <CommentForm reviewId={reviewId} />
             <div className="flex flex-col gap-3">
 

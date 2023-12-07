@@ -14,11 +14,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import BookCover from "../book-cover";
 import useUserBook from "@/stores/use-user-book";
 import { Checkbox } from "../ui/checkbox";
-import { useCreateReview } from "@/hooks/review/mutations";
 import { Rating } from "@smastrom/react-rating";
 import { myStyles } from "../rating";
 import { ReviewDataInput } from "@/graphql/graphql";
 import { useUpdateReview } from "@/modules/review/hooks/use-update-review";
+import { useCreateReview } from "@/modules/review/hooks/use-create-review";
 interface CreateReviewModal {
 }
 
@@ -34,13 +34,18 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
 
     const { createReview } = useCreateReview();
     const { updateReview } = useUpdateReview();
-    useEffect(() => {
-        console.log(userBook)
-    }, [userBook]);
     const createReviewModal = useCreateReviewModal();
-    if (false) {
-        return <div>Loading...</div>
-    }
+    const { content, spoilers, rating: reviewRating } = createReviewModal.review;
+    useEffect(() => {
+        console.log(reviewRating)
+        form.reset({
+            spoilers: spoilers || false,
+            review: content || "",
+            rating: reviewRating,
+            review_date: new Date(),
+        });
+    }, [createReviewModal.review])
+
     const [error, setError] = useState<string>("");
     const displayFormSchema = z
         .object({
@@ -56,10 +61,10 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
         resolver: zodResolver(displayFormSchema),
         defaultValues: useMemo(() => {
             return {
-                review: "",
-                rating: 0,
+                spoilers: spoilers || false,
+                review: content || "",
+                rating: reviewRating,
                 review_date: new Date(),
-                spoilers: false,
             };
         }, []),
     });

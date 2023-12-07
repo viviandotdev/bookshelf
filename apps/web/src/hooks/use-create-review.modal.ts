@@ -1,21 +1,31 @@
 import { create } from "zustand";
-
-type State = {
+interface useReviewStore {
   isOpen: boolean;
   isEdit: boolean;
   editId?: string;
-};
-
-type Action = {
+  review: {
+    spoilers: boolean;
+    content: string;
+    rating: number;
+  };
   onOpen: () => void;
   onClose: () => void;
   onEdit: (id: string) => void;
-};
+  setReview: (review: ReviewType) => void;
+}
 
-const useCreateReviewModal = create<State & Action>((set) => ({
+type ReviewType = useReviewStore["review"];
+
+const useCreateReviewModal = create<useReviewStore>((set) => ({
   isOpen: false,
   isEdit: false,
   editId: undefined,
+  review: {
+    spoilers: false,
+    content: "",
+    rating: 0,
+  },
+  setReview: (review: ReviewType) => set({ review }),
   onOpen: () => set({ isOpen: true, isEdit: false, editId: undefined }),
   onEdit: (id: string) => set({ isOpen: true, isEdit: true, editId: id }),
   onClose: () => set({ isOpen: false }),
