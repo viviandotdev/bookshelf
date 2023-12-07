@@ -86,7 +86,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                             <ReviewContent />
                         </div>
                     </div>
-                    <ReviewActions reviewId={id} />
+                    <ReviewActions reviewId={id} likes={likes} comments={comments} user={user} />
                 </div>
             </div>
         </div>
