@@ -55,7 +55,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
     };
 
     return (
-        <Link href={`review/${id}`} passHref>
+        <div >
             <div className="flex gap-12 mt-4">
                 <div className="flex flex-col gap-2">
                     <UserAvatar
@@ -69,7 +69,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                     <div className="flex flex-col flex-grow gap-3">
                         <div className="flex justify-between gap-3">
                             <div className="flex items-center">
-                                Reviewed by <div className="mx-2 font-bold">{user?.username}</div>
+                                <Link href={`review/${id}`} className="hover:text-muted" > Reviewed by</Link>
+                                <div className="mx-2 font-bold">{user?.username}</div>
                                 {
                                     rating ? (
                                         <Rating value={4} /> // Render Rating component with value 4 if rating exists
@@ -88,7 +89,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                     <ReviewActions reviewId={id} />
                 </div>
             </div>
-        </Link>
+        </div>
     );
 };
 
