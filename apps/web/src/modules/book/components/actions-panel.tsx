@@ -45,7 +45,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
     const createReviewModal = useCreateReviewModal();
-    const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus } = useUserBook();
+    const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBook();
     const { createUserBook } = useCreateUserBook();
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -79,6 +79,9 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
         // update the rating too>
     }, [userBookStatus])
 
+    useEffect(() => {
+        setRating(userBookRating)
+    }, [userBookRating])
     useEffect(() => {
         const loadData = async () => {
             setLoading(true)

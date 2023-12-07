@@ -33,11 +33,14 @@ const useCreateComment = () => {
                                 }
                             },
                             data: {
-                                comments: [...existingComments.comments, createComment]
+                                comments: [createComment, ...existingComments.comments]
                                 // Assuming createComment contains the newly created comment data
                             }
+
                         });
                     }
+
+                    console.log(createComment)
                 }
 
             });

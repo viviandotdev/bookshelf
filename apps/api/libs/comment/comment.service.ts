@@ -29,7 +29,7 @@ export class CommentService {
         },
       },
       include: {
-        review: true,
+        user: true,
       },
     };
     return this.repository.create(commentCreateArgs);

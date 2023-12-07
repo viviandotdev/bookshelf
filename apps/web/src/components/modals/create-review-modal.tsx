@@ -25,6 +25,7 @@ interface CreateReviewModal {
 export const CreateReviewModal: React.FC<CreateReviewModal> = ({
 }) => {
     const userBook = useUserBook();
+
     const [rating, setRating] = useState(0); // Initial value
     const onChange = (open: boolean) => {
         if (!open) {
@@ -81,12 +82,17 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             if (data) {
                 createReviewModal.onClose();
             }
+
         } else {
             // update review
             let data = await updateReview(createReviewModal.editId, { ...reviewInput });
             if (data) {
                 createReviewModal.onClose();
             }
+        }
+
+        if (values.rating) {
+            userBook.updateRating(values.rating)
         }
 
 

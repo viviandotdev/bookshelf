@@ -68,7 +68,6 @@ export class CommentResolver {
         createdAt: 'desc', // Order by createdAt field in descending order (most recent first)
       },
     });
-    console.log(comments);
     return comments;
   }
 }
