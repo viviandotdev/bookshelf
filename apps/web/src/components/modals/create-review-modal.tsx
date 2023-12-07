@@ -15,7 +15,7 @@ import BookCover from "../book-cover";
 import useUserBook from "@/stores/use-user-book";
 import { Checkbox } from "../ui/checkbox";
 import { Rating } from "@smastrom/react-rating";
-import { myStyles } from "../rating";
+import { myStyles } from "../book-rating";
 import { ReviewDataInput } from "@/graphql/graphql";
 import { useUpdateReview } from "@/modules/review/hooks/use-update-review";
 import { useCreateReview } from "@/modules/review/hooks/use-create-review";

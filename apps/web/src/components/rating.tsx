@@ -1,42 +1,28 @@
-import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { Rating, Star } from "@smastrom/react-rating";
+import React from 'react';
 
-
-export const myStyles = {
-    itemShapes: Star,
-    activeFillColor: "#F4CC49",
-    inactiveFillColor: "#c6cdd6",
-};
-
-
-interface BookRatingProps {
-    size?: "lg" | "sm";
-    bookId: string;
-    rating: number;
-    setRating: (rating: number) => void;
-}
-
-// Book Rating Component
-export function BookRating({ size = "sm", rating, setRating, bookId }: BookRatingProps) {
-    // get the userbook context
-    const { updateUserBook } = useUpdateUserBook();
-    async function updateRating(selectedValue: number) {
-        const updatedBook = await updateUserBook(bookId, { rating: selectedValue });
-        if (updatedBook) {
-            setRating(selectedValue);
-        }
+const Rating = ({ value }: { value: number }) => {
+    const svgElements = [];
+    for (let i = 0; i < value; i++) {
+        svgElements.push(
+            <svg
+                key={i}
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+            >
+                <path
+                    fill="#F4CC49"
+                    stroke="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                />
+            </svg>
+        );
     }
 
-    const width = size == "lg" ? 200 : 100
-    return (
-        <div className="flex justify-end items-center gap-2">
-            <Rating
-                halfFillMode="box"
-                itemStyles={myStyles}
-                style={{ maxWidth: width }}
-                value={rating}
-                onChange={updateRating}
-            />
-        </div>
-    );
-}
+    return <div className="flex gap-0.5">{svgElements}</div>;
+};
+
+export default Rating;

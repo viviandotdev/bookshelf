@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
-import { BookRating } from "@/components/rating";
 import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
@@ -16,6 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import useCreateReviewModal from "@/hooks/use-create-review.modal";
+import { BookRating } from "@/components/book-rating";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;

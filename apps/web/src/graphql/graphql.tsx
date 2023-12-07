@@ -3382,14 +3382,14 @@ export type BookReviewsQueryVariables = Exact<{
 }>;
 
 
-export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null }> };
+export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null }> };
 
 export type BookReviewQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
 }>;
 
 
-export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null } };
+export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4268,6 +4268,7 @@ export const BookReviewsDocument = gql`
     userBook {
       id
       rating
+      status
       user {
         id
         username
@@ -4333,15 +4334,6 @@ export const BookReviewDocument = gql`
     userBook {
       id
       rating
-      user {
-        id
-        username
-      }
-    }
-    comments {
-      id
-      content
-      createdAt
       user {
         id
         username

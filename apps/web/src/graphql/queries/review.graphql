@@ -11,6 +11,7 @@ query BookReviews(
     userBook {
       id
       rating
+      status
       user {
         id
         username
