@@ -24,6 +24,7 @@ import { ReviewDataInput } from './models/review-create.input';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
+import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
 
 @Resolver(() => Review)
 export class ReviewResolver {
@@ -67,6 +68,7 @@ export class ReviewResolver {
   /**
    * Checks if review is liked by current user.
    */
+
   @ResolveField(() => Boolean)
   async liked(
     @Parent() review: Review,
@@ -81,6 +83,7 @@ export class ReviewResolver {
       console.log('Review.likedBy is not defined');
     }
     assert(review.id);
+
     return this.service.isLiked(review.id, currentUser.userId);
   }
 
@@ -107,25 +110,19 @@ export class ReviewResolver {
       throw new Error(`Review with ID ${where.id} does not exist.`);
     }
 
-    if (value && review.likedBy.length > 0) {
-      throw new Error(`Review with ID ${where.id} is already liked.`);
-    }
-
     if (!value && review.likedBy.length === 0) {
       throw new Error(`Review with ID ${where.id} is not in liked list.`);
     }
-
     const updatedReview = await this.service.likeReview({
       where,
       likedByUserId: currentUser.userId,
       value,
     });
 
-    console.log(updatedReview);
-
     return updatedReview;
   }
 
+  @UseGuards(OptionalAccessTokenGuard)
   @Query(() => [Review])
   async bookReviews(
     @Args('where') where: BookWhereUniqueInput,
@@ -140,11 +137,13 @@ export class ReviewResolver {
     if (!bookExists) {
       throw new Error('Cannot review a book that does not exist');
     }
-    return this.service.findMany({
+    const reviews = await this.service.findMany({
       where,
       skip: offset,
       take: limit,
     });
+    // console.log(reviews);
+    return reviews;
   }
 
   @UseGuards(AccessTokenGuard)

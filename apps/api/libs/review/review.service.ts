@@ -44,7 +44,7 @@ export class ReviewService {
   }
 
   /**
-   * Checks if article with {id} favorited by user {userId}.
+   * Checks if review with {id} liked by user {userId}.
    */
   async isLiked(reviewId: string, userId: string) {
     const count = await this.repository.count({

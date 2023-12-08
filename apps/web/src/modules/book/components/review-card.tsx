@@ -26,7 +26,7 @@ const getUserBookDetails = (userBook: UserBook | null | undefined): UserBookDeta
 };
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
-    const { id, content, likes, comments, userBook, createdAt, spoilers } = review;
+    const { id, content, likeCount, liked, comments, userBook, createdAt, spoilers } = review;
     const { user, rating, status } = getUserBookDetails(userBook);
 
 
@@ -83,7 +83,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                             <ReviewContent />
                         </div>
                     </div>
-                    <ReviewActions reviewId={id} likes={likes} comments={comments} user={user} />
+                    <ReviewActions reviewId={id} liked={liked} likeCount={likeCount} comments={comments} user={user} />
                 </div>
             </div>
         </div>

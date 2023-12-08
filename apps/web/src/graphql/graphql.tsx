@@ -865,225 +865,6 @@ export type JournalEntryWhereUniqueInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
-export type LikedReview = {
-  __typename?: 'LikedReview';
-  id: Scalars['ID'];
-  likedAt: Scalars['Timestamp'];
-  review: Review;
-  reviewId: Scalars['String'];
-  user?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-export type LikedReviewAvgAggregate = {
-  __typename?: 'LikedReviewAvgAggregate';
-  id?: Maybe<Scalars['Float']>;
-};
-
-export type LikedReviewCountAggregate = {
-  __typename?: 'LikedReviewCountAggregate';
-  _all: Scalars['Int'];
-  id: Scalars['Int'];
-  likedAt: Scalars['Int'];
-  reviewId: Scalars['Int'];
-  userId: Scalars['Int'];
-};
-
-export type LikedReviewCreateManyReviewInput = {
-  id?: InputMaybe<Scalars['Int']>;
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  userId?: InputMaybe<Scalars['String']>;
-};
-
-export type LikedReviewCreateManyReviewInputEnvelope = {
-  data: Array<LikedReviewCreateManyReviewInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type LikedReviewCreateManyUserInput = {
-  id?: InputMaybe<Scalars['Int']>;
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  reviewId: Scalars['String'];
-};
-
-export type LikedReviewCreateManyUserInputEnvelope = {
-  data: Array<LikedReviewCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type LikedReviewCreateNestedManyWithoutReviewInput = {
-  connect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LikedReviewCreateOrConnectWithoutReviewInput>>;
-  create?: InputMaybe<Array<LikedReviewCreateWithoutReviewInput>>;
-  createMany?: InputMaybe<LikedReviewCreateManyReviewInputEnvelope>;
-};
-
-export type LikedReviewCreateNestedManyWithoutUserInput = {
-  connect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LikedReviewCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<LikedReviewCreateWithoutUserInput>>;
-  createMany?: InputMaybe<LikedReviewCreateManyUserInputEnvelope>;
-};
-
-export type LikedReviewCreateOrConnectWithoutReviewInput = {
-  create: LikedReviewCreateWithoutReviewInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewCreateOrConnectWithoutUserInput = {
-  create: LikedReviewCreateWithoutUserInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewCreateWithoutReviewInput = {
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  user?: InputMaybe<UserCreateNestedOneWithoutLikedReviewsInput>;
-};
-
-export type LikedReviewCreateWithoutUserInput = {
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  review: ReviewCreateNestedOneWithoutLikesInput;
-};
-
-export type LikedReviewListRelationFilter = {
-  every?: InputMaybe<LikedReviewWhereInput>;
-  none?: InputMaybe<LikedReviewWhereInput>;
-  some?: InputMaybe<LikedReviewWhereInput>;
-};
-
-export type LikedReviewMaxAggregate = {
-  __typename?: 'LikedReviewMaxAggregate';
-  id?: Maybe<Scalars['Int']>;
-  likedAt?: Maybe<Scalars['Timestamp']>;
-  reviewId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-export type LikedReviewMinAggregate = {
-  __typename?: 'LikedReviewMinAggregate';
-  id?: Maybe<Scalars['Int']>;
-  likedAt?: Maybe<Scalars['Timestamp']>;
-  reviewId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-export type LikedReviewOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type LikedReviewScalarWhereInput = {
-  AND?: InputMaybe<Array<LikedReviewScalarWhereInput>>;
-  NOT?: InputMaybe<Array<LikedReviewScalarWhereInput>>;
-  OR?: InputMaybe<Array<LikedReviewScalarWhereInput>>;
-  id?: InputMaybe<IntFilter>;
-  likedAt?: InputMaybe<DateTimeFilter>;
-  reviewId?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
-export type LikedReviewSumAggregate = {
-  __typename?: 'LikedReviewSumAggregate';
-  id?: Maybe<Scalars['Int']>;
-};
-
-export type LikedReviewUpdateManyMutationInput = {
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-};
-
-export type LikedReviewUpdateManyWithWhereWithoutReviewInput = {
-  data: LikedReviewUpdateManyMutationInput;
-  where: LikedReviewScalarWhereInput;
-};
-
-export type LikedReviewUpdateManyWithWhereWithoutUserInput = {
-  data: LikedReviewUpdateManyMutationInput;
-  where: LikedReviewScalarWhereInput;
-};
-
-export type LikedReviewUpdateManyWithoutReviewNestedInput = {
-  connect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LikedReviewCreateOrConnectWithoutReviewInput>>;
-  create?: InputMaybe<Array<LikedReviewCreateWithoutReviewInput>>;
-  createMany?: InputMaybe<LikedReviewCreateManyReviewInputEnvelope>;
-  delete?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<LikedReviewScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  set?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  update?: InputMaybe<Array<LikedReviewUpdateWithWhereUniqueWithoutReviewInput>>;
-  updateMany?: InputMaybe<Array<LikedReviewUpdateManyWithWhereWithoutReviewInput>>;
-  upsert?: InputMaybe<Array<LikedReviewUpsertWithWhereUniqueWithoutReviewInput>>;
-};
-
-export type LikedReviewUpdateManyWithoutUserNestedInput = {
-  connect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<LikedReviewCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<LikedReviewCreateWithoutUserInput>>;
-  createMany?: InputMaybe<LikedReviewCreateManyUserInputEnvelope>;
-  delete?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<LikedReviewScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  set?: InputMaybe<Array<LikedReviewWhereUniqueInput>>;
-  update?: InputMaybe<Array<LikedReviewUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<LikedReviewUpdateManyWithWhereWithoutUserInput>>;
-  upsert?: InputMaybe<Array<LikedReviewUpsertWithWhereUniqueWithoutUserInput>>;
-};
-
-export type LikedReviewUpdateWithWhereUniqueWithoutReviewInput = {
-  data: LikedReviewUpdateWithoutReviewInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewUpdateWithWhereUniqueWithoutUserInput = {
-  data: LikedReviewUpdateWithoutUserInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewUpdateWithoutReviewInput = {
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  user?: InputMaybe<UserUpdateOneWithoutLikedReviewsNestedInput>;
-};
-
-export type LikedReviewUpdateWithoutUserInput = {
-  likedAt?: InputMaybe<Scalars['Timestamp']>;
-  review?: InputMaybe<ReviewUpdateOneRequiredWithoutLikesNestedInput>;
-};
-
-export type LikedReviewUpsertWithWhereUniqueWithoutReviewInput = {
-  create: LikedReviewCreateWithoutReviewInput;
-  update: LikedReviewUpdateWithoutReviewInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewUpsertWithWhereUniqueWithoutUserInput = {
-  create: LikedReviewCreateWithoutUserInput;
-  update: LikedReviewUpdateWithoutUserInput;
-  where: LikedReviewWhereUniqueInput;
-};
-
-export type LikedReviewWhereInput = {
-  AND?: InputMaybe<Array<LikedReviewWhereInput>>;
-  NOT?: InputMaybe<Array<LikedReviewWhereInput>>;
-  OR?: InputMaybe<Array<LikedReviewWhereInput>>;
-  id?: InputMaybe<IntFilter>;
-  likedAt?: InputMaybe<DateTimeFilter>;
-  review?: InputMaybe<ReviewRelationFilter>;
-  reviewId?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
-export type LikedReviewWhereUniqueInput = {
-  AND?: InputMaybe<Array<LikedReviewWhereInput>>;
-  NOT?: InputMaybe<Array<LikedReviewWhereInput>>;
-  OR?: InputMaybe<Array<LikedReviewWhereInput>>;
-  id?: InputMaybe<Scalars['Int']>;
-  likedAt?: InputMaybe<DateTimeFilter>;
-  review?: InputMaybe<ReviewRelationFilter>;
-  reviewId?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
 export type LogInInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -1099,6 +880,7 @@ export type Mutation = {
   createUser: User;
   deleteShelf?: Maybe<Shelf>;
   importUserBooks: Scalars['Boolean'];
+  likeReview: Review;
   logout: Scalars['Boolean'];
   refreshAuth: RefreshResponse;
   removeJournalEntry: JournalEntry;
@@ -1152,6 +934,12 @@ export type MutationDeleteShelfArgs = {
 
 export type MutationImportUserBooksArgs = {
   content: Scalars['String'];
+};
+
+
+export type MutationLikeReviewArgs = {
+  value: Scalars['Boolean'];
+  where: ReviewWhereUniqueInput;
 };
 
 
@@ -1304,7 +1092,9 @@ export type Review = {
   content?: Maybe<Scalars['String']>;
   createdAt: Scalars['Timestamp'];
   id: Scalars['ID'];
-  likes?: Maybe<Array<LikedReview>>;
+  likeCount: Scalars['Int'];
+  liked: Scalars['Boolean'];
+  likedBy?: Maybe<Array<User>>;
   spoilers: Scalars['Boolean'];
   user?: Maybe<User>;
   userBook?: Maybe<UserBook>;
@@ -1312,10 +1102,15 @@ export type Review = {
   userId?: Maybe<Scalars['String']>;
 };
 
+export type ReviewAvgAggregate = {
+  __typename?: 'ReviewAvgAggregate';
+  likeCount?: Maybe<Scalars['Float']>;
+};
+
 export type ReviewCount = {
   __typename?: 'ReviewCount';
   comments: Scalars['Int'];
-  likes: Scalars['Int'];
+  likedBy: Scalars['Int'];
 };
 
 export type ReviewCountAggregate = {
@@ -1325,6 +1120,7 @@ export type ReviewCountAggregate = {
   content: Scalars['Int'];
   createdAt: Scalars['Int'];
   id: Scalars['Int'];
+  likeCount: Scalars['Int'];
   spoilers: Scalars['Int'];
   userBookId: Scalars['Int'];
   userId: Scalars['Int'];
@@ -1334,6 +1130,7 @@ export type ReviewCreateManyBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userBookId?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['String']>;
@@ -1349,6 +1146,7 @@ export type ReviewCreateManyUserBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -1363,6 +1161,7 @@ export type ReviewCreateManyUserInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userBookId?: InputMaybe<Scalars['String']>;
 };
@@ -1377,6 +1176,12 @@ export type ReviewCreateNestedManyWithoutBookInput = {
   connectOrCreate?: InputMaybe<Array<ReviewCreateOrConnectWithoutBookInput>>;
   create?: InputMaybe<Array<ReviewCreateWithoutBookInput>>;
   createMany?: InputMaybe<ReviewCreateManyBookInputEnvelope>;
+};
+
+export type ReviewCreateNestedManyWithoutLikedByInput = {
+  connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ReviewCreateOrConnectWithoutLikedByInput>>;
+  create?: InputMaybe<Array<ReviewCreateWithoutLikedByInput>>;
 };
 
 export type ReviewCreateNestedManyWithoutUserBookInput = {
@@ -1399,12 +1204,6 @@ export type ReviewCreateNestedOneWithoutCommentsInput = {
   create?: InputMaybe<ReviewCreateWithoutCommentsInput>;
 };
 
-export type ReviewCreateNestedOneWithoutLikesInput = {
-  connect?: InputMaybe<ReviewWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ReviewCreateOrConnectWithoutLikesInput>;
-  create?: InputMaybe<ReviewCreateWithoutLikesInput>;
-};
-
 export type ReviewCreateOrConnectWithoutBookInput = {
   create: ReviewCreateWithoutBookInput;
   where: ReviewWhereUniqueInput;
@@ -1415,8 +1214,8 @@ export type ReviewCreateOrConnectWithoutCommentsInput = {
   where: ReviewWhereUniqueInput;
 };
 
-export type ReviewCreateOrConnectWithoutLikesInput = {
-  create: ReviewCreateWithoutLikesInput;
+export type ReviewCreateOrConnectWithoutLikedByInput = {
+  create: ReviewCreateWithoutLikedByInput;
   where: ReviewWhereUniqueInput;
 };
 
@@ -1435,7 +1234,8 @@ export type ReviewCreateWithoutBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutReviewsInput>;
@@ -1446,18 +1246,20 @@ export type ReviewCreateWithoutCommentsInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutReviewsInput>;
 };
 
-export type ReviewCreateWithoutLikesInput = {
+export type ReviewCreateWithoutLikedByInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutReviewsInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutReviewInput>;
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutReviewsInput>;
@@ -1469,7 +1271,8 @@ export type ReviewCreateWithoutUserBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
 };
@@ -1480,7 +1283,8 @@ export type ReviewCreateWithoutUserInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewCreateNestedManyWithoutReviewInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutReviewsInput>;
 };
@@ -1503,6 +1307,7 @@ export type ReviewMaxAggregate = {
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
+  likeCount?: Maybe<Scalars['Int']>;
   spoilers?: Maybe<Scalars['Boolean']>;
   userBookId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
@@ -1514,6 +1319,7 @@ export type ReviewMinAggregate = {
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
+  likeCount?: Maybe<Scalars['Int']>;
   spoilers?: Maybe<Scalars['Boolean']>;
   userBookId?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['String']>;
@@ -1536,19 +1342,31 @@ export type ReviewScalarWhereInput = {
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  likeCount?: InputMaybe<IntFilter>;
   spoilers?: InputMaybe<BoolFilter>;
   userBookId?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
+};
+
+export type ReviewSumAggregate = {
+  __typename?: 'ReviewSumAggregate';
+  likeCount?: Maybe<Scalars['Int']>;
 };
 
 export type ReviewUpdateManyMutationInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ReviewUpdateManyWithWhereWithoutBookInput = {
+  data: ReviewUpdateManyMutationInput;
+  where: ReviewScalarWhereInput;
+};
+
+export type ReviewUpdateManyWithWhereWithoutLikedByInput = {
   data: ReviewUpdateManyMutationInput;
   where: ReviewScalarWhereInput;
 };
@@ -1575,6 +1393,19 @@ export type ReviewUpdateManyWithoutBookNestedInput = {
   update?: InputMaybe<Array<ReviewUpdateWithWhereUniqueWithoutBookInput>>;
   updateMany?: InputMaybe<Array<ReviewUpdateManyWithWhereWithoutBookInput>>;
   upsert?: InputMaybe<Array<ReviewUpsertWithWhereUniqueWithoutBookInput>>;
+};
+
+export type ReviewUpdateManyWithoutLikedByNestedInput = {
+  connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<ReviewCreateOrConnectWithoutLikedByInput>>;
+  create?: InputMaybe<Array<ReviewCreateWithoutLikedByInput>>;
+  delete?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<ReviewScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  set?: InputMaybe<Array<ReviewWhereUniqueInput>>;
+  update?: InputMaybe<Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>>;
+  updateMany?: InputMaybe<Array<ReviewUpdateManyWithWhereWithoutLikedByInput>>;
+  upsert?: InputMaybe<Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>>;
 };
 
 export type ReviewUpdateManyWithoutUserBookNestedInput = {
@@ -1605,14 +1436,6 @@ export type ReviewUpdateManyWithoutUserNestedInput = {
   upsert?: InputMaybe<Array<ReviewUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type ReviewUpdateOneRequiredWithoutLikesNestedInput = {
-  connect?: InputMaybe<ReviewWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<ReviewCreateOrConnectWithoutLikesInput>;
-  create?: InputMaybe<ReviewCreateWithoutLikesInput>;
-  update?: InputMaybe<ReviewUpdateToOneWithWhereWithoutLikesInput>;
-  upsert?: InputMaybe<ReviewUpsertWithoutLikesInput>;
-};
-
 export type ReviewUpdateOneWithoutCommentsNestedInput = {
   connect?: InputMaybe<ReviewWhereUniqueInput>;
   connectOrCreate?: InputMaybe<ReviewCreateOrConnectWithoutCommentsInput>;
@@ -1628,13 +1451,13 @@ export type ReviewUpdateToOneWithWhereWithoutCommentsInput = {
   where?: InputMaybe<ReviewWhereInput>;
 };
 
-export type ReviewUpdateToOneWithWhereWithoutLikesInput = {
-  data: ReviewUpdateWithoutLikesInput;
-  where?: InputMaybe<ReviewWhereInput>;
-};
-
 export type ReviewUpdateWithWhereUniqueWithoutBookInput = {
   data: ReviewUpdateWithoutBookInput;
+  where: ReviewWhereUniqueInput;
+};
+
+export type ReviewUpdateWithWhereUniqueWithoutLikedByInput = {
+  data: ReviewUpdateWithoutLikedByInput;
   where: ReviewWhereUniqueInput;
 };
 
@@ -1653,7 +1476,8 @@ export type ReviewUpdateWithoutBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewUpdateManyWithoutReviewNestedInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutReviewsNestedInput>;
@@ -1664,18 +1488,20 @@ export type ReviewUpdateWithoutCommentsInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewUpdateManyWithoutReviewNestedInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutReviewsNestedInput>;
 };
 
-export type ReviewUpdateWithoutLikesInput = {
+export type ReviewUpdateWithoutLikedByInput = {
   book?: InputMaybe<BookUpdateOneWithoutReviewsNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutReviewNestedInput>;
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
+  likeCount?: InputMaybe<Scalars['Int']>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutReviewsNestedInput>;
@@ -1687,7 +1513,8 @@ export type ReviewUpdateWithoutUserBookInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewUpdateManyWithoutReviewNestedInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
 };
@@ -1698,7 +1525,8 @@ export type ReviewUpdateWithoutUserInput = {
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewUpdateManyWithoutReviewNestedInput>;
+  likeCount?: InputMaybe<Scalars['Int']>;
+  likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
   spoilers?: InputMaybe<Scalars['Boolean']>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutReviewsNestedInput>;
 };
@@ -1706,6 +1534,12 @@ export type ReviewUpdateWithoutUserInput = {
 export type ReviewUpsertWithWhereUniqueWithoutBookInput = {
   create: ReviewCreateWithoutBookInput;
   update: ReviewUpdateWithoutBookInput;
+  where: ReviewWhereUniqueInput;
+};
+
+export type ReviewUpsertWithWhereUniqueWithoutLikedByInput = {
+  create: ReviewCreateWithoutLikedByInput;
+  update: ReviewUpdateWithoutLikedByInput;
   where: ReviewWhereUniqueInput;
 };
 
@@ -1727,12 +1561,6 @@ export type ReviewUpsertWithoutCommentsInput = {
   where?: InputMaybe<ReviewWhereInput>;
 };
 
-export type ReviewUpsertWithoutLikesInput = {
-  create: ReviewCreateWithoutLikesInput;
-  update: ReviewUpdateWithoutLikesInput;
-  where?: InputMaybe<ReviewWhereInput>;
-};
-
 export type ReviewWhereInput = {
   AND?: InputMaybe<Array<ReviewWhereInput>>;
   NOT?: InputMaybe<Array<ReviewWhereInput>>;
@@ -1743,7 +1571,8 @@ export type ReviewWhereInput = {
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
-  likes?: InputMaybe<LikedReviewListRelationFilter>;
+  likeCount?: InputMaybe<IntFilter>;
+  likedBy?: InputMaybe<UserListRelationFilter>;
   spoilers?: InputMaybe<BoolFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
@@ -1761,7 +1590,8 @@ export type ReviewWhereUniqueInput = {
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
-  likes?: InputMaybe<LikedReviewListRelationFilter>;
+  likeCount?: InputMaybe<IntFilter>;
+  likedBy?: InputMaybe<UserListRelationFilter>;
   spoilers?: InputMaybe<BoolFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
@@ -2031,7 +1861,7 @@ export type User = {
   email: Scalars['String'];
   id: Scalars['ID'];
   journalEntries?: Maybe<Array<JournalEntry>>;
-  likedReviews?: Maybe<Array<LikedReview>>;
+  likedReviews?: Maybe<Array<Review>>;
   reviews?: Maybe<Array<Review>>;
   shelves?: Maybe<Array<Shelf>>;
   updatedAt: Scalars['Timestamp'];
@@ -2757,12 +2587,18 @@ export type UserCreateInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateNestedManyWithoutLikedReviewsInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
 };
 
 export type UserCreateNestedOneWithoutCommentsInput = {
@@ -2775,12 +2611,6 @@ export type UserCreateNestedOneWithoutJournalEntriesInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutJournalEntriesInput>;
   create?: InputMaybe<UserCreateWithoutJournalEntriesInput>;
-};
-
-export type UserCreateNestedOneWithoutLikedReviewsInput = {
-  connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutLikedReviewsInput>;
-  create?: InputMaybe<UserCreateWithoutLikedReviewsInput>;
 };
 
 export type UserCreateNestedOneWithoutReviewsInput = {
@@ -2838,7 +2668,7 @@ export type UserCreateWithoutCommentsInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -2853,7 +2683,7 @@ export type UserCreateWithoutJournalEntriesInput = {
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -2884,7 +2714,7 @@ export type UserCreateWithoutReviewsInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
@@ -2899,7 +2729,7 @@ export type UserCreateWithoutShelvesInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
@@ -2914,11 +2744,17 @@ export type UserCreateWithoutUserBooksInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<LikedReviewCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserListRelationFilter = {
+  every?: InputMaybe<UserWhereInput>;
+  none?: InputMaybe<UserWhereInput>;
+  some?: InputMaybe<UserWhereInput>;
 };
 
 export type UserMaxAggregate = {
@@ -2947,7 +2783,7 @@ export type UserOrderByWithRelationInput = {
   hashedRefreshToken?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
   journalEntries?: InputMaybe<JournalEntryOrderByRelationAggregateInput>;
-  likedReviews?: InputMaybe<LikedReviewOrderByRelationAggregateInput>;
+  likedReviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   reviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   shelves?: InputMaybe<ShelfOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
@@ -2958,6 +2794,47 @@ export type UserOrderByWithRelationInput = {
 export type UserRelationFilter = {
   is?: InputMaybe<UserWhereInput>;
   isNot?: InputMaybe<UserWhereInput>;
+};
+
+export type UserScalarWhereInput = {
+  AND?: InputMaybe<Array<UserScalarWhereInput>>;
+  NOT?: InputMaybe<Array<UserScalarWhereInput>>;
+  OR?: InputMaybe<Array<UserScalarWhereInput>>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  email?: InputMaybe<StringFilter>;
+  hashedPassword?: InputMaybe<StringFilter>;
+  hashedRefreshToken?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  username?: InputMaybe<StringFilter>;
+};
+
+export type UserUpdateManyMutationInput = {
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpdateManyWithWhereWithoutLikedReviewsInput = {
+  data: UserUpdateManyMutationInput;
+  where: UserScalarWhereInput;
+};
+
+export type UserUpdateManyWithoutLikedReviewsNestedInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
+  delete?: InputMaybe<Array<UserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  set?: InputMaybe<Array<UserWhereUniqueInput>>;
+  update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutLikedReviewsInput>>;
+  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>>;
+  upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>>;
 };
 
 export type UserUpdateOneWithoutCommentsNestedInput = {
@@ -2978,16 +2855,6 @@ export type UserUpdateOneWithoutJournalEntriesNestedInput = {
   disconnect?: InputMaybe<UserWhereInput>;
   update?: InputMaybe<UserUpdateToOneWithWhereWithoutJournalEntriesInput>;
   upsert?: InputMaybe<UserUpsertWithoutJournalEntriesInput>;
-};
-
-export type UserUpdateOneWithoutLikedReviewsNestedInput = {
-  connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutLikedReviewsInput>;
-  create?: InputMaybe<UserCreateWithoutLikedReviewsInput>;
-  delete?: InputMaybe<UserWhereInput>;
-  disconnect?: InputMaybe<UserWhereInput>;
-  update?: InputMaybe<UserUpdateToOneWithWhereWithoutLikedReviewsInput>;
-  upsert?: InputMaybe<UserUpsertWithoutLikedReviewsInput>;
 };
 
 export type UserUpdateOneWithoutReviewsNestedInput = {
@@ -3030,11 +2897,6 @@ export type UserUpdateToOneWithWhereWithoutJournalEntriesInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-export type UserUpdateToOneWithWhereWithoutLikedReviewsInput = {
-  data: UserUpdateWithoutLikedReviewsInput;
-  where?: InputMaybe<UserWhereInput>;
-};
-
 export type UserUpdateToOneWithWhereWithoutReviewsInput = {
   data: UserUpdateWithoutReviewsInput;
   where?: InputMaybe<UserWhereInput>;
@@ -3050,6 +2912,11 @@ export type UserUpdateToOneWithWhereWithoutUserBooksInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
+  data: UserUpdateWithoutLikedReviewsInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserUpdateWithoutCommentsInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3057,7 +2924,7 @@ export type UserUpdateWithoutCommentsInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
-  likedReviews?: InputMaybe<LikedReviewUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -3072,7 +2939,7 @@ export type UserUpdateWithoutJournalEntriesInput = {
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  likedReviews?: InputMaybe<LikedReviewUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -3103,7 +2970,7 @@ export type UserUpdateWithoutReviewsInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
-  likedReviews?: InputMaybe<LikedReviewUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
@@ -3118,7 +2985,7 @@ export type UserUpdateWithoutShelvesInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
-  likedReviews?: InputMaybe<LikedReviewUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
@@ -3133,11 +3000,17 @@ export type UserUpdateWithoutUserBooksInput = {
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
-  likedReviews?: InputMaybe<LikedReviewUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpsertWithWhereUniqueWithoutLikedReviewsInput = {
+  create: UserCreateWithoutLikedReviewsInput;
+  update: UserUpdateWithoutLikedReviewsInput;
+  where: UserWhereUniqueInput;
 };
 
 export type UserUpsertWithoutCommentsInput = {
@@ -3149,12 +3022,6 @@ export type UserUpsertWithoutCommentsInput = {
 export type UserUpsertWithoutJournalEntriesInput = {
   create: UserCreateWithoutJournalEntriesInput;
   update: UserUpdateWithoutJournalEntriesInput;
-  where?: InputMaybe<UserWhereInput>;
-};
-
-export type UserUpsertWithoutLikedReviewsInput = {
-  create: UserCreateWithoutLikedReviewsInput;
-  update: UserUpdateWithoutLikedReviewsInput;
   where?: InputMaybe<UserWhereInput>;
 };
 
@@ -3187,7 +3054,7 @@ export type UserWhereInput = {
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   journalEntries?: InputMaybe<JournalEntryListRelationFilter>;
-  likedReviews?: InputMaybe<LikedReviewListRelationFilter>;
+  likedReviews?: InputMaybe<ReviewListRelationFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -3206,7 +3073,7 @@ export type UserWhereUniqueInput = {
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
   journalEntries?: InputMaybe<JournalEntryListRelationFilter>;
-  likedReviews?: InputMaybe<LikedReviewListRelationFilter>;
+  likedReviews?: InputMaybe<ReviewListRelationFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -3293,6 +3160,14 @@ export type UpdateReviewMutationVariables = Exact<{
 
 
 export type UpdateReviewMutation = { __typename?: 'Mutation', updateReview: { __typename?: 'Review', id: string, content?: string | null, spoilers: boolean } };
+
+export type LikeReviewMutationVariables = Exact<{
+  where: ReviewWhereUniqueInput;
+  value: Scalars['Boolean']['input'];
+}>;
+
+
+export type LikeReviewMutation = { __typename?: 'Mutation', likeReview: { __typename?: 'Review', id: string, likeCount: number } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -3382,14 +3257,14 @@ export type BookReviewsQueryVariables = Exact<{
 }>;
 
 
-export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null }> };
+export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null }> };
 
 export type BookReviewQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
 }>;
 
 
-export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
+export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3840,6 +3715,41 @@ export function useUpdateReviewMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateReviewMutationHookResult = ReturnType<typeof useUpdateReviewMutation>;
 export type UpdateReviewMutationResult = Apollo.MutationResult<UpdateReviewMutation>;
 export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<UpdateReviewMutation, UpdateReviewMutationVariables>;
+export const LikeReviewDocument = gql`
+    mutation LikeReview($where: ReviewWhereUniqueInput!, $value: Boolean!) {
+  likeReview(where: $where, value: $value) {
+    id
+    likeCount
+  }
+}
+    `;
+export type LikeReviewMutationFn = Apollo.MutationFunction<LikeReviewMutation, LikeReviewMutationVariables>;
+
+/**
+ * __useLikeReviewMutation__
+ *
+ * To run a mutation, you first call `useLikeReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likeReviewMutation, { data, loading, error }] = useLikeReviewMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useLikeReviewMutation(baseOptions?: Apollo.MutationHookOptions<LikeReviewMutation, LikeReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeReviewMutation, LikeReviewMutationVariables>(LikeReviewDocument, options);
+      }
+export type LikeReviewMutationHookResult = ReturnType<typeof useLikeReviewMutation>;
+export type LikeReviewMutationResult = Apollo.MutationResult<LikeReviewMutation>;
+export type LikeReviewMutationOptions = Apollo.BaseMutationOptions<LikeReviewMutation, LikeReviewMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
@@ -4265,6 +4175,8 @@ export const BookReviewsDocument = gql`
     content
     createdAt
     spoilers
+    likeCount
+    liked
     userBook {
       id
       rating
@@ -4323,6 +4235,8 @@ export const BookReviewDocument = gql`
     content
     createdAt
     spoilers
+    likeCount
+    liked
     book {
       id
       title

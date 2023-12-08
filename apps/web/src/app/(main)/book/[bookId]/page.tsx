@@ -17,6 +17,7 @@ export default async function BookPage({ params }: BookPageProps) {
     }
     const { shelves } = await getShelves();
     const { reviews } = await getReviews(params.bookId);
+    // console.log(reviews)
     const user = await getCurrentUser();
     return (
         <>
