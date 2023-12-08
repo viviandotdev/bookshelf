@@ -832,219 +832,6 @@ input JournalEntryWhereUniqueInput {
   userId: StringFilter
 }
 
-type LikedReview {
-  id: ID!
-  likedAt: Timestamp!
-  review: Review!
-  reviewId: String!
-  user: User
-  userId: String
-}
-
-type LikedReviewAvgAggregate {
-  id: Float
-}
-
-type LikedReviewCountAggregate {
-  _all: Int!
-  id: Int!
-  likedAt: Int!
-  reviewId: Int!
-  userId: Int!
-}
-
-input LikedReviewCreateManyReviewInput {
-  id: Int
-  likedAt: Timestamp
-  userId: String
-}
-
-input LikedReviewCreateManyReviewInputEnvelope {
-  data: [LikedReviewCreateManyReviewInput!]!
-  skipDuplicates: Boolean
-}
-
-input LikedReviewCreateManyUserInput {
-  id: Int
-  likedAt: Timestamp
-  reviewId: String!
-}
-
-input LikedReviewCreateManyUserInputEnvelope {
-  data: [LikedReviewCreateManyUserInput!]!
-  skipDuplicates: Boolean
-}
-
-input LikedReviewCreateNestedManyWithoutReviewInput {
-  connect: [LikedReviewWhereUniqueInput!]
-  connectOrCreate: [LikedReviewCreateOrConnectWithoutReviewInput!]
-  create: [LikedReviewCreateWithoutReviewInput!]
-  createMany: LikedReviewCreateManyReviewInputEnvelope
-}
-
-input LikedReviewCreateNestedManyWithoutUserInput {
-  connect: [LikedReviewWhereUniqueInput!]
-  connectOrCreate: [LikedReviewCreateOrConnectWithoutUserInput!]
-  create: [LikedReviewCreateWithoutUserInput!]
-  createMany: LikedReviewCreateManyUserInputEnvelope
-}
-
-input LikedReviewCreateOrConnectWithoutReviewInput {
-  create: LikedReviewCreateWithoutReviewInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewCreateOrConnectWithoutUserInput {
-  create: LikedReviewCreateWithoutUserInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewCreateWithoutReviewInput {
-  likedAt: Timestamp
-  user: UserCreateNestedOneWithoutLikedReviewsInput
-}
-
-input LikedReviewCreateWithoutUserInput {
-  likedAt: Timestamp
-  review: ReviewCreateNestedOneWithoutLikesInput!
-}
-
-input LikedReviewListRelationFilter {
-  every: LikedReviewWhereInput
-  none: LikedReviewWhereInput
-  some: LikedReviewWhereInput
-}
-
-type LikedReviewMaxAggregate {
-  id: Int
-  likedAt: Timestamp
-  reviewId: String
-  userId: String
-}
-
-type LikedReviewMinAggregate {
-  id: Int
-  likedAt: Timestamp
-  reviewId: String
-  userId: String
-}
-
-input LikedReviewOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input LikedReviewScalarWhereInput {
-  AND: [LikedReviewScalarWhereInput!]
-  NOT: [LikedReviewScalarWhereInput!]
-  OR: [LikedReviewScalarWhereInput!]
-  id: IntFilter
-  likedAt: DateTimeFilter
-  reviewId: StringFilter
-  userId: StringFilter
-}
-
-type LikedReviewSumAggregate {
-  id: Int
-}
-
-input LikedReviewUpdateManyMutationInput {
-  likedAt: Timestamp
-}
-
-input LikedReviewUpdateManyWithWhereWithoutReviewInput {
-  data: LikedReviewUpdateManyMutationInput!
-  where: LikedReviewScalarWhereInput!
-}
-
-input LikedReviewUpdateManyWithWhereWithoutUserInput {
-  data: LikedReviewUpdateManyMutationInput!
-  where: LikedReviewScalarWhereInput!
-}
-
-input LikedReviewUpdateManyWithoutReviewNestedInput {
-  connect: [LikedReviewWhereUniqueInput!]
-  connectOrCreate: [LikedReviewCreateOrConnectWithoutReviewInput!]
-  create: [LikedReviewCreateWithoutReviewInput!]
-  createMany: LikedReviewCreateManyReviewInputEnvelope
-  delete: [LikedReviewWhereUniqueInput!]
-  deleteMany: [LikedReviewScalarWhereInput!]
-  disconnect: [LikedReviewWhereUniqueInput!]
-  set: [LikedReviewWhereUniqueInput!]
-  update: [LikedReviewUpdateWithWhereUniqueWithoutReviewInput!]
-  updateMany: [LikedReviewUpdateManyWithWhereWithoutReviewInput!]
-  upsert: [LikedReviewUpsertWithWhereUniqueWithoutReviewInput!]
-}
-
-input LikedReviewUpdateManyWithoutUserNestedInput {
-  connect: [LikedReviewWhereUniqueInput!]
-  connectOrCreate: [LikedReviewCreateOrConnectWithoutUserInput!]
-  create: [LikedReviewCreateWithoutUserInput!]
-  createMany: LikedReviewCreateManyUserInputEnvelope
-  delete: [LikedReviewWhereUniqueInput!]
-  deleteMany: [LikedReviewScalarWhereInput!]
-  disconnect: [LikedReviewWhereUniqueInput!]
-  set: [LikedReviewWhereUniqueInput!]
-  update: [LikedReviewUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [LikedReviewUpdateManyWithWhereWithoutUserInput!]
-  upsert: [LikedReviewUpsertWithWhereUniqueWithoutUserInput!]
-}
-
-input LikedReviewUpdateWithWhereUniqueWithoutReviewInput {
-  data: LikedReviewUpdateWithoutReviewInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewUpdateWithWhereUniqueWithoutUserInput {
-  data: LikedReviewUpdateWithoutUserInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewUpdateWithoutReviewInput {
-  likedAt: Timestamp
-  user: UserUpdateOneWithoutLikedReviewsNestedInput
-}
-
-input LikedReviewUpdateWithoutUserInput {
-  likedAt: Timestamp
-  review: ReviewUpdateOneRequiredWithoutLikesNestedInput
-}
-
-input LikedReviewUpsertWithWhereUniqueWithoutReviewInput {
-  create: LikedReviewCreateWithoutReviewInput!
-  update: LikedReviewUpdateWithoutReviewInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewUpsertWithWhereUniqueWithoutUserInput {
-  create: LikedReviewCreateWithoutUserInput!
-  update: LikedReviewUpdateWithoutUserInput!
-  where: LikedReviewWhereUniqueInput!
-}
-
-input LikedReviewWhereInput {
-  AND: [LikedReviewWhereInput!]
-  NOT: [LikedReviewWhereInput!]
-  OR: [LikedReviewWhereInput!]
-  id: IntFilter
-  likedAt: DateTimeFilter
-  review: ReviewRelationFilter
-  reviewId: StringFilter
-  user: UserRelationFilter
-  userId: StringFilter
-}
-
-input LikedReviewWhereUniqueInput {
-  AND: [LikedReviewWhereInput!]
-  NOT: [LikedReviewWhereInput!]
-  OR: [LikedReviewWhereInput!]
-  id: Int
-  likedAt: DateTimeFilter
-  review: ReviewRelationFilter
-  reviewId: StringFilter
-  user: UserRelationFilter
-  userId: StringFilter
-}
-
 input LogInInput {
   email: String!
   password: String!
@@ -1059,6 +846,7 @@ type Mutation {
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
   importUserBooks(content: String!): Boolean!
+  likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
   logout(id: String!): Boolean!
   refreshAuth: RefreshResponse!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
@@ -1115,7 +903,9 @@ type Review {
   content: String
   createdAt: Timestamp!
   id: ID!
-  likes: [LikedReview!]
+  likeCount: Int!
+  liked: Boolean!
+  likedBy: [User!]
   spoilers: Boolean!
   user: User
   userBook: UserBook
@@ -1123,9 +913,13 @@ type Review {
   userId: String
 }
 
+type ReviewAvgAggregate {
+  likeCount: Float
+}
+
 type ReviewCount {
   comments: Int!
-  likes: Int!
+  likedBy: Int!
 }
 
 type ReviewCountAggregate {
@@ -1134,6 +928,7 @@ type ReviewCountAggregate {
   content: Int!
   createdAt: Int!
   id: Int!
+  likeCount: Int!
   spoilers: Int!
   userBookId: Int!
   userId: Int!
@@ -1143,6 +938,7 @@ input ReviewCreateManyBookInput {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   userBookId: String
   userId: String
@@ -1158,6 +954,7 @@ input ReviewCreateManyUserBookInput {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   userId: String
 }
@@ -1172,6 +969,7 @@ input ReviewCreateManyUserInput {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   userBookId: String
 }
@@ -1186,6 +984,12 @@ input ReviewCreateNestedManyWithoutBookInput {
   connectOrCreate: [ReviewCreateOrConnectWithoutBookInput!]
   create: [ReviewCreateWithoutBookInput!]
   createMany: ReviewCreateManyBookInputEnvelope
+}
+
+input ReviewCreateNestedManyWithoutLikedByInput {
+  connect: [ReviewWhereUniqueInput!]
+  connectOrCreate: [ReviewCreateOrConnectWithoutLikedByInput!]
+  create: [ReviewCreateWithoutLikedByInput!]
 }
 
 input ReviewCreateNestedManyWithoutUserBookInput {
@@ -1208,12 +1012,6 @@ input ReviewCreateNestedOneWithoutCommentsInput {
   create: ReviewCreateWithoutCommentsInput
 }
 
-input ReviewCreateNestedOneWithoutLikesInput {
-  connect: ReviewWhereUniqueInput
-  connectOrCreate: ReviewCreateOrConnectWithoutLikesInput
-  create: ReviewCreateWithoutLikesInput
-}
-
 input ReviewCreateOrConnectWithoutBookInput {
   create: ReviewCreateWithoutBookInput!
   where: ReviewWhereUniqueInput!
@@ -1224,8 +1022,8 @@ input ReviewCreateOrConnectWithoutCommentsInput {
   where: ReviewWhereUniqueInput!
 }
 
-input ReviewCreateOrConnectWithoutLikesInput {
-  create: ReviewCreateWithoutLikesInput!
+input ReviewCreateOrConnectWithoutLikedByInput {
+  create: ReviewCreateWithoutLikedByInput!
   where: ReviewWhereUniqueInput!
 }
 
@@ -1244,7 +1042,8 @@ input ReviewCreateWithoutBookInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewCreateNestedManyWithoutReviewInput
+  likeCount: Int
+  likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
   userBook: UserBookCreateNestedOneWithoutReviewsInput
@@ -1255,18 +1054,20 @@ input ReviewCreateWithoutCommentsInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewCreateNestedManyWithoutReviewInput
+  likeCount: Int
+  likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
   userBook: UserBookCreateNestedOneWithoutReviewsInput
 }
 
-input ReviewCreateWithoutLikesInput {
+input ReviewCreateWithoutLikedByInput {
   book: BookCreateNestedOneWithoutReviewsInput
   comments: CommentCreateNestedManyWithoutReviewInput
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
   userBook: UserBookCreateNestedOneWithoutReviewsInput
@@ -1278,7 +1079,8 @@ input ReviewCreateWithoutUserBookInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewCreateNestedManyWithoutReviewInput
+  likeCount: Int
+  likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
 }
@@ -1289,7 +1091,8 @@ input ReviewCreateWithoutUserInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewCreateNestedManyWithoutReviewInput
+  likeCount: Int
+  likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   userBook: UserBookCreateNestedOneWithoutReviewsInput
 }
@@ -1311,6 +1114,7 @@ type ReviewMaxAggregate {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   userBookId: String
   userId: String
@@ -1321,6 +1125,7 @@ type ReviewMinAggregate {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   userBookId: String
   userId: String
@@ -1343,19 +1148,30 @@ input ReviewScalarWhereInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
+  likeCount: IntFilter
   spoilers: BoolFilter
   userBookId: StringFilter
   userId: StringFilter
+}
+
+type ReviewSumAggregate {
+  likeCount: Int
 }
 
 input ReviewUpdateManyMutationInput {
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
 }
 
 input ReviewUpdateManyWithWhereWithoutBookInput {
+  data: ReviewUpdateManyMutationInput!
+  where: ReviewScalarWhereInput!
+}
+
+input ReviewUpdateManyWithWhereWithoutLikedByInput {
   data: ReviewUpdateManyMutationInput!
   where: ReviewScalarWhereInput!
 }
@@ -1382,6 +1198,19 @@ input ReviewUpdateManyWithoutBookNestedInput {
   update: [ReviewUpdateWithWhereUniqueWithoutBookInput!]
   updateMany: [ReviewUpdateManyWithWhereWithoutBookInput!]
   upsert: [ReviewUpsertWithWhereUniqueWithoutBookInput!]
+}
+
+input ReviewUpdateManyWithoutLikedByNestedInput {
+  connect: [ReviewWhereUniqueInput!]
+  connectOrCreate: [ReviewCreateOrConnectWithoutLikedByInput!]
+  create: [ReviewCreateWithoutLikedByInput!]
+  delete: [ReviewWhereUniqueInput!]
+  deleteMany: [ReviewScalarWhereInput!]
+  disconnect: [ReviewWhereUniqueInput!]
+  set: [ReviewWhereUniqueInput!]
+  update: [ReviewUpdateWithWhereUniqueWithoutLikedByInput!]
+  updateMany: [ReviewUpdateManyWithWhereWithoutLikedByInput!]
+  upsert: [ReviewUpsertWithWhereUniqueWithoutLikedByInput!]
 }
 
 input ReviewUpdateManyWithoutUserBookNestedInput {
@@ -1412,14 +1241,6 @@ input ReviewUpdateManyWithoutUserNestedInput {
   upsert: [ReviewUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input ReviewUpdateOneRequiredWithoutLikesNestedInput {
-  connect: ReviewWhereUniqueInput
-  connectOrCreate: ReviewCreateOrConnectWithoutLikesInput
-  create: ReviewCreateWithoutLikesInput
-  update: ReviewUpdateToOneWithWhereWithoutLikesInput
-  upsert: ReviewUpsertWithoutLikesInput
-}
-
 input ReviewUpdateOneWithoutCommentsNestedInput {
   connect: ReviewWhereUniqueInput
   connectOrCreate: ReviewCreateOrConnectWithoutCommentsInput
@@ -1435,13 +1256,13 @@ input ReviewUpdateToOneWithWhereWithoutCommentsInput {
   where: ReviewWhereInput
 }
 
-input ReviewUpdateToOneWithWhereWithoutLikesInput {
-  data: ReviewUpdateWithoutLikesInput!
-  where: ReviewWhereInput
-}
-
 input ReviewUpdateWithWhereUniqueWithoutBookInput {
   data: ReviewUpdateWithoutBookInput!
+  where: ReviewWhereUniqueInput!
+}
+
+input ReviewUpdateWithWhereUniqueWithoutLikedByInput {
+  data: ReviewUpdateWithoutLikedByInput!
   where: ReviewWhereUniqueInput!
 }
 
@@ -1460,7 +1281,8 @@ input ReviewUpdateWithoutBookInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewUpdateManyWithoutReviewNestedInput
+  likeCount: Int
+  likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
   userBook: UserBookUpdateOneWithoutReviewsNestedInput
@@ -1471,18 +1293,20 @@ input ReviewUpdateWithoutCommentsInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewUpdateManyWithoutReviewNestedInput
+  likeCount: Int
+  likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
   userBook: UserBookUpdateOneWithoutReviewsNestedInput
 }
 
-input ReviewUpdateWithoutLikesInput {
+input ReviewUpdateWithoutLikedByInput {
   book: BookUpdateOneWithoutReviewsNestedInput
   comments: CommentUpdateManyWithoutReviewNestedInput
   content: String
   createdAt: Timestamp
   id: String
+  likeCount: Int
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
   userBook: UserBookUpdateOneWithoutReviewsNestedInput
@@ -1494,7 +1318,8 @@ input ReviewUpdateWithoutUserBookInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewUpdateManyWithoutReviewNestedInput
+  likeCount: Int
+  likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
 }
@@ -1505,7 +1330,8 @@ input ReviewUpdateWithoutUserInput {
   content: String
   createdAt: Timestamp
   id: String
-  likes: LikedReviewUpdateManyWithoutReviewNestedInput
+  likeCount: Int
+  likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   userBook: UserBookUpdateOneWithoutReviewsNestedInput
 }
@@ -1513,6 +1339,12 @@ input ReviewUpdateWithoutUserInput {
 input ReviewUpsertWithWhereUniqueWithoutBookInput {
   create: ReviewCreateWithoutBookInput!
   update: ReviewUpdateWithoutBookInput!
+  where: ReviewWhereUniqueInput!
+}
+
+input ReviewUpsertWithWhereUniqueWithoutLikedByInput {
+  create: ReviewCreateWithoutLikedByInput!
+  update: ReviewUpdateWithoutLikedByInput!
   where: ReviewWhereUniqueInput!
 }
 
@@ -1534,12 +1366,6 @@ input ReviewUpsertWithoutCommentsInput {
   where: ReviewWhereInput
 }
 
-input ReviewUpsertWithoutLikesInput {
-  create: ReviewCreateWithoutLikesInput!
-  update: ReviewUpdateWithoutLikesInput!
-  where: ReviewWhereInput
-}
-
 input ReviewWhereInput {
   AND: [ReviewWhereInput!]
   NOT: [ReviewWhereInput!]
@@ -1550,7 +1376,8 @@ input ReviewWhereInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
-  likes: LikedReviewListRelationFilter
+  likeCount: IntFilter
+  likedBy: UserListRelationFilter
   spoilers: BoolFilter
   user: UserRelationFilter
   userBook: UserBookRelationFilter
@@ -1568,7 +1395,8 @@ input ReviewWhereUniqueInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: String
-  likes: LikedReviewListRelationFilter
+  likeCount: IntFilter
+  likedBy: UserListRelationFilter
   spoilers: BoolFilter
   user: UserRelationFilter
   userBook: UserBookRelationFilter
@@ -1837,7 +1665,7 @@ type User {
   email: String!
   id: ID!
   journalEntries: [JournalEntry!]
-  likedReviews: [LikedReview!]
+  likedReviews: [Review!]
   reviews: [Review!]
   shelves: [Shelf!]
   updatedAt: Timestamp!
@@ -2550,12 +2378,18 @@ input UserCreateInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
   username: String
+}
+
+input UserCreateNestedManyWithoutLikedReviewsInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutLikedReviewsInput!]
+  create: [UserCreateWithoutLikedReviewsInput!]
 }
 
 input UserCreateNestedOneWithoutCommentsInput {
@@ -2568,12 +2402,6 @@ input UserCreateNestedOneWithoutJournalEntriesInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutJournalEntriesInput
   create: UserCreateWithoutJournalEntriesInput
-}
-
-input UserCreateNestedOneWithoutLikedReviewsInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutLikedReviewsInput
-  create: UserCreateWithoutLikedReviewsInput
 }
 
 input UserCreateNestedOneWithoutReviewsInput {
@@ -2631,7 +2459,7 @@ input UserCreateWithoutCommentsInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
@@ -2646,7 +2474,7 @@ input UserCreateWithoutJournalEntriesInput {
   hashedPassword: String
   hashedRefreshToken: String
   id: String
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
@@ -2677,7 +2505,7 @@ input UserCreateWithoutReviewsInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
@@ -2692,7 +2520,7 @@ input UserCreateWithoutShelvesInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
@@ -2707,11 +2535,17 @@ input UserCreateWithoutUserBooksInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: LikedReviewCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   username: String
+}
+
+input UserListRelationFilter {
+  every: UserWhereInput
+  none: UserWhereInput
+  some: UserWhereInput
 }
 
 type UserMaxAggregate {
@@ -2738,7 +2572,7 @@ input UserOrderByWithRelationInput {
   hashedRefreshToken: SortOrderInput
   id: SortOrder
   journalEntries: JournalEntryOrderByRelationAggregateInput
-  likedReviews: LikedReviewOrderByRelationAggregateInput
+  likedReviews: ReviewOrderByRelationAggregateInput
   reviews: ReviewOrderByRelationAggregateInput
   shelves: ShelfOrderByRelationAggregateInput
   updatedAt: SortOrder
@@ -2749,6 +2583,47 @@ input UserOrderByWithRelationInput {
 input UserRelationFilter {
   is: UserWhereInput
   isNot: UserWhereInput
+}
+
+input UserScalarWhereInput {
+  AND: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  createdAt: DateTimeFilter
+  email: StringFilter
+  hashedPassword: StringFilter
+  hashedRefreshToken: StringFilter
+  id: StringFilter
+  updatedAt: DateTimeFilter
+  username: StringFilter
+}
+
+input UserUpdateManyMutationInput {
+  createdAt: Timestamp
+  email: String
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  updatedAt: Timestamp
+  username: String
+}
+
+input UserUpdateManyWithWhereWithoutLikedReviewsInput {
+  data: UserUpdateManyMutationInput!
+  where: UserScalarWhereInput!
+}
+
+input UserUpdateManyWithoutLikedReviewsNestedInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutLikedReviewsInput!]
+  create: [UserCreateWithoutLikedReviewsInput!]
+  delete: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutLikedReviewsInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutLikedReviewsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutLikedReviewsInput!]
 }
 
 input UserUpdateOneWithoutCommentsNestedInput {
@@ -2769,16 +2644,6 @@ input UserUpdateOneWithoutJournalEntriesNestedInput {
   disconnect: UserWhereInput
   update: UserUpdateToOneWithWhereWithoutJournalEntriesInput
   upsert: UserUpsertWithoutJournalEntriesInput
-}
-
-input UserUpdateOneWithoutLikedReviewsNestedInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutLikedReviewsInput
-  create: UserCreateWithoutLikedReviewsInput
-  delete: UserWhereInput
-  disconnect: UserWhereInput
-  update: UserUpdateToOneWithWhereWithoutLikedReviewsInput
-  upsert: UserUpsertWithoutLikedReviewsInput
 }
 
 input UserUpdateOneWithoutReviewsNestedInput {
@@ -2821,11 +2686,6 @@ input UserUpdateToOneWithWhereWithoutJournalEntriesInput {
   where: UserWhereInput
 }
 
-input UserUpdateToOneWithWhereWithoutLikedReviewsInput {
-  data: UserUpdateWithoutLikedReviewsInput!
-  where: UserWhereInput
-}
-
 input UserUpdateToOneWithWhereWithoutReviewsInput {
   data: UserUpdateWithoutReviewsInput!
   where: UserWhereInput
@@ -2841,6 +2701,11 @@ input UserUpdateToOneWithWhereWithoutUserBooksInput {
   where: UserWhereInput
 }
 
+input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
+  data: UserUpdateWithoutLikedReviewsInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserUpdateWithoutCommentsInput {
   createdAt: Timestamp
   email: String
@@ -2848,7 +2713,7 @@ input UserUpdateWithoutCommentsInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: LikedReviewUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
@@ -2863,7 +2728,7 @@ input UserUpdateWithoutJournalEntriesInput {
   hashedPassword: String
   hashedRefreshToken: String
   id: String
-  likedReviews: LikedReviewUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
@@ -2894,7 +2759,7 @@ input UserUpdateWithoutReviewsInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: LikedReviewUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   userBooks: UserBookUpdateManyWithoutUserNestedInput
@@ -2909,7 +2774,7 @@ input UserUpdateWithoutShelvesInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: LikedReviewUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   userBooks: UserBookUpdateManyWithoutUserNestedInput
@@ -2924,11 +2789,17 @@ input UserUpdateWithoutUserBooksInput {
   hashedRefreshToken: String
   id: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: LikedReviewUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
+}
+
+input UserUpsertWithWhereUniqueWithoutLikedReviewsInput {
+  create: UserCreateWithoutLikedReviewsInput!
+  update: UserUpdateWithoutLikedReviewsInput!
+  where: UserWhereUniqueInput!
 }
 
 input UserUpsertWithoutCommentsInput {
@@ -2940,12 +2811,6 @@ input UserUpsertWithoutCommentsInput {
 input UserUpsertWithoutJournalEntriesInput {
   create: UserCreateWithoutJournalEntriesInput!
   update: UserUpdateWithoutJournalEntriesInput!
-  where: UserWhereInput
-}
-
-input UserUpsertWithoutLikedReviewsInput {
-  create: UserCreateWithoutLikedReviewsInput!
-  update: UserUpdateWithoutLikedReviewsInput!
   where: UserWhereInput
 }
 
@@ -2978,7 +2843,7 @@ input UserWhereInput {
   hashedRefreshToken: StringFilter
   id: StringFilter
   journalEntries: JournalEntryListRelationFilter
-  likedReviews: LikedReviewListRelationFilter
+  likedReviews: ReviewListRelationFilter
   reviews: ReviewListRelationFilter
   shelves: ShelfListRelationFilter
   updatedAt: DateTimeFilter
@@ -2997,7 +2862,7 @@ input UserWhereUniqueInput {
   hashedRefreshToken: StringFilter
   id: String
   journalEntries: JournalEntryListRelationFilter
-  likedReviews: LikedReviewListRelationFilter
+  likedReviews: ReviewListRelationFilter
   reviews: ReviewListRelationFilter
   shelves: ShelfListRelationFilter
   updatedAt: DateTimeFilter

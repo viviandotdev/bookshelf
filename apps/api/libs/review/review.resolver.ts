@@ -1,4 +1,12 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import { ReviewService } from './review.service';
 import {
   BookWhereUniqueInput,
@@ -6,6 +14,7 @@ import {
   ReviewWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
+import assert from 'node:assert';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
@@ -14,13 +23,15 @@ import { BookService } from 'libs/book/book.service';
 import { ReviewDataInput } from './models/review-create.input';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.input';
+import { PrismaRepository } from 'prisma/prisma.repository';
 
-@Resolver()
+@Resolver(() => Review)
 export class ReviewResolver {
   constructor(
     private readonly service: ReviewService,
     private readonly bookService: BookService,
     private readonly userBookService: UserBookService,
+    private readonly prisma: PrismaRepository,
   ) {}
 
   @Query(() => Review)
@@ -51,6 +62,68 @@ export class ReviewResolver {
         },
       },
     });
+  }
+
+  /**
+   * Checks if review is liked by current user.
+   */
+  @ResolveField(() => Boolean)
+  async liked(
+    @Parent() review: Review,
+    @CurrentUser() currentUser: JwtPayload,
+  ): Promise<boolean> {
+    if (!currentUser) {
+      return false;
+    }
+    if (Array.isArray(review.likedBy)) {
+      return review.likedBy.some((user) => user.id === currentUser.userId);
+    } else {
+      console.log('Review.likedBy is not defined');
+    }
+    assert(review.id);
+    return this.service.isLiked(review.id, currentUser.userId);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Review)
+  async likeReview(
+    @Args('where') where: ReviewWhereUniqueInput,
+    @Args('value') value: boolean,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const review = await this.service.findUnique({
+      where: {
+        id: where.id,
+      },
+      include: {
+        likedBy: {
+          take: 1,
+          where: { id: currentUser.userId }, // Assuming 'likedBy' is the relation field with users who liked the review
+        },
+      },
+    });
+
+    if (!review) {
+      throw new Error(`Review with ID ${where.id} does not exist.`);
+    }
+
+    if (value && review.likedBy.length > 0) {
+      throw new Error(`Review with ID ${where.id} is already liked.`);
+    }
+
+    if (!value && review.likedBy.length === 0) {
+      throw new Error(`Review with ID ${where.id} is not in liked list.`);
+    }
+
+    const updatedReview = await this.service.likeReview({
+      where,
+      likedByUserId: currentUser.userId,
+      value,
+    });
+
+    console.log(updatedReview);
+
+    return updatedReview;
   }
 
   @Query(() => [Review])
@@ -112,7 +185,7 @@ export class ReviewResolver {
       },
     });
 
-    const updatedReview = await this.service.update({
+    const updatedReview = await this.service.updateReview({
       where: { id: where.id },
       data,
     });

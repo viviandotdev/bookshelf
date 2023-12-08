@@ -8,9 +8,7 @@ import { Card, CardContent, CardTitle, CardDescription } from "./ui/card";
 import { Dot } from "lucide-react";
 import { createContext, useContext, useRef } from "react";
 import { BookData } from "@/types/interfaces";
-import { BookRating } from "./book-rating";
 import BookCover from "./book-cover";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);

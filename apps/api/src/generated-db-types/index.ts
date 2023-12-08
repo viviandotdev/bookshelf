@@ -49,6 +49,7 @@ export enum ReviewScalarFieldEnum {
     createdAt = "createdAt",
     content = "content",
     userBookId = "userBookId",
+    likeCount = "likeCount",
     spoilers = "spoilers",
     userId = "userId",
     bookId = "bookId"
@@ -74,13 +75,6 @@ export enum QueryMode {
 export enum NullsOrder {
     first = "first",
     last = "last"
-}
-
-export enum LikedReviewScalarFieldEnum {
-    id = "id",
-    likedAt = "likedAt",
-    userId = "userId",
-    reviewId = "reviewId"
 }
 
 export enum JournalEntryScalarFieldEnum {
@@ -118,7 +112,6 @@ export enum BookScalarFieldEnum {
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
-registerEnumType(LikedReviewScalarFieldEnum, { name: 'LikedReviewScalarFieldEnum', description: undefined })
 registerEnumType(NullsOrder, { name: 'NullsOrder', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
 registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
@@ -4129,1038 +4122,6 @@ export class UpsertOneJournalEntryArgs {
 }
 
 @ObjectType()
-export class AggregateLikedReview {
-    @Field(() => LikedReviewCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof LikedReviewCountAggregate>;
-    @Field(() => LikedReviewAvgAggregate, {nullable:true})
-    _avg?: InstanceType<typeof LikedReviewAvgAggregate>;
-    @Field(() => LikedReviewSumAggregate, {nullable:true})
-    _sum?: InstanceType<typeof LikedReviewSumAggregate>;
-    @Field(() => LikedReviewMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof LikedReviewMinAggregate>;
-    @Field(() => LikedReviewMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof LikedReviewMaxAggregate>;
-}
-
-@ArgsType()
-export class CreateManyLikedReviewArgs {
-    @Field(() => [LikedReviewCreateManyInput], {nullable:false})
-    @Type(() => LikedReviewCreateManyInput)
-    @ValidateNested()
-    data!: Array<LikedReviewCreateManyInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@ArgsType()
-export class CreateOneLikedReviewArgs {
-    @Field(() => LikedReviewCreateInput, {nullable:false})
-    @Type(() => LikedReviewCreateInput)
-    @ValidateNested()
-    data!: InstanceType<typeof LikedReviewCreateInput>;
-}
-
-@ArgsType()
-export class DeleteManyLikedReviewArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-}
-
-@ArgsType()
-export class DeleteOneLikedReviewArgs {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-}
-
-@ArgsType()
-export class FindFirstLikedReviewOrThrowArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => [LikedReviewOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<LikedReviewOrderByWithRelationInput>;
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [LikedReviewScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof LikedReviewScalarFieldEnum>;
-}
-
-@ArgsType()
-export class FindFirstLikedReviewArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => [LikedReviewOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<LikedReviewOrderByWithRelationInput>;
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [LikedReviewScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof LikedReviewScalarFieldEnum>;
-}
-
-@ArgsType()
-export class FindManyLikedReviewArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => [LikedReviewOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<LikedReviewOrderByWithRelationInput>;
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [LikedReviewScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof LikedReviewScalarFieldEnum>;
-}
-
-@ArgsType()
-export class FindUniqueLikedReviewOrThrowArgs {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-}
-
-@ArgsType()
-export class FindUniqueLikedReviewArgs {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-}
-
-@ArgsType()
-export class LikedReviewAggregateArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => [LikedReviewOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<LikedReviewOrderByWithRelationInput>;
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => LikedReviewCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof LikedReviewCountAggregateInput>;
-    @Field(() => LikedReviewAvgAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof LikedReviewAvgAggregateInput>;
-    @Field(() => LikedReviewSumAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof LikedReviewSumAggregateInput>;
-    @Field(() => LikedReviewMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof LikedReviewMinAggregateInput>;
-    @Field(() => LikedReviewMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof LikedReviewMaxAggregateInput>;
-}
-
-@InputType()
-export class LikedReviewAvgAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-}
-
-@ObjectType()
-export class LikedReviewAvgAggregate {
-    @Field(() => Float, {nullable:true})
-    id?: number;
-}
-
-@InputType()
-export class LikedReviewAvgOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewCountAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    likedAt?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    reviewId?: true;
-    @Field(() => Boolean, {nullable:true})
-    _all?: true;
-}
-
-@ObjectType()
-export class LikedReviewCountAggregate {
-    @Field(() => Int, {nullable:false})
-    id!: number;
-    @Field(() => Int, {nullable:false})
-    likedAt!: number;
-    @Field(() => Int, {nullable:false})
-    userId!: number;
-    @Field(() => Int, {nullable:false})
-    reviewId!: number;
-    @Field(() => Int, {nullable:false})
-    _all!: number;
-}
-
-@InputType()
-export class LikedReviewCountOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    likedAt?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    reviewId?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewCreateManyReviewInputEnvelope {
-    @Field(() => [LikedReviewCreateManyReviewInput], {nullable:false})
-    @Type(() => LikedReviewCreateManyReviewInput)
-    data!: Array<LikedReviewCreateManyReviewInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@InputType()
-export class LikedReviewCreateManyReviewInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-}
-
-@InputType()
-export class LikedReviewCreateManyUserInputEnvelope {
-    @Field(() => [LikedReviewCreateManyUserInput], {nullable:false})
-    @Type(() => LikedReviewCreateManyUserInput)
-    data!: Array<LikedReviewCreateManyUserInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@InputType()
-export class LikedReviewCreateManyUserInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-}
-
-@InputType()
-export class LikedReviewCreateManyInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-}
-
-@InputType()
-export class LikedReviewCreateNestedManyWithoutReviewInput {
-    @Field(() => [LikedReviewCreateWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create?: Array<LikedReviewCreateWithoutReviewInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutReviewInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutReviewInput>;
-    @Field(() => LikedReviewCreateManyReviewInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyReviewInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyReviewInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-}
-
-@InputType()
-export class LikedReviewCreateNestedManyWithoutUserInput {
-    @Field(() => [LikedReviewCreateWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create?: Array<LikedReviewCreateWithoutUserInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutUserInput>;
-    @Field(() => LikedReviewCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyUserInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-}
-
-@InputType()
-export class LikedReviewCreateOrConnectWithoutReviewInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewCreateWithoutReviewInput, {nullable:false})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create!: InstanceType<typeof LikedReviewCreateWithoutReviewInput>;
-}
-
-@InputType()
-export class LikedReviewCreateOrConnectWithoutUserInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewCreateWithoutUserInput, {nullable:false})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create!: InstanceType<typeof LikedReviewCreateWithoutUserInput>;
-}
-
-@InputType()
-export class LikedReviewCreateWithoutReviewInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => UserCreateNestedOneWithoutLikedReviewsInput, {nullable:true})
-    user?: InstanceType<typeof UserCreateNestedOneWithoutLikedReviewsInput>;
-}
-
-@InputType()
-export class LikedReviewCreateWithoutUserInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => ReviewCreateNestedOneWithoutLikesInput, {nullable:false})
-    review!: InstanceType<typeof ReviewCreateNestedOneWithoutLikesInput>;
-}
-
-@InputType()
-export class LikedReviewCreateInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => ReviewCreateNestedOneWithoutLikesInput, {nullable:false})
-    review!: InstanceType<typeof ReviewCreateNestedOneWithoutLikesInput>;
-    @Field(() => UserCreateNestedOneWithoutLikedReviewsInput, {nullable:true})
-    user?: InstanceType<typeof UserCreateNestedOneWithoutLikedReviewsInput>;
-}
-
-@ArgsType()
-export class LikedReviewGroupByArgs {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => [LikedReviewOrderByWithAggregationInput], {nullable:true})
-    orderBy?: Array<LikedReviewOrderByWithAggregationInput>;
-    @Field(() => [LikedReviewScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof LikedReviewScalarFieldEnum>;
-    @Field(() => LikedReviewScalarWhereWithAggregatesInput, {nullable:true})
-    having?: InstanceType<typeof LikedReviewScalarWhereWithAggregatesInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => LikedReviewCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof LikedReviewCountAggregateInput>;
-    @Field(() => LikedReviewAvgAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof LikedReviewAvgAggregateInput>;
-    @Field(() => LikedReviewSumAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof LikedReviewSumAggregateInput>;
-    @Field(() => LikedReviewMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof LikedReviewMinAggregateInput>;
-    @Field(() => LikedReviewMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof LikedReviewMaxAggregateInput>;
-}
-
-@ObjectType()
-export class LikedReviewGroupBy {
-    @Field(() => Int, {nullable:false})
-    id!: number;
-    @Field(() => Date, {nullable:false})
-    likedAt!: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-    @Field(() => LikedReviewCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof LikedReviewCountAggregate>;
-    @Field(() => LikedReviewAvgAggregate, {nullable:true})
-    _avg?: InstanceType<typeof LikedReviewAvgAggregate>;
-    @Field(() => LikedReviewSumAggregate, {nullable:true})
-    _sum?: InstanceType<typeof LikedReviewSumAggregate>;
-    @Field(() => LikedReviewMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof LikedReviewMinAggregate>;
-    @Field(() => LikedReviewMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof LikedReviewMaxAggregate>;
-}
-
-@InputType()
-export class LikedReviewListRelationFilter {
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    every?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    some?: InstanceType<typeof LikedReviewWhereInput>;
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    none?: InstanceType<typeof LikedReviewWhereInput>;
-}
-
-@InputType()
-export class LikedReviewMaxAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    likedAt?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    reviewId?: true;
-}
-
-@ObjectType()
-export class LikedReviewMaxAggregate {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewMaxOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    likedAt?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    reviewId?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewMinAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    likedAt?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    reviewId?: true;
-}
-
-@ObjectType()
-export class LikedReviewMinAggregate {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewMinOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    likedAt?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    reviewId?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewOrderByRelationAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewOrderByWithAggregationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    likedAt?: keyof typeof SortOrder;
-    @Field(() => SortOrderInput, {nullable:true})
-    userId?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrder, {nullable:true})
-    reviewId?: keyof typeof SortOrder;
-    @Field(() => LikedReviewCountOrderByAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof LikedReviewCountOrderByAggregateInput>;
-    @Field(() => LikedReviewAvgOrderByAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof LikedReviewAvgOrderByAggregateInput>;
-    @Field(() => LikedReviewMaxOrderByAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof LikedReviewMaxOrderByAggregateInput>;
-    @Field(() => LikedReviewMinOrderByAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof LikedReviewMinOrderByAggregateInput>;
-    @Field(() => LikedReviewSumOrderByAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof LikedReviewSumOrderByAggregateInput>;
-}
-
-@InputType()
-export class LikedReviewOrderByWithRelationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    likedAt?: keyof typeof SortOrder;
-    @Field(() => SortOrderInput, {nullable:true})
-    userId?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrder, {nullable:true})
-    reviewId?: keyof typeof SortOrder;
-    @Field(() => ReviewOrderByWithRelationInput, {nullable:true})
-    review?: InstanceType<typeof ReviewOrderByWithRelationInput>;
-    @Field(() => UserOrderByWithRelationInput, {nullable:true})
-    user?: InstanceType<typeof UserOrderByWithRelationInput>;
-}
-
-@InputType()
-export class LikedReviewScalarWhereWithAggregatesInput {
-    @Field(() => [LikedReviewScalarWhereWithAggregatesInput], {nullable:true})
-    AND?: Array<LikedReviewScalarWhereWithAggregatesInput>;
-    @Field(() => [LikedReviewScalarWhereWithAggregatesInput], {nullable:true})
-    OR?: Array<LikedReviewScalarWhereWithAggregatesInput>;
-    @Field(() => [LikedReviewScalarWhereWithAggregatesInput], {nullable:true})
-    NOT?: Array<LikedReviewScalarWhereWithAggregatesInput>;
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    id?: InstanceType<typeof IntWithAggregatesFilter>;
-    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    likedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    userId?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    reviewId?: InstanceType<typeof StringWithAggregatesFilter>;
-}
-
-@InputType()
-export class LikedReviewScalarWhereInput {
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    AND?: Array<LikedReviewScalarWhereInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    OR?: Array<LikedReviewScalarWhereInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    NOT?: Array<LikedReviewScalarWhereInput>;
-    @Field(() => IntFilter, {nullable:true})
-    id?: InstanceType<typeof IntFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    likedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    reviewId?: InstanceType<typeof StringFilter>;
-}
-
-@InputType()
-export class LikedReviewSumAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-}
-
-@ObjectType()
-export class LikedReviewSumAggregate {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-}
-
-@InputType()
-export class LikedReviewSumOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
-}
-
-@InputType()
-export class LikedReviewUncheckedCreateNestedManyWithoutReviewInput {
-    @Field(() => [LikedReviewCreateWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create?: Array<LikedReviewCreateWithoutReviewInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutReviewInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutReviewInput>;
-    @Field(() => LikedReviewCreateManyReviewInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyReviewInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyReviewInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-}
-
-@InputType()
-export class LikedReviewUncheckedCreateNestedManyWithoutUserInput {
-    @Field(() => [LikedReviewCreateWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create?: Array<LikedReviewCreateWithoutUserInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutUserInput>;
-    @Field(() => LikedReviewCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyUserInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-}
-
-@InputType()
-export class LikedReviewUncheckedCreateWithoutReviewInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedCreateWithoutUserInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedCreateInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateManyWithoutReviewNestedInput {
-    @Field(() => [LikedReviewCreateWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create?: Array<LikedReviewCreateWithoutReviewInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutReviewInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutReviewInput>;
-    @Field(() => [LikedReviewUpsertWithWhereUniqueWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpsertWithWhereUniqueWithoutReviewInput)
-    upsert?: Array<LikedReviewUpsertWithWhereUniqueWithoutReviewInput>;
-    @Field(() => LikedReviewCreateManyReviewInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyReviewInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyReviewInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewUpdateWithWhereUniqueWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpdateWithWhereUniqueWithoutReviewInput)
-    update?: Array<LikedReviewUpdateWithWhereUniqueWithoutReviewInput>;
-    @Field(() => [LikedReviewUpdateManyWithWhereWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpdateManyWithWhereWithoutReviewInput)
-    updateMany?: Array<LikedReviewUpdateManyWithWhereWithoutReviewInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    @Type(() => LikedReviewScalarWhereInput)
-    deleteMany?: Array<LikedReviewScalarWhereInput>;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateManyWithoutReviewInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateManyWithoutUserNestedInput {
-    @Field(() => [LikedReviewCreateWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create?: Array<LikedReviewCreateWithoutUserInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutUserInput>;
-    @Field(() => [LikedReviewUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<LikedReviewUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => LikedReviewCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyUserInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<LikedReviewUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [LikedReviewUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<LikedReviewUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    @Type(() => LikedReviewScalarWhereInput)
-    deleteMany?: Array<LikedReviewScalarWhereInput>;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateManyWithoutUserInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateManyInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateWithoutReviewInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateWithoutUserInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewUncheckedUpdateInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    reviewId?: string;
-}
-
-@InputType()
-export class LikedReviewUpdateManyMutationInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-}
-
-@InputType()
-export class LikedReviewUpdateManyWithWhereWithoutReviewInput {
-    @Field(() => LikedReviewScalarWhereInput, {nullable:false})
-    @Type(() => LikedReviewScalarWhereInput)
-    where!: InstanceType<typeof LikedReviewScalarWhereInput>;
-    @Field(() => LikedReviewUpdateManyMutationInput, {nullable:false})
-    @Type(() => LikedReviewUpdateManyMutationInput)
-    data!: InstanceType<typeof LikedReviewUpdateManyMutationInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateManyWithWhereWithoutUserInput {
-    @Field(() => LikedReviewScalarWhereInput, {nullable:false})
-    @Type(() => LikedReviewScalarWhereInput)
-    where!: InstanceType<typeof LikedReviewScalarWhereInput>;
-    @Field(() => LikedReviewUpdateManyMutationInput, {nullable:false})
-    @Type(() => LikedReviewUpdateManyMutationInput)
-    data!: InstanceType<typeof LikedReviewUpdateManyMutationInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateManyWithoutReviewNestedInput {
-    @Field(() => [LikedReviewCreateWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create?: Array<LikedReviewCreateWithoutReviewInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutReviewInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutReviewInput>;
-    @Field(() => [LikedReviewUpsertWithWhereUniqueWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpsertWithWhereUniqueWithoutReviewInput)
-    upsert?: Array<LikedReviewUpsertWithWhereUniqueWithoutReviewInput>;
-    @Field(() => LikedReviewCreateManyReviewInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyReviewInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyReviewInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewUpdateWithWhereUniqueWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpdateWithWhereUniqueWithoutReviewInput)
-    update?: Array<LikedReviewUpdateWithWhereUniqueWithoutReviewInput>;
-    @Field(() => [LikedReviewUpdateManyWithWhereWithoutReviewInput], {nullable:true})
-    @Type(() => LikedReviewUpdateManyWithWhereWithoutReviewInput)
-    updateMany?: Array<LikedReviewUpdateManyWithWhereWithoutReviewInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    @Type(() => LikedReviewScalarWhereInput)
-    deleteMany?: Array<LikedReviewScalarWhereInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateManyWithoutUserNestedInput {
-    @Field(() => [LikedReviewCreateWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create?: Array<LikedReviewCreateWithoutUserInput>;
-    @Field(() => [LikedReviewCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<LikedReviewCreateOrConnectWithoutUserInput>;
-    @Field(() => [LikedReviewUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<LikedReviewUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => LikedReviewCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => LikedReviewCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof LikedReviewCreateManyUserInputEnvelope>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewWhereUniqueInput], {nullable:true})
-    @Type(() => LikedReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>>;
-    @Field(() => [LikedReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<LikedReviewUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [LikedReviewUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => LikedReviewUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<LikedReviewUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [LikedReviewScalarWhereInput], {nullable:true})
-    @Type(() => LikedReviewScalarWhereInput)
-    deleteMany?: Array<LikedReviewScalarWhereInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateWithWhereUniqueWithoutReviewInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewUpdateWithoutReviewInput, {nullable:false})
-    @Type(() => LikedReviewUpdateWithoutReviewInput)
-    data!: InstanceType<typeof LikedReviewUpdateWithoutReviewInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateWithWhereUniqueWithoutUserInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewUpdateWithoutUserInput, {nullable:false})
-    @Type(() => LikedReviewUpdateWithoutUserInput)
-    data!: InstanceType<typeof LikedReviewUpdateWithoutUserInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateWithoutReviewInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => UserUpdateOneWithoutLikedReviewsNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneWithoutLikedReviewsNestedInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateWithoutUserInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => ReviewUpdateOneRequiredWithoutLikesNestedInput, {nullable:true})
-    review?: InstanceType<typeof ReviewUpdateOneRequiredWithoutLikesNestedInput>;
-}
-
-@InputType()
-export class LikedReviewUpdateInput {
-    @Field(() => Date, {nullable:true})
-    likedAt?: Date | string;
-    @Field(() => ReviewUpdateOneRequiredWithoutLikesNestedInput, {nullable:true})
-    review?: InstanceType<typeof ReviewUpdateOneRequiredWithoutLikesNestedInput>;
-    @Field(() => UserUpdateOneWithoutLikedReviewsNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneWithoutLikedReviewsNestedInput>;
-}
-
-@InputType()
-export class LikedReviewUpsertWithWhereUniqueWithoutReviewInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewUpdateWithoutReviewInput, {nullable:false})
-    @Type(() => LikedReviewUpdateWithoutReviewInput)
-    update!: InstanceType<typeof LikedReviewUpdateWithoutReviewInput>;
-    @Field(() => LikedReviewCreateWithoutReviewInput, {nullable:false})
-    @Type(() => LikedReviewCreateWithoutReviewInput)
-    create!: InstanceType<typeof LikedReviewCreateWithoutReviewInput>;
-}
-
-@InputType()
-export class LikedReviewUpsertWithWhereUniqueWithoutUserInput {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewUpdateWithoutUserInput, {nullable:false})
-    @Type(() => LikedReviewUpdateWithoutUserInput)
-    update!: InstanceType<typeof LikedReviewUpdateWithoutUserInput>;
-    @Field(() => LikedReviewCreateWithoutUserInput, {nullable:false})
-    @Type(() => LikedReviewCreateWithoutUserInput)
-    create!: InstanceType<typeof LikedReviewCreateWithoutUserInput>;
-}
-
-@InputType()
-export class LikedReviewWhereUniqueInput {
-    @Field(() => Int, {nullable:true})
-    id?: number;
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    AND?: Array<LikedReviewWhereInput>;
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    OR?: Array<LikedReviewWhereInput>;
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    NOT?: Array<LikedReviewWhereInput>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    likedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    reviewId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReviewRelationFilter, {nullable:true})
-    review?: InstanceType<typeof ReviewRelationFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
-}
-
-@InputType()
-export class LikedReviewWhereInput {
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    AND?: Array<LikedReviewWhereInput>;
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    OR?: Array<LikedReviewWhereInput>;
-    @Field(() => [LikedReviewWhereInput], {nullable:true})
-    NOT?: Array<LikedReviewWhereInput>;
-    @Field(() => IntFilter, {nullable:true})
-    id?: InstanceType<typeof IntFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    likedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    reviewId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReviewRelationFilter, {nullable:true})
-    review?: InstanceType<typeof ReviewRelationFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
-}
-
-@ObjectType()
-export class LikedReview {
-    @Field(() => ID, {nullable:false})
-    id!: number;
-    @Field(() => Date, {nullable:false})
-    likedAt!: Date;
-    @Field(() => String, {nullable:true})
-    userId!: string | null;
-    @Field(() => String, {nullable:false})
-    reviewId!: string;
-    @Field(() => Review, {nullable:false})
-    review?: InstanceType<typeof Review>;
-    @Field(() => User, {nullable:true})
-    user?: InstanceType<typeof User> | null;
-}
-
-@ArgsType()
-export class UpdateManyLikedReviewArgs {
-    @Field(() => LikedReviewUpdateManyMutationInput, {nullable:false})
-    @Type(() => LikedReviewUpdateManyMutationInput)
-    @ValidateNested()
-    data!: InstanceType<typeof LikedReviewUpdateManyMutationInput>;
-    @Field(() => LikedReviewWhereInput, {nullable:true})
-    @Type(() => LikedReviewWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof LikedReviewWhereInput>;
-}
-
-@ArgsType()
-export class UpdateOneLikedReviewArgs {
-    @Field(() => LikedReviewUpdateInput, {nullable:false})
-    @Type(() => LikedReviewUpdateInput)
-    @ValidateNested()
-    data!: InstanceType<typeof LikedReviewUpdateInput>;
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-}
-
-@ArgsType()
-export class UpsertOneLikedReviewArgs {
-    @Field(() => LikedReviewWhereUniqueInput, {nullable:false})
-    @Type(() => LikedReviewWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<LikedReviewWhereUniqueInput, 'id'>;
-    @Field(() => LikedReviewCreateInput, {nullable:false})
-    @Type(() => LikedReviewCreateInput)
-    create!: InstanceType<typeof LikedReviewCreateInput>;
-    @Field(() => LikedReviewUpdateInput, {nullable:false})
-    @Type(() => LikedReviewUpdateInput)
-    update!: InstanceType<typeof LikedReviewUpdateInput>;
-}
-
-@ObjectType()
 export class AffectedRows {
     @Field(() => Int, {nullable:false})
     count!: number;
@@ -5378,6 +4339,10 @@ export class StringWithAggregatesFilter {
 export class AggregateReview {
     @Field(() => ReviewCountAggregate, {nullable:true})
     _count?: InstanceType<typeof ReviewCountAggregate>;
+    @Field(() => ReviewAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof ReviewAvgAggregate>;
+    @Field(() => ReviewSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof ReviewSumAggregate>;
     @Field(() => ReviewMinAggregate, {nullable:true})
     _min?: InstanceType<typeof ReviewMinAggregate>;
     @Field(() => ReviewMaxAggregate, {nullable:true})
@@ -5504,10 +4469,32 @@ export class ReviewAggregateArgs {
     skip?: number;
     @Field(() => ReviewCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof ReviewCountAggregateInput>;
+    @Field(() => ReviewAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReviewAvgAggregateInput>;
+    @Field(() => ReviewSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReviewSumAggregateInput>;
     @Field(() => ReviewMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof ReviewMinAggregateInput>;
     @Field(() => ReviewMaxAggregateInput, {nullable:true})
     _max?: InstanceType<typeof ReviewMaxAggregateInput>;
+}
+
+@InputType()
+export class ReviewAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    likeCount?: true;
+}
+
+@ObjectType()
+export class ReviewAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    likeCount?: number;
+}
+
+@InputType()
+export class ReviewAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -5520,6 +4507,8 @@ export class ReviewCountAggregateInput {
     content?: true;
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    likeCount?: true;
     @Field(() => Boolean, {nullable:true})
     spoilers?: true;
     @Field(() => Boolean, {nullable:true})
@@ -5541,6 +4530,8 @@ export class ReviewCountAggregate {
     @Field(() => Int, {nullable:false})
     userBookId!: number;
     @Field(() => Int, {nullable:false})
+    likeCount!: number;
+    @Field(() => Int, {nullable:false})
     spoilers!: number;
     @Field(() => Int, {nullable:false})
     userId!: number;
@@ -5561,6 +4552,8 @@ export class ReviewCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     spoilers?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
@@ -5571,7 +4564,7 @@ export class ReviewCountOrderByAggregateInput {
 @ObjectType()
 export class ReviewCount {
     @Field(() => Int, {nullable:false})
-    likes?: number;
+    likedBy?: number;
     @Field(() => Int, {nullable:false})
     comments?: number;
 }
@@ -5595,6 +4588,8 @@ export class ReviewCreateManyBookInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -5618,6 +4613,8 @@ export class ReviewCreateManyUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -5645,6 +4642,8 @@ export class ReviewCreateManyUserInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -5661,6 +4660,8 @@ export class ReviewCreateManyInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -5680,6 +4681,19 @@ export class ReviewCreateNestedManyWithoutBookInput {
     @Field(() => ReviewCreateManyBookInputEnvelope, {nullable:true})
     @Type(() => ReviewCreateManyBookInputEnvelope)
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReviewCreateNestedManyWithoutLikedByInput {
+    @Field(() => [ReviewCreateWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create?: Array<ReviewCreateWithoutLikedByInput>;
+    @Field(() => [ReviewCreateOrConnectWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateOrConnectWithoutLikedByInput)
+    connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
     connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
@@ -5731,19 +4745,6 @@ export class ReviewCreateNestedOneWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewCreateNestedOneWithoutLikesInput {
-    @Field(() => ReviewCreateWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewCreateWithoutLikesInput)
-    create?: InstanceType<typeof ReviewCreateWithoutLikesInput>;
-    @Field(() => ReviewCreateOrConnectWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewCreateOrConnectWithoutLikesInput)
-    connectOrCreate?: InstanceType<typeof ReviewCreateOrConnectWithoutLikesInput>;
-    @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
-}
-
-@InputType()
 export class ReviewCreateOrConnectWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
@@ -5764,13 +4765,13 @@ export class ReviewCreateOrConnectWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewCreateOrConnectWithoutLikesInput {
+export class ReviewCreateOrConnectWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
-    @Field(() => ReviewCreateWithoutLikesInput, {nullable:false})
-    @Type(() => ReviewCreateWithoutLikesInput)
-    create!: InstanceType<typeof ReviewCreateWithoutLikesInput>;
+    @Field(() => ReviewCreateWithoutLikedByInput, {nullable:false})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create!: InstanceType<typeof ReviewCreateWithoutLikedByInput>;
 }
 
 @InputType()
@@ -5801,12 +4802,14 @@ export class ReviewCreateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReviewsInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReviewsInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutReviewInput>;
     @Field(() => UserCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5821,12 +4824,14 @@ export class ReviewCreateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReviewsInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReviewsInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => UserCreateNestedOneWithoutReviewsInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutReviewsInput>;
     @Field(() => BookCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5834,13 +4839,15 @@ export class ReviewCreateWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewCreateWithoutLikesInput {
+export class ReviewCreateWithoutLikedByInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5861,10 +4868,12 @@ export class ReviewCreateWithoutUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => LikedReviewCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutReviewInput>;
     @Field(() => UserCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5881,12 +4890,14 @@ export class ReviewCreateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReviewsInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReviewsInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutReviewInput>;
     @Field(() => BookCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5901,12 +4912,14 @@ export class ReviewCreateInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReviewsInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReviewsInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutReviewInput>;
     @Field(() => UserCreateNestedOneWithoutReviewsInput, {nullable:true})
@@ -5933,6 +4946,10 @@ export class ReviewGroupByArgs {
     skip?: number;
     @Field(() => ReviewCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof ReviewCountAggregateInput>;
+    @Field(() => ReviewAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReviewAvgAggregateInput>;
+    @Field(() => ReviewSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReviewSumAggregateInput>;
     @Field(() => ReviewMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof ReviewMinAggregateInput>;
     @Field(() => ReviewMaxAggregateInput, {nullable:true})
@@ -5949,6 +4966,8 @@ export class ReviewGroupBy {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:false})
+    likeCount!: number;
     @Field(() => Boolean, {nullable:false})
     spoilers!: boolean;
     @Field(() => String, {nullable:true})
@@ -5957,6 +4976,10 @@ export class ReviewGroupBy {
     bookId?: string;
     @Field(() => ReviewCountAggregate, {nullable:true})
     _count?: InstanceType<typeof ReviewCountAggregate>;
+    @Field(() => ReviewAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof ReviewAvgAggregate>;
+    @Field(() => ReviewSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof ReviewSumAggregate>;
     @Field(() => ReviewMinAggregate, {nullable:true})
     _min?: InstanceType<typeof ReviewMinAggregate>;
     @Field(() => ReviewMaxAggregate, {nullable:true})
@@ -5984,6 +5007,8 @@ export class ReviewMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
     @Field(() => Boolean, {nullable:true})
+    likeCount?: true;
+    @Field(() => Boolean, {nullable:true})
     spoilers?: true;
     @Field(() => Boolean, {nullable:true})
     userId?: true;
@@ -6001,6 +5026,8 @@ export class ReviewMaxAggregate {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6020,6 +5047,8 @@ export class ReviewMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     spoilers?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
@@ -6038,6 +5067,8 @@ export class ReviewMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     userBookId?: true;
     @Field(() => Boolean, {nullable:true})
+    likeCount?: true;
+    @Field(() => Boolean, {nullable:true})
     spoilers?: true;
     @Field(() => Boolean, {nullable:true})
     userId?: true;
@@ -6055,6 +5086,8 @@ export class ReviewMinAggregate {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6073,6 +5106,8 @@ export class ReviewMinOrderByAggregateInput {
     content?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     spoilers?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -6098,6 +5133,8 @@ export class ReviewOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     spoilers?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     userId?: InstanceType<typeof SortOrderInput>;
@@ -6105,10 +5142,14 @@ export class ReviewOrderByWithAggregationInput {
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => ReviewCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof ReviewCountOrderByAggregateInput>;
+    @Field(() => ReviewAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReviewAvgOrderByAggregateInput>;
     @Field(() => ReviewMaxOrderByAggregateInput, {nullable:true})
     _max?: InstanceType<typeof ReviewMaxOrderByAggregateInput>;
     @Field(() => ReviewMinOrderByAggregateInput, {nullable:true})
     _min?: InstanceType<typeof ReviewMinOrderByAggregateInput>;
+    @Field(() => ReviewSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReviewSumOrderByAggregateInput>;
 }
 
 @InputType()
@@ -6122,6 +5163,8 @@ export class ReviewOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     spoilers?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     userId?: InstanceType<typeof SortOrderInput>;
@@ -6129,8 +5172,8 @@ export class ReviewOrderByWithRelationInput {
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookOrderByWithRelationInput>;
-    @Field(() => LikedReviewOrderByRelationAggregateInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewOrderByRelationAggregateInput>;
+    @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserOrderByRelationAggregateInput>;
     @Field(() => CommentOrderByRelationAggregateInput, {nullable:true})
     comments?: InstanceType<typeof CommentOrderByRelationAggregateInput>;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
@@ -6163,6 +5206,8 @@ export class ReviewScalarWhereWithAggregatesInput {
     content?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    likeCount?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     spoilers?: InstanceType<typeof BoolWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
@@ -6187,12 +5232,32 @@ export class ReviewScalarWhereInput {
     content?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    likeCount?: InstanceType<typeof IntFilter>;
     @Field(() => BoolFilter, {nullable:true})
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
+}
+
+@InputType()
+export class ReviewSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    likeCount?: true;
+}
+
+@ObjectType()
+export class ReviewSumAggregate {
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
+}
+
+@InputType()
+export class ReviewSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    likeCount?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -6206,6 +5271,19 @@ export class ReviewUncheckedCreateNestedManyWithoutBookInput {
     @Field(() => ReviewCreateManyBookInputEnvelope, {nullable:true})
     @Type(() => ReviewCreateManyBookInputEnvelope)
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReviewUncheckedCreateNestedManyWithoutLikedByInput {
+    @Field(() => [ReviewCreateWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create?: Array<ReviewCreateWithoutLikedByInput>;
+    @Field(() => [ReviewCreateOrConnectWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateOrConnectWithoutLikedByInput)
+    connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
     connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
@@ -6253,12 +5331,14 @@ export class ReviewUncheckedCreateWithoutBookInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutReviewInput>;
 }
@@ -6273,18 +5353,20 @@ export class ReviewUncheckedCreateWithoutCommentsInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
 }
 
 @InputType()
-export class ReviewUncheckedCreateWithoutLikesInput {
+export class ReviewUncheckedCreateWithoutLikedByInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Date, {nullable:true})
@@ -6293,6 +5375,8 @@ export class ReviewUncheckedCreateWithoutLikesInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6311,14 +5395,16 @@ export class ReviewUncheckedCreateWithoutUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutReviewInput>;
 }
@@ -6333,12 +5419,14 @@ export class ReviewUncheckedCreateWithoutUserInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutReviewInput>;
 }
@@ -6353,14 +5441,16 @@ export class ReviewUncheckedCreateInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutReviewInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutReviewInput>;
 }
@@ -6412,10 +5502,66 @@ export class ReviewUncheckedUpdateManyWithoutBookInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
+}
+
+@InputType()
+export class ReviewUncheckedUpdateManyWithoutLikedByNestedInput {
+    @Field(() => [ReviewCreateWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create?: Array<ReviewCreateWithoutLikedByInput>;
+    @Field(() => [ReviewCreateOrConnectWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateOrConnectWithoutLikedByInput)
+    connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
+    @Field(() => [ReviewUpsertWithWhereUniqueWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpsertWithWhereUniqueWithoutLikedByInput)
+    upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
+    update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
+    @Field(() => [ReviewUpdateManyWithWhereWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpdateManyWithWhereWithoutLikedByInput)
+    updateMany?: Array<ReviewUpdateManyWithWhereWithoutLikedByInput>;
+    @Field(() => [ReviewScalarWhereInput], {nullable:true})
+    @Type(() => ReviewScalarWhereInput)
+    deleteMany?: Array<ReviewScalarWhereInput>;
+}
+
+@InputType()
+export class ReviewUncheckedUpdateManyWithoutLikedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    content?: string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
+    @Field(() => Boolean, {nullable:true})
+    spoilers?: boolean;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    bookId?: string;
 }
 
 @InputType()
@@ -6463,6 +5609,8 @@ export class ReviewUncheckedUpdateManyWithoutUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6518,6 +5666,8 @@ export class ReviewUncheckedUpdateManyWithoutUserInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6534,6 +5684,8 @@ export class ReviewUncheckedUpdateManyInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6552,12 +5704,14 @@ export class ReviewUncheckedUpdateWithoutBookInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutReviewNestedInput>;
 }
@@ -6572,18 +5726,20 @@ export class ReviewUncheckedUpdateWithoutCommentsInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
 }
 
 @InputType()
-export class ReviewUncheckedUpdateWithoutLikesInput {
+export class ReviewUncheckedUpdateWithoutLikedByInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Date, {nullable:true})
@@ -6592,6 +5748,8 @@ export class ReviewUncheckedUpdateWithoutLikesInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
@@ -6610,14 +5768,16 @@ export class ReviewUncheckedUpdateWithoutUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutReviewNestedInput>;
 }
@@ -6632,12 +5792,14 @@ export class ReviewUncheckedUpdateWithoutUserInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutReviewNestedInput>;
 }
@@ -6652,14 +5814,16 @@ export class ReviewUncheckedUpdateInput {
     content?: string;
     @Field(() => String, {nullable:true})
     userBookId?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
     @Field(() => String, {nullable:true})
     bookId?: string;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutReviewNestedInput>;
 }
@@ -6672,12 +5836,24 @@ export class ReviewUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
 }
 
 @InputType()
 export class ReviewUpdateManyWithWhereWithoutBookInput {
+    @Field(() => ReviewScalarWhereInput, {nullable:false})
+    @Type(() => ReviewScalarWhereInput)
+    where!: InstanceType<typeof ReviewScalarWhereInput>;
+    @Field(() => ReviewUpdateManyMutationInput, {nullable:false})
+    @Type(() => ReviewUpdateManyMutationInput)
+    data!: InstanceType<typeof ReviewUpdateManyMutationInput>;
+}
+
+@InputType()
+export class ReviewUpdateManyWithWhereWithoutLikedByInput {
     @Field(() => ReviewScalarWhereInput, {nullable:false})
     @Type(() => ReviewScalarWhereInput)
     where!: InstanceType<typeof ReviewScalarWhereInput>;
@@ -6738,6 +5914,40 @@ export class ReviewUpdateManyWithoutBookNestedInput {
     @Field(() => [ReviewUpdateManyWithWhereWithoutBookInput], {nullable:true})
     @Type(() => ReviewUpdateManyWithWhereWithoutBookInput)
     updateMany?: Array<ReviewUpdateManyWithWhereWithoutBookInput>;
+    @Field(() => [ReviewScalarWhereInput], {nullable:true})
+    @Type(() => ReviewScalarWhereInput)
+    deleteMany?: Array<ReviewScalarWhereInput>;
+}
+
+@InputType()
+export class ReviewUpdateManyWithoutLikedByNestedInput {
+    @Field(() => [ReviewCreateWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create?: Array<ReviewCreateWithoutLikedByInput>;
+    @Field(() => [ReviewCreateOrConnectWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewCreateOrConnectWithoutLikedByInput)
+    connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
+    @Field(() => [ReviewUpsertWithWhereUniqueWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpsertWithWhereUniqueWithoutLikedByInput)
+    upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewWhereUniqueInput], {nullable:true})
+    @Type(() => ReviewWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
+    update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
+    @Field(() => [ReviewUpdateManyWithWhereWithoutLikedByInput], {nullable:true})
+    @Type(() => ReviewUpdateManyWithWhereWithoutLikedByInput)
+    updateMany?: Array<ReviewUpdateManyWithWhereWithoutLikedByInput>;
     @Field(() => [ReviewScalarWhereInput], {nullable:true})
     @Type(() => ReviewScalarWhereInput)
     deleteMany?: Array<ReviewScalarWhereInput>;
@@ -6818,25 +6028,6 @@ export class ReviewUpdateManyWithoutUserNestedInput {
 }
 
 @InputType()
-export class ReviewUpdateOneRequiredWithoutLikesNestedInput {
-    @Field(() => ReviewCreateWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewCreateWithoutLikesInput)
-    create?: InstanceType<typeof ReviewCreateWithoutLikesInput>;
-    @Field(() => ReviewCreateOrConnectWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewCreateOrConnectWithoutLikesInput)
-    connectOrCreate?: InstanceType<typeof ReviewCreateOrConnectWithoutLikesInput>;
-    @Field(() => ReviewUpsertWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewUpsertWithoutLikesInput)
-    upsert?: InstanceType<typeof ReviewUpsertWithoutLikesInput>;
-    @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
-    @Field(() => ReviewUpdateToOneWithWhereWithoutLikesInput, {nullable:true})
-    @Type(() => ReviewUpdateToOneWithWhereWithoutLikesInput)
-    update?: InstanceType<typeof ReviewUpdateToOneWithWhereWithoutLikesInput>;
-}
-
-@InputType()
 export class ReviewUpdateOneWithoutCommentsNestedInput {
     @Field(() => ReviewCreateWithoutCommentsInput, {nullable:true})
     @Type(() => ReviewCreateWithoutCommentsInput)
@@ -6872,16 +6063,6 @@ export class ReviewUpdateToOneWithWhereWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewUpdateToOneWithWhereWithoutLikesInput {
-    @Field(() => ReviewWhereInput, {nullable:true})
-    @Type(() => ReviewWhereInput)
-    where?: InstanceType<typeof ReviewWhereInput>;
-    @Field(() => ReviewUpdateWithoutLikesInput, {nullable:false})
-    @Type(() => ReviewUpdateWithoutLikesInput)
-    data!: InstanceType<typeof ReviewUpdateWithoutLikesInput>;
-}
-
-@InputType()
 export class ReviewUpdateWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
@@ -6889,6 +6070,16 @@ export class ReviewUpdateWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewUpdateWithoutBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutBookInput)
     data!: InstanceType<typeof ReviewUpdateWithoutBookInput>;
+}
+
+@InputType()
+export class ReviewUpdateWithWhereUniqueWithoutLikedByInput {
+    @Field(() => ReviewWhereUniqueInput, {nullable:false})
+    @Type(() => ReviewWhereUniqueInput)
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
+    @Type(() => ReviewUpdateWithoutLikedByInput)
+    data!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
 }
 
 @InputType()
@@ -6919,12 +6110,14 @@ export class ReviewUpdateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookUpdateOneWithoutReviewsNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReviewsNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutReviewNestedInput>;
     @Field(() => UserUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -6939,12 +6132,14 @@ export class ReviewUpdateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookUpdateOneWithoutReviewsNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReviewsNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => UserUpdateOneWithoutReviewsNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutReviewsNestedInput>;
     @Field(() => BookUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -6952,13 +6147,15 @@ export class ReviewUpdateWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewUpdateWithoutLikesInput {
+export class ReviewUpdateWithoutLikedByInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -6979,10 +6176,12 @@ export class ReviewUpdateWithoutUserBookInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => LikedReviewUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutReviewNestedInput>;
     @Field(() => UserUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -6999,12 +6198,14 @@ export class ReviewUpdateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookUpdateOneWithoutReviewsNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReviewsNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutReviewNestedInput>;
     @Field(() => BookUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -7019,12 +6220,14 @@ export class ReviewUpdateInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     content?: string;
+    @Field(() => Int, {nullable:true})
+    likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
     @Field(() => UserBookUpdateOneWithoutReviewsNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReviewsNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutReviewNestedInput, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewUpdateManyWithoutReviewNestedInput>;
+    @Field(() => UserUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
+    likedBy?: InstanceType<typeof UserUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutReviewNestedInput>;
     @Field(() => UserUpdateOneWithoutReviewsNestedInput, {nullable:true})
@@ -7044,6 +6247,19 @@ export class ReviewUpsertWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewCreateWithoutBookInput, {nullable:false})
     @Type(() => ReviewCreateWithoutBookInput)
     create!: InstanceType<typeof ReviewCreateWithoutBookInput>;
+}
+
+@InputType()
+export class ReviewUpsertWithWhereUniqueWithoutLikedByInput {
+    @Field(() => ReviewWhereUniqueInput, {nullable:false})
+    @Type(() => ReviewWhereUniqueInput)
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
+    @Type(() => ReviewUpdateWithoutLikedByInput)
+    update!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
+    @Field(() => ReviewCreateWithoutLikedByInput, {nullable:false})
+    @Type(() => ReviewCreateWithoutLikedByInput)
+    create!: InstanceType<typeof ReviewCreateWithoutLikedByInput>;
 }
 
 @InputType()
@@ -7086,19 +6302,6 @@ export class ReviewUpsertWithoutCommentsInput {
 }
 
 @InputType()
-export class ReviewUpsertWithoutLikesInput {
-    @Field(() => ReviewUpdateWithoutLikesInput, {nullable:false})
-    @Type(() => ReviewUpdateWithoutLikesInput)
-    update!: InstanceType<typeof ReviewUpdateWithoutLikesInput>;
-    @Field(() => ReviewCreateWithoutLikesInput, {nullable:false})
-    @Type(() => ReviewCreateWithoutLikesInput)
-    create!: InstanceType<typeof ReviewCreateWithoutLikesInput>;
-    @Field(() => ReviewWhereInput, {nullable:true})
-    @Type(() => ReviewWhereInput)
-    where?: InstanceType<typeof ReviewWhereInput>;
-}
-
-@InputType()
 export class ReviewWhereUniqueInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -7114,6 +6317,8 @@ export class ReviewWhereUniqueInput {
     content?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    likeCount?: InstanceType<typeof IntFilter>;
     @Field(() => BoolFilter, {nullable:true})
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -7122,8 +6327,8 @@ export class ReviewWhereUniqueInput {
     bookId?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
-    @Field(() => LikedReviewListRelationFilter, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewListRelationFilter>;
+    @Field(() => UserListRelationFilter, {nullable:true})
+    likedBy?: InstanceType<typeof UserListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
@@ -7148,6 +6353,8 @@ export class ReviewWhereInput {
     content?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    likeCount?: InstanceType<typeof IntFilter>;
     @Field(() => BoolFilter, {nullable:true})
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -7156,8 +6363,8 @@ export class ReviewWhereInput {
     bookId?: InstanceType<typeof StringFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
-    @Field(() => LikedReviewListRelationFilter, {nullable:true})
-    likes?: InstanceType<typeof LikedReviewListRelationFilter>;
+    @Field(() => UserListRelationFilter, {nullable:true})
+    likedBy?: InstanceType<typeof UserListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
@@ -7176,6 +6383,8 @@ export class Review {
     content!: string | null;
     @Field(() => String, {nullable:true})
     userBookId!: string | null;
+    @Field(() => Int, {nullable:false,defaultValue:0})
+    likeCount!: number;
     @Field(() => Boolean, {nullable:false,defaultValue:false})
     spoilers!: boolean;
     @Field(() => String, {nullable:true})
@@ -7184,8 +6393,8 @@ export class Review {
     bookId!: string | null;
     @Field(() => UserBook, {nullable:true})
     userBook?: InstanceType<typeof UserBook> | null;
-    @Field(() => [LikedReview], {nullable:true})
-    likes?: Array<LikedReview>;
+    @Field(() => [User], {nullable:true})
+    likedBy?: Array<User>;
     @Field(() => [Comment], {nullable:true})
     comments?: Array<Comment>;
     @Field(() => User, {nullable:true})
@@ -8458,9 +7667,9 @@ export class UserCount {
     @Field(() => Int, {nullable:false})
     reviews?: number;
     @Field(() => Int, {nullable:false})
-    comments?: number;
-    @Field(() => Int, {nullable:false})
     likedReviews?: number;
+    @Field(() => Int, {nullable:false})
+    comments?: number;
 }
 
 @InputType()
@@ -8488,6 +7697,19 @@ export class UserCreateManyInput {
 }
 
 @InputType()
+export class UserCreateNestedManyWithoutLikedReviewsInput {
+    @Field(() => [UserCreateWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateWithoutLikedReviewsInput)
+    create?: Array<UserCreateWithoutLikedReviewsInput>;
+    @Field(() => [UserCreateOrConnectWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
+    connectOrCreate?: Array<UserCreateOrConnectWithoutLikedReviewsInput>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+}
+
+@InputType()
 export class UserCreateNestedOneWithoutCommentsInput {
     @Field(() => UserCreateWithoutCommentsInput, {nullable:true})
     @Type(() => UserCreateWithoutCommentsInput)
@@ -8508,19 +7730,6 @@ export class UserCreateNestedOneWithoutJournalEntriesInput {
     @Field(() => UserCreateOrConnectWithoutJournalEntriesInput, {nullable:true})
     @Type(() => UserCreateOrConnectWithoutJournalEntriesInput)
     connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutJournalEntriesInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-}
-
-@InputType()
-export class UserCreateNestedOneWithoutLikedReviewsInput {
-    @Field(() => UserCreateWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserCreateWithoutLikedReviewsInput)
-    create?: InstanceType<typeof UserCreateWithoutLikedReviewsInput>;
-    @Field(() => UserCreateOrConnectWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutLikedReviewsInput>;
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
@@ -8655,8 +7864,8 @@ export class UserCreateWithoutCommentsInput {
     journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
 }
 
 @InputType()
@@ -8687,10 +7896,10 @@ export class UserCreateWithoutJournalEntriesInput {
     shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -8755,10 +7964,10 @@ export class UserCreateWithoutReviewsInput {
     shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryCreateNestedManyWithoutUserInput, {nullable:true})
     journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -8789,10 +7998,10 @@ export class UserCreateWithoutShelvesInput {
     journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -8823,10 +8032,10 @@ export class UserCreateWithoutUserBooksInput {
     journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -8859,10 +8068,10 @@ export class UserCreateInput {
     journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewCreateNestedManyWithoutUserInput>;
 }
 
 @ArgsType()
@@ -8915,6 +8124,16 @@ export class UserGroupBy {
     _min?: InstanceType<typeof UserMinAggregate>;
     @Field(() => UserMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof UserMaxAggregate>;
+}
+
+@InputType()
+export class UserListRelationFilter {
+    @Field(() => UserWhereInput, {nullable:true})
+    every?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    some?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    none?: InstanceType<typeof UserWhereInput>;
 }
 
 @InputType()
@@ -9034,6 +8253,12 @@ export class UserMinOrderByAggregateInput {
 }
 
 @InputType()
+export class UserOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
 export class UserOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
@@ -9081,10 +8306,10 @@ export class UserOrderByWithRelationInput {
     journalEntries?: InstanceType<typeof JournalEntryOrderByRelationAggregateInput>;
     @Field(() => ReviewOrderByRelationAggregateInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewOrderByRelationAggregateInput>;
+    @Field(() => ReviewOrderByRelationAggregateInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewOrderByRelationAggregateInput>;
     @Field(() => CommentOrderByRelationAggregateInput, {nullable:true})
     comments?: InstanceType<typeof CommentOrderByRelationAggregateInput>;
-    @Field(() => LikedReviewOrderByRelationAggregateInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -9120,6 +8345,43 @@ export class UserScalarWhereWithAggregatesInput {
 }
 
 @InputType()
+export class UserScalarWhereInput {
+    @Field(() => [UserScalarWhereInput], {nullable:true})
+    AND?: Array<UserScalarWhereInput>;
+    @Field(() => [UserScalarWhereInput], {nullable:true})
+    OR?: Array<UserScalarWhereInput>;
+    @Field(() => [UserScalarWhereInput], {nullable:true})
+    NOT?: Array<UserScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    username?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    hashedPassword?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    hashedRefreshToken?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    updatedAt?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class UserUncheckedCreateNestedManyWithoutLikedReviewsInput {
+    @Field(() => [UserCreateWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateWithoutLikedReviewsInput)
+    create?: Array<UserCreateWithoutLikedReviewsInput>;
+    @Field(() => [UserCreateOrConnectWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
+    connectOrCreate?: Array<UserCreateOrConnectWithoutLikedReviewsInput>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+}
+
+@InputType()
 export class UserUncheckedCreateWithoutCommentsInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -9149,8 +8411,8 @@ export class UserUncheckedCreateWithoutCommentsInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
 }
 
 @InputType()
@@ -9181,10 +8443,10 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9249,10 +8511,10 @@ export class UserUncheckedCreateWithoutReviewsInput {
     shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9283,10 +8545,10 @@ export class UserUncheckedCreateWithoutShelvesInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9317,10 +8579,10 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9353,10 +8615,68 @@ export class UserUncheckedCreateInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => LikedReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedCreateNestedManyWithoutUserInput>;
+}
+
+@InputType()
+export class UserUncheckedUpdateManyWithoutLikedReviewsNestedInput {
+    @Field(() => [UserCreateWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateWithoutLikedReviewsInput)
+    create?: Array<UserCreateWithoutLikedReviewsInput>;
+    @Field(() => [UserCreateOrConnectWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
+    connectOrCreate?: Array<UserCreateOrConnectWithoutLikedReviewsInput>;
+    @Field(() => [UserUpsertWithWhereUniqueWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpsertWithWhereUniqueWithoutLikedReviewsInput)
+    upsert?: Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserUpdateWithWhereUniqueWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpdateWithWhereUniqueWithoutLikedReviewsInput)
+    update?: Array<UserUpdateWithWhereUniqueWithoutLikedReviewsInput>;
+    @Field(() => [UserUpdateManyWithWhereWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpdateManyWithWhereWithoutLikedReviewsInput)
+    updateMany?: Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>;
+    @Field(() => [UserScalarWhereInput], {nullable:true})
+    @Type(() => UserScalarWhereInput)
+    deleteMany?: Array<UserScalarWhereInput>;
+}
+
+@InputType()
+export class UserUncheckedUpdateManyWithoutLikedReviewsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -9413,8 +8733,8 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
 }
 
 @InputType()
@@ -9445,10 +8765,10 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9513,10 +8833,10 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9547,10 +8867,10 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9581,10 +8901,10 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9617,10 +8937,10 @@ export class UserUncheckedUpdateInput {
     journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9645,6 +8965,50 @@ export class UserUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+}
+
+@InputType()
+export class UserUpdateManyWithWhereWithoutLikedReviewsInput {
+    @Field(() => UserScalarWhereInput, {nullable:false})
+    @Type(() => UserScalarWhereInput)
+    where!: InstanceType<typeof UserScalarWhereInput>;
+    @Field(() => UserUpdateManyMutationInput, {nullable:false})
+    @Type(() => UserUpdateManyMutationInput)
+    data!: InstanceType<typeof UserUpdateManyMutationInput>;
+}
+
+@InputType()
+export class UserUpdateManyWithoutLikedReviewsNestedInput {
+    @Field(() => [UserCreateWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateWithoutLikedReviewsInput)
+    create?: Array<UserCreateWithoutLikedReviewsInput>;
+    @Field(() => [UserCreateOrConnectWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
+    connectOrCreate?: Array<UserCreateOrConnectWithoutLikedReviewsInput>;
+    @Field(() => [UserUpsertWithWhereUniqueWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpsertWithWhereUniqueWithoutLikedReviewsInput)
+    upsert?: Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserWhereUniqueInput], {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+    @Field(() => [UserUpdateWithWhereUniqueWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpdateWithWhereUniqueWithoutLikedReviewsInput)
+    update?: Array<UserUpdateWithWhereUniqueWithoutLikedReviewsInput>;
+    @Field(() => [UserUpdateManyWithWhereWithoutLikedReviewsInput], {nullable:true})
+    @Type(() => UserUpdateManyWithWhereWithoutLikedReviewsInput)
+    updateMany?: Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>;
+    @Field(() => [UserScalarWhereInput], {nullable:true})
+    @Type(() => UserScalarWhereInput)
+    deleteMany?: Array<UserScalarWhereInput>;
 }
 
 @InputType()
@@ -9695,31 +9059,6 @@ export class UserUpdateOneWithoutJournalEntriesNestedInput {
     @Field(() => UserUpdateToOneWithWhereWithoutJournalEntriesInput, {nullable:true})
     @Type(() => UserUpdateToOneWithWhereWithoutJournalEntriesInput)
     update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutJournalEntriesInput>;
-}
-
-@InputType()
-export class UserUpdateOneWithoutLikedReviewsNestedInput {
-    @Field(() => UserCreateWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserCreateWithoutLikedReviewsInput)
-    create?: InstanceType<typeof UserCreateWithoutLikedReviewsInput>;
-    @Field(() => UserCreateOrConnectWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutLikedReviewsInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutLikedReviewsInput>;
-    @Field(() => UserUpsertWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserUpsertWithoutLikedReviewsInput)
-    upsert?: InstanceType<typeof UserUpsertWithoutLikedReviewsInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    disconnect?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    delete?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateToOneWithWhereWithoutLikedReviewsInput, {nullable:true})
-    @Type(() => UserUpdateToOneWithWhereWithoutLikedReviewsInput)
-    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutLikedReviewsInput>;
 }
 
 @InputType()
@@ -9818,16 +9157,6 @@ export class UserUpdateToOneWithWhereWithoutJournalEntriesInput {
 }
 
 @InputType()
-export class UserUpdateToOneWithWhereWithoutLikedReviewsInput {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserUpdateWithoutLikedReviewsInput, {nullable:false})
-    @Type(() => UserUpdateWithoutLikedReviewsInput)
-    data!: InstanceType<typeof UserUpdateWithoutLikedReviewsInput>;
-}
-
-@InputType()
 export class UserUpdateToOneWithWhereWithoutReviewsInput {
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
@@ -9855,6 +9184,16 @@ export class UserUpdateToOneWithWhereWithoutUserBooksInput {
     @Field(() => UserUpdateWithoutUserBooksInput, {nullable:false})
     @Type(() => UserUpdateWithoutUserBooksInput)
     data!: InstanceType<typeof UserUpdateWithoutUserBooksInput>;
+}
+
+@InputType()
+export class UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
+    @Field(() => UserWhereUniqueInput, {nullable:false})
+    @Type(() => UserWhereUniqueInput)
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserUpdateWithoutLikedReviewsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutLikedReviewsInput)
+    data!: InstanceType<typeof UserUpdateWithoutLikedReviewsInput>;
 }
 
 @InputType()
@@ -9887,8 +9226,8 @@ export class UserUpdateWithoutCommentsInput {
     journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
 }
 
 @InputType()
@@ -9919,10 +9258,10 @@ export class UserUpdateWithoutJournalEntriesInput {
     shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -9987,10 +9326,10 @@ export class UserUpdateWithoutReviewsInput {
     shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUpdateManyWithoutUserNestedInput, {nullable:true})
     journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10021,10 +9360,10 @@ export class UserUpdateWithoutShelvesInput {
     journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10055,10 +9394,10 @@ export class UserUpdateWithoutUserBooksInput {
     journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10091,10 +9430,23 @@ export class UserUpdateInput {
     journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => LikedReviewUpdateManyWithoutUserNestedInput, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewUpdateManyWithoutUserNestedInput>;
+}
+
+@InputType()
+export class UserUpsertWithWhereUniqueWithoutLikedReviewsInput {
+    @Field(() => UserWhereUniqueInput, {nullable:false})
+    @Type(() => UserWhereUniqueInput)
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserUpdateWithoutLikedReviewsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutLikedReviewsInput)
+    update!: InstanceType<typeof UserUpdateWithoutLikedReviewsInput>;
+    @Field(() => UserCreateWithoutLikedReviewsInput, {nullable:false})
+    @Type(() => UserCreateWithoutLikedReviewsInput)
+    create!: InstanceType<typeof UserCreateWithoutLikedReviewsInput>;
 }
 
 @InputType()
@@ -10118,19 +9470,6 @@ export class UserUpsertWithoutJournalEntriesInput {
     @Field(() => UserCreateWithoutJournalEntriesInput, {nullable:false})
     @Type(() => UserCreateWithoutJournalEntriesInput)
     create!: InstanceType<typeof UserCreateWithoutJournalEntriesInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-}
-
-@InputType()
-export class UserUpsertWithoutLikedReviewsInput {
-    @Field(() => UserUpdateWithoutLikedReviewsInput, {nullable:false})
-    @Type(() => UserUpdateWithoutLikedReviewsInput)
-    update!: InstanceType<typeof UserUpdateWithoutLikedReviewsInput>;
-    @Field(() => UserCreateWithoutLikedReviewsInput, {nullable:false})
-    @Type(() => UserCreateWithoutLikedReviewsInput)
-    create!: InstanceType<typeof UserCreateWithoutLikedReviewsInput>;
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
     where?: InstanceType<typeof UserWhereInput>;
@@ -10209,10 +9548,10 @@ export class UserWhereUniqueInput {
     journalEntries?: InstanceType<typeof JournalEntryListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
+    @Field(() => ReviewListRelationFilter, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
-    @Field(() => LikedReviewListRelationFilter, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewListRelationFilter>;
 }
 
 @InputType()
@@ -10245,10 +9584,10 @@ export class UserWhereInput {
     journalEntries?: InstanceType<typeof JournalEntryListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
+    @Field(() => ReviewListRelationFilter, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
-    @Field(() => LikedReviewListRelationFilter, {nullable:true})
-    likedReviews?: InstanceType<typeof LikedReviewListRelationFilter>;
 }
 
 @ObjectType()
@@ -10275,10 +9614,10 @@ export class User {
     journalEntries?: Array<JournalEntry>;
     @Field(() => [Review], {nullable:true})
     reviews?: Array<Review>;
+    @Field(() => [Review], {nullable:true})
+    likedReviews?: Array<Review>;
     @Field(() => [Comment], {nullable:true})
     comments?: Array<Comment>;
-    @Field(() => [LikedReview], {nullable:true})
-    likedReviews?: Array<LikedReview>;
     @Field(() => UserCount, {nullable:false})
     _count?: InstanceType<typeof UserCount>;
 }

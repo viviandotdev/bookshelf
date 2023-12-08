@@ -8,6 +8,8 @@ query BookReviews(
     content
     createdAt
     spoilers
+    likeCount
+    liked
     userBook {
       id
       rating
@@ -35,6 +37,8 @@ query BookReview($where: ReviewWhereUniqueInput!) {
     content
     createdAt
     spoilers
+    likeCount
+    liked
     book {
       id
       title

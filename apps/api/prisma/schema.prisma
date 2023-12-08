@@ -55,8 +55,8 @@ model User {
     journalEntries     JournalEntry[]
     // favoriteBooks      Book[]         @relation("FavoritedBooks")
     reviews            Review[]
+    likedReviews       Review[]       @relation(name: "LikedReviews")
     comments           Comment[]
-    likedReviews       LikedReview[]
 }
 
 // Table stores all books
@@ -86,27 +86,19 @@ model Book {
 }
 
 model Review {
-    id         String        @id @default(uuid())
-    createdAt  DateTime      @default(now())
+    id         String    @id @default(uuid())
+    createdAt  DateTime  @default(now())
     content    String?
-    userBook   UserBook?     @relation(fields: [userBookId], references: [id])
+    userBook   UserBook? @relation(fields: [userBookId], references: [id])
     userBookId String?
-    likes      LikedReview[]
-    spoilers   Boolean       @default(false)
+    likeCount  Int       @default(0)
+    likedBy    User[]    @relation("LikedReviews")
+    spoilers   Boolean   @default(false)
     comments   Comment[]
-    user       User?         @relation(fields: [userId], references: [id])
+    user       User?     @relation(fields: [userId], references: [id])
     userId     String?
-    book       Book?         @relation(fields: [bookId], references: [id])
+    book       Book?     @relation(fields: [bookId], references: [id])
     bookId     String?
-}
-
-model LikedReview {
-    id       Int      @id @default(autoincrement())
-    review   Review   @relation(fields: [reviewId], references: [id])
-    likedAt  DateTime @default(now())
-    userId   String?
-    user     User?    @relation(fields: [userId], references: [id])
-    reviewId String
 }
 
 model Comment {

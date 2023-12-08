@@ -1,13 +1,10 @@
 
 import React from 'react';
-import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
 import { Review, UserBook } from '@/graphql/graphql';
 import { formatDate } from '@/lib/utils';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import Link from 'next/link';
 import Rating from '@/components/rating';
-import { Dot } from 'lucide-react';
 import ReviewActions from './review-actions';
 
 interface ReviewCardProps {

@@ -13,5 +13,6 @@ export class ReviewRepository {
   count = this.prisma.review.count;
   delete = this.prisma.review.delete;
   findFirst = this.prisma.review.findFirst;
+
   constructor(private readonly prisma: PrismaRepository) {}
 }

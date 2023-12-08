@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ReviewRepository } from './review.repository';
 import {
   BookWhereUniqueInput,
+  ReviewWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { Prisma } from '@prisma/client';
@@ -42,7 +43,48 @@ export class ReviewService {
     return this.repository.create(reviewCreateArgs);
   }
 
-  async update(args: {
+  /**
+   * Checks if article with {id} favorited by user {userId}.
+   */
+  async isLiked(reviewId: string, userId: string) {
+    const count = await this.repository.count({
+      take: 1,
+      where: { id: reviewId, likedBy: { some: { id: userId } } },
+    });
+    return count > 0;
+  }
+
+  async likeReview(args: {
+    where?: ReviewWhereUniqueInput;
+    likedByUserId: string;
+    value: boolean;
+  }) {
+    const review =
+      args.where &&
+      (await this.findUnique({
+        where: {
+          id: args.where.id,
+        },
+      }));
+
+    if (!review) {
+      throw new Error('Review not found');
+    }
+
+    const user = { id: args.likedByUserId };
+    const liked = args.value ? { connect: user } : { disconnect: user };
+    const updatedLikeCount = review.likeCount + (args.value ? 1 : -1);
+
+    return this.repository.update({
+      where: { id: review.id },
+      data: {
+        likedBy: liked,
+        likeCount: updatedLikeCount,
+      },
+    });
+  }
+
+  async updateReview(args: {
     where: { id: string }; // Assuming the ID is a string
     data: ReviewDataInput; // Assuming ReviewUpdateInput model includes update fields
   }) {
