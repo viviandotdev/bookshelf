@@ -1,5 +1,9 @@
-mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!) {
-  createReview(data: $data, where: $where) {
+mutation CreateReview(
+  $data: ReviewDataInput!
+  $where: BookWhereUniqueInput!
+  $bookData: BookCreateInput!
+) {
+  createReview(data: $data, where: $where, bookData: $bookData) {
     id
     content
   }

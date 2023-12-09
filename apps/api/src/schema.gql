@@ -841,7 +841,7 @@ type Mutation {
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
-  createReview(data: ReviewDataInput!, where: BookWhereUniqueInput!): Review!
+  createReview(bookData: BookCreateInput!, data: ReviewDataInput!, where: BookWhereUniqueInput!): Review!
   createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf

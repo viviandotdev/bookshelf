@@ -9,7 +9,7 @@ export interface BookData {
   image: string;
   preview: string;
   description: string;
-  pageCount: string;
+  pageCount: number;
   isbn: string;
   categories: string[];
   isbn13: string;

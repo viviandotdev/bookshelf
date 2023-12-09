@@ -912,6 +912,7 @@ export type MutationCreateJournalEntryArgs = {
 
 
 export type MutationCreateReviewArgs = {
+  bookData: BookCreateInput;
   data: ReviewDataInput;
   where: BookWhereUniqueInput;
 };
@@ -3149,6 +3150,7 @@ export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJourna
 export type CreateReviewMutationVariables = Exact<{
   data: ReviewDataInput;
   where: BookWhereUniqueInput;
+  bookData: BookCreateInput;
 }>;
 
 
@@ -3646,8 +3648,8 @@ export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJo
 export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
 export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 export const CreateReviewDocument = gql`
-    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!) {
-  createReview(data: $data, where: $where) {
+    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!, $bookData: BookCreateInput!) {
+  createReview(data: $data, where: $where, bookData: $bookData) {
     id
     content
   }
@@ -3670,6 +3672,7 @@ export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutatio
  *   variables: {
  *      data: // value for 'data'
  *      where: // value for 'where'
+ *      bookData: // value for 'bookData'
  *   },
  * });
  */

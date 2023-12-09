@@ -9,6 +9,7 @@ import {
 } from '@nestjs/graphql';
 import { ReviewService } from './review.service';
 import {
+  BookCreateInput,
   BookWhereUniqueInput,
   Review,
   ReviewWhereUniqueInput,
@@ -145,7 +146,7 @@ export class ReviewResolver {
       },
     });
     if (!bookExists) {
-      throw new Error('Cannot review a book that does not exist');
+      return [];
     }
     const reviews = await this.service.findMany({
       where,
@@ -206,6 +207,7 @@ export class ReviewResolver {
   @Mutation(() => Review)
   async createReview(
     @Args('data') data: ReviewDataInput,
+    @Args('bookData') bookData: BookCreateInput,
     @Args('where') where: BookWhereUniqueInput,
 
     @CurrentUser() currentUser: JwtPayload,
@@ -216,17 +218,17 @@ export class ReviewResolver {
       },
     });
     if (!bookExists) {
-      throw new Error('Cannot review a book that does not exist');
+      await this.bookService.create(bookData, currentUser.userId);
     }
 
     const userBook: UserBookIdentifierCompoundUniqueInput = {
       bookId: where.id,
       userId: currentUser.userId,
     };
-    const userBookExists = await this.userBookService.findUnique(userBook);
-    if (!userBookExists) {
-      await this.userBookService.create(userBook.bookId, userBook.userId);
-    }
+    // const userBookExists = await this.userBookService.findUnique(userBook);
+    // if (!userBookExists) {
+    //   await this.userBookService.create(userBook.bookId, userBook.userId);
+    // }
 
     const userBookData: UserBookUpdateInput = {
       rating: Number(data.rating),

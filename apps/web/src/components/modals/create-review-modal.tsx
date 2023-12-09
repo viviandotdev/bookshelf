@@ -77,7 +77,18 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             rating: values.rating,
         };
         if (!createReviewModal.editId) {
-            let data = await createReview(userBook.data!.id, { ...reviewInput });
+            //  create book if not exists
+
+            let data = await createReview(userBook.data!.id, { ...reviewInput }, {
+                id: userBook.data!.id,
+                title: userBook.data!.title,
+                coverImage: userBook.data!.coverImage,
+                pageCount: parseInt(userBook.data.pageCount) || 0,
+                author: userBook.data!.author,
+                description: userBook.data!.description,
+                publisher: userBook.data!.publisher || "",
+                publishedDate: userBook.data!.publishedDate,
+            });
             if (data) {
                 createReviewModal.onClose();
             }

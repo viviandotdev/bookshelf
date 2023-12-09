@@ -1,15 +1,16 @@
-import { ReviewDataInput, useCreateReviewMutation } from "@/graphql/graphql";
+import { BookCreateInput, ReviewDataInput, useCreateReviewMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 export const useCreateReview = () => {
     const [CreateReview] = useCreateReviewMutation();
-    const createReview = async (bookId: string, createInput: ReviewDataInput) => {
+    const createReview = async (bookId: string, createInput: ReviewDataInput, bookData: BookCreateInput) => {
         const { data, errors } = await CreateReview({
             variables: {
                 data: createInput,
                 where: {
                     id: bookId,
                 },
+                bookData: bookData,
             },
             errorPolicy: "all",
         });
