@@ -1088,6 +1088,7 @@ export type Review = {
   _count: ReviewCount;
   book?: Maybe<Book>;
   bookId?: Maybe<Scalars['String']>;
+  commentCount: Scalars['Int'];
   comments?: Maybe<Array<Comment>>;
   content?: Maybe<Scalars['String']>;
   createdAt: Scalars['Timestamp'];
@@ -3257,7 +3258,7 @@ export type BookReviewsQueryVariables = Exact<{
 }>;
 
 
-export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null, comments?: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> | null }> };
+export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, commentCount: number, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null }> };
 
 export type BookReviewQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -4186,15 +4187,7 @@ export const BookReviewsDocument = gql`
         username
       }
     }
-    comments {
-      id
-      content
-      createdAt
-      user {
-        id
-        username
-      }
-    }
+    commentCount
   }
 }
     `;

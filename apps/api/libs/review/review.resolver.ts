@@ -68,6 +68,21 @@ export class ReviewResolver {
   /**
    * Checks if review is liked by current user.
    */
+  @ResolveField(() => Int)
+  async commentCount(@Parent() review: Review): Promise<number> {
+    const comments = review.comments; // Assuming comments is the field containing the list of comments
+
+    if (Array.isArray(comments)) {
+      return comments.length;
+    } else {
+      const commentsCount = await this.prisma.comment.count({
+        where: {
+          reviewId: review.id, // Assuming 'reviewId' is the field linking comments to reviews
+        },
+      });
+      return commentsCount;
+    }
+  }
 
   @ResolveField(() => Boolean)
   async liked(

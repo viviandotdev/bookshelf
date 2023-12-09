@@ -2,22 +2,24 @@
 import { Icons } from '@/components/icons';
 import { User } from '@/graphql/graphql';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLikeReview } from '../hooks/use-like-review';
 
 interface ReviewActionsProps {
     reviewId: string
     liked: boolean
     likeCount: number
-    comments: Comment[]
+    commentCount: number[]
     user: User
 }
 
-export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, comments, reviewId, user }) => {
+export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, commentCount, reviewId, user }) => {
     const { likeReview, loading } = useLikeReview();
     const [likesCount, setLikesCount] = useState(likeCount ? likeCount : 0);
     const [isLiked, setIsLiked] = useState(liked);
-
+    useEffect(() => {
+        console.log(commentCount)
+    }, [])
     const handleLikeClick = async (e: any) => {
         if (!loading) {
             e.stopPropagation();
@@ -50,7 +52,7 @@ export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, 
                 className="flex gap-2 items-center  mb-2 cursor-pointer"
             >
                 <Icons.comment className="h-5 w-5" />
-                <Link href={`review/${reviewId}`} className="hover:text-muted" >{comments ? comments.length : 0} comments</Link>
+                <Link href={`review/${reviewId}`} className="hover:text-muted" >{commentCount ? commentCount : 0} comments</Link>
             </div>
         </div>
     );

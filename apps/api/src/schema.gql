@@ -899,6 +899,7 @@ type Review {
   _count: ReviewCount!
   book: Book
   bookId: String
+  commentCount: Int!
   comments: [Comment!]
   content: String
   createdAt: Timestamp!
