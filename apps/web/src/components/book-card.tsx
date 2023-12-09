@@ -69,7 +69,7 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
     const { book } = useBookCardContext();
     return (
         <div className="flex items-start space-x-4 rounded-md">
-            <BookCover src={book.image} size={"sm"} />
+            <BookCover src={book.coverImage} size={"sm"} />
             <div className="flex items-start flex-col justify-center gap-1">
                 <CardTitle className="text-[16px] leading-tight ">
                     {book.title}

@@ -92,11 +92,6 @@ export class ReviewResolver {
     if (!currentUser) {
       return false;
     }
-    if (Array.isArray(review.likedBy)) {
-      return review.likedBy.some((user) => user.id === currentUser.userId);
-    } else {
-      console.log('Review.likedBy is not defined');
-    }
     assert(review.id);
 
     return this.service.isLiked(review.id, currentUser.userId);

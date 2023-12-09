@@ -30,7 +30,7 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                     <Image
                         width={184}
                         height={277}
-                        src={book.image}
+                        src={book.coverImage}
                         className="max-w-none w-[fill-available] rounded-lg"
                         alt="Picture of the author"
                     />
