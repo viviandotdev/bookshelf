@@ -14,8 +14,9 @@ export const useCreateReview = () => {
             errorPolicy: "all",
         });
         if (errors) {
+            console.log(errors)
             toast({
-                title: "Error updating review",
+                title: "Error creating review",
                 variant: "destructive",
             });
         }

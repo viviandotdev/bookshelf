@@ -120,6 +120,9 @@ export class ReviewService {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
       skip: args.skip,
       take: args.take,
     });

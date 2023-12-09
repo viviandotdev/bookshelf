@@ -6,6 +6,7 @@ import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import Link from 'next/link';
 import Rating from '@/components/rating';
 import ReviewActions from './review-actions';
+import SpoilerContent from './spoiler-content';
 
 interface ReviewCardProps {
     review: Review;
@@ -29,27 +30,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
     const { id, content, likeCount, liked, comments, userBook, createdAt, spoilers } = review;
     const { user, rating, status } = getUserBookDetails(userBook);
 
-
-    const ReviewContent = () => {
-        if (spoilers) {
-            return (
-                <div>
-                    <span>This review has been hidden because it may contain spoilers.</span>
-                    <span
-                        className="font-bold cursor-pointer"
-                        onClick={(e) => {
-                            e.stopPropagation();
-
-                            console.log('show full review');
-                        }}
-                    >
-                        Show full review
-                    </span>
-                </div>
-            );
-        }
-        return <div>{content || 'Default content if none provided'}</div>;
-    };
 
     return (
         <div >
@@ -79,8 +59,10 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                             </div>
                             <div>{formatDate(createdAt)}</div>
                         </div>
-                        <div className="flex gap-2">
-                            <ReviewContent />
+                        <div className="flex gap-2 justify-between flex-grow w-full">
+                            {
+                                spoilers ? <SpoilerContent content={content} /> : <div>{content}</div>
+                            }
                         </div>
                     </div>
                     <ReviewActions reviewId={id} liked={liked} likeCount={likeCount} comments={comments} user={user} />

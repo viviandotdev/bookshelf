@@ -62,8 +62,8 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
         resolver: zodResolver(displayFormSchema),
         defaultValues: useMemo(() => {
             return {
-                spoilers: spoilers || false,
-                review: content || "",
+                spoilers: (createReviewModal.editId && spoilers) || false,
+                review: (createReviewModal.editId && content) || "",
                 rating: userBook.rating,
                 review_date: new Date(),
             };
@@ -72,12 +72,11 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
 
     async function onSubmit(values: DisplayFormValues) {
         let reviewInput: ReviewDataInput = {
-            spoilers: (createReviewModal.editId && values.spoilers) || false,
-            content: (createReviewModal.editId && values.review) || "",
+            spoilers: (values.spoilers),
+            content: (values.review),
             rating: values.rating,
         };
         if (!createReviewModal.editId) {
-
             let data = await createReview(userBook.data!.id, { ...reviewInput });
             if (data) {
                 createReviewModal.onClose();

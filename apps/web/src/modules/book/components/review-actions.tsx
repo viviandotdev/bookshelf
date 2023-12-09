@@ -51,7 +51,6 @@ export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, 
             >
                 <Icons.comment className="h-5 w-5" />
                 <Link href={`review/${reviewId}`} className="hover:text-muted" >{comments ? comments.length : 0} comments</Link>
-                {/* <span className="font-light hover:font-bold">7 comments</span> */}
             </div>
         </div>
     );
