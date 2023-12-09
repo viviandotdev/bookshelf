@@ -36,16 +36,16 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
     const { createReview } = useCreateReview();
     const { updateReview } = useUpdateReview();
     const createReviewModal = useCreateReviewModal();
-    const { content, spoilers, rating: reviewRating } = createReviewModal.review;
+    const { content, spoilers } = createReviewModal.review;
     useEffect(() => {
-        console.log(reviewRating)
+        console.log(userBook.rating)
         form.reset({
-            spoilers: spoilers || false,
-            review: content || "",
-            rating: reviewRating,
+            spoilers: (createReviewModal.editId && spoilers) || false,
+            review: (createReviewModal.editId && content) || "",
+            rating: userBook.rating,
             review_date: new Date(),
         });
-    }, [createReviewModal.review])
+    }, [createReviewModal.review, userBook.rating])
 
     const [error, setError] = useState<string>("");
     const displayFormSchema = z
@@ -64,16 +64,16 @@ export const CreateReviewModal: React.FC<CreateReviewModal> = ({
             return {
                 spoilers: spoilers || false,
                 review: content || "",
-                rating: reviewRating,
+                rating: userBook.rating,
                 review_date: new Date(),
             };
-        }, []),
+        }, [createReviewModal.review, userBook.rating]),
     });
 
     async function onSubmit(values: DisplayFormValues) {
         let reviewInput: ReviewDataInput = {
-            content: values.review,
-            spoilers: values.spoilers,
+            spoilers: (createReviewModal.editId && values.spoilers) || false,
+            content: (createReviewModal.editId && values.review) || "",
             rating: values.rating,
         };
         if (!createReviewModal.editId) {

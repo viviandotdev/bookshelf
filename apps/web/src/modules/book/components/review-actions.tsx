@@ -14,20 +14,22 @@ interface ReviewActionsProps {
 }
 
 export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, comments, reviewId, user }) => {
-    const { likeReview } = useLikeReview();
+    const { likeReview, loading } = useLikeReview();
     const [likesCount, setLikesCount] = useState(likeCount ? likeCount : 0);
     const [isLiked, setIsLiked] = useState(liked);
 
     const handleLikeClick = async (e: any) => {
-        e.stopPropagation();
-        if (!isLiked) {
-            setLikesCount(likesCount + 1);
-            await likeReview(reviewId, true);
-        } else {
-            setLikesCount(likesCount - 1);
-            await likeReview(reviewId, false);
+        if (!loading) {
+            e.stopPropagation();
+            if (!isLiked) {
+                setLikesCount(likesCount + 1);
+                await likeReview(reviewId, true);
+            } else {
+                setLikesCount(likesCount - 1);
+                await likeReview(reviewId, false);
+            }
+            setIsLiked(!isLiked);
         }
-        setIsLiked(!isLiked);
 
     };
 

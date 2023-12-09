@@ -45,7 +45,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
     const createReviewModal = useCreateReviewModal();
-    const { setUserBook, updateBookId, updateStatus, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBook();
+    const { setUserBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBook();
     const { createUserBook } = useCreateUserBook();
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -184,12 +184,14 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                     updateBookId(book!.id);
                     setUserBook(book!)
                     if (!editReview) {
+                        updateRating(rating)
+                        console.log(rating)
                         createReviewModal.onOpen();
                     } else {
+                        updateRating(rating)
                         createReviewModal.setReview({
                             spoilers: review.spoilers || false,
                             content: review.content || "",
-                            rating: review.userBook.rating || 0,
                         })
                         createReviewModal.onEdit(reviewId || "");
                     }

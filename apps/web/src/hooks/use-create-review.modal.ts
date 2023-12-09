@@ -6,7 +6,6 @@ interface useReviewStore {
   review: {
     spoilers: boolean;
     content: string;
-    rating: number;
   };
   onOpen: () => void;
   onClose: () => void;
@@ -23,7 +22,6 @@ const useCreateReviewModal = create<useReviewStore>((set) => ({
   review: {
     spoilers: false,
     content: "",
-    rating: 0,
   },
   setReview: (review: ReviewType) => set({ review }),
   onOpen: () => set({ isOpen: true, isEdit: false, editId: undefined }),

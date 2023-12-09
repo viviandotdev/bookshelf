@@ -70,7 +70,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                                 <div className="mx-2 font-bold">{user?.username}</div>
                                 {
                                     rating ? (
-                                        <Rating value={4} /> // Render Rating component with value 4 if rating exists
+                                        <Rating value={rating} /> // Render Rating component with value 4 if rating exists
                                     ) : (
                                         status || '' // Render status if no rating is available, or an empty string if status is also not available
                                     )
