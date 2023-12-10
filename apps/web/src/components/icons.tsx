@@ -31,6 +31,7 @@ import {
     FileUp,
     BanIcon,
     Bookmark,
+    MessageSquare
 
 } from "lucide-react";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
@@ -70,4 +71,5 @@ export const Icons = {
     more: DotsVerticalIcon,
     abondoned: BanIcon,
     save: Bookmark,
+    comment: MessageSquare
 };

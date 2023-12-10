@@ -84,7 +84,7 @@ export function processBook(
     book.volumeInfo.imageLinks?.thumbnail || '/images/bkcover.jpg';
   const preview: string = book.volumeInfo.previewLink;
   const description: string = book.volumeInfo.description || 'N/A';
-  const pageCount: string = book.volumeInfo.pageCount?.toString() || 'N/A';
+  const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
   let isbn: string = 'N/A';
   let isbn13: string = 'N/A';
@@ -99,7 +99,7 @@ export function processBook(
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(' / '),
-    ) || [];
+) || [];
   const categories = allCategories.filter(
     (value: string, index: number, self: string[]) => {
       return self.indexOf(value) === index;

@@ -28,9 +28,8 @@ export function processBook(
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || "N/A";
   const publisher: string = book.volumeInfo.publisher || "N/A";
-  const image: string =
+  const coverImage: string =
     book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
-  const preview: string = book.volumeInfo.previewLink;
   const description: string = book.volumeInfo.description || "N/A";
   const pageCount: string = book.volumeInfo.pageCount?.toString() || "N/A";
   const averageRating: Number = book.volumeInfo.averageRating || 0;
@@ -62,8 +61,7 @@ export function processBook(
     publishedDate,
     publisher,
     categories,
-    image,
-    preview,
+    coverImage,
     description,
     pageCount,
     isbn,
@@ -94,4 +92,32 @@ export function formatDate(dateString: string): string {
     year: "numeric",
   };
   return date.toLocaleDateString("en-US", options);
+}
+
+export function timeAgo(createdAt: number) {
+  if (!createdAt || isNaN(createdAt) || createdAt <= 0) {
+    return "Invalid date";
+  }
+
+  const now = Date.now();
+  const diff = now - createdAt;
+  const minutes = Math.round(diff / 1000 / 60);
+
+  let unit;
+  let timeAgo;
+  if (minutes < 60) {
+    unit = minutes > 1 ? "minutes" : "minute";
+    timeAgo = `${minutes} ${unit} ago`;
+  } else if (Math.round(minutes / 60) < 24) {
+    unit = Math.round(minutes / 60) > 1 ? "hours" : "hour";
+    timeAgo = `${Math.round(minutes / 60)} ${unit} ago`;
+  } else if (Math.round(minutes / 60 / 24) < 30) {
+    unit = Math.round(minutes / 60 / 24) > 1 ? "days" : "day";
+    timeAgo = `${Math.round(minutes / 60 / 24)} ${unit} ago`;
+  } else {
+    unit = "months";
+    timeAgo = `${Math.round(minutes / 60 / 24 / 30)} ${unit} ago`;
+  }
+
+  return timeAgo;
 }

@@ -19,7 +19,7 @@ export const BookshelvesCard: React.FC<BookshelvesCardProps> = ({
             book={book}
             content={
                 <BookCard.BookContent
-                    image={<BookCover src={book.image} size={"sm"} />}
+                    image={<BookCover src={book.coverImage} size={"sm"} />}
                     info={<BookInfo />}
                     shelves={<BookShelves />}
                 />

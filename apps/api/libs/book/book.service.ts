@@ -56,6 +56,7 @@ export class BookService {
           ...data,
         },
       };
+
       book = await this.prisma.book.create(createBookArgs);
     }
 

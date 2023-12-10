@@ -15,7 +15,7 @@ import {
 import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { BookRating } from "./rating";
+import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";

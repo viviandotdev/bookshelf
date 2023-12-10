@@ -1,18 +1,27 @@
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn, formatDate } from "@/lib/utils";
-import { BookData } from "@/types/interfaces";
+import { BookData, User } from "@/types/interfaces";
 import React from "react";
 import Image from "next/image";
-import { Shelf, UserBook } from "@/graphql/graphql";
+import { Shelf, Review } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import { BookStatusModal } from "../components/book-status-modal";
+import ReviewCard from "../components/review-card";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
+    reviews: Review[];
+    user: User;
+
 }
 
-export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
+export default function BookTemplate({ book, shelves, reviews, user }: BookTemplateProps) {
+
+
+    const reviewed = reviews.filter((review) => review.userBook?.user?.id === user?.id);
+    console.log(reviewed.length > 0)
+    // current user
     return (
         <>
             <BookStatusModal />
@@ -21,7 +30,7 @@ export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
                     <Image
                         width={184}
                         height={277}
-                        src={book.image}
+                        src={book.coverImage}
                         className="max-w-none w-[fill-available] rounded-lg"
                         alt="Picture of the author"
                     />
@@ -48,9 +57,30 @@ export default function BookTemplate({ book, shelves, }: BookTemplateProps) {
                                 <BookInfo processedBook={book} />
                             </section>
                             <section className="col-span-2">
-                                <ActionsPanel book={book} shelves={shelves} />
+                                <ActionsPanel book={book} shelves={shelves} reviewed={reviewed.length > 0} />
                             </section>
                         </div>
+                        <div className="pt-8">
+                            <div className="flex justify-between">
+                                <div className="text-sm text-primary">POPULAR REVIEWS</div>
+                                <div className="text-sm text-primary">MORE</div>
+                            </div>
+                            <hr className="border-t-1 border-primary" />
+
+                            <div>
+
+                                {reviews.map((review) => {
+                                    return (
+                                        <ReviewCard
+                                            key={review.id}
+                                            review={review}
+                                        />
+                                    );
+
+                                })}
+                            </div>
+                        </div>
+
                     </div>
                 </section>
             </div>

@@ -1,0 +1,51 @@
+query BookReviews(
+  $where: BookWhereUniqueInput!
+  $limit: Int! = 20
+  $offset: Int! = 0
+) {
+  bookReviews(where: $where, offset: $offset, limit: $limit) {
+    id
+    content
+    createdAt
+    spoilers
+    likeCount
+    liked
+    userBook {
+      id
+      rating
+      status
+      user {
+        id
+        username
+      }
+    }
+    commentCount
+  }
+}
+
+query BookReview($where: ReviewWhereUniqueInput!) {
+  bookReview(where: $where) {
+    id
+    content
+    createdAt
+    spoilers
+    likeCount
+    liked
+    book {
+      id
+      title
+      author
+      pageCount
+      coverImage
+      publishedDate
+    }
+    userBook {
+      id
+      rating
+      user {
+        id
+        username
+      }
+    }
+  }
+}

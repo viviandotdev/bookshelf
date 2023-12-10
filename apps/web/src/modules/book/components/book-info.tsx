@@ -44,7 +44,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                                 <DialogDescription>
                                     <div
                                         className={`leading-normal `}
-                                        dangerouslySetInnerHTML={{ __html: processedBook.plot }}
+                                        dangerouslySetInnerHTML={{ __html: processedBook.description }}
                                     ></div>
                                 </DialogDescription>
                             </DialogContent>
@@ -55,7 +55,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
             <div className="text-sm/[1.25] overflow-hidden max-h-64">
                 <div
                     className={`leading-normal `}
-                    dangerouslySetInnerHTML={{ __html: processedBook.plot }}
+                    dangerouslySetInnerHTML={{ __html: processedBook.description }}
                 ></div>
             </div>
             <div>

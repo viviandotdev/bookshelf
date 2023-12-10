@@ -40,7 +40,7 @@ async function main() {
           id: book.id,
           title: book.title,
           author: book.author,
-          pubDate: book.pubDate,
+          publishedDate: book.publishedDate,
           publisher: book.publisher,
           coverImage: book.coverImage,
           description: book.description,

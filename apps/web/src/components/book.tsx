@@ -53,7 +53,8 @@ export const Book: React.FC<BookProps> = ({
 
     useEffect(() => {
         // update percent detail
-        if (data.id === userBook.book?.id) {
+
+        if (data && data.id === userBook.book?.id) {
             setPercent(journalEntry.percent)
         }
 

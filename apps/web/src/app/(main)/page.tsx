@@ -6,8 +6,8 @@ import MarketingTemplate from "@/modules/marketing/templates";
 
 export default async function IndexPage() {
     const user = await getCurrentUser();
-    const { shelves } = await getShelves();
     if (user) {
+        const { shelves } = await getShelves();
         const currentlyReading = await getUserBooks({
             status: {
                 equals: "Currently Reading"
