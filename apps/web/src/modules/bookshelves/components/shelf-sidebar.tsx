@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
 import ShelfGroup from "./shelf-group";
-import { useAppDispatch, useAppSelector } from "@/stores";
-import { initLibrary, initShelves, selectShelves, updateSelected } from "@/stores/shelf-slice";
+import useShelfStore from "@/stores/use-shelf-store";
 
 interface SidebarProps {
     librarySelections: Shelf[];
@@ -15,24 +14,21 @@ const SideBar: React.FC<SidebarProps> = ({
     librarySelections,
     shelfSelections,
 }) => {
-    const shelves = useAppSelector(selectShelves)
-    const library = useAppSelector((state) => state.shelf.library);
-    const dispatch = useAppDispatch();
-
+    const { shelves, library, initLibrary, initShelves, updateSelected } = useShelfStore();
     const params = useSearchParams();
     const shelf = params?.get("shelf");
 
 
     useEffect(() => {
         if (shelf) {
-            dispatch(updateSelected(shelf));
+            (updateSelected(shelf));
 
         } else {
-            dispatch(updateSelected("All Books"));
+            (updateSelected("All Books"));
 
         }
-        dispatch(initShelves(shelfSelections));
-        dispatch(initLibrary(librarySelections));
+        (initShelves(shelfSelections));
+        (initLibrary(librarySelections));
     }, []);
 
     return (

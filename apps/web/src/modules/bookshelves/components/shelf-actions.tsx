@@ -1,21 +1,13 @@
 "use client";
 import React, { use, useCallback, useTransition } from "react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import qs from "query-string";
-import { Icons } from "../../../components/icons";
 // import useShelves from "@/stores/shelf-store";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import { useSession } from "next-auth/react";
-import { useAppDispatch, useAppSelector } from "@/stores";
-import { setCurrentPage, updateSelected } from "@/stores/shelf-slice";
+import { useAppDispatch } from "@/stores";
+import { updateSelected } from "@/stores/shelf-slice";
 import EditShelfMenu from "./edit-shelf-menu";
 import useCreateQueryString from "../hooks/use-create-query-string";
+import useShelfStore from "@/stores/use-shelf-store";
 
 interface ShelfActionsProps {
     shelf: Shelf;
@@ -35,11 +27,12 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
 }) => {
     const [isPending, startTransition] = useTransition()
     const pathname = usePathname()
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
     const router = useRouter();
+    const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
     const handleClick = useCallback(() => {
-        dispatch(updateSelected(shelf.name!));
+        (updateSelected(shelf.name!));
         startTransition(() => {
             router.push(
                 `${pathname}?${createQueryString({

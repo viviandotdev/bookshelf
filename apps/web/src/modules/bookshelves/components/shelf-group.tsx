@@ -8,9 +8,10 @@ import { Shelf } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
 import useCreateShelfModal from "./modals/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
-import { removeShelf } from "@/stores/shelf-slice";
+// import { removeShelf } from "@/stores/shelf-slice";
 import { CreateShelfModal } from "./modals/create-shelf-modal";
 import { useDeleteShelf } from "../api/use-delete-shelf";
+import useShelfStore from "@/stores/use-shelf-store";
 
 interface ShelfGroupProps {
     title: string;
@@ -25,17 +26,16 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     isShelves,
     collapsible,
 }) => {
-    const dispatch = useAppDispatch();
     const [openAlert, setOpenAlert] = useState(false);
     const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
     const { deleteShelf } = useDeleteShelf();
-    const selected = useAppSelector((state) => state.shelf.selected);
+    const { selected, removeShelf } = useShelfStore();
     const onDelete = async () => {
         setIsLoading(true);
         const deletedShelf = await deleteShelf(shelfModal.editId!);
         if (deletedShelf) {
-            dispatch(removeShelf(shelfModal.editId!));
+            (removeShelf(shelfModal.editId!));
         }
         setIsLoading(false);
         setOpenAlert(false);
