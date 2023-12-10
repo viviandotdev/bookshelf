@@ -11,7 +11,6 @@ const useLoadComments = () => {
                 });
             },
             onCompleted: (data) => {
-                console.log(data)
                 if (data && data.comments && data.comments.length === 0) {
                     console.log("no comments loaded");
                 }

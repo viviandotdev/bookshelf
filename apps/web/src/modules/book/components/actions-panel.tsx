@@ -44,7 +44,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
     const createReviewModal = useCreateReviewModal();
-    const { setUserBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBookStore();
+    const { setBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBookStore();
     const { createUserBook } = useCreateUserBook();
     const { initShelves } = useShelfStore()
     const router = useRouter();
@@ -63,7 +63,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                 });
             },
             onCompleted: (data) => {
-                setUserBook(data.userBook?.book as Book);
+                setBook(data.userBook?.book as Book);
                 setStatus(data.userBook?.status as string);
                 setRating(data.userBook?.rating as number);
             },
@@ -109,7 +109,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
 
     const handleLogClick = () => {
         if (status == "Currently Reading") {
-            setUserBook(book!);
+            setBook(book!);
             updateStatus(status);
             journalEntryModal.onOpen();
         };
@@ -182,10 +182,9 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
 
                 <div onClick={() => {
                     updateBookId(book!.id);
-                    setUserBook(book!)
+                    setBook(book!)
                     if (!editReview) {
                         updateRating(rating)
-                        console.log(rating)
                         createReviewModal.onOpen();
                     } else {
                         updateRating(rating)
@@ -200,7 +199,6 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                     {reviewed ? `${editReview ? "Edit Review" : "Review Again"}` : " Review"}
                 </div>
                 <div onClick={() => {
-                    // userbook selected shelves vs the shelves that is being created are different
                     updateBookId(book!.id);
                     addToShelfModal.onOpen();
 

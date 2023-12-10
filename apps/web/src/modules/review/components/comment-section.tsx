@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React from 'react'
 import CommentCard from './comment-card';
 import CommentForm from './comment-form';
 import { NetworkStatus } from '@apollo/client';

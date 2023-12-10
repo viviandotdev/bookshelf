@@ -19,7 +19,7 @@ export const useLoadReview = (where: ReviewWhereUniqueInput) => {
     });
 
     return {
-        reviewData: data ? data.bookReview : null,
+        review: data ? data.bookReview : null,
         loading,
         error,
     };

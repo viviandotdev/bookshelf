@@ -20,39 +20,35 @@ import { Button } from "./ui/button";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/api/use-update-user-book";
 interface BookActionsProps {
-    setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
     openDropdown: boolean;
-    setRating: React.Dispatch<React.SetStateAction<number>>;
     rating: number;
     status: string;
+    showRemoveBook?: boolean;
+    type: "button" | "icon";
+    setStatus: React.Dispatch<React.SetStateAction<string>>;
+    setRating: React.Dispatch<React.SetStateAction<number>>;
     setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
-    showRemoveBook?: boolean;
-    type: "button" | "icon";
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
-    setStatus,
     book,
-    shelves,
-    status,
-    openDropdown,
-    setOpenAlert,
-    setOpenModal,
-    setRating,
     rating,
-    setOpenDropdown,
+    status,
+    shelves,
+    openDropdown,
     showRemoveBook,
     type = "icon",
+    setStatus,
+    setOpenAlert,
+    setRating,
+    setOpenDropdown,
 }) => {
     const addToShelfModal = useAddToShelfModal();
-    const updateBookId = useUserBookStore((state) => state.updateBookId);
-    const updateStatus = useUserBookStore((state) => state.updateStatus);
-    const setUserBook = useUserBookStore((state) => state.setUserBook);
-    const initShelves = useUserBookStore((state) => state.initShelves);
+    const { updateBookId, updateStatus, setBook, initShelves } = useUserBookStore();
     const setShelves = useAddToShelfModal((state) => state.setShelves);
     const { updateUserBook } = useUpdateUserBook();
     const journalEntryModal = useJournalEntryModal()
@@ -135,11 +131,10 @@ const BookActions: React.FC<BookActionsProps> = ({
                         <DropdownMenuItem
                             onClick={(e) => {
                                 e.stopPropagation();
-                                setUserBook(book!);
+                                setBook(book!);
                                 updateStatus(status);
                                 updateBookId(book!.id);
                                 journalEntryModal.onOpen();
-
                             }}
                         >
                             <Icons.plus className="h-5 w-5 mr-2" />
