@@ -50,7 +50,6 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
                     {children}
                 </span>
             </div>
-
             {
                 setOpenAlert && isShelves ? (
                     <EditShelfMenu shelf={shelf} setOpenAlert={setOpenAlert} />

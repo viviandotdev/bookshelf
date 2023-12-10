@@ -1,15 +1,16 @@
-'use client'
-import { Icons } from "../../../components/icons";
-import { Button } from "../../../components/ui/button";
-import Collapsible from "../../../components/ui/collapsible";
-import { useState } from "react";
-import AlertModal from "../../../components/modals/alert-modal";
-import { Shelf } from "@/graphql/graphql";
-import { ShelfActions } from "./shelf-actions";
-import useCreateShelfModal from "./modals/use-create-shelf-modal";
-import { CreateShelfModal } from "./modals/create-shelf-modal";
-import { useDeleteShelf } from "../api/use-delete-shelf";
-import useShelfStore from "@/stores/use-shelf-store";
+'use client';
+import { useState } from 'react';
+import Collapsible from '../../../components/ui/collapsible';
+import AlertModal from '../../../components/modals/alert-modal';
+import { Shelf } from '@/graphql/graphql';
+import ShelfActions from './shelf-actions';
+import useCreateShelfModal from './modals/use-create-shelf-modal';
+import { CreateShelfModal } from './modals/create-shelf-modal';
+import { useDeleteShelf } from '../api/use-delete-shelf';
+import useShelfStore from '@/stores/use-shelf-store';
+import { Icons } from '../../../components/icons';
+import { Button } from '../../../components/ui/button';
+;
 
 interface ShelfGroupProps {
     title: string;
