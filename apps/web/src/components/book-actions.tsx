@@ -12,13 +12,13 @@ import {
     Book,
     UserBookShelves,
 } from "../graphql/graphql";
-import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
+import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import useUserBook from "@/stores/use-user-book";
-import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
+import { useUpdateUserBook } from "@/api/use-update-user-book";
 interface BookActionsProps {
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     book: Book | undefined;

@@ -52,10 +52,9 @@ const UserStats = () => {
 interface ProfileTemplateProps {
     currentlyReading: UserBook[];
     shelves: Shelf[];
-    userName: string;
 }
 
-const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, shelves, userName }) => {
+const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, shelves }) => {
     return (
         <>
             <ProfileSummary userName={"Vivian Lin"} />

@@ -9,7 +9,7 @@ import { User } from "next-auth";
 import { siteConfig } from "@/config/site";
 import SearchInput from "../components/search-input";
 import { Icons } from "@/components/icons";
-import useLogBookModal from "@/hooks/use-log-book-modal";
+import useLogBookModal from "@/components/modals/log-book-modal/use-log-book-modal";
 
 interface SiteHeaderProps {
     user?: User;

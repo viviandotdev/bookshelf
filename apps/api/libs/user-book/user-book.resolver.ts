@@ -118,7 +118,6 @@ export class UserBookResolver {
             : null;
       }
 
-
       if (isbn) {
         // console.log(isbn);
         // this.bookService.findBookByISBN(isbn).then((book) => {
@@ -133,7 +132,7 @@ export class UserBookResolver {
           const bookData: BookCreateInput = {
             id: book.id,
             title: book.title,
-            pageCount: parseInt(book.pageCount),
+            pageCount: book.pageCount,
             author: book.author,
             publisher: book.publisher,
             coverImage: book.image,

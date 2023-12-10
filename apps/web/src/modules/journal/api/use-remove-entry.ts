@@ -1,6 +1,5 @@
 import { useRemoveJournalEntryMutation } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
-import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 
 export const useRemoveEntry = () => {
   const [RemoveJournalEntry] = useRemoveJournalEntryMutation();

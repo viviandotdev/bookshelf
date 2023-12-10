@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Modal } from "@/components/ui/modal";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 interface AlertModalProps {
     title: string;
     description?: string;

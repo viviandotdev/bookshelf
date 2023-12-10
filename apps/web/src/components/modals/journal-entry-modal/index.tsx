@@ -2,10 +2,10 @@
 import useUserBook from "@/stores/use-user-book";
 
 import { Dispatch, SetStateAction } from "react";
-import JournalEntryForm from "@/modules/journal/components/journal-entry-form";
+import JournalEntryForm from "@/components/modals/journal-entry-modal/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
+import { useJournalEntryModal } from "./use-journal-entry-modal";
 
 export const JouranlEntryModal: React.FC = ({
 

@@ -14,15 +14,15 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "../../../components/ui/checkbox";
+import { Checkbox } from "../../ui/checkbox";
 import { toast } from "@/hooks/use-toast";
-import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
-import { Button } from "../../../components/ui/button";
+import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
+import { Button } from "../../ui/button";
 import useUserBook from "@/stores/use-user-book";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
-import { useUpdateUserBook } from "@/hooks/user-books/mutations";
 import { useApolloClient } from '@apollo/client';
+import { useUpdateUserBook } from "@/api/use-update-user-book";
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {

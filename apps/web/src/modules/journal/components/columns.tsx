@@ -8,7 +8,7 @@ import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
 import { useEffect, useState } from "react";
 import useUserBook from "@/stores/use-user-book";
-import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
+import { useJournalEntryModal } from "../../../components/modals/journal-entry-modal/use-journal-entry-modal";
 
 export const journalEntrySchema = z.object({
     monthYear: z.string(),

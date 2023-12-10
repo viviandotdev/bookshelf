@@ -1,17 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import { Modal } from "@/components/ui/modal";
-import { Button, buttonVariants } from "../../../components/ui/button";
+import { Button, buttonVariants } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import { Icons } from "../../../components/icons";
+import { Icons } from "../../icons";
 import useUserBook from "@/stores/use-user-book";
-import AlertModal from "../../../components/modals/alert-modal";
-import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
-import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
+import AlertModal from "../alert-modal";
+import { useRemoveUserBook } from "@/api/use-remove-user-book";
+import { useUpdateUserBook } from "@/api/use-update-user-book";
+import useBookStatusModal from "@/components/modals/book-status-modal/use-book-status-modal";
 
 interface BookStatusModalProps { }
 
-export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
+const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const statusModal = useBookStatusModal();
     const userBook = useUserBook();
     const [open, setOpen] = useState(false);
@@ -103,3 +104,5 @@ export const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
         </>
     );
 };
+
+export default BookStatusModal

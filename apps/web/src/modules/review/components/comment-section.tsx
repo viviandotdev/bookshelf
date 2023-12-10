@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import CommentCard from './comment-card';
 import CommentForm from './comment-form';
 import { NetworkStatus } from '@apollo/client';
-import useLoadComments from '../hooks/use-load-comments';
+import useLoadComments from '../api/use-load-comments';
 interface CommentSectionProps {
     reviewId: string
 }

@@ -15,7 +15,7 @@ import { BookData } from "@/types/interfaces";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
 import { buttonVariants } from "./ui/button";
-import useBooksSearch from "@/modules/search/hooks/useBooksSeach";
+import useBooksSearch from "@/modules/search/hooks/use-books-search";
 
 export function CommandMenu({ ...props }: DialogProps) {
     const router = useRouter();
