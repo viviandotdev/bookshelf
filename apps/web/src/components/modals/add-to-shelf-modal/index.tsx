@@ -17,7 +17,7 @@ import { Checkbox } from "../../ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "../../ui/button";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from "@/api/use-update-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
@@ -28,7 +28,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const { updateUserBook } = useUpdateUserBook();
     const { shelves, decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount } = useShelfStore();
     const client = useApolloClient();
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
 
     const displayFormSchema = z.object({
         shelves: z.array(z.string())

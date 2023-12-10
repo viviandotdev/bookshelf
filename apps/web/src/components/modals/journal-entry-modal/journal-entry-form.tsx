@@ -1,7 +1,5 @@
 "use client";
 import React, {
-    Dispatch,
-    SetStateAction,
     useEffect,
     useMemo,
     useState,
@@ -23,7 +21,7 @@ import { Calendar } from "../../ui/calender";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
@@ -36,7 +34,7 @@ import { useUpdateUserBook } from "@/api/use-update-user-book";
 
 export const JournalEntryForm: React.FC = ({
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
     const { onClose, editId, setJournalEntry, journalEntry } = useJournalEntryModal();
@@ -65,7 +63,7 @@ export const JournalEntryForm: React.FC = ({
                 await loadEntry({
                     variables: {
                         book: {
-                            id: userBook!.data.id,
+                            id: userBook!.book.id,
                         },
                     }
                 });
@@ -105,8 +103,8 @@ export const JournalEntryForm: React.FC = ({
                         // unit is pages and valid if value is less than or equal to the total number of pages in the book
                         return (
                             parseInt(val, 10) <=
-                            (userBook.data && userBook.data.pageCount
-                                ? userBook.data.pageCount
+                            (userBook.book && userBook.book.pageCount
+                                ? userBook.book.pageCount
                                 : 0)
                         );
                     },
@@ -174,7 +172,7 @@ export const JournalEntryForm: React.FC = ({
         console.log("values", values);
         let currentPage;
         let currentPercent;
-        const totalPages = userBook.data && userBook.data.pageCount;
+        const totalPages = userBook.book && userBook.book.pageCount;
         if (unit == "pages" && values.current_page) {
             currentPage = parseInt(values.current_page);
             currentPercent = totalPages
@@ -197,7 +195,7 @@ export const JournalEntryForm: React.FC = ({
         }
         //  if editing journal entry
         if (editId) {
-            await updateUserBook(userBook.data!.id, { status: values.mark_abandoned ? "Abandoned" : "Currently Reading" });
+            await updateUserBook(userBook.book!.id, { status: values.mark_abandoned ? "Abandoned" : "Currently Reading" });
         }
 
         let data;
@@ -205,7 +203,7 @@ export const JournalEntryForm: React.FC = ({
             // Only create entry if there is a change in the current page or percent
             if (currentPage != originalPage ||
                 currentPercent != originalPercent) {
-                data = await createJournalEntry(userBook.data!.id, { ...entryInput });
+                data = await createJournalEntry(userBook.book!.id, { ...entryInput });
             } else {
                 setError("Please enter a updated progress")
                 return
@@ -371,11 +369,11 @@ export const JournalEntryForm: React.FC = ({
                                 )}
                             />
                             <div className="text-primary">of</div>
-                            {userBook.data &&
-                                userBook.data.pageCount &&
-                                userBook.data.pageCount!.toString() && (
+                            {userBook.book &&
+                                userBook.book.pageCount &&
+                                userBook.book.pageCount!.toString() && (
                                     <div className="text-primary font-bold">
-                                        {userBook.data.pageCount!.toString()}
+                                        {userBook.book.pageCount!.toString()}
                                     </div>
                                 )}
                         </div>

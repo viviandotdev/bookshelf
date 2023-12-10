@@ -1,7 +1,5 @@
 "use client";
-import useUserBook from "@/stores/use-user-book";
-
-import { Dispatch, SetStateAction } from "react";
+import useUserBookStore from "@/stores/use-user-book-store";
 import JournalEntryForm from "@/components/modals/journal-entry-modal/journal-entry-form";
 import BookCover from "@/components/book-cover";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -10,7 +8,7 @@ import { useJournalEntryModal } from "./use-journal-entry-modal";
 export const JouranlEntryModal: React.FC = ({
 
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
     const journalEntryModal = useJournalEntryModal();
     const onChange = (open: boolean) => {
         if (!open) {
@@ -19,11 +17,11 @@ export const JouranlEntryModal: React.FC = ({
     };
     return (
         <>
-            {userBook && userBook.data &&
+            {userBook && userBook.book &&
                 < Dialog open={journalEntryModal.isOpen} onOpenChange={onChange}>
                     <DialogContent className="flex min-w-[720px]">
                         <div className="flex gap-8 min-w-full">
-                            <BookCover src={userBook.data.coverImage} />
+                            <BookCover src={userBook.book.coverImage} />
                             <div className="flex text-sm flex-col w-[fill-available] justify-evenly">
                                 <DialogHeader>
                                     {
@@ -38,7 +36,7 @@ export const JouranlEntryModal: React.FC = ({
                                         )
                                     }
                                     <DialogDescription className="text-black font-medium text-md">
-                                        {userBook.data.title}
+                                        {userBook.book.title}
                                     </DialogDescription>
                                 </DialogHeader>
                                 <JournalEntryForm />

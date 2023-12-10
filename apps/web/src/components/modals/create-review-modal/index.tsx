@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { Textarea } from "../../ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 import BookCover from "../../book-cover";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { Checkbox } from "../../ui/checkbox";
 import { Rating } from "@smastrom/react-rating";
 import { myStyles } from "../../book-rating";
@@ -24,7 +24,7 @@ interface CreateReviewModal {
 
 const CreateReviewModal: React.FC<CreateReviewModal> = ({
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
 
     const [rating, setRating] = useState(0); // Initial value
     const onChange = (open: boolean) => {
@@ -79,15 +79,15 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
         if (!createReviewModal.editId) {
             //  create book if not exists
 
-            let data = await createReview(userBook.data!.id, { ...reviewInput }, {
-                id: userBook.data!.id,
-                title: userBook.data!.title,
-                coverImage: userBook.data!.coverImage,
-                pageCount: parseInt(userBook.data.pageCount) || 0,
-                author: userBook.data!.author,
-                description: userBook.data!.description,
-                publisher: userBook.data!.publisher || "",
-                publishedDate: userBook.data!.publishedDate,
+            let data = await createReview(userBook.book!.id, { ...reviewInput }, {
+                id: userBook.book!.id,
+                title: userBook.book!.title,
+                coverImage: userBook.book!.coverImage,
+                pageCount: parseInt(userBook.book.pageCount) || 0,
+                author: userBook.book!.author,
+                description: userBook.book!.description,
+                publisher: userBook.book!.publisher || "",
+                publishedDate: userBook.book!.publishedDate,
             });
             if (data) {
                 createReviewModal.onClose();
@@ -110,11 +110,11 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
 
     return (
         <>
-            {userBook && userBook.data &&
+            {userBook && userBook.book &&
                 < Dialog open={createReviewModal.isOpen} onOpenChange={onChange}>
                     <DialogContent className="flex min-w-[720px]">
                         <div className="flex gap-8 min-w-full">
-                            <BookCover src={userBook.data.coverImage} />
+                            <BookCover src={userBook.book.coverImage} />
                             <div className="flex text-sm flex-col w-[fill-available] justify-evenly">
                                 <DialogHeader>
                                     {
@@ -129,7 +129,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                         )
                                     }
                                     <DialogDescription className="text-black font-medium text-md">
-                                        {userBook.data.title}
+                                        {userBook.book.title}
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div>

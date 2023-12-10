@@ -1,4 +1,4 @@
-import { useCommentsLazyQuery, useUserBooksLazyQuery } from "@/graphql/graphql";
+import { useCommentsLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 const useLoadComments = () => {
@@ -11,7 +11,6 @@ const useLoadComments = () => {
                 });
             },
             onCompleted: (data) => {
-                console.log(data)
                 if (data && data.comments && data.comments.length === 0) {
                     console.log("no comments loaded");
                 }

@@ -20,7 +20,7 @@ const useCreateUserBook = () => {
                         pageCount: parseInt(book.pageCount),
                         author: book.author,
                         publisher: book.publisher,
-                        coverImage: book.image,
+                        coverImage: book.coverImage,
                     },
                 },
             });

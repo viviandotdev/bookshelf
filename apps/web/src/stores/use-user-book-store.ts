@@ -6,7 +6,7 @@ type State = {
   bookId: string;
   status: string;
   rating: number;
-  data: Book;
+  book: Book;
   shelves: UserBookShelves[];
 };
 
@@ -15,16 +15,16 @@ type Action = {
   updateUserId: (userId: State["userId"]) => void;
   updateStatus: (status: State["status"]) => void;
   updateRating: (rating: State["rating"]) => void;
-  setUserBook: (data: State["data"]) => void;
   initShelves: (shelves: UserBookShelves[]) => void;
+  setBook: (book: State["book"]) => void;
 };
 
-const useUserBook = create<State & Action>((set) => ({
+const useUserBookStore = create<State & Action>((set) => ({
   status: "",
   userId: "",
   bookId: "",
   rating: 0,
-  data: {
+  book: {
     id: "",
     title: "",
     description: "",
@@ -45,10 +45,10 @@ const useUserBook = create<State & Action>((set) => ({
   updateStatus: (status: string) => set(() => ({ status: status })),
   updateRating: (rating: number) => set(() => ({ rating: rating })),
   updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
-  setUserBook: (data: Book) => set(() => ({ data: data })),
   updateUserId: (userId: string) => set(() => ({ userId: userId })),
   initShelves: (shelves: UserBookShelves[]) =>
     set(() => ({ shelves: shelves })),
+  setBook: (book: Book) => set(() => ({ book: book })),
 }));
 
-export default useUserBook;
+export default useUserBookStore;

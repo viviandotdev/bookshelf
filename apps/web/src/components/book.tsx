@@ -4,11 +4,10 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import AlertModal from "./modals/alert-modal";
-import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { useRemoveUserBook } from "@/api/use-remove-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
 
@@ -37,7 +36,7 @@ export const Book: React.FC<BookProps> = ({
     const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
     const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
-    const { data } = useUserBook();
+    const { data } = useUserBookStore();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [percent, setPercent] = useState(0);

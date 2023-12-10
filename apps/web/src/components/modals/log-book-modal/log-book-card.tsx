@@ -7,7 +7,7 @@ import { CardDescription } from '../../ui/card';
 import { UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
-import useUserBook from '@/stores/use-user-book';
+import useUserBookStore from '@/stores/use-user-book-store';
 
 interface LogBookCardProps {
     userBook: UserBook;
@@ -18,8 +18,7 @@ interface LogBookCardProps {
 export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
     const logBookModal = useLogBookModal()
     const journalEntryModal = useJournalEntryModal()
-    const setUserBook = useUserBook((state) => state.setUserBook);
-    const setJournalEntry = useJournalEntryModal((state) => state.setJournalEntry);
+    const setBook = useUserBookStore((state) => state.setBook);
 
     return (
         <div
@@ -27,7 +26,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
             onClick={(e) => {
                 e.stopPropagation();
                 logBookModal.onClose()
-                setUserBook(userBook.book)
+                setBook(userBook.book)
 
                 journalEntryModal.onOpen();
 
