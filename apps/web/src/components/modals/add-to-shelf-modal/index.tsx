@@ -8,7 +8,6 @@ import { Modal } from "@/components/ui/modal";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -19,8 +18,6 @@ import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "../../ui/button";
 import useUserBook from "@/stores/use-user-book";
-import { useAppDispatch, useAppSelector } from "@/stores";
-// import { decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from "@/api/use-update-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
@@ -28,9 +25,7 @@ interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
-    const dispatch = useAppDispatch();
     const { updateUserBook } = useUpdateUserBook();
-    // const shelves = useAppSelector(selectShelves)
     const { shelves, decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount } = useShelfStore();
     const client = useApolloClient();
     const userBook = useUserBook();

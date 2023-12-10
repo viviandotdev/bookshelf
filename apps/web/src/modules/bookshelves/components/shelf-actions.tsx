@@ -1,10 +1,7 @@
 "use client";
-import React, { use, useCallback, useTransition } from "react";
-// import useShelves from "@/stores/shelf-store";
+import React, { useCallback, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import { useAppDispatch } from "@/stores";
-import { updateSelected } from "@/stores/shelf-slice";
 import EditShelfMenu from "./edit-shelf-menu";
 import useCreateQueryString from "../hooks/use-create-query-string";
 import useShelfStore from "@/stores/use-shelf-store";
@@ -27,7 +24,6 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
 }) => {
     const [isPending, startTransition] = useTransition()
     const pathname = usePathname()
-    // const dispatch = useAppDispatch();
     const router = useRouter();
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();

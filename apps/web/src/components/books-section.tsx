@@ -6,9 +6,7 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import Book from "./book";
 import { Shelf, UserBook } from "../graphql/graphql";
-import { useAppDispatch } from "@/stores";
 import useShelfStore from "@/stores/use-shelf-store";
-// import { initShelves } from "@/stores/shelf-slice";
 
 interface BooksSectionProps {
     booksData: UserBook[];
@@ -26,7 +24,6 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
     details,
     shelves
 }) => {
-    const dispatch = useAppDispatch();
     const { initShelves } = useShelfStore();
     useEffect(() => {
         (initShelves(shelves));

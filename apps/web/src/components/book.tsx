@@ -4,7 +4,6 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import AlertModal from "./modals/alert-modal";
-// import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
@@ -43,7 +42,6 @@ export const Book: React.FC<BookProps> = ({
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [percent, setPercent] = useState(0);
     const { journalEntry } = useJournalEntryModal();
-    const dispatch = useAppDispatch();
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);

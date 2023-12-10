@@ -1,11 +1,10 @@
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React from 'react'
-import { useAppSelector } from '@/stores';
-import { selectShelves } from '@/stores/shelf-slice';
 import ShelfActions from './shelf-actions';
+import useShelfStore from '@/stores/use-shelf-store';
 interface ShelfMenuProps {
     shelf: string
 }
@@ -13,8 +12,7 @@ interface ShelfMenuProps {
 export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     shelf
 }) => {
-    const shelves = useAppSelector(selectShelves)
-    const library = useAppSelector((state) => state.shelf.library);
+    const { shelves, library } = useShelfStore()
     const selections = [...library, ...shelves]
 
     return (

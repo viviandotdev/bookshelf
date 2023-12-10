@@ -7,8 +7,6 @@ import AlertModal from "../../../components/modals/alert-modal";
 import { Shelf } from "@/graphql/graphql";
 import { ShelfActions } from "./shelf-actions";
 import useCreateShelfModal from "./modals/use-create-shelf-modal";
-import { useAppDispatch, useAppSelector } from "@/stores";
-// import { removeShelf } from "@/stores/shelf-slice";
 import { CreateShelfModal } from "./modals/create-shelf-modal";
 import { useDeleteShelf } from "../api/use-delete-shelf";
 import useShelfStore from "@/stores/use-shelf-store";

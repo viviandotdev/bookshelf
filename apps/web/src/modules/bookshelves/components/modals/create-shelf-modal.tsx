@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import useCreateShelfModal from "./use-create-shelf-modal";
-import { useAppDispatch } from "@/stores";
-// import { addShelf, renameShelf } from "@/stores/shelf-slice";
 import { useCreateShelf } from "../../api/use-create-shelf";
 import { useUpdateShelf } from "../../api/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
