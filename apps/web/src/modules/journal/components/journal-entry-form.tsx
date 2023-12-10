@@ -28,11 +28,11 @@ import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../../components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
 import { useUpdateUserBook } from "@/hooks/user-books/mutations";
-import { useCreateJournalEntry } from "../hooks/use-create-entry";
-import { useUpdateJournalEntry } from "../hooks/use-update-entry";
-import useLoadJournalEntry from "../hooks/use-load-entry";
+import { useCreateJournalEntry } from "../api/use-create-entry";
+import { useUpdateJournalEntry } from "../api/use-update-entry";
+import useLoadJournalEntry from "../api/use-load-entry";
 import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
-import { useRemoveEntry } from "../hooks/use-remove-entry";
+import { useRemoveEntry } from "../api/use-remove-entry";
 
 export const JournalEntryForm: React.FC = ({
 }) => {

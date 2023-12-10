@@ -6,7 +6,7 @@ import React from 'react'
 import ReviewInfo from './review-info';
 import { useSearchParams } from 'next/navigation';
 import { Book, Shelf, User } from '@/graphql/graphql';
-import { useLoadReview } from '../hooks/use-load-review';
+import { useLoadReview } from '../api/use-load-review';
 
 interface ReviewSectionProps {
     reviewId: string

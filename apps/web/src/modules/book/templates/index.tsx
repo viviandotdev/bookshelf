@@ -20,8 +20,6 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
 
 
     const reviewed = reviews.filter((review) => review.userBook?.user?.id === user?.id);
-    console.log(reviewed.length > 0)
-    // current user
     return (
         <>
             <BookStatusModal />
