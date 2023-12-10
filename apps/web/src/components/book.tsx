@@ -4,13 +4,13 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import AlertModal from "./modals/alert-modal";
-import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import useUserBook from "@/stores/use-user-book";
 import { useRemoveUserBook } from "@/api/use-remove-user-book";
+import useShelfStore from "@/stores/use-shelf-store";
 
 interface BookProps {
     details?: {
@@ -36,12 +36,12 @@ export const Book: React.FC<BookProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
+    const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
     const { data } = useUserBook();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [percent, setPercent] = useState(0);
     const { journalEntry } = useJournalEntryModal();
-    const dispatch = useAppDispatch();
     useEffect(() => {
         setStatus(userBook.status ? userBook.status : "");
         setRating(userBook.rating ? userBook.rating : 0);
@@ -65,12 +65,12 @@ export const Book: React.FC<BookProps> = ({
         if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
             // delete from all shelves
             deletedBook.shelves.map((item) => {
-                dispatch(decrementShelfCount({ name: item.shelf.name }))
+                (decrementShelfCount(item.shelf.name))
             })
         } else {
-            dispatch(decrementLibraryCount({ name: "Unshelved" }))
+            (decrementLibraryCount("Unshelved"))
         }
-        dispatch(decrementLibraryCount({ name: "All Books" }))
+        (decrementLibraryCount("All Books"))
         setIsLoading(false);
         setOpenAlert(false);
     };

@@ -8,6 +8,7 @@ import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
 import useLoadBooks from "../../../api/use-load-books";
+import useShelfStore from "@/stores/use-shelf-store";
 
 interface BookshelvesTemplateProps {
 }
@@ -15,7 +16,7 @@ interface BookshelvesTemplateProps {
 export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     const query = useUserBookQuery();
     const [totalPages, setTotalPages] = useState(0);
-    const library = useAppSelector((state) => state.shelf.library);
+    const { library } = useShelfStore()
 
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {

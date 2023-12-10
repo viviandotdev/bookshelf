@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import useCreateShelfModal from "./use-create-shelf-modal";
-import { useAppDispatch } from "@/stores";
-import { addShelf, renameShelf } from "@/stores/shelf-slice";
 import { useCreateShelf } from "../../api/use-create-shelf";
 import { useUpdateShelf } from "../../api/use-update-shelf";
+import useShelfStore from "@/stores/use-shelf-store";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -30,8 +29,7 @@ export const CreateShelfModal = () => {
     const { createShelf } = useCreateShelf();
     const { updateShelf } = useUpdateShelf();
 
-    const dispatch = useAppDispatch();
-    // const addShelf = useShelves((state) => state.addShelf);
+    const { addShelf, renameShelf } = useShelfStore();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -54,7 +52,7 @@ export const CreateShelfModal = () => {
         // Query or mutation execution
         const createdShelf = await createShelf(name);
         if (createdShelf) {
-            dispatch(addShelf(
+            (addShelf(
                 {
                     id: createdShelf.id,
                     name: createdShelf.name,
@@ -75,7 +73,7 @@ export const CreateShelfModal = () => {
         setIsLoading(true);
         const updatedShelf = await updateShelf(shelfModal.editId!, name);
         if (updatedShelf) {
-            dispatch(renameShelf({ id: shelfModal.editId!, name: updatedShelf.name }))
+            (renameShelf({ id: shelfModal.editId!, name: updatedShelf.name }))
         }
 
         setIsLoading(false);

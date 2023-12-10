@@ -8,7 +8,6 @@ import { Modal } from "@/components/ui/modal";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -19,17 +18,15 @@ import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "../../ui/button";
 import useUserBook from "@/stores/use-user-book";
-import { useAppDispatch, useAppSelector } from "@/stores";
-import { decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount, selectShelves } from "@/stores/shelf-slice";
 import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from "@/api/use-update-user-book";
+import useShelfStore from "@/stores/use-shelf-store";
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const addToShelfModal = useAddToShelfModal();
-    const dispatch = useAppDispatch();
     const { updateUserBook } = useUpdateUserBook();
-    const shelves = useAppSelector(selectShelves)
+    const { shelves, decrementLibraryCount, decrementShelfCount, incrementLibraryCount, incrementShelfCount } = useShelfStore();
     const client = useApolloClient();
     const userBook = useUserBook();
 
@@ -56,22 +53,22 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         const updatedBook = await updateUserBook(userBook.bookId, { shelves });
         if (updatedBook) {
             if (userBook.shelves.length == 0) {
-                dispatch(decrementLibraryCount({ name: "Unshelved" }))
+                (decrementLibraryCount("Unshelved"))
             }
             // should only increment shelves that are new
             shelves.map((item) => {
                 if (!userBook.shelves.map((item) => item.shelf.name).includes(item)) {
-                    dispatch(incrementShelfCount({ name: item }))
+                    (incrementShelfCount(item))
                 }
             });
             // should decrement unselected shelves
             userBook.shelves.map((item) => {
                 if (!shelves.includes(item.shelf.name)) {
-                    dispatch(decrementShelfCount({ name: item.shelf.name }))
+                    (decrementShelfCount(item.shelf.name))
                 }
             })
             if (shelves.length == 0) {
-                dispatch(incrementLibraryCount({ name: "Unshelved" }))
+                (incrementLibraryCount("Unshelved"))
             }
             // Update the cache
             client.cache.evict({ id: `Book:${userBook.bookId}` });

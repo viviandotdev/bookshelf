@@ -5,7 +5,7 @@ import { Book, Review, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
-import { initShelves } from "@/stores/shelf-slice";
+// import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/us
 import { BookRating } from "@/components/book-rating";
 import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
 import useBookStatusModal from "@/components/modals/book-status-modal/use-book-status-modal";
+import useShelfStore from "@/stores/use-shelf-store";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -48,6 +49,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     const { setUserBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBook();
     const { createUserBook } = useCreateUserBook();
     const dispatch = useAppDispatch();
+    const { initShelves } = useShelfStore()
     const router = useRouter();
     const pathname = usePathname()
     const editReview = pathname.includes("review")
@@ -72,7 +74,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
         })
 
     useEffect(() => {
-        dispatch(initShelves(shelves));
+        (initShelves(shelves));
     }, []);
     useEffect(() => {
         setStatus(userBookStatus)
