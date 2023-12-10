@@ -1,5 +1,5 @@
 "use client";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 
 import { Dispatch, SetStateAction } from "react";
 import JournalEntryForm from "@/components/modals/journal-entry-modal/journal-entry-form";
@@ -10,7 +10,7 @@ import { useJournalEntryModal } from "./use-journal-entry-modal";
 export const JouranlEntryModal: React.FC = ({
 
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
     const journalEntryModal = useJournalEntryModal();
     const onChange = (open: boolean) => {
         if (!open) {

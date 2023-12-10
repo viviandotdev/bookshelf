@@ -23,7 +23,7 @@ import { Calendar } from "../../ui/calender";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
@@ -36,7 +36,7 @@ import { useUpdateUserBook } from "@/api/use-update-user-book";
 
 export const JournalEntryForm: React.FC = ({
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
     const [error, setError] = useState<string>("");
     const [unit, setUnit] = useState<"pages" | "percent">("pages");
     const { onClose, editId, setJournalEntry, journalEntry } = useJournalEntryModal();

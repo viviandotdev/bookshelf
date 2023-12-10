@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { Textarea } from "../../ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
 import BookCover from "../../book-cover";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { Checkbox } from "../../ui/checkbox";
 import { Rating } from "@smastrom/react-rating";
 import { myStyles } from "../../book-rating";
@@ -24,7 +24,7 @@ interface CreateReviewModal {
 
 const CreateReviewModal: React.FC<CreateReviewModal> = ({
 }) => {
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
 
     const [rating, setRating] = useState(0); // Initial value
     const onChange = (open: boolean) => {

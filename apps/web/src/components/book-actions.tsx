@@ -13,7 +13,7 @@ import {
     UserBookShelves,
 } from "../graphql/graphql";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
@@ -49,10 +49,10 @@ const BookActions: React.FC<BookActionsProps> = ({
     type = "icon",
 }) => {
     const addToShelfModal = useAddToShelfModal();
-    const updateBookId = useUserBook((state) => state.updateBookId);
-    const updateStatus = useUserBook((state) => state.updateStatus);
-    const setUserBook = useUserBook((state) => state.setUserBook);
-    const initShelves = useUserBook((state) => state.initShelves);
+    const updateBookId = useUserBookStore((state) => state.updateBookId);
+    const updateStatus = useUserBookStore((state) => state.updateStatus);
+    const setUserBook = useUserBookStore((state) => state.setUserBook);
+    const initShelves = useUserBookStore((state) => state.initShelves);
     const setShelves = useAddToShelfModal((state) => state.setShelves);
     const { updateUserBook } = useUpdateUserBook();
     const journalEntryModal = useJournalEntryModal()

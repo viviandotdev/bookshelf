@@ -7,7 +7,7 @@ import { UserBook } from "@/graphql/graphql";
 import BookCover from "@/components/book-cover";
 import { Icons } from "@/components/icons";
 import { useEffect, useState } from "react";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { useJournalEntryModal } from "../../../components/modals/journal-entry-modal/use-journal-entry-modal";
 
 export const journalEntrySchema = z.object({
@@ -226,8 +226,8 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                     pagesRead: Number(row.getValue("pagesRead")),
                 })
             }, [])
-            const setUserBook = useUserBook((state) => state.setUserBook);
-            const updateStatus = useUserBook((state) => state.updateStatus);
+            const setUserBook = useUserBookStore((state) => state.setUserBook);
+            const updateStatus = useUserBookStore((state) => state.updateStatus);
             return (
                 <div className="text-center cursor-pointer px-2">
                     <div

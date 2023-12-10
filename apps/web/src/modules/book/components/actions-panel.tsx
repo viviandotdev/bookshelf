@@ -3,11 +3,9 @@ import React, { useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
 import { Book, Review, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import { Icons } from "../../../components/icons";
-// import { initShelves } from "@/stores/shelf-slice";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
-import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../api/use-create-user-book";
 import { usePathname, useRouter } from "next/navigation";
@@ -46,9 +44,8 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
     const createReviewModal = useCreateReviewModal();
-    const { setUserBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBook();
+    const { setUserBook, updateBookId, updateStatus, updateRating, updateUserId, status: userBookStatus, rating: userBookRating } = useUserBookStore();
     const { createUserBook } = useCreateUserBook();
-    const dispatch = useAppDispatch();
     const { initShelves } = useShelfStore()
     const router = useRouter();
     const pathname = usePathname()

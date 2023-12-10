@@ -4,7 +4,7 @@ import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import { Icons } from "../../icons";
-import useUserBook from "@/stores/use-user-book";
+import useUserBookStore from "@/stores/use-user-book-store";
 import AlertModal from "../alert-modal";
 import { useRemoveUserBook } from "@/api/use-remove-user-book";
 import { useUpdateUserBook } from "@/api/use-update-user-book";
@@ -14,12 +14,12 @@ interface BookStatusModalProps { }
 
 const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const statusModal = useBookStatusModal();
-    const userBook = useUserBook();
+    const userBook = useUserBookStore();
     const [open, setOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const updateUserId = useUserBook((state) => state.updateUserId);
-    const updateStatus = useUserBook((state) => state.updateStatus);
-    const updateBookId = useUserBook((state) => state.updateBookId);
+    const updateUserId = useUserBookStore((state) => state.updateUserId);
+    const updateStatus = useUserBookStore((state) => state.updateStatus);
+    const updateBookId = useUserBookStore((state) => state.updateBookId);
     const { updateUserBook } = useUpdateUserBook();
     const { removeUserBook } = useRemoveUserBook();
     const status = [

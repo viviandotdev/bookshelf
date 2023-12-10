@@ -1,4 +1,4 @@
-import { useCommentsLazyQuery, useUserBooksLazyQuery } from "@/graphql/graphql";
+import { useCommentsLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 
 const useLoadComments = () => {
