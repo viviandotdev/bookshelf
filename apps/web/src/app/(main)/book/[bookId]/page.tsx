@@ -3,8 +3,8 @@ import { getBook } from "@/modules/book/api/getBook";
 import { notFound } from "next/navigation";
 import BookTemplate from "@/modules/book/templates";
 import { getShelves } from "@/modules/bookshelves/api/getShelves";
-import { getReviews } from "@/hooks/review/queries";
 import { getCurrentUser } from "@/lib/auth/session";
+import { getReviews } from "@/modules/book/api/getReviews";
 
 interface BookPageProps {
     params: { bookId: string };

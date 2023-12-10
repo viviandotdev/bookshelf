@@ -18,7 +18,8 @@ import { Button } from "@/components/ui/button";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch } from "@/stores";
 import { addShelf, renameShelf } from "@/stores/shelf-slice";
-import { useCreateShelf, useUpdateShelf } from "@/hooks/shelf/mutations";
+import { useCreateShelf } from "../api/use-create-shelf";
+import { useUpdateShelf } from "../api/use-update-shelf";
 
 const formSchema = z.object({
     name: z.string().min(1),

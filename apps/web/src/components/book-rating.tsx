@@ -1,4 +1,4 @@
-import { useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useUpdateUserBook } from "@/api/use-update-user-book";
 import { Rating, Star } from "@smastrom/react-rating";
 
 

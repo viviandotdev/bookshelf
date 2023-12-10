@@ -7,7 +7,8 @@ import { Icons } from "../../../components/icons";
 import useUserBook from "@/stores/use-user-book";
 import AlertModal from "../../../components/modals/alert-modal";
 import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
-import { useRemoveUserBook, useUpdateUserBook } from "@/hooks/user-books/mutations";
+import { useRemoveUserBook } from "@/api/use-remove-user-book";
+import { useUpdateUserBook } from "@/api/use-update-user-book";
 
 interface BookStatusModalProps { }
 

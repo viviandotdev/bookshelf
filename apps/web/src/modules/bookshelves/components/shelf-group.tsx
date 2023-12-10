@@ -9,8 +9,8 @@ import { ShelfActions } from "./shelf-actions";
 import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 import { useAppDispatch, useAppSelector } from "@/stores";
 import { removeShelf } from "@/stores/shelf-slice";
-import { useDeleteShelf } from "@/hooks/shelf/mutations";
 import { CreateShelfModal } from "./create-shelf-modal";
+import { useDeleteShelf } from "../api/use-delete-shelf";
 
 interface ShelfGroupProps {
     title: string;

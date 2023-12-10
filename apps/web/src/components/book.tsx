@@ -4,14 +4,13 @@ import { Icons } from "./icons";
 import BookCover from "./book-cover";
 import BookActions from "./book-actions";
 import AlertModal from "./modals/alert-modal";
-import { useRemoveUserBook } from "@/hooks/user-books/mutations";
 import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice";
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
-import { JouranlEntryModal } from "@/modules/journal/components/journal-entry-modal";
 import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
 import useUserBook from "@/stores/use-user-book";
+import { useRemoveUserBook } from "@/api/use-remove-user-book";
 
 interface BookProps {
     details?: {

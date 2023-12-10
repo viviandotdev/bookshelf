@@ -2,10 +2,10 @@
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import React, { useEffect, useReducer, useState } from 'react'
-import BookCover from '../book-cover';
-import { CardDescription } from '../ui/card';
+import BookCover from '../../book-cover';
+import { CardDescription } from '../../ui/card';
 import { UserBook } from '@/graphql/graphql';
-import useLogBookModal from '@/hooks/use-log-book-modal';
+import useLogBookModal from '@/components/modals/log-book/use-log-book-modal';
 import { useJournalEntryModal } from '@/modules/journal/hooks/use-journal-entry-modal';
 import useUserBook from '@/stores/use-user-book';
 
