@@ -1,21 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BookData } from "@/types/interfaces";
-import { Book, Review, ReviewDataInput, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
+import { Book, Review, Shelf, useUserBookLazyQuery } from "@/graphql/graphql";
 import { useSession } from "next-auth/react";
 import useUserBook from "@/stores/use-user-book";
 import { Icons } from "../../../components/icons";
-import useBookStatusModal from "@/modules/book/hooks/use-book-status-modal";
 import { initShelves } from "@/stores/shelf-slice";
-import useAddToShelfModal from "@/modules/bookshelves/hooks/use-add-to-shelf-modal";
+import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { useAppDispatch } from "@/stores";
 import { Button } from "@/components/ui/button";
 import useCreateUserBook from "../api/use-create-user-book";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
-import useCreateReviewModal from "@/hooks/use-create-review.modal";
+import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import { BookRating } from "@/components/book-rating";
+import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
+import useBookStatusModal from "@/components/modals/book-status-modal/use-book-status-modal";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;

@@ -5,8 +5,8 @@ import React, { useEffect, useReducer, useState } from 'react'
 import BookCover from '../../book-cover';
 import { CardDescription } from '../../ui/card';
 import { UserBook } from '@/graphql/graphql';
-import useLogBookModal from '@/components/modals/log-book/use-log-book-modal';
-import { useJournalEntryModal } from '@/modules/journal/hooks/use-journal-entry-modal';
+import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
+import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBook from '@/stores/use-user-book';
 
 interface LogBookCardProps {

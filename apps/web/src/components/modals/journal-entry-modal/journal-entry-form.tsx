@@ -6,7 +6,7 @@ import React, {
     useMemo,
     useState,
 } from "react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../ui/button";
 import {
     Form,
     FormControl,
@@ -14,24 +14,24 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "../../../components/ui/form";
+} from "../../ui/form";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Textarea } from "../../../components/ui/textarea";
-import { Input } from "../../../components/ui/input";
-import { Calendar } from "../../../components/ui/calender";
+import { Textarea } from "../../ui/textarea";
+import { Input } from "../../ui/input";
+import { Calendar } from "../../ui/calender";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import useUserBook from "@/stores/use-user-book";
 import { JournalEntryCreateInput } from "@/graphql/graphql";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover";
-import { useCreateJournalEntry } from "../api/use-create-entry";
-import { useUpdateJournalEntry } from "../api/use-update-entry";
-import useLoadJournalEntry from "../api/use-load-entry";
-import { useJournalEntryModal } from "../hooks/use-journal-entry-modal";
-import { useRemoveEntry } from "../api/use-remove-entry";
+import { Checkbox } from "../../ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { useCreateJournalEntry } from "../../../modules/journal/api/use-create-entry";
+import { useUpdateJournalEntry } from "../../../modules/journal/api/use-update-entry";
+import useLoadJournalEntry from "../../../modules/journal/api/use-load-entry";
+import { useJournalEntryModal } from "./use-journal-entry-modal";
+import { useRemoveEntry } from "../../../modules/journal/api/use-remove-entry";
 import { useUpdateUserBook } from "@/api/use-update-user-book";
 
 export const JournalEntryForm: React.FC = ({

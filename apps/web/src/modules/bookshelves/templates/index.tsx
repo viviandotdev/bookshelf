@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useAppSelector } from "@/stores";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
-import { CreateShelfModal } from "@/modules/bookshelves/components/create-shelf-modal";
+import { CreateShelfModal } from "@/modules/bookshelves/components/modals/create-shelf-modal";
 import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";

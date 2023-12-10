@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useReducer } from "react";
 import { Modal } from "@/components/ui/modal";
-import useLogBookModal from "@/components/modals/log-book/use-log-book-modal";
+import useLogBookModal from "@/components/modals/log-book-modal/use-log-book-modal";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import LogBookCard from "./log-book-card";
 import { NetworkStatus } from "@apollo/client";

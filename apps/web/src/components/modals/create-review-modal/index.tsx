@@ -1,28 +1,28 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import useCreateReviewModal from "@/hooks/use-create-review.modal";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import { Textarea } from "../ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
-import BookCover from "../book-cover";
+import { Textarea } from "../../ui/textarea";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../ui/dialog";
+import BookCover from "../../book-cover";
 import useUserBook from "@/stores/use-user-book";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../ui/checkbox";
 import { Rating } from "@smastrom/react-rating";
-import { myStyles } from "../book-rating";
+import { myStyles } from "../../book-rating";
 import { ReviewDataInput } from "@/graphql/graphql";
 import { useUpdateReview } from "@/modules/review/api/use-update-review";
 import { useCreateReview } from "@/modules/review/api/use-create-review";
 interface CreateReviewModal {
 }
 
-export const CreateReviewModal: React.FC<CreateReviewModal> = ({
+const CreateReviewModal: React.FC<CreateReviewModal> = ({
 }) => {
     const userBook = useUserBook();
 

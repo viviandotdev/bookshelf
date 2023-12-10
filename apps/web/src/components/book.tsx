@@ -8,7 +8,7 @@ import { decrementShelfCount, decrementLibraryCount } from "@/stores/shelf-slice
 import { useAppDispatch } from "@/stores";
 import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
-import { useJournalEntryModal } from "@/modules/journal/hooks/use-journal-entry-modal";
+import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import useUserBook from "@/stores/use-user-book";
 import { useRemoveUserBook } from "@/api/use-remove-user-book";
 

@@ -6,8 +6,8 @@ import Image from "next/image";
 import { Shelf, Review } from "@/graphql/graphql";
 import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
-import { BookStatusModal } from "../components/book-status-modal";
 import ReviewCard from "../components/review-card";
+import BookStatusModal from "@/components/modals/book-status-modal";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
