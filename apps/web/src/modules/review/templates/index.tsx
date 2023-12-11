@@ -1,16 +1,12 @@
 
-import book from '@/components/book';
-import { BookInfo } from '@/components/book-card';
-import { Book, Shelf, Review, User } from '@/graphql/graphql';
+import { Book, Shelf, User } from '@/graphql/graphql';
 import { dm_sefif_display } from '@/lib/fonts';
 import { formatDate, cn } from '@/lib/utils';
-import ActionsPanel from '@/modules/book/components/actions-panel';
-import { BookStatusModal } from '@/modules/book/components/book-status-modal';
 import React from 'react'
 import Image from "next/image";
-import ReviewInfo from '../components/review-info';
 import CommentSection from '../components/comment-section';
 import ReviewSection from '../components/review-section';
+import BookStatusModal from '@/components/modals/book-status-modal';
 
 interface ReviewTemplateProps {
     book: Book

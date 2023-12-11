@@ -27,7 +27,6 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
                 e.stopPropagation();
                 logBookModal.onClose()
                 setBook(userBook.book)
-
                 journalEntryModal.onOpen();
 
             }}>

@@ -39,7 +39,7 @@ interface ActionsPanelProps {
 export default function ActionsPanel({ book, review, shelves, reviewed, reviewId }: ActionsPanelProps) {
     const [rating, setRating] = useState(0); // Initial value
     const [status, setStatus] = useState("");
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const { data: session } = useSession();
     const statusModal = useBookStatusModal();
     const addToShelfModal = useAddToShelfModal();
@@ -66,6 +66,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                 setBook(data.userBook?.book as Book);
                 setStatus(data.userBook?.status as string);
                 setRating(data.userBook?.rating as number);
+                setLoading(false)
             },
             errorPolicy: "all",
         })
@@ -83,9 +84,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     }, [userBookRating])
     useEffect(() => {
         const loadData = async () => {
-            setLoading(true)
             await loadBook({ variables: { where: { id: book.id } } });
-            setLoading(false)
         };
         loadData();
     }, [loadBook, router]);
@@ -142,11 +141,14 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                 <ActionItem onClick={() => createBook(book)} icon={<Icons.save className="h-8 w-8 items-center" />} label="To Read" />
             );
     }
+
     if (loading) {
-        <div>loading</div>
+        return <div>Loading</div>
     }
     return (
         <>
+
+
             <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-muted-foreground font-light">
                 <div className="grid rounded-lg bg-secondary items-center grid-cols-3 w-[fill-available] p-2">
                     {actionItemToShow}
