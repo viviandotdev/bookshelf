@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -6,21 +6,34 @@ import { buttonVariants } from "@/components/ui/button";
 import { MainNav } from "@/modules/layout/components/main-nav";
 import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import { User } from "next-auth";
-import { siteConfig } from "@/config/site";
 import SearchInput from "../components/search-input";
-import { Icons } from "@/components/icons";
-import useLogBookModal from "@/components/modals/log-book-modal/use-log-book-modal";
+import LogBookButton from "../components/log-book-button";
 
 interface SiteHeaderProps {
     user?: User;
 }
 
 const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
-    const logBookModal = useLogBookModal();
+
+    const items = [
+        {
+            title: "Home",
+            href: "/",
+        },
+        {
+            title: "My Books",
+            href: `/${user.name}/books`,
+        },
+        {
+            title: "Browse",
+            href: "/browse",
+        },
+    ]
+
     return (
         <header className="container bg-background mx-auto">
             <div className="flex h-20 items-center justify-between py-6 space-x-4">
-                <MainNav items={siteConfig.mainNav} />
+                <MainNav items={items} />
                 <div className="flex flex-1 items-center space-x-4 sm:justify-end">
                     <div className="flex-1 sm:grow-0">
                         <SearchInput />
@@ -36,16 +49,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                         id: user.id,
                                     }}
                                 />
-                                <button
-                                    onClick={() => logBookModal.onOpen()}
-                                    className={cn(
-                                        buttonVariants({ variant: "tag", size: "xs" }),
-                                        "pl-2 pr-3"
-                                    )}
-                                >
-                                    <Icons.plus className="h-4 w-4 mr-1" />
-                                    Log
-                                </button>
+                                <LogBookButton />
                             </div>
                         ) : (
                             <Link

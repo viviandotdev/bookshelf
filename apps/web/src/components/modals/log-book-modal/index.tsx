@@ -32,9 +32,6 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
     }, [loadBooks, logBookModal.isOpen]);
     const userBooks = booksData && booksData?.userBooks
     const loading = networkStatus === NetworkStatus.loading;
-    if (loading) {
-        return <div>Loading...</div>
-    }
 
     return (
         <>

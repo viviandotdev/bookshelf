@@ -879,6 +879,7 @@ export type Mutation = {
   createShelf: Shelf;
   createUser: User;
   deleteShelf?: Maybe<Shelf>;
+  follow: User;
   importUserBooks: Scalars['Boolean'];
   likeReview: Review;
   logout: Scalars['Boolean'];
@@ -930,6 +931,12 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
+};
+
+
+export type MutationFollowArgs = {
+  value: Scalars['Boolean'];
+  where: UserWhereUniqueInput;
 };
 
 
@@ -1861,7 +1868,10 @@ export type User = {
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp'];
   email: Scalars['String'];
+  followers?: Maybe<Array<User>>;
+  following?: Maybe<Array<User>>;
   id: Scalars['ID'];
+  isFollowing: Scalars['Boolean'];
   journalEntries?: Maybe<Array<JournalEntry>>;
   likedReviews?: Maybe<Array<Review>>;
   reviews?: Maybe<Array<Review>>;
@@ -2564,6 +2574,8 @@ export type UserBookWhereUniqueInput = {
 export type UserCount = {
   __typename?: 'UserCount';
   comments: Scalars['Int'];
+  followers: Scalars['Int'];
+  following: Scalars['Int'];
   journalEntries: Scalars['Int'];
   likedReviews: Scalars['Int'];
   reviews: Scalars['Int'];
@@ -2585,6 +2597,8 @@ export type UserCreateInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2595,6 +2609,18 @@ export type UserCreateInput = {
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateNestedManyWithoutFollowersInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowersInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutFollowersInput>>;
+};
+
+export type UserCreateNestedManyWithoutFollowingInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowingInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutFollowingInput>>;
 };
 
 export type UserCreateNestedManyWithoutLikedReviewsInput = {
@@ -2638,6 +2664,16 @@ export type UserCreateOrConnectWithoutCommentsInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateOrConnectWithoutFollowersInput = {
+  create: UserCreateWithoutFollowersInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateOrConnectWithoutFollowingInput = {
+  create: UserCreateWithoutFollowingInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserCreateOrConnectWithoutJournalEntriesInput = {
   create: UserCreateWithoutJournalEntriesInput;
   where: UserWhereUniqueInput;
@@ -2666,6 +2702,42 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
 export type UserCreateWithoutCommentsInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
+  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateWithoutFollowersInput = {
+  comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email: Scalars['String'];
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
+  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateWithoutFollowingInput = {
+  comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2682,6 +2754,8 @@ export type UserCreateWithoutJournalEntriesInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2697,6 +2771,8 @@ export type UserCreateWithoutLikedReviewsInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2712,6 +2788,8 @@ export type UserCreateWithoutReviewsInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2727,6 +2805,8 @@ export type UserCreateWithoutShelvesInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2742,6 +2822,8 @@ export type UserCreateWithoutUserBooksInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2777,10 +2859,16 @@ export type UserMinAggregate = {
   username?: Maybe<Scalars['String']>;
 };
 
+export type UserOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
 export type UserOrderByWithRelationInput = {
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
+  followers?: InputMaybe<UserOrderByRelationAggregateInput>;
+  following?: InputMaybe<UserOrderByRelationAggregateInput>;
   hashedPassword?: InputMaybe<SortOrderInput>;
   hashedRefreshToken?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
@@ -2821,9 +2909,45 @@ export type UserUpdateManyMutationInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
+export type UserUpdateManyWithWhereWithoutFollowersInput = {
+  data: UserUpdateManyMutationInput;
+  where: UserScalarWhereInput;
+};
+
+export type UserUpdateManyWithWhereWithoutFollowingInput = {
+  data: UserUpdateManyMutationInput;
+  where: UserScalarWhereInput;
+};
+
 export type UserUpdateManyWithWhereWithoutLikedReviewsInput = {
   data: UserUpdateManyMutationInput;
   where: UserScalarWhereInput;
+};
+
+export type UserUpdateManyWithoutFollowersNestedInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowersInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutFollowersInput>>;
+  delete?: InputMaybe<Array<UserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  set?: InputMaybe<Array<UserWhereUniqueInput>>;
+  update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutFollowersInput>>;
+  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutFollowersInput>>;
+  upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutFollowersInput>>;
+};
+
+export type UserUpdateManyWithoutFollowingNestedInput = {
+  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowingInput>>;
+  create?: InputMaybe<Array<UserCreateWithoutFollowingInput>>;
+  delete?: InputMaybe<Array<UserWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
+  set?: InputMaybe<Array<UserWhereUniqueInput>>;
+  update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutFollowingInput>>;
+  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutFollowingInput>>;
+  upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutFollowingInput>>;
 };
 
 export type UserUpdateManyWithoutLikedReviewsNestedInput = {
@@ -2914,6 +3038,16 @@ export type UserUpdateToOneWithWhereWithoutUserBooksInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpdateWithWhereUniqueWithoutFollowersInput = {
+  data: UserUpdateWithoutFollowersInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserUpdateWithWhereUniqueWithoutFollowingInput = {
+  data: UserUpdateWithoutFollowingInput;
+  where: UserWhereUniqueInput;
+};
+
 export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
   data: UserUpdateWithoutLikedReviewsInput;
   where: UserWhereUniqueInput;
@@ -2922,6 +3056,42 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 export type UserUpdateWithoutCommentsInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
+  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpdateWithoutFollowersInput = {
+  comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
+  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpdateWithoutFollowingInput = {
+  comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2938,6 +3108,8 @@ export type UserUpdateWithoutJournalEntriesInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2953,6 +3125,8 @@ export type UserUpdateWithoutLikedReviewsInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2968,6 +3142,8 @@ export type UserUpdateWithoutReviewsInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2983,6 +3159,8 @@ export type UserUpdateWithoutShelvesInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -2998,6 +3176,8 @@ export type UserUpdateWithoutUserBooksInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
@@ -3007,6 +3187,18 @@ export type UserUpdateWithoutUserBooksInput = {
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpsertWithWhereUniqueWithoutFollowersInput = {
+  create: UserCreateWithoutFollowersInput;
+  update: UserUpdateWithoutFollowersInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserUpsertWithWhereUniqueWithoutFollowingInput = {
+  create: UserCreateWithoutFollowingInput;
+  update: UserUpdateWithoutFollowingInput;
+  where: UserWhereUniqueInput;
 };
 
 export type UserUpsertWithWhereUniqueWithoutLikedReviewsInput = {
@@ -3052,6 +3244,8 @@ export type UserWhereInput = {
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
+  followers?: InputMaybe<UserListRelationFilter>;
+  following?: InputMaybe<UserListRelationFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -3071,6 +3265,8 @@ export type UserWhereUniqueInput = {
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserListRelationFilter>;
+  following?: InputMaybe<UserListRelationFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
@@ -3193,6 +3389,14 @@ export type UpdateShelfMutationVariables = Exact<{
 
 
 export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf?: { __typename?: 'Shelf', id: string, name: string } | null };
+
+export type FollowMutationVariables = Exact<{
+  where: UserWhereUniqueInput;
+  value: Scalars['Boolean']['input'];
+}>;
+
+
+export type FollowMutation = { __typename?: 'Mutation', follow: { __typename?: 'User', id: string } };
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
@@ -3857,6 +4061,40 @@ export function useUpdateShelfMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMutation>;
 export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
 export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
+export const FollowDocument = gql`
+    mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
+  follow(where: $where, value: $value) {
+    id
+  }
+}
+    `;
+export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
+
+/**
+ * __useFollowMutation__
+ *
+ * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followMutation, { data, loading, error }] = useFollowMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      value: // value for 'value'
+ *   },
+ * });
+ */
+export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
+      }
+export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
+export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const UpdateUserBookDocument = gql`
     mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {

@@ -1,0 +1,5 @@
+mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
+  follow(where: $where, value: $value) {
+    id
+  }
+}
