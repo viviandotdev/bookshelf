@@ -22,7 +22,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
         },
         {
             title: "My Books",
-            href: `/${user.name}/books`,
+            href: user ? `/${user.name}/books` : "/",
         },
         {
             title: "Browse",
