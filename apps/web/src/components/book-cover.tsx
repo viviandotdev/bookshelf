@@ -1,6 +1,5 @@
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 interface BookCoverProps {
     src: string | null;
@@ -9,11 +8,7 @@ interface BookCoverProps {
 
 const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
     let width: number;
-    const [imgSrc, setImgSrc] = useState(src)
 
-    useEffect(() => {
-        setImgSrc(src)
-    }, [src])
     switch (size) {
         case "xs":
             width = 42;
@@ -34,12 +29,12 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
         <div className={`relative flex items-start`}>
             <Image
                 className={`max-w-none w-[${width}px] h-auto object-contain`}
-                src={src ? src : DEFAULT_BOOKCOVER_PLACEHOLDER}
-                alt={`Book cover`}
+                src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
+                alt={"Book Cover"}
                 width={width}
                 height={width * 1.5}
                 onError={() => {
-                    setImgSrc(DEFAULT_BOOKCOVER_PLACEHOLDER)
+                    console.log('error')
                 }}
             />
         </div>

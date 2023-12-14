@@ -845,6 +845,7 @@ type Mutation {
   createShelf(data: ShelfCreateInput!): Shelf!
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf
+  follow(value: Boolean!, where: UserWhereUniqueInput!): User!
   importUserBooks(content: String!): Boolean!
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
   logout(id: String!): Boolean!
@@ -874,6 +875,7 @@ type Query {
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: User!
   shelves: [Shelf!]
+  user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
   userBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): [UserBook!]
 }
@@ -1664,7 +1666,12 @@ type User {
   comments: [Comment!]
   createdAt: Timestamp!
   email: String!
+  followerCount: Float!
+  followers: [User!]
+  following: [User!]
+  followingCount: Float!
   id: ID!
+  isFollowing: Boolean!
   journalEntries: [JournalEntry!]
   likedReviews: [Review!]
   reviews: [Review!]
@@ -2355,6 +2362,8 @@ input UserBookWhereUniqueInput {
 
 type UserCount {
   comments: Int!
+  followers: Int!
+  following: Int!
   journalEntries: Int!
   likedReviews: Int!
   reviews: Int!
@@ -2375,6 +2384,8 @@ input UserCreateInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2385,6 +2396,18 @@ input UserCreateInput {
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
   username: String
+}
+
+input UserCreateNestedManyWithoutFollowersInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutFollowersInput!]
+  create: [UserCreateWithoutFollowersInput!]
+}
+
+input UserCreateNestedManyWithoutFollowingInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutFollowingInput!]
+  create: [UserCreateWithoutFollowingInput!]
 }
 
 input UserCreateNestedManyWithoutLikedReviewsInput {
@@ -2428,6 +2451,16 @@ input UserCreateOrConnectWithoutCommentsInput {
   where: UserWhereUniqueInput!
 }
 
+input UserCreateOrConnectWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserCreateOrConnectWithoutFollowingInput {
+  create: UserCreateWithoutFollowingInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserCreateOrConnectWithoutJournalEntriesInput {
   create: UserCreateWithoutJournalEntriesInput!
   where: UserWhereUniqueInput!
@@ -2456,6 +2489,42 @@ input UserCreateOrConnectWithoutUserBooksInput {
 input UserCreateWithoutCommentsInput {
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
+  reviews: ReviewCreateNestedManyWithoutUserInput
+  shelves: ShelfCreateNestedManyWithoutUserInput
+  updatedAt: Timestamp
+  userBooks: UserBookCreateNestedManyWithoutUserInput
+  username: String
+}
+
+input UserCreateWithoutFollowersInput {
+  comments: CommentCreateNestedManyWithoutUserInput
+  createdAt: Timestamp
+  email: String!
+  following: UserCreateNestedManyWithoutFollowersInput
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
+  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
+  reviews: ReviewCreateNestedManyWithoutUserInput
+  shelves: ShelfCreateNestedManyWithoutUserInput
+  updatedAt: Timestamp
+  userBooks: UserBookCreateNestedManyWithoutUserInput
+  username: String
+}
+
+input UserCreateWithoutFollowingInput {
+  comments: CommentCreateNestedManyWithoutUserInput
+  createdAt: Timestamp
+  email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2472,6 +2541,8 @@ input UserCreateWithoutJournalEntriesInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2487,6 +2558,8 @@ input UserCreateWithoutLikedReviewsInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2502,6 +2575,8 @@ input UserCreateWithoutReviewsInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2517,6 +2592,8 @@ input UserCreateWithoutShelvesInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2532,6 +2609,8 @@ input UserCreateWithoutUserBooksInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  followers: UserCreateNestedManyWithoutFollowingInput
+  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2565,10 +2644,16 @@ type UserMinAggregate {
   username: String
 }
 
+input UserOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
 input UserOrderByWithRelationInput {
   comments: CommentOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
+  followers: UserOrderByRelationAggregateInput
+  following: UserOrderByRelationAggregateInput
   hashedPassword: SortOrderInput
   hashedRefreshToken: SortOrderInput
   id: SortOrder
@@ -2609,9 +2694,45 @@ input UserUpdateManyMutationInput {
   username: String
 }
 
+input UserUpdateManyWithWhereWithoutFollowersInput {
+  data: UserUpdateManyMutationInput!
+  where: UserScalarWhereInput!
+}
+
+input UserUpdateManyWithWhereWithoutFollowingInput {
+  data: UserUpdateManyMutationInput!
+  where: UserScalarWhereInput!
+}
+
 input UserUpdateManyWithWhereWithoutLikedReviewsInput {
   data: UserUpdateManyMutationInput!
   where: UserScalarWhereInput!
+}
+
+input UserUpdateManyWithoutFollowersNestedInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutFollowersInput!]
+  create: [UserCreateWithoutFollowersInput!]
+  delete: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutFollowersInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutFollowersInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutFollowersInput!]
+}
+
+input UserUpdateManyWithoutFollowingNestedInput {
+  connect: [UserWhereUniqueInput!]
+  connectOrCreate: [UserCreateOrConnectWithoutFollowingInput!]
+  create: [UserCreateWithoutFollowingInput!]
+  delete: [UserWhereUniqueInput!]
+  deleteMany: [UserScalarWhereInput!]
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutFollowingInput!]
+  updateMany: [UserUpdateManyWithWhereWithoutFollowingInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutFollowingInput!]
 }
 
 input UserUpdateManyWithoutLikedReviewsNestedInput {
@@ -2702,6 +2823,16 @@ input UserUpdateToOneWithWhereWithoutUserBooksInput {
   where: UserWhereInput
 }
 
+input UserUpdateWithWhereUniqueWithoutFollowersInput {
+  data: UserUpdateWithoutFollowersInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutFollowingInput {
+  data: UserUpdateWithoutFollowingInput!
+  where: UserWhereUniqueInput!
+}
+
 input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
   data: UserUpdateWithoutLikedReviewsInput!
   where: UserWhereUniqueInput!
@@ -2710,6 +2841,42 @@ input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 input UserUpdateWithoutCommentsInput {
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
+  reviews: ReviewUpdateManyWithoutUserNestedInput
+  shelves: ShelfUpdateManyWithoutUserNestedInput
+  updatedAt: Timestamp
+  userBooks: UserBookUpdateManyWithoutUserNestedInput
+  username: String
+}
+
+input UserUpdateWithoutFollowersInput {
+  comments: CommentUpdateManyWithoutUserNestedInput
+  createdAt: Timestamp
+  email: String
+  following: UserUpdateManyWithoutFollowersNestedInput
+  hashedPassword: String
+  hashedRefreshToken: String
+  id: String
+  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
+  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
+  reviews: ReviewUpdateManyWithoutUserNestedInput
+  shelves: ShelfUpdateManyWithoutUserNestedInput
+  updatedAt: Timestamp
+  userBooks: UserBookUpdateManyWithoutUserNestedInput
+  username: String
+}
+
+input UserUpdateWithoutFollowingInput {
+  comments: CommentUpdateManyWithoutUserNestedInput
+  createdAt: Timestamp
+  email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2726,6 +2893,8 @@ input UserUpdateWithoutJournalEntriesInput {
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2741,6 +2910,8 @@ input UserUpdateWithoutLikedReviewsInput {
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2756,6 +2927,8 @@ input UserUpdateWithoutReviewsInput {
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2771,6 +2944,8 @@ input UserUpdateWithoutShelvesInput {
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2786,6 +2961,8 @@ input UserUpdateWithoutUserBooksInput {
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  followers: UserUpdateManyWithoutFollowingNestedInput
+  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2795,6 +2972,18 @@ input UserUpdateWithoutUserBooksInput {
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
+}
+
+input UserUpsertWithWhereUniqueWithoutFollowersInput {
+  create: UserCreateWithoutFollowersInput!
+  update: UserUpdateWithoutFollowersInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutFollowingInput {
+  create: UserCreateWithoutFollowingInput!
+  update: UserUpdateWithoutFollowingInput!
+  where: UserWhereUniqueInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutLikedReviewsInput {
@@ -2840,6 +3029,8 @@ input UserWhereInput {
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: StringFilter
+  followers: UserListRelationFilter
+  following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: StringFilter
@@ -2859,6 +3050,8 @@ input UserWhereUniqueInput {
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: String
+  followers: UserListRelationFilter
+  following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: String

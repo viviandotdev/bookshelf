@@ -5,3 +5,14 @@
 #     email
 #   }
 # }
+
+query User($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    username
+    email
+    isFollowing
+    followerCount
+    followingCount
+  }
+}

@@ -1,3 +1,4 @@
+"use client"
 import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';

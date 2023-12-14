@@ -80,9 +80,7 @@ export function processBook(
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
   const publisher: string = book.volumeInfo.publisher || 'N/A';
-  const image: string =
-    book.volumeInfo.imageLinks?.thumbnail || '/images/bkcover.jpg';
-  const preview: string = book.volumeInfo.previewLink;
+  const coverImage: string = book.volumeInfo.imageLinks?.thumbnail || '';
   const description: string = book.volumeInfo.description || 'N/A';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
@@ -99,7 +97,7 @@ export function processBook(
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(' / '),
-) || [];
+    ) || [];
   const categories = allCategories.filter(
     (value: string, index: number, self: string[]) => {
       return self.indexOf(value) === index;
@@ -114,8 +112,7 @@ export function processBook(
     publishedDate,
     publisher,
     categories,
-    image,
-    preview,
+    coverImage,
     description,
     pageCount,
     isbn,

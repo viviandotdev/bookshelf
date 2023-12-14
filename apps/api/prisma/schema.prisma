@@ -53,6 +53,8 @@ model User {
     //  One to Many: one user has many shelves
     shelves            Shelf[]
     journalEntries     JournalEntry[]
+    following          User[]         @relation("UserFollows")
+    followers          User[]         @relation("UserFollows")
     // favoriteBooks      Book[]         @relation("FavoritedBooks")
     reviews            Review[]
     likedReviews       Review[]       @relation(name: "LikedReviews")

@@ -1,6 +1,7 @@
 import { BookData } from "@/types/interfaces";
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "./constants";
 
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
@@ -29,10 +30,10 @@ export function processBook(
   const publishedDate: string = book.volumeInfo.publishedDate || "N/A";
   const publisher: string = book.volumeInfo.publisher || "N/A";
   const coverImage: string =
-    book.volumeInfo.imageLinks?.thumbnail || "/images/bkcover.jpg";
+    book.volumeInfo.imageLinks?.thumbnail || DEFAULT_BOOKCOVER_PLACEHOLDER;
   const description: string = book.volumeInfo.description || "N/A";
-  const pageCount: string = book.volumeInfo.pageCount?.toString() || "N/A";
-  const averageRating: Number = book.volumeInfo.averageRating || 0;
+  const pageCount: number = book.volumeInfo.pageCount || 0;
+  const averageRating: number = book.volumeInfo.averageRating || 0;
   let isbn: string = "N/A";
   let isbn13: string = "N/A";
   if (book.volumeInfo.industryIdentifiers) {
@@ -42,7 +43,7 @@ export function processBook(
     if (identifier1) isbn = identifier1;
     if (identifier2) isbn13 = identifier2;
   }
-  let ratingsCount = book.volumeInfo.ratingsCount || 0;
+  const ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(" / ")
