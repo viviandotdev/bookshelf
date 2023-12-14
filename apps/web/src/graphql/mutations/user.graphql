@@ -3,3 +3,4 @@ mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
     id
   }
 }
+

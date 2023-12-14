@@ -53,7 +53,8 @@ export const authOptions: NextAuthOptions = {
       const u = user as unknown as any;
 
       if (user) {
-        token.name = u.username;
+        token.username = u.username;
+        token.email = u.email;
         token.id = u.id;
         token.accessToken = u.accessToken;
         token.expiresIn = u.expiresIn;
@@ -70,7 +71,8 @@ export const authOptions: NextAuthOptions = {
       session.error = token.error;
       session.user = {
         ...session.user,
-        name: token.name,
+        username: token.username,
+        email: token.email,
         id: token.id,
         accessToken: token.accessToken,
         error: token.error,

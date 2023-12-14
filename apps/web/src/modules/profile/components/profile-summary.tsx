@@ -3,46 +3,72 @@ import { Button } from "@/components/ui/button";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
+import { useFollowUser } from "../api/use-follow-user";
+import { User } from "@/graphql/graphql";
 
 interface ProfileSummaryProps {
+    profileUser: User;
+    currentUser: User;
 
-    profileUsername: string;
-    currentUsername: string;
-    isFollowing?: boolean;
-    
 }
 
-const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUsername, currentUsername, isFollowing }) => {
-    const [followers, setFollowers] = useState(0);
-    const followUser = () => {
-        console.log("follow user");
+const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUser }) => {
+    const { followUser, loading } = useFollowUser();
+    const [followerCount, setFollowerCount] = useState(profileUser.followerCount ? profileUser.followerCount : 0);
+    const [isFollowing, setIsFollowing] = useState(profileUser.isFollowing);
+    // useEffect(() => {
+    //     console.log(profileUser)
+    // }
+    //     , []);
+    const handleFollowUser = async () => {
+        if (!loading) {
+            if (!isFollowing) {
+                setFollowerCount(followerCount + 1);
+                await followUser(profileUser.id, true);
+            } else {
+                setFollowerCount(followerCount - 1);
+                await followUser(profileUser.id, false);
+            }
+            setIsFollowing(!isFollowing);
+        }
     };
     return (
         <div className="flex justify-between items-center pt-16">
             <div className="flex gap-8">
-                <UserAvatar user={{ name: profileUsername }} size="lg" />
+                <UserAvatar user={{ name: profileUser.username }} size="lg" />
                 <div className="flex flex-col gap-3">
                     <div className={cn(dm_sefif_display.className, "text-primary text-3xl leading-none")}>
-                        {profileUsername}
+                        {profileUser.username}
                     </div>
                     <div>Joined in December 2017</div>
                     {
-                        currentUsername === profileUsername ? (
+                        profileUser.username === currentUser.username ? (
                             <Button className="w-max rounded-md" variant={"secondary"}>{"Edit Profile".toLocaleUpperCase()}</Button>
-                        ) : (<Button onClick={followUser} className="w-max rounded-md" variant={"secondary"}>{"Follow".toLocaleUpperCase()}</Button>)
+                        ) : (
+                            isFollowing ? (
+                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"secondary"}>{"Unfollow".toLocaleUpperCase()}</Button>
+                            ) : (
+                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"secondary"}>{"Follow".toLocaleUpperCase()}</Button>
+
+                            )
+                        )
                     }
                 </div>
             </div>
-            <UserStats />
+            <UserStats followers={profileUser.followerCount} following={profileUser.followingCount} />
         </div>
     );
 };
 
-const UserStats = () => {
+interface UserStatsProps {
+    followers: number;
+    following: number;
+}
+const UserStats: React.FC<UserStatsProps> = ({ followers, following }) => {
     const stats = [
-        { number: "13", label: "Following" },
-        { number: "30", label: "Followers" },
+        { number: following, label: "Following" },
+        { number: followers, label: "Followers" },
         { number: "300", label: "Books" },
         { number: "43", label: "Ratings" },
     ];

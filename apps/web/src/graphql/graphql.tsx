@@ -1015,6 +1015,7 @@ export type Query = {
   journalEntries: Array<JournalEntry>;
   me: User;
   shelves?: Maybe<Array<Shelf>>;
+  user: User;
   userBook?: Maybe<UserBook>;
   userBooks?: Maybe<Array<UserBook>>;
 };
@@ -1058,6 +1059,11 @@ export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
+};
+
+
+export type QueryUserArgs = {
+  where: UserWhereUniqueInput;
 };
 
 
@@ -1868,8 +1874,10 @@ export type User = {
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp'];
   email: Scalars['String'];
+  followerCount: Scalars['Float'];
   followers?: Maybe<Array<User>>;
   following?: Maybe<Array<User>>;
+  followingCount: Scalars['Float'];
   id: Scalars['ID'];
   isFollowing: Scalars['Boolean'];
   journalEntries?: Maybe<Array<JournalEntry>>;
@@ -3478,6 +3486,13 @@ export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
 
+export type UserQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username?: string | null, email: string, isFollowing: boolean, followerCount: number, followingCount: number } };
+
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
 }>;
@@ -4557,6 +4572,46 @@ export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sh
 export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
 export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
+export const UserDocument = gql`
+    query User($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    username
+    email
+    isFollowing
+    followerCount
+    followingCount
+  }
+}
+    `;
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UserBookDocument = gql`
     query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {

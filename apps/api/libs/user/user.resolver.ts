@@ -4,6 +4,7 @@ import {
   Args,
   Parent,
   ResolveField,
+  Query,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import {
@@ -15,6 +16,7 @@ import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
+import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
 // import DataLoader from 'dataloader';
 @Resolver(() => User)
 export class UserResolver {
@@ -24,6 +26,16 @@ export class UserResolver {
   @Mutation(() => User)
   createUser(@Args('userCreateInput') userCreateInput: UserCreateInput) {
     return this.userService.create(userCreateInput);
+  }
+
+  @UseGuards(OptionalAccessTokenGuard)
+  @Query(() => User)
+  user(@Args('where') where: UserWhereUniqueInput) {
+    return this.userService.findUnique({
+      where: {
+        username: where.username,
+      },
+    });
   }
 
   /**
@@ -40,6 +52,23 @@ export class UserResolver {
     // assert(user.userId);
     return this.userService.isFollowing(user.id, currentUser.userId);
   }
+
+  /**
+   * Resolve field to get the follower count for a user.
+   */
+  @ResolveField(() => Number)
+  async followerCount(@Parent() user: User): Promise<number> {
+    return this.userService.getFollowerCount(user.id);
+  }
+
+  /**
+   * Resolve field to get the follower count for a user.
+   */
+  @ResolveField(() => Number)
+  async followingCount(@Parent() user: User): Promise<number> {
+    return this.userService.getFollowingCount(user.id);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Mutation(() => User)
   async follow(

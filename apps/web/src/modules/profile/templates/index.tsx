@@ -3,25 +3,24 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
 import { Section } from "../components/section";
-import { Shelf, UserBook } from "@/graphql/graphql";
+import { Shelf, User, UserBook } from "@/graphql/graphql";
 import ReadingChallenge from "../components/reading-challenge";
 import ShelvesSection from "../components/shelves-section";
-import { User } from "@/types/interfaces";
 import ProfileSummary from "../components/profile-summary";
 
 
 interface ProfileTemplateProps {
     currentlyReading: UserBook[];
     shelves: Shelf[];
-    currentUsername: string;
-    profileUsername: string;
+    profileUser: User;
+    currentUser: User;
 
 }
 
-const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, shelves, profileUsername, currentUsername }) => {
+const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, shelves, profileUser, currentUser }) => {
     return (
         <>
-            <ProfileSummary profileUsername={profileUsername} currentUsername={currentUsername} />
+            <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
             <div className="grid grid-cols-3 gap-2 pt-8">
                 <div className="col-span-2">
                     <Section books={currentlyReading} title={"Currently Reading"} />
@@ -56,7 +55,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, she
     );
 };
 
-const ProfileSection: React.FC<{ title: string, children: React.ReactNode }> = ({ title, children }) => {
+const ProfileSection: React.FC<{ title: string, children?: React.ReactNode }> = ({ title, children }) => {
     return (
         <div>
             <div className="text-primary font-medium">{title.toLocaleUpperCase()}</div>

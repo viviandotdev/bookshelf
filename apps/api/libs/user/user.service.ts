@@ -18,8 +18,32 @@ export class UserService {
     });
   }
 
-  //  Check if user with `userId` is following user with `byUserId`.
+  async getFollowerCount(userId: string): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        following: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    });
+    return count;
+  }
 
+  async getFollowingCount(userId: string): Promise<number> {
+    const count = await this.repository.count({
+      where: {
+        followers: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+    });
+    return count;
+  }
+  //  Check if user with `userId` is following user with `byUserId`.
   async isFollowing(userId: string, byUserId: string) {
     const result = await this.repository
       .findUnique({

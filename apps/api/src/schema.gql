@@ -875,6 +875,7 @@ type Query {
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: User!
   shelves: [Shelf!]
+  user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
   userBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): [UserBook!]
 }
@@ -1665,8 +1666,10 @@ type User {
   comments: [Comment!]
   createdAt: Timestamp!
   email: String!
+  followerCount: Float!
   followers: [User!]
   following: [User!]
+  followingCount: Float!
   id: ID!
   isFollowing: Boolean!
   journalEntries: [JournalEntry!]
