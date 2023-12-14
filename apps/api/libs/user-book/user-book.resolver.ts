@@ -135,7 +135,7 @@ export class UserBookResolver {
             pageCount: book.pageCount,
             author: book.author,
             publisher: book.publisher,
-            coverImage: book.image,
+            coverImage: book.coverImage,
           };
           await this.bookService.create(bookData, user.userId);
           const userBookData: UserBookUpdateInput = {
