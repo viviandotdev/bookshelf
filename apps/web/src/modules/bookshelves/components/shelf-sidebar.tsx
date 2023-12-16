@@ -32,6 +32,7 @@ const SideBar: React.FC<SidebarProps> = ({
         (initShelves(shelfSelections));
         (initLibrary(librarySelections));
     }, []);
+    
 
     return (
         <div className="hidden xl:block">
