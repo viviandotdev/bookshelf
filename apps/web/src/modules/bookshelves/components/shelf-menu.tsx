@@ -1,3 +1,4 @@
+"use client"
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -5,13 +6,14 @@ import { cn } from '@/lib/utils';
 import React from 'react'
 import ShelfActions, { ShelfItem } from './shelf-item';
 import useShelfStore from '@/stores/use-shelf-store';
+import { useSearchParams } from 'next/navigation';
 interface ShelfMenuProps {
-    shelf: string
 }
 
 export const ShelfMenu: React.FC<ShelfMenuProps> = ({
-    shelf
 }) => {
+    const searchParams = useSearchParams()
+    const shelf = searchParams?.get("shelf") ?? "All Books"
     const { shelves, library } = useShelfStore()
     const selections = [...library, ...shelves]
 

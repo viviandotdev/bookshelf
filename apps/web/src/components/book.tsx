@@ -36,7 +36,7 @@ export const Book: React.FC<BookProps> = ({
     const linkRef = useRef<HTMLAnchorElement>(null);
     const { removeUserBook } = useRemoveUserBook();
     const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
-    const { data } = useUserBookStore();
+    const { book: myBook } = useUserBookStore();
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
     const [percent, setPercent] = useState(0);
@@ -51,8 +51,7 @@ export const Book: React.FC<BookProps> = ({
 
     useEffect(() => {
         // update percent detail
-
-        if (data && data.id === userBook.book?.id) {
+        if (myBook && myBook.id === userBook.book?.id) {
             setPercent(journalEntry.percent)
         }
 

@@ -1,18 +1,21 @@
+"use client"
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React, { useTransition } from 'react'
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { bookStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {
-    status: string;
+
 }
 
 export const StatusMenu: React.FC<StatusMenuProps> = ({
-    status,
+
 }) => {
+    const searchParams = useSearchParams()
+    const status = searchParams?.get("status") ?? "Any Status"
     const statuses = [
         {
             name: "Any Status",

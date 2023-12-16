@@ -1,5 +1,6 @@
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
 import Image from "next/image";
+import { Skeleton } from "./ui/skeleton";
 
 interface BookCoverProps {
     src: string | null;
@@ -42,3 +43,4 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
 };
 
 export default BookCover;
+
