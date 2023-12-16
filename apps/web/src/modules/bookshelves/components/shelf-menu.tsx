@@ -3,7 +3,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React from 'react'
-import ShelfActions from './shelf-actions';
+import ShelfActions, { ShelfItem } from './shelf-item';
 import useShelfStore from '@/stores/use-shelf-store';
 interface ShelfMenuProps {
     shelf: string
@@ -35,13 +35,13 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                                 : "hover:bg-opacity-70"
                                 } `}>
                             <div className={` w-[fill-available] flex`}>
-                                <ShelfActions
+                                <ShelfItem
                                     key={i}
                                     shelf={s}
                                     padding={"py-0"}
                                 >
                                     {s.name}
-                                </ShelfActions>
+                                </ShelfItem>
                             </div>
                         </DropdownMenuItem>
                     ))}

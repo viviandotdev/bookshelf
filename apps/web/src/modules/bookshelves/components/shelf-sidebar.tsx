@@ -4,6 +4,10 @@ import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
 import ShelfGroup from "./shelf-group";
 import useShelfStore from "@/stores/use-shelf-store";
+import { Icons } from "@/components/icons";
+import { CreateShelfModal } from "./modals/create-shelf-modal";
+import { Button } from "@/components/ui/button";
+import useCreateShelfModal from "./modals/use-create-shelf-modal";
 
 interface SidebarProps {
     librarySelections: Shelf[];
@@ -15,17 +19,15 @@ const SideBar: React.FC<SidebarProps> = ({
     shelfSelections,
 }) => {
     const { shelves, library, initLibrary, initShelves, updateSelected } = useShelfStore();
+    const shelfModal = useCreateShelfModal();
     const params = useSearchParams();
     const shelf = params?.get("shelf");
-
 
     useEffect(() => {
         if (shelf) {
             (updateSelected(shelf));
-
         } else {
             (updateSelected("All Books"));
-
         }
         (initShelves(shelfSelections));
         (initLibrary(librarySelections));
@@ -47,7 +49,19 @@ const SideBar: React.FC<SidebarProps> = ({
                     shelves={shelves}
                     collapsible
                     isShelves={true}
-                />
+                >
+                    <div className="pt-1.5">
+                        <CreateShelfModal />
+                        <Button
+                            className="w-[fill-available]"
+                            size="sm"
+                            label="Add Shelf"
+                            onClick={shelfModal.onOpen}
+                            icon={<Icons.edit className="h-4 w-4 mr-2" />}
+                        />
+                    </div>
+
+                </ShelfGroup>
             </div>
         </div>
     );

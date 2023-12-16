@@ -6,7 +6,7 @@ import EditShelfMenu from "./edit-shelf-menu";
 import useCreateQueryString from "../hooks/use-create-query-string";
 import useShelfStore from "@/stores/use-shelf-store";
 
-interface ShelfActionsProps {
+interface ShelfItemProps {
     shelf: Shelf;
     isShelves?: boolean;
     setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +14,7 @@ interface ShelfActionsProps {
     children?: React.ReactNode
 }
 
-export const ShelfActions: React.FC<ShelfActionsProps> = ({
+export const ShelfItem: React.FC<ShelfItemProps> = ({
     shelf,
     isShelves,
     setOpenAlert,
@@ -25,6 +25,7 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     const [isPending, startTransition] = useTransition()
     const pathname = usePathname()
     const router = useRouter();
+    const { selected } = useShelfStore()
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
     const handleClick = useCallback(() => {
@@ -41,7 +42,12 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
     }, [shelf]);
 
     return (
-        <>
+        <div
+            className={`${shelf.name === selected
+                ? "bg-secondary"
+                : "hover:bg-slate-100 hover:bg-opacity-70"
+                }  group/item flex rounded-lg px-3 font-medium `}
+        >
             <div
                 className={`w-[fill-available] cursor-pointer ${padding}`}
                 onClick={handleClick}
@@ -62,9 +68,9 @@ export const ShelfActions: React.FC<ShelfActionsProps> = ({
                     </span>
                 )
             }
-        </>
+        </div>
     );
 };
 
 
-export default ShelfActions;
+export default ShelfItem;

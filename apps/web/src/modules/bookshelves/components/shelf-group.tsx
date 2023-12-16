@@ -3,13 +3,11 @@ import { useState } from 'react';
 import Collapsible from '../../../components/ui/collapsible';
 import AlertModal from '../../../components/modals/alert-modal';
 import { Shelf } from '@/graphql/graphql';
-import ShelfActions from './shelf-actions';
+import { ShelfItem } from './shelf-item';
 import useCreateShelfModal from './modals/use-create-shelf-modal';
-import { CreateShelfModal } from './modals/create-shelf-modal';
 import { useDeleteShelf } from '../api/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '../../../components/icons';
-import { Button } from '../../../components/ui/button';
 ;
 
 interface ShelfGroupProps {
@@ -17,6 +15,7 @@ interface ShelfGroupProps {
     shelves: Shelf[];
     isShelves?: boolean;
     collapsible?: boolean;
+    children?: React.ReactNode
 }
 
 const ShelfGroup: React.FC<ShelfGroupProps> = ({
@@ -24,12 +23,13 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     shelves,
     isShelves,
     collapsible,
+    children
 }) => {
     const [openAlert, setOpenAlert] = useState(false);
     const shelfModal = useCreateShelfModal();
     const [isLoading, setIsLoading] = useState(false);
     const { deleteShelf } = useDeleteShelf();
-    const { selected, removeShelf } = useShelfStore();
+    const { removeShelf } = useShelfStore();
     const onDelete = async () => {
         setIsLoading(true);
         const deletedShelf = await deleteShelf(shelfModal.editId!);
@@ -55,37 +55,20 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
             <Collapsible title={title} collapsible={collapsible}>
                 <>
                     {shelves.map((shelf, i) => (
-                        <div
+
+                        <ShelfItem
                             key={i}
-                            className={`${shelf.name === selected
-                                ? "bg-secondary"
-                                : "hover:bg-slate-100 hover:bg-opacity-70"
-                                }  group/item flex rounded-lg px-3 font-medium `}
+                            shelf={shelf}
+                            isShelves={isShelves}
+                            setOpenAlert={setOpenAlert}
                         >
-                            <ShelfActions
-                                shelf={shelf}
-                                isShelves={isShelves}
-                                setOpenAlert={setOpenAlert}
-                            >
-                                <Icons.shelf className="h-5 w-5 mr-4" />
-                                {shelf.name}
-                            </ShelfActions>
-                        </div>
+                            <Icons.shelf className="h-5 w-5 mr-4" />
+                            {shelf.name}
+                        </ShelfItem>
 
                     ))}
 
-                    {isShelves && (
-                        <div className="pt-1.5">
-                            <CreateShelfModal />
-                            <Button
-                                className="w-[fill-available]"
-                                size="sm"
-                                label="Add Shelf"
-                                onClick={shelfModal.onOpen}
-                                icon={<Icons.edit className="h-4 w-4 mr-2" />}
-                            />
-                        </div>
-                    )}
+                    {children}
                 </>
             </Collapsible>
         </>
