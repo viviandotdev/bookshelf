@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "@/stores";
 import BookList from "@/modules/bookshelves/components/book-list";
 import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
 import { CreateShelfModal } from "@/modules/bookshelves/components/modals/create-shelf-modal";

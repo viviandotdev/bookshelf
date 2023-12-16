@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { MainNav } from "@/modules/layout/components/main-nav";
 import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
-import { User } from "next-auth";
 import SearchInput from "../components/search-input";
 import LogBookButton from "../components/log-book-button";
+import { User } from "@/types/interfaces";
 
 interface SiteHeaderProps {
     user?: User;
@@ -22,7 +22,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
         },
         {
             title: "My Books",
-            href: user ? `/${user.name}/books` : "/",
+            href: user ? `/${user.username}/books` : "/",
         },
         {
             title: "Browse",
@@ -45,7 +45,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                                 <UserAccountNav
                                     user={{
                                         email: user.email,
-                                        name: user.name,
+                                        username: user.username,
                                         id: user.id,
                                     }}
                                 />

@@ -3,13 +3,12 @@ import { AvatarProps } from "@radix-ui/react-avatar";
 import {
     Avatar,
     AvatarFallback,
-    AvatarImage,
 } from "@/components/ui/avatar";
 import { Icons } from "@/components/icons";
-import { User } from "next-auth/core/types";
+import { User } from "@/types/interfaces";
 
 interface UserAvatarProps extends AvatarProps {
-    user: Pick<User, "image" | "name">;
+    user: User;
     size?: "xs" | "default" | "lg";
 }
 
@@ -31,7 +30,7 @@ export function UserAvatar({ user, size, ...props }: UserAvatarProps) {
     return (
         <Avatar size={size} {...props}>
             <AvatarFallback>
-                <span className="sr-only">{user.name}</span>
+                <span className="sr-only">{user.username}</span>
                 <Icons.user className={iconSize} />
             </AvatarFallback>
         </Avatar>
