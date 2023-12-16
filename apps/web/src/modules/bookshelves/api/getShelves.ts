@@ -9,11 +9,11 @@ import {
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
 import { getCurrentUser } from "@/lib/auth/session";
 
-export async function getShelves() {
+export async function getShelves(): Promise<{
+  shelves: Shelf[];
+  library: Shelf[];
+}> {
   const user = await getCurrentUser();
-  if (!user) {
-    return null;
-  }
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 
