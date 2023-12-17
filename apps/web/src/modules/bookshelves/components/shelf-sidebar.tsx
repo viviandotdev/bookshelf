@@ -32,7 +32,7 @@ const SideBar: React.FC<SidebarProps> = ({
         (initShelves(shelfSelections));
         (initLibrary(librarySelections));
     }, []);
-    
+
 
     return (
         <div className="hidden xl:block">
@@ -57,7 +57,9 @@ const SideBar: React.FC<SidebarProps> = ({
                             className="w-[fill-available]"
                             size="sm"
                             label="Add Shelf"
-                            onClick={shelfModal.onOpen}
+                            onClick={() => {
+                                shelfModal.onOpen()
+                            }}
                             icon={<Icons.edit className="h-4 w-4 mr-2" />}
                         />
                     </div>

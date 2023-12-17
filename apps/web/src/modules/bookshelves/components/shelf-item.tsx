@@ -5,7 +5,7 @@ import { Shelf } from "@/graphql/graphql";
 import EditShelfMenu from "./edit-shelf-menu";
 import useCreateQueryString from "../hooks/use-create-query-string";
 import useShelfStore from "@/stores/use-shelf-store";
-
+import { Icons } from "@/components/icons";
 interface ShelfItemProps {
     shelf: Shelf;
     isShelves?: boolean;
@@ -28,6 +28,10 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     const { selected } = useShelfStore()
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
+
+
+
+
     const handleClick = useCallback(() => {
         (updateSelected(shelf.name!));
         startTransition(() => {
@@ -53,7 +57,8 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
                 onClick={handleClick}
             >
                 <span className="flex">
-                    {children}
+                    <Icons.shelf className="h-5 w-5 mr-4" />
+                    {shelf.name}
                 </span>
             </div>
             {

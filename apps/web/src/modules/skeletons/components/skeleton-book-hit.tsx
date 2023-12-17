@@ -1,4 +1,4 @@
-const SkeletonBook = () => {
+const SkeletonBookHit = () => {
     return (
         <div className="grid grid-cols-[122px_1fr] gap-x-4">
             <div className="w-[122px] bg-gray-100 aspect-[29/34]"></div>
@@ -18,4 +18,4 @@ const SkeletonBook = () => {
     )
 }
 
-export default SkeletonBook
+export default SkeletonBookHit

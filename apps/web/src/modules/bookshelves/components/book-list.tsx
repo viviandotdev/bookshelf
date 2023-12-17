@@ -10,6 +10,7 @@ import { BOOKS_PAGE_SIZE, DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants"
 import { NetworkStatus } from "@apollo/client";
 import useLoadBooks from "../../../api/use-load-books";
 import useShelfStore from "@/stores/use-shelf-store"
+import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
 interface BookListProps {
 }
 
@@ -41,21 +42,8 @@ const BookList: React.FC<BookListProps> = ({
     }, [query, loadBooks, getCount, library]);
 
     if (loading) {
-        return <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
-            {
-                Array.from({ length: 10 }, (_, idx) => (
-                    <div key={idx}>
-                        <div className={`cursor-pointer group/item relative transition shadow-md duration-300 ease-in-out transform`}>
-                            <div className={`flex-row cursor-pointer`}>
-                                <div className={`relative flex items-start`}>
-                                    <div className={`relative opacity-30 flex items-start bg-muted-foreground w-[176px] h-[224px]`} >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-        </div >
+
+        return <SkeletonBookList />
     }
 
 

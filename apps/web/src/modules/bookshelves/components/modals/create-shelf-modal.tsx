@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -34,14 +34,19 @@ export const CreateShelfModal = () => {
 
     useEffect(() => {
         // Set the default value of the "name" field to an empty string when the component mounts
-        form.setValue("name", "");
+        form.reset({
+            name: "",
+        })
     }, []); // Empty dependency array ensures the effect runs once after the initial render
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: "",
-        },
+        defaultValues: useMemo(() => {
+            return {
+
+                name: ""
+            };
+        }, []),
     });
 
     const onCreateShelf = async (name: string) => {

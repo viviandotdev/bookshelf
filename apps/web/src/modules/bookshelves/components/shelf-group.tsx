@@ -62,8 +62,7 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
                         >
-                            <Icons.shelf className="h-5 w-5 mr-4" />
-                            {shelf.name}
+                         
                         </ShelfItem>
 
                     ))}
