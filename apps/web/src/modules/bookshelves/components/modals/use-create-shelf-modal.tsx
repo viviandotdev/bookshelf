@@ -1,27 +1,29 @@
 
 import { create } from "zustand";
 
-type State = {
+interface useCreateShelfModalStore {
     isOpen: boolean;
     isEdit: boolean;
-    editId?: string;
-};
-
-type Action = {
+    shelf?: {
+        id: string;
+        name: string;
+    }
     onOpen: () => void;
     onClose: () => void;
-    setEditId: (id: string) => void;
-    onEdit: (id: string) => void;
-};
+    setEditShelf: (shelf: ShelfType) => void;
+    onEdit: (shelf: ShelfType) => void;
+}
 
-const useCreateShelfModal = create<State & Action>((set) => ({
+type ShelfType = useCreateShelfModalStore['shelf']
+
+const useCreateShelfModal = create<useCreateShelfModalStore>((set) => ({
     isOpen: false,
     isEdit: false,
-    editId: undefined,
+    editShelf: undefined,
     onOpen: () => set({ isOpen: true }),
-    setEditId: (id: string) => set({ editId: id }),
-    onEdit: (id: string) => set({ isOpen: true, isEdit: true, editId: id }),
-    onClose: () => set({ isOpen: false, isEdit: false, editId: undefined }),
+    setEditShelf: (shelf: ShelfType) => set({ shelf: shelf }),
+    onEdit: (shelf: ShelfType) => set({ isOpen: true, isEdit: true, shelf: shelf }),
+    onClose: () => set({ isOpen: false, isEdit: false, shelf: undefined }),
 }));
 
 export default useCreateShelfModal;

@@ -29,9 +29,6 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
 
-
-
-
     const handleClick = useCallback(() => {
         (updateSelected(shelf.name!));
         startTransition(() => {

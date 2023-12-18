@@ -35,18 +35,18 @@ export const CreateShelfModal = () => {
     useEffect(() => {
         // Set the default value of the "name" field to an empty string when the component mounts
         form.reset({
-            name: "",
+            name: shelfModal.isEdit ? shelfModal.shelf!.name : ""
         })
-    }, []); // Empty dependency array ensures the effect runs once after the initial render
-
+        // onOpen set initial value
+    }, [shelfModal.isOpen]); // Empty dependency array ensures the effect runs once after the initial render
+    // initial value is not reseting
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: useMemo(() => {
             return {
-
-                name: ""
+                name: shelfModal.isEdit ? shelfModal.shelf!.name : ""
             };
-        }, []),
+        }, [shelfModal.isOpen]),
     });
 
     const onCreateShelf = async (name: string) => {
@@ -76,13 +76,16 @@ export const CreateShelfModal = () => {
             return;
         }
         setIsLoading(true);
-        const updatedShelf = await updateShelf(shelfModal.editId!, name);
+        const updatedShelf = await updateShelf(shelfModal.shelf!.id!, name);
         if (updatedShelf) {
-            (renameShelf({ id: shelfModal.editId!, name: updatedShelf.name }))
+            (renameShelf({ id: shelfModal.shelf!.id!, name: updatedShelf.name }))
         }
 
         setIsLoading(false);
+        // reset form value
+
         shelfModal.onClose();
+
     };
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {

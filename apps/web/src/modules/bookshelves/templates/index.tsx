@@ -1,11 +1,12 @@
-import React from "react";
-import BookList from "@/modules/bookshelves/components/book-list";
+import React, { Suspense } from "react";
 import { CreateShelfModal } from "@/modules/bookshelves/components/modals/create-shelf-modal";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import ShelfMenu from "../components/shelf-menu";
 import { SortingOptions } from "../components/sorting-options";
 import StatusMenu from "../components/status-menu";
+import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
+import { BookList } from "../components/book-list";
 
 
 interface BookshelvesTemplateProps {
@@ -34,7 +35,10 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                     </div>
                     <hr className="my-2 border-t-1 border-primary" />
                 </nav>
-                <BookList />
+
+                <Suspense fallback={<SkeletonBookList />}>
+                    <BookList />
+                </Suspense>
 
             </div >
             <CreateShelfModal />

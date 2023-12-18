@@ -34,14 +34,20 @@ export const EditShelfMenu: React.FC<EditShelfMenuProps> = ({ shelf, setOpenAler
                 >
                     <DropdownMenuItem
                         onClick={() => {
-                            shelfModal.onEdit(shelf.id!);
+                            shelfModal.onEdit({
+                                id: shelf.id!,
+                                name: shelf.name!,
+                            })
                         }}
                     >
                         Rename
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         onClick={() => {
-                            shelfModal.setEditId(shelf.id!);
+                            shelfModal.setEditShelf({
+                                id: shelf.id!,
+                                name: shelf.name!,
+                            });
                             setOpenAlert(true);
                         }}
                     >

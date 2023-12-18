@@ -14,7 +14,7 @@ import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
 interface BookListProps {
 }
 
-const BookList: React.FC<BookListProps> = ({
+export const BookList: React.FC<BookListProps> = ({
 }) => {
     const searchParams = useSearchParams()
     const page = searchParams?.get("page") ?? "1"
@@ -42,7 +42,6 @@ const BookList: React.FC<BookListProps> = ({
     }, [query, loadBooks, getCount, library]);
 
     if (loading) {
-
         return <SkeletonBookList />
     }
 
@@ -64,4 +63,4 @@ const BookList: React.FC<BookListProps> = ({
         </>
     );
 };
-export default BookList;
+
