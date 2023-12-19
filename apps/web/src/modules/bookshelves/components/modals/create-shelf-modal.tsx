@@ -27,16 +27,17 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-
     const { addShelf, renameShelf } = useShelfStore();
-    const { createShelf } = useCreateShelf();
-    const { updateShelf } = useUpdateShelf({
+    const { createShelf, isLoading: isCreating } = useCreateShelf({
         onSuccess: (shelf: Shelf) => {
-            (renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name }))
+            addShelf({ ...shelf })
+        }
+    });
+    const { updateShelf, isLoading: isUpdating } = useUpdateShelf({
+        onSuccess: (shelf: Shelf) => {
+            renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name })
         },
     });
-
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // Set the default value of the "name" field to an empty string when the component mounts
@@ -45,7 +46,7 @@ export const CreateShelfModal = () => {
         })
         // onOpen set initial value
     }, [shelfModal.isOpen]); // Empty dependency array ensures the effect runs once after the initial render
-    // initial value is not reseting
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: useMemo(() => {
@@ -55,28 +56,12 @@ export const CreateShelfModal = () => {
         }, [shelfModal.isOpen]),
     });
 
-    const onCreateShelf = async (name: string) => {
-        setIsLoading(true);
-        // Query or mutation execution
-        const createdShelf = await createShelf(name);
-        if (createdShelf) {
-            (addShelf(
-                {
-                    id: createdShelf.id,
-                    name: createdShelf.name,
-                    userId: "",
-                }
-            ))
-        }
-        setIsLoading(false);
-    };
-
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         if (!shelfModal.isOpen) {
             return;
         }
         if (!shelfModal.isEdit) {
-            onCreateShelf(values.name);
+            await createShelf({ name: values.name });
         } else {
             await updateShelf({ id: shelfModal.shelf!.id!, name: values.name });
         }
@@ -104,7 +89,7 @@ export const CreateShelfModal = () => {
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={isLoading}
+                                                    disabled={isCreating || isUpdating}
                                                     placeholder="Shelf"
                                                     {...field}
                                                 />
@@ -115,13 +100,13 @@ export const CreateShelfModal = () => {
                                 />
                                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                                     <Button
-                                        disabled={isLoading}
+                                        disabled={isCreating || isUpdating}
                                         variant="outline"
                                         label="Cancel"
                                         onClick={shelfModal.onClose}
                                     ></Button>
                                     <Button
-                                        disabled={isLoading}
+                                        disabled={isCreating || isUpdating}
                                         label="Continue"
                                         type="submit"
                                     ></Button>

@@ -22,5 +22,8 @@ mutation UpdateShelf($data: ShelfUpdateInput!, $where: ShelfWhereUniqueInput!) {
   updateShelf(data: $data, where: $where) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }

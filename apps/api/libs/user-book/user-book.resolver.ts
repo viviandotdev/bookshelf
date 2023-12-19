@@ -100,7 +100,6 @@ export class UserBookResolver {
     content: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    console.log('test');
     const lines = content.split('\n');
     const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
     for (let i = 1; i < lines.length - 1; i++) {

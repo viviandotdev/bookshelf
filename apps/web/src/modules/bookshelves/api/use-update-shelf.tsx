@@ -36,6 +36,9 @@ export const useUpdateShelf = (
             if (data && data.updateShelf && !errors) {
                 options.onSuccess?.(data.updateShelf);
                 toast({ title: `Shelf "${data.updateShelf.name}" updated` });
+                return {
+                    data: data.updateShelf,
+                }
 
             }
             if (errors) {

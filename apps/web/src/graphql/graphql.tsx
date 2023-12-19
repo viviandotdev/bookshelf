@@ -3396,7 +3396,7 @@ export type UpdateShelfMutationVariables = Exact<{
 }>;
 
 
-export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string } };
+export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type FollowMutationVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -4052,6 +4052,9 @@ export const UpdateShelfDocument = gql`
   updateShelf(data: $data, where: $where) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
     `;
