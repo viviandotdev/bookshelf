@@ -2,6 +2,9 @@ mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
 
@@ -9,6 +12,9 @@ mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
   deleteShelf(where: $where) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
 

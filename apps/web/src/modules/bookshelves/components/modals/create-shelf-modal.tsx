@@ -19,6 +19,7 @@ import useCreateShelfModal from "./use-create-shelf-modal";
 import { useCreateShelf } from "../../api/use-create-shelf";
 import { useUpdateShelf } from "../../api/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
+import { Shelf } from "@/graphql/graphql";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -26,10 +27,15 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-    const { createShelf } = useCreateShelf();
-    const { updateShelf } = useUpdateShelf();
 
     const { addShelf, renameShelf } = useShelfStore();
+    const { createShelf } = useCreateShelf();
+    const { updateShelf } = useUpdateShelf({
+        onSuccess: (shelf: Shelf) => {
+            (renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name }))
+        },
+    });
+
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -50,9 +56,6 @@ export const CreateShelfModal = () => {
     });
 
     const onCreateShelf = async (name: string) => {
-        if (!shelfModal.isOpen) {
-            return;
-        }
         setIsLoading(true);
         // Query or mutation execution
         const createdShelf = await createShelf(name);
@@ -61,41 +64,24 @@ export const CreateShelfModal = () => {
                 {
                     id: createdShelf.id,
                     name: createdShelf.name,
-                    _count: {
-                        userBooks: 0,
-                    },
                     userId: "",
                 }
             ))
         }
         setIsLoading(false);
-        shelfModal.onClose();
-    };
-    const onUpdateShelf = async (name: string) => {
-        if (!shelfModal.isOpen) {
-            return;
-        }
-        setIsLoading(true);
-        const updatedShelf = await updateShelf(shelfModal.shelf!.id!, name);
-        if (updatedShelf) {
-            (renameShelf({ id: shelfModal.shelf!.id!, name: updatedShelf.name }))
-        }
-
-        setIsLoading(false);
-        // reset form value
-
-        shelfModal.onClose();
-
     };
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // If the modal is closed by clicking the cancel button, do not execute the rest of the function
+        if (!shelfModal.isOpen) {
+            return;
+        }
         if (!shelfModal.isEdit) {
             onCreateShelf(values.name);
-            return;
         } else {
-            onUpdateShelf(values.name);
+            await updateShelf({ id: shelfModal.shelf!.id!, name: values.name });
         }
+
+        shelfModal.onClose();
     };
 
     return (

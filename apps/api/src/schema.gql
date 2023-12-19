@@ -856,7 +856,7 @@ type Mutation {
   signup(registerInput: RegisterInput!): User!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
-  updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf
+  updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
 }
 
