@@ -15,6 +15,7 @@ import { BookRating } from "@/components/book-rating";
 import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
 import useBookStatusModal from "@/components/modals/book-status-modal/use-book-status-modal";
 import useShelfStore from "@/stores/use-shelf-store";
+import SkeletonActionPanel from "@/modules/skeletons/components/skeleton-action-panel";
 interface ActionItemProps {
     icon: React.ReactNode;
     label: string;
@@ -143,7 +144,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
     }
 
     if (loading) {
-        return <div>Loading</div>
+        return <SkeletonActionPanel />
     }
     return (
         <>

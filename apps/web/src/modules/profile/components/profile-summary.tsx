@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import { useFollowUser } from "../api/use-follow-user";
 import { User } from "@/graphql/graphql";
 

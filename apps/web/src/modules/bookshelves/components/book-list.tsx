@@ -1,40 +1,54 @@
 "use client";
-import React from "react";
-import {
-    UserBook,
-} from "@/graphql/graphql";
-
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Book from "../../../components/book";
 import { useSearchParams } from "next/navigation";
-import { ContentNav } from "@/modules/layout/components/content-nav";
-import ShelfMenu from "./shelf-menu";
-import StatusMenu from "./status-menu";
-import { SortingOptions } from "./sorting-options";
 import { Pagination } from "@/components/pagination";
+import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
+import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
+import { BOOKS_PAGE_SIZE, DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
+import { NetworkStatus } from "@apollo/client";
+import useLoadBooks from "../../../api/use-load-books";
+import useShelfStore from "@/stores/use-shelf-store"
+import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
 interface BookListProps {
-    books: UserBook[];
-    totalPages: number;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, totalPages,
+export const BookList: React.FC<BookListProps> = ({
 }) => {
     const searchParams = useSearchParams()
-    // Search params
     const page = searchParams?.get("page") ?? "1"
-    const status = searchParams?.get("status") ?? "Any Status"
-    const sort = searchParams?.get("sort") ?? "createdAt.desc"
-    const shelf = searchParams?.get("shelf") ?? "All Books"
+    const query = useUserBookQuery();
+    const [totalPages, setTotalPages] = useState(0);
+    const { library } = useShelfStore()
+
+
+    const [getCount] = useCountUserBooksLazyQuery({
+        onCompleted: (data) => {
+            setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
+        }
+    });
+    const { loadBooks, booksData, networkStatus } = useLoadBooks();
+
+    const books = booksData && booksData?.userBooks
+    const loading = networkStatus === NetworkStatus.loading;
+
+    useEffect(() => {
+        const loadData = async () => {
+            await loadBooks({ variables: { ...query } });
+            await getCount({ variables: { ...query } });
+        };
+    
+        loadData();
+    }, [query, loadBooks, getCount, library]);
+
+    if (loading) {
+        return <SkeletonBookList />
+    }
 
 
     return (
         <>
-            <ContentNav>
-                <div className="flex gap-2">
-                    <ShelfMenu shelf={shelf} />
-                    <StatusMenu status={status} />
-                </div>
-                <SortingOptions sort={sort} />
-            </ContentNav>
             <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
                 {books &&
                     books?.map((book, idx) => (
@@ -50,4 +64,3 @@ const BookList: React.FC<BookListProps> = ({ books, totalPages,
         </>
     );
 };
-export default BookList;

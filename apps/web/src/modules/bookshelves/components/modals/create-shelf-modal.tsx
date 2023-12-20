@@ -2,7 +2,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ import useCreateShelfModal from "./use-create-shelf-modal";
 import { useCreateShelf } from "../../api/use-create-shelf";
 import { useUpdateShelf } from "../../api/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
+import { Shelf } from "@/graphql/graphql";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -26,68 +27,47 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-    const { createShelf } = useCreateShelf();
-    const { updateShelf } = useUpdateShelf();
-
     const { addShelf, renameShelf } = useShelfStore();
-    const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        // Set the default value of the "name" field to an empty string when the component mounts
-        form.setValue("name", "");
-    }, []); // Empty dependency array ensures the effect runs once after the initial render
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: "",
+    const { createShelf, isLoading: isLoadingCreate } = useCreateShelf({
+        onSuccess: (shelf: Shelf) => {
+            addShelf({ ...shelf })
+            shelfModal.onClose();
+        }
+    });
+    const { updateShelf, isLoading: isLoadingUpdate } = useUpdateShelf({
+        onSuccess: (shelf: Shelf) => {
+            renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name })
+            shelfModal.onClose();
         },
     });
 
-    const onCreateShelf = async (name: string) => {
-        if (!shelfModal.isOpen) {
-            return;
-        }
-        setIsLoading(true);
-        // Query or mutation execution
-        const createdShelf = await createShelf(name);
-        if (createdShelf) {
-            (addShelf(
-                {
-                    id: createdShelf.id,
-                    name: createdShelf.name,
-                    _count: {
-                        userBooks: 0,
-                    },
-                    userId: "",
-                }
-            ))
-        }
-        setIsLoading(false);
-        shelfModal.onClose();
-    };
-    const onUpdateShelf = async (name: string) => {
-        if (!shelfModal.isOpen) {
-            return;
-        }
-        setIsLoading(true);
-        const updatedShelf = await updateShelf(shelfModal.editId!, name);
-        if (updatedShelf) {
-            (renameShelf({ id: shelfModal.editId!, name: updatedShelf.name }))
-        }
+    useEffect(() => {
+        // Set the default value of the "name" field to an empty string when the component mounts
+        form.reset({
+            name: shelfModal.isEdit ? shelfModal.shelf!.name : ""
+        })
+        // onOpen set initial value
+    }, [shelfModal.isOpen]); // Empty dependency array ensures the effect runs once after the initial render
 
-        setIsLoading(false);
-        shelfModal.onClose();
-    };
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: useMemo(() => {
+            return {
+                name: shelfModal.isEdit ? shelfModal.shelf!.name : ""
+            };
+        }, [shelfModal.isOpen]),
+    });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        // If the modal is closed by clicking the cancel button, do not execute the rest of the function
-        if (!shelfModal.isEdit) {
-            onCreateShelf(values.name);
+        if (!shelfModal.isOpen) {
             return;
-        } else {
-            onUpdateShelf(values.name);
         }
+        if (!shelfModal.isEdit) {
+            await createShelf({ name: values.name });
+        } else {
+            await updateShelf({ id: shelfModal.shelf!.id!, name: values.name });
+        }
+
     };
 
     return (
@@ -110,7 +90,7 @@ export const CreateShelfModal = () => {
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={isLoading}
+                                                    disabled={isLoadingCreate || isLoadingUpdate}
                                                     placeholder="Shelf"
                                                     {...field}
                                                 />
@@ -121,13 +101,13 @@ export const CreateShelfModal = () => {
                                 />
                                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                                     <Button
-                                        disabled={isLoading}
+                                        disabled={isLoadingCreate || isLoadingUpdate}
                                         variant="outline"
                                         label="Cancel"
                                         onClick={shelfModal.onClose}
                                     ></Button>
                                     <Button
-                                        disabled={isLoading}
+                                        disabled={isLoadingCreate || isLoadingUpdate}
                                         label="Continue"
                                         type="submit"
                                     ></Button>

@@ -4,8 +4,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { NavItem } from "@/types";
 import { UserAccountNav } from "./user-account-nav";
-import { User } from "next-auth";
 import Link from "next/link";
+import { User } from "@/types/interfaces";
 
 interface UserNavProps {
     items?: NavItem[];
@@ -19,15 +19,15 @@ export function UserNav({ user, items }: UserNavProps) {
                 <UserAccountNav
                     user={{
                         email: user.email,
-                        name: user.name,
+                        username: user.username,
                         id: user.id,
                     }}
                 />
-                {user.name}
+                {user.username}
             </div>
             <div className="flex gap-3 text-sm">
                 {items?.map((item, index) => (
-                    <Link href={`/${user.name}${item.href}`} key={index} className={cn("flex")}>
+                    <Link href={`/${user.username}${item.href}`} key={index} className={cn("flex")}>
                         {item.title}
                     </Link>
                 ))}

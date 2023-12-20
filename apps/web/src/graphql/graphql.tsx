@@ -878,7 +878,7 @@ export type Mutation = {
   createReview: Review;
   createShelf: Shelf;
   createUser: User;
-  deleteShelf?: Maybe<Shelf>;
+  deleteShelf: Shelf;
   follow: User;
   importUserBooks: Scalars['Boolean'];
   likeReview: Review;
@@ -890,7 +890,7 @@ export type Mutation = {
   signup: User;
   updateJournalEntry: JournalEntry;
   updateReview: Review;
-  updateShelf?: Maybe<Shelf>;
+  updateShelf: Shelf;
   updateUserBook: UserBook;
 };
 
@@ -3381,14 +3381,14 @@ export type CreateShelfMutationVariables = Exact<{
 }>;
 
 
-export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string } };
+export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type DeleteShelfMutationVariables = Exact<{
   where: ShelfWhereUniqueInput;
 }>;
 
 
-export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf?: { __typename?: 'Shelf', id: string, name: string } | null };
+export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type UpdateShelfMutationVariables = Exact<{
   data: ShelfUpdateInput;
@@ -3396,7 +3396,7 @@ export type UpdateShelfMutationVariables = Exact<{
 }>;
 
 
-export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf?: { __typename?: 'Shelf', id: string, name: string } | null };
+export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type FollowMutationVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -3978,6 +3978,9 @@ export const CreateShelfDocument = gql`
   createShelf(data: $data) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
     `;
@@ -4012,6 +4015,9 @@ export const DeleteShelfDocument = gql`
   deleteShelf(where: $where) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
     `;
@@ -4046,6 +4052,9 @@ export const UpdateShelfDocument = gql`
   updateShelf(data: $data, where: $where) {
     id
     name
+    _count {
+      userBooks
+    }
   }
 }
     `;

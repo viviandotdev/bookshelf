@@ -1,4 +1,4 @@
-import SkeletonBook from "../components/skeleton-book"
+import SkeletonBookHit from "../components/skeleton-book-hit"
 import { repeat } from "@/lib/utils";
 const SkeletonSearchPage = () => {
     return (
@@ -11,7 +11,7 @@ const SkeletonSearchPage = () => {
                     </div>
                     <div className="flex flex-col gap-y-8 py-8">
                         {repeat(8).map((index) => (
-                            <SkeletonBook key={index} />
+                            <SkeletonBookHit key={index} />
                         ))}
                     </div>
                 </div>

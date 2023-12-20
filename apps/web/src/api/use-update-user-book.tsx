@@ -1,6 +1,6 @@
 import { useUpdateUserBookMutation, UserBookUpdateInput } from "@/graphql/graphql";
+import { toast } from "@/hooks/use-toast";
 import { gql } from "@apollo/client";
-import toast from "react-hot-toast";
 
 export const useUpdateUserBook = () => {
     const [UpdateUserBook] = useUpdateUserBookMutation();

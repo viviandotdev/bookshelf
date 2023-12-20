@@ -1,21 +1,21 @@
+"use client"
 import { Icons } from "@/components/icons";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { sortingSelects } from "@/config/books";
 import { cn } from "@/lib/utils";
-import router from "next/router";
 import { useTransition } from "react";
 import useCreateQueryString from "../hooks/use-create-query-string";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter } from "next/navigation";
-import { UserBookWhereInput } from "@/graphql/graphql";
-import * as R from "ramda";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 interface SortingOptionsProps {
-    sort: string;
+
 }
-export const SortingOptions: React.FC<SortingOptionsProps> = ({ sort }) => {
+export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
     const router = useRouter()
     const [isPending, startTransition] = useTransition()
     const createQueryString = useCreateQueryString();
+    const searchParams = useSearchParams()
+    const sort = searchParams?.get("sort") ?? "createdAt.desc"
     const pathname = usePathname()
     return (
         <div className="flex text-sm gap-2 items-center">

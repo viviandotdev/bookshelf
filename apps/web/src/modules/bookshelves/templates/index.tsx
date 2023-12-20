@@ -1,55 +1,46 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "@/stores";
-import BookList from "@/modules/bookshelves/components/book-list";
-import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
+import React, { Suspense } from "react";
 import { CreateShelfModal } from "@/modules/bookshelves/components/modals/create-shelf-modal";
-import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
-import { BOOKS_PAGE_SIZE } from "@/lib/constants";
-import { NetworkStatus } from "@apollo/client";
-import useLoadBooks from "../../../api/use-load-books";
-import useShelfStore from "@/stores/use-shelf-store";
+import { dm_sefif_display } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
+import ShelfMenu from "../components/shelf-menu";
+import { SortingOptions } from "../components/sorting-options";
+import StatusMenu from "../components/status-menu";
+import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
+import { BookList } from "../components/book-list";
+
 
 interface BookshelvesTemplateProps {
 }
 
 export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
-    const query = useUserBookQuery();
-    const [totalPages, setTotalPages] = useState(0);
-    const { library } = useShelfStore()
-
-    const [getCount] = useCountUserBooksLazyQuery({
-        onCompleted: (data) => {
-            setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
-        }
-    });
-    const { loadBooks, booksData, networkStatus } = useLoadBooks();
-
-    const books = booksData && booksData?.userBooks
-    const loading = networkStatus === NetworkStatus.loading;
-
-    useEffect(() => {
-        const loadData = async () => {
-            await loadBooks({ variables: { ...query } });
-            await getCount({ variables: { ...query } });
-        };
-
-        loadData();
-    }, [query, loadBooks, getCount, library]);
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
 
     return (
         <>
             <div className="col-span-4 xl:col-span-3 pt-1.5">
-                <BookList
-                    books={books}
-                    totalPages={totalPages}
-                />
+                <nav className="flex flex-col w-full rounded-lg justify-between mt-8 pb-2">
+                    <h1
+                        className={cn(
+                            dm_sefif_display.className,
+                            "text-primary text-4xl mb-8"
+                        )}
+                    >
+                        Bookshelves
+                    </h1>
+                    <div className="flex gap-2 text-sm items-center justify-between relative w-full">
+                        <div className="flex gap-2">
+                            <ShelfMenu />
+                            <StatusMenu />
+                        </div>
+                        <SortingOptions />
+                    </div>
+                    <hr className="my-2 border-t-1 border-primary" />
+                </nav>
 
-            </div>
+                <Suspense fallback={<SkeletonBookList />}>
+                    <BookList />
+                </Suspense>
+
+            </div >
             <CreateShelfModal />
         </>
 

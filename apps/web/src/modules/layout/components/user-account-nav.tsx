@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 
 import {
@@ -14,9 +13,10 @@ import {
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
 import { useLogoutMutation } from "@/graphql/graphql";
 import { useApolloClient } from "@apollo/client";
+import { User } from "@/types/interfaces";
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
-    user: Pick<User, "email" | "name" | "id">;
+    user: User;
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
@@ -27,15 +27,15 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <DropdownMenu>
             <DropdownMenuTrigger>
                 <UserAvatar
-                    user={{ name: user.name || null }}
+                    user={{ id: user.id, username: user.username || null }}
                     size={"default"}
                     className="h-8 w-8"
                 />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <Link className="flex items-center justify-start gap-2 p-2" href={`${user.name}`}>
+                <Link className="flex items-center justify-start gap-2 p-2" href={`${user.username}`}>
                     <div className="flex flex-col space-y-1 leading-none">
-                        {user.name && <p className="font-medium">{user.name}</p>}
+                        {user.username && <p className="font-medium">{user.username}</p>}
                         {user.email && (
                             <p className="w-[200px] truncate text-sm text-muted-foreground">
                                 {user.email}
@@ -48,7 +48,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                     <Link className="cursor-pointer" href="/">Home</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link className="cursor-pointer" href={`${user.name}/books`}>Books</Link>
+                    <Link className="cursor-pointer" href={`${user.username}/books`}>Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link className="cursor-pointer" href="/settings">Settings</Link>

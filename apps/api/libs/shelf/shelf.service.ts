@@ -19,6 +19,13 @@ export class ShelfService {
           },
         },
       },
+      include: {
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+      },
     };
     const shelf = await this.repository.create(shelfCreateArgs);
     return shelf;
@@ -27,7 +34,16 @@ export class ShelfService {
     where: Prisma.ShelfWhereUniqueInput;
     data: Prisma.ShelfUpdateInput;
   }) {
-    const shelf = await this.repository.update(args);
+    const shelf = await this.repository.update({
+      ...args,
+      include: {
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+      },
+    });
     return shelf;
   }
 }
