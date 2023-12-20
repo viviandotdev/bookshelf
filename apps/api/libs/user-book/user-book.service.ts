@@ -8,6 +8,14 @@ export class UserBookService {
   constructor(private readonly repository: UserBookRepository) {}
 
   async create(bookId: string, userId: string) {
+    const lastUserBook = await this.repository.findFirst({
+      where: { status: 'Want to Read', userId: userId },
+      orderBy: { order: 'desc' },
+      select: { order: true },
+    });
+
+    const newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+
     const createUserBookArgs: Prisma.UserBookCreateArgs = {
       data: {
         user: {
@@ -20,9 +28,11 @@ export class UserBookService {
             id: bookId,
           },
         },
+        order: newOrder,
         status: 'Want to Read',
       },
     };
+    //create books withorder
     return this.repository.create(createUserBookArgs);
   }
 
@@ -54,6 +64,7 @@ export class UserBookService {
     orderBy?: Prisma.UserBookOrderByWithRelationInput;
   }) {
     const { userId } = args;
+
     const userBooks = await this.repository.findMany({
       where: {
         ...args.where,

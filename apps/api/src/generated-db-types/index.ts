@@ -24,7 +24,8 @@ export enum UserBookScalarFieldEnum {
     status = "status",
     rating = "rating",
     createdAt = "createdAt",
-    updatedAt = "updatedAt"
+    updatedAt = "updatedAt",
+    order = "order"
 }
 
 export enum UserScalarFieldEnum {
@@ -10566,18 +10567,24 @@ export class UserBookAggregateArgs {
 export class UserBookAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
+    @Field(() => Boolean, {nullable:true})
+    order?: true;
 }
 
 @ObjectType()
 export class UserBookAvgAggregate {
     @Field(() => Float, {nullable:true})
     rating?: number;
+    @Field(() => Float, {nullable:true})
+    order?: number;
 }
 
 @InputType()
 export class UserBookAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    order?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -10596,6 +10603,8 @@ export class UserBookCountAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    order?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
@@ -10620,6 +10629,8 @@ export class UserBookCountAggregate {
     @Field(() => Int, {nullable:false})
     updatedAt!: number;
     @Field(() => Int, {nullable:false})
+    order!: number;
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }
 
@@ -10639,6 +10650,8 @@ export class UserBookCountOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    order?: keyof typeof SortOrder;
 }
 
 @ObjectType()
@@ -10681,6 +10694,8 @@ export class UserBookCreateManyBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -10713,6 +10728,8 @@ export class UserBookCreateManyUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -10739,6 +10756,8 @@ export class UserBookCreateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -10880,6 +10899,8 @@ export class UserBookCreateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -10908,6 +10929,8 @@ export class UserBookCreateWithoutJournalEntryInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -10936,6 +10959,8 @@ export class UserBookCreateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -10964,6 +10989,8 @@ export class UserBookCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -10992,6 +11019,8 @@ export class UserBookCreateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
     book?: InstanceType<typeof BookCreateNestedOneWithoutUserBookInput>;
     @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11020,6 +11049,8 @@ export class UserBookCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:true})
@@ -11084,6 +11115,8 @@ export class UserBookGroupBy {
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof UserBookCountAggregate>;
     @Field(() => UserBookAvgAggregate, {nullable:true})
@@ -11132,6 +11165,8 @@ export class UserBookMaxAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    order?: true;
 }
 
 @ObjectType()
@@ -11158,6 +11193,8 @@ export class UserBookMaxAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -11176,6 +11213,8 @@ export class UserBookMaxOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    order?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -11194,6 +11233,8 @@ export class UserBookMinAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    order?: true;
 }
 
 @ObjectType()
@@ -11220,6 +11261,8 @@ export class UserBookMinAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -11238,6 +11281,8 @@ export class UserBookMinOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    order?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -11262,6 +11307,8 @@ export class UserBookOrderByWithAggregationInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    order?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserBookCountOrderByAggregateInput>;
     @Field(() => UserBookAvgOrderByAggregateInput, {nullable:true})
@@ -11290,6 +11337,8 @@ export class UserBookOrderByWithRelationInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    order?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -11332,6 +11381,8 @@ export class UserBookScalarWhereWithAggregatesInput {
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    order?: InstanceType<typeof IntWithAggregatesFilter>;
 }
 
 @InputType()
@@ -11356,12 +11407,16 @@ export class UserBookScalarWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    order?: InstanceType<typeof IntFilter>;
 }
 
 @InputType()
 export class UserBookSumAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
+    @Field(() => Boolean, {nullable:true})
+    order?: true;
 }
 
 @ObjectType()
@@ -11371,12 +11426,16 @@ export class UserBookSumAggregate {
     @Validator.Max(5)
     @Validator.IsInt()
     rating?: number;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
 export class UserBookSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    order?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -11432,6 +11491,8 @@ export class UserBookUncheckedCreateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11464,6 +11525,8 @@ export class UserBookUncheckedCreateWithoutJournalEntryInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11494,6 +11557,8 @@ export class UserBookUncheckedCreateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11524,6 +11589,8 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     journalEntry?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11551,6 +11618,8 @@ export class UserBookUncheckedCreateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11583,6 +11652,8 @@ export class UserBookUncheckedCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
@@ -11649,6 +11720,8 @@ export class UserBookUncheckedUpdateManyWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -11709,6 +11782,8 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -11735,6 +11810,8 @@ export class UserBookUncheckedUpdateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -11758,6 +11835,8 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11790,6 +11869,8 @@ export class UserBookUncheckedUpdateWithoutJournalEntryInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11820,6 +11901,8 @@ export class UserBookUncheckedUpdateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11850,6 +11933,8 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     journalEntry?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11877,6 +11962,8 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11909,6 +11996,8 @@ export class UserBookUncheckedUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -11935,6 +12024,8 @@ export class UserBookUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
 }
 
 @InputType()
@@ -12168,6 +12259,8 @@ export class UserBookUpdateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -12196,6 +12289,8 @@ export class UserBookUpdateWithoutJournalEntryInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -12224,6 +12319,8 @@ export class UserBookUpdateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -12252,6 +12349,8 @@ export class UserBookUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -12280,6 +12379,8 @@ export class UserBookUpdateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
     book?: InstanceType<typeof BookUpdateOneWithoutUserBookNestedInput>;
     @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
@@ -12308,6 +12409,8 @@ export class UserBookUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Int, {nullable:true})
+    order?: number;
     @Field(() => UserUpdateOneWithoutUserBooksNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutUserBooksNestedInput>;
     @Field(() => BookUpdateOneWithoutUserBookNestedInput, {nullable:true})
@@ -12410,6 +12513,8 @@ export class UserBookWhereUniqueInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    order?: InstanceType<typeof IntFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
     @Field(() => BookRelationFilter, {nullable:true})
@@ -12444,6 +12549,8 @@ export class UserBookWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    order?: InstanceType<typeof IntFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
     @Field(() => BookRelationFilter, {nullable:true})
@@ -12472,6 +12579,8 @@ export class UserBook {
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
+    @Field(() => Int, {nullable:true})
+    order!: number | null;
     @Field(() => User, {nullable:true})
     user?: InstanceType<typeof User> | null;
     @Field(() => Book, {nullable:true})

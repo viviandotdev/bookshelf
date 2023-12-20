@@ -41,6 +41,7 @@ export function createRandomUserBook(users: User[]): UserBook {
     userId: user.id,
     bookId: faker.string.uuid(),
     status: faker.helpers.arrayElement(['Reading', 'Completed']),
+    order: faker.number.int({ min: 1, max: 100 }),
     rating: faker.number.int({ min: 1, max: 5 }),
     createdAt: faker.date.recent(),
     updatedAt: faker.date.recent(),
