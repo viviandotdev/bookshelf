@@ -61,7 +61,7 @@ export class ShelfResolver {
     });
   }
 
-  @Mutation(() => Shelf, { nullable: true })
+  @Mutation(() => Shelf)
   @UseGuards(AccessTokenGuard)
   async deleteShelf(@Args('where') where: ShelfWhereUniqueInput) {
     const shelf = await this.service.findUnique({ where: { id: where.id } });
@@ -71,7 +71,16 @@ export class ShelfResolver {
         `Shelf ${JSON.stringify(where)} does not exist`,
       );
     }
-    return this.service.delete({ where: { id: where.id } });
+    return this.service.delete({
+      where: { id: where.id },
+      include: {
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+      },
+    });
   }
 
   @Mutation(() => Shelf)

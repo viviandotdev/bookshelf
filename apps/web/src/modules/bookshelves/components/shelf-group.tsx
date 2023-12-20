@@ -27,19 +27,15 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
 }) => {
     const [openAlert, setOpenAlert] = useState(false);
     const shelfModal = useCreateShelfModal();
-    const [isLoading, setIsLoading] = useState(false);
-    const { deleteShelf } = useDeleteShelf();
     const { removeShelf } = useShelfStore();
-    const onDelete = async () => {
-        setIsLoading(true);
-        const deletedShelf = await deleteShelf(shelfModal.editId!);
-        if (deletedShelf) {
-            (removeShelf(shelfModal.editId!));
+    const { deleteShelf } = useDeleteShelf({
+        onSuccess: (_) => {
+            removeShelf(shelfModal.shelf!.id);
+            setOpenAlert(false);
+            shelfModal.onClose();
         }
-        setIsLoading(false);
-        setOpenAlert(false);
-        shelfModal.onClose();
-    };
+    });
+
     return (
         <>
             <AlertModal
@@ -47,26 +43,23 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                 description={"This action cannot be undone."}
                 isOpen={openAlert}
                 onClose={() => setOpenAlert(false)}
-                onConfirm={() => {
-                    onDelete();
+                onConfirm={async () => {
+                    await deleteShelf({ id: shelfModal.shelf!.id });
                 }}
                 loading={false}
             />
             <Collapsible title={title} collapsible={collapsible}>
                 <>
                     {shelves.map((shelf, i) => (
-
                         <ShelfItem
                             key={i}
                             shelf={shelf}
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
                         >
-                         
+
                         </ShelfItem>
-
                     ))}
-
                     {children}
                 </>
             </Collapsible>

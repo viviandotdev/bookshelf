@@ -878,7 +878,7 @@ export type Mutation = {
   createReview: Review;
   createShelf: Shelf;
   createUser: User;
-  deleteShelf?: Maybe<Shelf>;
+  deleteShelf: Shelf;
   follow: User;
   importUserBooks: Scalars['Boolean'];
   likeReview: Review;
@@ -3388,7 +3388,7 @@ export type DeleteShelfMutationVariables = Exact<{
 }>;
 
 
-export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf?: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } | null };
+export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type UpdateShelfMutationVariables = Exact<{
   data: ShelfUpdateInput;
