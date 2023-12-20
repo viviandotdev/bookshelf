@@ -12,6 +12,7 @@ export class UserBookRepository {
   create = this.prisma.userBook.create;
   count = this.prisma.userBook.count;
   delete = this.prisma.userBook.delete;
+  findFirst = this.prisma.userBook.findFirst;
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

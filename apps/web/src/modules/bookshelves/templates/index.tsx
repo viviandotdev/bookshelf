@@ -7,6 +7,7 @@ import { SortingOptions } from "../components/sorting-options";
 import StatusMenu from "../components/status-menu";
 import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
 import { BookList } from "../components/book-list";
+import Board from "../components/board";
 
 
 interface BookshelvesTemplateProps {
@@ -37,7 +38,8 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                 </nav>
 
                 <Suspense fallback={<SkeletonBookList />}>
-                    <BookList />
+                    {/* <BookList /> */}
+                    <Board />
                 </Suspense>
 
             </div >
