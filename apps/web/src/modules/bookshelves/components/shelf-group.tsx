@@ -7,7 +7,6 @@ import { ShelfItem } from './shelf-item';
 import useCreateShelfModal from './modals/use-create-shelf-modal';
 import { useDeleteShelf } from '../api/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
-import { Icons } from '../../../components/icons';
 ;
 
 interface ShelfGroupProps {
@@ -57,7 +56,6 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
                         >
-
                         </ShelfItem>
                     ))}
                     {children}

@@ -20,8 +20,7 @@ export const EditShelfMenu: React.FC<EditShelfMenuProps> = ({ shelf, setOpenAler
                             <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-muted-foreground stroke-1" />
                         </a>
 
-                        <span
-                            className={`block group-hover/item:hidden cursor-pointer px-1 rounded-sm`}
+                        <span className={`block group-hover/item:hidden cursor-pointer px-1 rounded-sm`}
                         >
                             {shelf._count.userBooks}
                         </span>

@@ -11,7 +11,6 @@ interface ShelfItemProps {
     isShelves?: boolean;
     setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
     padding?: string;
-    children?: React.ReactNode
 }
 
 export const ShelfItem: React.FC<ShelfItemProps> = ({
@@ -19,7 +18,6 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     isShelves,
     setOpenAlert,
     padding = "py-2",
-    children
 
 }) => {
     const [isPending, startTransition] = useTransition()

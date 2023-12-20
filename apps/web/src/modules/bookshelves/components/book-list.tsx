@@ -22,6 +22,7 @@ export const BookList: React.FC<BookListProps> = ({
     const [totalPages, setTotalPages] = useState(0);
     const { library } = useShelfStore()
 
+
     const [getCount] = useCountUserBooksLazyQuery({
         onCompleted: (data) => {
             setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
@@ -37,7 +38,7 @@ export const BookList: React.FC<BookListProps> = ({
             await loadBooks({ variables: { ...query } });
             await getCount({ variables: { ...query } });
         };
-
+    
         loadData();
     }, [query, loadBooks, getCount, library]);
 
@@ -63,4 +64,3 @@ export const BookList: React.FC<BookListProps> = ({
         </>
     );
 };
-

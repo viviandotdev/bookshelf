@@ -28,14 +28,16 @@ const formSchema = z.object({
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
     const { addShelf, renameShelf } = useShelfStore();
-    const { createShelf, isLoading: isCreating } = useCreateShelf({
+    const { createShelf, isLoading: isLoadingCreate } = useCreateShelf({
         onSuccess: (shelf: Shelf) => {
             addShelf({ ...shelf })
+            shelfModal.onClose();
         }
     });
-    const { updateShelf, isLoading: isUpdating } = useUpdateShelf({
+    const { updateShelf, isLoading: isLoadingUpdate } = useUpdateShelf({
         onSuccess: (shelf: Shelf) => {
             renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name })
+            shelfModal.onClose();
         },
     });
 
@@ -66,7 +68,6 @@ export const CreateShelfModal = () => {
             await updateShelf({ id: shelfModal.shelf!.id!, name: values.name });
         }
 
-        shelfModal.onClose();
     };
 
     return (
@@ -89,7 +90,7 @@ export const CreateShelfModal = () => {
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={isCreating || isUpdating}
+                                                    disabled={isLoadingCreate || isLoadingUpdate}
                                                     placeholder="Shelf"
                                                     {...field}
                                                 />
@@ -100,13 +101,13 @@ export const CreateShelfModal = () => {
                                 />
                                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
                                     <Button
-                                        disabled={isCreating || isUpdating}
+                                        disabled={isLoadingCreate || isLoadingUpdate}
                                         variant="outline"
                                         label="Cancel"
                                         onClick={shelfModal.onClose}
                                     ></Button>
                                     <Button
-                                        disabled={isCreating || isUpdating}
+                                        disabled={isLoadingCreate || isLoadingUpdate}
                                         label="Continue"
                                         type="submit"
                                     ></Button>
