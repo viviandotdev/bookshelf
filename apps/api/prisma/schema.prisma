@@ -139,7 +139,7 @@ model UserBook {
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
     reviews      Review[]
-    order        Int?
+    order        Int
     // Status       Status?           @relation(fields: [statusId], references: [id])
     // statusId     String?
 

@@ -7,9 +7,9 @@ import { UserBookUpdateInput } from './models/user-book-update.input';
 export class UserBookService {
   constructor(private readonly repository: UserBookRepository) {}
 
-  async create(bookId: string, userId: string) {
+  async create(bookId: string, userId: string, status?: string) {
     const lastUserBook = await this.repository.findFirst({
-      where: { status: 'Want to Read', userId: userId },
+      where: { status: status || 'Want to Read', userId: userId },
       orderBy: { order: 'desc' },
       select: { order: true },
     });
@@ -29,7 +29,7 @@ export class UserBookService {
           },
         },
         order: newOrder,
-        status: 'Want to Read',
+        status: status || 'Want to Read',
       },
     };
     //create books withorder
@@ -112,6 +112,17 @@ export class UserBookService {
 
     const origin = await this.findUnique(args.where);
     const shelfList = args.data.shelves;
+    let newOrder;
+    // if status is updated, update order number in the new status
+    if (args.data.status) {
+      const lastUserBook = await this.repository.findFirst({
+        where: { status: args.data.status, userId: userId },
+        orderBy: { order: 'desc' },
+        select: { order: true },
+      });
+
+      newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+    }
 
     const updateUserBook = await this.repository.update({
       where: {
@@ -121,6 +132,7 @@ export class UserBookService {
         },
       },
       data: {
+        order: newOrder,
         status: args.data.status,
         rating: args.data.rating,
         shelves: shelfList

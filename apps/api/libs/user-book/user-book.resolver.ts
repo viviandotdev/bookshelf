@@ -138,8 +138,8 @@ export class UserBookResolver {
           };
           await this.bookService.create(bookData, user.userId);
           const userBookData: UserBookUpdateInput = {
-            rating: Number(rating),
             status,
+            rating: Number(rating),
             shelves,
           };
           await this.userBookService.update({

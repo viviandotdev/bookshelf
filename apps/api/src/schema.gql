@@ -1688,7 +1688,7 @@ type UserBook {
   createdAt: Timestamp!
   id: ID!
   journalEntry: [JournalEntry!]
-  order: Int
+  order: Int!
   rating: Int
   reviews: [Review!]
   shelves: [UserBookShelves!]
@@ -1724,7 +1724,7 @@ type UserBookCountAggregate {
 input UserBookCreateManyBookInput {
   createdAt: Timestamp
   id: String
-  order: Int
+  order: Int!
   rating: Int
   status: String!
   updatedAt: Timestamp
@@ -1740,7 +1740,7 @@ input UserBookCreateManyUserInput {
   bookId: String!
   createdAt: Timestamp
   id: String
-  order: Int
+  order: Int!
   rating: Int
   status: String!
   updatedAt: Timestamp
@@ -1812,7 +1812,7 @@ input UserBookCreateWithoutBookInput {
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int
+  order: Int!
   rating: Int
   reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
@@ -1825,7 +1825,7 @@ input UserBookCreateWithoutJournalEntryInput {
   book: BookCreateNestedOneWithoutUserBookInput
   createdAt: Timestamp
   id: String
-  order: Int
+  order: Int!
   rating: Int
   reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
@@ -1839,7 +1839,7 @@ input UserBookCreateWithoutReviewsInput {
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int
+  order: Int!
   rating: Int
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
@@ -1852,7 +1852,7 @@ input UserBookCreateWithoutShelvesInput {
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int
+  order: Int!
   rating: Int
   reviews: ReviewCreateNestedManyWithoutUserBookInput
   status: String!
@@ -1865,7 +1865,7 @@ input UserBookCreateWithoutUserInput {
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int
+  order: Int!
   rating: Int
   reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
@@ -1916,7 +1916,7 @@ input UserBookOrderByWithRelationInput {
   createdAt: SortOrder
   id: SortOrder
   journalEntry: JournalEntryOrderByRelationAggregateInput
-  order: SortOrderInput
+  order: SortOrder
   rating: SortOrderInput
   reviews: ReviewOrderByRelationAggregateInput
   shelves: UserBookShelvesOrderByRelationAggregateInput

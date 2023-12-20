@@ -43,7 +43,7 @@ export class BookService {
     }
   }
 
-  async create(data: BookCreateInput, userId: string) {
+  async create(data: BookCreateInput, userId: string, status?: string) {
     let book = await this.prisma.book.findUnique({
       where: {
         id: data.id,
@@ -60,7 +60,7 @@ export class BookService {
       book = await this.prisma.book.create(createBookArgs);
     }
 
-    await this.userBook.create(book.id, userId);
+    await this.userBook.create(book.id, userId, status);
     return book;
   }
 }
