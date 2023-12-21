@@ -71,7 +71,23 @@ export class UserBookService {
         userId,
       },
       include: {
-        book: true,
+        _count: {
+          select: {
+            shelves: true,
+            reviews: true,
+            journalEntry: true,
+          },
+        },
+        book: {
+          include: {
+            _count: {
+              select: {
+                userBook: true,
+                reviews: true,
+              },
+            },
+          },
+        },
         shelves: {
           include: {
             shelf: true,

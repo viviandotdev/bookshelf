@@ -15,7 +15,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
     useEffect(() => {
         const loadData = async () => {
-            await loadBooks({
+            const { data } = await loadBooks({
                 variables: {
                     offset: 0,
                     limit: BOOKS_PAGE_SIZE,
@@ -26,6 +26,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
                     }
                 }
             });
+            console.log(data)
         };
 
         loadData();
