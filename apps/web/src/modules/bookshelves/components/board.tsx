@@ -3,15 +3,17 @@ import React, { useEffect, useState } from 'react'
 import ColumnContainer from './column-container';
 import { SortOrder, UserBook } from '@/graphql/graphql';
 import useLoadBooks from '@/api/use-load-books';
-import { BOOKS_PAGE_SIZE } from '@/lib/constants';
-import { ColumnWithBooks, Status } from '../types';
+import { BOOKS_PAGE_SIZE, STATUS } from '@/lib/constants';
+import { ColumnWithBooks } from '../types';
 
 interface BoardProps { }
 
+
 export const Board: React.FC<BoardProps> = ({ }) => {
     // get the books data we need
-    const { loadBooks, networkStatus } = useLoadBooks();
     const [data, setData] = useState<ColumnWithBooks[]>([]);
+    const statuses: string[] = Object.values(STATUS);
+    const { loadBooks, networkStatus } = useLoadBooks();
 
     const loadMore = async (status: number) => {
         const fetchedData = await data[status].fetchMore({
@@ -32,114 +34,68 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                 const newData = [...prevData];
                 newData[status] = {
                     ...newData[status],
-                    books: [...newData[status].books, ...fetchedData.data.userBooks],
+                    books: [...newData[status].books, ...fetchedData.data.userBooks?.map((book: any) => ({
+                        id: book.book?.id,
+                        title: book.book?.title,
+                        order: book.order,
+                        status: book.status,
+
+                    }))],
                 };
+                console.log('newData', newData);
                 return newData;
             });
         }
     };
 
+    const loadBooksByStatus = async (status: string) => {
+        const { data: bookData, fetchMore } = await loadBooks({
+            variables: {
+                offset: 0,
+                limit: BOOKS_PAGE_SIZE,
+                where: {
+                    status: {
+                        equals: status,
+                    },
+                },
+                orderBy: {
+                    order: SortOrder.Asc,
+                },
+            },
+        });
+
+        return {
+            title: status,
+            books: bookData?.userBooks?.map((book: any) => ({
+                id: book.book?.id,
+                title: book.book?.title,
+                order: book.order,
+                status: book.status,
+            })) || [],
+            fetchMore,
+        }
+    };
 
     useEffect(() => {
         const loadData = async () => {
-            const { data: readData, fetchMore: fetchMoreRead } = await loadBooks({
-                variables: {
-                    offset: 0,
-                    limit: BOOKS_PAGE_SIZE,
-                    where: {
-                        status: {
-                            equals: "Read"
-                        }
-                    }
-                    ,
-                    orderBy: {
-                        order: SortOrder.Asc
-                    }
-                }
-            });
-            const { data: readingData, fetchMore: fetchMoreReading } = await loadBooks({
-                variables: {
-                    offset: 0,
-                    limit: BOOKS_PAGE_SIZE,
-                    where: {
-                        status: {
-                            equals: "Currently Reading"
-                        }
-                    }, orderBy: {
-                        order: SortOrder.Asc
-                    }
-                },
-            });
-            const { data: wantToRead, fetchMore: fetchMoreWantToRead } = await loadBooks({
-                variables: {
-                    offset: 0,
-                    limit: BOOKS_PAGE_SIZE,
-                    where: {
-                        status: {
-                            equals: "Want to Read"
-                        }
-                    }, orderBy: {
-                        order: SortOrder.Asc
-                    }
-                }
-            });
-
-            setData([
-                {
-                    title: "Want to Read",
-                    books: wantToRead?.userBooks!.map((book: UserBook) => {
-                        return {
-                            id: book.book!.id,
-                            title: book.book!.title,
-                            order: book.order,
-                            status: book.status
-                        }
-                    }) || [],
-                    fetchMore: fetchMoreWantToRead
-                }
-                ,
-                {
-                    title: "Currently Reading",
-                    books: readingData?.userBooks!.map((book: UserBook) => {
-                        return {
-                            id: book.book!.id,
-                            title: book.book!.title,
-                            order: book.order,
-                            status: book.status
-                        }
-                    }) || [],
-                    fetchMore: fetchMoreReading
-                },
-                {
-                    title: "Read",
-                    books: readData?.userBooks!.map((book: UserBook) => {
-                        return {
-                            id: book.book!.id,
-                            title: book.book!.title,
-                            order: book.order,
-                            status: book.status
-
-                        }
-                    }) || [],
-                    fetchMore: fetchMoreRead
-                },
-            ])
-
-
+            try {
+                const promises = statuses.map(status => loadBooksByStatus(status));
+                const [wantToReadItem, upNext, readingItem, readItem, abandonedItem] = await Promise.all(promises);
+                setData([wantToReadItem, upNext, readingItem, readItem, abandonedItem]);
+            } catch (error) {
+                // Handle errors here
+                console.error('Error while loading book data:', error);
+            }
         };
-
         loadData();
     }, [loadBooks]);
-
 
 
     return (
         <div className="">
             <ColumnContainer data={data} />
             <button onClick={() => {
-                loadMore(Status.WantToRead);
-                loadMore(Status.CurrentlyReading);
-                loadMore(Status.Read);
+                statuses.map((_, index) => loadMore(index));
             }}>Fetch More</button>
         </div>
     );

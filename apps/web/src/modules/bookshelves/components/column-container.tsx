@@ -1,5 +1,4 @@
 "use client"
-import { UserBook } from '@/graphql/graphql';
 import React, { useEffect, useState } from 'react'
 import ColumnItem from './column-item';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";

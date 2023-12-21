@@ -28,10 +28,10 @@ export const MONTH = [
   "DEC",
 ];
 
-export const BOARD_COLUMNS = {
-  WANT_TO_READ: "Want to Read",
-  UP_NEXT: "Up Next",
-  CURRENTLY_READING: "Currently Reading",
-  READ: "Read",
-  ABANDONED: "Abandoned",
+export const STATUS = {
+  WantToRead: "Want to Read",
+  UpNext: "Up Next",
+  CurrentlyReading: "Currently Reading",
+  Read: "Read",
+  Abandoned: "Abandoned",
 };
