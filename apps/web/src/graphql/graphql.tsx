@@ -128,6 +128,13 @@ export type BookCreateWithoutUserBookInput = {
   title: Scalars['String'];
 };
 
+export type BookItemInput = {
+  id: Scalars['String'];
+  order: Scalars['Float'];
+  status: Scalars['String'];
+  title: Scalars['String'];
+};
+
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
   author?: Maybe<Scalars['String']>;
@@ -892,6 +899,7 @@ export type Mutation = {
   updateReview: Review;
   updateShelf: Shelf;
   updateUserBook: UserBook;
+  updateUserBookOrder: Array<UserBook>;
 };
 
 
@@ -999,6 +1007,11 @@ export type MutationUpdateUserBookArgs = {
   where: BookWhereUniqueInput;
 };
 
+
+export type MutationUpdateUserBookOrderArgs = {
+  data: UserBookUpdateOrderInput;
+};
+
 export enum NullsOrder {
   First = 'first',
   Last = 'last'
@@ -1011,7 +1024,6 @@ export type Query = {
   comments: Array<Comment>;
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
-  currentlyReading?: Maybe<Array<UserBook>>;
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
   journalEntries: Array<JournalEntry>;
   me: User;
@@ -1019,7 +1031,6 @@ export type Query = {
   user: User;
   userBook?: Maybe<UserBook>;
   userBooks?: Maybe<Array<UserBook>>;
-  wantToRead?: Maybe<Array<UserBook>>;
 };
 
 
@@ -1052,13 +1063,6 @@ export type QueryCountUserBooksArgs = {
 };
 
 
-export type QueryCurrentlyReadingArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
-  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
-};
-
-
 export type QueryGetMostRecentJournalEntryArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
 };
@@ -1086,13 +1090,6 @@ export type QueryUserBooksArgs = {
   offset?: Scalars['Int'];
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereInput>;
-};
-
-
-export type QueryWantToReadArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
-  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
 };
 
 export enum QueryMode {
@@ -2459,6 +2456,10 @@ export type UserBookUpdateOneWithoutReviewsNestedInput = {
   upsert?: InputMaybe<UserBookUpsertWithoutReviewsInput>;
 };
 
+export type UserBookUpdateOrderInput = {
+  items?: InputMaybe<Array<BookItemInput>>;
+};
+
 export type UserBookUpdateToOneWithWhereWithoutJournalEntryInput = {
   data: UserBookUpdateWithoutJournalEntryInput;
   where?: InputMaybe<UserBookWhereInput>;
@@ -3467,6 +3468,13 @@ export type ImportUserBooksMutationVariables = Exact<{
 
 export type ImportUserBooksMutation = { __typename?: 'Mutation', importUserBooks: boolean };
 
+export type UpdateUserBookOrderMutationVariables = Exact<{
+  data: UserBookUpdateOrderInput;
+}>;
+
+
+export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4265,6 +4273,40 @@ export function useImportUserBooksMutation(baseOptions?: Apollo.MutationHookOpti
 export type ImportUserBooksMutationHookResult = ReturnType<typeof useImportUserBooksMutation>;
 export type ImportUserBooksMutationResult = Apollo.MutationResult<ImportUserBooksMutation>;
 export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
+export const UpdateUserBookOrderDocument = gql`
+    mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
+  updateUserBookOrder(data: $data) {
+    id
+    order
+  }
+}
+    `;
+export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
+
+/**
+ * __useUpdateUserBookOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserBookOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserBookOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserBookOrderMutation, { data, loading, error }] = useUpdateUserBookOrderMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>(UpdateUserBookOrderDocument, options);
+      }
+export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
+export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
+export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

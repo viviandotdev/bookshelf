@@ -14,6 +14,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
 import { BookService } from 'libs/book/book.service';
+import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -28,6 +29,7 @@ export class UserBookResolver {
     where: BookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
+    console.log(where);
     return this.userBookService.findUnique({
       userId: user.userId,
       bookId: where.id,
@@ -91,6 +93,18 @@ export class UserBookResolver {
         bookId: where.id,
       },
     });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Boolean)
+  updateUserBookOrder(
+    @Args('data')
+    data: UserBookUpdateOrderInput,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const { items } = data;
+    this.userBookService.updateOrder(items, user.userId);
+    return true;
   }
 
   @UseGuards(AccessTokenGuard)

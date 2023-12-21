@@ -13,6 +13,7 @@ export class UserBookRepository {
   count = this.prisma.userBook.count;
   delete = this.prisma.userBook.delete;
   findFirst = this.prisma.userBook.findFirst;
+  transaction = this.prisma.$transaction;
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

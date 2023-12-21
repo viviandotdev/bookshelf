@@ -108,6 +108,13 @@ input BookCreateWithoutUserBookInput {
   title: String!
 }
 
+input BookItemInput {
+  id: String!
+  order: Float!
+  status: String!
+  title: String!
+}
+
 type BookMaxAggregate {
   author: String
   categories: String
@@ -858,6 +865,7 @@ type Mutation {
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
+  updateUserBookOrder(data: UserBookUpdateOrderInput!): Boolean!
 }
 
 enum NullsOrder {
@@ -2222,6 +2230,10 @@ input UserBookUpdateOneWithoutReviewsNestedInput {
   disconnect: UserBookWhereInput
   update: UserBookUpdateToOneWithWhereWithoutReviewsInput
   upsert: UserBookUpsertWithoutReviewsInput
+}
+
+input UserBookUpdateOrderInput {
+  items: [BookItemInput!]
 }
 
 input UserBookUpdateToOneWithWhereWithoutJournalEntryInput {

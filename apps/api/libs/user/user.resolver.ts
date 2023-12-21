@@ -69,6 +69,7 @@ export class UserResolver {
     return this.userService.getFollowingCount(user.id);
   }
 
+  
   @UseGuards(AccessTokenGuard)
   @Mutation(() => User)
   async follow(

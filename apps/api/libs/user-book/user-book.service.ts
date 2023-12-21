@@ -3,9 +3,14 @@ import { UserBookIdentifierCompoundUniqueInput } from '../../src/generated-db-ty
 import { Prisma } from '@prisma/client';
 import { UserBookRepository } from './user-book.repository';
 import { UserBookUpdateInput } from './models/user-book-update.input';
+import { BookItemInput } from './models/user-book-update-order.input';
+import { PrismaRepository } from 'prisma/prisma.repository';
 @Injectable()
 export class UserBookService {
-  constructor(private readonly repository: UserBookRepository) {}
+  constructor(
+    private readonly repository: UserBookRepository,
+    private readonly prisma: PrismaRepository,
+  ) {}
 
   async create(bookId: string, userId: string, status?: string) {
     const lastUserBook = await this.repository.findFirst({
@@ -119,7 +124,31 @@ export class UserBookService {
 
     return userBooksCount;
   }
+  async updateOrder(items: BookItemInput[], userId: string) {
+    let updatedCards = [];
 
+    try {
+      const transaction = items.map((book) => {
+        return this.repository.update({
+          where: {
+            identifier: {
+              userId,
+              bookId: book.id,
+            },
+          },
+          data: {
+            order: book.order,
+            status: book.status,
+          },
+        });
+      });
+      updatedCards = await this.prisma.$transaction(transaction);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error updating order');
+    }
+    return updatedCards;
+  }
   async update(args: {
     data: UserBookUpdateInput;
     where: UserBookIdentifierCompoundUniqueInput;

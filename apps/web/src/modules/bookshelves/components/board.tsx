@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import ColumnContainer from './column-container';
-import { UserBook } from '@/graphql/graphql';
+import { SortOrder, UserBook } from '@/graphql/graphql';
 import useLoadBooks from '@/api/use-load-books';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { ColumnWithBooks, Status } from '../types';
@@ -53,6 +53,9 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Read"
                         }
+                    },
+                    orderBy: {
+                        order: SortOrder.Asc
                     }
                 }
             });
@@ -64,6 +67,9 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Currently Reading"
                         }
+                    },
+                    orderBy: {
+                        order: SortOrder.Asc
                     }
                 },
             });
@@ -75,6 +81,9 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Want to Read"
                         }
+                    },
+                    orderBy: {
+                        order: SortOrder.Asc
                     }
                 }
             });
@@ -84,9 +93,10 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                     title: "Want to Read",
                     books: wantToRead?.userBooks!.map((book: UserBook) => {
                         return {
-                            id: book.id,
+                            id: book.book!.id,
                             title: book.book!.title,
-                            order: book.order
+                            order: book.order,
+                            status: book.status
                         }
                     }) || [],
                     fetchMore: fetchMoreWantToRead
@@ -96,9 +106,11 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                     title: "Currently Reading",
                     books: readingData?.userBooks!.map((book: UserBook) => {
                         return {
-                            id: book.id,
+                            id: book.book!.id,
                             title: book.book!.title,
-                            order: book.order
+                            order: book.order,
+                            status: book.status
+
                         }
                     }) || [],
                     fetchMore: fetchMoreReading
@@ -107,9 +119,11 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                     title: "Read",
                     books: readData?.userBooks!.map((book: UserBook) => {
                         return {
-                            id: book.id,
+                            id: book.book!.id,
                             title: book.book!.title,
-                            order: book.order
+                            order: book.order,
+                            status: book.status
+
                         }
                     }) || [],
                     fetchMore: fetchMoreRead

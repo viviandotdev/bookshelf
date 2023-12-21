@@ -3,13 +3,14 @@ export enum Status {
   CurrentlyReading = 1,
   Read = 2,
 }
-export interface BookWithOrder {
+export interface BookItem {
   id: string;
   title: string;
   order: number;
+  status: string;
 }
 export type ColumnWithBooks = {
   title: string;
-  books: BookWithOrder[];
+  books: BookItem[];
   fetchMore: any;
 };

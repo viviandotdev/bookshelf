@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import ColumnItem from './column-item';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { ColumnWithBooks } from '../types';
+import { useUpdateUserBookOrder } from '../api/use-update-userbook-order';
 // export type CardWithList = Card & { list: List };
 
 
@@ -22,6 +23,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 
 export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
     const [orderedData, setOrderedData] = useState(data);
+    const { updateUserBookOrder } = useUpdateUserBookOrder();
     useEffect(() => {
         setOrderedData(data)
     }, [data])
@@ -60,10 +62,21 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                 })
                 sourceList.books = reorderedCards;
                 setOrderedData(newOrderedData);
+                updateUserBookOrder({
+                    items: reorderedCards
+                })
+                // update the order of the cards in the database
+
+
             }
             // Moving cards between lists
             else {
                 const [movedCard] = sourceList.books.splice(source.index, 1);
+
+                //  Assign the new status to the moved card
+                movedCard.status = destination.droppableId;
+                // Add the card to the destination list
+
                 destinationList.books.splice(destination.index, 0, movedCard);
                 sourceList.books.forEach((book, index) => {
                     book.order = index;
@@ -73,6 +86,10 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                     book.order = index;
                 })
                 setOrderedData(newOrderedData);
+                updateUserBookOrder({
+                    items: destinationList.books
+                })
+
             }
 
         }

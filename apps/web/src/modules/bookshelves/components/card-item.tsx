@@ -1,9 +1,9 @@
 import { Draggable } from '@hello-pangea/dnd';
 import React from 'react'
-import { BookWithOrder } from '../types';
+import { BookItem } from '../types';
 
 interface CardItemProps {
-    data: BookWithOrder;
+    data: BookItem;
     index: number;
 }
 
