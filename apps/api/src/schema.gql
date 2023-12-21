@@ -865,7 +865,7 @@ type Mutation {
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
-  updateUserBookOrder(data: UserBookUpdateOrderInput!): Boolean!
+  updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
 }
 
 enum NullsOrder {

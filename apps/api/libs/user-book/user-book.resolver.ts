@@ -29,7 +29,6 @@ export class UserBookResolver {
     where: BookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    console.log(where);
     return this.userBookService.findUnique({
       userId: user.userId,
       bookId: where.id,
@@ -96,15 +95,14 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => [UserBook])
   updateUserBookOrder(
     @Args('data')
     data: UserBookUpdateOrderInput,
     @CurrentUser() user: JwtPayload,
   ) {
     const { items } = data;
-    this.userBookService.updateOrder(items, user.userId);
-    return true;
+    return this.userBookService.updateOrder(items, user.userId);
   }
 
   @UseGuards(AccessTokenGuard)

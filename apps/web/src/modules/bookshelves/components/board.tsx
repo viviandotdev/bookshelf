@@ -6,10 +6,7 @@ import useLoadBooks from '@/api/use-load-books';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { ColumnWithBooks, Status } from '../types';
 
-interface BoardProps {
-
-}
-
+interface BoardProps { }
 
 export const Board: React.FC<BoardProps> = ({ }) => {
     // get the books data we need
@@ -53,7 +50,8 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Read"
                         }
-                    },
+                    }
+                    ,
                     orderBy: {
                         order: SortOrder.Asc
                     }
@@ -67,8 +65,7 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Currently Reading"
                         }
-                    },
-                    orderBy: {
+                    }, orderBy: {
                         order: SortOrder.Asc
                     }
                 },
@@ -81,8 +78,7 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         status: {
                             equals: "Want to Read"
                         }
-                    },
-                    orderBy: {
+                    }, orderBy: {
                         order: SortOrder.Asc
                     }
                 }
@@ -110,7 +106,6 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                             title: book.book!.title,
                             order: book.order,
                             status: book.status
-
                         }
                     }) || [],
                     fetchMore: fetchMoreReading
@@ -150,8 +145,3 @@ export const Board: React.FC<BoardProps> = ({ }) => {
     );
 }
 export default Board
-// query each column
-// this is so we can paginate each one separately
-
-// a card gets an order if it is
-// added to a column

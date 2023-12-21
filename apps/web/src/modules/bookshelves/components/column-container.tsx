@@ -62,12 +62,8 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                 })
                 sourceList.books = reorderedCards;
                 setOrderedData(newOrderedData);
-                updateUserBookOrder({
-                    items: reorderedCards
-                })
-                // update the order of the cards in the database
 
-
+                updateUserBookOrder({ items: reorderedCards })
             }
             // Moving cards between lists
             else {
@@ -86,10 +82,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                     book.order = index;
                 })
                 setOrderedData(newOrderedData);
-                updateUserBookOrder({
-                    items: destinationList.books
-                })
-
+                updateUserBookOrder({ items: destinationList.books })
             }
 
         }

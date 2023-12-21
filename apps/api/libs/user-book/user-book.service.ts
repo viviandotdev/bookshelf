@@ -128,8 +128,8 @@ export class UserBookService {
     let updatedCards = [];
 
     try {
-      const transaction = items.map((book) => {
-        return this.repository.update({
+      const transaction = items.map((book) =>
+        this.repository.update({
           where: {
             identifier: {
               userId,
@@ -140,8 +140,8 @@ export class UserBookService {
             order: book.order,
             status: book.status,
           },
-        });
-      });
+        }),
+      );
       updatedCards = await this.prisma.$transaction(transaction);
     } catch (error) {
       console.log(error);

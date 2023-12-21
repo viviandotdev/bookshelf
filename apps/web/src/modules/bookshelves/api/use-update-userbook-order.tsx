@@ -1,4 +1,4 @@
-import { UserBook, useUpdateUserBookOrderMutation } from "@/graphql/graphql";
+import { UserBook, useUpdateUserBookOrderMutation, } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
 import { ActionState, UseActionOptions, createSafeAction } from "@/lib/create-safe-action";
 import { useState } from "react";
@@ -39,10 +39,7 @@ export const useUpdateUserBookOrder = (
 
             if (data && data.updateUserBookOrder && !errors) {
                 options.onSuccess?.(data.updateUserBookOrder);
-                toast({ title: "Book order updated" });
-                return {
-                    data: data.updateUserBookOrder,
-                }
+                toast({ title: "Book reordered" });
 
             }
             if (errors) {
