@@ -4,8 +4,8 @@ import ColumnHeader from './column-header';
 import { cn } from '@/lib/utils';
 import CardItem from './card-item';
 import { UserBook } from '@/graphql/graphql';
-import { ColumnWithBooks } from './column-container';
-import { Draggable, Droppable } from '@hello-pangea/dnd';
+import { Droppable } from '@hello-pangea/dnd';
+import { BookWithOrder, ColumnWithBooks } from '../types';
 
 interface ColumnItemProps {
     data: ColumnWithBooks;
@@ -33,7 +33,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
                                     data.books.length > 0 ? "mt-2" : "mt-0",
                                 )}
                             >
-                                {data.books.map((book: UserBook, index: number) => (
+                                {data.books.map((book: BookWithOrder, index: number) => (
                                     <CardItem
                                         index={index}
                                         key={book.id}

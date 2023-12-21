@@ -3,25 +3,13 @@ import React, { useEffect, useState } from 'react'
 import ColumnContainer from './column-container';
 import { UserBook } from '@/graphql/graphql';
 import useLoadBooks from '@/api/use-load-books';
-import logBookModal from '@/components/modals/log-book-modal';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
-import { NetworkStatus } from '@apollo/client';
+import { ColumnWithBooks, Status } from '../types';
 
 interface BoardProps {
 
 }
 
-enum Status {
-    WantToRead = 0,
-    CurrentlyReading = 1,
-    Read = 2,
-}
-
-export type ColumnWithBooks = {
-    title: string,
-    books: UserBook[],
-    fetchMore: any
-};
 
 export const Board: React.FC<BoardProps> = ({ }) => {
     // get the books data we need
@@ -94,18 +82,36 @@ export const Board: React.FC<BoardProps> = ({ }) => {
             setData([
                 {
                     title: "Want to Read",
-                    books: wantToRead?.userBooks || [],
+                    books: wantToRead?.userBooks!.map((book: UserBook) => {
+                        return {
+                            id: book.id,
+                            title: book.book!.title,
+                            order: book.order
+                        }
+                    }) || [],
                     fetchMore: fetchMoreWantToRead
                 }
                 ,
                 {
                     title: "Currently Reading",
-                    books: readingData?.userBooks || [],
+                    books: readingData?.userBooks!.map((book: UserBook) => {
+                        return {
+                            id: book.id,
+                            title: book.book!.title,
+                            order: book.order
+                        }
+                    }) || [],
                     fetchMore: fetchMoreReading
                 },
                 {
                     title: "Read",
-                    books: readData?.userBooks || [],
+                    books: readData?.userBooks!.map((book: UserBook) => {
+                        return {
+                            id: book.id,
+                            title: book.book!.title,
+                            order: book.order
+                        }
+                    }) || [],
                     fetchMore: fetchMoreRead
                 },
             ])
