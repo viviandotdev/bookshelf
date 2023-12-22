@@ -124,7 +124,7 @@ export const Board: React.FC<BoardProps> = ({ }) => {
 
 
     return (
-        <div className="">
+        <div className="overflow-x-auto">
             <ColumnContainer data={data} />
         </div>
     );

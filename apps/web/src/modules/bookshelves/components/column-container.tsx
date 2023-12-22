@@ -29,7 +29,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
 
     const onDragEnd = (result: any) => {
 
-        const { destination, source, draggableId, type } = result;
+        const { destination, source, type } = result;
         if (!destination) {
             return;
         }

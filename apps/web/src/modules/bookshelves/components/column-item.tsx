@@ -20,7 +20,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
             className="shrink-0 h-full w-[272px] select-none"
         >
             <div
-                className="w-full rounded-md bg-[#f1f2f4] shadow-md pb-2">
+                className="w-full rounded-md bg-secondary shadow-md pb-2">
                 <ColumnHeader title={data.title} />
                 <Droppable droppableId={data.title} type="card">
                     {

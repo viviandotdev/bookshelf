@@ -10,7 +10,7 @@ interface CardItemProps {
 export const CardItem: React.FC<CardItemProps> = ({ data, index }) => {
 
     return (
-        <Draggable draggableId={data.id} index={index}>
+        <Draggable key={data.id} draggableId={data.id} index={index}>
             {(provided) => (
                 <div
                     {...provided.draggableProps}
