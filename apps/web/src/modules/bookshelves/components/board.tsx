@@ -11,11 +11,13 @@ interface BoardProps { }
 
 export const Board: React.FC<BoardProps> = ({ }) => {
     // get the books data we need
+
     const [data, setData] = useState<ColumnWithBooks[]>([]);
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
 
     const loadMore = async (status: number) => {
+        console.log('loadMore', data[status]);
         const fetchedData = await data[status].fetchMore({
             variables: {
                 // Update variables for pagination
@@ -87,16 +89,43 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                 console.error('Error while loading book data:', error);
             }
         };
+
+
         loadData();
     }, [loadBooks]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            // Calculate the total height of the document, including the invisible part due to scrolling
+            const totalHeight = document.documentElement.scrollHeight;
+
+            // Calculate the current scroll position and the height of the visible part of the document
+            const { scrollTop, clientHeight } = document.documentElement;
+
+            // Check if the user has reached the bottom of the page (considering a small offset)
+            const isAtBottom = scrollTop + clientHeight >= totalHeight - 20;
+
+            if (isAtBottom) {
+                // Perform your action when the user scrolls to the bottom of the page
+                console.log("bottom", data)
+                statuses.map((_, index) => loadMore(index));
+                // Perform additional actions or fetch more data
+            }
+        };
+
+        // Attach the scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Cleanup: remove the scroll event listener when the component is unmounted
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [data]); // Empty dependency array ensures this effect runs only once on component mount
 
 
     return (
         <div className="">
             <ColumnContainer data={data} />
-            <button onClick={() => {
-                statuses.map((_, index) => loadMore(index));
-            }}>Fetch More</button>
         </div>
     );
 }

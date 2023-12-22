@@ -36,7 +36,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
                                 {data.books.map((book: BookItem, index: number) => (
                                     <CardItem
                                         index={index}
-                                        key={book.id}
+                                        key={index}
                                         data={book}
                                     />
                                 ))}
