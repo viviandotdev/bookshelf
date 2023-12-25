@@ -107,7 +107,6 @@ export const Board: React.FC<BoardProps> = ({ }) => {
 
             if (isAtBottom) {
                 // Perform your action when the user scrolls to the bottom of the page
-                console.log("bottom", data)
                 statuses.map((_, index) => loadMore(index));
                 // Perform additional actions or fetch more data
             }

@@ -8,6 +8,8 @@ import StatusMenu from "../components/status-menu";
 import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
 import { BookList } from "../components/book-list";
 import Board from "../components/board";
+import BooksViewer from "../components/books-viewer";
+import { ViewOptions } from "../components/view-options";
 
 
 interface BookshelvesTemplateProps {
@@ -32,16 +34,15 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                             <ShelfMenu />
                             <StatusMenu />
                         </div>
-                        <SortingOptions />
+
+                        <div className="flex text-sm gap-2 items-center">
+                            <SortingOptions />
+                            <ViewOptions />
+                        </div>
                     </div>
                     <hr className="my-2 border-t-1 border-primary" />
                 </nav>
-
-                <Suspense fallback={<SkeletonBookList />}>
-                    {/* <BookList /> */}
-                    <Board />
-                </Suspense>
-
+                <BooksViewer />
             </div >
             <CreateShelfModal />
         </>

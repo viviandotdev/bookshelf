@@ -10,7 +10,6 @@ import {
     ArrowRight,
     Book,
     BookOpen,
-    BookPlus,
     Dot,
     LayoutGrid,
     LayoutList,
@@ -31,10 +30,11 @@ import {
     FileUp,
     BanIcon,
     Bookmark,
-    MessageSquare
+    MessageSquare,
+
 
 } from "lucide-react";
-import { DotsVerticalIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon, LayoutIcon } from "@radix-ui/react-icons";
 
 export type Icon = LucideIcon;
 
@@ -71,5 +71,8 @@ export const Icons = {
     more: DotsVerticalIcon,
     abondoned: BanIcon,
     save: Bookmark,
-    comment: MessageSquare
+    comment: MessageSquare,
+    kanban: LayoutIcon,
+
+
 };

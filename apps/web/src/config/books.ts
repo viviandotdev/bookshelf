@@ -24,6 +24,20 @@ export const sortingSelects = [
   },
 ];
 
+export const viewSelects = [
+  { label: "List", value: "list", icon: Icons.layoutList },
+  {
+    label: "Board",
+    value: "board",
+    icon: Icons.kanban,
+  },
+  {
+    label: "Gallery",
+    value: "gallery",
+    icon: Icons.layoutGrid,
+  },
+];
+
 export const librarySelects = [
   {
     name: "All Books",
