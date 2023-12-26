@@ -45,9 +45,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
                         )
                     }
                 </Droppable>
-
             </div>
-
         </li>
     )
 }

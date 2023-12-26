@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 interface ViewOptionsProps {
     view: string
-    setView: Dispatch<SetStateAction<string>>
+setView: Dispatch<SetStateAction<string>>
 
 }
 export const ViewOptions: React.FC<ViewOptionsProps> = ({ view, setView }) => {
-    let selectedView = viewSelects.find((option) => option.value === view) || viewSelects[0];
+    let selectedView = viewSelects.find((option) => option.value === view) || viewSelects[2];
 
     return (
         <DropdownMenu>

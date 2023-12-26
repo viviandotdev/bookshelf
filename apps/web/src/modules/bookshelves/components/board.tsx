@@ -50,6 +50,8 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                         title: book.book?.title,
                         order: book.order,
                         status: book.status,
+                        coverImage: book.book?.coverImage,
+                        author: book.book.author,
 
                     }))],
                 };
@@ -72,6 +74,8 @@ export const Board: React.FC<BoardProps> = ({ }) => {
                 title: book.book?.title,
                 order: book.order,
                 status: book.status,
+                author: book.book.author,
+                coverImage: book.book?.coverImage,
             })) || [],
             fetchMore,
         }
