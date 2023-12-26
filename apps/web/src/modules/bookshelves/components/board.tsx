@@ -5,7 +5,8 @@ import { SortOrder, UserBook } from '@/graphql/graphql';
 import useLoadBooks from '@/api/use-load-books';
 import { BOOKS_PAGE_SIZE, STATUS } from '@/lib/constants';
 import { ColumnWithBooks } from '../types';
-
+import * as R from 'ramda';
+import useUserBookQuery from '../hooks/use-user-book-query';
 interface BoardProps { }
 
 
@@ -13,18 +14,25 @@ export const Board: React.FC<BoardProps> = ({ }) => {
     const [data, setData] = useState<ColumnWithBooks[]>([]);
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
-
+    const query = useUserBookQuery();
     const loadMore = async (status: number) => {
+        const whereFilter = R.mergeDeepRight(query.where, {
+            status: {
+                equals: data[status].title
+            },
+        });
+        const queryFilter = R.mergeRight(query, {
+            offset: data[status].books.length, limit: BOOKS_PAGE_SIZE,
+            where: {
+                ...whereFilter
+            },
+            orderBy: {
+                order: SortOrder.Asc,
+            },
+        });
         const fetchedData = await data[status].fetchMore({
             variables: {
-                // Update variables for pagination
-                offset: data[status].books.length,
-                limit: BOOKS_PAGE_SIZE, // Number of items to fetch in each subsequent load
-                where: {
-                    status: {
-                        equals: data[status].title
-                    }
-                }
+                ...queryFilter,
             },
         });
 
@@ -41,27 +49,27 @@ export const Board: React.FC<BoardProps> = ({ }) => {
 
                     }))],
                 };
-                console.log('newData', newData);
                 return newData;
             });
         }
     };
 
     const loadBooksByStatus = async (status: string) => {
-        const { data: bookData, fetchMore } = await loadBooks({
-            variables: {
-                offset: 0,
-                limit: BOOKS_PAGE_SIZE,
-                where: {
-                    status: {
-                        equals: status,
-                    },
-                },
-                orderBy: {
-                    order: SortOrder.Asc,
-                },
+        const whereFilter = R.mergeDeepRight(query.where, {
+            status: {
+                equals: status,
             },
         });
+        const queryFilter = R.mergeRight(query, {
+            offset: 0, limit: BOOKS_PAGE_SIZE, where: {
+                ...whereFilter
+            }, orderBy: {
+                order: SortOrder.Asc,
+            },
+        });
+        const { data: bookData, fetchMore } = await loadBooks(
+            { variables: { ...queryFilter } }
+        );
 
         return {
             title: status,
@@ -89,7 +97,7 @@ export const Board: React.FC<BoardProps> = ({ }) => {
 
 
         loadData();
-    }, [loadBooks]);
+    }, [loadBooks, query]);
 
     useEffect(() => {
         const handleScroll = () => {
