@@ -3,11 +3,24 @@ import { UserBookIdentifierCompoundUniqueInput } from '../../src/generated-db-ty
 import { Prisma } from '@prisma/client';
 import { UserBookRepository } from './user-book.repository';
 import { UserBookUpdateInput } from './models/user-book-update.input';
+import { BookItemInput } from './models/user-book-update-order.input';
+import { PrismaRepository } from 'prisma/prisma.repository';
 @Injectable()
 export class UserBookService {
-  constructor(private readonly repository: UserBookRepository) {}
+  constructor(
+    private readonly repository: UserBookRepository,
+    private readonly prisma: PrismaRepository,
+  ) {}
 
-  async create(bookId: string, userId: string) {
+  async create(bookId: string, userId: string, status?: string) {
+    const lastUserBook = await this.repository.findFirst({
+      where: { status: status || 'Want to Read', userId: userId },
+      orderBy: { order: 'desc' },
+      select: { order: true },
+    });
+
+    const newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+
     const createUserBookArgs: Prisma.UserBookCreateArgs = {
       data: {
         user: {
@@ -20,9 +33,11 @@ export class UserBookService {
             id: bookId,
           },
         },
-        status: 'Want to Read',
+        order: newOrder,
+        status: status || 'Want to Read',
       },
     };
+    //create books withorder
     return this.repository.create(createUserBookArgs);
   }
 
@@ -54,13 +69,30 @@ export class UserBookService {
     orderBy?: Prisma.UserBookOrderByWithRelationInput;
   }) {
     const { userId } = args;
+
     const userBooks = await this.repository.findMany({
       where: {
         ...args.where,
         userId,
       },
       include: {
-        book: true,
+        _count: {
+          select: {
+            shelves: true,
+            reviews: true,
+            journalEntry: true,
+          },
+        },
+        book: {
+          include: {
+            _count: {
+              select: {
+                userBook: true,
+                reviews: true,
+              },
+            },
+          },
+        },
         shelves: {
           include: {
             shelf: true,
@@ -92,7 +124,31 @@ export class UserBookService {
 
     return userBooksCount;
   }
+  async updateOrder(items: BookItemInput[], userId: string) {
+    let updatedCards = [];
 
+    try {
+      const transaction = items.map((book) =>
+        this.repository.update({
+          where: {
+            identifier: {
+              userId,
+              bookId: book.id,
+            },
+          },
+          data: {
+            order: book.order,
+            status: book.status,
+          },
+        }),
+      );
+      updatedCards = await this.prisma.$transaction(transaction);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error updating order');
+    }
+    return updatedCards;
+  }
   async update(args: {
     data: UserBookUpdateInput;
     where: UserBookIdentifierCompoundUniqueInput;
@@ -101,6 +157,17 @@ export class UserBookService {
 
     const origin = await this.findUnique(args.where);
     const shelfList = args.data.shelves;
+    let newOrder;
+    // if status is updated, update order number in the new status
+    if (args.data.status) {
+      const lastUserBook = await this.repository.findFirst({
+        where: { status: args.data.status, userId: userId },
+        orderBy: { order: 'desc' },
+        select: { order: true },
+      });
+
+      newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+    }
 
     const updateUserBook = await this.repository.update({
       where: {
@@ -110,6 +177,7 @@ export class UserBookService {
         },
       },
       data: {
+        order: newOrder,
         status: args.data.status,
         rating: args.data.rating,
         shelves: shelfList

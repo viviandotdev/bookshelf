@@ -27,7 +27,7 @@ export const BookList: React.FC<BookListProps> = ({
         onCompleted: (data) => {
             setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
         }
-    });
+});
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
     const books = booksData && booksData?.userBooks
@@ -38,7 +38,7 @@ export const BookList: React.FC<BookListProps> = ({
             await loadBooks({ variables: { ...query } });
             await getCount({ variables: { ...query } });
         };
-    
+
         loadData();
     }, [query, loadBooks, getCount, library]);
 

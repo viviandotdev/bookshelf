@@ -25,3 +25,10 @@ mutation RemoveUserBook($where: BookWhereUniqueInput!) {
 mutation ImportUserBooks($content: String!) {
   importUserBooks(content: $content)
 }
+
+mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
+  updateUserBookOrder(data: $data) {
+    id
+    order
+  }
+}

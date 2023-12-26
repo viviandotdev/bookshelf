@@ -5,23 +5,6 @@ export interface User {
   accessToken?: string;
 }
 
-
-export interface BookData {
-  id: string;
-  title: string;
-  author: string;
-  averageRating: number;
-  ratingsCount: number;
-  publishedDate: string;
-  publisher: string;
-  coverImage: string;
-  description: string;
-  pageCount: number;
-  isbn: string;
-  categories: string[];
-  isbn13: string;
-}
-
 export interface GoodreadsBook {
   "Additional Authors"?: string;
   Author?: string;

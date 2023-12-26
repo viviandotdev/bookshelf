@@ -14,6 +14,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
 import { BookService } from 'libs/book/book.service';
+import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -94,6 +95,17 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Mutation(() => [UserBook])
+  updateUserBookOrder(
+    @Args('data')
+    data: UserBookUpdateOrderInput,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const { items } = data;
+    return this.userBookService.updateOrder(items, user.userId);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Mutation(() => Boolean)
   async importUserBooks(
     @Args('content')
@@ -138,8 +150,8 @@ export class UserBookResolver {
           };
           await this.bookService.create(bookData, user.userId);
           const userBookData: UserBookUpdateInput = {
-            rating: Number(rating),
             status,
+            rating: Number(rating),
             shelves,
           };
           await this.userBookService.update({

@@ -3,6 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import React from 'react'
 import { Shelf } from '@/graphql/graphql';
 import useCreateShelfModal from './modals/use-create-shelf-modal';
+import { MoreHorizontal } from 'lucide-react';
 
 interface EditShelfMenuProps {
     shelf: Shelf;

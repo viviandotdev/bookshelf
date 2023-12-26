@@ -18,7 +18,6 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
     const sort = searchParams?.get("sort") ?? "createdAt.desc"
     const pathname = usePathname()
     return (
-        <div className="flex text-sm gap-2 items-center">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button
@@ -57,14 +56,5 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
                     ))}
                 </DropdownMenuContent>
             </DropdownMenu>
-            <Button
-                variant={"tag"}
-                size={"xs"}
-                className={"bg-white px-0 mr-4"}
-            >
-                <Icons.layoutList className="mr-1 h-4 w-4" />
-                List
-            </Button>
-        </div>
     );
 }
