@@ -10,14 +10,11 @@ interface BoardProps { }
 
 
 export const Board: React.FC<BoardProps> = ({ }) => {
-    // get the books data we need
-
     const [data, setData] = useState<ColumnWithBooks[]>([]);
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
 
     const loadMore = async (status: number) => {
-        console.log('loadMore', data[status]);
         const fetchedData = await data[status].fetchMore({
             variables: {
                 // Update variables for pagination

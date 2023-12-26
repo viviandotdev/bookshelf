@@ -3,20 +3,16 @@ import { Icons } from "@/components/icons";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { viewSelects } from "@/config/books";
 import { cn } from "@/lib/utils";
-import { useTransition } from "react";
-import useCreateQueryString from "../hooks/use-create-query-string";
 import { Button } from "@/components/ui/button";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 interface ViewOptionsProps {
+    view: string
+    setView: Dispatch<SetStateAction<string>>
 
 }
-export const ViewOptions: React.FC<ViewOptionsProps> = ({ }) => {
-    const router = useRouter()
-    const [isPending, startTransition] = useTransition()
-    const createQueryString = useCreateQueryString();
-    const searchParams = useSearchParams()
-    const view = searchParams?.get("view") ?? "createdAt.desc"
-    const pathname = usePathname()
+export const ViewOptions: React.FC<ViewOptionsProps> = ({ view, setView }) => {
+    let selectedView = viewSelects.find((option) => option.value === view) || viewSelects[0];
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -25,8 +21,8 @@ export const ViewOptions: React.FC<ViewOptionsProps> = ({ }) => {
                     size={"xs"}
                     className={"bg-white px-0 mr-4"}
                 >
-                    <Icons.layoutList className="mr-1 h-4 w-4" />
-                    List
+                    {<selectedView.icon className={cn("mr-2 h-4 w-4")} />}
+                    {selectedView.label}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -35,18 +31,12 @@ export const ViewOptions: React.FC<ViewOptionsProps> = ({ }) => {
                 className="w-48">
                 <DropdownMenuLabel>View</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {viewSelects.map((option) => (
+                {viewSelects.slice().reverse().map((option) => (
                     <DropdownMenuItem
                         key={option.label}
                         className={cn(option.value === view && "font-bold")}
                         onClick={() => {
-                            startTransition(() => {
-                                router.push(
-                                    `${pathname}?${createQueryString({
-                                        view: option.value,
-                                    })}`,
-                                )
-                            })
+                            setView(option.value)
                         }}
                     >
                         <div>
