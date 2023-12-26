@@ -7,6 +7,7 @@ import { BOOKS_PAGE_SIZE, STATUS } from '@/lib/constants';
 import { ColumnWithBooks } from '../types';
 import * as R from 'ramda';
 import useUserBookQuery from '../hooks/use-user-book-query';
+import useScroll from '../hooks/use-scroll';
 interface BoardProps { }
 
 
@@ -15,21 +16,24 @@ export const Board: React.FC<BoardProps> = ({ }) => {
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
     const query = useUserBookQuery();
+
+    const generateQueryFilter = (status: string, offset = 0) => {
+        const whereFilter = {
+            ...query.where,
+            status: { equals: status }
+        };
+
+        return {
+            ...query,
+            offset,
+            limit: BOOKS_PAGE_SIZE,
+            where: whereFilter,
+            orderBy: { order: SortOrder.Asc }
+        };
+    };
+
     const loadMore = async (status: number) => {
-        const whereFilter = R.mergeDeepRight(query.where, {
-            status: {
-                equals: data[status].title
-            },
-        });
-        const queryFilter = R.mergeRight(query, {
-            offset: data[status].books.length, limit: BOOKS_PAGE_SIZE,
-            where: {
-                ...whereFilter
-            },
-            orderBy: {
-                order: SortOrder.Asc,
-            },
-        });
+        const queryFilter = generateQueryFilter(data[status].title, data[status].books.length)
         const fetchedData = await data[status].fetchMore({
             variables: {
                 ...queryFilter,
@@ -55,18 +59,8 @@ export const Board: React.FC<BoardProps> = ({ }) => {
     };
 
     const loadBooksByStatus = async (status: string) => {
-        const whereFilter = R.mergeDeepRight(query.where, {
-            status: {
-                equals: status,
-            },
-        });
-        const queryFilter = R.mergeRight(query, {
-            offset: 0, limit: BOOKS_PAGE_SIZE, where: {
-                ...whereFilter
-            }, orderBy: {
-                order: SortOrder.Asc,
-            },
-        });
+        const queryFilter = generateQueryFilter(status);
+
         const { data: bookData, fetchMore } = await loadBooks(
             { variables: { ...queryFilter } }
         );
@@ -95,38 +89,12 @@ export const Board: React.FC<BoardProps> = ({ }) => {
             }
         };
 
-
         loadData();
     }, [loadBooks, query]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            // Calculate the total height of the document, including the invisible part due to scrolling
-            const totalHeight = document.documentElement.scrollHeight;
-
-            // Calculate the current scroll position and the height of the visible part of the document
-            const { scrollTop, clientHeight } = document.documentElement;
-
-            // Check if the user has reached the bottom of the page (considering a small offset)
-            const isAtBottom = scrollTop + clientHeight >= totalHeight - 20;
-
-            if (isAtBottom) {
-                // Perform your action when the user scrolls to the bottom of the page
-                statuses.map((_, index) => loadMore(index));
-                // Perform additional actions or fetch more data
-            }
-        };
-
-        // Attach the scroll event listener
-        window.addEventListener('scroll', handleScroll);
-
-        // Cleanup: remove the scroll event listener when the component is unmounted
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [data]); // Empty dependency array ensures this effect runs only once on component mount
-
-
+    useScroll(() => {
+        statuses.forEach((_, index) => loadMore(index));
+    });
     return (
         <div className="overflow-x-auto">
             <ColumnContainer data={data} />
