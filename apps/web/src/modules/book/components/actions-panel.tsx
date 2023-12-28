@@ -7,7 +7,7 @@ import useUserBookStore from "@/stores/use-user-book-store";
 import { Icons } from "../../../components/icons";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "@/components/ui/button";
-import useCreateUserBook from "../api/use-create-user-book";
+import useCreateUserBook from "../mutations/use-create-user-book";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";

@@ -3,7 +3,7 @@ import ActionsPanel from '@/modules/book/components/actions-panel';
 import React from 'react'
 import ReviewInfo from './review-info';
 import { Book, Shelf, User } from '@/graphql/graphql';
-import { useLoadReview } from '../api/use-load-review';
+import { useLoadReview } from '../mutations/use-load-review';
 
 interface ReviewSectionProps {
     reviewId: string

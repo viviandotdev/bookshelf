@@ -4,12 +4,12 @@ import Collapsible from '../../../components/ui/collapsible';
 import AlertModal from '../../../components/modals/alert-modal';
 import { Shelf } from '@/graphql/graphql';
 import { ShelfItem } from './shelf-item';
-import useCreateShelfModal from './modals/use-create-shelf-modal';
-import { useDeleteShelf } from '../api/use-delete-shelf';
+import useCreateShelfModal from '../hooks/use-create-shelf-modal';
+import { useDeleteShelf } from '../mutations/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
 ;
 
-interface ShelfGroupProps {
+interface ShelfContainerProps {
     title: string;
     shelves: Shelf[];
     isShelves?: boolean;
@@ -17,7 +17,7 @@ interface ShelfGroupProps {
     children?: React.ReactNode
 }
 
-const ShelfGroup: React.FC<ShelfGroupProps> = ({
+const ShelfContainer: React.FC<ShelfContainerProps> = ({
     title,
     shelves,
     isShelves,
@@ -65,4 +65,4 @@ const ShelfGroup: React.FC<ShelfGroupProps> = ({
     );
 };
 
-export default ShelfGroup;
+export default ShelfContainer;

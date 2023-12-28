@@ -1,9 +1,9 @@
 import React from "react";
-import { getShelves } from "@/modules/bookshelves/api/getShelves";
+import { getShelves } from "@/modules/shelf/queries/getShelves";
 import { getCurrentUser } from "@/lib/auth/session";
 import ReviewTemplate from "@/modules/review/templates";
 import { notFound } from "next/navigation";
-import { getReview } from "@/modules/review/api/getReview";
+import { getReview } from "@/modules/review/queries/getReview";
 
 interface ReviewPageProps {
     params: { reviewId: string };

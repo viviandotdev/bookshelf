@@ -27,7 +27,6 @@ export const useDeleteShelf = (options: UseActionOptions = {}) => {
 
             if (errors) {
                 options.onError?.(errors[0].message);
-                console.log(errors[0].message)
                 toast({ title: "Error deleting shelf", variant: "destructive" });
                 return {
                     error: errors[0].message,

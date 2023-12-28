@@ -2,7 +2,7 @@
 import { BookCard, BookInfo } from "@/components/book-card"
 import BookCover from "@/components/book-cover"
 import { Button } from "@/components/ui/button"
-import useCreateUserBook from "@/modules/book/api/use-create-user-book"
+import useCreateUserBook from "@/modules/book/mutations/use-create-user-book"
 import { useEffect, useState } from "react"
 import { useFirstRender } from "@/hooks/use-first-render"
 import { BookRating } from "@/components/rating"

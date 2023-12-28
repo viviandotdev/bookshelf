@@ -8,7 +8,7 @@ import Link from "next/link";
 import { UserBook } from "@/graphql/graphql";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import useUserBookStore from "@/stores/use-user-book-store";
-import { useRemoveUserBook } from "@/api/use-remove-user-book";
+import { useRemoveUserBook } from "@/modules/bookshelves/mutations/use-remove-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
 
 interface BookProps {

@@ -18,7 +18,7 @@ import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
-import { useUpdateUserBook } from "@/api/use-update-user-book";
+import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 interface BookActionsProps {
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;

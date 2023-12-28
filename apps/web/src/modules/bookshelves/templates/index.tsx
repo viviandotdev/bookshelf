@@ -1,5 +1,4 @@
 import React from "react";
-import { CreateShelfModal } from "@/modules/bookshelves/components/modals/create-shelf-modal";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import BooksViewer from "../components/books-viewer";
@@ -24,7 +23,6 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                     </h1>
                 </BooksViewer>
             </div >
-            <CreateShelfModal />
         </>
 
     );

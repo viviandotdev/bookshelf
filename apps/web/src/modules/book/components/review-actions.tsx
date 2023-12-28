@@ -3,7 +3,7 @@ import { Icons } from '@/components/icons';
 import { User } from '@/graphql/graphql';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import { useLikeReview } from '../api/use-like-review';
+import { useLikeReview } from '../mutations/use-like-review';
 
 interface ReviewActionsProps {
     reviewId: string

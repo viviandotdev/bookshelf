@@ -20,10 +20,10 @@ export const useUpdateUserBook = () => {
                 cache.writeFragment({
                     id: `UserBook:${data?.updateUserBook.id}`,
                     fragment: gql`
-            fragment MyUserBook on UserBook {
-              status
-            }
-          `,
+                    fragment MyUserBook on UserBook {
+                        status
+                    }
+                    `,
                     data: {
                         status: data?.updateUserBook.status,
                     },

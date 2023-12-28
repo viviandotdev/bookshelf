@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import ColumnContainer from './column-container';
 import { SortOrder } from '@/graphql/graphql';
-import useLoadBooks from '@/api/use-load-books';
+import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
 import { BOOKS_PAGE_SIZE, STATUS } from '@/lib/constants';
 import { ColumnWithBooks } from '../types';
-import useUserBookQuery from '../hooks/use-user-book-query';
+import useBuildQuery from '../hooks/use-build-query';
 import useScroll from '../hooks/use-scroll';
 interface BoardViewProps { }
 
@@ -14,7 +14,7 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     const [data, setData] = useState<ColumnWithBooks[]>([]);
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
-    const query = useUserBookQuery();
+    const query = useBuildQuery();
 
     const generateQueryFilter = (status: string, offset = 0) => {
         const whereFilter = {

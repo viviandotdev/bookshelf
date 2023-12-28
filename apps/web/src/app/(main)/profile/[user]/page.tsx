@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/lib/auth/session";
-import { getShelves } from "@/modules/bookshelves/api/getShelves";
-import { getUserBooks } from "@/modules/home/api/getUserBooks";
-import { getUser } from "@/modules/profile/api/getUser";
+import { getShelves } from "@/modules/shelf/queries/getShelves";
+import { getUserBooks } from "@/modules/bookshelves/queries/getUserBooks";
+import { getUser } from "@/modules/profile/queries/getUser";
 import ProfileTemplate from "@/modules/profile/templates";
 import { notFound } from "next/navigation";
 

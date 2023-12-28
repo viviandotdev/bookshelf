@@ -1,5 +1,5 @@
-import { getShelves } from "@/modules/bookshelves/api/getShelves";
-import SideBar from "@/modules/bookshelves/components/shelf-sidebar";
+import { getShelves } from "@/modules/shelf/queries/getShelves";
+import SideBar from "@/modules/shelf/components/shelf-sidebar";
 import BookshelvesTemplate from "@/modules/bookshelves/templates";
 import React from "react";
 

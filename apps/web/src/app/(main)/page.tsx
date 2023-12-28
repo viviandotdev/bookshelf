@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/auth/session";
-import { getShelves } from "@/modules/bookshelves/api/getShelves";
-import { getUserBooks } from "@/modules/home/api/getUserBooks";
+import { getShelves } from "@/modules/shelf/queries/getShelves";
+import { getUserBooks } from "@/modules/bookshelves/queries/getUserBooks";
 import HomeTemplate from "@/modules/home/templates";
 import MarketingTemplate from "@/modules/marketing/templates";
 

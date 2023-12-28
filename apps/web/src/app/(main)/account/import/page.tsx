@@ -5,7 +5,7 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import React from "react";
-import ImportActions from "../import-actions";
+import ImportActions from "../../../../modules/profile/components/import-actions";
 
 interface ImportPageProps { }
 

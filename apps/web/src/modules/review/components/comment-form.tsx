@@ -7,7 +7,7 @@ import { Form, FormField, FormItem, FormControl, FormMessage } from '@/component
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
-import useCreateComment from '../api/use-create-comment';
+import useCreateComment from '../mutations/use-create-comment';
 interface CommentFormProps {
     reviewId: string
 }

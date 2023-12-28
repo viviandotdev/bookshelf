@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import * as R from "ramda";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 
-const useUserBookQuery = () => {
+const useBuildQuery = () => {
   const searchParams = useSearchParams();
   const [query, setQuery] = useState({});
 
@@ -102,4 +102,4 @@ const useUserBookQuery = () => {
   return query;
 };
 
-export default useUserBookQuery;
+export default useBuildQuery;
