@@ -42,8 +42,6 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                 password: data.password,
                 callbackUrl,
             });
-
-
             if (!res?.error) {
                 router.push(callbackUrl);
                 setIsLoading(false);
