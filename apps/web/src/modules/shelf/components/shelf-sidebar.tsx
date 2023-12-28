@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
-import ShelfGroup from "./shelf-group";
+import ShelfGroup from "./shelf-container";
 import useShelfStore from "@/stores/use-shelf-store";
 import { Icons } from "@/components/icons";
 import { CreateShelfModal } from "./modals/create-shelf-modal";
 import { Button } from "@/components/ui/button";
-import useCreateShelfModal from "./modals/use-create-shelf-modal";
+import useCreateShelfModal from "../hooks/use-create-shelf-modal";
 
 interface SidebarProps {
     librarySelections: Shelf[];

@@ -3,7 +3,7 @@ import React, { useCallback, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Shelf } from "@/graphql/graphql";
 import EditShelfMenu from "./edit-shelf-menu";
-import useCreateQueryString from "../hooks/use-create-query-string";
+import useCreateQueryString from "../../bookshelves/hooks/use-create-query-string";
 import useShelfStore from "@/stores/use-shelf-store";
 import { Icons } from "@/components/icons";
 interface ShelfItemProps {

@@ -1,21 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import ColumnContainer from './column-container';
-import { SortOrder, UserBook } from '@/graphql/graphql';
-import useLoadBooks from '@/api/use-load-books';
+import { SortOrder } from '@/graphql/graphql';
+import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
 import { BOOKS_PAGE_SIZE, STATUS } from '@/lib/constants';
 import { ColumnWithBooks } from '../types';
-import * as R from 'ramda';
-import useUserBookQuery from '../hooks/use-user-book-query';
+import useBuildQuery from '../hooks/use-build-query';
 import useScroll from '../hooks/use-scroll';
-interface BoardProps { }
+interface BoardViewProps { }
 
 
-export const Board: React.FC<BoardProps> = ({ }) => {
+export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     const [data, setData] = useState<ColumnWithBooks[]>([]);
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
-    const query = useUserBookQuery();
+    const query = useBuildQuery();
 
     const generateQueryFilter = (status: string, offset = 0) => {
         const whereFilter = {
@@ -105,4 +104,4 @@ export const Board: React.FC<BoardProps> = ({ }) => {
         </div>
     );
 }
-export default Board
+export default BoardView

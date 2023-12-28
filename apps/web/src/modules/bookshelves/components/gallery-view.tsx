@@ -1,24 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Book from "../../../components/book";
 import { useSearchParams } from "next/navigation";
 import { Pagination } from "@/components/pagination";
-import useUserBookQuery from "@/modules/bookshelves/hooks/use-user-book-query";
+import useBuildQuery from "@/modules/bookshelves/hooks/use-build-query";
 import { useCountUserBooksLazyQuery } from "@/graphql/graphql";
-import { BOOKS_PAGE_SIZE, DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
+import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import { NetworkStatus } from "@apollo/client";
-import useLoadBooks from "../../../api/use-load-books";
+import useLoadBooks from "../queries/use-load-books";
 import useShelfStore from "@/stores/use-shelf-store"
-import SkeletonBookList from "@/modules/skeletons/components/skeleton-booklist";
-interface BookListProps {
+import SkeletonGalleryView from "@/modules/skeletons/components/skeleton-gallery-view";
+import Book from "@/components/book";
+interface GalleryViewProps {
 }
 
-export const BookList: React.FC<BookListProps> = ({
+export const GalleryView: React.FC<GalleryViewProps> = ({
 }) => {
     const searchParams = useSearchParams()
     const page = searchParams?.get("page") ?? "1"
-    const query = useUserBookQuery();
+    const query = useBuildQuery();
     const [totalPages, setTotalPages] = useState(0);
     const { library } = useShelfStore()
 
@@ -27,7 +26,7 @@ export const BookList: React.FC<BookListProps> = ({
         onCompleted: (data) => {
             setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE))
         }
-});
+    });
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
     const books = booksData && booksData?.userBooks
@@ -43,7 +42,7 @@ export const BookList: React.FC<BookListProps> = ({
     }, [query, loadBooks, getCount, library]);
 
     if (loading) {
-        return <SkeletonBookList />
+        return <SkeletonGalleryView />
     }
 
 
@@ -64,3 +63,5 @@ export const BookList: React.FC<BookListProps> = ({
         </>
     );
 };
+
+export default GalleryView;

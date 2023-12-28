@@ -13,7 +13,6 @@ interface ColumnItemProps {
 }
 
 export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
-    const [isEditing, setIsEditing] = useState(false);
 
     return (
         <li

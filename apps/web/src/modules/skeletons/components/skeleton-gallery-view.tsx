@@ -1,5 +1,5 @@
 
-const SkeletonBookList = () => {
+const SkeletonGalleryView = () => {
     return <div className="grid grid-cols-3 md:grid-cols-5 gap-4 justify-center overflow-hidden px-4 pt-2 pb-10">
         {
             Array.from({ length: 10 }, (_, idx) => (
@@ -17,4 +17,4 @@ const SkeletonBookList = () => {
     </div >
 }
 
-export default SkeletonBookList
+export default SkeletonGalleryView

@@ -2,8 +2,7 @@ import { Icons } from '@/components/icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import React from 'react'
 import { Shelf } from '@/graphql/graphql';
-import useCreateShelfModal from './modals/use-create-shelf-modal';
-import { MoreHorizontal } from 'lucide-react';
+import useCreateShelfModal from '../hooks/use-create-shelf-modal';
 
 interface EditShelfMenuProps {
     shelf: Shelf;

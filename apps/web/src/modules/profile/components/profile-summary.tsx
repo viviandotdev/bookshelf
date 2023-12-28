@@ -4,7 +4,7 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
 import { useState } from "react";
-import { useFollowUser } from "../api/use-follow-user";
+import { useFollowUser } from "../mutations/use-follow-user";
 import { User } from "@/graphql/graphql";
 
 interface ProfileSummaryProps {

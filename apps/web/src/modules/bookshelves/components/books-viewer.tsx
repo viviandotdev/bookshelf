@@ -1,26 +1,28 @@
 "use client"
 import React, { use, useEffect } from 'react'
-import Board from './board';
-import { BookList } from './book-list';
+import BoardView from './board-view';
+import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
 import { SortingOptions } from './sorting-options';
 import StatusMenu from './status-menu';
 import { ViewOptions } from './view-options';
+import { GalleryView } from './gallery-view';
+
 
 interface BooksViewerProps {
     children?: React.ReactNode
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
-    const [view, setView] = React.useState<string>("board");
+    const [view, setView] = React.useState<string>("gallery");
     let contentView;
 
     if (view === 'gallery') {
-        contentView = <BookList />;
+        contentView = <GalleryView />;
     } else if (view === 'list') {
-        contentView = <BookList />;
+        contentView = <ListView />;
     } else if (view === 'board') {
-        contentView = <Board />;
+        contentView = <BoardView />;
     }
 
     return (

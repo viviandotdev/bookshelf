@@ -15,9 +15,9 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import useCreateShelfModal from "./use-create-shelf-modal";
-import { useCreateShelf } from "../../api/use-create-shelf";
-import { useUpdateShelf } from "../../api/use-update-shelf";
+import useCreateShelfModal from "../../hooks/use-create-shelf-modal";
+import { useCreateShelf } from "../../mutations/use-create-shelf";
+import { useUpdateShelf } from "../../mutations/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
 import { Shelf } from "@/graphql/graphql";
 

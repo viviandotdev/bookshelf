@@ -19,7 +19,7 @@ import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-t
 import { Button } from "../../ui/button";
 import useUserBookStore from "@/stores/use-user-book-store";
 import { useApolloClient } from '@apollo/client';
-import { useUpdateUserBook } from "@/api/use-update-user-book";
+import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
 interface AddToShelfModalProps { }
 

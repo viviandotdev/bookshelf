@@ -17,8 +17,8 @@ import { Checkbox } from "../../ui/checkbox";
 import { Rating } from "@smastrom/react-rating";
 import { myStyles } from "../../book-rating";
 import { ReviewDataInput } from "@/graphql/graphql";
-import { useUpdateReview } from "@/modules/review/api/use-update-review";
-import { useCreateReview } from "@/modules/review/api/use-create-review";
+import { useUpdateReview } from "@/modules/review/mutations/use-update-review";
+import { useCreateReview } from "@/modules/review/mutations/use-create-review";
 interface CreateReviewModal {
 }
 

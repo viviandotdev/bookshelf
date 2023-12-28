@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { Icons } from "../../icons";
 import useUserBookStore from "@/stores/use-user-book-store";
 import AlertModal from "../alert-modal";
-import { useRemoveUserBook } from "@/api/use-remove-user-book";
-import { useUpdateUserBook } from "@/api/use-update-user-book";
+import { useRemoveUserBook } from "@/modules/bookshelves/mutations/use-remove-user-book";
+import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import useBookStatusModal from "@/components/modals/book-status-modal/use-book-status-modal";
 
 interface BookStatusModalProps { }

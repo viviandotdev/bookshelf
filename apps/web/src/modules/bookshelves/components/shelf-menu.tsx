@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React from 'react'
-import ShelfActions, { ShelfItem } from './shelf-item';
+import { ShelfItem } from '../../shelf/components/shelf-item';
 import useShelfStore from '@/stores/use-shelf-store';
 import { useSearchParams } from 'next/navigation';
 interface ShelfMenuProps {

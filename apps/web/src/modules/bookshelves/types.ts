@@ -1,11 +1,3 @@
-export enum Status {
-  WantToRead = 0,
-  UpNext = 1,
-  CurrentlyReading = 2,
-  Read = 3,
-  Abandoned = 4,
-}
-
 export interface BookItem {
   id: string;
   title: string;

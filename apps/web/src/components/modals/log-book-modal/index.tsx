@@ -5,7 +5,7 @@ import useLogBookModal from "@/components/modals/log-book-modal/use-log-book-mod
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 import LogBookCard from "./log-book-card";
 import { NetworkStatus } from "@apollo/client";
-import useLoadBooks from "@/api/use-load-books";
+import useLoadBooks from "@/modules/bookshelves/queries/use-load-books";
 interface LogBookModalProps {
 }
 

@@ -25,12 +25,12 @@ import useUserBookStore from "@/stores/use-user-book-store";
 import { JournalEntryCreateInput } from "@/graphql/graphql";
 import { Checkbox } from "../../ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
-import { useCreateJournalEntry } from "../../../modules/journal/api/use-create-entry";
-import { useUpdateJournalEntry } from "../../../modules/journal/api/use-update-entry";
-import useLoadJournalEntry from "../../../modules/journal/api/use-load-entry";
+import { useCreateJournalEntry } from "../../../modules/journal/mutations/use-create-entry";
+import { useUpdateJournalEntry } from "../../../modules/journal/mutations/use-update-entry";
+import useLoadJournalEntry from "../../../modules/journal/queries/use-load-entry";
 import { useJournalEntryModal } from "./use-journal-entry-modal";
-import { useRemoveEntry } from "../../../modules/journal/api/use-remove-entry";
-import { useUpdateUserBook } from "@/api/use-update-user-book";
+import { useRemoveEntry } from "../../../modules/journal/mutations/use-remove-entry";
+import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 
 export const JournalEntryForm: React.FC = ({
 }) => {
