@@ -114,6 +114,7 @@ export class UserBookResolver {
   ) {
     const lines = content.split('\n');
     const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
+    const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
       const line = lines[i];
       const objectFromCSV = processCSVLine(line, mappings);
@@ -129,25 +130,28 @@ export class UserBookResolver {
             : null;
       }
 
-      if (isbn) {
-        // console.log(isbn);
-        // this.bookService.findBookByISBN(isbn).then((book) => {
-        //   console.log(book);
-        // });
-        const book = await this.bookService.findBookByISBN(isbn);
-        // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
-        // Check if the number of requests exceeds the limit (10 requests per second)
-        console.log(book);
-        if (book) {
-          const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
-          const bookData: BookCreateInput = {
-            id: book.id,
-            title: book.title,
-            pageCount: book.pageCount,
-            author: book.author,
-            publisher: book.publisher,
-            coverImage: book.coverImage,
-          };
+      // console.log(isbn);
+      // this.bookService.findBookByISBN(isbn).then((book) => {
+      //   console.log(book);
+      // });
+      const titleAuthor = `${objectFromCSV['Title']} ${objectFromCSV['Author']}`;
+      // const book = await this.bookService.findBookByISBN(isbn);
+      const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);
+      // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
+      // Check if the number of requests exceeds the limit (10 requests per second)
+      console.log(book);
+      if (book) {
+        const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
+        const bookData: BookCreateInput = {
+          id: book.id,
+          title: book.title,
+          pageCount: book.pageCount,
+          author: book.author,
+          publisher: book.publisher,
+          coverImage: book.coverImage,
+        };
+
+        try {
           await this.bookService.create(bookData, user.userId);
           const userBookData: UserBookUpdateInput = {
             status,
@@ -161,12 +165,17 @@ export class UserBookResolver {
               bookId: book.id,
             },
           });
-        } else {
-          console.log('Book not found');
+        } catch (error) {
+          failedBooks.push(titleAuthor);
+          console.log(error);
         }
+      } else {
+        failedBooks.push(titleAuthor);
+        console.log('Book not found');
       }
-      // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
     }
+    // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
+    console.log(failedBooks);
     return true;
     // email user once import is done
   }
