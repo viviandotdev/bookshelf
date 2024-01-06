@@ -4,23 +4,17 @@ import ColumnItem from './column-item';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { ColumnWithBooks } from '../types';
 import { useUpdateUserBookOrder } from '../mutations/use-update-userbook-order';
+import { reorder } from '../utils';
 // export type CardWithList = Card & { list: List };
 
 
 interface ColumnContainerProps {
     data: ColumnWithBooks[];
-}
-
-function reorder<T>(list: T[], startIndex: number, endIndex: number) {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-
-    result.splice(endIndex, 0, removed)
-    return result
+    setData: React.Dispatch<React.SetStateAction<ColumnWithBooks[]>>;
 }
 
 
-export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
+export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData }) => {
     const [orderedData, setOrderedData] = useState(data);
     const { updateUserBookOrder } = useUpdateUserBookOrder();
     useEffect(() => {
@@ -90,17 +84,19 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
     }
     return (
         <div>
-            <DragDropContext onDragEnd={onDragEnd} >
+            <DragDropContext onDragEnd={onDragEnd}  >
                 <Droppable droppableId='lists' type="list" direction="horizontal">
                     {
                         (provided) => (
                             <ol {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className="flex gap-x-3 h-full">
+                                className="overflow-y-auto flex gap-x-3 h-full">
                                 {orderedData.map((list, index) => {
                                     return (
                                         <ColumnItem
                                             key={index}
+                                            isScrollable={true}
+                                            setData={setData}
                                             index={index}
                                             data={list}
                                         />
@@ -112,8 +108,6 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                     }
                 </Droppable>
             </DragDropContext>
-
-
         </div>
     );
 }

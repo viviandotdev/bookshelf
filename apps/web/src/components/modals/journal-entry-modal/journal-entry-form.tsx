@@ -46,7 +46,6 @@ export const JournalEntryForm: React.FC = ({
     const { notes, date, percent, page, originalPage, originalPercent, pagesRead } = journalEntry;
 
     useEffect(() => {
-        console.log(userBook)
         form.reset({
             notes: notes || "",
             current_percent: percent.toString() || "",

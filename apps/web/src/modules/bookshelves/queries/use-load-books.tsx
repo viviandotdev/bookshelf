@@ -8,6 +8,7 @@ const useLoadBooks = () => {
             nextFetchPolicy: "cache-first",
             notifyOnNetworkStatusChange: true,
             onError: (error) => {
+                console.log("here")
                 toast({
                     title: error.message,
                     variant: "destructive",
