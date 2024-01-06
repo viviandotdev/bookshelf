@@ -10,9 +10,10 @@ import { BookItem, ColumnWithBooks } from '../types';
 interface ColumnItemProps {
     data: ColumnWithBooks;
     index: number;
+    isScrollable?: boolean;
 }
 
-export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
+export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, isScrollable }) => {
 
     return (
         <li
@@ -28,7 +29,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index }) => {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                                 className={cn(
-                                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
+                                    "overflow-y-auto max-h-[700px] mx-1 px-1 py-0.5 flex flex-col gap-y-2",
                                     data.books.length > 0 ? "mt-2" : "mt-0",
                                 )}
                             >

@@ -8,7 +8,6 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import SearchInput from "../components/search-input";
 import LogBookButton from "../components/log-book-button";
 import { User } from "@/types/interfaces";
-import LogBookModal from "@/components/modals/log-book-modal";
 
 interface SiteHeaderProps {
     user?: User;
@@ -66,7 +65,6 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
                     </nav>
                 </div>
             </div>
-            <LogBookModal />
         </header>
     );
 };

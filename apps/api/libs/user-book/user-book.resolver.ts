@@ -130,10 +130,6 @@ export class UserBookResolver {
             : null;
       }
 
-      // console.log(isbn);
-      // this.bookService.findBookByISBN(isbn).then((book) => {
-      //   console.log(book);
-      // });
       const titleAuthor = `${objectFromCSV['Title']} ${objectFromCSV['Author']}`;
       // const book = await this.bookService.findBookByISBN(isbn);
       const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);

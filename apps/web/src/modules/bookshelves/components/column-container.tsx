@@ -90,17 +90,18 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
     }
     return (
         <div>
-            <DragDropContext onDragEnd={onDragEnd} >
+            <DragDropContext onDragEnd={onDragEnd}  >
                 <Droppable droppableId='lists' type="list" direction="horizontal">
                     {
                         (provided) => (
                             <ol {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className="flex gap-x-3 h-full">
+                                className="overflow-y-auto flex gap-x-3 h-full">
                                 {orderedData.map((list, index) => {
                                     return (
                                         <ColumnItem
                                             key={index}
+                                            isScrollable={true}
                                             index={index}
                                             data={list}
                                         />
@@ -112,8 +113,6 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                     }
                 </Droppable>
             </DragDropContext>
-
-
         </div>
     );
 }
