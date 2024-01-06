@@ -4,23 +4,17 @@ import ColumnItem from './column-item';
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { ColumnWithBooks } from '../types';
 import { useUpdateUserBookOrder } from '../mutations/use-update-userbook-order';
+import { reorder } from '../utils';
 // export type CardWithList = Card & { list: List };
 
 
 interface ColumnContainerProps {
     data: ColumnWithBooks[];
-}
-
-function reorder<T>(list: T[], startIndex: number, endIndex: number) {
-    const result = Array.from(list)
-    const [removed] = result.splice(startIndex, 1)
-
-    result.splice(endIndex, 0, removed)
-    return result
+    setData: React.Dispatch<React.SetStateAction<ColumnWithBooks[]>>;
 }
 
 
-export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
+export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData }) => {
     const [orderedData, setOrderedData] = useState(data);
     const { updateUserBookOrder } = useUpdateUserBookOrder();
     useEffect(() => {
@@ -102,6 +96,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data }) => {
                                         <ColumnItem
                                             key={index}
                                             isScrollable={true}
+                                            setData={setData}
                                             index={index}
                                             data={list}
                                         />
