@@ -1,19 +1,16 @@
 "use client";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useController, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useMemo, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import {
     Form,
-    FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "../../ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "../../ui/button";
@@ -21,8 +18,7 @@ import useUserBookStore from "@/stores/use-user-book-store";
 import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
-import { Checkboxes } from "./shelves";
-import { Input } from "@/components/ui/input";
+import { ShelfList } from "./shelf-list";
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -88,11 +84,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         addToShelfModal.onClose();
     }
 
-    const handleKeyPress = (event: any) => {
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevents the default behavior on Enter keypress
-        }
-    };
+
+
 
     return (
         <Modal
@@ -105,37 +98,21 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
                 <form className="space-y-8 w-full max-w-96 " onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
-                        name="shelf"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        onKeyDown={handleKeyPress}
-                                        disabled={false}
-                                        placeholder="Shelf"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
                         name="shelves"
                         render={() => (
                             <FormItem>
-                                <Checkboxes
+                                <ShelfList
                                     options={shelves}
+                                    reset={form.reset}
                                     control={form.control}
                                     name="shelves"
+                                    shelfName="shelf"
                                 />
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <div className="space-x-2 flex items-center justify-end w-full">
+                <div className="space-x-2 flex items-center justify-end w-full">
                         <Button
                             label="Cancel"
                             //   disabled={loading}
