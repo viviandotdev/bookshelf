@@ -4,75 +4,74 @@ import { useController } from "react-hook-form";
 import ShelfInput from "./shelf-input";
 import { Icons } from "@/components/icons";
 
-export const ShelfList = ({ focus, options, control, name }: any) => {
-    const { field } = useController({
+export const ShelfList = ({ focus, options, control }: any) => {
+    const { field: list } = useController({
         control,
-        name: "shelves"
+        name: "shelves",
     });
 
     const { field: input } = useController({
         control,
-        name: "shelf"
+        name: "shelf",
     });
 
-    const [shelfName, setName] = React.useState(input.value || []);
-    const [value, setValue] = React.useState(field.value || []);
+    const [shelfName, setShelfName] = React.useState(input.value || []);
+    const [selectedShelves, setSelectedShelves] = React.useState(list.value || []);
     const [shelfList, setShelfList] = React.useState(options);
-    const onAddShelf = (shelf: string) => {
 
-        if (!field.value.includes(shelf)) {
-            field.onChange([...value, shelf]);
-            setValue([...field.value, shelf]);
+    const onAddShelf = (shelf: string) => {
+        if (!list.value.includes(shelf)) {
+            list.onChange([...selectedShelves, shelf]);
+            setSelectedShelves([...list.value, shelf]);
         }
-        setName("");
+        // Clear and focus the input
+        setShelfName("");
         input.onChange("");
-        focus("shelf")
+        focus("shelf");
+        setShelfList(options);
     };
 
     const onDeleteShelf = (shelf: string) => {
-        let remainingTags = value.filter((s: string) => {
-            return s !== shelf;
-        });
-
-        field.onChange([...remainingTags]);
-        setValue([...remainingTags]);
+        const remainingShelves = selectedShelves.filter((s: string) => s !== shelf);
+        list.onChange([...remainingShelves]);
+        setSelectedShelves([...remainingShelves]);
     };
 
-
     return (
-        <div className="mb-2" >
+        <div className="mb-2">
             <div>
                 <ShelfInput
                     onAddShelf={onAddShelf}
                     deleteShelf={onDeleteShelf}
-                    setShelfList={setShelfList}
                     shelfList={options}
-                    tags={value}
-                    control={control}
-                    setValue={setName}
-                    value={shelfName}
+                    setShelfList={setShelfList}
+                    setShelfName={setShelfName}
+                    shelfName={shelfName}
+                    tags={selectedShelves}
                     input={input}
                 />
             </div>
-            <div className="h-96 overflow-y-auto">{
-                shelfList.map((option: any, index: any) => {
-                    if (!field.value.includes(option.name)) {
-                        return <div key={option.name}>
-                            <Button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    onAddShelf(option.name)
-                                }}
-                                className="ml-0 pl-2 text-primary flex hover:bg-secondary bg-white rounded-none w-full justify-start"
-                                key={index}
-                            >
-                                <Icons.shelf className="h-5 w-5 mr-4" />
-                                {option.name}
-                            </Button>
-                        </div>
+            <div className="h-96 overflow-y-auto">
+                {shelfList.map((option: any, index: any) => {
+                    if (!selectedShelves.includes(option.name)) {
+                        return (
+                            <div key={option.name}>
+                                <Button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        onAddShelf(option.name);
+                                    }}
+                                    className="ml-0 pl-2 text-primary flex hover:bg-secondary bg-white rounded-none w-full justify-start"
+                                    key={index}
+                                >
+                                    <Icons.shelf className="h-5 w-5 mr-4" />
+                                    {option.name}
+                                </Button>
+                            </div>
+                        );
                     }
-                })
-            }</div>
-        </div >
+                })}
+            </div>
+        </div>
     );
 };

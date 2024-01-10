@@ -1,34 +1,33 @@
 import { Input } from '@/components/ui/input';
 import React from 'react';
-import { useController } from 'react-hook-form';
 interface ShelfInputProps {
-    control: any,
     deleteShelf: (shelf: string) => void;
     onAddShelf: (shelf: string) => void;
     tags: string[];
     shelfList?: any;
     setShelfList?: any;
-    setValue: any;
-    value: any;
+    setShelfName: any;
+    shelfName: any;
     input: any;
 
 }
 export const ShelfInput: React.FC<ShelfInputProps> = ({
     deleteShelf,
+    onAddShelf,
     tags,
-    setValue,
+    setShelfName,
     input,
-    value,
+    shelfName,
     shelfList,
     setShelfList,
-    onAddShelf
 }) => {
     const handleKeyPress = (event: any) => {
         if (event.key === 'Enter' && event.target.value !== "") {
             event.preventDefault();
             onAddShelf(event.target.value)
+            // Clear the input
             input.onChange("")
-            setValue("")
+            setShelfName("")
         }
         if (event.key === 'Backspace' && event.target.value === "") {
             event.preventDefault();
@@ -37,8 +36,8 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
     };
     // clicking on a value should reset the input
     React.useEffect(() => {
-        setValue(String(input.value));
-    }, [input.value, setValue]);
+        setShelfName(String(input.value));
+    }, [input.value, setShelfName]);
 
 
     const filterShelfList = (searchValue: string) => {
@@ -46,7 +45,6 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
             const filteredList = shelfList.filter((shelf: any) =>
                 shelf.name.toLowerCase().includes(searchValue.toLowerCase())
             );
-            console.log(filteredList)
             setShelfList(filteredList);
         }
     };
@@ -75,10 +73,10 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
                         onKeyDown={handleKeyPress}
                         disabled={false}
                         ref={input.ref}
-                        value={value}
+                        value={shelfName}
                         onChange={(e) => {
                             input.onChange(e.target.value); // send data to hook form
-                            setValue(e.target.value);
+                            setShelfName(e.target.value);
                             filterShelfList(e.target.value);
                         }}
                         onBlur={input.onBlur}

@@ -103,7 +103,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
                             <FormItem>
                                 <ShelfList
                                     options={shelves}
-                                    reset={form.reset}
                                     focus={form.setFocus}
                                     control={form.control}
                                 />
