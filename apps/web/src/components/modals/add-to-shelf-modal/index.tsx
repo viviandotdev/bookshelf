@@ -104,15 +104,14 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
                                 <ShelfList
                                     options={shelves}
                                     reset={form.reset}
+                                    focus={form.setFocus}
                                     control={form.control}
-                                    name="shelves"
-                                    shelfName="shelf"
                                 />
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                <div className="space-x-2 flex items-center justify-end w-full">
+                    <div className="space-x-2 flex items-center justify-end w-full">
                         <Button
                             label="Cancel"
                             //   disabled={loading}

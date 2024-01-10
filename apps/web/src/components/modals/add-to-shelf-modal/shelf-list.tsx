@@ -4,12 +4,18 @@ import { useController } from "react-hook-form";
 import ShelfInput from "./shelf-input";
 import { Icons } from "@/components/icons";
 
-export const ShelfList = ({ reset, options, control, name }: any) => {
+export const ShelfList = ({ focus, options, control, name }: any) => {
     const { field } = useController({
         control,
-        name
+        name: "shelves"
     });
 
+    const { field: input } = useController({
+        control,
+        name: "shelf"
+    });
+
+    const [shelfName, setName] = React.useState(input.value || []);
     const [value, setValue] = React.useState(field.value || []);
     const [shelfList, setShelfList] = React.useState(options);
     const onAddShelf = (shelf: string) => {
@@ -18,7 +24,9 @@ export const ShelfList = ({ reset, options, control, name }: any) => {
             field.onChange([...value, shelf]);
             setValue([...field.value, shelf]);
         }
-
+        setName("");
+        input.onChange("");
+        focus("shelf")
     };
 
     const onDeleteShelf = (shelf: string) => {
@@ -41,6 +49,9 @@ export const ShelfList = ({ reset, options, control, name }: any) => {
                     shelfList={options}
                     tags={value}
                     control={control}
+                    setValue={setName}
+                    value={shelfName}
+                    input={input}
                 />
             </div>
             <div className="h-96 overflow-y-auto">{

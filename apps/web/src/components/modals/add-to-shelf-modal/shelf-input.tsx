@@ -8,38 +8,32 @@ interface ShelfInputProps {
     tags: string[];
     shelfList?: any;
     setShelfList?: any;
+    setValue: any;
+    value: any;
+    input: any;
 
 }
 export const ShelfInput: React.FC<ShelfInputProps> = ({
     deleteShelf,
     tags,
-    control,
+    setValue,
+    input,
+    value,
     shelfList,
     setShelfList,
     onAddShelf
 }) => {
-
-    const { field: input } = useController({
-        control,
-        name: "shelf"
-    });
-
-    const [value, setValue] = React.useState(input.value || []);
     const handleKeyPress = (event: any) => {
-        // filterShelfList(event.target.value);
-        if (event.key === 'Enter') {
-            event.preventDefault(); // Prevents the default behavior on Enter keypress
-            // add input value to shelves
+        if (event.key === 'Enter' && event.target.value !== "") {
+            event.preventDefault();
             onAddShelf(event.target.value)
             input.onChange("")
+            setValue("")
         }
-
         if (event.key === 'Backspace' && event.target.value === "") {
-            event.preventDefault(); // Prevents the default behavior on Enter keypress
+            event.preventDefault();
             deleteShelf(tags[tags.length - 1])
-
         }
-
     };
     // clicking on a value should reset the input
     React.useEffect(() => {
@@ -48,7 +42,6 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
 
 
     const filterShelfList = (searchValue: string) => {
-        console.log(shelfList)
         if (shelfList && setShelfList) {
             const filteredList = shelfList.filter((shelf: any) =>
                 shelf.name.toLowerCase().includes(searchValue.toLowerCase())
@@ -74,8 +67,6 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
                         >
                             &#x2716;{" "}
                         </span>
-
-
                     </li>
                 ))}
                 <li className="flex-1">
