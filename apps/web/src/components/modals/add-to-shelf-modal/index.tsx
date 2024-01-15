@@ -2,18 +2,15 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Modal } from "@/components/ui/modal";
 import {
     Form,
-    FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "../../ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal";
 import { Button } from "../../ui/button";
@@ -21,6 +18,7 @@ import useUserBookStore from "@/stores/use-user-book-store";
 import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
+import { ShelfList } from "./shelf-list";
 interface AddToShelfModalProps { }
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -30,8 +28,11 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const client = useApolloClient();
     const userBook = useUserBookStore();
 
+
+
     const displayFormSchema = z.object({
-        shelves: z.array(z.string())
+        shelves: z.array(z.string()),
+        shelf: z.string().optional(),
     });
 
     type DisplayFormValues = z.infer<typeof displayFormSchema>;
@@ -41,15 +42,18 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         defaultValues: useMemo(() => {
             return {
                 shelves: userBook.shelves.map((item) => item.shelf.name),
+                shelf: "",
             };
         }, [userBook.shelves]),
     });
 
+
     useEffect(() => {
-        form.reset({ shelves: userBook.shelves.map((item) => item.shelf.name) });
+        form.reset({ shelves: userBook.shelves.map((item) => item.shelf.name), shelf: "" });
     }, [userBook.shelves]);
 
     async function onSubmit({ shelves }: DisplayFormValues) {
+
         const updatedBook = await updateUserBook(userBook.bookId, { shelves });
         if (updatedBook) {
             if (userBook.shelves.length == 0) {
@@ -80,6 +84,9 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         addToShelfModal.onClose();
     }
 
+
+
+
     return (
         <Modal
             title={"Add book to shelves"}
@@ -88,45 +95,17 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
             onClose={addToShelfModal.onClose}
         >
             <Form {...form}>
-                <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                <form className="space-y-8 w-full max-w-96 " onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
                         name="shelves"
                         render={() => (
                             <FormItem>
-                                {shelves.map((item) => (
-                                    <FormField
-                                        key={item.name}
-                                        control={form.control}
-                                        name="shelves"
-                                        render={({ field }) => {
-                                            return (
-                                                <FormItem
-                                                    key={item.name}
-                                                    className="flex flex-row shelves-start space-x-3 space-y-0"
-                                                >
-                                                    <FormControl>
-                                                        <Checkbox
-                                                            checked={field.value?.includes(item.name)}
-                                                            onCheckedChange={(checked) => {
-                                                                return checked
-                                                                    ? field.onChange([...field.value, item.name])
-                                                                    : field.onChange(
-                                                                        field.value?.filter(
-                                                                            (value) => value !== item.name
-                                                                        )
-                                                                    );
-                                                            }}
-                                                        />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">
-                                                        {item.name}
-                                                    </FormLabel>
-                                                </FormItem>
-                                            );
-                                        }}
-                                    />
-                                ))}
+                                <ShelfList
+                                    options={shelves}
+                                    focus={form.setFocus}
+                                    control={form.control}
+                                />
                                 <FormMessage />
                             </FormItem>
                         )}
