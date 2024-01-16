@@ -25,7 +25,7 @@ export const siteConfig: SiteConfig = {
   userNav: [
     {
       title: "Activity",
-      href: "/",
+      href: "/activity",
     },
     {
       title: "Books",
@@ -37,7 +37,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       title: "Statistics",
-      href: "/state",
+      href: "/stats",
     },
     {
       title: "Goals",
