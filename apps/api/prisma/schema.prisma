@@ -59,12 +59,13 @@ model User {
     reviews            Review[]
     likedReviews       Review[]       @relation(name: "LikedReviews")
     comments           Comment[]
+    AudtiLog           AudtiLog[]
 }
 
 // Table stores all books
 model Book {
     /// @Validator.IsString()
-    id            String     @id @unique
+    id            String  @id @unique
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
@@ -83,11 +84,11 @@ model Book {
     categories    String?
 
     /// @Validator.IsString()
-    mainCategory  String?
+    mainCategory String?
     // One to Many: multiple users can own the same book
     /// @Validator.ValidateNested()
-    userBook      UserBook[]
-    reviews       Review[]
+    userBook     UserBook[]
+    reviews      Review[]
 }
 
 model Review {
@@ -209,4 +210,32 @@ model JournalEntry {
     userBookId     String?
     // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
     userBook       UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
+}
+
+enum ACTION {
+    CREATE //Add Create
+    UPDATE
+    LIKE
+    RATE
+    LOG
+}
+
+enum ENTITY_TYPE {
+    USERBOOK
+    REVIEW
+    JOURNAL_ENTRY
+}
+
+model AudtiLog {
+    id          String      @id @default(uuid())
+    userId      String
+    user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    action      ACTION
+    entityType  ENTITY_TYPE
+    entityId    String
+    entityTitle String
+    entryData   String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

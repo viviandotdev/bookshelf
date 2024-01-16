@@ -28,6 +28,7 @@ export function createRandomBook(): Book {
     description: faker.lorem.sentence(),
     pageCount: faker.number.int({ min: 1, max: 1000 }),
     categories: faker.lorem.words(),
+    mainCategory: faker.lorem.words(),
   };
 }
 
