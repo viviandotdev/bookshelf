@@ -53,10 +53,9 @@ const BookActions: React.FC<BookActionsProps> = ({
     const { updateUserBook } = useUpdateUserBook();
     const journalEntryModal = useJournalEntryModal()
     const onUpdate = async (status: string) => {
-        const updatedBook = await updateUserBook(book!.id, { status });
-        if (updatedBook) {
-            setStatus(status);
-        }
+        // optimistic update
+        setStatus(status);
+        await updateUserBook(book!.id, { status });
     };
 
     return (
