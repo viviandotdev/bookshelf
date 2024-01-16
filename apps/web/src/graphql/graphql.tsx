@@ -25,214 +25,214 @@ export enum Action {
   Update = 'UPDATE'
 }
 
-export type AudtiLog = {
-  __typename?: 'AudtiLog';
+export type AuditLog = {
+  __typename?: 'AuditLog';
   action: Action;
   createdAt: Scalars['Timestamp'];
+  entityData?: Maybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
   entityType: Entity_Type;
-  entryData?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   updatedAt: Scalars['Timestamp'];
   user?: Maybe<User>;
   userId: Scalars['String'];
 };
 
-export type AudtiLogCountAggregate = {
-  __typename?: 'AudtiLogCountAggregate';
+export type AuditLogCountAggregate = {
+  __typename?: 'AuditLogCountAggregate';
   _all: Scalars['Int'];
   action: Scalars['Int'];
   createdAt: Scalars['Int'];
+  entityData: Scalars['Int'];
   entityId: Scalars['Int'];
   entityTitle: Scalars['Int'];
   entityType: Scalars['Int'];
-  entryData: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   userId: Scalars['Int'];
 };
 
-export type AudtiLogCreateInput = {
+export type AuditLogCreateInput = {
   action: Action;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
   entityType: Entity_Type;
-  entryData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  user?: InputMaybe<UserCreateNestedOneWithoutAudtiLogInput>;
+  user?: InputMaybe<UserCreateNestedOneWithoutAuditLogsInput>;
 };
 
-export type AudtiLogCreateManyUserInput = {
+export type AuditLogCreateManyUserInput = {
   action: Action;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
   entityType: Entity_Type;
-  entryData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
-export type AudtiLogCreateManyUserInputEnvelope = {
-  data: Array<AudtiLogCreateManyUserInput>;
+export type AuditLogCreateManyUserInputEnvelope = {
+  data: Array<AuditLogCreateManyUserInput>;
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
-export type AudtiLogCreateNestedManyWithoutUserInput = {
-  connect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AudtiLogCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<AudtiLogCreateWithoutUserInput>>;
-  createMany?: InputMaybe<AudtiLogCreateManyUserInputEnvelope>;
+export type AuditLogCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuditLogCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<AuditLogCreateWithoutUserInput>>;
+  createMany?: InputMaybe<AuditLogCreateManyUserInputEnvelope>;
 };
 
-export type AudtiLogCreateOrConnectWithoutUserInput = {
-  create: AudtiLogCreateWithoutUserInput;
-  where: AudtiLogWhereUniqueInput;
+export type AuditLogCreateOrConnectWithoutUserInput = {
+  create: AuditLogCreateWithoutUserInput;
+  where: AuditLogWhereUniqueInput;
 };
 
-export type AudtiLogCreateWithoutUserInput = {
+export type AuditLogCreateWithoutUserInput = {
   action: Action;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
   entityType: Entity_Type;
-  entryData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
-export type AudtiLogListRelationFilter = {
-  every?: InputMaybe<AudtiLogWhereInput>;
-  none?: InputMaybe<AudtiLogWhereInput>;
-  some?: InputMaybe<AudtiLogWhereInput>;
+export type AuditLogListRelationFilter = {
+  every?: InputMaybe<AuditLogWhereInput>;
+  none?: InputMaybe<AuditLogWhereInput>;
+  some?: InputMaybe<AuditLogWhereInput>;
 };
 
-export type AudtiLogMaxAggregate = {
-  __typename?: 'AudtiLogMaxAggregate';
+export type AuditLogMaxAggregate = {
+  __typename?: 'AuditLogMaxAggregate';
   action?: Maybe<Action>;
   createdAt?: Maybe<Scalars['Timestamp']>;
+  entityData?: Maybe<Scalars['String']>;
   entityId?: Maybe<Scalars['String']>;
   entityTitle?: Maybe<Scalars['String']>;
   entityType?: Maybe<Entity_Type>;
-  entryData?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
 };
 
-export type AudtiLogMinAggregate = {
-  __typename?: 'AudtiLogMinAggregate';
+export type AuditLogMinAggregate = {
+  __typename?: 'AuditLogMinAggregate';
   action?: Maybe<Action>;
   createdAt?: Maybe<Scalars['Timestamp']>;
+  entityData?: Maybe<Scalars['String']>;
   entityId?: Maybe<Scalars['String']>;
   entityTitle?: Maybe<Scalars['String']>;
   entityType?: Maybe<Entity_Type>;
-  entryData?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
 };
 
-export type AudtiLogOrderByRelationAggregateInput = {
+export type AuditLogOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
-export type AudtiLogScalarWhereInput = {
-  AND?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
-  NOT?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
-  OR?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
+export type AuditLogScalarWhereInput = {
+  AND?: InputMaybe<Array<AuditLogScalarWhereInput>>;
+  NOT?: InputMaybe<Array<AuditLogScalarWhereInput>>;
+  OR?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
   entityType?: InputMaybe<EnumEntity_TypeFilter>;
-  entryData?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
-export type AudtiLogUpdateManyMutationInput = {
+export type AuditLogUpdateManyMutationInput = {
   action?: InputMaybe<Action>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityData?: InputMaybe<Scalars['String']>;
   entityId?: InputMaybe<Scalars['String']>;
   entityTitle?: InputMaybe<Scalars['String']>;
   entityType?: InputMaybe<Entity_Type>;
-  entryData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
-export type AudtiLogUpdateManyWithWhereWithoutUserInput = {
-  data: AudtiLogUpdateManyMutationInput;
-  where: AudtiLogScalarWhereInput;
+export type AuditLogUpdateManyWithWhereWithoutUserInput = {
+  data: AuditLogUpdateManyMutationInput;
+  where: AuditLogScalarWhereInput;
 };
 
-export type AudtiLogUpdateManyWithoutUserNestedInput = {
-  connect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AudtiLogCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<AudtiLogCreateWithoutUserInput>>;
-  createMany?: InputMaybe<AudtiLogCreateManyUserInputEnvelope>;
-  delete?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
-  set?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
-  update?: InputMaybe<Array<AudtiLogUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<AudtiLogUpdateManyWithWhereWithoutUserInput>>;
-  upsert?: InputMaybe<Array<AudtiLogUpsertWithWhereUniqueWithoutUserInput>>;
+export type AuditLogUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuditLogCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<AuditLogCreateWithoutUserInput>>;
+  createMany?: InputMaybe<AuditLogCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<AuditLogScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  set?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  update?: InputMaybe<Array<AuditLogUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<AuditLogUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<AuditLogUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
-export type AudtiLogUpdateWithWhereUniqueWithoutUserInput = {
-  data: AudtiLogUpdateWithoutUserInput;
-  where: AudtiLogWhereUniqueInput;
+export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
+  data: AuditLogUpdateWithoutUserInput;
+  where: AuditLogWhereUniqueInput;
 };
 
-export type AudtiLogUpdateWithoutUserInput = {
+export type AuditLogUpdateWithoutUserInput = {
   action?: InputMaybe<Action>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityData?: InputMaybe<Scalars['String']>;
   entityId?: InputMaybe<Scalars['String']>;
   entityTitle?: InputMaybe<Scalars['String']>;
   entityType?: InputMaybe<Entity_Type>;
-  entryData?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
 
-export type AudtiLogUpsertWithWhereUniqueWithoutUserInput = {
-  create: AudtiLogCreateWithoutUserInput;
-  update: AudtiLogUpdateWithoutUserInput;
-  where: AudtiLogWhereUniqueInput;
+export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
+  create: AuditLogCreateWithoutUserInput;
+  update: AuditLogUpdateWithoutUserInput;
+  where: AuditLogWhereUniqueInput;
 };
 
-export type AudtiLogWhereInput = {
-  AND?: InputMaybe<Array<AudtiLogWhereInput>>;
-  NOT?: InputMaybe<Array<AudtiLogWhereInput>>;
-  OR?: InputMaybe<Array<AudtiLogWhereInput>>;
+export type AuditLogWhereInput = {
+  AND?: InputMaybe<Array<AuditLogWhereInput>>;
+  NOT?: InputMaybe<Array<AuditLogWhereInput>>;
+  OR?: InputMaybe<Array<AuditLogWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
   entityType?: InputMaybe<EnumEntity_TypeFilter>;
-  entryData?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
-export type AudtiLogWhereUniqueInput = {
-  AND?: InputMaybe<Array<AudtiLogWhereInput>>;
-  NOT?: InputMaybe<Array<AudtiLogWhereInput>>;
-  OR?: InputMaybe<Array<AudtiLogWhereInput>>;
+export type AuditLogWhereUniqueInput = {
+  AND?: InputMaybe<Array<AuditLogWhereInput>>;
+  NOT?: InputMaybe<Array<AuditLogWhereInput>>;
+  OR?: InputMaybe<Array<AuditLogWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
   entityType?: InputMaybe<EnumEntity_TypeFilter>;
-  entryData?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -1133,7 +1133,7 @@ export type LogInInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAuditLog: AudtiLog;
+  createAuditLog: AuditLog;
   createBook: Book;
   createComment: Comment;
   createJournalEntry: JournalEntry;
@@ -1159,7 +1159,7 @@ export type Mutation = {
 
 
 export type MutationCreateAuditLogArgs = {
-  data: AudtiLogCreateInput;
+  data: AuditLogCreateInput;
 };
 
 
@@ -1279,7 +1279,7 @@ export enum NullsOrder {
 
 export type Query = {
   __typename?: 'Query';
-  auditLogs: Array<AudtiLog>;
+  auditLogs: Array<AuditLog>;
   bookReview: Review;
   bookReviews: Array<Review>;
   comments: Array<Comment>;
@@ -2151,8 +2151,8 @@ export type StringFilter = {
 
 export type User = {
   __typename?: 'User';
-  AudtiLog?: Maybe<Array<AudtiLog>>;
   _count: UserCount;
+  auditLogs?: Maybe<Array<AuditLog>>;
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp'];
   email: Scalars['String'];
@@ -2890,7 +2890,7 @@ export type UserBookWhereUniqueInput = {
 
 export type UserCount = {
   __typename?: 'UserCount';
-  AudtiLog: Scalars['Int'];
+  auditLogs: Scalars['Int'];
   comments: Scalars['Int'];
   followers: Scalars['Int'];
   following: Scalars['Int'];
@@ -2912,7 +2912,7 @@ export type UserCountAggregate = {
 };
 
 export type UserCreateInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2948,10 +2948,10 @@ export type UserCreateNestedManyWithoutLikedReviewsInput = {
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
 };
 
-export type UserCreateNestedOneWithoutAudtiLogInput = {
+export type UserCreateNestedOneWithoutAuditLogsInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAudtiLogInput>;
-  create?: InputMaybe<UserCreateWithoutAudtiLogInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAuditLogsInput>;
+  create?: InputMaybe<UserCreateWithoutAuditLogsInput>;
 };
 
 export type UserCreateNestedOneWithoutCommentsInput = {
@@ -2984,8 +2984,8 @@ export type UserCreateNestedOneWithoutUserBooksInput = {
   create?: InputMaybe<UserCreateWithoutUserBooksInput>;
 };
 
-export type UserCreateOrConnectWithoutAudtiLogInput = {
-  create: UserCreateWithoutAudtiLogInput;
+export type UserCreateOrConnectWithoutAuditLogsInput = {
+  create: UserCreateWithoutAuditLogsInput;
   where: UserWhereUniqueInput;
 };
 
@@ -3029,7 +3029,7 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateWithoutAudtiLogInput = {
+export type UserCreateWithoutAuditLogsInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3048,7 +3048,7 @@ export type UserCreateWithoutAudtiLogInput = {
 };
 
 export type UserCreateWithoutCommentsInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -3066,7 +3066,7 @@ export type UserCreateWithoutCommentsInput = {
 };
 
 export type UserCreateWithoutFollowersInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3084,7 +3084,7 @@ export type UserCreateWithoutFollowersInput = {
 };
 
 export type UserCreateWithoutFollowingInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3102,7 +3102,7 @@ export type UserCreateWithoutFollowingInput = {
 };
 
 export type UserCreateWithoutJournalEntriesInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3120,7 +3120,7 @@ export type UserCreateWithoutJournalEntriesInput = {
 };
 
 export type UserCreateWithoutLikedReviewsInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3138,7 +3138,7 @@ export type UserCreateWithoutLikedReviewsInput = {
 };
 
 export type UserCreateWithoutReviewsInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3156,7 +3156,7 @@ export type UserCreateWithoutReviewsInput = {
 };
 
 export type UserCreateWithoutShelvesInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3174,7 +3174,7 @@ export type UserCreateWithoutShelvesInput = {
 };
 
 export type UserCreateWithoutUserBooksInput = {
-  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -3220,7 +3220,7 @@ export type UserOrderByRelationAggregateInput = {
 };
 
 export type UserOrderByWithRelationInput = {
-  AudtiLog?: InputMaybe<AudtiLogOrderByRelationAggregateInput>;
+  auditLogs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -3411,7 +3411,7 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 };
 
 export type UserUpdateWithoutCommentsInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -3429,7 +3429,7 @@ export type UserUpdateWithoutCommentsInput = {
 };
 
 export type UserUpdateWithoutFollowersInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3447,7 +3447,7 @@ export type UserUpdateWithoutFollowersInput = {
 };
 
 export type UserUpdateWithoutFollowingInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3465,7 +3465,7 @@ export type UserUpdateWithoutFollowingInput = {
 };
 
 export type UserUpdateWithoutJournalEntriesInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3483,7 +3483,7 @@ export type UserUpdateWithoutJournalEntriesInput = {
 };
 
 export type UserUpdateWithoutLikedReviewsInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3501,7 +3501,7 @@ export type UserUpdateWithoutLikedReviewsInput = {
 };
 
 export type UserUpdateWithoutReviewsInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3519,7 +3519,7 @@ export type UserUpdateWithoutReviewsInput = {
 };
 
 export type UserUpdateWithoutShelvesInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3537,7 +3537,7 @@ export type UserUpdateWithoutShelvesInput = {
 };
 
 export type UserUpdateWithoutUserBooksInput = {
-  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3604,9 +3604,9 @@ export type UserUpsertWithoutUserBooksInput = {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
-  AudtiLog?: InputMaybe<AudtiLogListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  auditLogs?: InputMaybe<AuditLogListRelationFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
@@ -3626,9 +3626,9 @@ export type UserWhereInput = {
 
 export type UserWhereUniqueInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
-  AudtiLog?: InputMaybe<AudtiLogListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  auditLogs?: InputMaybe<AuditLogListRelationFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']>;
@@ -3801,7 +3801,7 @@ export type GetAuditLogsQueryVariables = Exact<{
 }>;
 
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AudtiLog', id: string, action: Action, createdAt: any, updatedAt: any, entityType: Entity_Type, entityTitle: string, entryData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityType: Entity_Type, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4649,7 +4649,7 @@ export const GetAuditLogsDocument = gql`
     }
     entityType
     entityTitle
-    entryData
+    entityData
   }
 }
     `;

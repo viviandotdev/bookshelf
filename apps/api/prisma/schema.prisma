@@ -59,7 +59,7 @@ model User {
     reviews            Review[]
     likedReviews       Review[]       @relation(name: "LikedReviews")
     comments           Comment[]
-    AudtiLog           AudtiLog[]
+    auditLogs          AuditLog[]
 }
 
 // Table stores all books
@@ -226,7 +226,7 @@ enum ENTITY_TYPE {
     JOURNAL_ENTRY
 }
 
-model AudtiLog {
+model AuditLog {
     id          String      @id @default(uuid())
     userId      String
     user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -234,7 +234,7 @@ model AudtiLog {
     entityType  ENTITY_TYPE
     entityId    String
     entityTitle String
-    entryData   String?
+    entityData  String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

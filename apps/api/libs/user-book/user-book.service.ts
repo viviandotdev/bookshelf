@@ -194,6 +194,7 @@ export class UserBookService {
           entityTitle: origin.book.title, // the book we are updating
           action: 'UPDATE',
           entityType: 'USERBOOK',
+          entityData: args.data.status,
         },
         userId,
       );

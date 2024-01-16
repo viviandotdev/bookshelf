@@ -10,210 +10,210 @@ enum ACTION {
   UPDATE
 }
 
-type AudtiLog {
+type AuditLog {
   action: ACTION!
   createdAt: Timestamp!
+  entityData: String
   entityId: String!
   entityTitle: String!
   entityType: ENTITY_TYPE!
-  entryData: String
   id: ID!
   updatedAt: Timestamp!
   user: User
   userId: String!
 }
 
-type AudtiLogCountAggregate {
+type AuditLogCountAggregate {
   _all: Int!
   action: Int!
   createdAt: Int!
+  entityData: Int!
   entityId: Int!
   entityTitle: Int!
   entityType: Int!
-  entryData: Int!
   id: Int!
   updatedAt: Int!
   userId: Int!
 }
 
-input AudtiLogCreateInput {
+input AuditLogCreateInput {
   action: ACTION!
   createdAt: Timestamp
+  entityData: String
   entityId: String!
   entityTitle: String!
   entityType: ENTITY_TYPE!
-  entryData: String
   id: String
   updatedAt: Timestamp
-  user: UserCreateNestedOneWithoutAudtiLogInput
+  user: UserCreateNestedOneWithoutAuditLogsInput
 }
 
-input AudtiLogCreateManyUserInput {
+input AuditLogCreateManyUserInput {
   action: ACTION!
   createdAt: Timestamp
+  entityData: String
   entityId: String!
   entityTitle: String!
   entityType: ENTITY_TYPE!
-  entryData: String
   id: String
   updatedAt: Timestamp
 }
 
-input AudtiLogCreateManyUserInputEnvelope {
-  data: [AudtiLogCreateManyUserInput!]!
+input AuditLogCreateManyUserInputEnvelope {
+  data: [AuditLogCreateManyUserInput!]!
   skipDuplicates: Boolean
 }
 
-input AudtiLogCreateNestedManyWithoutUserInput {
-  connect: [AudtiLogWhereUniqueInput!]
-  connectOrCreate: [AudtiLogCreateOrConnectWithoutUserInput!]
-  create: [AudtiLogCreateWithoutUserInput!]
-  createMany: AudtiLogCreateManyUserInputEnvelope
+input AuditLogCreateNestedManyWithoutUserInput {
+  connect: [AuditLogWhereUniqueInput!]
+  connectOrCreate: [AuditLogCreateOrConnectWithoutUserInput!]
+  create: [AuditLogCreateWithoutUserInput!]
+  createMany: AuditLogCreateManyUserInputEnvelope
 }
 
-input AudtiLogCreateOrConnectWithoutUserInput {
-  create: AudtiLogCreateWithoutUserInput!
-  where: AudtiLogWhereUniqueInput!
+input AuditLogCreateOrConnectWithoutUserInput {
+  create: AuditLogCreateWithoutUserInput!
+  where: AuditLogWhereUniqueInput!
 }
 
-input AudtiLogCreateWithoutUserInput {
+input AuditLogCreateWithoutUserInput {
   action: ACTION!
   createdAt: Timestamp
+  entityData: String
   entityId: String!
   entityTitle: String!
   entityType: ENTITY_TYPE!
-  entryData: String
   id: String
   updatedAt: Timestamp
 }
 
-input AudtiLogListRelationFilter {
-  every: AudtiLogWhereInput
-  none: AudtiLogWhereInput
-  some: AudtiLogWhereInput
+input AuditLogListRelationFilter {
+  every: AuditLogWhereInput
+  none: AuditLogWhereInput
+  some: AuditLogWhereInput
 }
 
-type AudtiLogMaxAggregate {
+type AuditLogMaxAggregate {
   action: ACTION
   createdAt: Timestamp
+  entityData: String
   entityId: String
   entityTitle: String
   entityType: ENTITY_TYPE
-  entryData: String
   id: String
   updatedAt: Timestamp
   userId: String
 }
 
-type AudtiLogMinAggregate {
+type AuditLogMinAggregate {
   action: ACTION
   createdAt: Timestamp
+  entityData: String
   entityId: String
   entityTitle: String
   entityType: ENTITY_TYPE
-  entryData: String
   id: String
   updatedAt: Timestamp
   userId: String
 }
 
-input AudtiLogOrderByRelationAggregateInput {
+input AuditLogOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
-input AudtiLogScalarWhereInput {
-  AND: [AudtiLogScalarWhereInput!]
-  NOT: [AudtiLogScalarWhereInput!]
-  OR: [AudtiLogScalarWhereInput!]
+input AuditLogScalarWhereInput {
+  AND: [AuditLogScalarWhereInput!]
+  NOT: [AuditLogScalarWhereInput!]
+  OR: [AuditLogScalarWhereInput!]
   action: EnumACTIONFilter
   createdAt: DateTimeFilter
+  entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
   entityType: EnumENTITY_TYPEFilter
-  entryData: StringFilter
   id: StringFilter
   updatedAt: DateTimeFilter
   userId: StringFilter
 }
 
-input AudtiLogUpdateManyMutationInput {
+input AuditLogUpdateManyMutationInput {
   action: ACTION
   createdAt: Timestamp
+  entityData: String
   entityId: String
   entityTitle: String
   entityType: ENTITY_TYPE
-  entryData: String
   id: String
   updatedAt: Timestamp
 }
 
-input AudtiLogUpdateManyWithWhereWithoutUserInput {
-  data: AudtiLogUpdateManyMutationInput!
-  where: AudtiLogScalarWhereInput!
+input AuditLogUpdateManyWithWhereWithoutUserInput {
+  data: AuditLogUpdateManyMutationInput!
+  where: AuditLogScalarWhereInput!
 }
 
-input AudtiLogUpdateManyWithoutUserNestedInput {
-  connect: [AudtiLogWhereUniqueInput!]
-  connectOrCreate: [AudtiLogCreateOrConnectWithoutUserInput!]
-  create: [AudtiLogCreateWithoutUserInput!]
-  createMany: AudtiLogCreateManyUserInputEnvelope
-  delete: [AudtiLogWhereUniqueInput!]
-  deleteMany: [AudtiLogScalarWhereInput!]
-  disconnect: [AudtiLogWhereUniqueInput!]
-  set: [AudtiLogWhereUniqueInput!]
-  update: [AudtiLogUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [AudtiLogUpdateManyWithWhereWithoutUserInput!]
-  upsert: [AudtiLogUpsertWithWhereUniqueWithoutUserInput!]
+input AuditLogUpdateManyWithoutUserNestedInput {
+  connect: [AuditLogWhereUniqueInput!]
+  connectOrCreate: [AuditLogCreateOrConnectWithoutUserInput!]
+  create: [AuditLogCreateWithoutUserInput!]
+  createMany: AuditLogCreateManyUserInputEnvelope
+  delete: [AuditLogWhereUniqueInput!]
+  deleteMany: [AuditLogScalarWhereInput!]
+  disconnect: [AuditLogWhereUniqueInput!]
+  set: [AuditLogWhereUniqueInput!]
+  update: [AuditLogUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [AuditLogUpdateManyWithWhereWithoutUserInput!]
+  upsert: [AuditLogUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input AudtiLogUpdateWithWhereUniqueWithoutUserInput {
-  data: AudtiLogUpdateWithoutUserInput!
-  where: AudtiLogWhereUniqueInput!
+input AuditLogUpdateWithWhereUniqueWithoutUserInput {
+  data: AuditLogUpdateWithoutUserInput!
+  where: AuditLogWhereUniqueInput!
 }
 
-input AudtiLogUpdateWithoutUserInput {
+input AuditLogUpdateWithoutUserInput {
   action: ACTION
   createdAt: Timestamp
+  entityData: String
   entityId: String
   entityTitle: String
   entityType: ENTITY_TYPE
-  entryData: String
   id: String
   updatedAt: Timestamp
 }
 
-input AudtiLogUpsertWithWhereUniqueWithoutUserInput {
-  create: AudtiLogCreateWithoutUserInput!
-  update: AudtiLogUpdateWithoutUserInput!
-  where: AudtiLogWhereUniqueInput!
+input AuditLogUpsertWithWhereUniqueWithoutUserInput {
+  create: AuditLogCreateWithoutUserInput!
+  update: AuditLogUpdateWithoutUserInput!
+  where: AuditLogWhereUniqueInput!
 }
 
-input AudtiLogWhereInput {
-  AND: [AudtiLogWhereInput!]
-  NOT: [AudtiLogWhereInput!]
-  OR: [AudtiLogWhereInput!]
+input AuditLogWhereInput {
+  AND: [AuditLogWhereInput!]
+  NOT: [AuditLogWhereInput!]
+  OR: [AuditLogWhereInput!]
   action: EnumACTIONFilter
   createdAt: DateTimeFilter
+  entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
   entityType: EnumENTITY_TYPEFilter
-  entryData: StringFilter
   id: StringFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
 }
 
-input AudtiLogWhereUniqueInput {
-  AND: [AudtiLogWhereInput!]
-  NOT: [AudtiLogWhereInput!]
-  OR: [AudtiLogWhereInput!]
+input AuditLogWhereUniqueInput {
+  AND: [AuditLogWhereInput!]
+  NOT: [AuditLogWhereInput!]
+  OR: [AuditLogWhereInput!]
   action: EnumACTIONFilter
   createdAt: DateTimeFilter
+  entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
   entityType: EnumENTITY_TYPEFilter
-  entryData: StringFilter
   id: String
   updatedAt: DateTimeFilter
   user: UserRelationFilter
@@ -1095,7 +1095,7 @@ input LogInInput {
 }
 
 type Mutation {
-  createAuditLog(data: AudtiLogCreateInput!): AudtiLog!
+  createAuditLog(data: AuditLogCreateInput!): AuditLog!
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
@@ -1125,7 +1125,7 @@ enum NullsOrder {
 }
 
 type Query {
-  auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AudtiLog!]!
+  auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AuditLog!]!
   bookReview(where: ReviewWhereUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
@@ -1922,8 +1922,8 @@ input StringFilter {
 scalar Timestamp
 
 type User {
-  AudtiLog: [AudtiLog!]
   _count: UserCount!
+  auditLogs: [AuditLog!]
   comments: [Comment!]
   createdAt: Timestamp!
   email: String!
@@ -2649,7 +2649,7 @@ input UserBookWhereUniqueInput {
 }
 
 type UserCount {
-  AudtiLog: Int!
+  auditLogs: Int!
   comments: Int!
   followers: Int!
   following: Int!
@@ -2670,7 +2670,7 @@ type UserCountAggregate {
 }
 
 input UserCreateInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2706,10 +2706,10 @@ input UserCreateNestedManyWithoutLikedReviewsInput {
   create: [UserCreateWithoutLikedReviewsInput!]
 }
 
-input UserCreateNestedOneWithoutAudtiLogInput {
+input UserCreateNestedOneWithoutAuditLogsInput {
   connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutAudtiLogInput
-  create: UserCreateWithoutAudtiLogInput
+  connectOrCreate: UserCreateOrConnectWithoutAuditLogsInput
+  create: UserCreateWithoutAuditLogsInput
 }
 
 input UserCreateNestedOneWithoutCommentsInput {
@@ -2742,8 +2742,8 @@ input UserCreateNestedOneWithoutUserBooksInput {
   create: UserCreateWithoutUserBooksInput
 }
 
-input UserCreateOrConnectWithoutAudtiLogInput {
-  create: UserCreateWithoutAudtiLogInput!
+input UserCreateOrConnectWithoutAuditLogsInput {
+  create: UserCreateWithoutAuditLogsInput!
   where: UserWhereUniqueInput!
 }
 
@@ -2787,7 +2787,7 @@ input UserCreateOrConnectWithoutUserBooksInput {
   where: UserWhereUniqueInput!
 }
 
-input UserCreateWithoutAudtiLogInput {
+input UserCreateWithoutAuditLogsInput {
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2806,7 +2806,7 @@ input UserCreateWithoutAudtiLogInput {
 }
 
 input UserCreateWithoutCommentsInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -2824,7 +2824,7 @@ input UserCreateWithoutCommentsInput {
 }
 
 input UserCreateWithoutFollowersInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2842,7 +2842,7 @@ input UserCreateWithoutFollowersInput {
 }
 
 input UserCreateWithoutFollowingInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2860,7 +2860,7 @@ input UserCreateWithoutFollowingInput {
 }
 
 input UserCreateWithoutJournalEntriesInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2878,7 +2878,7 @@ input UserCreateWithoutJournalEntriesInput {
 }
 
 input UserCreateWithoutLikedReviewsInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2896,7 +2896,7 @@ input UserCreateWithoutLikedReviewsInput {
 }
 
 input UserCreateWithoutReviewsInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2914,7 +2914,7 @@ input UserCreateWithoutReviewsInput {
 }
 
 input UserCreateWithoutShelvesInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2932,7 +2932,7 @@ input UserCreateWithoutShelvesInput {
 }
 
 input UserCreateWithoutUserBooksInput {
-  AudtiLog: AudtiLogCreateNestedManyWithoutUserInput
+  auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
@@ -2976,7 +2976,7 @@ input UserOrderByRelationAggregateInput {
 }
 
 input UserOrderByWithRelationInput {
-  AudtiLog: AudtiLogOrderByRelationAggregateInput
+  auditLogs: AuditLogOrderByRelationAggregateInput
   comments: CommentOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
@@ -3167,7 +3167,7 @@ input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 }
 
 input UserUpdateWithoutCommentsInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -3185,7 +3185,7 @@ input UserUpdateWithoutCommentsInput {
 }
 
 input UserUpdateWithoutFollowersInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3203,7 +3203,7 @@ input UserUpdateWithoutFollowersInput {
 }
 
 input UserUpdateWithoutFollowingInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3221,7 +3221,7 @@ input UserUpdateWithoutFollowingInput {
 }
 
 input UserUpdateWithoutJournalEntriesInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3239,7 +3239,7 @@ input UserUpdateWithoutJournalEntriesInput {
 }
 
 input UserUpdateWithoutLikedReviewsInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3257,7 +3257,7 @@ input UserUpdateWithoutLikedReviewsInput {
 }
 
 input UserUpdateWithoutReviewsInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3275,7 +3275,7 @@ input UserUpdateWithoutReviewsInput {
 }
 
 input UserUpdateWithoutShelvesInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3293,7 +3293,7 @@ input UserUpdateWithoutShelvesInput {
 }
 
 input UserUpdateWithoutUserBooksInput {
-  AudtiLog: AudtiLogUpdateManyWithoutUserNestedInput
+  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
@@ -3360,9 +3360,9 @@ input UserUpsertWithoutUserBooksInput {
 
 input UserWhereInput {
   AND: [UserWhereInput!]
-  AudtiLog: AudtiLogListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: StringFilter
@@ -3382,9 +3382,9 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   AND: [UserWhereInput!]
-  AudtiLog: AudtiLogListRelationFilter
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: String

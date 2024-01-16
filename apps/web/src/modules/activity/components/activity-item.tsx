@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-// import { generateLogMessage } from "@/lib/generate-log-message";
+import { generateLogMessage } from "@/lib/generate-log-message";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface ActivityItemProps {
@@ -21,8 +21,7 @@ export const ActivityItem = ({
                     <span className="font-semibold lowercase text-neutral-700">
                         {data.userName}
                     </span>
-                    {/* {generateLogMessage(data)} */}
-                    {"Hello messaef"}
+                    {generateLogMessage(data)}
                 </p>
                 <p className="text-xs text-muted-foreground">
                     {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}

@@ -125,19 +125,19 @@ export enum BookScalarFieldEnum {
     mainCategory = "mainCategory"
 }
 
-export enum AudtiLogScalarFieldEnum {
+export enum AuditLogScalarFieldEnum {
     id = "id",
     userId = "userId",
     action = "action",
     entityType = "entityType",
     entityId = "entityId",
     entityTitle = "entityTitle",
-    entryData = "entryData",
+    entityData = "entityData",
     createdAt = "createdAt",
     updatedAt = "updatedAt"
 }
 
-registerEnumType(AudtiLogScalarFieldEnum, { name: 'AudtiLogScalarFieldEnum', description: undefined })
+registerEnumType(AuditLogScalarFieldEnum, { name: 'AuditLogScalarFieldEnum', description: undefined })
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
@@ -154,39 +154,39 @@ registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', des
 registerEnumType(UserBookShelvesScalarFieldEnum, { name: 'UserBookShelvesScalarFieldEnum', description: undefined })
 
 @ObjectType()
-export class AggregateAudtiLog {
-    @Field(() => AudtiLogCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof AudtiLogCountAggregate>;
-    @Field(() => AudtiLogMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof AudtiLogMinAggregate>;
-    @Field(() => AudtiLogMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof AudtiLogMaxAggregate>;
+export class AggregateAuditLog {
+    @Field(() => AuditLogCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AuditLogCountAggregate>;
+    @Field(() => AuditLogMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AuditLogMinAggregate>;
+    @Field(() => AuditLogMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AuditLogMaxAggregate>;
 }
 
 @ArgsType()
-export class AudtiLogAggregateArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class AuditLogAggregateArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => [AudtiLogOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AudtiLogOrderByWithRelationInput>;
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => [AuditLogOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuditLogOrderByWithRelationInput>;
+    @Field(() => AuditLogWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
     skip?: number;
-    @Field(() => AudtiLogCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AudtiLogCountAggregateInput>;
-    @Field(() => AudtiLogMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AudtiLogMinAggregateInput>;
-    @Field(() => AudtiLogMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AudtiLogMaxAggregateInput>;
+    @Field(() => AuditLogCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuditLogCountAggregateInput>;
+    @Field(() => AuditLogMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuditLogMinAggregateInput>;
+    @Field(() => AuditLogMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuditLogMaxAggregateInput>;
 }
 
 @InputType()
-export class AudtiLogCountAggregateInput {
+export class AuditLogCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
@@ -200,7 +200,7 @@ export class AudtiLogCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
     @Field(() => Boolean, {nullable:true})
-    entryData?: true;
+    entityData?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -210,7 +210,7 @@ export class AudtiLogCountAggregateInput {
 }
 
 @ObjectType()
-export class AudtiLogCountAggregate {
+export class AuditLogCountAggregate {
     @Field(() => Int, {nullable:false})
     id!: number;
     @Field(() => Int, {nullable:false})
@@ -224,7 +224,7 @@ export class AudtiLogCountAggregate {
     @Field(() => Int, {nullable:false})
     entityTitle!: number;
     @Field(() => Int, {nullable:false})
-    entryData!: number;
+    entityData!: number;
     @Field(() => Int, {nullable:false})
     createdAt!: number;
     @Field(() => Int, {nullable:false})
@@ -234,7 +234,7 @@ export class AudtiLogCountAggregate {
 }
 
 @InputType()
-export class AudtiLogCountOrderByAggregateInput {
+export class AuditLogCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -248,7 +248,7 @@ export class AudtiLogCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entryData?: keyof typeof SortOrder;
+    entityData?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -256,16 +256,16 @@ export class AudtiLogCountOrderByAggregateInput {
 }
 
 @InputType()
-export class AudtiLogCreateManyUserInputEnvelope {
-    @Field(() => [AudtiLogCreateManyUserInput], {nullable:false})
-    @Type(() => AudtiLogCreateManyUserInput)
-    data!: Array<AudtiLogCreateManyUserInput>;
+export class AuditLogCreateManyUserInputEnvelope {
+    @Field(() => [AuditLogCreateManyUserInput], {nullable:false})
+    @Type(() => AuditLogCreateManyUserInput)
+    data!: Array<AuditLogCreateManyUserInput>;
     @Field(() => Boolean, {nullable:true})
     skipDuplicates?: boolean;
 }
 
 @InputType()
-export class AudtiLogCreateManyUserInput {
+export class AuditLogCreateManyUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
@@ -277,7 +277,7 @@ export class AudtiLogCreateManyUserInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -285,7 +285,7 @@ export class AudtiLogCreateManyUserInput {
 }
 
 @InputType()
-export class AudtiLogCreateManyInput {
+export class AuditLogCreateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
@@ -299,7 +299,7 @@ export class AudtiLogCreateManyInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -307,33 +307,33 @@ export class AudtiLogCreateManyInput {
 }
 
 @InputType()
-export class AudtiLogCreateNestedManyWithoutUserInput {
-    @Field(() => [AudtiLogCreateWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create?: Array<AudtiLogCreateWithoutUserInput>;
-    @Field(() => [AudtiLogCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AudtiLogCreateOrConnectWithoutUserInput>;
-    @Field(() => AudtiLogCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AudtiLogCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AudtiLogCreateManyUserInputEnvelope>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
+export class AuditLogCreateNestedManyWithoutUserInput {
+    @Field(() => [AuditLogCreateWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create?: Array<AuditLogCreateWithoutUserInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutUserInput>;
+    @Field(() => AuditLogCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyUserInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
-export class AudtiLogCreateOrConnectWithoutUserInput {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
-    @Field(() => AudtiLogCreateWithoutUserInput, {nullable:false})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create!: InstanceType<typeof AudtiLogCreateWithoutUserInput>;
+export class AuditLogCreateOrConnectWithoutUserInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogCreateWithoutUserInput, {nullable:false})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create!: InstanceType<typeof AuditLogCreateWithoutUserInput>;
 }
 
 @InputType()
-export class AudtiLogCreateWithoutUserInput {
+export class AuditLogCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
@@ -345,7 +345,7 @@ export class AudtiLogCreateWithoutUserInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -353,7 +353,7 @@ export class AudtiLogCreateWithoutUserInput {
 }
 
 @InputType()
-export class AudtiLogCreateInput {
+export class AuditLogCreateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
@@ -365,41 +365,41 @@ export class AudtiLogCreateInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => UserCreateNestedOneWithoutAudtiLogInput, {nullable:true})
-    user?: InstanceType<typeof UserCreateNestedOneWithoutAudtiLogInput>;
+    @Field(() => UserCreateNestedOneWithoutAuditLogsInput, {nullable:true})
+    user?: InstanceType<typeof UserCreateNestedOneWithoutAuditLogsInput>;
 }
 
 @ArgsType()
-export class AudtiLogGroupByArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class AuditLogGroupByArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => [AudtiLogOrderByWithAggregationInput], {nullable:true})
-    orderBy?: Array<AudtiLogOrderByWithAggregationInput>;
-    @Field(() => [AudtiLogScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof AudtiLogScalarFieldEnum>;
-    @Field(() => AudtiLogScalarWhereWithAggregatesInput, {nullable:true})
-    having?: InstanceType<typeof AudtiLogScalarWhereWithAggregatesInput>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => [AuditLogOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<AuditLogOrderByWithAggregationInput>;
+    @Field(() => [AuditLogScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof AuditLogScalarFieldEnum>;
+    @Field(() => AuditLogScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof AuditLogScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
     skip?: number;
-    @Field(() => AudtiLogCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AudtiLogCountAggregateInput>;
-    @Field(() => AudtiLogMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AudtiLogMinAggregateInput>;
-    @Field(() => AudtiLogMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AudtiLogMaxAggregateInput>;
+    @Field(() => AuditLogCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuditLogCountAggregateInput>;
+    @Field(() => AuditLogMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuditLogMinAggregateInput>;
+    @Field(() => AuditLogMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuditLogMaxAggregateInput>;
 }
 
 @ObjectType()
-export class AudtiLogGroupBy {
+export class AuditLogGroupBy {
     @Field(() => String, {nullable:false})
     id!: string;
     @Field(() => String, {nullable:false})
@@ -413,31 +413,31 @@ export class AudtiLogGroupBy {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:false})
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
-    @Field(() => AudtiLogCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof AudtiLogCountAggregate>;
-    @Field(() => AudtiLogMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof AudtiLogMinAggregate>;
-    @Field(() => AudtiLogMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof AudtiLogMaxAggregate>;
+    @Field(() => AuditLogCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AuditLogCountAggregate>;
+    @Field(() => AuditLogMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AuditLogMinAggregate>;
+    @Field(() => AuditLogMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AuditLogMaxAggregate>;
 }
 
 @InputType()
-export class AudtiLogListRelationFilter {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    every?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    some?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    none?: InstanceType<typeof AudtiLogWhereInput>;
+export class AuditLogListRelationFilter {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    every?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    some?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    none?: InstanceType<typeof AuditLogWhereInput>;
 }
 
 @InputType()
-export class AudtiLogMaxAggregateInput {
+export class AuditLogMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
@@ -451,7 +451,7 @@ export class AudtiLogMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
     @Field(() => Boolean, {nullable:true})
-    entryData?: true;
+    entityData?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -459,7 +459,7 @@ export class AudtiLogMaxAggregateInput {
 }
 
 @ObjectType()
-export class AudtiLogMaxAggregate {
+export class AuditLogMaxAggregate {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -473,7 +473,7 @@ export class AudtiLogMaxAggregate {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -481,7 +481,7 @@ export class AudtiLogMaxAggregate {
 }
 
 @InputType()
-export class AudtiLogMaxOrderByAggregateInput {
+export class AuditLogMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -495,7 +495,7 @@ export class AudtiLogMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entryData?: keyof typeof SortOrder;
+    entityData?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -503,7 +503,7 @@ export class AudtiLogMaxOrderByAggregateInput {
 }
 
 @InputType()
-export class AudtiLogMinAggregateInput {
+export class AuditLogMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
@@ -517,7 +517,7 @@ export class AudtiLogMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
     @Field(() => Boolean, {nullable:true})
-    entryData?: true;
+    entityData?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -525,7 +525,7 @@ export class AudtiLogMinAggregateInput {
 }
 
 @ObjectType()
-export class AudtiLogMinAggregate {
+export class AuditLogMinAggregate {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -539,7 +539,7 @@ export class AudtiLogMinAggregate {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -547,7 +547,7 @@ export class AudtiLogMinAggregate {
 }
 
 @InputType()
-export class AudtiLogMinOrderByAggregateInput {
+export class AuditLogMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -561,7 +561,7 @@ export class AudtiLogMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entryData?: keyof typeof SortOrder;
+    entityData?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -569,13 +569,13 @@ export class AudtiLogMinOrderByAggregateInput {
 }
 
 @InputType()
-export class AudtiLogOrderByRelationAggregateInput {
+export class AuditLogOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     _count?: keyof typeof SortOrder;
 }
 
 @InputType()
-export class AudtiLogOrderByWithAggregationInput {
+export class AuditLogOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -589,21 +589,21 @@ export class AudtiLogOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    entryData?: InstanceType<typeof SortOrderInput>;
+    entityData?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
-    @Field(() => AudtiLogCountOrderByAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AudtiLogCountOrderByAggregateInput>;
-    @Field(() => AudtiLogMaxOrderByAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AudtiLogMaxOrderByAggregateInput>;
-    @Field(() => AudtiLogMinOrderByAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AudtiLogMinOrderByAggregateInput>;
+    @Field(() => AuditLogCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuditLogCountOrderByAggregateInput>;
+    @Field(() => AuditLogMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuditLogMaxOrderByAggregateInput>;
+    @Field(() => AuditLogMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuditLogMinOrderByAggregateInput>;
 }
 
 @InputType()
-export class AudtiLogOrderByWithRelationInput {
+export class AuditLogOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -617,7 +617,7 @@ export class AudtiLogOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    entryData?: InstanceType<typeof SortOrderInput>;
+    entityData?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -627,13 +627,13 @@ export class AudtiLogOrderByWithRelationInput {
 }
 
 @InputType()
-export class AudtiLogScalarWhereWithAggregatesInput {
-    @Field(() => [AudtiLogScalarWhereWithAggregatesInput], {nullable:true})
-    AND?: Array<AudtiLogScalarWhereWithAggregatesInput>;
-    @Field(() => [AudtiLogScalarWhereWithAggregatesInput], {nullable:true})
-    OR?: Array<AudtiLogScalarWhereWithAggregatesInput>;
-    @Field(() => [AudtiLogScalarWhereWithAggregatesInput], {nullable:true})
-    NOT?: Array<AudtiLogScalarWhereWithAggregatesInput>;
+export class AuditLogScalarWhereWithAggregatesInput {
+    @Field(() => [AuditLogScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<AuditLogScalarWhereWithAggregatesInput>;
+    @Field(() => [AuditLogScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<AuditLogScalarWhereWithAggregatesInput>;
+    @Field(() => [AuditLogScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<AuditLogScalarWhereWithAggregatesInput>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     id?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
@@ -647,7 +647,7 @@ export class AudtiLogScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     entityTitle?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    entryData?: InstanceType<typeof StringWithAggregatesFilter>;
+    entityData?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -655,13 +655,13 @@ export class AudtiLogScalarWhereWithAggregatesInput {
 }
 
 @InputType()
-export class AudtiLogScalarWhereInput {
-    @Field(() => [AudtiLogScalarWhereInput], {nullable:true})
-    AND?: Array<AudtiLogScalarWhereInput>;
-    @Field(() => [AudtiLogScalarWhereInput], {nullable:true})
-    OR?: Array<AudtiLogScalarWhereInput>;
-    @Field(() => [AudtiLogScalarWhereInput], {nullable:true})
-    NOT?: Array<AudtiLogScalarWhereInput>;
+export class AuditLogScalarWhereInput {
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    AND?: Array<AuditLogScalarWhereInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    OR?: Array<AuditLogScalarWhereInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    NOT?: Array<AuditLogScalarWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -675,7 +675,7 @@ export class AudtiLogScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     entityTitle?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entryData?: InstanceType<typeof StringFilter>;
+    entityData?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -683,23 +683,23 @@ export class AudtiLogScalarWhereInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedCreateNestedManyWithoutUserInput {
-    @Field(() => [AudtiLogCreateWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create?: Array<AudtiLogCreateWithoutUserInput>;
-    @Field(() => [AudtiLogCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AudtiLogCreateOrConnectWithoutUserInput>;
-    @Field(() => AudtiLogCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AudtiLogCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AudtiLogCreateManyUserInputEnvelope>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
+export class AuditLogUncheckedCreateNestedManyWithoutUserInput {
+    @Field(() => [AuditLogCreateWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create?: Array<AuditLogCreateWithoutUserInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutUserInput>;
+    @Field(() => AuditLogCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyUserInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
-export class AudtiLogUncheckedCreateWithoutUserInput {
+export class AuditLogUncheckedCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
@@ -711,7 +711,7 @@ export class AudtiLogUncheckedCreateWithoutUserInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -719,7 +719,7 @@ export class AudtiLogUncheckedCreateWithoutUserInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedCreateInput {
+export class AuditLogUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
@@ -733,7 +733,7 @@ export class AudtiLogUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -741,44 +741,44 @@ export class AudtiLogUncheckedCreateInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedUpdateManyWithoutUserNestedInput {
-    @Field(() => [AudtiLogCreateWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create?: Array<AudtiLogCreateWithoutUserInput>;
-    @Field(() => [AudtiLogCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AudtiLogCreateOrConnectWithoutUserInput>;
-    @Field(() => [AudtiLogUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<AudtiLogUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => AudtiLogCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AudtiLogCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AudtiLogCreateManyUserInputEnvelope>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<AudtiLogUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [AudtiLogUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<AudtiLogUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [AudtiLogScalarWhereInput], {nullable:true})
-    @Type(() => AudtiLogScalarWhereInput)
-    deleteMany?: Array<AudtiLogScalarWhereInput>;
+export class AuditLogUncheckedUpdateManyWithoutUserNestedInput {
+    @Field(() => [AuditLogCreateWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create?: Array<AuditLogCreateWithoutUserInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutUserInput>;
+    @Field(() => [AuditLogUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpsertWithWhereUniqueWithoutUserInput)
+    upsert?: Array<AuditLogUpsertWithWhereUniqueWithoutUserInput>;
+    @Field(() => AuditLogCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyUserInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpdateWithWhereUniqueWithoutUserInput)
+    update?: Array<AuditLogUpdateWithWhereUniqueWithoutUserInput>;
+    @Field(() => [AuditLogUpdateManyWithWhereWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpdateManyWithWhereWithoutUserInput)
+    updateMany?: Array<AuditLogUpdateManyWithWhereWithoutUserInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    @Type(() => AuditLogScalarWhereInput)
+    deleteMany?: Array<AuditLogScalarWhereInput>;
 }
 
 @InputType()
-export class AudtiLogUncheckedUpdateManyWithoutUserInput {
+export class AuditLogUncheckedUpdateManyWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
@@ -790,7 +790,7 @@ export class AudtiLogUncheckedUpdateManyWithoutUserInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -798,7 +798,7 @@ export class AudtiLogUncheckedUpdateManyWithoutUserInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedUpdateManyInput {
+export class AuditLogUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -812,7 +812,7 @@ export class AudtiLogUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -820,7 +820,7 @@ export class AudtiLogUncheckedUpdateManyInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedUpdateWithoutUserInput {
+export class AuditLogUncheckedUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
@@ -832,7 +832,7 @@ export class AudtiLogUncheckedUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -840,7 +840,7 @@ export class AudtiLogUncheckedUpdateWithoutUserInput {
 }
 
 @InputType()
-export class AudtiLogUncheckedUpdateInput {
+export class AuditLogUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -854,7 +854,7 @@ export class AudtiLogUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -862,7 +862,7 @@ export class AudtiLogUncheckedUpdateInput {
 }
 
 @InputType()
-export class AudtiLogUpdateManyMutationInput {
+export class AuditLogUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
@@ -874,7 +874,7 @@ export class AudtiLogUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -882,64 +882,64 @@ export class AudtiLogUpdateManyMutationInput {
 }
 
 @InputType()
-export class AudtiLogUpdateManyWithWhereWithoutUserInput {
-    @Field(() => AudtiLogScalarWhereInput, {nullable:false})
-    @Type(() => AudtiLogScalarWhereInput)
-    where!: InstanceType<typeof AudtiLogScalarWhereInput>;
-    @Field(() => AudtiLogUpdateManyMutationInput, {nullable:false})
-    @Type(() => AudtiLogUpdateManyMutationInput)
-    data!: InstanceType<typeof AudtiLogUpdateManyMutationInput>;
+export class AuditLogUpdateManyWithWhereWithoutUserInput {
+    @Field(() => AuditLogScalarWhereInput, {nullable:false})
+    @Type(() => AuditLogScalarWhereInput)
+    where!: InstanceType<typeof AuditLogScalarWhereInput>;
+    @Field(() => AuditLogUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuditLogUpdateManyMutationInput)
+    data!: InstanceType<typeof AuditLogUpdateManyMutationInput>;
 }
 
 @InputType()
-export class AudtiLogUpdateManyWithoutUserNestedInput {
-    @Field(() => [AudtiLogCreateWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create?: Array<AudtiLogCreateWithoutUserInput>;
-    @Field(() => [AudtiLogCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AudtiLogCreateOrConnectWithoutUserInput>;
-    @Field(() => [AudtiLogUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<AudtiLogUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => AudtiLogCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AudtiLogCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AudtiLogCreateManyUserInputEnvelope>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogWhereUniqueInput], {nullable:true})
-    @Type(() => AudtiLogWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>>;
-    @Field(() => [AudtiLogUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<AudtiLogUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [AudtiLogUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => AudtiLogUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<AudtiLogUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [AudtiLogScalarWhereInput], {nullable:true})
-    @Type(() => AudtiLogScalarWhereInput)
-    deleteMany?: Array<AudtiLogScalarWhereInput>;
+export class AuditLogUpdateManyWithoutUserNestedInput {
+    @Field(() => [AuditLogCreateWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create?: Array<AuditLogCreateWithoutUserInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutUserInput>;
+    @Field(() => [AuditLogUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpsertWithWhereUniqueWithoutUserInput)
+    upsert?: Array<AuditLogUpsertWithWhereUniqueWithoutUserInput>;
+    @Field(() => AuditLogCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyUserInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpdateWithWhereUniqueWithoutUserInput)
+    update?: Array<AuditLogUpdateWithWhereUniqueWithoutUserInput>;
+    @Field(() => [AuditLogUpdateManyWithWhereWithoutUserInput], {nullable:true})
+    @Type(() => AuditLogUpdateManyWithWhereWithoutUserInput)
+    updateMany?: Array<AuditLogUpdateManyWithWhereWithoutUserInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    @Type(() => AuditLogScalarWhereInput)
+    deleteMany?: Array<AuditLogScalarWhereInput>;
 }
 
 @InputType()
-export class AudtiLogUpdateWithWhereUniqueWithoutUserInput {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
-    @Field(() => AudtiLogUpdateWithoutUserInput, {nullable:false})
-    @Type(() => AudtiLogUpdateWithoutUserInput)
-    data!: InstanceType<typeof AudtiLogUpdateWithoutUserInput>;
+export class AuditLogUpdateWithWhereUniqueWithoutUserInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogUpdateWithoutUserInput, {nullable:false})
+    @Type(() => AuditLogUpdateWithoutUserInput)
+    data!: InstanceType<typeof AuditLogUpdateWithoutUserInput>;
 }
 
 @InputType()
-export class AudtiLogUpdateWithoutUserInput {
+export class AuditLogUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
@@ -951,7 +951,7 @@ export class AudtiLogUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -959,7 +959,7 @@ export class AudtiLogUpdateWithoutUserInput {
 }
 
 @InputType()
-export class AudtiLogUpdateInput {
+export class AuditLogUpdateInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
@@ -971,38 +971,38 @@ export class AudtiLogUpdateInput {
     @Field(() => String, {nullable:true})
     entityTitle?: string;
     @Field(() => String, {nullable:true})
-    entryData?: string;
+    entityData?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => UserUpdateOneWithoutAudtiLogNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneWithoutAudtiLogNestedInput>;
+    @Field(() => UserUpdateOneWithoutAuditLogsNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneWithoutAuditLogsNestedInput>;
 }
 
 @InputType()
-export class AudtiLogUpsertWithWhereUniqueWithoutUserInput {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
-    @Field(() => AudtiLogUpdateWithoutUserInput, {nullable:false})
-    @Type(() => AudtiLogUpdateWithoutUserInput)
-    update!: InstanceType<typeof AudtiLogUpdateWithoutUserInput>;
-    @Field(() => AudtiLogCreateWithoutUserInput, {nullable:false})
-    @Type(() => AudtiLogCreateWithoutUserInput)
-    create!: InstanceType<typeof AudtiLogCreateWithoutUserInput>;
+export class AuditLogUpsertWithWhereUniqueWithoutUserInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogUpdateWithoutUserInput, {nullable:false})
+    @Type(() => AuditLogUpdateWithoutUserInput)
+    update!: InstanceType<typeof AuditLogUpdateWithoutUserInput>;
+    @Field(() => AuditLogCreateWithoutUserInput, {nullable:false})
+    @Type(() => AuditLogCreateWithoutUserInput)
+    create!: InstanceType<typeof AuditLogCreateWithoutUserInput>;
 }
 
 @InputType()
-export class AudtiLogWhereUniqueInput {
+export class AuditLogWhereUniqueInput {
     @Field(() => String, {nullable:true})
     id?: string;
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    AND?: Array<AudtiLogWhereInput>;
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    OR?: Array<AudtiLogWhereInput>;
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    NOT?: Array<AudtiLogWhereInput>;
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    AND?: Array<AuditLogWhereInput>;
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    OR?: Array<AuditLogWhereInput>;
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    NOT?: Array<AuditLogWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
@@ -1014,7 +1014,7 @@ export class AudtiLogWhereUniqueInput {
     @Field(() => StringFilter, {nullable:true})
     entityTitle?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entryData?: InstanceType<typeof StringFilter>;
+    entityData?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -1024,13 +1024,13 @@ export class AudtiLogWhereUniqueInput {
 }
 
 @InputType()
-export class AudtiLogWhereInput {
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    AND?: Array<AudtiLogWhereInput>;
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    OR?: Array<AudtiLogWhereInput>;
-    @Field(() => [AudtiLogWhereInput], {nullable:true})
-    NOT?: Array<AudtiLogWhereInput>;
+export class AuditLogWhereInput {
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    AND?: Array<AuditLogWhereInput>;
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    OR?: Array<AuditLogWhereInput>;
+    @Field(() => [AuditLogWhereInput], {nullable:true})
+    NOT?: Array<AuditLogWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -1044,7 +1044,7 @@ export class AudtiLogWhereInput {
     @Field(() => StringFilter, {nullable:true})
     entityTitle?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entryData?: InstanceType<typeof StringFilter>;
+    entityData?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -1054,7 +1054,7 @@ export class AudtiLogWhereInput {
 }
 
 @ObjectType()
-export class AudtiLog {
+export class AuditLog {
     @Field(() => ID, {nullable:false})
     id!: string;
     @Field(() => String, {nullable:false})
@@ -1068,7 +1068,7 @@ export class AudtiLog {
     @Field(() => String, {nullable:false})
     entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entryData!: string | null;
+    entityData!: string | null;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
@@ -1078,145 +1078,145 @@ export class AudtiLog {
 }
 
 @ArgsType()
-export class CreateManyAudtiLogArgs {
-    @Field(() => [AudtiLogCreateManyInput], {nullable:false})
-    @Type(() => AudtiLogCreateManyInput)
+export class CreateManyAuditLogArgs {
+    @Field(() => [AuditLogCreateManyInput], {nullable:false})
+    @Type(() => AuditLogCreateManyInput)
     @ValidateNested()
-    data!: Array<AudtiLogCreateManyInput>;
+    data!: Array<AuditLogCreateManyInput>;
     @Field(() => Boolean, {nullable:true})
     skipDuplicates?: boolean;
 }
 
 @ArgsType()
-export class CreateOneAudtiLogArgs {
-    @Field(() => AudtiLogCreateInput, {nullable:false})
-    @Type(() => AudtiLogCreateInput)
+export class CreateOneAuditLogArgs {
+    @Field(() => AuditLogCreateInput, {nullable:false})
+    @Type(() => AuditLogCreateInput)
     @ValidateNested()
-    data!: InstanceType<typeof AudtiLogCreateInput>;
+    data!: InstanceType<typeof AuditLogCreateInput>;
 }
 
 @ArgsType()
-export class DeleteManyAudtiLogArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class DeleteManyAuditLogArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
 }
 
 @ArgsType()
-export class DeleteOneAudtiLogArgs {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
+export class DeleteOneAuditLogArgs {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
-export class FindFirstAudtiLogOrThrowArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class FindFirstAuditLogOrThrowArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => [AudtiLogOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AudtiLogOrderByWithRelationInput>;
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => [AuditLogOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuditLogOrderByWithRelationInput>;
+    @Field(() => AuditLogWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
     skip?: number;
-    @Field(() => [AudtiLogScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AudtiLogScalarFieldEnum>;
+    @Field(() => [AuditLogScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuditLogScalarFieldEnum>;
 }
 
 @ArgsType()
-export class FindFirstAudtiLogArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class FindFirstAuditLogArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => [AudtiLogOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AudtiLogOrderByWithRelationInput>;
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => [AuditLogOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuditLogOrderByWithRelationInput>;
+    @Field(() => AuditLogWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
     skip?: number;
-    @Field(() => [AudtiLogScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AudtiLogScalarFieldEnum>;
+    @Field(() => [AuditLogScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuditLogScalarFieldEnum>;
 }
 
 @ArgsType()
-export class FindManyAudtiLogArgs {
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+export class FindManyAuditLogArgs {
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
-    @Field(() => [AudtiLogOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AudtiLogOrderByWithRelationInput>;
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
+    @Field(() => [AuditLogOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuditLogOrderByWithRelationInput>;
+    @Field(() => AuditLogWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
     skip?: number;
-    @Field(() => [AudtiLogScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AudtiLogScalarFieldEnum>;
+    @Field(() => [AuditLogScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuditLogScalarFieldEnum>;
 }
 
 @ArgsType()
-export class FindUniqueAudtiLogOrThrowArgs {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
+export class FindUniqueAuditLogOrThrowArgs {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
-export class FindUniqueAudtiLogArgs {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
+export class FindUniqueAuditLogArgs {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
-export class UpdateManyAudtiLogArgs {
-    @Field(() => AudtiLogUpdateManyMutationInput, {nullable:false})
-    @Type(() => AudtiLogUpdateManyMutationInput)
+export class UpdateManyAuditLogArgs {
+    @Field(() => AuditLogUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuditLogUpdateManyMutationInput)
     @ValidateNested()
-    data!: InstanceType<typeof AudtiLogUpdateManyMutationInput>;
-    @Field(() => AudtiLogWhereInput, {nullable:true})
-    @Type(() => AudtiLogWhereInput)
+    data!: InstanceType<typeof AuditLogUpdateManyMutationInput>;
+    @Field(() => AuditLogWhereInput, {nullable:true})
+    @Type(() => AuditLogWhereInput)
     @ValidateNested()
-    where?: InstanceType<typeof AudtiLogWhereInput>;
+    where?: InstanceType<typeof AuditLogWhereInput>;
 }
 
 @ArgsType()
-export class UpdateOneAudtiLogArgs {
-    @Field(() => AudtiLogUpdateInput, {nullable:false})
-    @Type(() => AudtiLogUpdateInput)
+export class UpdateOneAuditLogArgs {
+    @Field(() => AuditLogUpdateInput, {nullable:false})
+    @Type(() => AuditLogUpdateInput)
     @ValidateNested()
-    data!: InstanceType<typeof AudtiLogUpdateInput>;
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
+    data!: InstanceType<typeof AuditLogUpdateInput>;
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
-export class UpsertOneAudtiLogArgs {
-    @Field(() => AudtiLogWhereUniqueInput, {nullable:false})
-    @Type(() => AudtiLogWhereUniqueInput)
+export class UpsertOneAuditLogArgs {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<AudtiLogWhereUniqueInput, 'id'>;
-    @Field(() => AudtiLogCreateInput, {nullable:false})
-    @Type(() => AudtiLogCreateInput)
-    create!: InstanceType<typeof AudtiLogCreateInput>;
-    @Field(() => AudtiLogUpdateInput, {nullable:false})
-    @Type(() => AudtiLogUpdateInput)
-    update!: InstanceType<typeof AudtiLogUpdateInput>;
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogCreateInput, {nullable:false})
+    @Type(() => AuditLogCreateInput)
+    create!: InstanceType<typeof AuditLogCreateInput>;
+    @Field(() => AuditLogUpdateInput, {nullable:false})
+    @Type(() => AuditLogUpdateInput)
+    update!: InstanceType<typeof AuditLogUpdateInput>;
 }
 
 @ObjectType()
@@ -8912,7 +8912,7 @@ export class UserCount {
     @Field(() => Int, {nullable:false})
     comments?: number;
     @Field(() => Int, {nullable:false})
-    AudtiLog?: number;
+    auditLogs?: number;
 }
 
 @InputType()
@@ -8979,13 +8979,13 @@ export class UserCreateNestedManyWithoutLikedReviewsInput {
 }
 
 @InputType()
-export class UserCreateNestedOneWithoutAudtiLogInput {
-    @Field(() => UserCreateWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserCreateWithoutAudtiLogInput)
-    create?: InstanceType<typeof UserCreateWithoutAudtiLogInput>;
-    @Field(() => UserCreateOrConnectWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutAudtiLogInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAudtiLogInput>;
+export class UserCreateNestedOneWithoutAuditLogsInput {
+    @Field(() => UserCreateWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserCreateWithoutAuditLogsInput)
+    create?: InstanceType<typeof UserCreateWithoutAuditLogsInput>;
+    @Field(() => UserCreateOrConnectWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutAuditLogsInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAuditLogsInput>;
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
@@ -9057,13 +9057,13 @@ export class UserCreateNestedOneWithoutUserBooksInput {
 }
 
 @InputType()
-export class UserCreateOrConnectWithoutAudtiLogInput {
+export class UserCreateOrConnectWithoutAuditLogsInput {
     @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
     where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserCreateWithoutAudtiLogInput, {nullable:false})
-    @Type(() => UserCreateWithoutAudtiLogInput)
-    create!: InstanceType<typeof UserCreateWithoutAudtiLogInput>;
+    @Field(() => UserCreateWithoutAuditLogsInput, {nullable:false})
+    @Type(() => UserCreateWithoutAuditLogsInput)
+    create!: InstanceType<typeof UserCreateWithoutAuditLogsInput>;
 }
 
 @InputType()
@@ -9147,7 +9147,7 @@ export class UserCreateOrConnectWithoutUserBooksInput {
 }
 
 @InputType()
-export class UserCreateWithoutAudtiLogInput {
+export class UserCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
@@ -9222,8 +9222,8 @@ export class UserCreateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9262,8 +9262,8 @@ export class UserCreateWithoutFollowersInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9302,8 +9302,8 @@ export class UserCreateWithoutFollowingInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9342,8 +9342,8 @@ export class UserCreateWithoutJournalEntriesInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9382,8 +9382,8 @@ export class UserCreateWithoutLikedReviewsInput {
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9422,8 +9422,8 @@ export class UserCreateWithoutReviewsInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9462,8 +9462,8 @@ export class UserCreateWithoutShelvesInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9502,8 +9502,8 @@ export class UserCreateWithoutUserBooksInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9544,8 +9544,8 @@ export class UserCreateInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
 }
 
 @ArgsType()
@@ -9788,8 +9788,8 @@ export class UserOrderByWithRelationInput {
     likedReviews?: InstanceType<typeof ReviewOrderByRelationAggregateInput>;
     @Field(() => CommentOrderByRelationAggregateInput, {nullable:true})
     comments?: InstanceType<typeof CommentOrderByRelationAggregateInput>;
-    @Field(() => AudtiLogOrderByRelationAggregateInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogOrderByRelationAggregateInput>;
+    @Field(() => AuditLogOrderByRelationAggregateInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -9888,7 +9888,7 @@ export class UserUncheckedCreateNestedManyWithoutLikedReviewsInput {
 }
 
 @InputType()
-export class UserUncheckedCreateWithoutAudtiLogInput {
+export class UserUncheckedCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:false})
@@ -9963,8 +9963,8 @@ export class UserUncheckedCreateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10003,8 +10003,8 @@ export class UserUncheckedCreateWithoutFollowersInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10043,8 +10043,8 @@ export class UserUncheckedCreateWithoutFollowingInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10083,8 +10083,8 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10123,8 +10123,8 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10163,8 +10163,8 @@ export class UserUncheckedCreateWithoutReviewsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10203,8 +10203,8 @@ export class UserUncheckedCreateWithoutShelvesInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10243,8 +10243,8 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10285,8 +10285,8 @@ export class UserUncheckedCreateInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => AudtiLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10488,7 +10488,7 @@ export class UserUncheckedUpdateManyInput {
 }
 
 @InputType()
-export class UserUncheckedUpdateWithoutAudtiLogInput {
+export class UserUncheckedUpdateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -10563,8 +10563,8 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10603,8 +10603,8 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10643,8 +10643,8 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10683,8 +10683,8 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10723,8 +10723,8 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10763,8 +10763,8 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10803,8 +10803,8 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10843,8 +10843,8 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10885,8 +10885,8 @@ export class UserUncheckedUpdateInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11046,16 +11046,16 @@ export class UserUpdateManyWithoutLikedReviewsNestedInput {
 }
 
 @InputType()
-export class UserUpdateOneWithoutAudtiLogNestedInput {
-    @Field(() => UserCreateWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserCreateWithoutAudtiLogInput)
-    create?: InstanceType<typeof UserCreateWithoutAudtiLogInput>;
-    @Field(() => UserCreateOrConnectWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutAudtiLogInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAudtiLogInput>;
-    @Field(() => UserUpsertWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserUpsertWithoutAudtiLogInput)
-    upsert?: InstanceType<typeof UserUpsertWithoutAudtiLogInput>;
+export class UserUpdateOneWithoutAuditLogsNestedInput {
+    @Field(() => UserCreateWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserCreateWithoutAuditLogsInput)
+    create?: InstanceType<typeof UserCreateWithoutAuditLogsInput>;
+    @Field(() => UserCreateOrConnectWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutAuditLogsInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAuditLogsInput>;
+    @Field(() => UserUpsertWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserUpsertWithoutAuditLogsInput)
+    upsert?: InstanceType<typeof UserUpsertWithoutAuditLogsInput>;
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
     disconnect?: InstanceType<typeof UserWhereInput>;
@@ -11065,9 +11065,9 @@ export class UserUpdateOneWithoutAudtiLogNestedInput {
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateToOneWithWhereWithoutAudtiLogInput, {nullable:true})
-    @Type(() => UserUpdateToOneWithWhereWithoutAudtiLogInput)
-    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutAudtiLogInput>;
+    @Field(() => UserUpdateToOneWithWhereWithoutAuditLogsInput, {nullable:true})
+    @Type(() => UserUpdateToOneWithWhereWithoutAuditLogsInput)
+    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutAuditLogsInput>;
 }
 
 @InputType()
@@ -11196,13 +11196,13 @@ export class UserUpdateOneWithoutUserBooksNestedInput {
 }
 
 @InputType()
-export class UserUpdateToOneWithWhereWithoutAudtiLogInput {
+export class UserUpdateToOneWithWhereWithoutAuditLogsInput {
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
     where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserUpdateWithoutAudtiLogInput, {nullable:false})
-    @Type(() => UserUpdateWithoutAudtiLogInput)
-    data!: InstanceType<typeof UserUpdateWithoutAudtiLogInput>;
+    @Field(() => UserUpdateWithoutAuditLogsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutAuditLogsInput)
+    data!: InstanceType<typeof UserUpdateWithoutAuditLogsInput>;
 }
 
 @InputType()
@@ -11286,7 +11286,7 @@ export class UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 }
 
 @InputType()
-export class UserUpdateWithoutAudtiLogInput {
+export class UserUpdateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => String, {nullable:true})
@@ -11361,8 +11361,8 @@ export class UserUpdateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11401,8 +11401,8 @@ export class UserUpdateWithoutFollowersInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11441,8 +11441,8 @@ export class UserUpdateWithoutFollowingInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11481,8 +11481,8 @@ export class UserUpdateWithoutJournalEntriesInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11521,8 +11521,8 @@ export class UserUpdateWithoutLikedReviewsInput {
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11561,8 +11561,8 @@ export class UserUpdateWithoutReviewsInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11601,8 +11601,8 @@ export class UserUpdateWithoutShelvesInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11641,8 +11641,8 @@ export class UserUpdateWithoutUserBooksInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11683,8 +11683,8 @@ export class UserUpdateInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
-    @Field(() => AudtiLogUpdateManyWithoutUserNestedInput, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11727,13 +11727,13 @@ export class UserUpsertWithWhereUniqueWithoutLikedReviewsInput {
 }
 
 @InputType()
-export class UserUpsertWithoutAudtiLogInput {
-    @Field(() => UserUpdateWithoutAudtiLogInput, {nullable:false})
-    @Type(() => UserUpdateWithoutAudtiLogInput)
-    update!: InstanceType<typeof UserUpdateWithoutAudtiLogInput>;
-    @Field(() => UserCreateWithoutAudtiLogInput, {nullable:false})
-    @Type(() => UserCreateWithoutAudtiLogInput)
-    create!: InstanceType<typeof UserCreateWithoutAudtiLogInput>;
+export class UserUpsertWithoutAuditLogsInput {
+    @Field(() => UserUpdateWithoutAuditLogsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutAuditLogsInput)
+    update!: InstanceType<typeof UserUpdateWithoutAuditLogsInput>;
+    @Field(() => UserCreateWithoutAuditLogsInput, {nullable:false})
+    @Type(() => UserCreateWithoutAuditLogsInput)
+    create!: InstanceType<typeof UserCreateWithoutAuditLogsInput>;
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
     where?: InstanceType<typeof UserWhereInput>;
@@ -11846,8 +11846,8 @@ export class UserWhereUniqueInput {
     likedReviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
-    @Field(() => AudtiLogListRelationFilter, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogListRelationFilter>;
+    @Field(() => AuditLogListRelationFilter, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
 }
 
 @InputType()
@@ -11888,8 +11888,8 @@ export class UserWhereInput {
     likedReviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => CommentListRelationFilter, {nullable:true})
     comments?: InstanceType<typeof CommentListRelationFilter>;
-    @Field(() => AudtiLogListRelationFilter, {nullable:true})
-    AudtiLog?: InstanceType<typeof AudtiLogListRelationFilter>;
+    @Field(() => AuditLogListRelationFilter, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
 }
 
 @ObjectType()
@@ -11924,8 +11924,8 @@ export class User {
     likedReviews?: Array<Review>;
     @Field(() => [Comment], {nullable:true})
     comments?: Array<Comment>;
-    @Field(() => [AudtiLog], {nullable:true})
-    AudtiLog?: Array<AudtiLog>;
+    @Field(() => [AuditLog], {nullable:true})
+    auditLogs?: Array<AuditLog>;
     @Field(() => UserCount, {nullable:false})
     _count?: InstanceType<typeof UserCount>;
 }

@@ -6,12 +6,12 @@ import { PrismaRepository } from 'prisma/prisma.repository';
  */
 @Injectable()
 export class ActivityRepository {
-  update = this.prisma.audtiLog.update;
-  findUnique = this.prisma.audtiLog.findUnique;
-  findMany = this.prisma.audtiLog.findMany;
-  create = this.prisma.audtiLog.create;
-  count = this.prisma.audtiLog.count;
-  delete = this.prisma.audtiLog.delete;
+  update = this.prisma.auditLog.update;
+  findUnique = this.prisma.auditLog.findUnique;
+  findMany = this.prisma.auditLog.findMany;
+  create = this.prisma.auditLog.create;
+  count = this.prisma.auditLog.count;
+  delete = this.prisma.auditLog.delete;
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

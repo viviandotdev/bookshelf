@@ -11,6 +11,6 @@ query GetAuditLogs($where: UserBookWhereUniqueInput, $offset: Int, $limit: Int) 
     }
     entityType
     entityTitle
-    entryData
+    entityData
   }
 }
