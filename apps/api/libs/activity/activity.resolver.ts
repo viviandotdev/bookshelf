@@ -4,6 +4,7 @@ import {
   AudtiLog,
   AudtiLogCreateInput,
   AudtiLogWhereInput,
+  UserBookWhereUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
@@ -24,16 +25,28 @@ export class ActivityResolver {
     return this.activityService.create(data, currentUser.userId);
   }
 
+  @UseGuards(AccessTokenGuard)
   @Query(() => [AudtiLog])
   async auditLogs(
-    @Args('where') where: AudtiLogWhereInput,
+    @CurrentUser() currentUser: JwtPayload,
+    @Args({
+      name: 'where',
+      type: () => UserBookWhereUniqueInput,
+      nullable: true,
+    })
+    where?: UserBookWhereUniqueInput,
     @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
   ) {
     // Based on the user book
     return this.activityService.findMany({
       where: {
-        userId: where.userId,
+        userId: currentUser.userId,
+        // userBook id, get all the activities for this book
+        entityId: where.id,
+      },
+      include: {
+        user: true,
       },
       skip: offset,
       take: limit,

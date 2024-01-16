@@ -17,6 +17,228 @@ export type Scalars = {
   Timestamp: any;
 };
 
+export enum Action {
+  Create = 'CREATE',
+  Like = 'LIKE',
+  Log = 'LOG',
+  Rate = 'RATE',
+  Update = 'UPDATE'
+}
+
+export type AudtiLog = {
+  __typename?: 'AudtiLog';
+  action: Action;
+  createdAt: Scalars['Timestamp'];
+  entityId: Scalars['String'];
+  entityTitle: Scalars['String'];
+  entityType: Entity_Type;
+  entryData?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  updatedAt: Scalars['Timestamp'];
+  user?: Maybe<User>;
+  userId: Scalars['String'];
+};
+
+export type AudtiLogCountAggregate = {
+  __typename?: 'AudtiLogCountAggregate';
+  _all: Scalars['Int'];
+  action: Scalars['Int'];
+  createdAt: Scalars['Int'];
+  entityId: Scalars['Int'];
+  entityTitle: Scalars['Int'];
+  entityType: Scalars['Int'];
+  entryData: Scalars['Int'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+export type AudtiLogCreateInput = {
+  action: Action;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityId: Scalars['String'];
+  entityTitle: Scalars['String'];
+  entityType: Entity_Type;
+  entryData?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  user?: InputMaybe<UserCreateNestedOneWithoutAudtiLogInput>;
+};
+
+export type AudtiLogCreateManyUserInput = {
+  action: Action;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityId: Scalars['String'];
+  entityTitle: Scalars['String'];
+  entityType: Entity_Type;
+  entryData?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AudtiLogCreateManyUserInputEnvelope = {
+  data: Array<AudtiLogCreateManyUserInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type AudtiLogCreateNestedManyWithoutUserInput = {
+  connect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AudtiLogCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<AudtiLogCreateWithoutUserInput>>;
+  createMany?: InputMaybe<AudtiLogCreateManyUserInputEnvelope>;
+};
+
+export type AudtiLogCreateOrConnectWithoutUserInput = {
+  create: AudtiLogCreateWithoutUserInput;
+  where: AudtiLogWhereUniqueInput;
+};
+
+export type AudtiLogCreateWithoutUserInput = {
+  action: Action;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityId: Scalars['String'];
+  entityTitle: Scalars['String'];
+  entityType: Entity_Type;
+  entryData?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AudtiLogListRelationFilter = {
+  every?: InputMaybe<AudtiLogWhereInput>;
+  none?: InputMaybe<AudtiLogWhereInput>;
+  some?: InputMaybe<AudtiLogWhereInput>;
+};
+
+export type AudtiLogMaxAggregate = {
+  __typename?: 'AudtiLogMaxAggregate';
+  action?: Maybe<Action>;
+  createdAt?: Maybe<Scalars['Timestamp']>;
+  entityId?: Maybe<Scalars['String']>;
+  entityTitle?: Maybe<Scalars['String']>;
+  entityType?: Maybe<Entity_Type>;
+  entryData?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Timestamp']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type AudtiLogMinAggregate = {
+  __typename?: 'AudtiLogMinAggregate';
+  action?: Maybe<Action>;
+  createdAt?: Maybe<Scalars['Timestamp']>;
+  entityId?: Maybe<Scalars['String']>;
+  entityTitle?: Maybe<Scalars['String']>;
+  entityType?: Maybe<Entity_Type>;
+  entryData?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Timestamp']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+export type AudtiLogOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type AudtiLogScalarWhereInput = {
+  AND?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
+  NOT?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
+  OR?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
+  action?: InputMaybe<EnumActionFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  entityId?: InputMaybe<StringFilter>;
+  entityTitle?: InputMaybe<StringFilter>;
+  entityType?: InputMaybe<EnumEntity_TypeFilter>;
+  entryData?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type AudtiLogUpdateManyMutationInput = {
+  action?: InputMaybe<Action>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityId?: InputMaybe<Scalars['String']>;
+  entityTitle?: InputMaybe<Scalars['String']>;
+  entityType?: InputMaybe<Entity_Type>;
+  entryData?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AudtiLogUpdateManyWithWhereWithoutUserInput = {
+  data: AudtiLogUpdateManyMutationInput;
+  where: AudtiLogScalarWhereInput;
+};
+
+export type AudtiLogUpdateManyWithoutUserNestedInput = {
+  connect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AudtiLogCreateOrConnectWithoutUserInput>>;
+  create?: InputMaybe<Array<AudtiLogCreateWithoutUserInput>>;
+  createMany?: InputMaybe<AudtiLogCreateManyUserInputEnvelope>;
+  delete?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<AudtiLogScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
+  set?: InputMaybe<Array<AudtiLogWhereUniqueInput>>;
+  update?: InputMaybe<Array<AudtiLogUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: InputMaybe<Array<AudtiLogUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: InputMaybe<Array<AudtiLogUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type AudtiLogUpdateWithWhereUniqueWithoutUserInput = {
+  data: AudtiLogUpdateWithoutUserInput;
+  where: AudtiLogWhereUniqueInput;
+};
+
+export type AudtiLogUpdateWithoutUserInput = {
+  action?: InputMaybe<Action>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  entityId?: InputMaybe<Scalars['String']>;
+  entityTitle?: InputMaybe<Scalars['String']>;
+  entityType?: InputMaybe<Entity_Type>;
+  entryData?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AudtiLogUpsertWithWhereUniqueWithoutUserInput = {
+  create: AudtiLogCreateWithoutUserInput;
+  update: AudtiLogUpdateWithoutUserInput;
+  where: AudtiLogWhereUniqueInput;
+};
+
+export type AudtiLogWhereInput = {
+  AND?: InputMaybe<Array<AudtiLogWhereInput>>;
+  NOT?: InputMaybe<Array<AudtiLogWhereInput>>;
+  OR?: InputMaybe<Array<AudtiLogWhereInput>>;
+  action?: InputMaybe<EnumActionFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  entityId?: InputMaybe<StringFilter>;
+  entityTitle?: InputMaybe<StringFilter>;
+  entityType?: InputMaybe<EnumEntity_TypeFilter>;
+  entryData?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
+export type AudtiLogWhereUniqueInput = {
+  AND?: InputMaybe<Array<AudtiLogWhereInput>>;
+  NOT?: InputMaybe<Array<AudtiLogWhereInput>>;
+  OR?: InputMaybe<Array<AudtiLogWhereInput>>;
+  action?: InputMaybe<EnumActionFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  entityId?: InputMaybe<StringFilter>;
+  entityTitle?: InputMaybe<StringFilter>;
+  entityType?: InputMaybe<EnumEntity_TypeFilter>;
+  entryData?: InputMaybe<StringFilter>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   accessToken: Scalars['String'];
@@ -33,6 +255,7 @@ export type Book = {
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  mainCategory?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
@@ -60,6 +283,7 @@ export type BookCountAggregate = {
   coverImage: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
+  mainCategory: Scalars['Int'];
   pageCount: Scalars['Int'];
   publishedDate: Scalars['Int'];
   publisher: Scalars['Int'];
@@ -72,6 +296,7 @@ export type BookCreateInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
@@ -108,6 +333,7 @@ export type BookCreateWithoutReviewsInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
@@ -121,6 +347,7 @@ export type BookCreateWithoutUserBookInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
@@ -142,6 +369,7 @@ export type BookMaxAggregate = {
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  mainCategory?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
@@ -155,6 +383,7 @@ export type BookMinAggregate = {
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
+  mainCategory?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
@@ -167,6 +396,7 @@ export type BookOrderByWithRelationInput = {
   coverImage?: InputMaybe<SortOrderInput>;
   description?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
+  mainCategory?: InputMaybe<SortOrderInput>;
   pageCount?: InputMaybe<SortOrderInput>;
   publishedDate?: InputMaybe<SortOrderInput>;
   publisher?: InputMaybe<SortOrderInput>;
@@ -221,6 +451,7 @@ export type BookUpdateWithoutReviewsInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
@@ -234,6 +465,7 @@ export type BookUpdateWithoutUserBookInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
@@ -262,6 +494,7 @@ export type BookWhereInput = {
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
+  mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
@@ -279,6 +512,7 @@ export type BookWhereUniqueInput = {
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
@@ -537,6 +771,26 @@ export type DateTimeFilter = {
   lte?: InputMaybe<Scalars['Timestamp']>;
   not?: InputMaybe<DateTimeFilter>;
   notIn?: InputMaybe<Array<Scalars['Timestamp']>>;
+};
+
+export enum Entity_Type {
+  JournalEntry = 'JOURNAL_ENTRY',
+  Review = 'REVIEW',
+  Userbook = 'USERBOOK'
+}
+
+export type EnumActionFilter = {
+  equals?: InputMaybe<Action>;
+  in?: InputMaybe<Array<Action>>;
+  not?: InputMaybe<EnumActionFilter>;
+  notIn?: InputMaybe<Array<Action>>;
+};
+
+export type EnumEntity_TypeFilter = {
+  equals?: InputMaybe<Entity_Type>;
+  in?: InputMaybe<Array<Entity_Type>>;
+  not?: InputMaybe<EnumEntity_TypeFilter>;
+  notIn?: InputMaybe<Array<Entity_Type>>;
 };
 
 export type IntFilter = {
@@ -879,6 +1133,7 @@ export type LogInInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAuditLog: AudtiLog;
   createBook: Book;
   createComment: Comment;
   createJournalEntry: JournalEntry;
@@ -900,6 +1155,11 @@ export type Mutation = {
   updateShelf: Shelf;
   updateUserBook: UserBook;
   updateUserBookOrder: Array<UserBook>;
+};
+
+
+export type MutationCreateAuditLogArgs = {
+  data: AudtiLogCreateInput;
 };
 
 
@@ -1019,6 +1279,7 @@ export enum NullsOrder {
 
 export type Query = {
   __typename?: 'Query';
+  auditLogs: Array<AudtiLog>;
   bookReview: Review;
   bookReviews: Array<Review>;
   comments: Array<Comment>;
@@ -1031,6 +1292,13 @@ export type Query = {
   user: User;
   userBook?: Maybe<UserBook>;
   userBooks?: Maybe<Array<UserBook>>;
+};
+
+
+export type QueryAuditLogsArgs = {
+  limit?: Scalars['Int'];
+  offset?: Scalars['Int'];
+  where?: InputMaybe<UserBookWhereUniqueInput>;
 };
 
 
@@ -1883,6 +2151,7 @@ export type StringFilter = {
 
 export type User = {
   __typename?: 'User';
+  AudtiLog?: Maybe<Array<AudtiLog>>;
   _count: UserCount;
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp'];
@@ -2621,6 +2890,7 @@ export type UserBookWhereUniqueInput = {
 
 export type UserCount = {
   __typename?: 'UserCount';
+  AudtiLog: Scalars['Int'];
   comments: Scalars['Int'];
   followers: Scalars['Int'];
   following: Scalars['Int'];
@@ -2642,6 +2912,7 @@ export type UserCountAggregate = {
 };
 
 export type UserCreateInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2677,6 +2948,12 @@ export type UserCreateNestedManyWithoutLikedReviewsInput = {
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
 };
 
+export type UserCreateNestedOneWithoutAudtiLogInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAudtiLogInput>;
+  create?: InputMaybe<UserCreateWithoutAudtiLogInput>;
+};
+
 export type UserCreateNestedOneWithoutCommentsInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutCommentsInput>;
@@ -2705,6 +2982,11 @@ export type UserCreateNestedOneWithoutUserBooksInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutUserBooksInput>;
   create?: InputMaybe<UserCreateWithoutUserBooksInput>;
+};
+
+export type UserCreateOrConnectWithoutAudtiLogInput = {
+  create: UserCreateWithoutAudtiLogInput;
+  where: UserWhereUniqueInput;
 };
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -2747,7 +3029,26 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
   where: UserWhereUniqueInput;
 };
 
+export type UserCreateWithoutAudtiLogInput = {
+  comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email: Scalars['String'];
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
+  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserCreateWithoutCommentsInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -2765,6 +3066,7 @@ export type UserCreateWithoutCommentsInput = {
 };
 
 export type UserCreateWithoutFollowersInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2782,6 +3084,7 @@ export type UserCreateWithoutFollowersInput = {
 };
 
 export type UserCreateWithoutFollowingInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2799,6 +3102,7 @@ export type UserCreateWithoutFollowingInput = {
 };
 
 export type UserCreateWithoutJournalEntriesInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2816,6 +3120,7 @@ export type UserCreateWithoutJournalEntriesInput = {
 };
 
 export type UserCreateWithoutLikedReviewsInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2833,6 +3138,7 @@ export type UserCreateWithoutLikedReviewsInput = {
 };
 
 export type UserCreateWithoutReviewsInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2850,6 +3156,7 @@ export type UserCreateWithoutReviewsInput = {
 };
 
 export type UserCreateWithoutShelvesInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2867,6 +3174,7 @@ export type UserCreateWithoutShelvesInput = {
 };
 
 export type UserCreateWithoutUserBooksInput = {
+  AudtiLog?: InputMaybe<AudtiLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
@@ -2912,6 +3220,7 @@ export type UserOrderByRelationAggregateInput = {
 };
 
 export type UserOrderByWithRelationInput = {
+  AudtiLog?: InputMaybe<AudtiLogOrderByRelationAggregateInput>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
@@ -3102,6 +3411,7 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 };
 
 export type UserUpdateWithoutCommentsInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -3119,6 +3429,7 @@ export type UserUpdateWithoutCommentsInput = {
 };
 
 export type UserUpdateWithoutFollowersInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3136,6 +3447,7 @@ export type UserUpdateWithoutFollowersInput = {
 };
 
 export type UserUpdateWithoutFollowingInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3153,6 +3465,7 @@ export type UserUpdateWithoutFollowingInput = {
 };
 
 export type UserUpdateWithoutJournalEntriesInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3170,6 +3483,7 @@ export type UserUpdateWithoutJournalEntriesInput = {
 };
 
 export type UserUpdateWithoutLikedReviewsInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3187,6 +3501,7 @@ export type UserUpdateWithoutLikedReviewsInput = {
 };
 
 export type UserUpdateWithoutReviewsInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3204,6 +3519,7 @@ export type UserUpdateWithoutReviewsInput = {
 };
 
 export type UserUpdateWithoutShelvesInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3221,6 +3537,7 @@ export type UserUpdateWithoutShelvesInput = {
 };
 
 export type UserUpdateWithoutUserBooksInput = {
+  AudtiLog?: InputMaybe<AudtiLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
@@ -3287,6 +3604,7 @@ export type UserUpsertWithoutUserBooksInput = {
 
 export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
+  AudtiLog?: InputMaybe<AudtiLogListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   comments?: InputMaybe<CommentListRelationFilter>;
@@ -3308,6 +3626,7 @@ export type UserWhereInput = {
 
 export type UserWhereUniqueInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
+  AudtiLog?: InputMaybe<AudtiLogListRelationFilter>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   comments?: InputMaybe<CommentListRelationFilter>;
@@ -3474,6 +3793,15 @@ export type UpdateUserBookOrderMutationVariables = Exact<{
 
 
 export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
+
+export type GetAuditLogsQueryVariables = Exact<{
+  where?: InputMaybe<UserBookWhereUniqueInput>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AudtiLog', id: string, action: Action, createdAt: any, updatedAt: any, entityType: Entity_Type, entityTitle: string, entryData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4307,6 +4635,54 @@ export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHook
 export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
+export const GetAuditLogsDocument = gql`
+    query GetAuditLogs($where: UserBookWhereUniqueInput, $offset: Int, $limit: Int) {
+  auditLogs(where: $where, offset: $offset, limit: $limit) {
+    id
+    action
+    createdAt
+    updatedAt
+    user {
+      id
+      username
+      email
+    }
+    entityType
+    entityTitle
+    entryData
+  }
+}
+    `;
+
+/**
+ * __useGetAuditLogsQuery__
+ *
+ * To run a query within a React component, call `useGetAuditLogsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAuditLogsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAuditLogsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      offset: // value for 'offset'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetAuditLogsQuery(baseOptions?: Apollo.QueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
+      }
+export function useGetAuditLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
+        }
+export type GetAuditLogsQueryHookResult = ReturnType<typeof useGetAuditLogsQuery>;
+export type GetAuditLogsLazyQueryHookResult = ReturnType<typeof useGetAuditLogsLazyQuery>;
+export type GetAuditLogsQueryResult = Apollo.QueryResult<GetAuditLogsQuery, GetAuditLogsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

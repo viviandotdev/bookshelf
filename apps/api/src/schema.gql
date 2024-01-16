@@ -1125,7 +1125,7 @@ enum NullsOrder {
 }
 
 type Query {
-  auditLogs(limit: Int! = 20, offset: Int! = 0, where: AudtiLogWhereInput!): [AudtiLog!]!
+  auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AudtiLog!]!
   bookReview(where: ReviewWhereUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
