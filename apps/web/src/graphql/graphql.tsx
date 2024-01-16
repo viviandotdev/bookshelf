@@ -22,6 +22,7 @@ export enum Action {
   Log = 'LOG',
   Rate = 'RATE',
   Review = 'REVIEW',
+  Shelve = 'SHELVE',
   StatusUpdate = 'STATUS_UPDATE'
 }
 
@@ -3776,7 +3777,7 @@ export type GetAuditLogsQueryVariables = Exact<{
 }>;
 
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityId: string, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4622,6 +4623,7 @@ export const GetAuditLogsDocument = gql`
       username
       email
     }
+    entityId
     entityTitle
     entityData
   }

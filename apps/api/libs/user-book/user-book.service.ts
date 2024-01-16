@@ -190,7 +190,7 @@ export class UserBookService {
       // Create status update activity
       this.activityService.create(
         {
-          entityId: origin.id, //userBook where the activity is happening
+          entityId: origin.book.id, //userBook where the activity is happening
           entityTitle: origin.book.title, // the book we are updating
           action: 'STATUS_UPDATE',
           entityData: args.data.status,
@@ -202,7 +202,7 @@ export class UserBookService {
     if (args.data.rating) {
       this.activityService.create(
         {
-          entityId: origin.id, //userBook where the activity is happening
+          entityId: origin.book.id, //userBook where the activity is happening
           entityTitle: origin.book.title, // the book we are updating
           action: 'RATE',
           entityData: args.data.rating.toString(),
@@ -212,15 +212,15 @@ export class UserBookService {
     }
     // Create activty for shelfing a book
     if (args.data.shelves) {
-      //   this.activityService.create(
-      //     {
-      //       entityId: origin.id, //userBook where the activity is happening
-      //       entityTitle: origin.book.title, // the book we are updating
-      //       action: 'RATE',
-      //       entityData: args.data.rating.toString(),
-      //     },
-      //     userId,
-      //   );
+      this.activityService.create(
+        {
+          entityId: origin.book.id, //userBook where the activity is happening
+          entityTitle: origin.book.title, // the book we are updating
+          action: 'SHELVE',
+          entityData: args.data.shelves.join(', '),
+        },
+        userId,
+      );
     }
 
     const updateUserBook = await this.repository.update({

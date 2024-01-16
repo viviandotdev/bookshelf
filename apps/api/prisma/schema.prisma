@@ -218,7 +218,7 @@ enum ACTION {
     LIKE
     RATE
     LOG
-    // SHELVE
+    SHELVE
 }
 
 model AuditLog {

@@ -83,7 +83,8 @@ export enum ACTION {
     STATUS_UPDATE = "STATUS_UPDATE",
     LIKE = "LIKE",
     RATE = "RATE",
-    LOG = "LOG"
+    LOG = "LOG",
+    SHELVE = "SHELVE"
 }
 
 export enum JournalEntryScalarFieldEnum {
