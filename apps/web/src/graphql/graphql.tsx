@@ -18,11 +18,11 @@ export type Scalars = {
 };
 
 export enum Action {
-  Create = 'CREATE',
   Like = 'LIKE',
   Log = 'LOG',
   Rate = 'RATE',
-  Update = 'UPDATE'
+  Review = 'REVIEW',
+  StatusUpdate = 'STATUS_UPDATE'
 }
 
 export type AuditLog = {
@@ -32,7 +32,6 @@ export type AuditLog = {
   entityData?: Maybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
-  entityType: Entity_Type;
   id: Scalars['ID'];
   updatedAt: Scalars['Timestamp'];
   user?: Maybe<User>;
@@ -47,7 +46,6 @@ export type AuditLogCountAggregate = {
   entityData: Scalars['Int'];
   entityId: Scalars['Int'];
   entityTitle: Scalars['Int'];
-  entityType: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   userId: Scalars['Int'];
@@ -59,7 +57,6 @@ export type AuditLogCreateInput = {
   entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
-  entityType: Entity_Type;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserCreateNestedOneWithoutAuditLogsInput>;
@@ -71,7 +68,6 @@ export type AuditLogCreateManyUserInput = {
   entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
-  entityType: Entity_Type;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -99,7 +95,6 @@ export type AuditLogCreateWithoutUserInput = {
   entityData?: InputMaybe<Scalars['String']>;
   entityId: Scalars['String'];
   entityTitle: Scalars['String'];
-  entityType: Entity_Type;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -117,7 +112,6 @@ export type AuditLogMaxAggregate = {
   entityData?: Maybe<Scalars['String']>;
   entityId?: Maybe<Scalars['String']>;
   entityTitle?: Maybe<Scalars['String']>;
-  entityType?: Maybe<Entity_Type>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -130,7 +124,6 @@ export type AuditLogMinAggregate = {
   entityData?: Maybe<Scalars['String']>;
   entityId?: Maybe<Scalars['String']>;
   entityTitle?: Maybe<Scalars['String']>;
-  entityType?: Maybe<Entity_Type>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -149,7 +142,6 @@ export type AuditLogScalarWhereInput = {
   entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
-  entityType?: InputMaybe<EnumEntity_TypeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -161,7 +153,6 @@ export type AuditLogUpdateManyMutationInput = {
   entityData?: InputMaybe<Scalars['String']>;
   entityId?: InputMaybe<Scalars['String']>;
   entityTitle?: InputMaybe<Scalars['String']>;
-  entityType?: InputMaybe<Entity_Type>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -196,7 +187,6 @@ export type AuditLogUpdateWithoutUserInput = {
   entityData?: InputMaybe<Scalars['String']>;
   entityId?: InputMaybe<Scalars['String']>;
   entityTitle?: InputMaybe<Scalars['String']>;
-  entityType?: InputMaybe<Entity_Type>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -216,7 +206,6 @@ export type AuditLogWhereInput = {
   entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
-  entityType?: InputMaybe<EnumEntity_TypeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -232,7 +221,6 @@ export type AuditLogWhereUniqueInput = {
   entityData?: InputMaybe<StringFilter>;
   entityId?: InputMaybe<StringFilter>;
   entityTitle?: InputMaybe<StringFilter>;
-  entityType?: InputMaybe<EnumEntity_TypeFilter>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -773,24 +761,11 @@ export type DateTimeFilter = {
   notIn?: InputMaybe<Array<Scalars['Timestamp']>>;
 };
 
-export enum Entity_Type {
-  JournalEntry = 'JOURNAL_ENTRY',
-  Review = 'REVIEW',
-  Userbook = 'USERBOOK'
-}
-
 export type EnumActionFilter = {
   equals?: InputMaybe<Action>;
   in?: InputMaybe<Array<Action>>;
   not?: InputMaybe<EnumActionFilter>;
   notIn?: InputMaybe<Array<Action>>;
-};
-
-export type EnumEntity_TypeFilter = {
-  equals?: InputMaybe<Entity_Type>;
-  in?: InputMaybe<Array<Entity_Type>>;
-  not?: InputMaybe<EnumEntity_TypeFilter>;
-  notIn?: InputMaybe<Array<Entity_Type>>;
 };
 
 export type IntFilter = {
@@ -3801,7 +3776,7 @@ export type GetAuditLogsQueryVariables = Exact<{
 }>;
 
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityType: Entity_Type, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4647,7 +4622,6 @@ export const GetAuditLogsDocument = gql`
       username
       email
     }
-    entityType
     entityTitle
     entityData
   }

@@ -213,25 +213,20 @@ model JournalEntry {
 }
 
 enum ACTION {
-    CREATE //Add Create
-    UPDATE
+    REVIEW
+    STATUS_UPDATE
     LIKE
     RATE
     LOG
-}
-
-enum ENTITY_TYPE {
-    USERBOOK
-    REVIEW
-    JOURNAL_ENTRY
+    // SHELVE
 }
 
 model AuditLog {
-    id          String      @id @default(uuid())
-    userId      String
-    user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id     String @id @default(uuid())
+    userId String
+    user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
     action      ACTION
-    entityType  ENTITY_TYPE
     entityId    String
     entityTitle String
     entityData  String?

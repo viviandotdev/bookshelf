@@ -78,15 +78,9 @@ export enum NullsOrder {
     last = "last"
 }
 
-export enum ENTITY_TYPE {
-    USERBOOK = "USERBOOK",
-    REVIEW = "REVIEW",
-    JOURNAL_ENTRY = "JOURNAL_ENTRY"
-}
-
 export enum ACTION {
-    CREATE = "CREATE",
-    UPDATE = "UPDATE",
+    REVIEW = "REVIEW",
+    STATUS_UPDATE = "STATUS_UPDATE",
     LIKE = "LIKE",
     RATE = "RATE",
     LOG = "LOG"
@@ -129,7 +123,6 @@ export enum AuditLogScalarFieldEnum {
     id = "id",
     userId = "userId",
     action = "action",
-    entityType = "entityType",
     entityId = "entityId",
     entityTitle = "entityTitle",
     entityData = "entityData",
@@ -142,7 +135,6 @@ registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
 registerEnumType(ACTION, { name: 'ACTION', description: undefined })
-registerEnumType(ENTITY_TYPE, { name: 'ENTITY_TYPE', description: undefined })
 registerEnumType(NullsOrder, { name: 'NullsOrder', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
 registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
@@ -194,8 +186,6 @@ export class AuditLogCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityType?: true;
-    @Field(() => Boolean, {nullable:true})
     entityId?: true;
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
@@ -218,8 +208,6 @@ export class AuditLogCountAggregate {
     @Field(() => Int, {nullable:false})
     action!: number;
     @Field(() => Int, {nullable:false})
-    entityType!: number;
-    @Field(() => Int, {nullable:false})
     entityId!: number;
     @Field(() => Int, {nullable:false})
     entityTitle!: number;
@@ -241,8 +229,6 @@ export class AuditLogCountOrderByAggregateInput {
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityType?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     entityId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -270,8 +256,6 @@ export class AuditLogCreateManyUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -292,8 +276,6 @@ export class AuditLogCreateManyInput {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -338,8 +320,6 @@ export class AuditLogCreateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -358,8 +338,6 @@ export class AuditLogCreateInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -406,8 +384,6 @@ export class AuditLogGroupBy {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -445,8 +421,6 @@ export class AuditLogMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityType?: true;
-    @Field(() => Boolean, {nullable:true})
     entityId?: true;
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
@@ -466,8 +440,6 @@ export class AuditLogMaxAggregate {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -489,8 +461,6 @@ export class AuditLogMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityType?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     entityId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
@@ -511,8 +481,6 @@ export class AuditLogMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityType?: true;
-    @Field(() => Boolean, {nullable:true})
     entityId?: true;
     @Field(() => Boolean, {nullable:true})
     entityTitle?: true;
@@ -532,8 +500,6 @@ export class AuditLogMinAggregate {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -554,8 +520,6 @@ export class AuditLogMinOrderByAggregateInput {
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityType?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     entityId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -583,8 +547,6 @@ export class AuditLogOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityType?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     entityId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     entityTitle?: keyof typeof SortOrder;
@@ -610,8 +572,6 @@ export class AuditLogOrderByWithRelationInput {
     userId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityType?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     entityId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -640,8 +600,6 @@ export class AuditLogScalarWhereWithAggregatesInput {
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => EnumACTIONWithAggregatesFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONWithAggregatesFilter>;
-    @Field(() => EnumENTITY_TYPEWithAggregatesFilter, {nullable:true})
-    entityType?: InstanceType<typeof EnumENTITY_TYPEWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     entityId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
@@ -668,8 +626,6 @@ export class AuditLogScalarWhereInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    entityType?: InstanceType<typeof EnumENTITY_TYPEFilter>;
     @Field(() => StringFilter, {nullable:true})
     entityId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -704,8 +660,6 @@ export class AuditLogUncheckedCreateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -726,8 +680,6 @@ export class AuditLogUncheckedCreateInput {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -783,8 +735,6 @@ export class AuditLogUncheckedUpdateManyWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -805,8 +755,6 @@ export class AuditLogUncheckedUpdateManyInput {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -825,8 +773,6 @@ export class AuditLogUncheckedUpdateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -847,8 +793,6 @@ export class AuditLogUncheckedUpdateInput {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -867,8 +811,6 @@ export class AuditLogUpdateManyMutationInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -944,8 +886,6 @@ export class AuditLogUpdateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -964,8 +904,6 @@ export class AuditLogUpdateInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    entityType?: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:true})
     entityId?: string;
     @Field(() => String, {nullable:true})
@@ -1007,8 +945,6 @@ export class AuditLogWhereUniqueInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    entityType?: InstanceType<typeof EnumENTITY_TYPEFilter>;
     @Field(() => StringFilter, {nullable:true})
     entityId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -1037,8 +973,6 @@ export class AuditLogWhereInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    entityType?: InstanceType<typeof EnumENTITY_TYPEFilter>;
     @Field(() => StringFilter, {nullable:true})
     entityId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -1061,8 +995,6 @@ export class AuditLog {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => ENTITY_TYPE, {nullable:false})
-    entityType!: keyof typeof ENTITY_TYPE;
     @Field(() => String, {nullable:false})
     entityId!: string;
     @Field(() => String, {nullable:false})
@@ -5400,36 +5332,6 @@ export class EnumACTIONWithAggregatesFilter {
     _min?: InstanceType<typeof EnumACTIONFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     _max?: InstanceType<typeof EnumACTIONFilter>;
-}
-
-@InputType()
-export class EnumENTITY_TYPEFilter {
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    equals?: keyof typeof ENTITY_TYPE;
-    @Field(() => [ENTITY_TYPE], {nullable:true})
-    in?: Array<keyof typeof ENTITY_TYPE>;
-    @Field(() => [ENTITY_TYPE], {nullable:true})
-    notIn?: Array<keyof typeof ENTITY_TYPE>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    not?: InstanceType<typeof EnumENTITY_TYPEFilter>;
-}
-
-@InputType()
-export class EnumENTITY_TYPEWithAggregatesFilter {
-    @Field(() => ENTITY_TYPE, {nullable:true})
-    equals?: keyof typeof ENTITY_TYPE;
-    @Field(() => [ENTITY_TYPE], {nullable:true})
-    in?: Array<keyof typeof ENTITY_TYPE>;
-    @Field(() => [ENTITY_TYPE], {nullable:true})
-    notIn?: Array<keyof typeof ENTITY_TYPE>;
-    @Field(() => EnumENTITY_TYPEWithAggregatesFilter, {nullable:true})
-    not?: InstanceType<typeof EnumENTITY_TYPEWithAggregatesFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    _count?: InstanceType<typeof IntFilter>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    _min?: InstanceType<typeof EnumENTITY_TYPEFilter>;
-    @Field(() => EnumENTITY_TYPEFilter, {nullable:true})
-    _max?: InstanceType<typeof EnumENTITY_TYPEFilter>;
 }
 
 @InputType()

@@ -187,17 +187,40 @@ export class UserBookService {
       });
 
       newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
-      //   Create the activity
+      // Create status update activity
       this.activityService.create(
         {
-          entityId: origin.id,
+          entityId: origin.id, //userBook where the activity is happening
           entityTitle: origin.book.title, // the book we are updating
-          action: 'UPDATE',
-          entityType: 'USERBOOK',
+          action: 'STATUS_UPDATE',
           entityData: args.data.status,
         },
         userId,
       );
+    }
+    // if rating is updated, create rating activity
+    if (args.data.rating) {
+      this.activityService.create(
+        {
+          entityId: origin.id, //userBook where the activity is happening
+          entityTitle: origin.book.title, // the book we are updating
+          action: 'RATE',
+          entityData: args.data.rating.toString(),
+        },
+        userId,
+      );
+    }
+    // Create activty for shelfing a book
+    if (args.data.shelves) {
+      //   this.activityService.create(
+      //     {
+      //       entityId: origin.id, //userBook where the activity is happening
+      //       entityTitle: origin.book.title, // the book we are updating
+      //       action: 'RATE',
+      //       entityData: args.data.rating.toString(),
+      //     },
+      //     userId,
+      //   );
     }
 
     const updateUserBook = await this.repository.update({

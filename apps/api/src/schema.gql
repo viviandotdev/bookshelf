@@ -3,11 +3,11 @@
 # ------------------------------------------------------
 
 enum ACTION {
-  CREATE
   LIKE
   LOG
   RATE
-  UPDATE
+  REVIEW
+  STATUS_UPDATE
 }
 
 type AuditLog {
@@ -16,7 +16,6 @@ type AuditLog {
   entityData: String
   entityId: String!
   entityTitle: String!
-  entityType: ENTITY_TYPE!
   id: ID!
   updatedAt: Timestamp!
   user: User
@@ -30,7 +29,6 @@ type AuditLogCountAggregate {
   entityData: Int!
   entityId: Int!
   entityTitle: Int!
-  entityType: Int!
   id: Int!
   updatedAt: Int!
   userId: Int!
@@ -42,7 +40,6 @@ input AuditLogCreateInput {
   entityData: String
   entityId: String!
   entityTitle: String!
-  entityType: ENTITY_TYPE!
   id: String
   updatedAt: Timestamp
   user: UserCreateNestedOneWithoutAuditLogsInput
@@ -54,7 +51,6 @@ input AuditLogCreateManyUserInput {
   entityData: String
   entityId: String!
   entityTitle: String!
-  entityType: ENTITY_TYPE!
   id: String
   updatedAt: Timestamp
 }
@@ -82,7 +78,6 @@ input AuditLogCreateWithoutUserInput {
   entityData: String
   entityId: String!
   entityTitle: String!
-  entityType: ENTITY_TYPE!
   id: String
   updatedAt: Timestamp
 }
@@ -99,7 +94,6 @@ type AuditLogMaxAggregate {
   entityData: String
   entityId: String
   entityTitle: String
-  entityType: ENTITY_TYPE
   id: String
   updatedAt: Timestamp
   userId: String
@@ -111,7 +105,6 @@ type AuditLogMinAggregate {
   entityData: String
   entityId: String
   entityTitle: String
-  entityType: ENTITY_TYPE
   id: String
   updatedAt: Timestamp
   userId: String
@@ -130,7 +123,6 @@ input AuditLogScalarWhereInput {
   entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
-  entityType: EnumENTITY_TYPEFilter
   id: StringFilter
   updatedAt: DateTimeFilter
   userId: StringFilter
@@ -142,7 +134,6 @@ input AuditLogUpdateManyMutationInput {
   entityData: String
   entityId: String
   entityTitle: String
-  entityType: ENTITY_TYPE
   id: String
   updatedAt: Timestamp
 }
@@ -177,7 +168,6 @@ input AuditLogUpdateWithoutUserInput {
   entityData: String
   entityId: String
   entityTitle: String
-  entityType: ENTITY_TYPE
   id: String
   updatedAt: Timestamp
 }
@@ -197,7 +187,6 @@ input AuditLogWhereInput {
   entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
-  entityType: EnumENTITY_TYPEFilter
   id: StringFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
@@ -213,7 +202,6 @@ input AuditLogWhereUniqueInput {
   entityData: StringFilter
   entityId: StringFilter
   entityTitle: StringFilter
-  entityType: EnumENTITY_TYPEFilter
   id: String
   updatedAt: DateTimeFilter
   user: UserRelationFilter
@@ -742,24 +730,11 @@ input DateTimeFilter {
   notIn: [Timestamp!]
 }
 
-enum ENTITY_TYPE {
-  JOURNAL_ENTRY
-  REVIEW
-  USERBOOK
-}
-
 input EnumACTIONFilter {
   equals: ACTION
   in: [ACTION!]
   not: EnumACTIONFilter
   notIn: [ACTION!]
-}
-
-input EnumENTITY_TYPEFilter {
-  equals: ENTITY_TYPE
-  in: [ENTITY_TYPE!]
-  not: EnumENTITY_TYPEFilter
-  notIn: [ENTITY_TYPE!]
 }
 
 input IntFilter {

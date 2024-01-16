@@ -22,7 +22,7 @@ const Rating = ({ value }: { value: number }) => {
         );
     }
 
-    return <div className="flex gap-0.5">{svgElements}</div>;
+    return <span className="flex gap-0.5">{svgElements}</span>;
 };
 
 export default Rating;

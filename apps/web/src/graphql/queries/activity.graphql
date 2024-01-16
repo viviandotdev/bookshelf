@@ -9,7 +9,6 @@ query GetAuditLogs($where: UserBookWhereUniqueInput, $offset: Int, $limit: Int) 
         username
         email
     }
-    entityType
     entityTitle
     entityData
   }
