@@ -2,9 +2,8 @@ import { format } from "date-fns";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { UserAvatar } from "@/modules/layout/components/user-avatar";
-import LogMessage, { generateLogMessage } from "../utils";
+import LogMessage from "../utils";
 import { Action } from "@/graphql/graphql";
-import Rating from "@/components/rating";
 
 interface ActivityItemProps {
     // data: AuditLog;
@@ -15,7 +14,7 @@ export const ActivityItem = ({
     data,
 }: ActivityItemProps) => {
     return (
-        <li className="flex items-center gap-x-2">
+        <li className="flex items-start gap-x-2">
             <Avatar className="h-8 w-8">
                 <UserAvatar
                     user={{ id: data.user.id, username: data.user.username || null }}
@@ -30,9 +29,12 @@ export const ActivityItem = ({
                     </span>
                     <LogMessage log={data} />
                 </p>
-                <p className="text-xs text-muted-foreground">
-                    {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}
-                </p>
+                {
+                    data.action !== Action.Review &&
+                    <p className="text-xs text-muted-foreground">
+                        {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                    </p>
+                }
             </div>
         </li>
     );

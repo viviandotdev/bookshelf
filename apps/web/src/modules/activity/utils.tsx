@@ -2,6 +2,8 @@ import React from 'react';
 import Rating from "@/components/rating";
 import { Action, AuditLog } from "@/graphql/graphql";
 import Link from 'next/link';
+import BookCover from '@/components/book-cover';
+import { format } from 'date-fns';
 
 const LogMessage = ({ log }: { log: AuditLog }) => {
     const { action, book, actionContent } = log;
@@ -15,7 +17,23 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
         case Action.Shelve:
             return <span>You shelved {titleLink} as: {actionContent}</span>;
         case Action.Review:
-            return <span>You reviewed {titleLink} with {actionContent}</span>;
+            return (
+                <span className="flex gap-2">
+                    <BookCover src={book?.coverImage!} size='sm' />
+                    <span className="flex flex-col ml-2 justify-between">
+                        <span className="flex flex-col gap-1">
+                            <span>You reviewed</span>
+                            <span className="font-semibold text-lg">{titleLink}</span>
+                            <span className="text-sm">{actionContent}</span>
+
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                            {format(new Date(log.createdAt), "MMM d, yyyy 'at' h:mm a")}
+                        </span>
+                    </span>
+
+                </span>
+            );
         case Action.StatusUpdate:
             return <span>You marked {titleLink} as {actionContent}</span>;
         case Action.Like:

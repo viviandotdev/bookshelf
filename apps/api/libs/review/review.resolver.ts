@@ -26,6 +26,7 @@ import { UserBookService } from 'libs/user-book/user-book.service';
 import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
+import { ActivityService } from 'libs/activity/activity.service';
 
 @Resolver(() => Review)
 export class ReviewResolver {
@@ -33,6 +34,7 @@ export class ReviewResolver {
     private readonly service: ReviewService,
     private readonly bookService: BookService,
     private readonly userBookService: UserBookService,
+    private readonly activityService: ActivityService,
     private readonly prisma: PrismaRepository,
   ) {}
 
@@ -244,6 +246,15 @@ export class ReviewResolver {
     });
     // Create review
     const review = await this.service.create(data, userBook);
+    // update audit logs
+    this.activityService.create(
+      {
+        action: 'REVIEW',
+        actionContent: review.content,
+      },
+      userBook.userId,
+      userBook.bookId,
+    );
     return review;
   }
 }

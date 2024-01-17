@@ -1,8 +1,7 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { ActivityService } from './activity.service';
 import {
   AuditLog,
-  AuditLogCreateInput,
   UserBookWhereUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { UseGuards } from '@nestjs/common';
@@ -13,16 +12,6 @@ import { JwtPayload } from 'libs/auth/types';
 @Resolver()
 export class ActivityResolver {
   constructor(private readonly activityService: ActivityService) {}
-
-  //   @UseGuards(AccessTokenGuard)
-  //   @Mutation(() => AuditLog)
-  //   createAuditLog(
-  //     @Args('data') data: AuditLogCreateInput,
-  //     @CurrentUser() currentUser: JwtPayload,
-  //   ) {
-  //     console.log(data);
-  //     return this.activityService.create(data, currentUser.userId);
-  //   }
 
   @UseGuards(AccessTokenGuard)
   @Query(() => [AuditLog])

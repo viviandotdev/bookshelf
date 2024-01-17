@@ -4,7 +4,7 @@ import { Skeleton } from "./ui/skeleton";
 
 interface BookCoverProps {
     src: string | null;
-    size?: "xs" | "sm" | "lg" | "dynamic";
+    size?: "xs" | "sm" | "lg" | "md" | "dynamic";
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
@@ -17,6 +17,9 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
         case "sm":
             width = 76;
             break;
+        case "md":
+            width = 156
+            break
         case "lg":
             width = 176;
             break;
@@ -27,20 +30,16 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
     }
 
     return (
-        <div className={`relative flex items-start`}>
+        <span className={`relative flex items-start`}>
             <Image
                 className={`max-w-none w-[${width}px] h-auto object-contain`}
                 src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
                 alt={"Book Cover"}
                 width={width}
                 height={width * 1.5}
-                onError={() => {
-                    console.log('error')
-                }}
             />
-        </div>
+        </span>
     );
 };
 
 export default BookCover;
-
