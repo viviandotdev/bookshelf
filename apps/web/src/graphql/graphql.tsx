@@ -18,6 +18,7 @@ export type Scalars = {
 };
 
 export enum Action {
+  Comment = 'COMMENT',
   Like = 'LIKE',
   Log = 'LOG',
   Rate = 'RATE',
@@ -29,10 +30,10 @@ export enum Action {
 export type AuditLog = {
   __typename?: 'AuditLog';
   action: Action;
+  actionContent?: Maybe<Scalars['String']>;
+  book?: Maybe<Book>;
+  bookId: Scalars['String'];
   createdAt: Scalars['Timestamp'];
-  entityData?: Maybe<Scalars['String']>;
-  entityId: Scalars['String'];
-  entityTitle: Scalars['String'];
   id: Scalars['ID'];
   updatedAt: Scalars['Timestamp'];
   user?: Maybe<User>;
@@ -43,10 +44,9 @@ export type AuditLogCountAggregate = {
   __typename?: 'AuditLogCountAggregate';
   _all: Scalars['Int'];
   action: Scalars['Int'];
+  actionContent: Scalars['Int'];
+  bookId: Scalars['Int'];
   createdAt: Scalars['Int'];
-  entityData: Scalars['Int'];
-  entityId: Scalars['Int'];
-  entityTitle: Scalars['Int'];
   id: Scalars['Int'];
   updatedAt: Scalars['Int'];
   userId: Scalars['Int'];
@@ -54,21 +54,33 @@ export type AuditLogCountAggregate = {
 
 export type AuditLogCreateInput = {
   action: Action;
+  actionContent?: InputMaybe<Scalars['String']>;
+  book?: InputMaybe<BookCreateNestedOneWithoutLogsInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  entityData?: InputMaybe<Scalars['String']>;
-  entityId: Scalars['String'];
-  entityTitle: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   user?: InputMaybe<UserCreateNestedOneWithoutAuditLogsInput>;
 };
 
+export type AuditLogCreateManyBookInput = {
+  action: Action;
+  actionContent?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userId: Scalars['String'];
+};
+
+export type AuditLogCreateManyBookInputEnvelope = {
+  data: Array<AuditLogCreateManyBookInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type AuditLogCreateManyUserInput = {
   action: Action;
+  actionContent?: InputMaybe<Scalars['String']>;
+  bookId: Scalars['String'];
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  entityData?: InputMaybe<Scalars['String']>;
-  entityId: Scalars['String'];
-  entityTitle: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -78,6 +90,13 @@ export type AuditLogCreateManyUserInputEnvelope = {
   skipDuplicates?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type AuditLogCreateNestedManyWithoutBookInput = {
+  connect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuditLogCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<AuditLogCreateWithoutBookInput>>;
+  createMany?: InputMaybe<AuditLogCreateManyBookInputEnvelope>;
+};
+
 export type AuditLogCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<AuditLogCreateOrConnectWithoutUserInput>>;
@@ -85,17 +104,30 @@ export type AuditLogCreateNestedManyWithoutUserInput = {
   createMany?: InputMaybe<AuditLogCreateManyUserInputEnvelope>;
 };
 
+export type AuditLogCreateOrConnectWithoutBookInput = {
+  create: AuditLogCreateWithoutBookInput;
+  where: AuditLogWhereUniqueInput;
+};
+
 export type AuditLogCreateOrConnectWithoutUserInput = {
   create: AuditLogCreateWithoutUserInput;
   where: AuditLogWhereUniqueInput;
 };
 
+export type AuditLogCreateWithoutBookInput = {
+  action: Action;
+  actionContent?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  user?: InputMaybe<UserCreateNestedOneWithoutAuditLogsInput>;
+};
+
 export type AuditLogCreateWithoutUserInput = {
   action: Action;
+  actionContent?: InputMaybe<Scalars['String']>;
+  book?: InputMaybe<BookCreateNestedOneWithoutLogsInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  entityData?: InputMaybe<Scalars['String']>;
-  entityId: Scalars['String'];
-  entityTitle: Scalars['String'];
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -109,10 +141,9 @@ export type AuditLogListRelationFilter = {
 export type AuditLogMaxAggregate = {
   __typename?: 'AuditLogMaxAggregate';
   action?: Maybe<Action>;
+  actionContent?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
-  entityData?: Maybe<Scalars['String']>;
-  entityId?: Maybe<Scalars['String']>;
-  entityTitle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -121,10 +152,9 @@ export type AuditLogMaxAggregate = {
 export type AuditLogMinAggregate = {
   __typename?: 'AuditLogMinAggregate';
   action?: Maybe<Action>;
+  actionContent?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
-  entityData?: Maybe<Scalars['String']>;
-  entityId?: Maybe<Scalars['String']>;
-  entityTitle?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -139,10 +169,9 @@ export type AuditLogScalarWhereInput = {
   NOT?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   OR?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
+  actionContent?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  entityData?: InputMaybe<StringFilter>;
-  entityId?: InputMaybe<StringFilter>;
-  entityTitle?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -150,17 +179,34 @@ export type AuditLogScalarWhereInput = {
 
 export type AuditLogUpdateManyMutationInput = {
   action?: InputMaybe<Action>;
+  actionContent?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  entityData?: InputMaybe<Scalars['String']>;
-  entityId?: InputMaybe<Scalars['String']>;
-  entityTitle?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AuditLogUpdateManyWithWhereWithoutBookInput = {
+  data: AuditLogUpdateManyMutationInput;
+  where: AuditLogScalarWhereInput;
 };
 
 export type AuditLogUpdateManyWithWhereWithoutUserInput = {
   data: AuditLogUpdateManyMutationInput;
   where: AuditLogScalarWhereInput;
+};
+
+export type AuditLogUpdateManyWithoutBookNestedInput = {
+  connect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuditLogCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<AuditLogCreateWithoutBookInput>>;
+  createMany?: InputMaybe<AuditLogCreateManyBookInputEnvelope>;
+  delete?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<AuditLogScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  set?: InputMaybe<Array<AuditLogWhereUniqueInput>>;
+  update?: InputMaybe<Array<AuditLogUpdateWithWhereUniqueWithoutBookInput>>;
+  updateMany?: InputMaybe<Array<AuditLogUpdateManyWithWhereWithoutBookInput>>;
+  upsert?: InputMaybe<Array<AuditLogUpsertWithWhereUniqueWithoutBookInput>>;
 };
 
 export type AuditLogUpdateManyWithoutUserNestedInput = {
@@ -177,19 +223,38 @@ export type AuditLogUpdateManyWithoutUserNestedInput = {
   upsert?: InputMaybe<Array<AuditLogUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
+export type AuditLogUpdateWithWhereUniqueWithoutBookInput = {
+  data: AuditLogUpdateWithoutBookInput;
+  where: AuditLogWhereUniqueInput;
+};
+
 export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
   data: AuditLogUpdateWithoutUserInput;
   where: AuditLogWhereUniqueInput;
 };
 
-export type AuditLogUpdateWithoutUserInput = {
+export type AuditLogUpdateWithoutBookInput = {
   action?: InputMaybe<Action>;
+  actionContent?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  entityData?: InputMaybe<Scalars['String']>;
-  entityId?: InputMaybe<Scalars['String']>;
-  entityTitle?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  user?: InputMaybe<UserUpdateOneWithoutAuditLogsNestedInput>;
+};
+
+export type AuditLogUpdateWithoutUserInput = {
+  action?: InputMaybe<Action>;
+  actionContent?: InputMaybe<Scalars['String']>;
+  book?: InputMaybe<BookUpdateOneWithoutLogsNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+};
+
+export type AuditLogUpsertWithWhereUniqueWithoutBookInput = {
+  create: AuditLogCreateWithoutBookInput;
+  update: AuditLogUpdateWithoutBookInput;
+  where: AuditLogWhereUniqueInput;
 };
 
 export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
@@ -203,10 +268,10 @@ export type AuditLogWhereInput = {
   NOT?: InputMaybe<Array<AuditLogWhereInput>>;
   OR?: InputMaybe<Array<AuditLogWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
+  actionContent?: InputMaybe<StringFilter>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  entityData?: InputMaybe<StringFilter>;
-  entityId?: InputMaybe<StringFilter>;
-  entityTitle?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -218,10 +283,10 @@ export type AuditLogWhereUniqueInput = {
   NOT?: InputMaybe<Array<AuditLogWhereInput>>;
   OR?: InputMaybe<Array<AuditLogWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
+  actionContent?: InputMaybe<StringFilter>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  entityData?: InputMaybe<StringFilter>;
-  entityId?: InputMaybe<StringFilter>;
-  entityTitle?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -244,6 +309,7 @@ export type Book = {
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  logs?: Maybe<Array<AuditLog>>;
   mainCategory?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
@@ -260,6 +326,7 @@ export type BookAvgAggregate = {
 
 export type BookCount = {
   __typename?: 'BookCount';
+  logs: Scalars['Int'];
   reviews: Scalars['Int'];
   userBook: Scalars['Int'];
 };
@@ -285,6 +352,7 @@ export type BookCreateInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
@@ -292,6 +360,12 @@ export type BookCreateInput = {
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+};
+
+export type BookCreateNestedOneWithoutLogsInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutLogsInput>;
+  create?: InputMaybe<BookCreateWithoutLogsInput>;
 };
 
 export type BookCreateNestedOneWithoutReviewsInput = {
@@ -306,6 +380,11 @@ export type BookCreateNestedOneWithoutUserBookInput = {
   create?: InputMaybe<BookCreateWithoutUserBookInput>;
 };
 
+export type BookCreateOrConnectWithoutLogsInput = {
+  create: BookCreateWithoutLogsInput;
+  where: BookWhereUniqueInput;
+};
+
 export type BookCreateOrConnectWithoutReviewsInput = {
   create: BookCreateWithoutReviewsInput;
   where: BookWhereUniqueInput;
@@ -316,12 +395,28 @@ export type BookCreateOrConnectWithoutUserBookInput = {
   where: BookWhereUniqueInput;
 };
 
+export type BookCreateWithoutLogsInput = {
+  author?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  mainCategory?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
+  title: Scalars['String'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+};
+
 export type BookCreateWithoutReviewsInput = {
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
@@ -336,6 +431,7 @@ export type BookCreateWithoutUserBookInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
@@ -385,6 +481,7 @@ export type BookOrderByWithRelationInput = {
   coverImage?: InputMaybe<SortOrderInput>;
   description?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
+  logs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   mainCategory?: InputMaybe<SortOrderInput>;
   pageCount?: InputMaybe<SortOrderInput>;
   publishedDate?: InputMaybe<SortOrderInput>;
@@ -402,6 +499,16 @@ export type BookRelationFilter = {
 export type BookSumAggregate = {
   __typename?: 'BookSumAggregate';
   pageCount?: Maybe<Scalars['Int']>;
+};
+
+export type BookUpdateOneWithoutLogsNestedInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutLogsInput>;
+  create?: InputMaybe<BookCreateWithoutLogsInput>;
+  delete?: InputMaybe<BookWhereInput>;
+  disconnect?: InputMaybe<BookWhereInput>;
+  update?: InputMaybe<BookUpdateToOneWithWhereWithoutLogsInput>;
+  upsert?: InputMaybe<BookUpsertWithoutLogsInput>;
 };
 
 export type BookUpdateOneWithoutReviewsNestedInput = {
@@ -424,6 +531,11 @@ export type BookUpdateOneWithoutUserBookNestedInput = {
   upsert?: InputMaybe<BookUpsertWithoutUserBookInput>;
 };
 
+export type BookUpdateToOneWithWhereWithoutLogsInput = {
+  data: BookUpdateWithoutLogsInput;
+  where?: InputMaybe<BookWhereInput>;
+};
+
 export type BookUpdateToOneWithWhereWithoutReviewsInput = {
   data: BookUpdateWithoutReviewsInput;
   where?: InputMaybe<BookWhereInput>;
@@ -434,12 +546,28 @@ export type BookUpdateToOneWithWhereWithoutUserBookInput = {
   where?: InputMaybe<BookWhereInput>;
 };
 
+export type BookUpdateWithoutLogsInput = {
+  author?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Scalars['String']>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
+  title?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+};
+
 export type BookUpdateWithoutReviewsInput = {
   author?: InputMaybe<Scalars['String']>;
   categories?: InputMaybe<Scalars['String']>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
@@ -454,12 +582,19 @@ export type BookUpdateWithoutUserBookInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type BookUpsertWithoutLogsInput = {
+  create: BookCreateWithoutLogsInput;
+  update: BookUpdateWithoutLogsInput;
+  where?: InputMaybe<BookWhereInput>;
 };
 
 export type BookUpsertWithoutReviewsInput = {
@@ -483,6 +618,7 @@ export type BookWhereInput = {
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
+  logs?: InputMaybe<AuditLogListRelationFilter>;
   mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
@@ -501,6 +637,7 @@ export type BookWhereUniqueInput = {
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogListRelationFilter>;
   mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
@@ -3296,6 +3433,16 @@ export type UserUpdateManyWithoutLikedReviewsNestedInput = {
   upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>>;
 };
 
+export type UserUpdateOneWithoutAuditLogsNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutAuditLogsInput>;
+  create?: InputMaybe<UserCreateWithoutAuditLogsInput>;
+  delete?: InputMaybe<UserWhereInput>;
+  disconnect?: InputMaybe<UserWhereInput>;
+  update?: InputMaybe<UserUpdateToOneWithWhereWithoutAuditLogsInput>;
+  upsert?: InputMaybe<UserUpsertWithoutAuditLogsInput>;
+};
+
 export type UserUpdateOneWithoutCommentsNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutCommentsInput>;
@@ -3346,6 +3493,11 @@ export type UserUpdateOneWithoutUserBooksNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutUserBooksInput>;
 };
 
+export type UserUpdateToOneWithWhereWithoutAuditLogsInput = {
+  data: UserUpdateWithoutAuditLogsInput;
+  where?: InputMaybe<UserWhereInput>;
+};
+
 export type UserUpdateToOneWithWhereWithoutCommentsInput = {
   data: UserUpdateWithoutCommentsInput;
   where?: InputMaybe<UserWhereInput>;
@@ -3384,6 +3536,24 @@ export type UserUpdateWithWhereUniqueWithoutFollowingInput = {
 export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
   data: UserUpdateWithoutLikedReviewsInput;
   where: UserWhereUniqueInput;
+};
+
+export type UserUpdateWithoutAuditLogsInput = {
+  comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
+  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 export type UserUpdateWithoutCommentsInput = {
@@ -3546,6 +3716,12 @@ export type UserUpsertWithWhereUniqueWithoutLikedReviewsInput = {
   create: UserCreateWithoutLikedReviewsInput;
   update: UserUpdateWithoutLikedReviewsInput;
   where: UserWhereUniqueInput;
+};
+
+export type UserUpsertWithoutAuditLogsInput = {
+  create: UserCreateWithoutAuditLogsInput;
+  update: UserUpdateWithoutAuditLogsInput;
+  where?: InputMaybe<UserWhereInput>;
 };
 
 export type UserUpsertWithoutCommentsInput = {
@@ -3777,7 +3953,7 @@ export type GetAuditLogsQueryVariables = Exact<{
 }>;
 
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, entityId: string, entityTitle: string, entityData?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null }> };
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, actionContent?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null } | null }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4623,9 +4799,14 @@ export const GetAuditLogsDocument = gql`
       username
       email
     }
-    entityId
-    entityTitle
-    entityData
+    book {
+      id
+      title
+      author
+      pageCount
+      coverImage
+    }
+    actionContent
   }
 }
     `;

@@ -14,15 +14,15 @@ import { JwtPayload } from 'libs/auth/types';
 export class ActivityResolver {
   constructor(private readonly activityService: ActivityService) {}
 
-  @UseGuards(AccessTokenGuard)
-  @Mutation(() => AuditLog)
-  createAuditLog(
-    @Args('data') data: AuditLogCreateInput,
-    @CurrentUser() currentUser: JwtPayload,
-  ) {
-    console.log(data);
-    return this.activityService.create(data, currentUser.userId);
-  }
+  //   @UseGuards(AccessTokenGuard)
+  //   @Mutation(() => AuditLog)
+  //   createAuditLog(
+  //     @Args('data') data: AuditLogCreateInput,
+  //     @CurrentUser() currentUser: JwtPayload,
+  //   ) {
+  //     console.log(data);
+  //     return this.activityService.create(data, currentUser.userId);
+  //   }
 
   @UseGuards(AccessTokenGuard)
   @Query(() => [AuditLog])
@@ -38,14 +38,16 @@ export class ActivityResolver {
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
   ) {
     // Based on the user book
+
     return this.activityService.findMany({
       where: {
         userId: currentUser.userId,
         // userBook id, get all the activities for this book
-        entityId: where.id,
+        bookId: where.id,
       },
       include: {
         user: true,
+        book: true,
       },
       skip: offset,
       take: limit,

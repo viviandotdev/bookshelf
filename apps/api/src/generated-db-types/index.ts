@@ -80,6 +80,7 @@ export enum NullsOrder {
 
 export enum ACTION {
     REVIEW = "REVIEW",
+    COMMENT = "COMMENT",
     STATUS_UPDATE = "STATUS_UPDATE",
     LIKE = "LIKE",
     RATE = "RATE",
@@ -124,9 +125,8 @@ export enum AuditLogScalarFieldEnum {
     id = "id",
     userId = "userId",
     action = "action",
-    entityId = "entityId",
-    entityTitle = "entityTitle",
-    entityData = "entityData",
+    bookId = "bookId",
+    actionContent = "actionContent",
     createdAt = "createdAt",
     updatedAt = "updatedAt"
 }
@@ -187,11 +187,9 @@ export class AuditLogCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityId?: true;
+    bookId?: true;
     @Field(() => Boolean, {nullable:true})
-    entityTitle?: true;
-    @Field(() => Boolean, {nullable:true})
-    entityData?: true;
+    actionContent?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -209,11 +207,9 @@ export class AuditLogCountAggregate {
     @Field(() => Int, {nullable:false})
     action!: number;
     @Field(() => Int, {nullable:false})
-    entityId!: number;
+    bookId!: number;
     @Field(() => Int, {nullable:false})
-    entityTitle!: number;
-    @Field(() => Int, {nullable:false})
-    entityData!: number;
+    actionContent!: number;
     @Field(() => Int, {nullable:false})
     createdAt!: number;
     @Field(() => Int, {nullable:false})
@@ -231,15 +227,38 @@ export class AuditLogCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityId?: keyof typeof SortOrder;
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityTitle?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityData?: keyof typeof SortOrder;
+    actionContent?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AuditLogCreateManyBookInputEnvelope {
+    @Field(() => [AuditLogCreateManyBookInput], {nullable:false})
+    @Type(() => AuditLogCreateManyBookInput)
+    data!: Array<AuditLogCreateManyBookInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class AuditLogCreateManyBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => ACTION, {nullable:false})
+    action!: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
 }
 
 @InputType()
@@ -258,11 +277,9 @@ export class AuditLogCreateManyUserInput {
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -278,15 +295,29 @@ export class AuditLogCreateManyInput {
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+}
+
+@InputType()
+export class AuditLogCreateNestedManyWithoutBookInput {
+    @Field(() => [AuditLogCreateWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create?: Array<AuditLogCreateWithoutBookInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutBookInput>;
+    @Field(() => AuditLogCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyBookInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -306,6 +337,16 @@ export class AuditLogCreateNestedManyWithoutUserInput {
 }
 
 @InputType()
+export class AuditLogCreateOrConnectWithoutBookInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogCreateWithoutBookInput, {nullable:false})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create!: InstanceType<typeof AuditLogCreateWithoutBookInput>;
+}
+
+@InputType()
 export class AuditLogCreateOrConnectWithoutUserInput {
     @Field(() => AuditLogWhereUniqueInput, {nullable:false})
     @Type(() => AuditLogWhereUniqueInput)
@@ -316,21 +357,35 @@ export class AuditLogCreateOrConnectWithoutUserInput {
 }
 
 @InputType()
+export class AuditLogCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => ACTION, {nullable:false})
+    action!: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => UserCreateNestedOneWithoutAuditLogsInput, {nullable:true})
+    user?: InstanceType<typeof UserCreateNestedOneWithoutAuditLogsInput>;
+}
+
+@InputType()
 export class AuditLogCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => BookCreateNestedOneWithoutLogsInput, {nullable:true})
+    book?: InstanceType<typeof BookCreateNestedOneWithoutLogsInput>;
 }
 
 @InputType()
@@ -339,18 +394,16 @@ export class AuditLogCreateInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => UserCreateNestedOneWithoutAuditLogsInput, {nullable:true})
     user?: InstanceType<typeof UserCreateNestedOneWithoutAuditLogsInput>;
+    @Field(() => BookCreateNestedOneWithoutLogsInput, {nullable:true})
+    book?: InstanceType<typeof BookCreateNestedOneWithoutLogsInput>;
 }
 
 @ArgsType()
@@ -386,11 +439,9 @@ export class AuditLogGroupBy {
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:false})
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
@@ -422,11 +473,9 @@ export class AuditLogMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityId?: true;
+    bookId?: true;
     @Field(() => Boolean, {nullable:true})
-    entityTitle?: true;
-    @Field(() => Boolean, {nullable:true})
-    entityData?: true;
+    actionContent?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -442,11 +491,9 @@ export class AuditLogMaxAggregate {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -462,11 +509,9 @@ export class AuditLogMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityId?: keyof typeof SortOrder;
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityTitle?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityData?: keyof typeof SortOrder;
+    actionContent?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -482,11 +527,9 @@ export class AuditLogMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     action?: true;
     @Field(() => Boolean, {nullable:true})
-    entityId?: true;
+    bookId?: true;
     @Field(() => Boolean, {nullable:true})
-    entityTitle?: true;
-    @Field(() => Boolean, {nullable:true})
-    entityData?: true;
+    actionContent?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -502,11 +545,9 @@ export class AuditLogMinAggregate {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -522,11 +563,9 @@ export class AuditLogMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityId?: keyof typeof SortOrder;
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityTitle?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityData?: keyof typeof SortOrder;
+    actionContent?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -548,11 +587,9 @@ export class AuditLogOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityTitle?: keyof typeof SortOrder;
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    entityData?: InstanceType<typeof SortOrderInput>;
+    actionContent?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -574,17 +611,17 @@ export class AuditLogOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     action?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    entityId?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    entityTitle?: keyof typeof SortOrder;
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    entityData?: InstanceType<typeof SortOrderInput>;
+    actionContent?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
+    @Field(() => BookOrderByWithRelationInput, {nullable:true})
+    book?: InstanceType<typeof BookOrderByWithRelationInput>;
 }
 
 @InputType()
@@ -602,11 +639,9 @@ export class AuditLogScalarWhereWithAggregatesInput {
     @Field(() => EnumACTIONWithAggregatesFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    entityId?: InstanceType<typeof StringWithAggregatesFilter>;
+    bookId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    entityTitle?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    entityData?: InstanceType<typeof StringWithAggregatesFilter>;
+    actionContent?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -628,15 +663,29 @@ export class AuditLogScalarWhereInput {
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityId?: InstanceType<typeof StringFilter>;
+    bookId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityTitle?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    entityData?: InstanceType<typeof StringFilter>;
+    actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class AuditLogUncheckedCreateNestedManyWithoutBookInput {
+    @Field(() => [AuditLogCreateWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create?: Array<AuditLogCreateWithoutBookInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutBookInput>;
+    @Field(() => AuditLogCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyBookInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -656,17 +705,31 @@ export class AuditLogUncheckedCreateNestedManyWithoutUserInput {
 }
 
 @InputType()
+export class AuditLogUncheckedCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => ACTION, {nullable:false})
+    action!: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
 export class AuditLogUncheckedCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -682,11 +745,62 @@ export class AuditLogUncheckedCreateInput {
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class AuditLogUncheckedUpdateManyWithoutBookNestedInput {
+    @Field(() => [AuditLogCreateWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create?: Array<AuditLogCreateWithoutBookInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutBookInput>;
+    @Field(() => [AuditLogUpsertWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpsertWithWhereUniqueWithoutBookInput)
+    upsert?: Array<AuditLogUpsertWithWhereUniqueWithoutBookInput>;
+    @Field(() => AuditLogCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyBookInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpdateWithWhereUniqueWithoutBookInput)
+    update?: Array<AuditLogUpdateWithWhereUniqueWithoutBookInput>;
+    @Field(() => [AuditLogUpdateManyWithWhereWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpdateManyWithWhereWithoutBookInput)
+    updateMany?: Array<AuditLogUpdateManyWithWhereWithoutBookInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    @Type(() => AuditLogScalarWhereInput)
+    deleteMany?: Array<AuditLogScalarWhereInput>;
+}
+
+@InputType()
+export class AuditLogUncheckedUpdateManyWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => ACTION, {nullable:true})
+    action?: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -737,11 +851,9 @@ export class AuditLogUncheckedUpdateManyWithoutUserInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -757,11 +869,25 @@ export class AuditLogUncheckedUpdateManyInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+}
+
+@InputType()
+export class AuditLogUncheckedUpdateWithoutBookInput {
     @Field(() => String, {nullable:true})
-    entityData?: string;
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => ACTION, {nullable:true})
+    action?: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -775,11 +901,9 @@ export class AuditLogUncheckedUpdateWithoutUserInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -795,11 +919,9 @@ export class AuditLogUncheckedUpdateInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
+    bookId?: string;
     @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
@@ -813,15 +935,21 @@ export class AuditLogUpdateManyMutationInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
-    @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+}
+
+@InputType()
+export class AuditLogUpdateManyWithWhereWithoutBookInput {
+    @Field(() => AuditLogScalarWhereInput, {nullable:false})
+    @Type(() => AuditLogScalarWhereInput)
+    where!: InstanceType<typeof AuditLogScalarWhereInput>;
+    @Field(() => AuditLogUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuditLogUpdateManyMutationInput)
+    data!: InstanceType<typeof AuditLogUpdateManyMutationInput>;
 }
 
 @InputType()
@@ -832,6 +960,43 @@ export class AuditLogUpdateManyWithWhereWithoutUserInput {
     @Field(() => AuditLogUpdateManyMutationInput, {nullable:false})
     @Type(() => AuditLogUpdateManyMutationInput)
     data!: InstanceType<typeof AuditLogUpdateManyMutationInput>;
+}
+
+@InputType()
+export class AuditLogUpdateManyWithoutBookNestedInput {
+    @Field(() => [AuditLogCreateWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create?: Array<AuditLogCreateWithoutBookInput>;
+    @Field(() => [AuditLogCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<AuditLogCreateOrConnectWithoutBookInput>;
+    @Field(() => [AuditLogUpsertWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpsertWithWhereUniqueWithoutBookInput)
+    upsert?: Array<AuditLogUpsertWithWhereUniqueWithoutBookInput>;
+    @Field(() => AuditLogCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => AuditLogCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof AuditLogCreateManyBookInputEnvelope>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogWhereUniqueInput], {nullable:true})
+    @Type(() => AuditLogWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>>;
+    @Field(() => [AuditLogUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpdateWithWhereUniqueWithoutBookInput)
+    update?: Array<AuditLogUpdateWithWhereUniqueWithoutBookInput>;
+    @Field(() => [AuditLogUpdateManyWithWhereWithoutBookInput], {nullable:true})
+    @Type(() => AuditLogUpdateManyWithWhereWithoutBookInput)
+    updateMany?: Array<AuditLogUpdateManyWithWhereWithoutBookInput>;
+    @Field(() => [AuditLogScalarWhereInput], {nullable:true})
+    @Type(() => AuditLogScalarWhereInput)
+    deleteMany?: Array<AuditLogScalarWhereInput>;
 }
 
 @InputType()
@@ -872,6 +1037,16 @@ export class AuditLogUpdateManyWithoutUserNestedInput {
 }
 
 @InputType()
+export class AuditLogUpdateWithWhereUniqueWithoutBookInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogUpdateWithoutBookInput, {nullable:false})
+    @Type(() => AuditLogUpdateWithoutBookInput)
+    data!: InstanceType<typeof AuditLogUpdateWithoutBookInput>;
+}
+
+@InputType()
 export class AuditLogUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => AuditLogWhereUniqueInput, {nullable:false})
     @Type(() => AuditLogWhereUniqueInput)
@@ -882,21 +1057,35 @@ export class AuditLogUpdateWithWhereUniqueWithoutUserInput {
 }
 
 @InputType()
+export class AuditLogUpdateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => ACTION, {nullable:true})
+    action?: keyof typeof ACTION;
+    @Field(() => String, {nullable:true})
+    actionContent?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => UserUpdateOneWithoutAuditLogsNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneWithoutAuditLogsNestedInput>;
+}
+
+@InputType()
 export class AuditLogUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
-    @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => BookUpdateOneWithoutLogsNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneWithoutLogsNestedInput>;
 }
 
 @InputType()
@@ -906,17 +1095,28 @@ export class AuditLogUpdateInput {
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
     @Field(() => String, {nullable:true})
-    entityId?: string;
-    @Field(() => String, {nullable:true})
-    entityTitle?: string;
-    @Field(() => String, {nullable:true})
-    entityData?: string;
+    actionContent?: string;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => UserUpdateOneWithoutAuditLogsNestedInput, {nullable:true})
     user?: InstanceType<typeof UserUpdateOneWithoutAuditLogsNestedInput>;
+    @Field(() => BookUpdateOneWithoutLogsNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneWithoutLogsNestedInput>;
+}
+
+@InputType()
+export class AuditLogUpsertWithWhereUniqueWithoutBookInput {
+    @Field(() => AuditLogWhereUniqueInput, {nullable:false})
+    @Type(() => AuditLogWhereUniqueInput)
+    where!: Prisma.AtLeast<AuditLogWhereUniqueInput, 'id'>;
+    @Field(() => AuditLogUpdateWithoutBookInput, {nullable:false})
+    @Type(() => AuditLogUpdateWithoutBookInput)
+    update!: InstanceType<typeof AuditLogUpdateWithoutBookInput>;
+    @Field(() => AuditLogCreateWithoutBookInput, {nullable:false})
+    @Type(() => AuditLogCreateWithoutBookInput)
+    create!: InstanceType<typeof AuditLogCreateWithoutBookInput>;
 }
 
 @InputType()
@@ -947,17 +1147,17 @@ export class AuditLogWhereUniqueInput {
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityId?: InstanceType<typeof StringFilter>;
+    bookId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityTitle?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    entityData?: InstanceType<typeof StringFilter>;
+    actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
 }
 
 @InputType()
@@ -975,17 +1175,17 @@ export class AuditLogWhereInput {
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityId?: InstanceType<typeof StringFilter>;
+    bookId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    entityTitle?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    entityData?: InstanceType<typeof StringFilter>;
+    actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserRelationFilter, {nullable:true})
     user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
 }
 
 @ObjectType()
@@ -997,17 +1197,17 @@ export class AuditLog {
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
     @Field(() => String, {nullable:false})
-    entityId!: string;
-    @Field(() => String, {nullable:false})
-    entityTitle!: string;
+    bookId!: string;
     @Field(() => String, {nullable:true})
-    entityData!: string | null;
+    actionContent!: string | null;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
     @Field(() => User, {nullable:true})
     user?: InstanceType<typeof User> | null;
+    @Field(() => Book, {nullable:true})
+    book?: InstanceType<typeof Book> | null;
 }
 
 @ArgsType()
@@ -1293,6 +1493,8 @@ export class BookCount {
     userBook?: number;
     @Field(() => Int, {nullable:false})
     reviews?: number;
+    @Field(() => Int, {nullable:false})
+    logs?: number;
 }
 
 @InputType()
@@ -1330,6 +1532,19 @@ export class BookCreateManyInput {
 }
 
 @InputType()
+export class BookCreateNestedOneWithoutLogsInput {
+    @Field(() => BookCreateWithoutLogsInput, {nullable:true})
+    @Type(() => BookCreateWithoutLogsInput)
+    create?: InstanceType<typeof BookCreateWithoutLogsInput>;
+    @Field(() => BookCreateOrConnectWithoutLogsInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutLogsInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutLogsInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+}
+
+@InputType()
 export class BookCreateNestedOneWithoutReviewsInput {
     @Field(() => BookCreateWithoutReviewsInput, {nullable:true})
     @Type(() => BookCreateWithoutReviewsInput)
@@ -1356,6 +1571,16 @@ export class BookCreateNestedOneWithoutUserBookInput {
 }
 
 @InputType()
+export class BookCreateOrConnectWithoutLogsInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookCreateWithoutLogsInput, {nullable:false})
+    @Type(() => BookCreateWithoutLogsInput)
+    create!: InstanceType<typeof BookCreateWithoutLogsInput>;
+}
+
+@InputType()
 export class BookCreateOrConnectWithoutReviewsInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
@@ -1373,6 +1598,44 @@ export class BookCreateOrConnectWithoutUserBookInput {
     @Field(() => BookCreateWithoutUserBookInput, {nullable:false})
     @Type(() => BookCreateWithoutUserBookInput)
     create!: InstanceType<typeof BookCreateWithoutUserBookInput>;
+}
+
+@InputType()
+export class BookCreateWithoutLogsInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    id!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    author?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    categories?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1409,6 +1672,8 @@ export class BookCreateWithoutReviewsInput {
     mainCategory?: string;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1445,6 +1710,8 @@ export class BookCreateWithoutUserBookInput {
     mainCategory?: string;
     @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1483,6 +1750,8 @@ export class BookCreateInput {
     userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
 }
 
 @ArgsType()
@@ -1781,6 +2050,8 @@ export class BookOrderByWithRelationInput {
     userBook?: InstanceType<typeof UserBookOrderByRelationAggregateInput>;
     @Field(() => ReviewOrderByRelationAggregateInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewOrderByRelationAggregateInput>;
+    @Field(() => AuditLogOrderByRelationAggregateInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -1841,6 +2112,44 @@ export class BookSumOrderByAggregateInput {
 }
 
 @InputType()
+export class BookUncheckedCreateWithoutLogsInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    id!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    author?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    categories?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
 export class BookUncheckedCreateWithoutReviewsInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
@@ -1874,6 +2183,8 @@ export class BookUncheckedCreateWithoutReviewsInput {
     mainCategory?: string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1910,6 +2221,8 @@ export class BookUncheckedCreateWithoutUserBookInput {
     mainCategory?: string;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1948,6 +2261,8 @@ export class BookUncheckedCreateInput {
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -1985,6 +2300,44 @@ export class BookUncheckedUpdateManyInput {
 }
 
 @InputType()
+export class BookUncheckedUpdateWithoutLogsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    author?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    categories?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
 export class BookUncheckedUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -2018,6 +2371,8 @@ export class BookUncheckedUpdateWithoutReviewsInput {
     mainCategory?: string;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2054,6 +2409,8 @@ export class BookUncheckedUpdateWithoutUserBookInput {
     mainCategory?: string;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2092,6 +2449,8 @@ export class BookUncheckedUpdateInput {
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2126,6 +2485,31 @@ export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     mainCategory?: string;
+}
+
+@InputType()
+export class BookUpdateOneWithoutLogsNestedInput {
+    @Field(() => BookCreateWithoutLogsInput, {nullable:true})
+    @Type(() => BookCreateWithoutLogsInput)
+    create?: InstanceType<typeof BookCreateWithoutLogsInput>;
+    @Field(() => BookCreateOrConnectWithoutLogsInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutLogsInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutLogsInput>;
+    @Field(() => BookUpsertWithoutLogsInput, {nullable:true})
+    @Type(() => BookUpsertWithoutLogsInput)
+    upsert?: InstanceType<typeof BookUpsertWithoutLogsInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    disconnect?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    delete?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateToOneWithWhereWithoutLogsInput, {nullable:true})
+    @Type(() => BookUpdateToOneWithWhereWithoutLogsInput)
+    update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutLogsInput>;
 }
 
 @InputType()
@@ -2179,6 +2563,16 @@ export class BookUpdateOneWithoutUserBookNestedInput {
 }
 
 @InputType()
+export class BookUpdateToOneWithWhereWithoutLogsInput {
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookUpdateWithoutLogsInput, {nullable:false})
+    @Type(() => BookUpdateWithoutLogsInput)
+    data!: InstanceType<typeof BookUpdateWithoutLogsInput>;
+}
+
+@InputType()
 export class BookUpdateToOneWithWhereWithoutReviewsInput {
     @Field(() => BookWhereInput, {nullable:true})
     @Type(() => BookWhereInput)
@@ -2196,6 +2590,44 @@ export class BookUpdateToOneWithWhereWithoutUserBookInput {
     @Field(() => BookUpdateWithoutUserBookInput, {nullable:false})
     @Type(() => BookUpdateWithoutUserBookInput)
     data!: InstanceType<typeof BookUpdateWithoutUserBookInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutLogsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    author?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    categories?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2232,6 +2664,8 @@ export class BookUpdateWithoutReviewsInput {
     mainCategory?: string;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2268,6 +2702,8 @@ export class BookUpdateWithoutUserBookInput {
     mainCategory?: string;
     @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -2306,6 +2742,21 @@ export class BookUpdateInput {
     userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
+export class BookUpsertWithoutLogsInput {
+    @Field(() => BookUpdateWithoutLogsInput, {nullable:false})
+    @Type(() => BookUpdateWithoutLogsInput)
+    update!: InstanceType<typeof BookUpdateWithoutLogsInput>;
+    @Field(() => BookCreateWithoutLogsInput, {nullable:false})
+    @Type(() => BookCreateWithoutLogsInput)
+    create!: InstanceType<typeof BookCreateWithoutLogsInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
 }
 
 @InputType()
@@ -2367,6 +2818,8 @@ export class BookWhereUniqueInput {
     userBook?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
+    @Field(() => AuditLogListRelationFilter, {nullable:true})
+    logs?: InstanceType<typeof AuditLogListRelationFilter>;
 }
 
 @InputType()
@@ -2401,6 +2854,8 @@ export class BookWhereInput {
     userBook?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
+    @Field(() => AuditLogListRelationFilter, {nullable:true})
+    logs?: InstanceType<typeof AuditLogListRelationFilter>;
 }
 
 @ObjectType()
@@ -2429,6 +2884,8 @@ export class Book {
     userBook?: Array<UserBook>;
     @Field(() => [Review], {nullable:true})
     reviews?: Array<Review>;
+    @Field(() => [AuditLog], {nullable:true})
+    logs?: Array<AuditLog>;
     @Field(() => BookCount, {nullable:false})
     _count?: InstanceType<typeof BookCount>;
 }

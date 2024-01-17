@@ -1,16 +1,25 @@
-query GetAuditLogs($where: UserBookWhereUniqueInput, $offset: Int, $limit: Int) {
+query GetAuditLogs(
+  $where: UserBookWhereUniqueInput
+  $offset: Int
+  $limit: Int
+) {
   auditLogs(where: $where, offset: $offset, limit: $limit) {
     id
     action
     createdAt
     updatedAt
     user {
-        id
-        username
-        email
+      id
+      username
+      email
     }
-    entityId
-    entityTitle
-    entityData
+    book {
+      id
+      title
+      author
+      pageCount
+      coverImage
+    }
+    actionContent
   }
 }

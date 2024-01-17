@@ -190,36 +190,33 @@ export class UserBookService {
       // Create status update activity
       this.activityService.create(
         {
-          entityId: origin.book.id, //userBook where the activity is happening
-          entityTitle: origin.book.title, // the book we are updating
           action: 'STATUS_UPDATE',
-          entityData: args.data.status,
+          actionContent: args.data.status,
         },
         userId,
+        origin.book.id,
       );
     }
     // if rating is updated, create rating activity
     if (args.data.rating) {
       this.activityService.create(
         {
-          entityId: origin.book.id, //userBook where the activity is happening
-          entityTitle: origin.book.title, // the book we are updating
           action: 'RATE',
-          entityData: args.data.rating.toString(),
+          actionContent: args.data.rating.toString(),
         },
         userId,
+        origin.book.id,
       );
     }
     // Create activty for shelfing a book
     if (args.data.shelves) {
       this.activityService.create(
         {
-          entityId: origin.book.id, //userBook where the activity is happening
-          entityTitle: origin.book.title, // the book we are updating
           action: 'SHELVE',
-          entityData: args.data.shelves.join(', '),
+          actionContent: args.data.shelves.join(', '),
         },
         userId,
+        origin.book.id,
       );
     }
 

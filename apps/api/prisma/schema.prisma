@@ -89,6 +89,7 @@ model Book {
     /// @Validator.ValidateNested()
     userBook     UserBook[]
     reviews      Review[]
+    logs         AuditLog[]
 }
 
 model Review {
@@ -214,6 +215,7 @@ model JournalEntry {
 
 enum ACTION {
     REVIEW
+    COMMENT
     STATUS_UPDATE
     LIKE
     RATE
@@ -226,10 +228,13 @@ model AuditLog {
     userId String
     user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    action      ACTION
-    entityId    String
-    entityTitle String
-    entityData  String?
+    action ACTION
+    // BOOK the action was performed on
+    bookId String
+    book   Book?  @relation(fields: [bookId], references: [id])
+
+    // ACTION content
+    actionContent String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
