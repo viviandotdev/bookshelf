@@ -1,7 +1,7 @@
 import {
-    AudtiLog,
-    GetAuditLogsDocument,
-    GetAuditLogsQuery,
+    AuditLog,
+  GetAuditLogsDocument,
+  GetAuditLogsQuery,
   UserBookWhereInput,
 } from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
@@ -19,5 +19,5 @@ export async function getActivity(where: UserBookWhereInput) {
     },
   });
 
-  return data.auditLogs ? (data.auditLogs as AudtiLog[]) : [];
+  return data.auditLogs ? (data.auditLogs as AuditLog[]) : [];
 }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -19,6 +19,7 @@ import { bookStatuses } from "@/config/books";
 import { Button } from "./ui/button";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
+import Link from "next/link";
 interface BookActionsProps {
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
@@ -57,7 +58,7 @@ const BookActions: React.FC<BookActionsProps> = ({
         setStatus(status);
         await updateUserBook(book!.id, { status });
     };
-
+    const linkRef = useRef<HTMLAnchorElement>(null);
     return (
         <>
             <DropdownMenu open={openDropdown} modal={false}>
@@ -140,6 +141,19 @@ const BookActions: React.FC<BookActionsProps> = ({
                             Log reading
                         </DropdownMenuItem>
                     )}
+
+                    <DropdownMenuItem
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (linkRef.current) {
+                                linkRef.current.click();
+                            }
+                        }}
+                    >
+                        <Icons.view className="h-5 w-5 mr-2" />
+                        Show your activity
+                        <Link ref={linkRef} href={`/test1/book/${book?.id}/activity`} className="hidden"></Link>
+                    </DropdownMenuItem>
 
                     {showRemoveBook &&
                         <DropdownMenuItem

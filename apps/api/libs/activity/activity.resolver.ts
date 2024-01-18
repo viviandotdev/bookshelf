@@ -27,12 +27,12 @@ export class ActivityResolver {
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
   ) {
     // Based on the user book
+    console.log(where.bookId);
 
     return this.activityService.findMany({
       where: {
         userId: currentUser.userId,
-        // userBook id, get all the activities for this book
-        bookId: where.id,
+        bookId: where.bookId,
       },
       include: {
         user: true,
