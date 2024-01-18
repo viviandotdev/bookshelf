@@ -7,16 +7,20 @@ import { BookService } from 'libs/book/book.service';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { BookRepository } from 'libs/book/book.repository';
 import { UserBookRepository } from 'libs/user-book/user-book.repository';
+import { ActivityService } from 'libs/activity/activity.service';
+import { ActivityRepository } from 'libs/activity/activity.respository';
 
 @Module({
   providers: [
     ReviewResolver,
     ReviewService,
     ReviewRepository,
-    BookService,
     UserBookService,
     UserBookRepository,
     BookRepository,
+    BookService,
+    ActivityRepository,
+    ActivityService,
   ],
   imports: [PrismaModule],
   exports: [ReviewService],

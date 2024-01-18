@@ -14,6 +14,7 @@ import { AuthModule } from 'libs/auth/auth.module';
 import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
 import { ReviewModule } from 'libs/review/review.module';
 import { CommentModule } from 'libs/comment/comment.module';
+import { ActivityModule } from '../libs/activity/activity.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +34,7 @@ import { CommentModule } from 'libs/comment/comment.module';
     ShelfModule,
     CommentModule,
     JournalEntryModule,
+    ActivityModule,
   ],
   providers: [PrismaRepository],
 })

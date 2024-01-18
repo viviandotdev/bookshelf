@@ -5,10 +5,12 @@ import { UserBookRepository } from './user-book.repository';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import { BookItemInput } from './models/user-book-update-order.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
+import { ActivityService } from 'libs/activity/activity.service';
 @Injectable()
 export class UserBookService {
   constructor(
     private readonly repository: UserBookRepository,
+    private readonly activityService: ActivityService,
     private readonly prisma: PrismaRepository,
   ) {}
 
@@ -37,7 +39,7 @@ export class UserBookService {
         status: status || 'Want to Read',
       },
     };
-    //create books withorder
+    //create books with order
     return this.repository.create(createUserBookArgs);
   }
 
@@ -155,7 +157,25 @@ export class UserBookService {
   }) {
     const { userId, bookId } = args.where;
 
-    const origin = await this.findUnique(args.where);
+    // const origin = await this.findUnique(args.where);
+
+    const origin = await this.repository.findUnique({
+      where: {
+        identifier: {
+          userId,
+          bookId,
+        },
+      },
+      include: {
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
+        book: true,
+      },
+    });
+
     const shelfList = args.data.shelves;
     let newOrder;
     // if status is updated, update order number in the new status
@@ -167,6 +187,37 @@ export class UserBookService {
       });
 
       newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+      // Create status update activity
+      this.activityService.create(
+        {
+          action: 'STATUS_UPDATE',
+          actionContent: args.data.status,
+        },
+        userId,
+        origin.book.id,
+      );
+    }
+    // if rating is updated, create rating activity
+    if (args.data.rating) {
+      this.activityService.create(
+        {
+          action: 'RATE',
+          actionContent: args.data.rating.toString(),
+        },
+        userId,
+        origin.book.id,
+      );
+    }
+    // Create activty for shelfing a book
+    if (args.data.shelves) {
+      this.activityService.create(
+        {
+          action: 'SHELVE',
+          actionContent: args.data.shelves.join(', '),
+        },
+        userId,
+        origin.book.id,
+      );
     }
 
     const updateUserBook = await this.repository.update({

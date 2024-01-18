@@ -5,7 +5,9 @@ const useLoadBooks = () => {
     const [loadBooks, { data: booksData, networkStatus }] = useUserBooksLazyQuery(
         {
             fetchPolicy: "cache-and-network",
-            nextFetchPolicy: "cache-first",
+            // nextFetchPolicy: "cache-first",
+            // cache-only does not refetch when updating cache
+            nextFetchPolicy: "cache-only",
             notifyOnNetworkStatusChange: true,
             onError: (error) => {
                 console.log("here")
