@@ -23,14 +23,14 @@ export const ActivityItem = ({
                 />
             </Avatar>
             <div className="flex flex-col space-y-0.5">
-                <p className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground">
                     <span className="font-semibold lowercase text-neutral-700">
                         {data.userName}
                     </span>
                     <LogMessage log={data} />
-                </p>
+                </div>
                 {
-                    data.action !== Action.Review &&
+                    data.action !== Action.Review && data.action !== Action.Log &&
                     <p className="text-xs text-muted-foreground">
                         {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}
                     </p>

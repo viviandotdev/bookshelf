@@ -13,12 +13,14 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookService } from 'libs/user-book/user-book.service';
+import { ActivityService } from 'libs/activity/activity.service';
 
 @Resolver()
 export class JournalEntryResolver {
   constructor(
     private readonly service: JournalEntryService,
     private readonly userBookService: UserBookService,
+    private readonly activityService: ActivityService,
   ) {}
 
   @UseGuards(AccessTokenGuard)
@@ -38,6 +40,15 @@ export class JournalEntryResolver {
       throw new Error('UserBook does not exist');
     }
     const journalEntry = await this.service.create(data, userBook);
+    // Create an
+    this.activityService.create(
+      {
+        action: 'LOG',
+        actionContent: journalEntry.currentPage.toString(),
+      },
+      currentUser.userId,
+      book.id,
+    );
     return journalEntry;
   }
 

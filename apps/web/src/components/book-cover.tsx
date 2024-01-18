@@ -18,7 +18,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
             width = 76;
             break;
         case "md":
-            width = 156
+            width = 106
             break
         case "lg":
             width = 176;
