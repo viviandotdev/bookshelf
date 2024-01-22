@@ -33,24 +33,24 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const onSubmit = async (data: FormData) => {
-        setIsLoading(true);
-        try {
-            const res = await signIn("credentials", {
-                redirect: false,
-                email: data.email.toLowerCase(),
-                password: data.password,
-                callbackUrl,
-            });
-            if (!res?.error) {
-                router.push(callbackUrl);
-            } else {
-                setError("Invalid email or password");
-            }
-        } catch (err: any) {
-            setError("Error signing in");
-        } finally {
-            setIsLoading(false);
-        }
+        // setIsLoading(true);
+        // try {
+        //     const res = await signIn("credentials", {
+        //         redirect: false,
+        //         email: data.email.toLowerCase(),
+        //         password: data.password,
+        //         callbackUrl,
+        //     });
+        //     if (!res?.error) {
+        //         router.push(callbackUrl);
+        //     } else {
+        //         setError("Invalid email or password");
+        //     }
+        // } catch (err: any) {
+        //     setError("Error signing in");
+        // } finally {
+        //     setIsLoading(false);
+        // }
     };
 
     return (
