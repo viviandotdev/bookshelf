@@ -1,5 +1,5 @@
 import {
-    AuditLog,
+  AuditLog,
   GetAuditLogsDocument,
   GetAuditLogsQuery,
   UserBookWhereInput,

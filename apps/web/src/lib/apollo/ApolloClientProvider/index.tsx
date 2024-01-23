@@ -1,8 +1,15 @@
 "use client";
 
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider, from } from "@apollo/client";
 import { ReactNode, useMemo } from "react";
-import { getApolloClient } from "@/lib/apollo";
+import { setContext } from "@apollo/client/link/context";
+import {
+    NextSSRInMemoryCache,
+    SSRMultipartLink,
+    NextSSRApolloClient
+} from "@apollo/experimental-nextjs-app-support/ssr";
+import { httpLink } from "..";
+
 
 export type ApolloClientProviderProps = {
     children: ReactNode;
@@ -11,10 +18,35 @@ export type ApolloClientProviderProps = {
 /**
  * Create apollo client on 'client'
  */
+
+// Client components with server side rendering
 export const ApolloClientProvider = ({
     children,
 }: ApolloClientProviderProps) => {
-    const client = useMemo(() => getApolloClient(), []);
+    const client = useMemo(() => {
+        const authMiddleware = setContext(async (operation, { headers }) => {
+            const response = await fetch("/api/accessToken")
+            const { token } = await response.json();
+            return {
+                headers: {
+                    ...headers,
+                    authorization: `Bearer ${token}`,
+                },
+            }
+        })
+        return new NextSSRApolloClient({
+            link:
+                typeof window === "undefined"
+                    ? from([
+                        new SSRMultipartLink({
+                            stripDefer: true,
+                        }),
+                        authMiddleware, httpLink])
+                    : from([authMiddleware, httpLink]),
+            cache: new NextSSRInMemoryCache(),
+        });
+
+    }, [])
 
     return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

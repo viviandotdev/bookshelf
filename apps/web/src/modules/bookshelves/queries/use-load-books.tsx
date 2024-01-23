@@ -1,7 +1,9 @@
 import { useUserBooksLazyQuery } from "@/graphql/graphql";
 import { toast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
 
 const useLoadBooks = () => {
+    // const session = await useSession();
     const [loadBooks, { data: booksData, networkStatus }] = useUserBooksLazyQuery(
         {
             fetchPolicy: "cache-and-network",
@@ -21,6 +23,7 @@ const useLoadBooks = () => {
                     console.log("no books loaded");
                 }
             },
+
             errorPolicy: "all",
         }
     );
