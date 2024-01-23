@@ -9,6 +9,7 @@ import {
     NextSSRApolloClient
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import { httpLink } from "..";
+import { auth } from "../../../../auth";
 
 
 export type ApolloClientProviderProps = {
@@ -26,11 +27,11 @@ export const ApolloClientProvider = ({
     const client = useMemo(() => {
         const authMiddleware = setContext(async (operation, { headers }) => {
             const response = await fetch("/api/accessToken")
-            const { token } = await response.json();
+            const { session } = await response.json();
             return {
                 headers: {
                     ...headers,
-                    authorization: `Bearer ${token}`,
+                    authorization: `Bearer ${session.accessToken}`,
                 },
             }
         })

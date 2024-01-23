@@ -73,6 +73,7 @@ export default {
         email: token.email,
         id: token.id,
         accessToken: token.accessToken,
+        expiresIn: token.expiresIn,
         error: token.error,
       };
       return Promise.resolve(session);

@@ -9,9 +9,14 @@ import {
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req): any => {
+export default auth(async (req): Promise<any> => {
+  // Handle backend api token expires, this token expires before the frontend token
+  const expired =
+    req.auth &&
+    Date.now() >= (req.auth && (req.auth!.expiresIn as unknown as any)) * 1000;
+
   const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+  const isLoggedIn = !!req.auth && !expired;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
