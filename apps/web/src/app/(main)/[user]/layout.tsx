@@ -1,5 +1,4 @@
 import { getCurrentUser } from "@/lib/auth/session";
-import { authOptions } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { UserNav } from "@/modules/layout/components/user-nav";
@@ -11,9 +10,7 @@ export default async function User({
     children,
 }: UserLayoutProps) {
     const user = await getCurrentUser();
-    if (!user) {
-        redirect(authOptions?.pages?.signIn || "/login");
-    }
+
 
     return (
         <div className="grid w-full items-center mt-5">

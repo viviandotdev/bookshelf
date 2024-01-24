@@ -1,20 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { authOptions } from "@/lib/auth/auth";
-import { getCurrentUser } from "@/lib/auth/session";
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
 import React from "react";
 import ImportActions from "../../../../modules/profile/components/import-actions";
 
 interface ImportPageProps { }
 
 export default async function ImportPage({ }: ImportPageProps) {
-    const user = await getCurrentUser();
-    if (!user) {
-        redirect(authOptions?.pages?.signIn || "/login");
-    }
-
     return (
         <div className="bg-white flex flex-col items-center pr-1">
             <div className="flex max-w-[1457px] flex-col px-5 max-md:max-w-full max-md:mt-10">
