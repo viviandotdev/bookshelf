@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import { Icons } from "../../icons";
+import { Icons } from "@/components/icons";
 import useUserBookStore from "@/stores/use-user-book-store";
 import AlertModal from "../alert-modal";
 import { useRemoveUserBook } from "@/modules/bookshelves/mutations/use-remove-user-book";
