@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { UserNav } from "@/modules/layout/components/user-nav";

@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 interface ProfileLayoutProps {
     children: React.ReactNode;
 }

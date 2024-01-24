@@ -1,6 +1,5 @@
 import { SiteFooter } from "@/modules/layout/templates/site-footer";
-import { getCurrentUser } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
 import SiteHeader from "@/modules/layout/templates/site-header";
 
 interface PageLayoutProps {

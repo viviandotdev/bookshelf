@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 import { getShelves } from "@/modules/shelf/queries/getShelves";
 import { getUserBooks } from "@/modules/bookshelves/queries/getUserBooks";
 import HomeTemplate from "@/modules/home/templates";

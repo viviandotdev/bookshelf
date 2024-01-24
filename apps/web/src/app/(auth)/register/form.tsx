@@ -8,11 +8,11 @@ import { useSignUpMutation } from "@/graphql/graphql";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
-import { registerUserSchema } from "@/lib/validations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "@/hooks/use-toast";
+import { registerUserSchema } from "@/schemas/auth";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 

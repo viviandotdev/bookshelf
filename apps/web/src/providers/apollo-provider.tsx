@@ -8,8 +8,8 @@ import {
     SSRMultipartLink,
     NextSSRApolloClient
 } from "@apollo/experimental-nextjs-app-support/ssr";
-import { httpLink } from "..";
-import { auth } from "../../../../auth";
+import { httpLink } from "../lib/apollo";
+import { auth } from "../../auth";
 
 
 export type ApolloClientProviderProps = {

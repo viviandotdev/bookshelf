@@ -3,7 +3,9 @@ import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import { getApolloClient } from "@/lib/apollo";
 import { SignInMutation, SignInDocument } from "@/graphql/graphql";
+
 const client = getApolloClient();
+
 export default {
   providers: [
     Credentials({
