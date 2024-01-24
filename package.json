@@ -17,6 +17,7 @@
         "cd:db-push": "pnpm --filter api exec prisma db push  --accept-data-loss && pnpm run db:seed",
         "----DB SECTION----": "------------------------",
         "db:generate": "pnpm --filter api exec prisma generate",
+        "db:push": "pnpm --filter api exec prisma db push",
         "db:migrate:dev": "pnpm --filter api exec prisma migrate dev",
         "db:studio": "pnpm --filter api exec prisma studio",
         "db:seed": "pnpm --filter api exec prisma db seed",

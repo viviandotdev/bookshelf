@@ -10,6 +10,7 @@ import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
+import { OAuthInput } from './dto/oauth.input';
 
 @Resolver()
 export class AuthResolver {
@@ -27,6 +28,12 @@ export class AuthResolver {
   @Mutation(() => Boolean)
   logout(@Args('id', { type: () => String }) id: string) {
     return this.authService.logout(id);
+  }
+
+  @Mutation(() => AuthResponse)
+  oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
+    console.log(oAuthInput);
+    return this.authService.oAuthLogin(oAuthInput);
   }
 
   @UseGuards(AccessTokenGuard)

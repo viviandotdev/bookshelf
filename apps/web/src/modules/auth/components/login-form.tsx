@@ -94,8 +94,8 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                         </div>
                         <Input
                             className="w-full"
-                            required
                             variant="rings"
+                            required
                             id="password"
                             placeholder="******"
                             type="password"
@@ -108,7 +108,6 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                             </p>
                         )}
                     </div>
-                    <Social />
                     <button
                         className={cn(buttonVariants({ variant: "default" }))}
                         disabled={isLoading}
@@ -120,6 +119,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                     </button>
                 </div>
             </form>
+            <Social />
         </div>
     );
 };

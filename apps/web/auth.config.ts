@@ -2,7 +2,12 @@ import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
 import { getApolloClient } from "@/lib/apollo";
-import { SignInMutation, SignInDocument } from "@/graphql/graphql";
+import {
+  SignInMutation,
+  SignInDocument,
+  OAuthLoginMutation,
+  OAuthLoginDocument,
+} from "@/graphql/graphql";
 import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
 
@@ -26,6 +31,9 @@ export default {
       },
       async authorize(credentials): Promise<any> {
         //get user
+
+        // const validatedFields = LoginSchema.safeParse(credentials);
+
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -55,10 +63,30 @@ export default {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
-
-      if (user) {
+      if (account && account?.provider != "credentials") {
+        // console.log("account", account);
+        const { data } = await client.mutate<OAuthLoginMutation>({
+          mutation: OAuthLoginDocument,
+          variables: {
+            input: {
+              ...account,
+              image: profile?.avatar_url,
+              username: profile?.login,
+              email: profile?.email,
+            },
+          },
+        });
+        token.username = data!.oAuthLogin!.user.username;
+        token.email = data!.oAuthLogin!.user.email;
+        token.id = data?.oAuthLogin.user.id;
+        token.accessToken = data?.oAuthLogin.accessToken;
+        token.expiresIn = data?.oAuthLogin.expiresIn;
+      }
+      //  handle oauth provider case
+      // create provider account in the database
+      else if (user) {
         token.username = u.username;
         token.email = u.email;
         token.id = u.id;

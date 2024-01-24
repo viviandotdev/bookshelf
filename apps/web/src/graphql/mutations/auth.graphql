@@ -19,6 +19,19 @@ mutation SignUp($input: RegisterInput!) {
   }
 }
 
+mutation OAuthLogin($input: OAuthInput!) {
+  oAuthLogin(oAuthInput: $input) {
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      id
+    }
+  }
+}
+
 mutation RefreshAuth {
   refreshAuth {
     accessToken
@@ -30,6 +43,3 @@ mutation RefreshAuth {
 mutation Logout($id: String!) {
   logout(id: $id)
 }
-
-
-

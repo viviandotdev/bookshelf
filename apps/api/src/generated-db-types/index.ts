@@ -1,14 +1,14 @@
 import { Field } from '@nestjs/graphql';
-import { ObjectType } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 import { Prisma } from '@prisma/client';
 import { Int } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
+import { Float } from '@nestjs/graphql';
 import { registerEnumType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
-import { Float } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { HideField } from '@nestjs/graphql';
 
@@ -35,7 +35,9 @@ export enum UserScalarFieldEnum {
     hashedPassword = "hashedPassword",
     hashedRefreshToken = "hashedRefreshToken",
     createdAt = "createdAt",
-    updatedAt = "updatedAt"
+    updatedAt = "updatedAt",
+    image = "image",
+    emailVerified = "emailVerified"
 }
 
 export enum ShelfScalarFieldEnum {
@@ -131,6 +133,22 @@ export enum AuditLogScalarFieldEnum {
     updatedAt = "updatedAt"
 }
 
+export enum AccountScalarFieldEnum {
+    id = "id",
+    userId = "userId",
+    type = "type",
+    provider = "provider",
+    providerAccountId = "providerAccountId",
+    refresh_token = "refresh_token",
+    access_token = "access_token",
+    expires_at = "expires_at",
+    token_type = "token_type",
+    scope = "scope",
+    id_token = "id_token",
+    session_state = "session_state"
+}
+
+registerEnumType(AccountScalarFieldEnum, { name: 'AccountScalarFieldEnum', description: undefined })
 registerEnumType(AuditLogScalarFieldEnum, { name: 'AuditLogScalarFieldEnum', description: undefined })
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
@@ -145,6 +163,1318 @@ registerEnumType(ShelfScalarFieldEnum, { name: 'ShelfScalarFieldEnum', descripti
 registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined })
 registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', description: undefined })
 registerEnumType(UserBookShelvesScalarFieldEnum, { name: 'UserBookShelvesScalarFieldEnum', description: undefined })
+
+@ArgsType()
+export class AccountAggregateArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AccountOrderByWithRelationInput>;
+    @Field(() => AccountWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => AccountCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AccountCountAggregateInput>;
+    @Field(() => AccountAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AccountAvgAggregateInput>;
+    @Field(() => AccountSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AccountSumAggregateInput>;
+    @Field(() => AccountMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AccountMinAggregateInput>;
+    @Field(() => AccountMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AccountMaxAggregateInput>;
+}
+
+@InputType()
+export class AccountAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    expires_at?: true;
+}
+
+@ObjectType()
+export class AccountAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    expires_at?: number;
+}
+
+@InputType()
+export class AccountAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    expires_at?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    userId?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    provider?: true;
+    @Field(() => Boolean, {nullable:true})
+    providerAccountId?: true;
+    @Field(() => Boolean, {nullable:true})
+    refresh_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    access_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires_at?: true;
+    @Field(() => Boolean, {nullable:true})
+    token_type?: true;
+    @Field(() => Boolean, {nullable:true})
+    scope?: true;
+    @Field(() => Boolean, {nullable:true})
+    id_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    session_state?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class AccountCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    userId!: number;
+    @Field(() => Int, {nullable:false})
+    type!: number;
+    @Field(() => Int, {nullable:false})
+    provider!: number;
+    @Field(() => Int, {nullable:false})
+    providerAccountId!: number;
+    @Field(() => Int, {nullable:false})
+    refresh_token!: number;
+    @Field(() => Int, {nullable:false})
+    access_token!: number;
+    @Field(() => Int, {nullable:false})
+    expires_at!: number;
+    @Field(() => Int, {nullable:false})
+    token_type!: number;
+    @Field(() => Int, {nullable:false})
+    scope!: number;
+    @Field(() => Int, {nullable:false})
+    id_token!: number;
+    @Field(() => Int, {nullable:false})
+    session_state!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class AccountCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    provider?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    providerAccountId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    refresh_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    access_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires_at?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token_type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    scope?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    id_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    session_state?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountCreateManyUserInputEnvelope {
+    @Field(() => [AccountCreateManyUserInput], {nullable:false})
+    @Type(() => AccountCreateManyUserInput)
+    data!: Array<AccountCreateManyUserInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class AccountCreateManyUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountCreateNestedManyWithoutUserInput {
+    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateWithoutUserInput)
+    create?: Array<AccountCreateWithoutUserInput>;
+    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
+    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AccountCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+}
+
+@InputType()
+export class AccountCreateOrConnectWithoutUserInput {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => AccountCreateWithoutUserInput, {nullable:false})
+    @Type(() => AccountCreateWithoutUserInput)
+    create!: InstanceType<typeof AccountCreateWithoutUserInput>;
+}
+
+@InputType()
+export class AccountCreateWithoutUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+    @Field(() => UserCreateNestedOneWithoutAccountsInput, {nullable:false})
+    user!: InstanceType<typeof UserCreateNestedOneWithoutAccountsInput>;
+}
+
+@ArgsType()
+export class AccountGroupByArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => [AccountOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<AccountOrderByWithAggregationInput>;
+    @Field(() => [AccountScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof AccountScalarFieldEnum>;
+    @Field(() => AccountScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof AccountScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => AccountCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AccountCountAggregateInput>;
+    @Field(() => AccountAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AccountAvgAggregateInput>;
+    @Field(() => AccountSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AccountSumAggregateInput>;
+    @Field(() => AccountMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AccountMinAggregateInput>;
+    @Field(() => AccountMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AccountMaxAggregateInput>;
+}
+
+@ObjectType()
+export class AccountGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+    @Field(() => AccountCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AccountCountAggregate>;
+    @Field(() => AccountAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof AccountAvgAggregate>;
+    @Field(() => AccountSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof AccountSumAggregate>;
+    @Field(() => AccountMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AccountMinAggregate>;
+    @Field(() => AccountMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AccountMaxAggregate>;
+}
+
+@InputType()
+export class AccountListRelationFilter {
+    @Field(() => AccountWhereInput, {nullable:true})
+    every?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => AccountWhereInput, {nullable:true})
+    some?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => AccountWhereInput, {nullable:true})
+    none?: InstanceType<typeof AccountWhereInput>;
+}
+
+@InputType()
+export class AccountMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    userId?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    provider?: true;
+    @Field(() => Boolean, {nullable:true})
+    providerAccountId?: true;
+    @Field(() => Boolean, {nullable:true})
+    refresh_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    access_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires_at?: true;
+    @Field(() => Boolean, {nullable:true})
+    token_type?: true;
+    @Field(() => Boolean, {nullable:true})
+    scope?: true;
+    @Field(() => Boolean, {nullable:true})
+    id_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    session_state?: true;
+}
+
+@ObjectType()
+export class AccountMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    provider?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    providerAccountId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    refresh_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    access_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires_at?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token_type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    scope?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    id_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    session_state?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    userId?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    provider?: true;
+    @Field(() => Boolean, {nullable:true})
+    providerAccountId?: true;
+    @Field(() => Boolean, {nullable:true})
+    refresh_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    access_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires_at?: true;
+    @Field(() => Boolean, {nullable:true})
+    token_type?: true;
+    @Field(() => Boolean, {nullable:true})
+    scope?: true;
+    @Field(() => Boolean, {nullable:true})
+    id_token?: true;
+    @Field(() => Boolean, {nullable:true})
+    session_state?: true;
+}
+
+@ObjectType()
+export class AccountMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    provider?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    providerAccountId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    refresh_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    access_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires_at?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token_type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    scope?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    id_token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    session_state?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    provider?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    providerAccountId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    refresh_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    access_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    expires_at?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    token_type?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    scope?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    id_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    session_state?: InstanceType<typeof SortOrderInput>;
+    @Field(() => AccountCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AccountCountOrderByAggregateInput>;
+    @Field(() => AccountAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AccountAvgOrderByAggregateInput>;
+    @Field(() => AccountMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AccountMaxOrderByAggregateInput>;
+    @Field(() => AccountMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AccountMinOrderByAggregateInput>;
+    @Field(() => AccountSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AccountSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class AccountOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    userId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    type?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    provider?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    providerAccountId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    refresh_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    access_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    expires_at?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    token_type?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    scope?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    id_token?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    session_state?: InstanceType<typeof SortOrderInput>;
+    @Field(() => UserOrderByWithRelationInput, {nullable:true})
+    user?: InstanceType<typeof UserOrderByWithRelationInput>;
+}
+
+@InputType()
+export class AccountProviderProviderAccountIdCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+}
+
+@InputType()
+export class AccountScalarWhereWithAggregatesInput {
+    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<AccountScalarWhereWithAggregatesInput>;
+    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<AccountScalarWhereWithAggregatesInput>;
+    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<AccountScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    userId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    type?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    provider?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    providerAccountId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    refresh_token?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    access_token?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    expires_at?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    token_type?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    scope?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id_token?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    session_state?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class AccountScalarWhereInput {
+    @Field(() => [AccountScalarWhereInput], {nullable:true})
+    AND?: Array<AccountScalarWhereInput>;
+    @Field(() => [AccountScalarWhereInput], {nullable:true})
+    OR?: Array<AccountScalarWhereInput>;
+    @Field(() => [AccountScalarWhereInput], {nullable:true})
+    NOT?: Array<AccountScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    userId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    provider?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    providerAccountId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    refresh_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    access_token?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    expires_at?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    token_type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    scope?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    id_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    session_state?: InstanceType<typeof StringFilter>;
+}
+
+@InputType()
+export class AccountSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    expires_at?: true;
+}
+
+@ObjectType()
+export class AccountSumAggregate {
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+}
+
+@InputType()
+export class AccountSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    expires_at?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AccountUncheckedCreateNestedManyWithoutUserInput {
+    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateWithoutUserInput)
+    create?: Array<AccountCreateWithoutUserInput>;
+    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
+    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AccountCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+}
+
+@InputType()
+export class AccountUncheckedCreateWithoutUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUncheckedUpdateManyWithoutUserNestedInput {
+    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateWithoutUserInput)
+    create?: Array<AccountCreateWithoutUserInput>;
+    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
+    @Field(() => [AccountUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpsertWithWhereUniqueWithoutUserInput)
+    upsert?: Array<AccountUpsertWithWhereUniqueWithoutUserInput>;
+    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AccountCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpdateWithWhereUniqueWithoutUserInput)
+    update?: Array<AccountUpdateWithWhereUniqueWithoutUserInput>;
+    @Field(() => [AccountUpdateManyWithWhereWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpdateManyWithWhereWithoutUserInput)
+    updateMany?: Array<AccountUpdateManyWithWhereWithoutUserInput>;
+    @Field(() => [AccountScalarWhereInput], {nullable:true})
+    @Type(() => AccountScalarWhereInput)
+    deleteMany?: Array<AccountScalarWhereInput>;
+}
+
+@InputType()
+export class AccountUncheckedUpdateManyWithoutUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUncheckedUpdateWithoutUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUpdateManyWithWhereWithoutUserInput {
+    @Field(() => AccountScalarWhereInput, {nullable:false})
+    @Type(() => AccountScalarWhereInput)
+    where!: InstanceType<typeof AccountScalarWhereInput>;
+    @Field(() => AccountUpdateManyMutationInput, {nullable:false})
+    @Type(() => AccountUpdateManyMutationInput)
+    data!: InstanceType<typeof AccountUpdateManyMutationInput>;
+}
+
+@InputType()
+export class AccountUpdateManyWithoutUserNestedInput {
+    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateWithoutUserInput)
+    create?: Array<AccountCreateWithoutUserInput>;
+    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
+    @Type(() => AccountCreateOrConnectWithoutUserInput)
+    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
+    @Field(() => [AccountUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpsertWithWhereUniqueWithoutUserInput)
+    upsert?: Array<AccountUpsertWithWhereUniqueWithoutUserInput>;
+    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
+    @Type(() => AccountCreateManyUserInputEnvelope)
+    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountWhereUniqueInput], {nullable:true})
+    @Type(() => AccountWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
+    @Field(() => [AccountUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpdateWithWhereUniqueWithoutUserInput)
+    update?: Array<AccountUpdateWithWhereUniqueWithoutUserInput>;
+    @Field(() => [AccountUpdateManyWithWhereWithoutUserInput], {nullable:true})
+    @Type(() => AccountUpdateManyWithWhereWithoutUserInput)
+    updateMany?: Array<AccountUpdateManyWithWhereWithoutUserInput>;
+    @Field(() => [AccountScalarWhereInput], {nullable:true})
+    @Type(() => AccountScalarWhereInput)
+    deleteMany?: Array<AccountScalarWhereInput>;
+}
+
+@InputType()
+export class AccountUpdateWithWhereUniqueWithoutUserInput {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => AccountUpdateWithoutUserInput, {nullable:false})
+    @Type(() => AccountUpdateWithoutUserInput)
+    data!: InstanceType<typeof AccountUpdateWithoutUserInput>;
+}
+
+@InputType()
+export class AccountUpdateWithoutUserInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+}
+
+@InputType()
+export class AccountUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    type?: string;
+    @Field(() => String, {nullable:true})
+    provider?: string;
+    @Field(() => String, {nullable:true})
+    providerAccountId?: string;
+    @Field(() => String, {nullable:true})
+    refresh_token?: string;
+    @Field(() => String, {nullable:true})
+    access_token?: string;
+    @Field(() => Int, {nullable:true})
+    expires_at?: number;
+    @Field(() => String, {nullable:true})
+    token_type?: string;
+    @Field(() => String, {nullable:true})
+    scope?: string;
+    @Field(() => String, {nullable:true})
+    id_token?: string;
+    @Field(() => String, {nullable:true})
+    session_state?: string;
+    @Field(() => UserUpdateOneRequiredWithoutAccountsNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneRequiredWithoutAccountsNestedInput>;
+}
+
+@InputType()
+export class AccountUpsertWithWhereUniqueWithoutUserInput {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => AccountUpdateWithoutUserInput, {nullable:false})
+    @Type(() => AccountUpdateWithoutUserInput)
+    update!: InstanceType<typeof AccountUpdateWithoutUserInput>;
+    @Field(() => AccountCreateWithoutUserInput, {nullable:false})
+    @Type(() => AccountCreateWithoutUserInput)
+    create!: InstanceType<typeof AccountCreateWithoutUserInput>;
+}
+
+@InputType()
+export class AccountWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => AccountProviderProviderAccountIdCompoundUniqueInput, {nullable:true})
+    provider_providerAccountId?: InstanceType<typeof AccountProviderProviderAccountIdCompoundUniqueInput>;
+    @Field(() => [AccountWhereInput], {nullable:true})
+    AND?: Array<AccountWhereInput>;
+    @Field(() => [AccountWhereInput], {nullable:true})
+    OR?: Array<AccountWhereInput>;
+    @Field(() => [AccountWhereInput], {nullable:true})
+    NOT?: Array<AccountWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    userId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    provider?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    providerAccountId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    refresh_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    access_token?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    expires_at?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    token_type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    scope?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    id_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    session_state?: InstanceType<typeof StringFilter>;
+    @Field(() => UserRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserRelationFilter>;
+}
+
+@InputType()
+export class AccountWhereInput {
+    @Field(() => [AccountWhereInput], {nullable:true})
+    AND?: Array<AccountWhereInput>;
+    @Field(() => [AccountWhereInput], {nullable:true})
+    OR?: Array<AccountWhereInput>;
+    @Field(() => [AccountWhereInput], {nullable:true})
+    NOT?: Array<AccountWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    userId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    provider?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    providerAccountId?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    refresh_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    access_token?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    expires_at?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    token_type?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    scope?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    id_token?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    session_state?: InstanceType<typeof StringFilter>;
+    @Field(() => UserRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserRelationFilter>;
+}
+
+@ObjectType()
+export class Account {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    type!: string;
+    @Field(() => String, {nullable:false})
+    provider!: string;
+    @Field(() => String, {nullable:false})
+    providerAccountId!: string;
+    @Field(() => String, {nullable:true})
+    refresh_token!: string | null;
+    @Field(() => String, {nullable:true})
+    access_token!: string | null;
+    @Field(() => Int, {nullable:true})
+    expires_at!: number | null;
+    @Field(() => String, {nullable:true})
+    token_type!: string | null;
+    @Field(() => String, {nullable:true})
+    scope!: string | null;
+    @Field(() => String, {nullable:true})
+    id_token!: string | null;
+    @Field(() => String, {nullable:true})
+    session_state!: string | null;
+    @Field(() => User, {nullable:false})
+    user?: InstanceType<typeof User>;
+}
+
+@ObjectType()
+export class AggregateAccount {
+    @Field(() => AccountCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AccountCountAggregate>;
+    @Field(() => AccountAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof AccountAvgAggregate>;
+    @Field(() => AccountSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof AccountSumAggregate>;
+    @Field(() => AccountMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AccountMinAggregate>;
+    @Field(() => AccountMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AccountMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyAccountArgs {
+    @Field(() => [AccountCreateManyInput], {nullable:false})
+    @Type(() => AccountCreateManyInput)
+    @ValidateNested()
+    data!: Array<AccountCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneAccountArgs {
+    @Field(() => AccountCreateInput, {nullable:false})
+    @Type(() => AccountCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AccountCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyAccountArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneAccountArgs {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+}
+
+@ArgsType()
+export class FindFirstAccountOrThrowArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AccountOrderByWithRelationInput>;
+    @Field(() => AccountWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AccountScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstAccountArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AccountOrderByWithRelationInput>;
+    @Field(() => AccountWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AccountScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyAccountArgs {
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AccountOrderByWithRelationInput>;
+    @Field(() => AccountWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AccountScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueAccountOrThrowArgs {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+}
+
+@ArgsType()
+export class FindUniqueAccountArgs {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+}
+
+@ArgsType()
+export class UpdateManyAccountArgs {
+    @Field(() => AccountUpdateManyMutationInput, {nullable:false})
+    @Type(() => AccountUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AccountUpdateManyMutationInput>;
+    @Field(() => AccountWhereInput, {nullable:true})
+    @Type(() => AccountWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AccountWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneAccountArgs {
+    @Field(() => AccountUpdateInput, {nullable:false})
+    @Type(() => AccountUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AccountUpdateInput>;
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+}
+
+@ArgsType()
+export class UpsertOneAccountArgs {
+    @Field(() => AccountWhereUniqueInput, {nullable:false})
+    @Type(() => AccountWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
+    @Field(() => AccountCreateInput, {nullable:false})
+    @Type(() => AccountCreateInput)
+    create!: InstanceType<typeof AccountCreateInput>;
+    @Field(() => AccountUpdateInput, {nullable:false})
+    @Type(() => AccountUpdateInput)
+    update!: InstanceType<typeof AccountUpdateInput>;
+}
 
 @ObjectType()
 export class AggregateAuditLog {
@@ -9212,6 +10542,10 @@ export class UserCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
+    image?: true;
+    @Field(() => Boolean, {nullable:true})
+    emailVerified?: true;
+    @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
 
@@ -9232,6 +10566,10 @@ export class UserCountAggregate {
     @Field(() => Int, {nullable:false})
     updatedAt!: number;
     @Field(() => Int, {nullable:false})
+    image!: number;
+    @Field(() => Int, {nullable:false})
+    emailVerified!: number;
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }
 
@@ -9251,6 +10589,10 @@ export class UserCountOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    image?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    emailVerified?: keyof typeof SortOrder;
 }
 
 @ObjectType()
@@ -9273,6 +10615,8 @@ export class UserCount {
     comments?: number;
     @Field(() => Int, {nullable:false})
     auditLogs?: number;
+    @Field(() => Int, {nullable:false})
+    accounts?: number;
 }
 
 @InputType()
@@ -9297,6 +10641,10 @@ export class UserCreateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -9336,6 +10684,19 @@ export class UserCreateNestedManyWithoutLikedReviewsInput {
     @Field(() => [UserWhereUniqueInput], {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
+}
+
+@InputType()
+export class UserCreateNestedOneWithoutAccountsInput {
+    @Field(() => UserCreateWithoutAccountsInput, {nullable:true})
+    @Type(() => UserCreateWithoutAccountsInput)
+    create?: InstanceType<typeof UserCreateWithoutAccountsInput>;
+    @Field(() => UserCreateOrConnectWithoutAccountsInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutAccountsInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAccountsInput>;
+    @Field(() => UserWhereUniqueInput, {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
 }
 
 @InputType()
@@ -9414,6 +10775,16 @@ export class UserCreateNestedOneWithoutUserBooksInput {
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
     connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+}
+
+@InputType()
+export class UserCreateOrConnectWithoutAccountsInput {
+    @Field(() => UserWhereUniqueInput, {nullable:false})
+    @Type(() => UserWhereUniqueInput)
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserCreateWithoutAccountsInput, {nullable:false})
+    @Type(() => UserCreateWithoutAccountsInput)
+    create!: InstanceType<typeof UserCreateWithoutAccountsInput>;
 }
 
 @InputType()
@@ -9507,6 +10878,52 @@ export class UserCreateOrConnectWithoutUserBooksInput {
 }
 
 @InputType()
+export class UserCreateWithoutAccountsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsEmail()
+    email!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
+    @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
+    @Field(() => JournalEntryCreateNestedManyWithoutUserInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
+    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
+    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
+    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
+    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
+    @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
+    @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
+    comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+}
+
+@InputType()
 export class UserCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -9528,6 +10945,10 @@ export class UserCreateWithoutAuditLogsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9544,6 +10965,8 @@ export class UserCreateWithoutAuditLogsInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9568,6 +10991,10 @@ export class UserCreateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9584,6 +11011,8 @@ export class UserCreateWithoutCommentsInput {
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9608,6 +11037,10 @@ export class UserCreateWithoutFollowersInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9624,6 +11057,8 @@ export class UserCreateWithoutFollowersInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9648,6 +11083,10 @@ export class UserCreateWithoutFollowingInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9664,6 +11103,8 @@ export class UserCreateWithoutFollowingInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9688,6 +11129,10 @@ export class UserCreateWithoutJournalEntriesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9704,6 +11149,8 @@ export class UserCreateWithoutJournalEntriesInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9728,6 +11175,10 @@ export class UserCreateWithoutLikedReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9744,6 +11195,8 @@ export class UserCreateWithoutLikedReviewsInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9768,6 +11221,10 @@ export class UserCreateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9784,6 +11241,8 @@ export class UserCreateWithoutReviewsInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9808,6 +11267,10 @@ export class UserCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9824,6 +11287,8 @@ export class UserCreateWithoutShelvesInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9848,6 +11313,10 @@ export class UserCreateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9864,6 +11333,8 @@ export class UserCreateWithoutUserBooksInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -9888,6 +11359,10 @@ export class UserCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -9906,6 +11381,8 @@ export class UserCreateInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @ArgsType()
@@ -9952,6 +11429,10 @@ export class UserGroupBy {
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserCountAggregate, {nullable:true})
     _count?: InstanceType<typeof UserCountAggregate>;
     @Field(() => UserMinAggregate, {nullable:true})
@@ -9986,6 +11467,10 @@ export class UserMaxAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    image?: true;
+    @Field(() => Boolean, {nullable:true})
+    emailVerified?: true;
 }
 
 @ObjectType()
@@ -10008,6 +11493,10 @@ export class UserMaxAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -10026,6 +11515,10 @@ export class UserMaxOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    image?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    emailVerified?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -10044,6 +11537,10 @@ export class UserMinAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    image?: true;
+    @Field(() => Boolean, {nullable:true})
+    emailVerified?: true;
 }
 
 @ObjectType()
@@ -10066,6 +11563,10 @@ export class UserMinAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -10084,6 +11585,10 @@ export class UserMinOrderByAggregateInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    image?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    emailVerified?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -10108,6 +11613,10 @@ export class UserOrderByWithAggregationInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    image?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    emailVerified?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserCountOrderByAggregateInput>;
     @Field(() => UserMaxOrderByAggregateInput, {nullable:true})
@@ -10132,6 +11641,10 @@ export class UserOrderByWithRelationInput {
     createdAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    image?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    emailVerified?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookOrderByRelationAggregateInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookOrderByRelationAggregateInput>;
     @Field(() => ShelfOrderByRelationAggregateInput, {nullable:true})
@@ -10150,6 +11663,8 @@ export class UserOrderByWithRelationInput {
     comments?: InstanceType<typeof CommentOrderByRelationAggregateInput>;
     @Field(() => AuditLogOrderByRelationAggregateInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
+    @Field(() => AccountOrderByRelationAggregateInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -10182,6 +11697,10 @@ export class UserScalarWhereWithAggregatesInput {
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    image?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    emailVerified?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
 
 @InputType()
@@ -10206,6 +11725,10 @@ export class UserScalarWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    image?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    emailVerified?: InstanceType<typeof DateTimeFilter>;
 }
 
 @InputType()
@@ -10248,6 +11771,52 @@ export class UserUncheckedCreateNestedManyWithoutLikedReviewsInput {
 }
 
 @InputType()
+export class UserUncheckedCreateWithoutAccountsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsEmail()
+    email!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
+    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
+    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
+    @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+}
+
+@InputType()
 export class UserUncheckedCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -10269,6 +11838,10 @@ export class UserUncheckedCreateWithoutAuditLogsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10285,6 +11858,8 @@ export class UserUncheckedCreateWithoutAuditLogsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10309,6 +11884,10 @@ export class UserUncheckedCreateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10325,6 +11904,8 @@ export class UserUncheckedCreateWithoutCommentsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10349,6 +11930,10 @@ export class UserUncheckedCreateWithoutFollowersInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10365,6 +11950,8 @@ export class UserUncheckedCreateWithoutFollowersInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10389,6 +11976,10 @@ export class UserUncheckedCreateWithoutFollowingInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10405,6 +11996,8 @@ export class UserUncheckedCreateWithoutFollowingInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10429,6 +12022,10 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10445,6 +12042,8 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10469,6 +12068,10 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10485,6 +12088,8 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10509,6 +12114,10 @@ export class UserUncheckedCreateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10525,6 +12134,8 @@ export class UserUncheckedCreateWithoutReviewsInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10549,6 +12160,10 @@ export class UserUncheckedCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10565,6 +12180,8 @@ export class UserUncheckedCreateWithoutShelvesInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10589,6 +12206,10 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10605,6 +12226,8 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10629,6 +12252,10 @@ export class UserUncheckedCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -10647,6 +12274,8 @@ export class UserUncheckedCreateInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10705,6 +12334,10 @@ export class UserUncheckedUpdateManyWithoutFollowersInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -10763,6 +12396,10 @@ export class UserUncheckedUpdateManyWithoutFollowingInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -10821,6 +12458,10 @@ export class UserUncheckedUpdateManyWithoutLikedReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -10845,6 +12486,56 @@ export class UserUncheckedUpdateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+}
+
+@InputType()
+export class UserUncheckedUpdateWithoutAccountsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => JournalEntryUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
+    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
+    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10869,6 +12560,10 @@ export class UserUncheckedUpdateWithoutAuditLogsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -10885,6 +12580,8 @@ export class UserUncheckedUpdateWithoutAuditLogsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10909,6 +12606,10 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -10925,6 +12626,8 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10949,6 +12652,10 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -10965,6 +12672,8 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -10989,6 +12698,10 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11005,6 +12718,8 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11029,6 +12744,10 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11045,6 +12764,8 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11069,6 +12790,10 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11085,6 +12810,8 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11109,6 +12836,10 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11125,6 +12856,8 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11149,6 +12882,10 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11165,6 +12902,8 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11189,6 +12928,10 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11205,6 +12948,8 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11229,6 +12974,10 @@ export class UserUncheckedUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11247,6 +12996,8 @@ export class UserUncheckedUpdateInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11271,6 +13022,10 @@ export class UserUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -11403,6 +13158,25 @@ export class UserUpdateManyWithoutLikedReviewsNestedInput {
     @Field(() => [UserScalarWhereInput], {nullable:true})
     @Type(() => UserScalarWhereInput)
     deleteMany?: Array<UserScalarWhereInput>;
+}
+
+@InputType()
+export class UserUpdateOneRequiredWithoutAccountsNestedInput {
+    @Field(() => UserCreateWithoutAccountsInput, {nullable:true})
+    @Type(() => UserCreateWithoutAccountsInput)
+    create?: InstanceType<typeof UserCreateWithoutAccountsInput>;
+    @Field(() => UserCreateOrConnectWithoutAccountsInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutAccountsInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAccountsInput>;
+    @Field(() => UserUpsertWithoutAccountsInput, {nullable:true})
+    @Type(() => UserUpsertWithoutAccountsInput)
+    upsert?: InstanceType<typeof UserUpsertWithoutAccountsInput>;
+    @Field(() => UserWhereUniqueInput, {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserUpdateToOneWithWhereWithoutAccountsInput, {nullable:true})
+    @Type(() => UserUpdateToOneWithWhereWithoutAccountsInput)
+    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutAccountsInput>;
 }
 
 @InputType()
@@ -11556,6 +13330,16 @@ export class UserUpdateOneWithoutUserBooksNestedInput {
 }
 
 @InputType()
+export class UserUpdateToOneWithWhereWithoutAccountsInput {
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    where?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserUpdateWithoutAccountsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutAccountsInput)
+    data!: InstanceType<typeof UserUpdateWithoutAccountsInput>;
+}
+
+@InputType()
 export class UserUpdateToOneWithWhereWithoutAuditLogsInput {
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
@@ -11646,6 +13430,52 @@ export class UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 }
 
 @InputType()
+export class UserUpdateWithoutAccountsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
+    @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
+    @Field(() => JournalEntryUpdateManyWithoutUserNestedInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
+    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
+    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
+    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
+    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+}
+
+@InputType()
 export class UserUpdateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -11667,6 +13497,10 @@ export class UserUpdateWithoutAuditLogsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11683,6 +13517,8 @@ export class UserUpdateWithoutAuditLogsInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11707,6 +13543,10 @@ export class UserUpdateWithoutCommentsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11723,6 +13563,8 @@ export class UserUpdateWithoutCommentsInput {
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11747,6 +13589,10 @@ export class UserUpdateWithoutFollowersInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11763,6 +13609,8 @@ export class UserUpdateWithoutFollowersInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11787,6 +13635,10 @@ export class UserUpdateWithoutFollowingInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11803,6 +13655,8 @@ export class UserUpdateWithoutFollowingInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11827,6 +13681,10 @@ export class UserUpdateWithoutJournalEntriesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11843,6 +13701,8 @@ export class UserUpdateWithoutJournalEntriesInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11867,6 +13727,10 @@ export class UserUpdateWithoutLikedReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11883,6 +13747,8 @@ export class UserUpdateWithoutLikedReviewsInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11907,6 +13773,10 @@ export class UserUpdateWithoutReviewsInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11923,6 +13793,8 @@ export class UserUpdateWithoutReviewsInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11947,6 +13819,10 @@ export class UserUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -11963,6 +13839,8 @@ export class UserUpdateWithoutShelvesInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11987,6 +13865,10 @@ export class UserUpdateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
     @Field(() => JournalEntryUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -12003,6 +13885,8 @@ export class UserUpdateWithoutUserBooksInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -12027,6 +13911,10 @@ export class UserUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -12045,6 +13933,8 @@ export class UserUpdateInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -12084,6 +13974,19 @@ export class UserUpsertWithWhereUniqueWithoutLikedReviewsInput {
     @Field(() => UserCreateWithoutLikedReviewsInput, {nullable:false})
     @Type(() => UserCreateWithoutLikedReviewsInput)
     create!: InstanceType<typeof UserCreateWithoutLikedReviewsInput>;
+}
+
+@InputType()
+export class UserUpsertWithoutAccountsInput {
+    @Field(() => UserUpdateWithoutAccountsInput, {nullable:false})
+    @Type(() => UserUpdateWithoutAccountsInput)
+    update!: InstanceType<typeof UserUpdateWithoutAccountsInput>;
+    @Field(() => UserCreateWithoutAccountsInput, {nullable:false})
+    @Type(() => UserCreateWithoutAccountsInput)
+    create!: InstanceType<typeof UserCreateWithoutAccountsInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    where?: InstanceType<typeof UserWhereInput>;
 }
 
 @InputType()
@@ -12190,6 +14093,10 @@ export class UserWhereUniqueInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    image?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    emailVerified?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     userBooks?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ShelfListRelationFilter, {nullable:true})
@@ -12208,6 +14115,8 @@ export class UserWhereUniqueInput {
     comments?: InstanceType<typeof CommentListRelationFilter>;
     @Field(() => AuditLogListRelationFilter, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
+    @Field(() => AccountListRelationFilter, {nullable:true})
+    accounts?: InstanceType<typeof AccountListRelationFilter>;
 }
 
 @InputType()
@@ -12232,6 +14141,10 @@ export class UserWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    image?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    emailVerified?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     userBooks?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ShelfListRelationFilter, {nullable:true})
@@ -12250,6 +14163,8 @@ export class UserWhereInput {
     comments?: InstanceType<typeof CommentListRelationFilter>;
     @Field(() => AuditLogListRelationFilter, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
+    @Field(() => AccountListRelationFilter, {nullable:true})
+    accounts?: InstanceType<typeof AccountListRelationFilter>;
 }
 
 @ObjectType()
@@ -12268,6 +14183,10 @@ export class User {
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
+    @Field(() => String, {nullable:true})
+    image!: string | null;
+    @Field(() => Date, {nullable:true})
+    emailVerified!: Date | null;
     @Field(() => [UserBook], {nullable:true})
     userBooks?: Array<UserBook>;
     @Field(() => [Shelf], {nullable:true})
@@ -12286,6 +14205,8 @@ export class User {
     comments?: Array<Comment>;
     @Field(() => [AuditLog], {nullable:true})
     auditLogs?: Array<AuditLog>;
+    @Field(() => [Account], {nullable:true})
+    accounts?: Array<Account>;
     @Field(() => UserCount, {nullable:false})
     _count?: InstanceType<typeof UserCount>;
 }

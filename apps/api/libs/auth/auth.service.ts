@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { hash, compare } from 'bcryptjs';
 import { LogInInput } from './dto/login.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
+import { OAuthInput } from './dto/oauth.input';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -27,6 +28,63 @@ export class AuthService {
     return user;
   }
 
+  async oAuthLogin(oAuthInput: OAuthInput) {
+    // Check if the user exists only create if not exists
+    const existingUser = await this.prisma.user.findUnique({
+      where: {
+        id: oAuthInput.providerAccountId,
+      },
+    });
+    let user;
+
+    if (!existingUser) {
+      user = await this.prisma.user.create({
+        data: {
+          id: oAuthInput.providerAccountId,
+          username: oAuthInput.username,
+          email: oAuthInput.email,
+          emailVerified: new Date(),
+          image: oAuthInput.image,
+        },
+      });
+
+      // Create the associated account
+      await this.prisma.account.create({
+        data: {
+          access_token: oAuthInput.access_token,
+          token_type: oAuthInput.token_type, // Include other properties from the DTO as needed
+          scope: oAuthInput.scope,
+          provider: oAuthInput.provider,
+          type: oAuthInput.type,
+          providerAccountId: oAuthInput.providerAccountId,
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+    }
+
+    const { accessToken, refreshToken } = await this.createToken(
+      user ? user.id : existingUser.id,
+      user ? user.email : existingUser.email,
+      user ? user.username : existingUser.username,
+    );
+
+    const payload = this.jwtService.decode(accessToken);
+    await this.updateRefreshToken(
+      user ? user.id : existingUser.id,
+      refreshToken,
+    );
+
+    return {
+      accessToken,
+      refreshToken,
+      user: user || existingUser,
+      expiresIn: payload['exp'],
+    };
+  }
   async signin(logInInput: LogInInput) {
     const user = await this.prisma.user.findUnique({
       where: {
