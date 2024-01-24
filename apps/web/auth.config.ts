@@ -7,6 +7,8 @@ import {
   SignInDocument,
   OAuthLoginMutation,
   OAuthLoginDocument,
+  SignUpMutation,
+  SignUpDocument,
 } from "@/graphql/graphql";
 import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
@@ -31,12 +33,10 @@ export default {
       },
       async authorize(credentials): Promise<any> {
         //get user
-
-        // const validatedFields = LoginSchema.safeParse(credentials);
-
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
+
         const { email, password } = credentials as {
           email: string;
           password: string;
@@ -78,11 +78,13 @@ export default {
             },
           },
         });
-        token.username = data!.oAuthLogin!.user.username;
-        token.email = data!.oAuthLogin!.user.email;
-        token.id = data?.oAuthLogin.user.id;
-        token.accessToken = data?.oAuthLogin.accessToken;
-        token.expiresIn = data?.oAuthLogin.expiresIn;
+        if (data) {
+          token.username = data!.oAuthLogin!.user.username;
+          token.email = data!.oAuthLogin!.user.email;
+          token.id = data?.oAuthLogin.user.id;
+          token.accessToken = data?.oAuthLogin.accessToken;
+          token.expiresIn = data?.oAuthLogin.expiresIn;
+        }
       }
       //  handle oauth provider case
       // create provider account in the database

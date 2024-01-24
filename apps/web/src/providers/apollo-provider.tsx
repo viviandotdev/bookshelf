@@ -9,7 +9,6 @@ import {
     NextSSRApolloClient
 } from "@apollo/experimental-nextjs-app-support/ssr";
 import { httpLink } from "../lib/apollo";
-import { auth } from "../../auth";
 
 
 export type ApolloClientProviderProps = {

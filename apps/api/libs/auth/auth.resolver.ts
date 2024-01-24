@@ -32,7 +32,6 @@ export class AuthResolver {
 
   @Mutation(() => AuthResponse)
   oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
-    console.log(oAuthInput);
     return this.authService.oAuthLogin(oAuthInput);
   }
 

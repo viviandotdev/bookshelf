@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
 
-
 export const {
   handlers: { GET, POST },
   auth,
@@ -10,7 +9,7 @@ export const {
 } = NextAuth({
   pages: {
     signIn: "/login",
-    error: "/",
+    error: "/auth/error",
   },
   events: {
     async linkAccount({ user }) {

@@ -17,6 +17,18 @@ export class AuthService {
 
   async signup(registerInput: RegisterInput) {
     const hashedPassword = await hash(registerInput.password, 10);
+    // Create the associated account
+    const emailExists = await this.prisma.user.findUnique({
+      where: {
+        email: registerInput.email,
+      },
+    });
+    //   Email already in use with another provider
+
+    if (emailExists) {
+      throw new ForbiddenException('Email already exists');
+    }
+
     const user = await this.prisma.user.create({
       data: {
         username: registerInput.username,
@@ -38,6 +50,18 @@ export class AuthService {
     let user;
 
     if (!existingUser) {
+      // Create the associated account
+      const emailExists = await this.prisma.user.findUnique({
+        where: {
+          email: oAuthInput.email,
+        },
+      });
+      //   Email already in use with another provider
+
+      if (emailExists) {
+        throw new ForbiddenException('Email already exists');
+      }
+
       user = await this.prisma.user.create({
         data: {
           id: oAuthInput.providerAccountId,
@@ -48,7 +72,6 @@ export class AuthService {
         },
       });
 
-      // Create the associated account
       await this.prisma.account.create({
         data: {
           access_token: oAuthInput.access_token,

@@ -10,9 +10,11 @@ import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { values } from "rambda";
+import { startTransition, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { login } from "../actions/login";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -27,31 +29,24 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
         resolver: zodResolver(loginUserSchema),
     });
 
-    const router = useRouter();
+    // const router = useRouter();
+    const [success, setSuccess] = useState<string | undefined>("");
     const searchParams = useSearchParams();
     const [error, setError] = useState<string | undefined>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-    const onSubmit = async (data: FormData) => {
-        setIsLoading(true);
-        try {
-            const res = await signIn("credentials", {
-                redirect: false,
-                email: data.email.toLowerCase(),
-                password: data.password,
-                callbackUrl,
-            });
-            if (!res?.error) {
-                router.push(callbackUrl);
-            } else {
-                setError("Invalid email or password");
-            }
-        } catch (err: any) {
-            setError("Error signing in");
-        } finally {
-            setIsLoading(false);
-        }
+    const onSubmit = async (values: z.infer<typeof loginUserSchema>) => {
+        setError("");
+        setSuccess("");
+
+        startTransition(() => {
+            login(values)
+                .then((data) => {
+                    setError(data?.error);
+                    setSuccess(data?.success);
+                });
+        });
     };
 
     return (
