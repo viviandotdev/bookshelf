@@ -47,7 +47,6 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             setIsLoading(false);
             setOpen(false);
         }
-
     };
 
     const bodyContent = (

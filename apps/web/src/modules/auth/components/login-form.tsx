@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Social } from "@/modules/auth/components/social";
 import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -28,9 +29,9 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl") || "/";
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | undefined>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
 
     const onSubmit = async (data: FormData) => {
         setIsLoading(true);
@@ -71,6 +72,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                         <Input
                             className="w-full"
                             id="email"
+                            placeholder="john.doe@example.com"
                             type="email"
                             variant="rings"
                             autoCapitalize="none"
@@ -95,6 +97,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                             required
                             variant="rings"
                             id="password"
+                            placeholder="******"
                             type="password"
                             disabled={isLoading}
                             {...register("password")}
@@ -105,6 +108,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                             </p>
                         )}
                     </div>
+                    <Social />
                     <button
                         className={cn(buttonVariants({ variant: "default" }))}
                         disabled={isLoading}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Form as LoginForm } from "./form";
+import { Form as LoginForm } from "../../../modules/auth/components/login-form";
 import { Metadata } from "next";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";

@@ -35,7 +35,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new ForbiddenException('Invalid credentials');
+      throw new ForbiddenException('Email does not exist');
     }
     const doPasswordsMatch = await compare(
       logInInput.password,

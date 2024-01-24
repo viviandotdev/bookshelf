@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
-import { RegisterForm } from "./form";
+import { RegisterForm } from "../../../modules/auth/components/register-form";
 import { dm_sefif_display } from "@/lib/fonts";
 
 export const metadata = {
