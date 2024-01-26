@@ -100,7 +100,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                         <div className="flex justify-between">
                             <Label htmlFor="password">Password</Label>
                             <Label>
-                                <Link href="/auth/reset">
+                                <Link href="/auth/forgot-password">
                                     Forgot password?
                                 </Link>
                             </Label>

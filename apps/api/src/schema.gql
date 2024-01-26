@@ -1456,11 +1456,12 @@ type Mutation {
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
   login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
-  oAuthLogin(oAuthInput: OAuthInput!): AuthResponse!
+  oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
+  resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
@@ -1539,6 +1540,11 @@ input RegisterInput {
   email: String!
   password: String!
   username: String!
+}
+
+input ResetPasswordInput {
+  password: String!
+  token: String!
 }
 
 type Review {

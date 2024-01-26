@@ -3,10 +3,10 @@ import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import { getApolloClient } from "@/lib/apollo";
 import {
-  OAuthLoginMutation,
-  OAuthLoginDocument,
   LoginDocument,
   LoginMutation,
+  OAuthDocument,
+  OAuthMutation,
 } from "@/graphql/graphql";
 import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
@@ -30,6 +30,7 @@ export default {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
+        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -78,7 +79,6 @@ export default {
       if (account?.provider !== "credentials") return true;
       //   Check if email is verified
       const u = user as unknown as any;
-      console.log(u);
       // Prevent sign in without email verification
       if (!u?.emailVerified) return false;
 
@@ -88,8 +88,8 @@ export default {
       const u = user as unknown as any;
       if (account && account?.provider != "credentials") {
         // console.log("account", account);
-        const { data } = await client.mutate<OAuthLoginMutation>({
-          mutation: OAuthLoginDocument,
+        const { data } = await client.mutate<OAuthMutation>({
+          mutation: OAuthDocument,
           variables: {
             input: {
               ...account,
@@ -100,11 +100,11 @@ export default {
           },
         });
         if (data) {
-          token.username = data!.oAuthLogin!.user.username;
-          token.email = data!.oAuthLogin!.user.email;
-          token.id = data?.oAuthLogin.user.id;
-          token.accessToken = data?.oAuthLogin.accessToken;
-          token.expiresIn = data?.oAuthLogin.expiresIn;
+          token.username = data!.oAuth!.user.username;
+          token.email = data!.oAuth!.user.email;
+          token.id = data?.oAuth.user.id;
+          token.accessToken = data?.oAuth.accessToken;
+          token.expiresIn = data?.oAuth.expiresIn;
         }
       }
       //  handle oauth provider case

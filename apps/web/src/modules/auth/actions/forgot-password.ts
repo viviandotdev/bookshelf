@@ -6,7 +6,7 @@ import { getApolloClient } from "@/lib/apollo";
 import { ResetSchema } from "@/schemas/auth";
 import { z } from "zod";
 
-export const reset = async (values: z.infer<typeof ResetSchema>) => {
+export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
   const client = getApolloClient();
   const validatedFields = ResetSchema.safeParse(values);
 

@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Resend } from 'resend';
 import { User } from '@prisma/client';
 import { AccountCreateInput } from '@bookcue/api/generated-db-types';
+import { UserService } from 'libs/user/user.service';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -19,6 +20,7 @@ export class AuthService {
     private readonly prisma: PrismaRepository,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private userService: UserService,
   ) {}
 
   async verifyToken(token: string) {
@@ -83,6 +85,52 @@ export class AuthService {
     return verficationToken.token;
   }
 
+  async resetPassword(token: string, password: string) {
+    const existingToken = await this.prisma.passwordResetToken.findUnique({
+      where: {
+        token,
+      },
+    });
+
+    if (!existingToken) {
+      throw new ForbiddenException('Invalid token');
+    }
+
+    const hasExpired = existingToken.expires < new Date();
+
+    if (hasExpired) {
+      return { error: 'Token has expired!' };
+    }
+
+    const existingUser = await this.userService.findUnique({
+      where: {
+        email: existingToken.email,
+      },
+    });
+
+    if (!existingUser) {
+      throw new ForbiddenException('Email does not exist');
+    }
+
+    const hashedPassword = await hash(password, 10);
+    await this.prisma.user.update({
+      where: {
+        id: existingUser.id,
+      },
+      data: {
+        hashedPassword,
+      },
+    });
+
+    await this.prisma.passwordResetToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+
+    return true;
+  }
+
   generatePasswordResetToken = async (email: string) => {
     const token = uuidv4();
     const expires = new Date(new Date().getTime() + 3600 * 1000);
@@ -107,7 +155,7 @@ export class AuthService {
       },
     });
 
-    return passwordResetToken;
+    return passwordResetToken.token;
   };
 
   async sendVerificationEmail(email: string) {
@@ -124,7 +172,7 @@ export class AuthService {
   }
 
   async sendPasswordResetEmail(email: string) {
-    const verificationToken = await this.generateEmailVerificationToken(email);
+    const verificationToken = await this.generatePasswordResetToken(email);
 
     const resetLink = `${this.domain}/auth/reset-password?token=${verificationToken}`;
 

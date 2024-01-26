@@ -19,9 +19,9 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { CardWrapper } from "./card-wrapper";
 import { ResetSchema } from "@/schemas/auth";
-import { reset } from "../actions/reset";
+import { forgotPassword } from "../actions/forgot-password";
 
-export const ResetForm = () => {
+export const ForgotPasswordForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -38,7 +38,7 @@ export const ResetForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            reset(values)
+            forgotPassword(values)
                 .then((data) => {
                     setError(data?.error);
                     setSuccess(data?.success);

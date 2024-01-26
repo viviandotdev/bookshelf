@@ -16,6 +16,11 @@ mutation Login($input: LogInInput!) {
 mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
 }
+
+mutation ResetPassword($input: ResetPasswordInput!) {
+  resetPassword(resetPasswordInput: $input)
+}
+
 mutation VerifyToken($token: String!) {
   verifyToken(token: $token)
 }
@@ -28,8 +33,8 @@ mutation Register($input: RegisterInput!) {
   }
 }
 
-mutation OAuthLogin($input: OAuthInput!) {
-  oAuthLogin(oAuthInput: $input) {
+mutation OAuth($input: OAuthInput!) {
+  oAuth(oAuthInput: $input) {
     accessToken
     refreshToken
     expiresIn

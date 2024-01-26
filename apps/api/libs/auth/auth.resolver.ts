@@ -13,6 +13,7 @@ import { User } from '../../src/generated-db-types';
 import { OAuthInput } from './dto/oauth.input';
 import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
+import { ResetPasswordInput } from './dto/reset-password.input';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -49,6 +50,7 @@ export class AuthResolver {
       await this.authService.sendVerificationEmail(user.email);
       throw new ForbiddenException('Email not verified');
     }
+    console.log(user.hashedPassword);
     const doPasswordsMatch = await compare(
       logInInput.password,
       user.hashedPassword,
@@ -83,12 +85,23 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
+  async resetPassword(
+    @Args('resetPasswordInput') resetPasswordInput: ResetPasswordInput,
+  ) {
+    console.log(resetPasswordInput);
+    return this.authService.resetPassword(
+      resetPasswordInput.token,
+      resetPasswordInput.password,
+    );
+  }
+
+  @Mutation(() => Boolean)
   verifyToken(@Args('token', { type: () => String }) token: string) {
     return this.authService.verifyToken(token);
   }
 
   @Mutation(() => AuthResponse)
-  async oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
+  async oAuth(@Args('oAuthInput') oAuthInput: OAuthInput) {
     const existingUser = await this.userService.findUnique({
       where: {
         id: oAuthInput.providerAccountId,

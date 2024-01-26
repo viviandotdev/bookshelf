@@ -25,8 +25,6 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     } = useForm<FormData>({
         resolver: zodResolver(registerUserSchema),
     });
-    const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl") || "/";
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -41,6 +39,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                 });
         });
     };
+    
 
     return (
         <div className="grid gap-6" {...props}>
