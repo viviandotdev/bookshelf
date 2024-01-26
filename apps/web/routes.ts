@@ -15,6 +15,7 @@ export const authRoutes = [
   "/register",
   "/auth/error",
   "/auth/new-verification",
+  "/auth/reset",
 ];
 
 /**

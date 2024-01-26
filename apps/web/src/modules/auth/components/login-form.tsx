@@ -10,11 +10,10 @@ import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { values } from "rambda";
-import { startTransition, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { login } from "../actions/login";
+import Link from "next/link";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -100,8 +99,13 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                     <div className="grid gap-2">
                         <div className="flex justify-between">
                             <Label htmlFor="password">Password</Label>
-                            <Label>Forgot Password ?</Label>
+                            <Label>
+                                <Link href="/auth/reset">
+                                    Forgot password?
+                                </Link>
+                            </Label>
                         </div>
+
                         <Input
                             className="w-full"
                             variant="rings"
