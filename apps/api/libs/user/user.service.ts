@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { UserCreateInput } from 'src/generated-db-types';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { UserRepository } from './user.repository';
@@ -10,12 +10,25 @@ export class UserService {
     private readonly prisma: PrismaRepository,
   ) {}
   findUnique = this.repository.findUnique;
-  async create(userCreateInput: UserCreateInput) {
-    return this.prisma.user.create({
-      data: {
-        ...userCreateInput,
+  
+  async createUser(createUserInput: UserCreateInput) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: {
+        email: createUserInput.email,
       },
     });
+
+    if (existingUser) {
+      throw new ForbiddenException('Email already exists');
+    }
+
+    const user = await this.prisma.user.create({
+      data: {
+        ...createUserInput,
+      },
+    });
+
+    return user;
   }
 
   async getFollowerCount(userId: string): Promise<number> {

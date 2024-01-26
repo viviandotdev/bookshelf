@@ -3,12 +3,10 @@ import Credentials from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth";
 import { getApolloClient } from "@/lib/apollo";
 import {
-  SignInMutation,
-  SignInDocument,
   OAuthLoginMutation,
   OAuthLoginDocument,
-  SignUpMutation,
-  SignUpDocument,
+  LoginDocument,
+  LoginMutation,
 } from "@/graphql/graphql";
 import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
@@ -41,8 +39,8 @@ export default {
           password: string;
         };
 
-        const { data, errors } = await client.mutate<SignInMutation>({
-          mutation: SignInDocument,
+        const { data, errors } = await client.mutate<LoginMutation>({
+          mutation: LoginDocument,
           variables: {
             input: {
               email: email,
@@ -63,13 +61,13 @@ export default {
         if (!data) throw new Error("No data returned from server");
 
         return {
-          id: data!.signin.user.id,
-          email: data!.signin.user.email,
-          username: data!.signin.user.username,
-          emailVerified: data!.signin.user.emailVerified,
-          accessToken: data!.signin.accessToken,
-          expiresIn: data!.signin.expiresIn,
-          verificationToken: data!.signin.verificationToken,
+          id: data!.login.user.id,
+          email: data!.login.user.email,
+          username: data!.login.user.username,
+          emailVerified: data!.login.user.emailVerified,
+          accessToken: data!.login.accessToken,
+          expiresIn: data!.login.expiresIn,
+          verificationToken: data!.login.verificationToken,
         };
       },
     }),

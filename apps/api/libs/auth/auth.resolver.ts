@@ -11,15 +11,19 @@ import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
 import { OAuthInput } from './dto/oauth.input';
-import { hash } from 'bcryptjs';
+import { hash, compare } from 'bcryptjs';
+import { UserService } from 'libs/user/user.service';
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
   @Mutation(() => User)
   async register(@Args('registerInput') registerInput: RegisterInput) {
     const hashedPassword = await hash(registerInput.password, 10);
 
-    const user = await this.authService.createUser({
+    const user = await this.userService.createUser({
       email: registerInput.email,
       username: registerInput.username,
       hashedPassword,
@@ -31,8 +35,30 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthResponse)
-  signin(@Args('logInInput') logInInput: LogInInput) {
-    return this.authService.signin(logInInput);
+  async login(@Args('logInInput') logInInput: LogInInput) {
+    const user = await this.userService.findUnique({
+      where: {
+        email: logInInput.email,
+      },
+    });
+    if (!user || !user.email) {
+      throw new ForbiddenException('Email does not exist');
+    }
+
+    if (!user.emailVerified) {
+      await this.authService.sendVerificationEmail(user.email);
+      throw new ForbiddenException('Email not verified');
+    }
+    const doPasswordsMatch = await compare(
+      logInInput.password,
+      user.hashedPassword,
+    );
+
+    if (!doPasswordsMatch) {
+      throw new ForbiddenException('Invalid credentials');
+    }
+
+    return this.authService.generateJWTTokens(user);
   }
 
   @Mutation(() => Boolean)
@@ -52,7 +78,7 @@ export class AuthResolver {
 
   @Mutation(() => AuthResponse)
   async oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
-    const existingUser = await this.authService.findUnique({
+    const existingUser = await this.userService.findUnique({
       where: {
         id: oAuthInput.providerAccountId,
       },
@@ -60,7 +86,7 @@ export class AuthResolver {
 
     let user;
     if (!existingUser) {
-      user = await this.authService.createUser({
+      user = await this.userService.createUser({
         id: oAuthInput.providerAccountId,
         username: oAuthInput.username,
         email: oAuthInput.email,
@@ -88,7 +114,7 @@ export class AuthResolver {
   @UseGuards(AccessTokenGuard)
   @Query(() => User, { name: 'me' })
   getMe(@CurrentUser() currentUser: JwtPayload) {
-    const user = this.authService.findUnique({
+    const user = this.userService.findUnique({
       where: {
         id: currentUser.userId,
       },
@@ -102,7 +128,24 @@ export class AuthResolver {
 
   @UseGuards(RefreshTokenGuard)
   @Mutation(() => RefreshResponse)
-  refreshAuth(@CurrentUser() user: JwtPayloadWithRefreshToken) {
-    return this.authService.refreshAuth(user.userId, user.refreshToken);
+  async refreshAuth(@CurrentUser() currentUser: JwtPayloadWithRefreshToken) {
+    const user = await this.userService.findUnique({
+      where: {
+        id: currentUser.userId,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Invalid credentials');
+    }
+
+    const doRefreshTokensMatch = await compare(
+      currentUser.refreshToken,
+      user.hashedRefreshToken,
+    );
+    if (!doRefreshTokensMatch) {
+      throw new ForbiddenException('Invalid credentials');
+    }
+    return this.authService.generateJWTTokens(user);
   }
 }

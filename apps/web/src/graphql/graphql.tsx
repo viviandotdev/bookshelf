@@ -1493,19 +1493,18 @@ export type Mutation = {
   createJournalEntry: JournalEntry;
   createReview: Review;
   createShelf: Shelf;
-  createUser: User;
   deleteShelf: Shelf;
   follow: User;
   forgotPassword: Scalars['Boolean'];
   importUserBooks: Scalars['Boolean'];
   likeReview: Review;
+  login: AuthResponse;
   logout: Scalars['Boolean'];
   oAuthLogin: AuthResponse;
   refreshAuth: RefreshResponse;
   register: User;
   removeJournalEntry: JournalEntry;
   removeUserBook: UserBook;
-  signin: AuthResponse;
   updateJournalEntry: JournalEntry;
   updateReview: Review;
   updateShelf: Shelf;
@@ -1544,11 +1543,6 @@ export type MutationCreateShelfArgs = {
 };
 
 
-export type MutationCreateUserArgs = {
-  userCreateInput: UserCreateInput;
-};
-
-
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
 };
@@ -1576,6 +1570,11 @@ export type MutationLikeReviewArgs = {
 };
 
 
+export type MutationLoginArgs = {
+  logInInput: LogInInput;
+};
+
+
 export type MutationLogoutArgs = {
   id: Scalars['String'];
 };
@@ -1598,11 +1597,6 @@ export type MutationRemoveJournalEntryArgs = {
 
 export type MutationRemoveUserBookArgs = {
   where: BookWhereUniqueInput;
-};
-
-
-export type MutationSigninArgs = {
-  logInInput: LogInInput;
 };
 
 
@@ -3296,28 +3290,6 @@ export type UserCountAggregate = {
   username: Scalars['Int'];
 };
 
-export type UserCreateInput = {
-  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
-  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
-  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
-  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
-  journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
-  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
-};
-
 export type UserCreateNestedManyWithoutFollowersInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowersInput>>;
@@ -4169,12 +4141,12 @@ export type VerificationTokenMinAggregate = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type SignInMutationVariables = Exact<{
+export type LoginMutationVariables = Exact<{
   input: LogInInput;
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signin: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type VerifyTokenMutationVariables = Exact<{
   token: Scalars['String']['input'];
@@ -4430,9 +4402,9 @@ export type CountUserBooksQueryVariables = Exact<{
 export type CountUserBooksQuery = { __typename?: 'Query', countUserBooks: number };
 
 
-export const SignInDocument = gql`
-    mutation SignIn($input: LogInInput!) {
-  signin(logInInput: $input) {
+export const LoginDocument = gql`
+    mutation Login($input: LogInInput!) {
+  login(logInInput: $input) {
     accessToken
     refreshToken
     verificationToken
@@ -4446,32 +4418,32 @@ export const SignInDocument = gql`
   }
 }
     `;
-export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
- * __useSignInMutation__
+ * __useLoginMutation__
  *
- * To run a mutation, you first call `useSignInMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSignInMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [signInMutation, { data, loading, error }] = useSignInMutation({
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, options);
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
       }
-export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
-export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
-export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const VerifyTokenDocument = gql`
     mutation VerifyToken($token: String!) {
   verifyToken(token: $token)

@@ -7,11 +7,7 @@ import {
   Query,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import {
-  User,
-  UserCreateInput,
-  UserWhereUniqueInput,
-} from 'src/generated-db-types';
+import { User, UserWhereUniqueInput } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
@@ -21,12 +17,6 @@ import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
 @Resolver(() => User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
-
-  @UseGuards(AccessTokenGuard)
-  @Mutation(() => User)
-  createUser(@Args('userCreateInput') userCreateInput: UserCreateInput) {
-    return this.userService.create(userCreateInput);
-  }
 
   @UseGuards(OptionalAccessTokenGuard)
   @Query(() => User)
@@ -69,7 +59,6 @@ export class UserResolver {
     return this.userService.getFollowingCount(user.id);
   }
 
-  
   @UseGuards(AccessTokenGuard)
   @Mutation(() => User)
   async follow(

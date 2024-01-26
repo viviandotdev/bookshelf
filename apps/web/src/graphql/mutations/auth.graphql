@@ -1,5 +1,5 @@
-mutation SignIn($input: LogInInput!) {
-  signin(logInInput: $input) {
+mutation Login($input: LogInInput!) {
+  login(logInInput: $input) {
     accessToken
     refreshToken
     verificationToken
