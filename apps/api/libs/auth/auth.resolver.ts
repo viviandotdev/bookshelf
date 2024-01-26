@@ -6,18 +6,28 @@ import { LogInInput } from './dto/login.input';
 import { RefreshResponse } from './dto/refresh.response';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { RefreshTokenGuard } from './guards/refresh.guard';
-import { UseGuards } from '@nestjs/common';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
 import { OAuthInput } from './dto/oauth.input';
-
+import { hash } from 'bcryptjs';
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
   @Mutation(() => User)
-  signup(@Args('registerInput') registerInput: RegisterInput) {
-    return this.authService.signup(registerInput);
+  async register(@Args('registerInput') registerInput: RegisterInput) {
+    const hashedPassword = await hash(registerInput.password, 10);
+
+    const user = await this.authService.createUser({
+      email: registerInput.email,
+      username: registerInput.username,
+      hashedPassword,
+    });
+
+    await this.authService.sendVerificationEmail(user.email);
+
+    return user;
   }
 
   @Mutation(() => AuthResponse)
@@ -41,14 +51,53 @@ export class AuthResolver {
   }
 
   @Mutation(() => AuthResponse)
-  oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
-    return this.authService.oAuthLogin(oAuthInput);
+  async oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
+    const existingUser = await this.authService.findUnique({
+      where: {
+        id: oAuthInput.providerAccountId,
+      },
+    });
+
+    let user;
+    if (!existingUser) {
+      user = await this.authService.createUser({
+        id: oAuthInput.providerAccountId,
+        username: oAuthInput.username,
+        email: oAuthInput.email,
+        emailVerified: new Date(),
+        image: oAuthInput.image,
+      });
+
+      await this.authService.createAccount({
+        access_token: oAuthInput.access_token,
+        token_type: oAuthInput.token_type, // Include other properties from the DTO as needed
+        scope: oAuthInput.scope,
+        provider: oAuthInput.provider,
+        type: oAuthInput.type,
+        providerAccountId: oAuthInput.providerAccountId,
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      });
+    }
+    return this.authService.generateJWTTokens(user ? user : existingUser);
   }
 
   @UseGuards(AccessTokenGuard)
   @Query(() => User, { name: 'me' })
-  getMe(@CurrentUser() user: JwtPayload) {
-    return this.authService.getMe(user.userId);
+  getMe(@CurrentUser() currentUser: JwtPayload) {
+    const user = this.authService.findUnique({
+      where: {
+        id: currentUser.userId,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('User not found');
+    }
+    return user;
   }
 
   @UseGuards(RefreshTokenGuard)

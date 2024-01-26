@@ -1458,10 +1458,10 @@ type Mutation {
   logout(id: String!): Boolean!
   oAuthLogin(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
+  register(registerInput: RegisterInput!): User!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   signin(logInInput: LogInInput!): AuthResponse!
-  signup(registerInput: RegisterInput!): User!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!

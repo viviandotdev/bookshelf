@@ -8,6 +8,11 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { OAuthInput } from './dto/oauth.input';
 import { v4 as uuidv4 } from 'uuid';
 import { Resend } from 'resend';
+import { User } from '@prisma/client';
+import {
+  AccountCreateInput,
+  UserCreateInput,
+} from '@bookcue/api/generated-db-types';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -15,12 +20,13 @@ export class AuthService {
     this.configService.get<string>('resend.api'),
   );
   private readonly domain = this.configService.get<string>('web.url');
+
   constructor(
     private readonly prisma: PrismaRepository,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
-
+  findUnique = this.prisma.user.findUnique;
   async forgotPassword(email: string) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -100,113 +106,59 @@ export class AuthService {
 
     return verficationToken.token;
   }
-
-  async signup(registerInput: RegisterInput) {
-    const hashedPassword = await hash(registerInput.password, 10);
-    // Create the associated account
-    const emailExists = await this.prisma.user.findUnique({
+  async createUser(createUserInput: UserCreateInput) {
+    const existingUser = await this.prisma.user.findUnique({
       where: {
-        email: registerInput.email,
+        email: createUserInput.email,
       },
     });
-    //   Email already in use with another provider
 
-    if (emailExists) {
+    if (existingUser) {
       throw new ForbiddenException('Email already exists');
     }
 
     const user = await this.prisma.user.create({
       data: {
-        username: registerInput.username,
-        hashedPassword,
-        email: registerInput.email,
+        ...createUserInput,
       },
     });
 
-    const verificationToken = await this.generateEmailVerificationToken(
-      user.email,
-    );
-    // Send email
-    const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
-
-    const res = await this.resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: user.email,
-      subject: 'Confirm your email',
-      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
-    });
-    console.log(res);
     return user;
   }
 
-  async oAuthLogin(oAuthInput: OAuthInput) {
-    // Check if the user exists only create if not exists
-    const existingUser = await this.prisma.user.findUnique({
-      where: {
-        id: oAuthInput.providerAccountId,
+  async sendVerificationEmail(email: string) {
+    const verificationToken = await this.generateEmailVerificationToken(email);
+    // Send email
+    const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
+
+    await this.resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: email,
+      subject: 'Confirm your email',
+      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    });
+  }
+
+  async createAccount(createAccountInput: AccountCreateInput) {
+    await this.prisma.account.create({
+      data: {
+        ...createAccountInput,
       },
     });
-    let user;
-
-    if (!existingUser) {
-      // Create the associated account
-      const emailExists = await this.prisma.user.findUnique({
-        where: {
-          email: oAuthInput.email,
-        },
-      });
-      //   Email already in use with another provider
-
-      if (emailExists) {
-        throw new ForbiddenException('Email already exists');
-      }
-
-      user = await this.prisma.user.create({
-        data: {
-          id: oAuthInput.providerAccountId,
-          username: oAuthInput.username,
-          email: oAuthInput.email,
-          emailVerified: new Date(),
-          image: oAuthInput.image,
-        },
-      });
-
-      await this.prisma.account.create({
-        data: {
-          access_token: oAuthInput.access_token,
-          token_type: oAuthInput.token_type, // Include other properties from the DTO as needed
-          scope: oAuthInput.scope,
-          provider: oAuthInput.provider,
-          type: oAuthInput.type,
-          providerAccountId: oAuthInput.providerAccountId,
-          user: {
-            connect: {
-              id: user.id,
-            },
-          },
-        },
-      });
-    }
-
-    const { accessToken, refreshToken } = await this.createToken(
-      user ? user.id : existingUser.id,
-      user ? user.email : existingUser.email,
-      user ? user.username : existingUser.username,
-    );
-
-    const payload = this.jwtService.decode(accessToken);
-    await this.updateRefreshToken(
-      user ? user.id : existingUser.id,
-      refreshToken,
-    );
-
-    return {
-      accessToken,
-      refreshToken,
-      user: user || existingUser,
-      expiresIn: payload['exp'],
-    };
   }
+
+  async generateJWTTokens(user: User) {
+    const { accessToken, refreshToken } = await this.createToken(
+      user.id,
+      user.email,
+      user.username,
+    );
+    const payload = this.jwtService.decode(accessToken);
+    await this.updateRefreshToken(user.id, refreshToken);
+
+    return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
+  }
+
   async signin(logInInput: LogInInput) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -266,15 +218,7 @@ export class AuthService {
     });
     return true;
   }
-  async getMe(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-    });
-    if (!user) {
-      throw new ForbiddenException('No logged in user');
-    }
-    return user;
-  }
+  // JWT Token Service
   async refreshAuth(userId: string, rt: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -297,6 +241,7 @@ export class AuthService {
 
     return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
   }
+
   async createToken(userId: string, email: string, username: string) {
     const accessToken = this.jwtService.sign(
       { userId, email, username },

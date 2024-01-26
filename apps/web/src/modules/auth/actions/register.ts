@@ -1,4 +1,4 @@
-import { SignUpMutation, SignUpDocument } from "@/graphql/graphql";
+import { RegisterDocument, RegisterMutation } from "@/graphql/graphql";
 import { getApolloClient } from "@/lib/apollo";
 import { registerUserSchema } from "@/schemas/auth";
 import { z } from "zod";
@@ -13,8 +13,8 @@ export const register = async (values: z.infer<typeof registerUserSchema>) => {
 
   const { email, password, username } = validatedFields.data;
   try {
-    const { data, errors } = await client.mutate<SignUpMutation>({
-      mutation: SignUpDocument,
+    const { data, errors } = await client.mutate<RegisterMutation>({
+      mutation: RegisterDocument,
       variables: {
         input: {
           email,
