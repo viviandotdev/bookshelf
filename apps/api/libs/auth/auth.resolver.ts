@@ -31,6 +31,11 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
+  forgotPassword(@Args('email', { type: () => String }) email: string) {
+    return this.authService.forgotPassword(email);
+  }
+
+  @Mutation(() => Boolean)
   verifyToken(@Args('token', { type: () => String }) token: string) {
     return this.authService.verifyToken(token);
   }

@@ -21,6 +21,24 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
+  async forgotPassword(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Email does not exist');
+    }
+
+    // const verificationToken = await this.generateEmailVerificationToken(
+    //   user.email,
+    // );
+    // Send email
+    // const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
+    // confirmation email not sending
+  }
   async verifyToken(token: string) {
     const existingToken = await this.prisma.verificationToken.findUnique({
       where: {

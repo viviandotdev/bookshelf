@@ -1452,6 +1452,7 @@ type Mutation {
   createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
   follow(value: Boolean!, where: UserWhereUniqueInput!): User!
+  forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!): Boolean!
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
   logout(id: String!): Boolean!

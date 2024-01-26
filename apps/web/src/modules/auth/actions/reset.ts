@@ -13,8 +13,8 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
 
   const { email } = validatedFields.data;
   try {
-    // const { data, errors } = await client.mutate<ResetTokenMutation>({
-    //   mutation: ResetTokenDocument,
+    // const { data, errors } = await client.mutate<ForgotPasswordMutation>({
+    //   mutation: ,
     //   variables: {
     //     input: {
     //       email,
