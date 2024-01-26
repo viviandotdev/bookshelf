@@ -30,6 +30,11 @@ export class AuthResolver {
     return this.authService.logout(id);
   }
 
+  @Mutation(() => Boolean)
+  verifyToken(@Args('token', { type: () => String }) token: string) {
+    return this.authService.verifyToken(token);
+  }
+
   @Mutation(() => AuthResponse)
   oAuthLogin(@Args('oAuthInput') oAuthInput: OAuthInput) {
     return this.authService.oAuthLogin(oAuthInput);

@@ -13,6 +13,10 @@ mutation SignIn($input: LogInInput!) {
   }
 }
 
+mutation VerifyToken($token: String!) {
+  verifyToken(token: $token)
+}
+
 mutation SignUp($input: RegisterInput!) {
   signup(registerInput: $input) {
     email

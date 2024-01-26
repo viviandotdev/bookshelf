@@ -40,12 +40,16 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
 
         try {
             const res = await signIn("credentials", {
-                redirect: false,
                 email: data.email.toLowerCase(),
                 password: data.password,
                 callbackUrl,
+                redirect: false,
             })
-            console.log("res", res)
+
+            if (!res?.error) {
+                router.push(callbackUrl);
+            }
+
             if (res?.error) {
                 setError("Invalid email or password");
                 // if user exists but email not verified

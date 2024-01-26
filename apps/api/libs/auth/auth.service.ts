@@ -7,15 +7,53 @@ import { LogInInput } from './dto/login.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { OAuthInput } from './dto/oauth.input';
 import { v4 as uuidv4 } from 'uuid';
+import { Resend } from 'resend';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly resend = new Resend(
+    this.configService.get<string>('resend.api'),
+  );
+  private readonly domain = this.configService.get<string>('web.url');
   constructor(
     private readonly prisma: PrismaRepository,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
 
+  async verifyToken(token: string) {
+    const existingToken = await this.prisma.verificationToken.findUnique({
+      where: {
+        token,
+      },
+    });
+
+    if (!existingToken) {
+      throw new ForbiddenException('Invalid token');
+    }
+
+    if (existingToken.expires < new Date()) {
+      throw new ForbiddenException('Token expired');
+    }
+
+    await this.prisma.user.update({
+      where: {
+        email: existingToken.email,
+      },
+      data: {
+        email: existingToken.email,
+        emailVerified: new Date(),
+      },
+    });
+
+    await this.prisma.verificationToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+
+    return true;
+  }
   async generateEmailVerificationToken(email: string) {
     const token = uuidv4();
     const expires = new Date(new Date().getTime() + 3600 * 1000);
@@ -67,6 +105,19 @@ export class AuthService {
       },
     });
 
+    const verificationToken = await this.generateEmailVerificationToken(
+      user.email,
+    );
+    // Send email
+    const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
+
+    const res = await this.resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: user.email,
+      subject: 'Confirm your email',
+      html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+    });
+    console.log(res);
     return user;
   }
 
@@ -150,12 +201,20 @@ export class AuthService {
     }
 
     if (!user.emailVerified) {
-      console.log(user.email);
       const verificationToken = await this.generateEmailVerificationToken(
         user.email,
       );
-      //   send Verification email to user that has not verified their email
+      // Send email
+      const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
+      // confirmation email not sending
+      await this.resend.emails.send({
+        from: 'Acme <onboarding@resend.dev>',
+        to: user.email,
+        subject: 'Confirm your email',
+        html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
+      });
 
+      //   send Verification email to user that has not verified their email
       throw new ForbiddenException('Email not verified');
     }
 

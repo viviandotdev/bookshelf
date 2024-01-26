@@ -1466,6 +1466,7 @@ type Mutation {
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
+  verifyToken(token: String!): Boolean!
 }
 
 enum NullsOrder {

@@ -80,6 +80,7 @@ export default {
       if (account?.provider !== "credentials") return true;
       //   Check if email is verified
       const u = user as unknown as any;
+      console.log(u);
       // Prevent sign in without email verification
       if (!u?.emailVerified) return false;
 
