@@ -1486,6 +1486,28 @@ input OAuthInput {
   username: String!
 }
 
+type PasswordResetTokenCountAggregate {
+  _all: Int!
+  email: Int!
+  expires: Int!
+  id: Int!
+  token: Int!
+}
+
+type PasswordResetTokenMaxAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
+}
+
+type PasswordResetTokenMinAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
+}
+
 type Query {
   auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AuditLog!]!
   bookReview(where: ReviewWhereUniqueInput!): Review!

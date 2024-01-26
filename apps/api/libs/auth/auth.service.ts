@@ -21,32 +21,12 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async forgotPassword(email: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    if (!user) {
-      throw new ForbiddenException('Email does not exist');
-    }
-
-    // const verificationToken = await this.generateEmailVerificationToken(
-    //   user.email,
-    // );
-    // Send email
-    // const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
-    // confirmation email not sending
-  }
   async verifyToken(token: string) {
     const existingToken = await this.prisma.verificationToken.findUnique({
       where: {
         token,
       },
     });
-
-    console.log(existingToken);
 
     if (!existingToken) {
       throw new ForbiddenException('Invalid token');
@@ -103,6 +83,33 @@ export class AuthService {
     return verficationToken.token;
   }
 
+  generatePasswordResetToken = async (email: string) => {
+    const token = uuidv4();
+    const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+    const existingToken = await this.prisma.passwordResetToken.findUnique({
+      where: {
+        token,
+      },
+    });
+
+    if (existingToken) {
+      await this.prisma.passwordResetToken.delete({
+        where: { id: existingToken.id },
+      });
+    }
+
+    const passwordResetToken = await this.prisma.passwordResetToken.create({
+      data: {
+        email,
+        token,
+        expires,
+      },
+    });
+
+    return passwordResetToken;
+  };
+
   async sendVerificationEmail(email: string) {
     const verificationToken = await this.generateEmailVerificationToken(email);
 
@@ -116,6 +123,18 @@ export class AuthService {
     });
   }
 
+  async sendPasswordResetEmail(email: string) {
+    const verificationToken = await this.generateEmailVerificationToken(email);
+
+    const resetLink = `${this.domain}/auth/reset-password?token=${verificationToken}`;
+
+    await this.resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: email,
+      subject: 'Reset your password',
+      html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
+    });
+  }
   async createAccount(createAccountInput: AccountCreateInput) {
     await this.prisma.account.create({
       data: {

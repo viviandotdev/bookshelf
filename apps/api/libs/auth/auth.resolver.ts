@@ -42,7 +42,7 @@ export class AuthResolver {
       },
     });
     if (!user || !user.email) {
-      throw new ForbiddenException('Email does not exist');
+      throw new ForbiddenException('Invalid Email');
     }
 
     if (!user.emailVerified) {
@@ -67,8 +67,19 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  forgotPassword(@Args('email', { type: () => String }) email: string) {
-    return this.authService.forgotPassword(email);
+  async forgotPassword(@Args('email', { type: () => String }) email: string) {
+    const user = await this.userService.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Invalid Email');
+    }
+
+    this.authService.sendPasswordResetEmail(user.email);
+    return true;
   }
 
   @Mutation(() => Boolean)

@@ -97,6 +97,13 @@ export enum ACTION {
     SHELVE = "SHELVE"
 }
 
+export enum PasswordResetTokenScalarFieldEnum {
+    id = "id",
+    email = "email",
+    token = "token",
+    expires = "expires"
+}
+
 export enum JournalEntryScalarFieldEnum {
     id = "id",
     readingNotes = "readingNotes",
@@ -160,6 +167,7 @@ registerEnumType(AuditLogScalarFieldEnum, { name: 'AuditLogScalarFieldEnum', des
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
+registerEnumType(PasswordResetTokenScalarFieldEnum, { name: 'PasswordResetTokenScalarFieldEnum', description: undefined })
 registerEnumType(ACTION, { name: 'ACTION', description: undefined })
 registerEnumType(NullsOrder, { name: 'NullsOrder', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
@@ -7024,6 +7032,524 @@ export class UpsertOneJournalEntryArgs {
     @Field(() => JournalEntryUpdateInput, {nullable:false})
     @Type(() => JournalEntryUpdateInput)
     update!: InstanceType<typeof JournalEntryUpdateInput>;
+}
+
+@ObjectType()
+export class AggregatePasswordResetToken {
+    @Field(() => PasswordResetTokenCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof PasswordResetTokenCountAggregate>;
+    @Field(() => PasswordResetTokenMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof PasswordResetTokenMinAggregate>;
+    @Field(() => PasswordResetTokenMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof PasswordResetTokenMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyPasswordResetTokenArgs {
+    @Field(() => [PasswordResetTokenCreateManyInput], {nullable:false})
+    @Type(() => PasswordResetTokenCreateManyInput)
+    @ValidateNested()
+    data!: Array<PasswordResetTokenCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOnePasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenCreateInput, {nullable:false})
+    @Type(() => PasswordResetTokenCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof PasswordResetTokenCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyPasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOnePasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:false})
+    @Type(() => PasswordResetTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class FindFirstPasswordResetTokenOrThrowArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<PasswordResetTokenOrderByWithRelationInput>;
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstPasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<PasswordResetTokenOrderByWithRelationInput>;
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyPasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<PasswordResetTokenOrderByWithRelationInput>;
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniquePasswordResetTokenOrThrowArgs {
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:false})
+    @Type(() => PasswordResetTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class FindUniquePasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:false})
+    @Type(() => PasswordResetTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class PasswordResetTokenAggregateArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<PasswordResetTokenOrderByWithRelationInput>;
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => PasswordResetTokenCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof PasswordResetTokenCountAggregateInput>;
+    @Field(() => PasswordResetTokenMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof PasswordResetTokenMinAggregateInput>;
+    @Field(() => PasswordResetTokenMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof PasswordResetTokenMaxAggregateInput>;
+}
+
+@InputType()
+export class PasswordResetTokenCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class PasswordResetTokenCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    email!: number;
+    @Field(() => Int, {nullable:false})
+    token!: number;
+    @Field(() => Int, {nullable:false})
+    expires!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class PasswordResetTokenCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class PasswordResetTokenCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenEmailTokenCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+}
+
+@ArgsType()
+export class PasswordResetTokenGroupByArgs {
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<PasswordResetTokenOrderByWithAggregationInput>;
+    @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+    @Field(() => PasswordResetTokenScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof PasswordResetTokenScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => PasswordResetTokenCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof PasswordResetTokenCountAggregateInput>;
+    @Field(() => PasswordResetTokenMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof PasswordResetTokenMinAggregateInput>;
+    @Field(() => PasswordResetTokenMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof PasswordResetTokenMaxAggregateInput>;
+}
+
+@ObjectType()
+export class PasswordResetTokenGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+    @Field(() => PasswordResetTokenCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof PasswordResetTokenCountAggregate>;
+    @Field(() => PasswordResetTokenMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof PasswordResetTokenMinAggregate>;
+    @Field(() => PasswordResetTokenMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof PasswordResetTokenMaxAggregate>;
+}
+
+@InputType()
+export class PasswordResetTokenMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+}
+
+@ObjectType()
+export class PasswordResetTokenMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class PasswordResetTokenMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+}
+
+@ObjectType()
+export class PasswordResetTokenMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class PasswordResetTokenOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+    @Field(() => PasswordResetTokenCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof PasswordResetTokenCountOrderByAggregateInput>;
+    @Field(() => PasswordResetTokenMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof PasswordResetTokenMaxOrderByAggregateInput>;
+    @Field(() => PasswordResetTokenMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof PasswordResetTokenMinOrderByAggregateInput>;
+}
+
+@InputType()
+export class PasswordResetTokenOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class PasswordResetTokenScalarWhereWithAggregatesInput {
+    @Field(() => [PasswordResetTokenScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<PasswordResetTokenScalarWhereWithAggregatesInput>;
+    @Field(() => [PasswordResetTokenScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<PasswordResetTokenScalarWhereWithAggregatesInput>;
+    @Field(() => [PasswordResetTokenScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<PasswordResetTokenScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    email?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    token?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+}
+
+@InputType()
+export class PasswordResetTokenUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class PasswordResetTokenWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => PasswordResetTokenEmailTokenCompoundUniqueInput, {nullable:true})
+    email_token?: InstanceType<typeof PasswordResetTokenEmailTokenCompoundUniqueInput>;
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    AND?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    OR?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    NOT?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class PasswordResetTokenWhereInput {
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    AND?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    OR?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => [PasswordResetTokenWhereInput], {nullable:true})
+    NOT?: Array<PasswordResetTokenWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    token?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeFilter>;
+}
+
+@ObjectType()
+export class PasswordResetToken {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date;
+}
+
+@ArgsType()
+export class UpdateManyPasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenUpdateManyMutationInput, {nullable:false})
+    @Type(() => PasswordResetTokenUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof PasswordResetTokenUpdateManyMutationInput>;
+    @Field(() => PasswordResetTokenWhereInput, {nullable:true})
+    @Type(() => PasswordResetTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOnePasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenUpdateInput, {nullable:false})
+    @Type(() => PasswordResetTokenUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof PasswordResetTokenUpdateInput>;
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:false})
+    @Type(() => PasswordResetTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class UpsertOnePasswordResetTokenArgs {
+    @Field(() => PasswordResetTokenWhereUniqueInput, {nullable:false})
+    @Type(() => PasswordResetTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<PasswordResetTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => PasswordResetTokenCreateInput, {nullable:false})
+    @Type(() => PasswordResetTokenCreateInput)
+    create!: InstanceType<typeof PasswordResetTokenCreateInput>;
+    @Field(() => PasswordResetTokenUpdateInput, {nullable:false})
+    @Type(() => PasswordResetTokenUpdateInput)
+    update!: InstanceType<typeof PasswordResetTokenUpdateInput>;
 }
 
 @ObjectType()

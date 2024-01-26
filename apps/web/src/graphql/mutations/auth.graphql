@@ -13,6 +13,9 @@ mutation Login($input: LogInInput!) {
   }
 }
 
+mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email)
+}
 mutation VerifyToken($token: String!) {
   verifyToken(token: $token)
 }

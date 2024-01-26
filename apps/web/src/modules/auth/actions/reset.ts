@@ -1,6 +1,9 @@
-import { SignUpMutation, SignUpDocument } from "@/graphql/graphql";
+import {
+  ForgotPasswordMutation,
+  ForgotPasswordDocument,
+} from "@/graphql/graphql";
 import { getApolloClient } from "@/lib/apollo";
-import { ResetSchema, registerUserSchema } from "@/schemas/auth";
+import { ResetSchema } from "@/schemas/auth";
 import { z } from "zod";
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
@@ -13,16 +16,12 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
 
   const { email } = validatedFields.data;
   try {
-    // const { data, errors } = await client.mutate<ForgotPasswordMutation>({
-    //   mutation: ,
-    //   variables: {
-    //     input: {
-    //       email,
-    //       password,
-    //       username,
-    //     },
-    //   },
-    // });
+    const { data, errors } = await client.mutate<ForgotPasswordMutation>({
+      mutation: ForgotPasswordDocument,
+      variables: {
+        email,
+      },
+    });
   } catch (error) {
     return { error: "Unable to generate reset token" };
   }
