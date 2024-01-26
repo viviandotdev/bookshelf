@@ -510,10 +510,11 @@ input AuditLogWhereUniqueInput {
 }
 
 type AuthResponse {
-  accessToken: String!
-  expiresIn: Float!
-  refreshToken: String!
+  accessToken: String
+  expiresIn: Float
+  refreshToken: String
   user: User!
+  verificationToken: String
 }
 
 type Book {
@@ -3879,4 +3880,26 @@ input UserWhereUniqueInput {
   updatedAt: DateTimeFilter
   userBooks: UserBookListRelationFilter
   username: String
+}
+
+type VerificationTokenCountAggregate {
+  _all: Int!
+  email: Int!
+  expires: Int!
+  id: Int!
+  token: Int!
+}
+
+type VerificationTokenMaxAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
+}
+
+type VerificationTokenMinAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
 }

@@ -1,4 +1,5 @@
 import { signIn } from "@/auth";
+import { getApolloClient } from "@/lib/apollo";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { loginUserSchema } from "@/schemas/auth";
 import { AuthError } from "next-auth";
@@ -12,26 +13,19 @@ export const login = async (values: z.infer<typeof loginUserSchema>) => {
   }
 
   const { email, password } = validatedFields.data;
-  //   generateEmailVerificationTokens
-  const isVerified = false
-//   create resolver verifyToken
-// takes in the username and email
-// checkif if the email is verified
-// if the email is verified, return true
-// if the email is not verified, return false
-
-  if (!isVerified) {
-    return { success: "Confirmation email sent!" };
-  }
 
   try {
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       //   redirect: false,
       email,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+    if (res) {
+      console.log(res);
+    }
   } catch (err: any) {
+    console.log(err);
     if (err instanceof AuthError) {
       switch (err.type) {
         case "CredentialsSignin":

@@ -32,7 +32,6 @@ export default {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
-        //get user
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -42,7 +41,7 @@ export default {
           password: string;
         };
 
-        const { data } = await client.mutate<SignInMutation>({
+        const { data, errors } = await client.mutate<SignInMutation>({
           mutation: SignInDocument,
           variables: {
             input: {
@@ -50,19 +49,42 @@ export default {
               password: password,
             },
           },
+          //   Error policay call catches the error in errors
+          errorPolicy: "all",
         });
-        if (!data) throw new Error("signin failed");
+
+        console.log(errors?.map((e) => e.message)[0]);
+
+        // if it returns a verification token do not sign in
+        if (errors) {
+          throw new Error(errors.map((e) => e.message)[0]);
+        }
+
+        if (!data) throw new Error("No data returned from server");
+
         return {
           id: data!.signin.user.id,
           email: data!.signin.user.email,
-          username: data.signin.user.username,
+          username: data!.signin.user.username,
+          emailVerified: data!.signin.user.emailVerified,
           accessToken: data!.signin.accessToken,
           expiresIn: data!.signin.expiresIn,
+          verificationToken: data!.signin.verificationToken,
         };
       },
     }),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      // If provider allow signin regardless of email verification
+      if (account?.provider !== "credentials") return true;
+      //   Check if email is verified
+      const u = user as unknown as any;
+      // Prevent sign in without email verification
+      if (!u?.emailVerified) return false;
+
+      return true;
+    },
     async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
       if (account && account?.provider != "credentials") {

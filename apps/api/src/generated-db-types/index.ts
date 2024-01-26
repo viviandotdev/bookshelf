@@ -12,6 +12,13 @@ import { ID } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { HideField } from '@nestjs/graphql';
 
+export enum VerificationTokenScalarFieldEnum {
+    id = "id",
+    email = "email",
+    token = "token",
+    expires = "expires"
+}
+
 export enum UserBookShelvesScalarFieldEnum {
     userBookId = "userBookId",
     shelfId = "shelfId"
@@ -163,6 +170,7 @@ registerEnumType(ShelfScalarFieldEnum, { name: 'ShelfScalarFieldEnum', descripti
 registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined })
 registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', description: undefined })
 registerEnumType(UserBookShelvesScalarFieldEnum, { name: 'UserBookShelvesScalarFieldEnum', description: undefined })
+registerEnumType(VerificationTokenScalarFieldEnum, { name: 'VerificationTokenScalarFieldEnum', description: undefined })
 
 @ArgsType()
 export class AccountAggregateArgs {
@@ -17275,4 +17283,522 @@ export class UserBookShelves {
     userBook?: InstanceType<typeof UserBook>;
     @Field(() => Shelf, {nullable:false})
     shelf?: InstanceType<typeof Shelf>;
+}
+
+@ObjectType()
+export class AggregateVerificationToken {
+    @Field(() => VerificationTokenCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof VerificationTokenCountAggregate>;
+    @Field(() => VerificationTokenMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof VerificationTokenMinAggregate>;
+    @Field(() => VerificationTokenMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof VerificationTokenMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyVerificationTokenArgs {
+    @Field(() => [VerificationTokenCreateManyInput], {nullable:false})
+    @Type(() => VerificationTokenCreateManyInput)
+    @ValidateNested()
+    data!: Array<VerificationTokenCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneVerificationTokenArgs {
+    @Field(() => VerificationTokenCreateInput, {nullable:false})
+    @Type(() => VerificationTokenCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof VerificationTokenCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:false})
+    @Type(() => VerificationTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class FindFirstVerificationTokenOrThrowArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<VerificationTokenOrderByWithRelationInput>;
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<VerificationTokenOrderByWithRelationInput>;
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<VerificationTokenOrderByWithRelationInput>;
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueVerificationTokenOrThrowArgs {
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:false})
+    @Type(() => VerificationTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class FindUniqueVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:false})
+    @Type(() => VerificationTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class UpdateManyVerificationTokenArgs {
+    @Field(() => VerificationTokenUpdateManyMutationInput, {nullable:false})
+    @Type(() => VerificationTokenUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof VerificationTokenUpdateManyMutationInput>;
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneVerificationTokenArgs {
+    @Field(() => VerificationTokenUpdateInput, {nullable:false})
+    @Type(() => VerificationTokenUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof VerificationTokenUpdateInput>;
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:false})
+    @Type(() => VerificationTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+}
+
+@ArgsType()
+export class UpsertOneVerificationTokenArgs {
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:false})
+    @Type(() => VerificationTokenWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => VerificationTokenCreateInput, {nullable:false})
+    @Type(() => VerificationTokenCreateInput)
+    create!: InstanceType<typeof VerificationTokenCreateInput>;
+    @Field(() => VerificationTokenUpdateInput, {nullable:false})
+    @Type(() => VerificationTokenUpdateInput)
+    update!: InstanceType<typeof VerificationTokenUpdateInput>;
+}
+
+@ArgsType()
+export class VerificationTokenAggregateArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<VerificationTokenOrderByWithRelationInput>;
+    @Field(() => VerificationTokenWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<VerificationTokenWhereUniqueInput, 'id' | 'token' | 'email_token'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => VerificationTokenCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof VerificationTokenCountAggregateInput>;
+    @Field(() => VerificationTokenMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof VerificationTokenMinAggregateInput>;
+    @Field(() => VerificationTokenMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof VerificationTokenMaxAggregateInput>;
+}
+
+@InputType()
+export class VerificationTokenCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class VerificationTokenCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    email!: number;
+    @Field(() => Int, {nullable:false})
+    token!: number;
+    @Field(() => Int, {nullable:false})
+    expires!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class VerificationTokenCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class VerificationTokenCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class VerificationTokenCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class VerificationTokenEmailTokenCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+}
+
+@ArgsType()
+export class VerificationTokenGroupByArgs {
+    @Field(() => VerificationTokenWhereInput, {nullable:true})
+    @Type(() => VerificationTokenWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<VerificationTokenOrderByWithAggregationInput>;
+    @Field(() => [VerificationTokenScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+    @Field(() => VerificationTokenScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof VerificationTokenScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => VerificationTokenCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof VerificationTokenCountAggregateInput>;
+    @Field(() => VerificationTokenMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof VerificationTokenMinAggregateInput>;
+    @Field(() => VerificationTokenMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof VerificationTokenMaxAggregateInput>;
+}
+
+@ObjectType()
+export class VerificationTokenGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+    @Field(() => VerificationTokenCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof VerificationTokenCountAggregate>;
+    @Field(() => VerificationTokenMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof VerificationTokenMinAggregate>;
+    @Field(() => VerificationTokenMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof VerificationTokenMaxAggregate>;
+}
+
+@InputType()
+export class VerificationTokenMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+}
+
+@ObjectType()
+export class VerificationTokenMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class VerificationTokenMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    email?: true;
+    @Field(() => Boolean, {nullable:true})
+    token?: true;
+    @Field(() => Boolean, {nullable:true})
+    expires?: true;
+}
+
+@ObjectType()
+export class VerificationTokenMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class VerificationTokenOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+    @Field(() => VerificationTokenCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof VerificationTokenCountOrderByAggregateInput>;
+    @Field(() => VerificationTokenMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof VerificationTokenMaxOrderByAggregateInput>;
+    @Field(() => VerificationTokenMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof VerificationTokenMinOrderByAggregateInput>;
+}
+
+@InputType()
+export class VerificationTokenOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    email?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    token?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    expires?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class VerificationTokenScalarWhereWithAggregatesInput {
+    @Field(() => [VerificationTokenScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<VerificationTokenScalarWhereWithAggregatesInput>;
+    @Field(() => [VerificationTokenScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<VerificationTokenScalarWhereWithAggregatesInput>;
+    @Field(() => [VerificationTokenScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<VerificationTokenScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    email?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    token?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+}
+
+@InputType()
+export class VerificationTokenUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date | string;
+}
+
+@InputType()
+export class VerificationTokenUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    email?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => Date, {nullable:true})
+    expires?: Date | string;
+}
+
+@InputType()
+export class VerificationTokenWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    token?: string;
+    @Field(() => VerificationTokenEmailTokenCompoundUniqueInput, {nullable:true})
+    email_token?: InstanceType<typeof VerificationTokenEmailTokenCompoundUniqueInput>;
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    AND?: Array<VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    OR?: Array<VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    NOT?: Array<VerificationTokenWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class VerificationTokenWhereInput {
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    AND?: Array<VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    OR?: Array<VerificationTokenWhereInput>;
+    @Field(() => [VerificationTokenWhereInput], {nullable:true})
+    NOT?: Array<VerificationTokenWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    email?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    token?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    expires?: InstanceType<typeof DateTimeFilter>;
+}
+
+@ObjectType()
+export class VerificationToken {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    email!: string;
+    @Field(() => String, {nullable:false})
+    token!: string;
+    @Field(() => Date, {nullable:false})
+    expires!: Date;
 }

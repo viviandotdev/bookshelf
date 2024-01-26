@@ -6,6 +6,7 @@ import { hash, compare } from 'bcryptjs';
 import { LogInInput } from './dto/login.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { OAuthInput } from './dto/oauth.input';
+import { v4 as uuidv4 } from 'uuid';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -14,6 +15,35 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
+
+  async generateEmailVerificationToken(email: string) {
+    const token = uuidv4();
+    const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+    const existingToken = await this.prisma.verificationToken.findUnique({
+      where: {
+        token,
+      },
+    });
+
+    if (existingToken) {
+      await this.prisma.verificationToken.delete({
+        where: {
+          id: existingToken.id,
+        },
+      });
+    }
+
+    const verficationToken = await this.prisma.verificationToken.create({
+      data: {
+        email,
+        token,
+        expires,
+      },
+    });
+
+    return verficationToken.token;
+  }
 
   async signup(registerInput: RegisterInput) {
     const hashedPassword = await hash(registerInput.password, 10);
@@ -115,9 +145,20 @@ export class AuthService {
       },
     });
 
-    if (!user) {
+    if (!user || !user.email) {
       throw new ForbiddenException('Email does not exist');
     }
+
+    if (!user.emailVerified) {
+      console.log(user.email);
+      const verificationToken = await this.generateEmailVerificationToken(
+        user.email,
+      );
+      //   send Verification email to user that has not verified their email
+
+      throw new ForbiddenException('Email not verified');
+    }
+
     const doPasswordsMatch = await compare(
       logInInput.password,
       user.hashedPassword,
@@ -126,6 +167,7 @@ export class AuthService {
     if (!doPasswordsMatch) {
       throw new ForbiddenException('Invalid credentials');
     }
+
     const { accessToken, refreshToken } = await this.createToken(
       user.id,
       user.email,

@@ -536,10 +536,11 @@ export type AuditLogWhereUniqueInput = {
 
 export type AuthResponse = {
   __typename?: 'AuthResponse';
-  accessToken: Scalars['String'];
-  expiresIn: Scalars['Float'];
-  refreshToken: Scalars['String'];
+  accessToken?: Maybe<Scalars['String']>;
+  expiresIn?: Maybe<Scalars['Float']>;
+  refreshToken?: Maybe<Scalars['String']>;
   user: User;
+  verificationToken?: Maybe<Scalars['String']>;
 };
 
 export type Book = {
@@ -4131,12 +4132,37 @@ export type UserWhereUniqueInput = {
   username?: InputMaybe<Scalars['String']>;
 };
 
+export type VerificationTokenCountAggregate = {
+  __typename?: 'VerificationTokenCountAggregate';
+  _all: Scalars['Int'];
+  email: Scalars['Int'];
+  expires: Scalars['Int'];
+  id: Scalars['Int'];
+  token: Scalars['Int'];
+};
+
+export type VerificationTokenMaxAggregate = {
+  __typename?: 'VerificationTokenMaxAggregate';
+  email?: Maybe<Scalars['String']>;
+  expires?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type VerificationTokenMinAggregate = {
+  __typename?: 'VerificationTokenMinAggregate';
+  email?: Maybe<Scalars['String']>;
+  expires?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type SignInMutationVariables = Exact<{
   input: LogInInput;
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signin: { __typename?: 'AuthResponse', accessToken: string, refreshToken: string, expiresIn: number, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
+export type SignInMutation = { __typename?: 'Mutation', signin: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type SignUpMutationVariables = Exact<{
   input: RegisterInput;
@@ -4150,7 +4176,7 @@ export type OAuthLoginMutationVariables = Exact<{
 }>;
 
 
-export type OAuthLoginMutation = { __typename?: 'Mutation', oAuthLogin: { __typename?: 'AuthResponse', accessToken: string, refreshToken: string, expiresIn: number, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
+export type OAuthLoginMutation = { __typename?: 'Mutation', oAuthLogin: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
 
 export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -4390,10 +4416,12 @@ export const SignInDocument = gql`
   signin(logInInput: $input) {
     accessToken
     refreshToken
+    verificationToken
     expiresIn
     user {
       email
       username
+      emailVerified
       id
     }
   }

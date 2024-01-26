@@ -114,6 +114,9 @@ importers:
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
       zustand:
         specifier: ^4.4.1
         version: 4.4.1(@types/react@18.2.6)(react@18.2.0)

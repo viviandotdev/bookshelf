@@ -29,25 +29,36 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
         resolver: zodResolver(loginUserSchema),
     });
 
-    // const router = useRouter();
+    const router = useRouter();
     const [success, setSuccess] = useState<string | undefined>("");
     const searchParams = useSearchParams();
     const [error, setError] = useState<string | undefined>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-    const onSubmit = async (values: z.infer<typeof loginUserSchema>) => {
-        setError("");
-        setSuccess("");
+    const onSubmit = async (data: FormData) => {
 
-        startTransition(() => {
-            login(values)
-                .then((data) => {
-                    setError(data?.error);
-                    setSuccess(data?.success);
-                });
-        });
-    };
+        try {
+            const res = await signIn("credentials", {
+                redirect: false,
+                email: data.email.toLowerCase(),
+                password: data.password,
+                callbackUrl,
+            })
+            console.log("res", res)
+            if (res?.error) {
+                setError("Invalid email or password");
+                // if user exists but email not verified
+                setError("Confirmation email sent")
+            }
+        } catch (err: any) {
+            console.log(err);
+            setError("Error signing in");
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
 
     return (
         <div className="grid gap-6" {...props}>

@@ -2,10 +2,12 @@ mutation SignIn($input: LogInInput!) {
   signin(logInInput: $input) {
     accessToken
     refreshToken
+    verificationToken
     expiresIn
     user {
       email
       username
+      emailVerified
       id
     }
   }
