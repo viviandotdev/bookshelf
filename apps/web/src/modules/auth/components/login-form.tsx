@@ -10,10 +10,12 @@ import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
+import { login } from "../actions/login";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -28,34 +30,27 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
         resolver: zodResolver(loginUserSchema),
     });
 
-    const router = useRouter();
     const [success, setSuccess] = useState<string | undefined>("");
     const searchParams = useSearchParams();
     const [error, setError] = useState<string | undefined>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const callbackUrl = searchParams.get("callbackUrl") || "/";
+    const callbackUrl = searchParams.get("callbackUrl");
 
-    const onSubmit = async (data: FormData) => {
-
+    const onSubmit = async (values: z.infer<typeof loginUserSchema>) => {
+        setIsLoading(true)
         try {
             const res = await signIn("credentials", {
-                email: data.email.toLowerCase(),
-                password: data.password,
-                callbackUrl,
-                redirect: false,
+                email: values.email.toLowerCase(),
+                password: values.password,
+                redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
             })
-
-            if (!res?.error) {
-                router.push(callbackUrl);
-            }
-
             if (res?.error) {
+                // show custom error message
                 setError("Invalid email or password");
                 // if user exists but email not verified
-                setError("Confirmation email sent")
+                setSuccess("Confirmation email sent")
             }
         } catch (err: any) {
-            console.log(err);
             setError("Error signing in");
         } finally {
             setIsLoading(false);
@@ -71,7 +66,7 @@ export const Form = ({ className, ...props }: UserAuthFormProps) => {
                         {error && (
                             <Alert variant={"destructive"}>
                                 <AlertDescription>
-                                    Incorrect Username or Password
+                                    {error}
                                 </AlertDescription>
                             </Alert>
                         )}

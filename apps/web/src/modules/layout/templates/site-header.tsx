@@ -8,13 +8,14 @@ import { UserAccountNav } from "@/modules/layout/components/user-account-nav";
 import SearchInput from "../components/search-input";
 import LogBookButton from "../components/log-book-button";
 import { User } from "@/types/interfaces";
+import { getCurrentUser } from "@/lib/auth";
 
 interface SiteHeaderProps {
-    user?: User;
+
 }
 
-const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
-
+const SiteHeader = async () => {
+    const user = await getCurrentUser();
     const items = [
         {
             title: "Home",
@@ -29,6 +30,7 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
             href: "/browse",
         },
     ]
+
 
     return (
         <header className="container bg-background mx-auto">
@@ -67,6 +69,26 @@ const SiteHeader: React.FC<SiteHeaderProps> = ({ user }) => {
             </div>
         </header>
     );
-};
+
+}
+
+// const SiteHeader: React.FC<SiteHeaderProps> = async () => {
+//     const user = await getCurrentUser();
+//     const items = [
+//         {
+//             title: "Home",
+//             href: "/",
+//         },
+//         {
+//             title: "My Books",
+//             href: user ? `/${user.username}/books` : "/",
+//         },
+//         {
+//             title: "Browse",
+//             href: "/browse",
+//         },
+//     ]
+
+// };
 
 export default SiteHeader;

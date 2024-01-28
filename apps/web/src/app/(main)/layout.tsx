@@ -8,7 +8,7 @@ interface PageLayoutProps {
 
 export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
-
+    console.log(user)
     return (
         <div className="flex min-h-screen flex-col">
             <SiteHeader user={user} />

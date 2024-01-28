@@ -31,7 +31,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     const [isPending, startTransition] = useTransition();
 
     const onSubmit = async (values: z.infer<typeof registerUserSchema>) => {
-        startTransition(() => {
+       startTransition(() => {
             register(values)
                 .then((data) => {
                     setError(data.error);
@@ -39,7 +39,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                 });
         });
     };
-    
+
 
     return (
         <div className="grid gap-6" {...props}>

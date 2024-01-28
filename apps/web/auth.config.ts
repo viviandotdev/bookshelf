@@ -32,7 +32,6 @@ export default {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
-        console.log(credentials);
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
@@ -90,7 +89,6 @@ export default {
       const u = user as unknown as any;
 
       if (account && account?.provider != "credentials") {
-        // console.log("account", account);
         const { data } = await client.mutate<OAuthMutation>({
           mutation: OAuthDocument,
           variables: {

@@ -51,7 +51,6 @@ export class AuthResolver {
       await this.authService.sendVerificationEmail(user.email);
       throw new ForbiddenException('Email not verified');
     }
-    console.log(user.hashedPassword);
     const doPasswordsMatch = await compare(
       logInInput.password,
       user.hashedPassword,
@@ -89,7 +88,6 @@ export class AuthResolver {
   async resetPassword(
     @Args('resetPasswordInput') resetPasswordInput: ResetPasswordInput,
   ) {
-    console.log(resetPasswordInput);
     return this.authService.resetPassword(
       resetPasswordInput.token,
       resetPasswordInput.password,
