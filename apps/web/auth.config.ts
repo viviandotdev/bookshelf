@@ -1,10 +1,12 @@
 import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
-import { getApolloClient } from "@/lib/apollo";
+import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
 import {
   LoginDocument,
   LoginMutation,
+  MeDocument,
+  MeQuery,
   OAuthDocument,
   OAuthMutation,
 } from "@/graphql/graphql";
@@ -86,6 +88,7 @@ export default {
     },
     async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
+
       if (account && account?.provider != "credentials") {
         // console.log("account", account);
         const { data } = await client.mutate<OAuthMutation>({
@@ -105,23 +108,44 @@ export default {
           token.id = data?.oAuth.user.id;
           token.accessToken = data?.oAuth.accessToken;
           token.expiresIn = data?.oAuth.expiresIn;
+          token.isOAuth = true;
         }
       }
       //  handle oauth provider case
       // create provider account in the database
-      else if (user) {
+      else if (user && account?.provider == "credentials") {
         token.username = u.username;
         token.email = u.email;
         token.id = u.id;
         token.accessToken = u.accessToken;
         token.expiresIn = u.expiresIn;
+        token.isOAuth = false;
         //the user is signin, add additional properties to the jwt token created
+      } else if (token.accessToken) {
+        // Update user settings
+        client.setLink(
+          setAuthToken(token.accessToken as string).concat(httpLink)
+        );
+        const { data } = await client.query<MeQuery>({
+          query: MeDocument,
+          fetchPolicy: "network-only",
+        });
+
+        if (data) {
+          token.isOAuth = data!.me!.isOAuth;
+          token.username = data!.me!.username;
+          token.email = data!.me!.email;
+        }
+
+        return Promise.resolve(token);
       }
+
       if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
         //the api token expired sign in again
         await client.resetStore();
         token.error = "TokenExpiredError" as string;
       }
+
       return Promise.resolve(token); //signed in user is returning to the same session
     },
     async session({ session, token }) {
@@ -134,6 +158,7 @@ export default {
         accessToken: token.accessToken,
         expiresIn: token.expiresIn,
         error: token.error,
+        isOAuth: token.isOAuth,
       };
       return Promise.resolve(session);
       //pass the additional properties to the session object on the client side

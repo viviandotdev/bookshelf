@@ -14,6 +14,7 @@ import { OAuthInput } from './dto/oauth.input';
 import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
+import { MeResponse } from './dto/me.response';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -136,18 +137,28 @@ export class AuthResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Query(() => User, { name: 'me' })
-  getMe(@CurrentUser() currentUser: JwtPayload) {
-    const user = this.userService.findUnique({
+  @Query(() => MeResponse, { name: 'me' })
+  async me(@CurrentUser() currentUser: JwtPayload) {
+    // Sometimes apollo just gets from the cache
+    const user = await this.userService.findUnique({
       where: {
         id: currentUser.userId,
+      },
+    });
+
+    const existingAccount = await this.authService.findAccountById({
+      where: {
+        userId: currentUser.userId,
       },
     });
 
     if (!user) {
       throw new ForbiddenException('User not found');
     }
-    return user;
+    return {
+      ...user,
+      isOAuth: !!existingAccount,
+    };
   }
 
   @UseGuards(RefreshTokenGuard)

@@ -22,3 +22,37 @@ export const NewPasswordSchema = z.object({
     message: "Minimum of 4 characters required",
   }),
 });
+
+export const SettingsSchema = z
+  .object({
+    username: z.optional(z.string()),
+    email: z.optional(z.string().email()),
+    password: z.optional(z.string().min(4)),
+    newPassword: z.optional(z.string().min(4)),
+  })
+  .refine(
+    (data) => {
+      if (data.password && !data.newPassword) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "New password is required!",
+      path: ["newPassword"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.newPassword && !data.password) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "Password is required!",
+      path: ["password"],
+    }
+  );

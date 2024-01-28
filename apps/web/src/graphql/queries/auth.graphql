@@ -1,6 +1,11 @@
 query Me {
   me {
-    id
     email
+    username
+    isOAuth
   }
+}
+
+query Test {
+  test
 }

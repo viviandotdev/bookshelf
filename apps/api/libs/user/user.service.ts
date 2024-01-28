@@ -10,7 +10,8 @@ export class UserService {
     private readonly prisma: PrismaRepository,
   ) {}
   findUnique = this.repository.findUnique;
-  
+  update = this.repository.update;
+
   async createUser(createUserInput: UserCreateInput) {
     const existingUser = await this.prisma.user.findUnique({
       where: {

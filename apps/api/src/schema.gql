@@ -1443,6 +1443,12 @@ input LogInInput {
   password: String!
 }
 
+type MeResponse {
+  email: String
+  isOAuth: Boolean
+  username: String
+}
+
 type Mutation {
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
@@ -1465,6 +1471,7 @@ type Mutation {
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
+  updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
   verifyToken(token: String!): Boolean!
@@ -1518,7 +1525,7 @@ type Query {
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
-  me: User!
+  me: MeResponse!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
@@ -2310,6 +2317,13 @@ input StringFilter {
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
+
+input UpdateUserInput {
+  email: String
+  newPassword: String
+  password: String
+  username: String
+}
 
 type User {
   _count: UserCount!

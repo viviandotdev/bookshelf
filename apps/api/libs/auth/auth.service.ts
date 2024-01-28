@@ -15,7 +15,7 @@ export class AuthService {
     this.configService.get<string>('resend.api'),
   );
   private readonly domain = this.configService.get<string>('web.url');
-
+  findAccountById = this.prisma.account.findFirst;
   constructor(
     private readonly prisma: PrismaRepository,
     private jwtService: JwtService,

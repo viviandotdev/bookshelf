@@ -9,14 +9,68 @@ import {
 import { UserService } from './user.service';
 import { User, UserWhereUniqueInput } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
+import { UpdateUserInput } from './dto/update-user.input';
+import { AuthService } from 'libs/auth/auth.service';
+import { compare, hash } from 'bcryptjs';
 // import DataLoader from 'dataloader';
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => User)
+  async updateUser(
+    @Args('data') data: UpdateUserInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const existingUser = await this.userService.findUnique({
+      where: {
+        id: currentUser.userId,
+      },
+    });
+
+    if (!existingUser) {
+      throw new NotFoundException(`User does not exist`);
+    }
+
+    if (data.email && data.email !== existingUser.email) {
+      await this.authService.sendVerificationEmail(data.email);
+      console.log(existingUser);
+      return existingUser;
+    }
+
+    if (data.newPassword && existingUser.hashedPassword) {
+      const passwordsMatch = await compare(
+        data.password,
+        existingUser.hashedPassword,
+      );
+
+      if (!passwordsMatch) {
+        throw new Error('Password does not match');
+      }
+
+      const hashedPassword = await hash(data.newPassword, 10);
+      data.newPassword = hashedPassword;
+    }
+
+    return this.userService.update({
+      where: {
+        id: currentUser.userId,
+      },
+      data: {
+        hashedPassword: data.newPassword,
+        email: data.email,
+        username: data.username,
+      },
+    });
+  }
 
   @UseGuards(OptionalAccessTokenGuard)
   @Query(() => User)
