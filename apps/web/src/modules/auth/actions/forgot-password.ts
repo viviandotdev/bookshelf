@@ -16,7 +16,7 @@ export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
 
   const { email } = validatedFields.data;
   try {
-    const { data, errors } = await client.mutate<ForgotPasswordMutation>({
+    await client.mutate<ForgotPasswordMutation>({
       mutation: ForgotPasswordDocument,
       variables: {
         email,
@@ -26,5 +26,5 @@ export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
     return { error: "Unable to generate reset token" };
   }
 
-  return { success: "Reset email sent!" };
+  return { success: "Check your inbox for the link to reset your password" };
 };

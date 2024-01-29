@@ -17,7 +17,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { CardWrapper } from "./card-wrapper";
 import { ResetSchema } from "@/schemas/auth";
 import { forgotPassword } from "../actions/forgot-password";
 
@@ -46,17 +45,13 @@ export const ForgotPasswordForm = () => {
         });
     };
 
+    // Conditionally render the form or success message based on the success state
     return (
-        <CardWrapper
-            headerLabel="Forgot your password?"
-            backButtonLabel="Back to login"
-            backButtonHref="/login"
-        >
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-6"
-                >
+        <Form {...form}>
+            {success ? (
+                <FormSuccess message={"Check your inbox for the link to reset your password"} />
+            ) : (
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-4">
                         <FormField
                             control={form.control}
@@ -72,13 +67,12 @@ export const ForgotPasswordForm = () => {
                                             type="email"
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage setError={setError} />
                                 </FormItem>
                             )}
                         />
                     </div>
-                    <FormError message={error} />
-                    <FormSuccess message={success} />
+
                     <Button
                         disabled={isPending}
                         type="submit"
@@ -86,8 +80,9 @@ export const ForgotPasswordForm = () => {
                     >
                         Send reset email
                     </Button>
+                    <FormError message={error} />
                 </form>
-            </Form>
-        </CardWrapper>
+            )}
+        </Form>
     );
 };

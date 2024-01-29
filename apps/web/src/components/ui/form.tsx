@@ -143,7 +143,7 @@ FormDescription.displayName = "FormDescription";
 
 export interface FormMessageProps
     extends React.HTMLAttributes<HTMLParagraphElement> {
-    setError?: React.Dispatch<React.SetStateAction<string>>;
+    setError?: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 const FormMessage = React.forwardRef<HTMLParagraphElement, FormMessageProps>(
     ({ className, children, setError, ...props }, ref) => {
