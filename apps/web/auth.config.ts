@@ -1,5 +1,4 @@
 import Credentials from "next-auth/providers/credentials";
-
 import type { NextAuthConfig } from "next-auth";
 import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
 import {
@@ -9,6 +8,8 @@ import {
   MeQuery,
   OAuthDocument,
   OAuthMutation,
+  VerifyTokenDocument,
+  VerifyTokenMutation,
 } from "@/graphql/graphql";
 import Github from "next-auth/providers/github";
 // import Google from "next-auth/providers/google";
@@ -30,46 +31,58 @@ export default {
           placeholder: "hello@example.com",
         },
         password: { label: "Password", type: "password" },
+        token: { label: "Token", type: "token" },
       },
       async authorize(credentials): Promise<any> {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        const { email, password } = credentials as {
+        const { email, password, token } = credentials as {
           email: string;
-          password: string;
+          password: string | null;
+          token: string | null;
         };
 
-        const { data, errors } = await client.mutate<LoginMutation>({
-          mutation: LoginDocument,
-          variables: {
-            input: {
-              email: email,
-              password: password,
-            },
-          },
-          //   Error policay call catches the error in errors
-          errorPolicy: "all",
-        });
+        let data;
 
-        console.log(errors?.map((e) => e.message)[0]);
+        if (!token) {
+          const { data: loginData, errors } =
+            await client.mutate<LoginMutation>({
+              mutation: LoginDocument,
+              variables: {
+                input: {
+                  email: email,
+                  password: password || "",
+                },
+              },
+              //   Error policay call catches the error in errors
+              errorPolicy: "all",
+            });
 
-        // if it returns a verification token do not sign in
-        if (errors) {
-          throw new Error(errors.map((e) => e.message)[0]);
+          data = loginData?.login;
+          if (errors) {
+            throw new Error(errors.map((e) => e.message)[0]);
+          }
+        } else if (token) {
+          const { data: verifyData, errors } =
+            await client.mutate<VerifyTokenMutation>({
+              mutation: VerifyTokenDocument,
+              variables: {
+                token,
+              },
+              errorPolicy: "all",
+            });
+
+          data = verifyData?.verifyToken;
         }
 
         if (!data) throw new Error("No data returned from server");
 
         return {
-          id: data!.login.user.id,
-          email: data!.login.user.email,
-          username: data!.login.user.username,
-          emailVerified: data!.login.user.emailVerified,
-          accessToken: data!.login.accessToken,
-          expiresIn: data!.login.expiresIn,
-          verificationToken: data!.login.verificationToken,
+          id: data!.user.id,
+          email: data!.user.email,
+          username: data!.user.username,
+          emailVerified: data!.user.emailVerified,
+          accessToken: data!.accessToken,
+          expiresIn: data!.expiresIn,
+          verificationToken: data!.verificationToken,
         };
       },
     }),
@@ -87,7 +100,6 @@ export default {
     },
     async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
-
       if (account && account?.provider != "credentials") {
         const { data } = await client.mutate<OAuthMutation>({
           mutation: OAuthDocument,

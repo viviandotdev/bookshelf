@@ -512,6 +512,7 @@ input AuditLogWhereUniqueInput {
 type AuthResponse {
   accessToken: String
   expiresIn: Float
+  isNewUser: Boolean
   refreshToken: String
   user: User!
   verificationToken: String
@@ -1440,7 +1441,7 @@ input JournalEntryWhereUniqueInput {
 
 input LogInInput {
   email: String!
-  password: String!
+  password: String
 }
 
 type MeResponse {
@@ -1474,7 +1475,7 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
-  verifyToken(token: String!): Boolean!
+  verifyToken(token: String!): AuthResponse!
 }
 
 enum NullsOrder {

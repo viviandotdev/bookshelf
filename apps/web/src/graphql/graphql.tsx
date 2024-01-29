@@ -538,6 +538,7 @@ export type AuthResponse = {
   __typename?: 'AuthResponse';
   accessToken?: Maybe<Scalars['String']>;
   expiresIn?: Maybe<Scalars['Float']>;
+  isNewUser?: Maybe<Scalars['Boolean']>;
   refreshToken?: Maybe<Scalars['String']>;
   user: User;
   verificationToken?: Maybe<Scalars['String']>;
@@ -1483,13 +1484,13 @@ export type JournalEntryWhereUniqueInput = {
 
 export type LogInInput = {
   email: Scalars['String'];
-  password: Scalars['String'];
+  password?: InputMaybe<Scalars['String']>;
 };
 
 export type MeResponse = {
   __typename?: 'MeResponse';
   email?: Maybe<Scalars['String']>;
-  isOAuth?: Maybe<Scalars['String']>;
+  isOAuth?: Maybe<Scalars['Boolean']>;
   username?: Maybe<Scalars['String']>;
 };
 
@@ -1519,7 +1520,7 @@ export type Mutation = {
   updateUser: User;
   updateUserBook: UserBook;
   updateUserBookOrder: Array<UserBook>;
-  verifyToken: Scalars['Boolean'];
+  verifyToken: AuthResponse;
 };
 
 
@@ -1706,7 +1707,6 @@ export type Query = {
   journalEntries: Array<JournalEntry>;
   me: MeResponse;
   shelves?: Maybe<Array<Shelf>>;
-  test: Scalars['Boolean'];
   user: User;
   userBook?: Maybe<UserBook>;
   userBooks?: Maybe<Array<UserBook>>;
@@ -2575,6 +2575,7 @@ export type StringFilter = {
 export type UpdateUserInput = {
   email?: InputMaybe<Scalars['String']>;
   newPassword?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   username?: InputMaybe<Scalars['String']>;
 };
 
@@ -4223,7 +4224,7 @@ export type VerifyTokenMutationVariables = Exact<{
 }>;
 
 
-export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: boolean };
+export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
@@ -4392,12 +4393,7 @@ export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typ
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', email?: string | null, username?: string | null, isOAuth?: string | null } };
-
-export type TestQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type TestQuery = { __typename?: 'Query', test: boolean };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', email?: string | null, username?: string | null, isOAuth?: boolean | null } };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -4590,7 +4586,18 @@ export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMut
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
 export const VerifyTokenDocument = gql`
     mutation VerifyToken($token: String!) {
-  verifyToken(token: $token)
+  verifyToken(token: $token) {
+    accessToken
+    refreshToken
+    verificationToken
+    expiresIn
+    user {
+      email
+      username
+      emailVerified
+      id
+    }
+  }
 }
     `;
 export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation, VerifyTokenMutationVariables>;
@@ -5485,38 +5492,6 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const TestDocument = gql`
-    query Test {
-  test
-}
-    `;
-
-/**
- * __useTestQuery__
- *
- * To run a query within a React component, call `useTestQuery` and pass it any options that fit your needs.
- * When your component renders, `useTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTestQuery({
- *   variables: {
- *   },
- * });
- */
-export function useTestQuery(baseOptions?: Apollo.QueryHookOptions<TestQuery, TestQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<TestQuery, TestQueryVariables>(TestDocument, options);
-      }
-export function useTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TestQuery, TestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<TestQuery, TestQueryVariables>(TestDocument, options);
-        }
-export type TestQueryHookResult = ReturnType<typeof useTestQuery>;
-export type TestLazyQueryHookResult = ReturnType<typeof useTestLazyQuery>;
-export type TestQueryResult = Apollo.QueryResult<TestQuery, TestQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {

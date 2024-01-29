@@ -43,6 +43,7 @@
         "graphql": "16.8.1",
         "helmet": "^7.0.0",
         "passport-jwt": "^4.0.1",
+        "passport-magic-login": "^1.2.2",
         "prisma-nestjs-graphql": "^19.2.0",
         "reflect-metadata": "0.1.13",
         "resend": "^3.1.0",

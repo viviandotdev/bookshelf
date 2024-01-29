@@ -21,4 +21,7 @@ export class AuthResponse {
   @IsNotEmpty()
   @Field(() => User)
   user: User;
+
+  @Field({ nullable: true })
+  isNewUser: boolean;
 }

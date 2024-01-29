@@ -6,7 +6,11 @@ import { LogInInput } from './dto/login.input';
 import { RefreshResponse } from './dto/refresh.response';
 import { CurrentUser } from './decorators/currentUser.decorator';
 import { RefreshTokenGuard } from './guards/refresh.guard';
-import { ForbiddenException, UseGuards } from '@nestjs/common';
+import {
+  ForbiddenException,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
@@ -21,6 +25,7 @@ export class AuthResolver {
     private readonly authService: AuthService,
     private readonly userService: UserService,
   ) {}
+
   @Mutation(() => User)
   async register(@Args('registerInput') registerInput: RegisterInput) {
     const hashedPassword = await hash(registerInput.password, 10);
@@ -43,8 +48,9 @@ export class AuthResolver {
         email: logInInput.email,
       },
     });
+
     if (!user || !user.email) {
-      throw new ForbiddenException('Invalid Email');
+      throw new NotFoundException('User not found');
     }
 
     if (!user.emailVerified) {
@@ -94,9 +100,13 @@ export class AuthResolver {
     );
   }
 
-  @Mutation(() => Boolean)
-  verifyToken(@Args('token', { type: () => String }) token: string) {
-    return this.authService.verifyToken(token);
+  @Mutation(() => AuthResponse)
+  async verifyToken(@Args('token', { type: () => String }) token: string) {
+    console.log(token);
+    const verifiedUser = await this.authService.verifyToken(token);
+    if (verifiedUser) {
+      return this.authService.generateJWTTokens(verifiedUser);
+    }
   }
 
   @Mutation(() => AuthResponse)

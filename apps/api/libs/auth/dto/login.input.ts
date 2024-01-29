@@ -8,8 +8,8 @@ export class LogInInput {
   @IsEmail()
   @Field()
   email: string;
-  @IsNotEmpty()
+
   @IsString()
-  @Field()
-  password: string;
+  @Field({ nullable: true })
+  password?: string;
 }

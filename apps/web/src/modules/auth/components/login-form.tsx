@@ -9,7 +9,7 @@ import { Social } from "@/modules/auth/components/social";
 import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -28,10 +28,11 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
     } = useForm<FormData>({
         resolver: zodResolver(loginUserSchema),
     });
-
+    const router = useRouter();
     const [success, setSuccess] = useState<string | undefined>("");
     const searchParams = useSearchParams();
-    const [error, setError] = useState<string | undefined>("");
+    const searchError = searchParams.get("error");
+    const [error, setError] = useState<string | null>(searchError ? "Invalid email or password" : null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const callbackUrl = searchParams.get("callbackUrl");
 
@@ -42,13 +43,17 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                 email: values.email.toLowerCase(),
                 password: values.password,
                 redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+                // redirect: false,
             })
             if (res?.error) {
-                // show custom error message
+                // handle error
                 setError("Invalid email or password");
                 // if user exists but email not verified
                 setSuccess("Confirmation email sent")
+            } else {
+                router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT,);
             }
+
         } catch (err: any) {
             setError("Error signing in");
         } finally {
@@ -92,11 +97,6 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                 <div className="grid gap-2">
                     <div className="flex justify-between">
                         <Label htmlFor="password">Password</Label>
-                        {/* <Label>
-                            <Link href="/auth/forgot-password">
-                                Forgot password?
-                            </Link>
-                        </Label> */}
                     </div>
 
                     <Input
@@ -122,7 +122,7 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                     {isLoading && (
                         <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                     )}
-                    Continue with email
+                    Log in
                 </button>
             </div>
         </form>

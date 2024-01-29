@@ -1,8 +1,9 @@
 import { NewVerificationForm } from "@/modules/auth/components/new-verification-form";
+import React from "react";
 
 const NewVerificationPage = () => {
     return (
-        <NewVerificationForm />
+        <React.StrictMode><NewVerificationForm /></React.StrictMode>
     );
 }
 

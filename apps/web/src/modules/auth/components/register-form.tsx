@@ -31,7 +31,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     const [isPending, startTransition] = useTransition();
 
     const onSubmit = async (values: z.infer<typeof registerUserSchema>) => {
-       startTransition(() => {
+        startTransition(() => {
             register(values)
                 .then((data) => {
                     setError(data.error);
@@ -44,7 +44,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     return (
         <div className="grid gap-6" {...props}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-6">
+                <div className="grid gap-4">
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email Address</Label>
                         <Input
@@ -84,7 +84,6 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                     <div className="grid gap-2">
                         <div className="flex justify-between">
                             <Label htmlFor="password">Password</Label>
-                            <Label>Forgot Password ?</Label>
                         </div>
                         <Input
                             className="w-full"
@@ -110,7 +109,7 @@ export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
                         {isLoading && (
                             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                         )}
-                        Register
+                        Create account
                     </button>
                 </div>
             </form>

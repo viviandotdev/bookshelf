@@ -22,7 +22,18 @@ mutation ResetPassword($input: ResetPasswordInput!) {
 }
 
 mutation VerifyToken($token: String!) {
-  verifyToken(token: $token)
+  verifyToken(token: $token) {
+    accessToken
+    refreshToken
+    verificationToken
+    expiresIn
+    user {
+      email
+      username
+      emailVerified
+      id
+    }
+  }
 }
 
 mutation Register($input: RegisterInput!) {

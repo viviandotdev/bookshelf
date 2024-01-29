@@ -5,7 +5,3 @@ query Me {
     isOAuth
   }
 }
-
-query Test {
-  test
-}

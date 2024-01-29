@@ -38,7 +38,7 @@ export class AuthService {
       throw new ForbiddenException('Token expired');
     }
 
-    await this.prisma.user.update({
+    const verifiedUser = await this.prisma.user.update({
       where: {
         email: existingToken.email,
       },
@@ -54,7 +54,7 @@ export class AuthService {
       },
     });
 
-    return true;
+    return verifiedUser;
   }
   async generateEmailVerificationToken(email: string) {
     const token = uuidv4();

@@ -99,6 +99,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      passport-magic-login:
+        specifier: ^1.2.2
+        version: 1.2.2
       prisma-nestjs-graphql:
         specifier: ^19.2.0
         version: 19.2.0
@@ -5338,6 +5341,10 @@ packages:
     dependencies:
       '@types/node': 20.7.0
       form-data: 4.0.0
+    dev: false
+
+  /@types/node@14.18.63:
+    resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
     dev: false
 
   /@types/node@20.1.1:
@@ -11088,6 +11095,14 @@ packages:
     dependencies:
       jsonwebtoken: 9.0.0
       passport-strategy: 1.0.0
+    dev: false
+
+  /passport-magic-login@1.2.2:
+    resolution: {integrity: sha512-KBzxei/qvt2UDkS1qXz2VR2XajbWB5808W+oDpeMsfGqMgBKicaDX7HOrgAVpvw2q+fWOuh21LWe+kYyZPogDA==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@types/node': 14.18.63
+      jsonwebtoken: 9.0.0
     dev: false
 
   /passport-strategy@1.0.0:
