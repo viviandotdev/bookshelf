@@ -21,8 +21,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     }
 
 
-
-
     const currentlyReading = await getUserBooks({
         status: {
             equals: "Currently Reading"
