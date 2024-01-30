@@ -10,7 +10,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
     const { action, book, actionContent } = log;
 
     const titleLink = (
-        <Link href={`/book/${book!.id}`} className="text-primary hover:text-stone-500">
+        <Link href={`/book/${book!.id}`} className="text-beige hover:text-stone-500">
             {book!.title}
         </Link>
     );
@@ -32,7 +32,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                             <div>You reviewed</div>
                             <div className="flex flex-col">
                                 <div className="font-semibold text-base">{titleLink}</div>
-                                <div className="text-primary">by {book?.author}</div>
+                                <div className="text-beige">by {book?.author}</div>
                             </div>
                             <div className="text-sm">{actionContent}</div>
                         </div>
@@ -62,7 +62,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                         <div className="flex flex-col gap-1">
                             <div>You are on page {actionContent} of {book?.pageCount} of {titleLink}</div>
                             <div className="font-semibold text-base">{titleLink}</div>
-                            <div className="text-primary">by {book?.author}</div>
+                            <div className="text-beige">by {book?.author}</div>
                         </div>
                         <div className="flex items-center gap-2">
                             progress:

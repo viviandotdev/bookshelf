@@ -32,7 +32,7 @@ export function BookShelves() {
     return (
         <div>
             {shelves.map((shelf: string, index: number) => (
-                // <SecondaryButton label={shelf} />
+                // <beige-100Button label={shelf} />
                 <button
                     key={index}
                     className={cn(

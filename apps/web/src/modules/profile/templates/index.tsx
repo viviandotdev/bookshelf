@@ -27,7 +27,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, she
                     <Section books={currentlyReading} title={"Currently Reading"} />
                     {/* Activity section */}
                     <div>
-                        <div className="text-primary font-medium">{"Activity".toLocaleUpperCase()}</div>
+                        <div className="text-beige font-medium">{"Activity".toLocaleUpperCase()}</div>
                         <hr />
                         {/* Activity section content */}
                     </div>
@@ -58,7 +58,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, she
 const ProfileSection: React.FC<{ title: string, children?: React.ReactNode }> = ({ title, children }) => {
     return (
         <div>
-            <div className="text-primary font-medium">{title.toLocaleUpperCase()}</div>
+            <div className="text-beige font-medium">{title.toLocaleUpperCase()}</div>
             <hr />
             {children}
         </div>

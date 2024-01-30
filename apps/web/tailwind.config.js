@@ -19,24 +19,19 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-
-        primary: {
+        background: "hsl(var(--background))",
+        beige: {
           DEFAULT: "#4e3b2c",
-          50: "#f7f2ee", //light
-          75: "#f3ece8",
-          100: "#eee4de",
-          200: "#eaded7", // normal
-          300: "#a49b97",
-          400: "#4e3b2c", //dark
-          500: "#30241b",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          50: "#fdfcfb",
+          100: "#f7f2ee", //light
+          200: "#f3ece8",
+          300: "#eee4de",
+          400: "#eaded7", // normal
+          500: "#a49b97",
+          600: "#6c5c50",
+          700: "#4e3b2c", //dark
+          800: "#30241b",
+          900: "#221a22",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

@@ -161,7 +161,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
             <div className="pt-2 pb-5">
                 <div className="flex gap-8">
                     <div className="flex items-center gap-2">
-                        <div className="text-primary items-center">Review Date</div>
+                        <div className="text-beige items-center">Review Date</div>
                         <FormField
                             control={form.control}
                             name="review_date"

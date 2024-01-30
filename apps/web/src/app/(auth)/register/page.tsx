@@ -31,14 +31,14 @@ export default function RegisterPage() {
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-primary text-3xl/[64px] "
+                            "text-beige text-3xl/[64px] "
                         )}
                     >
                         Create Account
                     </h1>
                 </div>
                 <RegisterForm />
-                <p className="px-8 text-center text-sm text-primary">
+                <p className="px-8 text-center text-sm text-beige">
                     <Link
                         href="/login"
                         className="font-medium hover:text-brand underline underline-offset-4"

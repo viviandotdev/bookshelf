@@ -60,7 +60,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="DATE" />,
         cell: ({ row }) => {
             return (
-                <div className="text-center text-primary text-lg px-2">
+                <div className="text-center text-beige text-lg px-2">
                     {row.getValue("date")}
                 </div>
             );
@@ -87,7 +87,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         cell: ({ row }) => {
             const progress = row.getValue("progress") as { currentPage: number; currentPercent: number };
             return (
-                <div className="text-center text-primary text-lg px-2">
+                <div className="text-center text-beige text-lg px-2">
                     {progress.currentPercent}%
                 </div>
             );
@@ -98,7 +98,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         header: ({ column }) => <ColumnHeader column={column} title="PAGES READ" />,
         cell: ({ row }) => {
             return (
-                <div className="text-center text-primary text-lg px-2">
+                <div className="text-center text-beige text-lg px-2">
                     {row.getValue("pagesRead")}
                 </div>
             );
@@ -111,7 +111,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const abandoned = row.getValue("abandoned");
             return (
                 <div
-                    className="text-center text-primary px-2 cursor-pointer"
+                    className="text-center text-beige px-2 cursor-pointer"
                     onClick={() => { }}
                 >
                     {abandoned! && <Icons.abondoned className="h-5" />}
@@ -126,7 +126,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const showNotes = (row.getValue("notes") as String).length > 0;
             return (
                 <div
-                    className="text-center text-primary px-2 cursor-pointer"
+                    className="text-center text-beige px-2 cursor-pointer"
                     onClick={() => {
                         console.log(row.getValue("notes"));
                     }}
@@ -144,7 +144,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
 
             return (
                 <div
-                    className="text-center text-primary px-2 cursor-pointer"
+                    className="text-center text-beige px-2 cursor-pointer"
                     onClick={() => { }}
                 >
                     <Icons.heart
@@ -191,7 +191,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             onEdit(entry.id)
                         }}
                     >
-                        <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                        <Icons.more className="stroke-1 fill-current stroke-beige cursor-pointer rotate-90 h-6 w-6 text-beige" />
                     </div>
                 </div>
             );

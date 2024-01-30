@@ -19,7 +19,7 @@ export function MainNav({ children, items }: MainNavProps) {
                 <h1
                     className={cn(
                         dm_sefif_display.className,
-                        "hidden sm:inline-block text-primary text-3xl "
+                        "hidden sm:inline-block text-beige text-3xl "
                     )}
                 >
                     {siteConfig.name}

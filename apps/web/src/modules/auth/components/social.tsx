@@ -18,7 +18,7 @@ export const Social = () => {
             < div className="flex items-center w-full mb-4" >
                 <Button
                     size="lg"
-                    className="w-full h-10 border-2 border-primary bg-white"
+                    className="w-full h-10 border-2 border-beige bg-white"
                     variant="outline"
                     onClick={(e) => {
                         onClick("google")
@@ -32,7 +32,7 @@ export const Social = () => {
             <div className="flex items-center w-full">
                 <Button
                     size="lg"
-                    className="w-full h-10 border-primary bg-white"
+                    className="w-full h-10 border-beige bg-white"
                     variant="outline"
                     onClick={(e) => {
                         onClick("github")

@@ -31,10 +31,10 @@ export const CommentSection: React.FC<CommentSectionProps> = ({ reviewId }) => {
     return (
         <>
             <div className="flex justify-between">
-                <div className="text-sm text-primary">122 COMMENTS Showing 1-20 of 20</div>
-                {/* <div className="text-sm text-primary">MORE</div> */}
+                <div className="text-sm text-beige">122 COMMENTS Showing 1-20 of 20</div>
+                {/* <div className="text-sm text-beige">MORE</div> */}
             </div>
-            <hr className="border-t-1 border-primary" />
+            <hr className="border-t-1 border-beige" />
             <CommentForm reviewId={reviewId} />
             <div className="flex flex-col gap-3">
 

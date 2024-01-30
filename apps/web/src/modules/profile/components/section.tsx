@@ -13,7 +13,7 @@ export const Section: React.FC<SectionProps> = ({ title, books }) => {
     return (
         <>
             <div className="flex justify-between">
-                <div className="text-primary font-medium">{title.toLocaleUpperCase()}</div>
+                <div className="text-beige font-medium">{title.toLocaleUpperCase()}</div>
                 <div>MORE</div>
 
             </div>

@@ -61,7 +61,7 @@ export const ShelfList = ({ focus, options, control }: any) => {
                                         e.preventDefault();
                                         onAddShelf(option.name);
                                     }}
-                                    className="ml-0 pl-2 text-primary flex hover:bg-secondary bg-white rounded-none w-full justify-start"
+                                    className="ml-0 pl-2 text-beige flex hover:bg-beige-100 bg-white rounded-none w-full justify-start"
                                     key={index}
                                 >
                                     <Icons.shelf className="h-5 w-5 mr-4" />

@@ -22,7 +22,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
             <DropdownMenu>
                 <DropdownMenuTrigger className={cn(buttonVariants({ variant: "tag", size: "xs" }))}>
                     {shelf}
-                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
+                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
@@ -33,7 +33,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                         <DropdownMenuItem
                             key={i}
                             className={`${s.name === shelf
-                                ? "bg-secondary"
+                                ? "bg-beige-100"
                                 : "hover:bg-opacity-70"
                                 } `}>
                             <div className={` w-[fill-available] flex`}>

@@ -38,7 +38,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                 )} disabled={isPending}>
 
                     {status}
-                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-primary" />
+                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}
@@ -59,7 +59,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
                                     })
                                     setOpen(false)
                                 }}
-                                className={cn(s.name === status && "bg-secondary")}
+                                className={cn(s.name === status && "bg-beige-100")}
                             >
                                 {s.icon &&
                                     <s.icon

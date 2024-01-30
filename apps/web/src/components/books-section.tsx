@@ -48,7 +48,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                         {/* Responsive View */}
                         <div className="flex flex-col md:hidden">
                             <div className="pt-4">
-                                <div className="flex justify-between text-primary font-bold uppercase ">
+                                <div className="flex justify-between text-beige font-bold uppercase ">
                                     <h3>When Breath Becomes Air</h3>
                                     <div className="flex flex-grow justify-end">
                                         <button

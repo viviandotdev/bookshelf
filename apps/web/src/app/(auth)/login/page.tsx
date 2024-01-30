@@ -31,7 +31,7 @@ export default function LoginPage() {
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-primary text-5xl/[64px]  font-bold"
+                            "text-beige text-5xl/[64px]  font-bold"
                         )}
                     >
                         Log in

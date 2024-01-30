@@ -11,7 +11,7 @@ export const SpoilerContent: React.FC<SpoilerContentProps> = ({ content, }) => {
     return (
         <>
             {!showFullReview && (
-                <div className="flex flex-col gap-2 p-8 bg-secondary rounded-md flex-grow">
+                <div className="flex flex-col gap-2 p-8 bg-beige-100 rounded-md flex-grow">
                     <span className='flex-grow w-full'>This review has been hidden because it may contain spoilers.</span>
                     <div
                         className="font-bold cursor-pointer"

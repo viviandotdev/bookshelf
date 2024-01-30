@@ -57,7 +57,7 @@ const SiteHeader = async () => {
                             <Link
                                 href="/login"
                                 className={cn(
-                                    buttonVariants({ variant: "secondary", size: "sm" }),
+                                    buttonVariants({ variant: "beige-100", size: "sm" }),
                                     "px-4"
                                 )}
                             >

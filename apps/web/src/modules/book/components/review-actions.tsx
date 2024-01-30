@@ -43,7 +43,7 @@ export const ReviewActions: React.FC<ReviewActionsProps> = ({ liked, likeCount, 
                 className="flex gap-2 items-center font-bold mb-2 cursor-pointer"
             >
                 <Icons.heart
-                    className={`h-5 w-5 ${isLiked ? 'stroke-1 stroke-primary text-primary fill-current' : ''}`} // Use different color or style when liked
+                    className={`h-5 w-5 ${isLiked ? 'stroke-1 stroke-beige text-beige fill-current' : ''}`} // Use different color or style when liked
                 />
                 {isLiked ? 'Unlike' : 'Like'}
                 <span className="font-light">{likesCount} likes</span>

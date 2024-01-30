@@ -257,7 +257,7 @@ export const JournalEntryForm: React.FC = ({
             <div className="pt-2">
                 <div className="flex gap-16">
                     <div className="flex items-center gap-2">
-                        <div className="text-primary items-center">Read on</div>
+                        <div className="text-beige items-center">Read on</div>
                         <FormField
                             control={form.control}
                             name="date_read"
@@ -338,7 +338,7 @@ export const JournalEntryForm: React.FC = ({
                     )}
                 />
                 <div className="flex items-center gap-2 pt-3">
-                    <div className="text-primary">
+                    <div className="text-beige">
                         Currently
                         {unit == "pages" && <span> on</span>}
                     </div>
@@ -367,11 +367,11 @@ export const JournalEntryForm: React.FC = ({
                                     </FormItem>
                                 )}
                             />
-                            <div className="text-primary">of</div>
+                            <div className="text-beige">of</div>
                             {userBook.book &&
                                 userBook.book.pageCount &&
                                 userBook.book.pageCount!.toString() && (
-                                    <div className="text-primary font-bold">
+                                    <div className="text-beige font-bold">
                                         {userBook.book.pageCount!.toString()}
                                     </div>
                                 )}
@@ -405,7 +405,7 @@ export const JournalEntryForm: React.FC = ({
                     </div>
 
                     <div>
-                        <div className="flex items-start gap-0 bg-secondary rounded-xl">
+                        <div className="flex items-start gap-0 bg-beige-100 rounded-xl">
                             {unitButton("pages")}
                             {unitButton("percent")}
                         </div>
@@ -417,7 +417,7 @@ export const JournalEntryForm: React.FC = ({
     function formFooter() {
         return (
             <div className="flex justify-between">
-                <div className="flex items-center cursor-pointer text-primary font-semibold">
+                <div className="flex items-center cursor-pointer text-beige font-semibold">
                     I'm finished!
                 </div>
                 <div className="space-x-2 flex items-center justify-end">
@@ -445,8 +445,8 @@ export const JournalEntryForm: React.FC = ({
     function unitButton(type: "pages" | "percent") {
         return (
             <Button
-                variant={`secondary`}
-                className={`${unit === type && "bg-primary text-white"}`}
+                variant={`beige-100`}
+                className={`${unit === type && "bg-beige text-white"}`}
                 onClick={(e) => {
                     e.preventDefault();
                     form.reset({

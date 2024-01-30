@@ -60,10 +60,10 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                         </div>
                         <div className="pt-8">
                             <div className="flex justify-between">
-                                <div className="text-sm text-primary">POPULAR REVIEWS</div>
-                                <div className="text-sm text-primary">MORE</div>
+                                <div className="text-sm text-beige">POPULAR REVIEWS</div>
+                                <div className="text-sm text-beige">MORE</div>
                             </div>
-                            <hr className="border-t-1 border-primary" />
+                            <hr className="border-t-1 border-beige" />
 
                             <div>
 

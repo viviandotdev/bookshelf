@@ -95,7 +95,7 @@ const Hit = ({ hit }: HitProps) => {
         //                             setStatus("Want to Read")
         //                         }}
         //                         disabled={isLoading}
-        //                         className="bg-primary text-white"
+        //                         className="bg-beige text-white"
         //                         variant={"tag"}
         //                         size={"xs"}
         //                     >
