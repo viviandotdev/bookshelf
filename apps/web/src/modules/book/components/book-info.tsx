@@ -28,10 +28,10 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                         <Dialog>
                             <DialogTrigger asChild>
                                 <button
-                                    className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-secondary transition duration-300"
+                                    className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-beige-100 transition duration-300"
                                     style={{ top: "-5px", left: "-5px" }}
                                 >
-                                    <Icons.arrowRight className="h-5 w-5 text-primary transition duration-300 transform rotate-0" />
+                                    <Icons.arrowRight className="h-5 w-5 text-beige transition duration-300 transform rotate-0" />
                                 </button>
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-[664px] max-h-4/6 overflow-scroll">
@@ -52,15 +52,15 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                     </span>
                 </span>
             </div>
-            <div className="text-sm/[1.25] overflow-hidden max-h-64">
+            <div className="text-sm overflow-hidden max-h-64">
                 <div
                     className={`leading-normal `}
                     dangerouslySetInnerHTML={{ __html: processedBook.description }}
                 ></div>
             </div>
             <div>
-                <div className="text-sm text-primary">GENRES</div>
-                <hr className="border-t-1 border-primary" />
+                <div className="text-sm text-beige">GENRES</div>
+                <hr className="border-t-1 border-beige" />
                 <div className="mt-2">
                     {processedBook.categories.map((category, index) => {
                         return (

@@ -55,7 +55,7 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
                 {tags.map((tag, index) => (
                     <li
                         key={index}
-                        className="bg-secondary text-primary rounded px-2 py-1 m-1 flex items-center"
+                        className="bg-beige-100 text-beige rounded px-2 py-1 m-1 flex items-center"
                     >
                         {tag}
 

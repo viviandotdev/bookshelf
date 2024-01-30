@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 import { getShelves } from "@/modules/shelf/queries/getShelves";
 import { getUserBooks } from "@/modules/bookshelves/queries/getUserBooks";
 import { getUser } from "@/modules/profile/queries/getUser";
@@ -19,8 +19,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     if (!profileUser || !profileUser.username) {
         return notFound();
     }
-
-
 
 
     const currentlyReading = await getUserBooks({

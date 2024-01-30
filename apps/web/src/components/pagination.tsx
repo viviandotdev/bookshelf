@@ -34,7 +34,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
             breakLabel={<span className="mr-2">...</span>}
             nextLabel={
                 showNextButton ? (
-                    <span className="bg-secondary text-primary w-10 h-10 flex items-center justify-center rounded-md">
+                    <span className="bg-beige-100 text-beige w-10 h-10 flex items-center justify-center rounded-md">
                         <Icons.chevronRight />
                     </span>
                 ) : null
@@ -43,15 +43,15 @@ export function Pagination({ page, totalPages }: PaginationProps) {
             onPageChange={handlePageClick}
             previousLabel={
                 showPrevButton ? (
-                    <span className="text-primary bg-secondary w-10 h-10 flex items-center justify-center rounded-md mr-4">
+                    <span className="text-beige bg-beige-100 w-10 h-10 flex items-center justify-center rounded-md mr-4">
                         <Icons.chevronLeft />
                     </span>
                 ) : null
             }
             forcePage={Number(page) - 1}
             containerClassName="flex items-center justify-center mt-8 mb-4"
-            pageClassName="cursor-pointer block border- border-solid hover:bg-secondary w-10 h-10 flex items-center justify-center rounded-md mr-4"
-            activeClassName="text-primary text-sm"
+            pageClassName="cursor-pointer block border- border-solid hover:bg-beige-100 w-10 h-10 flex items-center justify-center rounded-md mr-4"
+            activeClassName="text-beige text-sm"
         />
     );
 }

@@ -49,7 +49,7 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                             )}>
                             Export Goodreads Library
                         </Link>
-                        <p className="px-1 py-1 text-sm text-primary">
+                        <p className="px-1 py-1 text-sm text-beige">
                             Download your data from the Goodreads Export page
                         </p>
 
@@ -64,7 +64,7 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                         <div
                             className={cn(
                                 buttonVariants({ variant: "outline" }),
-                                "justify-start pl-6 w-[400px] py-6 border font-medium text-primary"
+                                "justify-start pl-6 w-[400px] py-6 border font-medium text-beige"
                             )}
 
                         >
@@ -74,7 +74,7 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                                 {...register('file')}
                             />
                         </div>
-                        <p className="px-1 py-1 text-sm text-primary">
+                        <p className="px-1 py-1 text-sm text-beige">
                             Upload the file downloaded from step 1
                         </p>
                     </div>

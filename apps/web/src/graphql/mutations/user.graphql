@@ -4,3 +4,10 @@ mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
   }
 }
 
+mutation UpdateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    username
+    email
+  }
+}

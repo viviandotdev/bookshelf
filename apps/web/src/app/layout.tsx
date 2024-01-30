@@ -2,7 +2,7 @@
 import "./globals.css";
 import "@smastrom/react-rating/style.css";
 import { Inter } from "next/font/google";
-import { ApolloClientProvider } from "@/lib/apollo/ApolloClientProvider";
+import { ApolloClientProvider } from "@/providers/apollo-provider";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 import { ModalProvider } from "@/providers/modal-provider";

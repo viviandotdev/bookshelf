@@ -48,7 +48,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                         {/* Responsive View */}
                         <div className="flex flex-col md:hidden">
                             <div className="pt-4">
-                                <div className="flex justify-between text-primary font-bold uppercase ">
+                                <div className="flex justify-between text-beige font-bold uppercase ">
                                     <h3>When Breath Becomes Air</h3>
                                     <div className="flex flex-grow justify-end">
                                         <button
@@ -65,14 +65,14 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                                 <div className="">By Paul Kalanithi</div>
                                 {details && (
                                     <div className="flex text-sm">
-                                        <div className="flex items-center text-muted-foreground ">
+                                        <div className="flex items-center text-slate-500 ">
                                             <div className="align-middle">
                                                 <Icons.pieChart className="h-3 w-3 opacity-50" />
                                             </div>
                                             <span className="ml-1.5">90%</span>
                                         </div>
                                         <Dot />
-                                        <div className="text-muted-foreground">
+                                        <div className="text-slate-500">
                                             Started on April 20, 2023
                                         </div>
                                     </div>

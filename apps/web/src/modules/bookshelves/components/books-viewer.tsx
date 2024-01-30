@@ -39,7 +39,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
                         <ViewOptions view={view} setView={setView} />
                     </div>
                 </div>
-                <hr className="my-2 border-t-1 border-primary" />
+                <hr className="my-2 border-t-1 border-beige" />
             </nav>
             <div>
                 {contentView}

@@ -4,15 +4,24 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 @ObjectType()
 export class AuthResponse {
-  @IsNotEmpty()
   @IsString()
-  @Field()
-  accessToken: string;
-  @Field()
-  refreshToken: string;
-  @Field()
-  expiresIn: number;
+  @Field({ nullable: true })
+  accessToken?: string;
+
+  @Field({ nullable: true })
+  refreshToken?: string;
+
+  @IsString()
+  @Field({ nullable: true })
+  verificationToken?: string;
+
+  @Field({ nullable: true })
+  expiresIn?: number;
+
   @IsNotEmpty()
   @Field(() => User)
   user: User;
+
+  @Field({ nullable: true })
+  isNewUser: boolean;
 }

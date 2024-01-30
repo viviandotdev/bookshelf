@@ -31,7 +31,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, book, r
                         className="max-w-none w-[fill-available] rounded-lg"
                         alt="Picture of the author"
                     />
-                    <div className="mt-3 text-[12px] font-light">
+                    <div className="mt-3 text-xs font-light">
                         <div>{book.pageCount} Pages</div>
                         <div>First published {formatDate(book.publishedDate) || ''}</div>
                     </div>

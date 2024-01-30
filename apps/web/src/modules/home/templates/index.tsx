@@ -17,12 +17,12 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
     ];
     return (
         <>
-            <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 relative z-0">
+            <section key={1} className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 relative z-0">
                 <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-xl/[1.25] sm:text-2xl/[1.25] md:text-3xl/[1.25] px-8 md:px-24"
+                            "text-2xl md:text-3xl px-8 md:px-24"
                         )}
                     >
                         Welcome Back, Vivian. Here’s what you’ve been reading ...
@@ -30,7 +30,7 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                     <div>A place to track and discover your favorite books</div>
                 </div>
             </section>
-            <section className="container space-y-4 ">
+            <section key={2} className="container space-y-4 ">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
                     Currently Reading
                 </h1>
@@ -40,13 +40,13 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                     shelves={shelves}
                 />
             </section>
-            <section className="container space-y-4 ">
+            <section key={3} className="container space-y-4 ">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
                     Read This Month
                 </h1>
                 {/* <BooksSection booksData={booksData} /> */}
             </section>
-            <section className="container space-y-2">
+            <section key={4} className="container space-y-2">
                 <h1 className={cn(dm_sefif_display.className, "text-2xl")}>
                     Featured Lists
                 </h1>

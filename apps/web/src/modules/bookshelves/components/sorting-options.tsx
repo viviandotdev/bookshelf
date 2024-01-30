@@ -18,43 +18,43 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
     const sort = searchParams?.get("sort") ?? "createdAt.desc"
     const pathname = usePathname()
     return (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        disabled={isPending}
-                        aria-label="Sort books"
-                        variant={"tag"}
-                        size={"xs"}
-                        className={"bg-white text-primary"}
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    disabled={isPending}
+                    aria-label="Sort books"
+                    variant={"tag"}
+                    size={"xs"}
+                    className={"bg-white text-beige"}
+                >
+                    Sort
+                    <Icons.down className="ml-1 h-4 w-4" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+                avoidCollisions={false}
+                align="start" side={"bottom"}
+                className="w-48">
+                <DropdownMenuLabel>Sort by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {sortingSelects.map((option) => (
+                    <DropdownMenuItem
+                        key={option.label}
+                        className={cn(option.value === sort && "font-bold")}
+                        onClick={() => {
+                            startTransition(() => {
+                                router.push(
+                                    `${pathname}?${createQueryString({
+                                        sort: option.value,
+                                    })}`,
+                                )
+                            })
+                        }}
                     >
-                        Sort
-                        <Icons.down className="ml-1 h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                    avoidCollisions={false}
-                    align="start" side={"bottom"}
-                    className="w-48">
-                    <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    {sortingSelects.map((option) => (
-                        <DropdownMenuItem
-                            key={option.label}
-                            className={cn(option.value === sort && "font-bold")}
-                            onClick={() => {
-                                startTransition(() => {
-                                    router.push(
-                                        `${pathname}?${createQueryString({
-                                            sort: option.value,
-                                        })}`,
-                                    )
-                                })
-                            }}
-                        >
-                            {option.label}
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuContent>
-            </DropdownMenu>
+                        {option.label}
+                    </DropdownMenuItem>
+                ))}
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }

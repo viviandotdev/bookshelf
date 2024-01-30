@@ -79,7 +79,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                             <Icons.chevronDown className="h-4 w-4" />
                         </Button>
                     ) : (
-                        <Icons.more className="stroke-1 fill-current stroke-primary cursor-pointer rotate-90 h-6 w-6 text-primary" />
+                        <Icons.more className="stroke-1 fill-current stroke-beige cursor-pointer rotate-90 h-6 w-6 text-beige" />
                     )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -95,7 +95,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     {bookStatuses.map(item => (
                         <DropdownMenuItem
                             key={item.name}
-                            className={`${status === item.name && "bg-accent text-primary"
+                            className={`${status === item.name && "bg-beige-400 text-beige"
                                 }`}
                             onClick={(e) => {
                                 e.stopPropagation();

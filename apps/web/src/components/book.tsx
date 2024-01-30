@@ -131,12 +131,12 @@ export const Book: React.FC<BookProps> = ({
                             setOpenMenu(false);
                             setOpenDropdown(false);
                         }}
-                        className="flex gap-3 bg-secondary text-primary font-bold py-2 px-4 rounded mx-2"
+                        className="flex gap-3 bg-beige- text-beige font-bold py-2 px-4 rounded mx-2"
                     >
-                        <Icons.book className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                        <Icons.book className="cursor-pointer h-6 w-6 text-beige" onClick={(e) => {
                             e.stopPropagation();
                         }} />
-                        <Icons.heart className="cursor-pointer h-6 w-6 text-primary" onClick={(e) => {
+                        <Icons.heart className="cursor-pointer h-6 w-6 text-beige" onClick={(e) => {
                             e.stopPropagation();
                         }} />
                         <BookActions
@@ -169,15 +169,15 @@ export const BookDetails: React.FC<BookDetailsProps> = ({
     dateStarted,
 }) => {
     return (
-        <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-secondary rounded-sm text-xs text-muted-foreground">
+        <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-beige-100 rounded-sm text-xs text-slate-500">
             <div className="flex justify-between">
-                <div className="flex items-center text-primary">
+                <div className="flex items-center text-beige">
                     <div className="align-middle">
                         <Icons.pieChart className="h-3 w-3 opacity-50" />
                     </div>
-                    <span className="ml-1.5 text-muted-foreground">{progress}%</span>
+                    <span className="ml-1.5 text-slate-500">{progress}%</span>
                 </div>
-                <div className="text-muted-foreground hidden lg:block">
+                <div className="text-slate-500 hidden lg:block">
                     {dateStarted}
                 </div>
             </div>

@@ -43,11 +43,14 @@
         "graphql": "16.8.1",
         "helmet": "^7.0.0",
         "passport-jwt": "^4.0.1",
+        "passport-magic-login": "^1.2.2",
         "prisma-nestjs-graphql": "^19.2.0",
         "reflect-metadata": "0.1.13",
+        "resend": "^3.1.0",
         "rimraf": "5.0.4",
         "rxjs": "7.8.1",
         "source-map-support": "^0.5.21",
+        "uuid": "^9.0.1",
         "zustand": "^4.4.1"
     },
     "devDependencies": {

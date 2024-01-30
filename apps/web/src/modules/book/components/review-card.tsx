@@ -46,7 +46,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
                     <div className="flex flex-col flex-grow gap-3">
                         <div className="flex justify-between gap-3">
                             <div className="flex items-center">
-                                <Link href={`review/${id}`} className="hover:text-muted" > Reviewed by</Link>
+                                <Link href={`review/${id}`} className="hover:text-slate-500" > Reviewed by</Link>
                                 <div className="mx-2 font-bold">{user?.username}</div>
                                 {
                                     rating ? (

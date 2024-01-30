@@ -1,6 +1,6 @@
 import React from "react";
 import { getShelves } from "@/modules/shelf/queries/getShelves";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 import ReviewTemplate from "@/modules/review/templates";
 import { notFound } from "next/navigation";
 import { getReview } from "@/modules/review/queries/getReview";

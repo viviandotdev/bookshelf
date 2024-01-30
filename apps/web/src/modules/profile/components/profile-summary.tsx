@@ -38,18 +38,18 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
             <div className="flex gap-8">
                 <UserAvatar user={{ name: profileUser.username }} size="lg" />
                 <div className="flex flex-col gap-3">
-                    <div className={cn(dm_sefif_display.className, "text-primary text-3xl leading-none")}>
+                    <div className={cn(dm_sefif_display.className, "text-beige text-3xl leading-none")}>
                         {profileUser.username}
                     </div>
                     <div>Joined in December 2017</div>
                     {
                         profileUser.username === currentUser.username ? (
-                            <Button className="w-max rounded-md" variant={"secondary"}>{"Edit Profile".toLocaleUpperCase()}</Button>
+                            <Button className="w-max rounded-md" variant={"beige-100"}>{"Edit Profile".toLocaleUpperCase()}</Button>
                         ) : (
                             isFollowing ? (
-                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"secondary"}>{"Unfollow".toLocaleUpperCase()}</Button>
+                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"beige-100"}>{"Unfollow".toLocaleUpperCase()}</Button>
                             ) : (
-                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"secondary"}>{"Follow".toLocaleUpperCase()}</Button>
+                                <Button onClick={handleFollowUser} className="w-max rounded-md" variant={"beige-100"}>{"Follow".toLocaleUpperCase()}</Button>
 
                             )
                         )

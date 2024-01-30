@@ -6,13 +6,13 @@ import { dm_sefif_display } from "@/lib/fonts";
 
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
     return (
-        <footer className={cn(className, "bg-accent p-4 mt-10")}>
+        <footer className={cn(className, "bg-beige-400 p-4 mt-10")}>
             <div className="container flex-col items-center justify-between gap-4 md:h-24 md:flex-row md:py-0">
                 <div className="hidden items-center space-x-2 md:flex">
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "hidden sm:inline-block text-primary text-3xl "
+                            "hidden sm:inline-block text-beige text-3xl "
                         )}
                     >
                         {siteConfig.name}

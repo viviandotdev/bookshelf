@@ -24,7 +24,7 @@ export const FieldSelector: React.FC<FieldSelectorProps> = ({
         return (
             <div
                 key={title}
-                className={`text-xs ${isSelected ? 'bg-secondary' : ''} w-[fill-available] rounded-lg p-2 cursor-pointer`}
+                className={`text-xs ${isSelected ? 'bg-beige-100' : ''} w-[fill-available] rounded-lg p-2 cursor-pointer`}
                 onClick={() => {
                     startTransition(() => {
                         router.push(
@@ -43,11 +43,11 @@ export const FieldSelector: React.FC<FieldSelectorProps> = ({
 
     return (
         <div className="hidden xl:block">
-            <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-muted-foreground font-light">
-                <div className="leading-7 items-start text-primary font-semibold ">
+            <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-slate-500 font-light">
+                <div className="leading-7 items-start text-beige font-semibold ">
                     Field to search
                 </div>
-                <hr className="mt-1 border-t-1 border-primary" />
+                <hr className="mt-1 border-t-1 border-beige" />
                 {fieldSelections.map((heading) => {
                     return selection(heading);
                 })}

@@ -12,6 +12,251 @@ enum ACTION {
   STATUS_UPDATE
 }
 
+type Account {
+  access_token: String
+  expires_at: Int
+  id: ID!
+  id_token: String
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String!
+  user: User!
+  userId: String!
+}
+
+type AccountAvgAggregate {
+  expires_at: Float
+}
+
+type AccountCountAggregate {
+  _all: Int!
+  access_token: Int!
+  expires_at: Int!
+  id: Int!
+  id_token: Int!
+  provider: Int!
+  providerAccountId: Int!
+  refresh_token: Int!
+  scope: Int!
+  session_state: Int!
+  token_type: Int!
+  type: Int!
+  userId: Int!
+}
+
+input AccountCreateManyUserInput {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String!
+}
+
+input AccountCreateManyUserInputEnvelope {
+  data: [AccountCreateManyUserInput!]!
+  skipDuplicates: Boolean
+}
+
+input AccountCreateNestedManyWithoutUserInput {
+  connect: [AccountWhereUniqueInput!]
+  connectOrCreate: [AccountCreateOrConnectWithoutUserInput!]
+  create: [AccountCreateWithoutUserInput!]
+  createMany: AccountCreateManyUserInputEnvelope
+}
+
+input AccountCreateOrConnectWithoutUserInput {
+  create: AccountCreateWithoutUserInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountCreateWithoutUserInput {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String!
+  providerAccountId: String!
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String!
+}
+
+input AccountListRelationFilter {
+  every: AccountWhereInput
+  none: AccountWhereInput
+  some: AccountWhereInput
+}
+
+type AccountMaxAggregate {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  userId: String
+}
+
+type AccountMinAggregate {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+  userId: String
+}
+
+input AccountOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input AccountProviderProviderAccountIdCompoundUniqueInput {
+  provider: String!
+  providerAccountId: String!
+}
+
+input AccountScalarWhereInput {
+  AND: [AccountScalarWhereInput!]
+  NOT: [AccountScalarWhereInput!]
+  OR: [AccountScalarWhereInput!]
+  access_token: StringFilter
+  expires_at: IntFilter
+  id: StringFilter
+  id_token: StringFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  refresh_token: StringFilter
+  scope: StringFilter
+  session_state: StringFilter
+  token_type: StringFilter
+  type: StringFilter
+  userId: StringFilter
+}
+
+type AccountSumAggregate {
+  expires_at: Int
+}
+
+input AccountUpdateManyMutationInput {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+}
+
+input AccountUpdateManyWithWhereWithoutUserInput {
+  data: AccountUpdateManyMutationInput!
+  where: AccountScalarWhereInput!
+}
+
+input AccountUpdateManyWithoutUserNestedInput {
+  connect: [AccountWhereUniqueInput!]
+  connectOrCreate: [AccountCreateOrConnectWithoutUserInput!]
+  create: [AccountCreateWithoutUserInput!]
+  createMany: AccountCreateManyUserInputEnvelope
+  delete: [AccountWhereUniqueInput!]
+  deleteMany: [AccountScalarWhereInput!]
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+  update: [AccountUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [AccountUpdateManyWithWhereWithoutUserInput!]
+  upsert: [AccountUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input AccountUpdateWithWhereUniqueWithoutUserInput {
+  data: AccountUpdateWithoutUserInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountUpdateWithoutUserInput {
+  access_token: String
+  expires_at: Int
+  id: String
+  id_token: String
+  provider: String
+  providerAccountId: String
+  refresh_token: String
+  scope: String
+  session_state: String
+  token_type: String
+  type: String
+}
+
+input AccountUpsertWithWhereUniqueWithoutUserInput {
+  create: AccountCreateWithoutUserInput!
+  update: AccountUpdateWithoutUserInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountWhereInput {
+  AND: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  access_token: StringFilter
+  expires_at: IntFilter
+  id: StringFilter
+  id_token: StringFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  refresh_token: StringFilter
+  scope: StringFilter
+  session_state: StringFilter
+  token_type: StringFilter
+  type: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
+input AccountWhereUniqueInput {
+  AND: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  access_token: StringFilter
+  expires_at: IntFilter
+  id: String
+  id_token: StringFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  provider_providerAccountId: AccountProviderProviderAccountIdCompoundUniqueInput
+  refresh_token: StringFilter
+  scope: StringFilter
+  session_state: StringFilter
+  token_type: StringFilter
+  type: StringFilter
+  user: UserRelationFilter
+  userId: StringFilter
+}
+
 type AuditLog {
   action: ACTION!
   actionContent: String
@@ -265,10 +510,12 @@ input AuditLogWhereUniqueInput {
 }
 
 type AuthResponse {
-  accessToken: String!
-  expiresIn: Float!
-  refreshToken: String!
+  accessToken: String
+  expiresIn: Float
+  isNewUser: Boolean
+  refreshToken: String
   user: User!
+  verificationToken: String
 }
 
 type Book {
@@ -1194,7 +1441,13 @@ input JournalEntryWhereUniqueInput {
 
 input LogInInput {
   email: String!
-  password: String!
+  password: String
+}
+
+type MeResponse {
+  email: String
+  isOAuth: Boolean
+  username: String
 }
 
 type Mutation {
@@ -1203,27 +1456,65 @@ type Mutation {
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
   createReview(bookData: BookCreateInput!, data: ReviewDataInput!, where: BookWhereUniqueInput!): Review!
   createShelf(data: ShelfCreateInput!): Shelf!
-  createUser(userCreateInput: UserCreateInput!): User!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
   follow(value: Boolean!, where: UserWhereUniqueInput!): User!
+  forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!): Boolean!
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
+  login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
+  oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
+  register(registerInput: RegisterInput!): User!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
-  signin(logInInput: LogInInput!): AuthResponse!
-  signup(registerInput: RegisterInput!): User!
+  resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
+  updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: BookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
+  verifyToken(token: String!): AuthResponse!
 }
 
 enum NullsOrder {
   first
   last
+}
+
+input OAuthInput {
+  access_token: String!
+  email: String!
+  image: String!
+  provider: String!
+  providerAccountId: String!
+  scope: String!
+  token_type: String!
+  type: String!
+  username: String!
+}
+
+type PasswordResetTokenCountAggregate {
+  _all: Int!
+  email: Int!
+  expires: Int!
+  id: Int!
+  token: Int!
+}
+
+type PasswordResetTokenMaxAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
+}
+
+type PasswordResetTokenMinAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
 }
 
 type Query {
@@ -1235,7 +1526,7 @@ type Query {
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
-  me: User!
+  me: MeResponse!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
@@ -1257,6 +1548,11 @@ input RegisterInput {
   email: String!
   password: String!
   username: String!
+}
+
+input ResetPasswordInput {
+  password: String!
+  token: String!
 }
 
 type Review {
@@ -2023,17 +2319,27 @@ input StringFilter {
 """
 scalar Timestamp
 
+input UpdateUserInput {
+  email: String
+  newPassword: String
+  password: String
+  username: String
+}
+
 type User {
   _count: UserCount!
+  accounts: [Account!]
   auditLogs: [AuditLog!]
   comments: [Comment!]
   createdAt: Timestamp!
   email: String!
+  emailVerified: Timestamp
   followerCount: Float!
   followers: [User!]
   following: [User!]
   followingCount: Float!
   id: ID!
+  image: String
   isFollowing: Boolean!
   journalEntries: [JournalEntry!]
   likedReviews: [Review!]
@@ -2751,6 +3057,7 @@ input UserBookWhereUniqueInput {
 }
 
 type UserCount {
+  accounts: Int!
   auditLogs: Int!
   comments: Int!
   followers: Int!
@@ -2766,28 +3073,11 @@ type UserCountAggregate {
   _all: Int!
   createdAt: Int!
   email: Int!
+  emailVerified: Int!
   id: Int!
+  image: Int!
   updatedAt: Int!
   username: Int!
-}
-
-input UserCreateInput {
-  auditLogs: AuditLogCreateNestedManyWithoutUserInput
-  comments: CommentCreateNestedManyWithoutUserInput
-  createdAt: Timestamp
-  email: String!
-  followers: UserCreateNestedManyWithoutFollowingInput
-  following: UserCreateNestedManyWithoutFollowersInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
-  reviews: ReviewCreateNestedManyWithoutUserInput
-  shelves: ShelfCreateNestedManyWithoutUserInput
-  updatedAt: Timestamp
-  userBooks: UserBookCreateNestedManyWithoutUserInput
-  username: String
 }
 
 input UserCreateNestedManyWithoutFollowersInput {
@@ -2890,14 +3180,17 @@ input UserCreateOrConnectWithoutUserBooksInput {
 }
 
 input UserCreateWithoutAuditLogsInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -2908,14 +3201,17 @@ input UserCreateWithoutAuditLogsInput {
 }
 
 input UserCreateWithoutCommentsInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -2926,14 +3222,17 @@ input UserCreateWithoutCommentsInput {
 }
 
 input UserCreateWithoutFollowersInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -2944,14 +3243,17 @@ input UserCreateWithoutFollowersInput {
 }
 
 input UserCreateWithoutFollowingInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -2962,15 +3264,18 @@ input UserCreateWithoutFollowingInput {
 }
 
 input UserCreateWithoutJournalEntriesInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
@@ -2980,15 +3285,18 @@ input UserCreateWithoutJournalEntriesInput {
 }
 
 input UserCreateWithoutLikedReviewsInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   reviews: ReviewCreateNestedManyWithoutUserInput
   shelves: ShelfCreateNestedManyWithoutUserInput
@@ -2998,15 +3306,18 @@ input UserCreateWithoutLikedReviewsInput {
 }
 
 input UserCreateWithoutReviewsInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   shelves: ShelfCreateNestedManyWithoutUserInput
@@ -3016,15 +3327,18 @@ input UserCreateWithoutReviewsInput {
 }
 
 input UserCreateWithoutShelvesInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -3034,15 +3348,18 @@ input UserCreateWithoutShelvesInput {
 }
 
 input UserCreateWithoutUserBooksInput {
+  accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
+  emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
   following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -3060,7 +3377,9 @@ input UserListRelationFilter {
 type UserMaxAggregate {
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   id: String
+  image: String
   updatedAt: Timestamp
   username: String
 }
@@ -3068,7 +3387,9 @@ type UserMaxAggregate {
 type UserMinAggregate {
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   id: String
+  image: String
   updatedAt: Timestamp
   username: String
 }
@@ -3078,15 +3399,18 @@ input UserOrderByRelationAggregateInput {
 }
 
 input UserOrderByWithRelationInput {
+  accounts: AccountOrderByRelationAggregateInput
   auditLogs: AuditLogOrderByRelationAggregateInput
   comments: CommentOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
+  emailVerified: SortOrderInput
   followers: UserOrderByRelationAggregateInput
   following: UserOrderByRelationAggregateInput
   hashedPassword: SortOrderInput
   hashedRefreshToken: SortOrderInput
   id: SortOrder
+  image: SortOrderInput
   journalEntries: JournalEntryOrderByRelationAggregateInput
   likedReviews: ReviewOrderByRelationAggregateInput
   reviews: ReviewOrderByRelationAggregateInput
@@ -3107,9 +3431,11 @@ input UserScalarWhereInput {
   OR: [UserScalarWhereInput!]
   createdAt: DateTimeFilter
   email: StringFilter
+  emailVerified: DateTimeFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: StringFilter
+  image: StringFilter
   updatedAt: DateTimeFilter
   username: StringFilter
 }
@@ -3117,9 +3443,11 @@ input UserScalarWhereInput {
 input UserUpdateManyMutationInput {
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   updatedAt: Timestamp
   username: String
 }
@@ -3284,14 +3612,17 @@ input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 }
 
 input UserUpdateWithoutAuditLogsInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3302,14 +3633,17 @@ input UserUpdateWithoutAuditLogsInput {
 }
 
 input UserUpdateWithoutCommentsInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3320,14 +3654,17 @@ input UserUpdateWithoutCommentsInput {
 }
 
 input UserUpdateWithoutFollowersInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3338,14 +3675,17 @@ input UserUpdateWithoutFollowersInput {
 }
 
 input UserUpdateWithoutFollowingInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3356,15 +3696,18 @@ input UserUpdateWithoutFollowingInput {
 }
 
 input UserUpdateWithoutJournalEntriesInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
@@ -3374,15 +3717,18 @@ input UserUpdateWithoutJournalEntriesInput {
 }
 
 input UserUpdateWithoutLikedReviewsInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
@@ -3392,15 +3738,18 @@ input UserUpdateWithoutLikedReviewsInput {
 }
 
 input UserUpdateWithoutReviewsInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   shelves: ShelfUpdateManyWithoutUserNestedInput
@@ -3410,15 +3759,18 @@ input UserUpdateWithoutReviewsInput {
 }
 
 input UserUpdateWithoutShelvesInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3428,15 +3780,18 @@ input UserUpdateWithoutShelvesInput {
 }
 
 input UserUpdateWithoutUserBooksInput {
+  accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
+  emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
   following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
+  image: String
   journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -3503,15 +3858,18 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  accounts: AccountListRelationFilter
   auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: StringFilter
+  emailVerified: DateTimeFilter
   followers: UserListRelationFilter
   following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: StringFilter
+  image: StringFilter
   journalEntries: JournalEntryListRelationFilter
   likedReviews: ReviewListRelationFilter
   reviews: ReviewListRelationFilter
@@ -3525,15 +3883,18 @@ input UserWhereUniqueInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  accounts: AccountListRelationFilter
   auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
   email: String
+  emailVerified: DateTimeFilter
   followers: UserListRelationFilter
   following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: String
+  image: StringFilter
   journalEntries: JournalEntryListRelationFilter
   likedReviews: ReviewListRelationFilter
   reviews: ReviewListRelationFilter
@@ -3541,4 +3902,26 @@ input UserWhereUniqueInput {
   updatedAt: DateTimeFilter
   userBooks: UserBookListRelationFilter
   username: String
+}
+
+type VerificationTokenCountAggregate {
+  _all: Int!
+  email: Int!
+  expires: Int!
+  id: Int!
+  token: Int!
+}
+
+type VerificationTokenMaxAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
+}
+
+type VerificationTokenMinAggregate {
+  email: String
+  expires: Timestamp
+  id: String
+  token: String
 }

@@ -5,7 +5,7 @@ import {
   UserBooksQuery,
 } from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/auth";
 
 export async function getUserBooks(where: UserBookWhereInput) {
   const user = await getCurrentUser();

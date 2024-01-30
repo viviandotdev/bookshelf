@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "../../ui/button";
 import { cn } from "@/lib/utils";
-import { Icons } from "../../icons";
+import { Icons } from "@/components/icons";
 import useUserBookStore from "@/stores/use-user-book-store";
 import AlertModal from "../alert-modal";
 import { useRemoveUserBook } from "@/modules/bookshelves/mutations/use-remove-user-book";
@@ -47,7 +47,6 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             setIsLoading(false);
             setOpen(false);
         }
-
     };
 
     const bodyContent = (
@@ -57,7 +56,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
                     key={index}
                     variant={"outline"}
                     size={"lg"}
-                    className="text-md rounded-xl hover:text-white hover:bg-primary"
+                    className="text-base rounded-xl hover:text-white hover:bg-beige"
                     label={s}
                     onClick={() => handleStatusClick(s)}
                     icon={
@@ -70,7 +69,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             <Button
                 className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "text-md rounded-xl border-none hover:bg-white"
+                    "text-base rounded-xl border-none hover:bg-white"
                 )}
                 onClick={() => {
                     statusModal.onClose();

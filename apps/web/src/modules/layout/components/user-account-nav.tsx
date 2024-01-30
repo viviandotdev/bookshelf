@@ -33,11 +33,11 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                 />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <Link className="flex items-center justify-start gap-2 p-2" href={`${user.username}`}>
+                <Link className="flex items-center justify-start gap-2 p-2" href={`/profile/${user.username}`}>
                     <div className="flex flex-col space-y-1 leading-none">
                         {user.username && <p className="font-medium">{user.username}</p>}
                         {user.email && (
-                            <p className="w-[200px] truncate text-sm text-muted-foreground">
+                            <p className="w-[200px] truncate text-sm text-slate-500">
                                 {user.email}
                             </p>
                         )}
@@ -48,7 +48,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                     <Link className="cursor-pointer" href="/">Home</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link className="cursor-pointer" href={`${user.username}/books`}>Books</Link>
+                    <Link className="cursor-pointer" href={`/${user.username}/books`}>Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link className="cursor-pointer" href="/settings">Settings</Link>

@@ -14,7 +14,7 @@ interface UserNavProps {
 
 export function UserNav({ user, items }: UserNavProps) {
     return (
-        <nav className="bg-secondary flex w-full p-3 gap-20 rounded-lg items-center">
+        <nav className="bg-beige-100 flex w-full p-3 gap-20 rounded-lg items-center">
             <div className="flex items-center font-medium gap-3">
                 <UserAccountNav
                     user={{

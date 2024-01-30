@@ -32,7 +32,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
             }}>
             <BookCover size={"xs"} src={userBook.book?.coverImage} />
             <div className="flex-col">
-                <div className={cn(dm_sefif_display.className, "text-[18px]")}>
+                <div className={cn(dm_sefif_display.className, "text-xl")}>
                     {userBook.book?.title}
                 </div>
                 <CardDescription className="text-sm line-clamp-1">

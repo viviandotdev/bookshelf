@@ -32,7 +32,7 @@ export function BookShelves() {
     return (
         <div>
             {shelves.map((shelf: string, index: number) => (
-                // <SecondaryButton label={shelf} />
+                // <beige-100Button label={shelf} />
                 <button
                     key={index}
                     className={cn(
@@ -71,7 +71,7 @@ export function BookContent({ image, shelves, info }: BookContentProps) {
         <div className="flex items-start space-x-4 rounded-md">
             <BookCover src={book.coverImage} size={"sm"} />
             <div className="flex items-start flex-col justify-center gap-1">
-                <CardTitle className="text-[16px] leading-tight ">
+                <CardTitle className="text-base leading-tight ">
                     {book.title}
                 </CardTitle>
                 <CardDescription className="text-sm line-clamp-1">

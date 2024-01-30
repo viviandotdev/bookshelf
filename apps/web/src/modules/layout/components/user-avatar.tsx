@@ -5,14 +5,14 @@ import {
     AvatarFallback,
 } from "@/components/ui/avatar";
 import { Icons } from "@/components/icons";
-import { User } from "@/types/interfaces";
+import { Maybe } from "@/graphql/graphql";
 
 interface UserAvatarProps extends AvatarProps {
-    user: User;
+    username: Maybe<string> | undefined
     size?: "xs" | "default" | "lg";
 }
 
-export function UserAvatar({ user, size, ...props }: UserAvatarProps) {
+export function UserAvatar({ username, size, ...props }: UserAvatarProps) {
 
     let iconSize;
     switch (size) {
@@ -30,7 +30,7 @@ export function UserAvatar({ user, size, ...props }: UserAvatarProps) {
     return (
         <Avatar size={size} {...props}>
             <AvatarFallback>
-                <span className="sr-only">{user.username}</span>
+                <span className="sr-only">{username}</span>
                 <Icons.user className={iconSize} />
             </AvatarFallback>
         </Avatar>

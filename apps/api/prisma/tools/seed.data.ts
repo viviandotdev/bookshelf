@@ -11,6 +11,8 @@ export function createRandomUser(): User {
     hashedRefreshToken: faker.string.uuid(),
     createdAt: faker.date.past(),
     updatedAt: faker.date.recent(),
+    emailVerified: faker.date.past(),
+    image: 'https://picsum.photos/200/300',
     // userBooks: userBooks,
     // shelves: shelves,
   };

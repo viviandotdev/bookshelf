@@ -16,7 +16,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-primary text-4xl mb-8"
+                            "text-beige text-4xl mb-8"
                         )}
                     >
                         Bookshelves

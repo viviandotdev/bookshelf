@@ -1,6 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import * as R from "ramda";
+import { split } from "rambda";
 import { BOOKS_PAGE_SIZE } from "@/lib/constants";
 
 const useBuildQuery = () => {
@@ -45,8 +45,8 @@ const useBuildQuery = () => {
   };
 
   const buildSortQuery = (sortParam: string) => {
-    const sortBy = R.split(".", sortParam)[0];
-    const sortOrder = R.split(".", sortParam)[1];
+    const sortBy = split(".", sortParam)[0];
+    const sortOrder = split(".", sortParam)[1];
 
     if (sortBy == "title" || sortBy == "author") {
       return {

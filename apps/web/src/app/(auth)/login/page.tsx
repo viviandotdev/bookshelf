@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Form as LoginForm } from "./form";
 import { Metadata } from "next";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { dm_sefif_display } from "@/lib/fonts";
+import { dm_sefif_display, inter } from "@/lib/fonts";
+import LoginTemplate from "@/modules/auth/templates/login-template";
 
 export const metadata: Metadata = {
     title: "Login",
@@ -17,7 +17,7 @@ export default function LoginPage() {
             <Link
                 href="/"
                 className={cn(
-                    buttonVariants({ variant: "ghost" }),
+                    buttonVariants({ variant: "link" }),
                     "absolute left-4 top-4 md:left-8 md:top-8"
                 )}
             >
@@ -31,21 +31,14 @@ export default function LoginPage() {
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-primary text-3xl/[64px] "
+                            "text-beige text-5xl/[64px]  font-bold"
                         )}
                     >
-                        Login
+                        Log in
                     </h1>
                 </div>
-                <LoginForm />
-                <p className="px-8 text-center text-sm text-primary">
-                    <Link
-                        href="/register"
-                        className="font-medium hover:text-brand underline underline-offset-4"
-                    >
-                        Don&apos;t have an account? Create One
-                    </Link>
-                </p>
+                <LoginTemplate />
+
             </div>
         </div>
     );

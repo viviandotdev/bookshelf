@@ -26,8 +26,9 @@
         ],
         "paths": {
             "@/*": [
-                "./*"
-            ]
+                "./*",
+                "../*"
+            ],
         }
     },
     "include": [
@@ -35,7 +36,8 @@
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts",
-        "src/lib/apollo/ApolloClientProvider/index.tsx"
+        "src/middleware.ts",
+        "src/providers/apollo-provider.tsx"
     ],
     "exclude": [
         "node_modules"

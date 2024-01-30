@@ -43,7 +43,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     return (
         <div
             className={`${shelf.name === selected
-                ? "bg-secondary"
+                ? "bg-beige-100"
                 : "hover:bg-slate-100 hover:bg-opacity-70"
                 }  group/item flex rounded-lg px-3 font-medium `}
         >

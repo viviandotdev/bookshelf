@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
-import { RegisterForm } from "./form";
+import { RegisterForm } from "../../../modules/auth/components/register-form";
 import { dm_sefif_display } from "@/lib/fonts";
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default function RegisterPage() {
             <Link
                 href="/"
                 className={cn(
-                    buttonVariants({ variant: "ghost" }),
+                    buttonVariants({ variant: "link" }),
                     "absolute left-4 top-4 md:left-8 md:top-8"
                 )}
             >
@@ -31,14 +31,14 @@ export default function RegisterPage() {
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-primary text-3xl/[64px] "
+                            "text-beige text-3xl/[64px] "
                         )}
                     >
                         Create Account
                     </h1>
                 </div>
                 <RegisterForm />
-                <p className="px-8 text-center text-sm text-primary">
+                <p className="px-8 text-center text-sm text-beige">
                     <Link
                         href="/login"
                         className="font-medium hover:text-brand underline underline-offset-4"

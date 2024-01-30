@@ -1,6 +1,5 @@
 import { SiteFooter } from "@/modules/layout/templates/site-footer";
-import { getCurrentUser } from "@/lib/auth/session";
-import { redirect } from "next/navigation";
+import { getCurrentUser } from "@/lib/auth";
 import SiteHeader from "@/modules/layout/templates/site-header";
 
 interface PageLayoutProps {
@@ -9,7 +8,7 @@ interface PageLayoutProps {
 
 export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
-
+    console.log(user)
     return (
         <div className="flex min-h-screen flex-col">
             <SiteHeader user={user} />

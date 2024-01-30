@@ -32,7 +32,7 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                         className="max-w-none w-[fill-available] rounded-lg"
                         alt="Picture of the author"
                     />
-                    <div className="mt-3 text-[12px] font-light">
+                    <div className="mt-3 text-xs font-light">
                         <div>{book.pageCount} Pages</div>
                         <div>First published {formatDate(book.publishedDate)}</div>
                     </div>
@@ -60,10 +60,10 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                         </div>
                         <div className="pt-8">
                             <div className="flex justify-between">
-                                <div className="text-sm text-primary">POPULAR REVIEWS</div>
-                                <div className="text-sm text-primary">MORE</div>
+                                <div className="text-sm text-beige">POPULAR REVIEWS</div>
+                                <div className="text-sm text-beige">MORE</div>
                             </div>
-                            <hr className="border-t-1 border-primary" />
+                            <hr className="border-t-1 border-beige" />
 
                             <div>
 
