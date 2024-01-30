@@ -27,7 +27,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyPress}
             />
-            <Link ref={linkRef} href={`/search?q=${encodeURIComponent(search)}`} className="cursor-pointer absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 sm:flex">
+            <Link ref={linkRef} href={`/search?q=${encodeURIComponent(search)}`} className="cursor-pointer absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-slate-500 opacity-100 sm:flex">
                 <Icons.search className="h-3 w-3" />
             </Link>
         </div >

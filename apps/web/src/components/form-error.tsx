@@ -10,7 +10,7 @@ export const FormError = ({
     if (!message) return null;
 
     return (
-        <div className="bg-destructive/15 rounded-md flex items-center justify-center text-sm text-destructive">
+        <div className="bg-red-500/15 rounded-md flex items-center justify-center text-sm text-red-500">
             <p >{message}</p>
         </div>
     );

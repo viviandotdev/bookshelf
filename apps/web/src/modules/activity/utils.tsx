@@ -36,7 +36,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                             </div>
                             <div className="text-sm">{actionContent}</div>
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-slate-500">
                             {format(new Date(log.createdAt), "MMM d, yyyy 'at' h:mm a")}
                         </div>
                     </div>
@@ -68,7 +68,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                             progress:
                             <Progress className="align-middle" value={percent} />
                         </div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-slate-500">
                             {format(new Date(log.createdAt), "MMM d, yyyy 'at' h:mm a")}
                         </div>
                     </div>

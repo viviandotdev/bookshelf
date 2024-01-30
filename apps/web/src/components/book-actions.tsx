@@ -95,7 +95,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                     {bookStatuses.map(item => (
                         <DropdownMenuItem
                             key={item.name}
-                            className={`${status === item.name && "bg-accent text-beige"
+                            className={`${status === item.name && "bg-beige-400 text-beige"
                                 }`}
                             onClick={(e) => {
                                 e.stopPropagation();

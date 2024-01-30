@@ -119,11 +119,11 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                 <DialogHeader>
                                     {
                                         createReviewModal.editId ? (
-                                            <DialogTitle className="text-muted-foreground font-light">
+                                            <DialogTitle className="text-slate-500 font-light">
                                                 Edit a review
                                             </DialogTitle>
                                         ) : (
-                                            <DialogTitle className="text-muted-foreground font-light">
+                                            <DialogTitle className="text-slate-500 font-light">
                                                 Write a review
                                             </DialogTitle>
                                         )
@@ -138,7 +138,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                             {formBody()}
                                             {error && (
                                                 <p
-                                                    className={"pt-2 pb-1 text-sm font-medium text-destructive"}
+                                                    className={"pt-2 pb-1 text-sm font-medium text-red-500"}
                                                 >
                                                     {error}
                                                 </p>
@@ -175,7 +175,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                                     size="xs"
                                                     className={cn(
                                                         "text-left font-normal text-black cursor-pointer py-0",
-                                                        !field.value && "text-muted-foreground"
+                                                        !field.value && "text-slate-500"
                                                     )}
                                                 >
                                                     {field.value &&
