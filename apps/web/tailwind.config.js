@@ -19,9 +19,17 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+
+        primary: {
+          DEFAULT: "#4e3b2c",
+          50: "#f7f2ee", //light
+          75: "#f3ece8",
+          100: "#eee4de",
+          200: "#eaded7", // normal
+          300: "#a49b97",
+          400: "#4e3b2c", //dark
+          500: "#30241b",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -42,7 +50,6 @@ module.exports = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-
       },
       borderRadius: {
         lg: `var(--radius)`,
