@@ -131,7 +131,7 @@ export const Book: React.FC<BookProps> = ({
                             setOpenMenu(false);
                             setOpenDropdown(false);
                         }}
-                        className="flex gap-3 bg-beige- text-beige font-bold py-2 px-4 rounded mx-2"
+                        className="flex gap-3 bg-beige-200 text-beige font-bold py-2 px-4 rounded mx-2"
                     >
                         <Icons.book className="cursor-pointer h-6 w-6 text-beige" onClick={(e) => {
                             e.stopPropagation();

@@ -8,34 +8,7 @@
     :root {
         --background: 0 0% 100%;
         --foreground: 27 28% 24%;
-
-        --muted: 215.4 16.3% 46.9%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-
-        --popover: 0 0% 100%;
-        --popover-foreground: 222.2 47.4% 11.2%;
-
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-
-        --card: 0 0% 100%;
-        --card-foreground: 222.2 47.4% 11.2%;
-
-        --primary: 27 28% 24%;
-        --primary-foreground: 210 40% 100%;
-
-        --secondary: 27 39% 95%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-
-        --accent: 22 32% 88%;
-        --accent-foreground: 27 28% 24%;
-
-        --destructive: 0 100% 50%;
-        --destructive-foreground: 210 40% 98%;
-
-
         --ring: 27 39% 95%;
-
         --radius: 0.5rem;
     }
 }

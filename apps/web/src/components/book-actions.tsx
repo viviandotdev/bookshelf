@@ -61,7 +61,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     const linkRef = useRef<HTMLAnchorElement>(null);
     return (
         <>
-            <DropdownMenu open={openDropdown} modal={false}>
+            <DropdownMenu open={openDropdown} modal={false} >
                 <DropdownMenuTrigger
                     asChild
                     onClick={(e) => {
