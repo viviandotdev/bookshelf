@@ -52,7 +52,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                     </span>
                 </span>
             </div>
-            <div className="text-sm/[1.25] overflow-hidden max-h-64">
+            <div className="text-sm overflow-hidden max-h-64">
                 <div
                     className={`leading-normal `}
                     dangerouslySetInnerHTML={{ __html: processedBook.description }}

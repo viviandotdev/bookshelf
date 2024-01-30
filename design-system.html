@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --background: hsl(0, 0%, 100%);
+            --foreground: hsl(27, 28%, 24%);
+            --muted: hsl(43.8, 16.3%, 46.9%);
+            --muted-foreground: hsl(43.8, 16.3%, 46.9%);
+            --popover: hsl(0, 0%, 100%);
+            --popover-foreground: hsl(222.2, 47.4%, 11.2%);
+            --border: hsl(214.3, 31.8%, 91.4%);
+            --input: hsl(214.3, 31.8%, 91.4%);
+            --card: hsl(0, 0%, 100%);
+            --card-foreground: hsl(222.2, 47.4%, 11.2%);
+            --primary: hsl(27, 28%, 24%);
+            --primary-foreground: hsl(210, 40%, 100%);
+            --secondary: hsl(27, 39%, 95%);
+            --secondary-foreground: hsl(222.2, 47.4%, 11.2%);
+            --accent: hsl(22, 32%, 88%);
+            --accent-foreground: hsl(27, 28%, 24%);
+            --destructive: hsl(0, 100%, 50%);
+            --destructive-foreground: hsl(210, 40%, 98%);
+            --ring: hsl(27, 39%, 95%);
+            --radius: 0.5rem;
+        }
+
+        body {
+            align-items: center;
+            background-color: var(--background);
+        }
+
+        .palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .color-box {
+            width: 100%;
+            height: 100px;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--foreground);
+        }
+    </style>
+    <title>Color Palette</title>
+</head>
+
+<body>
+    <div class="palette">
+        <div class="color-box" style="background-color: var(--background);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--muted);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--muted-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--popover);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--popover-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--border);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--input);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--card);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--card-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--primary);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--primary-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--secondary);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--secondary-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--accent);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--accent-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--destructive);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--destructive-foreground);">Foreground Text</div>
+        <div class="color-box" style="background-color: var(--ring);">Foreground Text</div>
+    </div>
+</body>
+
+</html>

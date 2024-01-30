@@ -241,7 +241,7 @@ export const JournalEntryForm: React.FC = ({
                     {formBody()}
                     {error && (
                         <p
-                            className={"pt-2 pb-1 text-[0.8rem] font-medium text-destructive"}
+                            className={"pt-2 pb-1 text-sm font-medium text-destructive"}
                         >
                             {error}
                         </p>

@@ -8,14 +8,14 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: "bg-primary text-primary-foreground hover:bg-primary",
+                default: "bg-primary text-primary-foreground hover:bg-primary/90",
                 outline:
-                    "bg-white border-2 font-semibold border-primary text-primary items-center text-center p-2 cursor-pointer",
-                secondary: "bg-secondary text-secondary-foreground",
+                    "bg-white border-2 font-semibold border-primary text-primary items-center",
+                secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
                 link: "underline-offset-4 hover:underline text-primary",
-                tag: "text-[12px] bg-secondary text-secondary-foreground",
+                tag: "text-xs bg-secondary text-secondary-foreground",
                 action:
-                    "text-[12px] bg-secondary text-secondary-foregroundmr-1 mb-1 cursor-pointer w-max gap-1 hover:bg-secondary ",
+                    "text-xs bg-secondary text-secondary-foreground mr-1 mb-1 w-max gap-1 hover:bg-secondary/80 ",
             },
             size: {
                 default: "h-10 py-2 px-4",

@@ -11,7 +11,7 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1342px",
+        "2xl": "1400px",
       },
     },
     extend: {
@@ -19,6 +19,7 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
@@ -41,38 +42,12 @@ module.exports = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-      },
-      fontSize: {
-        xs: ["12px", { lineHeight: "16px" }],
-        sm: ["14px", { lineHeight: "20px" }],
-        md: ["16px", { lineHeight: "24px" }],
-        lg: ["20px", { lineHeight: "26px" }],
-        xl: ["24px", { lineHeight: "28px" }],
-        "2xl": ["1.5rem", { lineHeight: "2rem" }],
-        "3xl": ["1.875rem", { lineHeight: "64px" }],
-        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
+
       },
       borderRadius: {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
-      },
-      screens: {
-        "sm-max": { max: "414px" },
-        "md-max": { max: "810px" },
-        sm: "414px",
-        md: "740px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1440px",
       },
       // Animation
       keyframes: {

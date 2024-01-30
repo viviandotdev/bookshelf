@@ -18,7 +18,7 @@ export const ReviewInfo: React.FC<ReviewInfoProps> = ({ review }) => {
             <div className=" text-base font-semibold">
                 <span className="flex items-center">
                     <UserAvatar
-                        user={{ name: user.username || null }}
+                        username={user?.username}
                         size={"default"}
                         className="h-8 w-8"
                     />
@@ -30,8 +30,8 @@ export const ReviewInfo: React.FC<ReviewInfoProps> = ({ review }) => {
                 </span>
             </div>
 
-            <div className="text-sm/[1.25] overflow-hidden max-h-64 mt-2 gap-2">
-                <div className="font-light text-md">
+            <div className="text-sm overflow-hidden max-h-64 mt-2 gap-2">
+                <div className="font-light text-base">
                     Reviewed on {formatDate(review.createdAt)}
                 </div>
                 <div

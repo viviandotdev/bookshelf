@@ -17,8 +17,8 @@ export default function LoginPage() {
             <Link
                 href="/"
                 className={cn(
-                    buttonVariants({ variant: "default" }),
-                    "absolute left-4 top-4 md:left-8 md:top-8 bg-white text-primary"
+                    buttonVariants({ variant: "link" }),
+                    "absolute left-4 top-4 md:left-8 md:top-8"
                 )}
             >
                 <>

@@ -36,7 +36,7 @@ export function BookProgressCard({ className, ...props }: CardProps) {
                     />
                 </div>
                 <div className="flex items-start flex-col justify-center gap-1 xl:gap-2">
-                    <CardTitle className="text-[16px] leading-tight ">
+                    <CardTitle className="text-base leading-tight ">
                         When Breath Becomessfjslakfjlksjflksdjflasdjf;lksadjfl
                     </CardTitle>
                     <CardDescription className="text-sm line-clamp-1">

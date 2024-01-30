@@ -12,7 +12,7 @@ export default async function ImportPage({ }: ImportPageProps) {
                 <div className={cn(dm_sefif_display.className, "text-5xl mt-20 text-primary")}>
                     Goodreads Import
                 </div>
-                <div className="text-black text-md self-stretch -mr-5 mt-4 max-md:max-w-full max-md:mt-10">
+                <div className="text-black text-base self-stretch -mr-5 mt-4 max-md:max-w-full max-md:mt-10">
                     Import of all your Goodreads books, shelves, rating, and reviews
                 </div>
                 <hr className="mt-2 mb-2 border-b border-primary" />

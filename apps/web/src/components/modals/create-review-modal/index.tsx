@@ -128,7 +128,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                             </DialogTitle>
                                         )
                                     }
-                                    <DialogDescription className="text-black font-medium text-md">
+                                    <DialogDescription className="text-black font-medium text-base">
                                         {userBook.book.title}
                                     </DialogDescription>
                                 </DialogHeader>
@@ -138,7 +138,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                             {formBody()}
                                             {error && (
                                                 <p
-                                                    className={"pt-2 pb-1 text-[0.8rem] font-medium text-destructive"}
+                                                    className={"pt-2 pb-1 text-sm font-medium text-destructive"}
                                                 >
                                                     {error}
                                                 </p>

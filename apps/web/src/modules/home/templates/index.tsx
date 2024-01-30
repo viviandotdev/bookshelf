@@ -22,7 +22,7 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                     <h1
                         className={cn(
                             dm_sefif_display.className,
-                            "text-xl/[1.25] sm:text-2xl/[1.25] md:text-3xl/[1.25] px-8 md:px-24"
+                            "text-2xl md:text-3xl px-8 md:px-24"
                         )}
                     >
                         Welcome Back, Vivian. Here’s what you’ve been reading ...

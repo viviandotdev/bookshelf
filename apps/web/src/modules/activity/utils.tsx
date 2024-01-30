@@ -31,7 +31,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                         <div className="flex flex-col gap-2">
                             <div>You reviewed</div>
                             <div className="flex flex-col">
-                                <div className="font-semibold text-[16px]">{titleLink}</div>
+                                <div className="font-semibold text-base">{titleLink}</div>
                                 <div className="text-primary">by {book?.author}</div>
                             </div>
                             <div className="text-sm">{actionContent}</div>
@@ -61,7 +61,7 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
                     <div className="flex flex-col ml-2 justify-between">
                         <div className="flex flex-col gap-1">
                             <div>You are on page {actionContent} of {book?.pageCount} of {titleLink}</div>
-                            <div className="font-semibold text-[16px]">{titleLink}</div>
+                            <div className="font-semibold text-base">{titleLink}</div>
                             <div className="text-primary">by {book?.author}</div>
                         </div>
                         <div className="flex items-center gap-2">

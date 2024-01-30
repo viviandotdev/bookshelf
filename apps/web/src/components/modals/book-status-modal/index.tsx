@@ -56,7 +56,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
                     key={index}
                     variant={"outline"}
                     size={"lg"}
-                    className="text-md rounded-xl hover:text-white hover:bg-primary"
+                    className="text-base rounded-xl hover:text-white hover:bg-primary"
                     label={s}
                     onClick={() => handleStatusClick(s)}
                     icon={
@@ -69,7 +69,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
             <Button
                 className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "text-md rounded-xl border-none hover:bg-white"
+                    "text-base rounded-xl border-none hover:bg-white"
                 )}
                 onClick={() => {
                     statusModal.onClose();

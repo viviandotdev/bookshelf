@@ -35,7 +35,7 @@ export const JouranlEntryModal: React.FC = ({
                                             </DialogTitle>
                                         )
                                     }
-                                    <DialogDescription className="text-black font-medium text-md">
+                                    <DialogDescription className="text-black font-medium text-base">
                                         {userBook.book.title}
                                     </DialogDescription>
                                 </DialogHeader>
