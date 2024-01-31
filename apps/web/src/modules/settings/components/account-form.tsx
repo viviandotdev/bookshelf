@@ -1,55 +1,41 @@
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import React from 'react'
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import React from 'react';
 
-interface AccountFormProps {
-
-}
+interface AccountFormProps { }
 
 export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
+    const accountSecurityConfigs = [
+        { title: 'Email', button: 'Change email', info: 'linvivian61@gmail.com', icon: Icons.email, },
+        { title: 'Password', button: 'Change password', info: "Last updated July 26, 2018", icon: Icons.password, },
+    ];
+
     return (
-        <div className="p-8">
-            <div>
-                <div className=" p-8 mt-6">
-                    <h2 className="text-xl font-semibold mb-4">Account Security</h2>
-                    <Card className="mb-6">
-                        <CardContent>
-
-                            <div className="flex items-center justify-between mb-6">
-                                <div>
-                                    <h3 className="text-lg font-medium my-4">Email</h3>
-                                    <p className="text-sm">livivian61@gmail.com</p>
-                                </div>
-                                <Button className="mb-4 rounded-md">
-                                    Change Email
-                                </Button>
-
+        <main className="flex-1">
+            <h1 className="text-2xl font-bold">Account</h1>
+            <p className="mt-1 mb-6 text-sm text-gray-600">
+                Manage settings related to signing in to your account, account security, as well as how to recover your data when you’re having trouble signing in.
+            </p>
+            <div className="mx-auto mb-6 ">
+                {accountSecurityConfigs.map((config, index) => (
+                    <div
+                        key={index}
+                        className="flex cursor-pointer justify-between px-4 py-3 bg-white rounded-md shadow-sm border border-gray-100 mb-4 text-sm"
+                    >
+                        <div>
+                            <div className="flex items-center">
+                                <div className="align-middle" >{<config.icon className={cn("mr-2 h-4 w-4")} />}</div   >
+                                {config.title}
                             </div>
-                            <div className="border-t pt-4 flex items-center justify-between mb-6">
-                                <div>
-                                    <h3 className="text-lg font-medium mb-2">Password</h3>
-                                    <p className="text-sm mb-4">
-                                        Set a permanent password to login to your account.
-                                    </p></div>
-                                <Button className="mb-4 rounded-md">
-                                    Change Password
-                                </Button>
-                            </div>
-                        </CardContent> </Card>
-                    {/* <h2 className="text-lg font-medium mb-2">Security</h2>
-                    <Card>
-                        <CardContent>
-
-                            <div className="border-t pt-4">
-                                <h4 className="text-lg font-medium mb-2">Two-Factor Authentication (2FA)</h4>
-                                <p className="text-sm mb-4">Protect your account with an additional layer of security.</p>
-                                <Button>Enable</Button>
-                            </div>
-                        </CardContent>
-                    </Card> */}
-                </div>
+                            <p className="text-gray-500">{config.info}</p>
+                        </div>
+                        <Button variant="secondary">{config.button}</Button>
+                    </div>
+                ))}
             </div>
-        </div>
-    )
-}
-export default AccountForm
+        </main>
+    );
+};
+
+export default AccountForm;
