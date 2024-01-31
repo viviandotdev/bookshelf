@@ -19,7 +19,7 @@ export default function RootLayout({
 
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${inter.className}`}>
+            <body className={`${inter.className} bg-background`}>
                 <NextTopLoader
                     color="#4E3B2C"
                     initialPosition={0.08}

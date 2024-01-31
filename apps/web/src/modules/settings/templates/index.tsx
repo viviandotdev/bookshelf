@@ -3,6 +3,7 @@ import AccountForm from "@/modules/settings/components/account-form";
 import PersonalForm from "@/modules/settings/components/personal-form";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import ImportForm from "../components/import-form";
 interface SettingsTemplateProps {
     page: string
 }
@@ -19,19 +20,23 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
             pageForm = <PersonalForm />;
             break;
         case 'import':
-            // pageForm = <ImportForm />;
+            pageForm = <ImportForm />;
             break;
         default:
             pageForm = <AccountForm />;
     }
 
     const isActiveLink = (linkPage: string) => {
+        if (linkPage === "personal information") {
+            linkPage = "personal"
+        }
+        console.log(linkPage)
         return page === linkPage;
     };
 
 
     return (
-        <div className="mx-auto max-w-4xl p-6">
+        <div className="mx-auto p-6">
             <div className="flex gap-12">
                 <aside className="w-64">
                     <Avatar>
@@ -46,7 +51,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
                                 <li key={title}>
                                     <Link
                                         href={href!}
-                                        className={`block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 text-gray-700 ${isActiveLink(title.toLowerCase()) && 'bg-gray-100'
+                                        className={`block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 text-gray-700 ${isActiveLink(title!.toLowerCase()) && 'bg-gray-100'
                                             }`}
                                     >
                                         {title}
@@ -56,13 +61,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
                         </ul>
                     </nav>
                 </aside>
-                <main className="flex-1">
-                    <h1 className="text-2xl font-bold">Personal Information</h1>
-                    <p className="mt-1 mb-6 text-sm text-gray-600">
-                        Manage your personal information, including phone numbers and email addresses where you can be reached.
-                    </p>
-                    {pageForm}
-                </main>
+                {pageForm}
             </div>
         </div>
     )

@@ -37,34 +37,38 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
     return (
         <>
             <form className="flex flex-col gap-12 mt-12" onSubmit={handleSubmit(handleFileUpload)}>
-                <div className="flex justify-between gap-20">
-                    <div className={cn(dm_sefif_display.className, "text-xl")}>
-                        1. Export Goodreads Library
-                    </div>
-                    <div>
-                        <Link target="_blank"
-                            href={"https://www.goodreads.com/review/import"} className={cn(
-                                buttonVariants({ variant: "default" }),
-                                "justify-start pl-6 w-[400px] py-6 text-white"
-                            )}>
-                            Export Goodreads Library
-                        </Link>
+                <div className="flex justify-between">
+                    <h1 className="text-lg font-bold"> 1. Export Library</h1>
+                    <div className="flex flex-col items-end">
+                        <div className="justify-end">
+                            <Link
+                                target='_blank'
+                                href={"https://www.goodreads.com/review/import"}
+                                className={cn(
+                                    buttonVariants({ variant: "secondary" }),
+                                    "justify-start pl-6 w-[400px] py-5 border "
+                                )}
+                            >
+                                Export Goodreads Library
+                            </Link>
+
+                        </div>
                         <p className="px-1 py-1 text-sm text-beige">
                             Download your data from the Goodreads Export page
                         </p>
 
                     </div>
+
                 </div>
-                <hr className="border-t border-gray-300" /> {/* HR line */}
+                <hr className="border-t border-gray-300" />
                 <div className="flex justify-between">
-                    <div className={cn(dm_sefif_display.className, "text-xl")}>
-                        2. Upload CSV Files
-                    </div>
-                    <div>
+                    <h1 className="text-lg font-bold"> 2. Upload CSV Files</h1>
+                    <div className="flex flex-col items-end">
+
                         <div
                             className={cn(
-                                buttonVariants({ variant: "outline" }),
-                                "justify-start pl-6 w-[400px] py-6 border font-medium text-beige"
+                                buttonVariants({ variant: "secondary" }),
+                                "justify-start pl-6 w-[400px] py-5 border"
                             )}
 
                         >
@@ -81,7 +85,7 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                 </div>
                 <hr className="border-t border-gray-300 " /> {/* HR line */}
                 <div className="flex justify-end" style={{ marginTop: '0px' }}>
-                    <Button type="submit" className="py-4 px-8"> {/* Adjust the width as needed */}
+                    <Button type="submit" variant={"secondary"} className="py-4 px-8"> {/* Adjust the width as needed */}
                         Import
                     </Button>
                 </div>

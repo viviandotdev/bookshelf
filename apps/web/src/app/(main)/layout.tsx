@@ -10,9 +10,9 @@ export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
     console.log(user)
     return (
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-screen flex-col bg-background">
             <SiteHeader user={user} />
-            <main className="container flex-1 z-40 bg-background mx-auto px-8 lg:px-16 xl:px-28">
+            <main className="container flex-1 z-40  mx-auto px-8 lg:px-16 xl:px-28">
                 {children}
             </main>
             <SiteFooter />
