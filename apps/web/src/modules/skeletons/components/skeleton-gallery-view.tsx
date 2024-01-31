@@ -7,7 +7,7 @@ const SkeletonGalleryView = () => {
                     <div className={`cursor-pointer group/item relative transition shadow-md duration-300 ease-in-out transform`}>
                         <div className={`flex-row cursor-pointer`}>
                             <div className={`relative flex items-start`}>
-                                <div className={`relative opacity-30 flex items-start bg-slate-500 w-[176px] h-[224px]`} >
+                                <div className={`relative opacity-30 flex items-start bg-gray-500 w-[176px] h-[224px]`} >
                                 </div>
                             </div>
                         </div>

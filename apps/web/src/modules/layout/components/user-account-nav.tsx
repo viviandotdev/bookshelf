@@ -37,7 +37,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                     <div className="flex flex-col space-y-1 leading-none">
                         {user.username && <p className="font-medium">{user.username}</p>}
                         {user.email && (
-                            <p className="w-[200px] truncate text-sm text-slate-500">
+                            <p className="w-[200px] truncate text-sm text-gray-500">
                                 {user.email}
                             </p>
                         )}
@@ -51,7 +51,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                     <Link className="cursor-pointer" href={`/${user.username}/books`}>Books</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                    <Link className="cursor-pointer" href="/settings">Settings</Link>
+                    <Link className="cursor-pointer" href="/settings/account">Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link className="cursor-pointer" href="/account/import">Import Books</Link>

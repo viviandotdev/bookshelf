@@ -29,7 +29,7 @@ export const CommentCard: React.FC<CommentCardProps> = ({ user, content, created
                     <div className="font-bold">
                         {user && user.username}
                     </div>
-                    <div className="text-slate-500">
+                    <div className="text-gray-500">
                         {timeAgo(Number(createdAt))}
                     </div>
                 </div>

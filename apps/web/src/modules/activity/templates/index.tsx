@@ -26,7 +26,7 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({ auditLogs, t
                         </div>
                         <hr className="mt-2 border-t-1 border-beige" />
                         <ol className="space-y-4 mt-4">
-                            <p className="hidden last:block text-xs text-center text-slate-500">
+                            <p className="hidden last:block text-xs text-center text-gray-500">
                                 No activity found
                             </p>
 

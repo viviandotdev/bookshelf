@@ -44,4 +44,9 @@ export const siteConfig: SiteConfig = {
       href: "/goals",
     },
   ],
+  settingsNav: [
+    { href: "/settings/personal", title: "Personal Information" },
+    { href: "/settings/account", title: "Account" },
+    { href: "/import", title: "Import" },
+  ],
 };

@@ -119,11 +119,11 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                 <DialogHeader>
                                     {
                                         createReviewModal.editId ? (
-                                            <DialogTitle className="text-slate-500 font-light">
+                                            <DialogTitle className="text-gray-500 font-light">
                                                 Edit a review
                                             </DialogTitle>
                                         ) : (
-                                            <DialogTitle className="text-slate-500 font-light">
+                                            <DialogTitle className="text-gray-500 font-light">
                                                 Write a review
                                             </DialogTitle>
                                         )
@@ -175,7 +175,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
                                                     size="xs"
                                                     className={cn(
                                                         "text-left font-normal text-black cursor-pointer py-0",
-                                                        !field.value && "text-slate-500"
+                                                        !field.value && "text-gray-500"
                                                     )}
                                                 >
                                                     {field.value &&

@@ -23,7 +23,7 @@ export const ActivityItem = ({
                 />
             </Avatar>
             <div className="flex flex-col space-y-0.5">
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-gray-500">
                     <span className="font-semibold lowercase text-neutral-700">
                         {data.userName}
                     </span>
@@ -31,7 +31,7 @@ export const ActivityItem = ({
                 </div>
                 {
                     data.action !== Action.Review && data.action !== Action.Log &&
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-gray-500">
                         {format(new Date(data.createdAt), "MMM d, yyyy 'at' h:mm a")}
                     </p>
                 }

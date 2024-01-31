@@ -65,14 +65,14 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                                 <div className="">By Paul Kalanithi</div>
                                 {details && (
                                     <div className="flex text-sm">
-                                        <div className="flex items-center text-slate-500 ">
+                                        <div className="flex items-center text-gray-500 ">
                                             <div className="align-middle">
                                                 <Icons.pieChart className="h-3 w-3 opacity-50" />
                                             </div>
                                             <span className="ml-1.5">90%</span>
                                         </div>
                                         <Dot />
-                                        <div className="text-slate-500">
+                                        <div className="text-gray-500">
                                             Started on April 20, 2023
                                         </div>
                                     </div>

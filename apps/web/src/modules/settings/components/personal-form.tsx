@@ -44,7 +44,7 @@ interface ProfileSectionProps {
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({ label, value, onAddClick, isLastSection }) => {
-    const textColor = value ? 'text-black' : 'text-slate-400';
+    const textColor = value ? 'text-black' : 'text-gray-400';
 
     return (
         <div className="cursor-pointer hover:bg-gray-100 rounded-md">

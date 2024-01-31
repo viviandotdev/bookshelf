@@ -271,7 +271,7 @@ export const JournalEntryForm: React.FC = ({
                                                     size="xs"
                                                     className={cn(
                                                         "text-left font-normal text-black cursor-pointer py-0",
-                                                        !field.value && "text-slate-500"
+                                                        !field.value && "text-gray-500"
                                                     )}
                                                 >
                                                     {field.value ? (

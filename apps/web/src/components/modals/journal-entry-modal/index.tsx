@@ -26,11 +26,11 @@ export const JouranlEntryModal: React.FC = ({
                                 <DialogHeader>
                                     {
                                         journalEntryModal.editId ? (
-                                            <DialogTitle className="text-slate-500 font-light">
+                                            <DialogTitle className="text-gray-500 font-light">
                                                 Edit Journal Entry
                                             </DialogTitle>
                                         ) : (
-                                            <DialogTitle className="text-slate-500 font-light">
+                                            <DialogTitle className="text-gray-500 font-light">
                                                 Add Journal Entry
                                             </DialogTitle>
                                         )
