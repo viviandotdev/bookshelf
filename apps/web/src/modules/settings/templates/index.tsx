@@ -4,6 +4,7 @@ import PersonalForm from "@/modules/settings/components/personal-form";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import ImportForm from "../components/import-form";
+import { ModalProvider } from "../providers/modal-provider";
 interface SettingsTemplateProps {
     page: string
 }
@@ -37,6 +38,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
 
     return (
         <div className="mx-auto p-6">
+            <ModalProvider />
             <div className="flex gap-12">
                 <aside className="w-64">
                     <Avatar>

@@ -1,7 +1,9 @@
+"use client"
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import ChangeButton from './change-button';
 
 interface AccountFormProps { }
 
@@ -30,7 +32,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
                             </div>
                             <p className="text-gray-500">{config.info}</p>
                         </div>
-                        <Button variant="secondary">{config.button}</Button>
+                        <ChangeButton config={config}></ChangeButton>
                     </div>
                 ))}
             </div>
