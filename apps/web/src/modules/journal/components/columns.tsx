@@ -148,7 +148,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                     onClick={() => { }}
                 >
                     <Icons.heart
-                        className={`h-5 ${liked && "fill-current text-beige-400"}`}
+                        className={`h-5 ${liked && "fill-current text-red-300"}`}
                     />
                 </div>
             );
