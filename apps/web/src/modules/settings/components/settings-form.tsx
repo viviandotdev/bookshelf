@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { SettingsSchema } from "@/schemas/auth";
-import { settings } from "@/modules/auth/actions/settings";
+import { settings } from "@/modules/settings/actions/settings";
 
 const SettingsForm = () => {
     const [error, setError] = useState<string | undefined>();
