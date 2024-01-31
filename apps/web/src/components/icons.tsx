@@ -31,7 +31,7 @@ import {
     BanIcon,
     Bookmark,
     MessageSquare,
-    View, Eye
+    View, Eye, Mail, LockIcon
 
 
 } from "lucide-react";
@@ -74,7 +74,9 @@ export const Icons = {
     save: Bookmark,
     comment: MessageSquare,
     kanban: LayoutIcon,
-    view: Eye
+    view: Eye,
+    email: Mail,
+    password: LockIcon,
 
 
 };

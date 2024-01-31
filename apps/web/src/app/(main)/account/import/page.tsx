@@ -1,7 +1,7 @@
 import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
-import ImportActions from "../../../../modules/profile/components/import-actions";
+import ImportActions from "../../../../modules/settings/components/import-actions";
 
 interface ImportPageProps { }
 

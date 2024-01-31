@@ -16,8 +16,8 @@ export const EditShelfMenu: React.FC<EditShelfMenuProps> = ({ shelf, setOpenAler
             <DropdownMenu modal={false}>
                 <DropdownMenuTrigger>
                     <span>
-                        <a className="group/edit hidden group-hover/item:block hover:bg-slate-200 rounded-sm px-1">
-                            <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-slate-500 stroke-1" />
+                        <a className="group/edit hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1">
+                            <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-gray-500 stroke-1" />
                         </a>
 
                         <span className={`block group-hover/item:hidden cursor-pointer px-1 rounded-sm`}

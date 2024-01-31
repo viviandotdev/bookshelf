@@ -36,7 +36,7 @@ const SideBar: React.FC<SidebarProps> = ({
 
     return (
         <div className="hidden xl:block">
-            <div className="gap-1.5 w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-slate-500 font-light">
+            <div className="gap-1.5 w-full justify-between mt-8 rounded-lg flex flex-col text-sm text-gray-500 font-light">
                 <ShelfGroup
                     key={0}
                     title="Library"

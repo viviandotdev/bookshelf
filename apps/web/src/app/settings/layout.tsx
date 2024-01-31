@@ -6,13 +6,13 @@ interface PageLayoutProps {
     children: React.ReactNode;
 }
 
-export default async function PageLayout({ children }: PageLayoutProps) {
+export default async function SettingsPageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
     console.log(user)
     return (
-        <div className="flex min-h-screen flex-col bg-background">
+        <div className="flex min-h-screen flex-col">
             <SiteHeader user={user} />
-            <main className="container flex-1 z-40  mx-auto px-8 lg:px-16 xl:px-28">
+            <main className="container flex-1 z-40 bg-beige-50 mx-auto px-8 lg:px-16 xl:px-28">
                 {children}
             </main>
             <SiteFooter />

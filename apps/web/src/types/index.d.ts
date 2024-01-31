@@ -22,4 +22,5 @@ export type SiteConfig = {
   };
   mainNav: MainNavItem[];
   userNav: NavItem[];
+  settingsNav: NavItem[];
 };

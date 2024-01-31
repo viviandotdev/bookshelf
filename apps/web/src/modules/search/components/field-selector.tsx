@@ -43,7 +43,7 @@ export const FieldSelector: React.FC<FieldSelectorProps> = ({
 
     return (
         <div className="hidden xl:block">
-            <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-slate-500 font-light">
+            <div className="w-full justify-between mt-8 rounded-lg flex flex-col text-sm gap-1 text-gray-500 font-light">
                 <div className="leading-7 items-start text-beige font-semibold ">
                     Field to search
                 </div>

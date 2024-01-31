@@ -22,7 +22,7 @@ export const Header = ({
             )}>
                 🔐 Auth
             </h1>
-            <p className="text-slate-500 text-sm">
+            <p className="text-gray-500 text-sm">
                 {label}
             </p>
         </div>

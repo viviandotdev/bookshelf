@@ -34,7 +34,7 @@ function Calendar({
                 table: "w-full border-collapse space-y-1",
                 head_row: "flex",
                 head_cell:
-                    "text-slate-500 rounded-md w-8 font-normal text-[0.8rem]",
+                    "text-gray-500 rounded-md w-8 font-normal text-[0.8rem]",
                 row: "flex w-full mt-2",
                 cell: cn(
                     "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-beige-400",
@@ -51,8 +51,8 @@ function Calendar({
                 day_selected:
                     "bg-beige text-beige-50 hover:bg-beige hover:text-beige-50 focus:bg-beige focus:text-beige-50",
                 day_today: "bg-beige-400 text-beige-400-50",
-                day_outside: "text-slate-500 opacity-50",
-                day_disabled: "text-slate-500 opacity-50",
+                day_outside: "text-gray-500 opacity-50",
+                day_disabled: "text-gray-500 opacity-50",
                 day_range_middle:
                     "aria-selected:bg-beige-400 aria-selected:text-beige-400-50",
                 day_hidden: "invisible",

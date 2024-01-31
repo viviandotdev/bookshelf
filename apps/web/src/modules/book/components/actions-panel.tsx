@@ -150,7 +150,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
         <>
 
 
-            <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-slate-500 font-light">
+            <div className="rounded-lg flex flex-col gap-1 items-center text-sm text-gray-500 font-light">
                 <div className="grid rounded-lg bg-beige-100 items-center grid-cols-3 w-[fill-available] p-2">
                     {actionItemToShow}
                     <ActionItem
@@ -168,7 +168,7 @@ export default function ActionsPanel({ book, review, shelves, reviewed, reviewId
                     <Button
                         onClick={() => openUpdateStatusModal()}
                         disabled={loading}
-                        className="hover:bg-beige-100 text-sm text-slate-500 font-light bg-beige-100 inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
+                        className="hover:bg-beige-100 text-sm text-gray-500 font-light bg-beige-100 inline-flex justify-center items-center text-center w-[fill-available] rounded-lg p-2 cursor-pointer"
                     >
                         <Icons.edit className="mr-2 h-4 w-4 " />
                         {status}
