@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import UploadFileDialog from './upload-file-dialog';
 
 interface PersonalFormProps { }
 
@@ -19,9 +19,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
                             <AvatarFallback>VL</AvatarFallback>
                         </Avatar>
                         <h2 className="ml-4 text-lg font-medium">vivianlin</h2>
-                        <Button className="ml-auto" variant="secondary">
-                            Change Avatar
-                        </Button>
+                        <UploadFileDialog actionLabel={"Save"} className="ml-auto" buttonLabel={'Change Avatar'} />
                     </div>
                     <div className="px-4 py-3 bg-white rounded-md shadow-sm border border-gray-100 ">
                         <ProfileSection label="Preferred Name" value="Vivian Lin" />
