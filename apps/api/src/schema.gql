@@ -1469,6 +1469,7 @@ type Mutation {
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
+  updateEmail(data: UpdateEmailInput!): User!
   updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateReview(data: ReviewDataInput!, where: ReviewWhereUniqueInput!): Review!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
@@ -2318,6 +2319,12 @@ input StringFilter {
 `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
 scalar Timestamp
+
+input UpdateEmailInput {
+  code: String!
+  email: String!
+  token: String!
+}
 
 input UpdateUserInput {
   email: String
@@ -3907,6 +3914,7 @@ input UserWhereUniqueInput {
 type VerificationTokenCountAggregate {
   _all: Int!
   email: Int!
+  existingEmail: Int!
   expires: Int!
   id: Int!
   token: Int!
@@ -3914,6 +3922,7 @@ type VerificationTokenCountAggregate {
 
 type VerificationTokenMaxAggregate {
   email: String
+  existingEmail: String
   expires: Timestamp
   id: String
   token: String
@@ -3921,6 +3930,7 @@ type VerificationTokenMaxAggregate {
 
 type VerificationTokenMinAggregate {
   email: String
+  existingEmail: String
   expires: Timestamp
   id: String
   token: String

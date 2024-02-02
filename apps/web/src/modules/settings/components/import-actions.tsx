@@ -34,11 +34,8 @@ export const ImportActions: React.FC<ImportActionsProps> = ({ }) => {
                         <p className="px-1 py-1 text-sm text-beige">
                             Download your data from the Goodreads Export page
                         </p>
-
                     </div>
-
                 </div>
-
                 <div className="flex justify-between bg-white rounded-md shadow-sm border border-gray-100 p-6 mb-4 text-sm">
                     <h1 className="text-lg font-bold"> 2. Upload CSV File</h1>
                     <div className="flex flex-col items-end">

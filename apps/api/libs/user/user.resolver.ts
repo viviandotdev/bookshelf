@@ -16,6 +16,7 @@ import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
 import { UpdateUserInput } from './dto/update-user.input';
 import { AuthService } from 'libs/auth/auth.service';
 import { compare, hash } from 'bcryptjs';
+import { UpdateEmailInput } from './dto/update-email.input';
 // import DataLoader from 'dataloader';
 @Resolver(() => User)
 export class UserResolver {
@@ -39,9 +40,11 @@ export class UserResolver {
     if (!existingUser) {
       throw new NotFoundException(`User does not exist`);
     }
-
     if (data.email && data.email !== existingUser.email) {
-      await this.authService.sendVerificationEmail(data.email);
+      await this.authService.sendVerificationEmailCode(
+        data.email,
+        existingUser.email,
+      );
 
       return existingUser;
     }
@@ -70,6 +73,24 @@ export class UserResolver {
         username: data.username,
       },
     });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => User)
+  async updateEmail(
+    @Args('data') updateEmailInput: UpdateEmailInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    const verifiedToken = await this.authService.verifyToken(
+      updateEmailInput.code,
+    );
+    if (verifiedToken.token === updateEmailInput.code) {
+      const updatedUser = await this.userService.updateUserEmail(
+        currentUser.email,
+        updateEmailInput.email,
+      );
+      return updatedUser;
+    }
   }
 
   @UseGuards(OptionalAccessTokenGuard)

@@ -19,6 +19,7 @@ import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
 import { MeResponse } from './dto/me.response';
+import { UpdateEmailInput } from '../user/dto/update-email.input';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -36,7 +37,7 @@ export class AuthResolver {
       hashedPassword,
     });
 
-    await this.authService.sendVerificationEmail(user.email);
+    await this.authService.sendVerificationEmail(user.email, user.email);
 
     return user;
   }
@@ -54,7 +55,7 @@ export class AuthResolver {
     }
 
     if (!user.emailVerified) {
-      await this.authService.sendVerificationEmail(user.email);
+      await this.authService.sendVerificationEmail(user.email, user.email);
       throw new ForbiddenException('Email not verified');
     }
     const doPasswordsMatch = await compare(
@@ -100,12 +101,18 @@ export class AuthResolver {
     );
   }
 
+  //   Only allow this route, auth
   @Mutation(() => AuthResponse)
   async verifyToken(@Args('token', { type: () => String }) token: string) {
-    console.log(token);
-    const verifiedUser = await this.authService.verifyToken(token);
-    if (verifiedUser) {
-      return this.authService.generateJWTTokens(verifiedUser);
+    const verifiedToken = await this.authService.verifyToken(token);
+    // update email verfied field on user
+    const updatedUser = await this.userService.updateUserEmail(
+      verifiedToken.email,
+      verifiedToken.email,
+    );
+
+    if (updatedUser) {
+      return this.authService.generateJWTTokens(updatedUser);
     }
   }
 

@@ -5,7 +5,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { Social } from "@/modules/auth/components/social";
 import { loginUserSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -13,7 +12,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import Link from "next/link";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }

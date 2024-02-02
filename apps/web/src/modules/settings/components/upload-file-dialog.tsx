@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useImportUserBooksMutation } from "@/graphql/graphql";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface UploadFileDialogProps {
     buttonLabel: string;
@@ -15,7 +17,8 @@ interface UploadFileDialogProps {
 export default function UploadFileDialog({ buttonLabel, className, actionLabel }: UploadFileDialogProps) {
     const { register, handleSubmit } = useForm();
     const [ImportUserBooks] = useImportUserBooksMutation();
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [open, setOpen] = useState(false);
     const handleFileUpload = (data: any) => {
         const file = data.file[0];
         const reader = new FileReader();
@@ -30,16 +33,23 @@ export default function UploadFileDialog({ buttonLabel, className, actionLabel }
         reader.readAsText(file);
     };
 
-    const sendCSV = async (csvContent: string) => {
+    const sendCSV = (csvContent: string) => {
+        setIsLoading(true);
         if (csvContent) {
-            await ImportUserBooks({ variables: { content: csvContent } });
+            ImportUserBooks({ variables: { content: csvContent } });
         }
+        setIsLoading(false);
+        setOpen(false)
+        toast({ variant: "success", title: "You books are now being imported, we'll send you an email notification once it is done " });
+
     };
 
     return (
-        <Dialog>
+        <Dialog open={open}>
             <DialogTrigger asChild>
-                <Button variant="secondary" className={` ${className}`}>
+                <Button variant="secondary" className={` ${className}`} onClick={() => {
+                    setOpen(true)
+                }}>
                     {buttonLabel}
                 </Button>
             </DialogTrigger>
@@ -59,7 +69,7 @@ export default function UploadFileDialog({ buttonLabel, className, actionLabel }
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">{actionLabel}</Button>
+                        <Button type="submit" disabled={isLoading}>{actionLabel}</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
