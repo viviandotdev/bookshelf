@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcryptjs';
@@ -38,25 +43,15 @@ export class AuthService {
       throw new ForbiddenException('Token expired');
     }
 
-    const verifiedUser = await this.prisma.user.update({
-      where: {
-        email: existingToken.email,
-      },
-      data: {
-        email: existingToken.email,
-        emailVerified: new Date(),
-      },
-    });
-
-    await this.prisma.verificationToken.delete({
+    const verifiedToken = await this.prisma.verificationToken.delete({
       where: {
         id: existingToken.id,
       },
     });
 
-    return verifiedUser;
+    return verifiedToken;
   }
-  async generateEmailVerificationToken(email: string) {
+  async generateEmailVerificationToken(email: string, existingEmail: string) {
     const token = uuidv4();
     const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -77,6 +72,7 @@ export class AuthService {
     const verficationToken = await this.prisma.verificationToken.create({
       data: {
         email,
+        existingEmail,
         token,
         expires,
       },
@@ -158,17 +154,36 @@ export class AuthService {
     return passwordResetToken.token;
   };
 
-  async sendVerificationEmail(email: string) {
-    const verificationToken = await this.generateEmailVerificationToken(email);
+  async sendVerificationEmail(email: string, existingEmail: string) {
+    const verificationToken = await this.generateEmailVerificationToken(
+      email,
+      existingEmail,
+    );
 
     const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
 
-    await this.resend.emails.send({
+    const res = await this.resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: email,
       subject: 'Confirm your email',
       html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
     });
+    console.log(res);
+  }
+
+  async sendVerificationEmailCode(email: string, existingEmail: string) {
+    const verificationToken = await this.generateEmailVerificationToken(
+      email,
+      existingEmail,
+    );
+
+    const res = await this.resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: email,
+      subject: 'Confirm your email',
+      html: `<p>Here is your verification code ${verificationToken}</p>`,
+    });
+    console.log(res);
   }
 
   async sendPasswordResetEmail(email: string) {
@@ -197,6 +212,7 @@ export class AuthService {
       user.email,
       user.username,
     );
+
     const payload = this.jwtService.decode(accessToken);
     await this.updateRefreshToken(user.id, refreshToken);
 

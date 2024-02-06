@@ -11,6 +11,52 @@ export const registerUserSchema = z.object({
   username: z.string().min(4).max(100),
 });
 
+export const changePasswordSchema = z
+  .object({
+    password: z.optional(z.string().min(4)),
+    newPassword: z.optional(z.string().min(4)),
+    confirmPassword: z.optional(z.string().min(4)),
+  })
+  .refine(
+    (data) => {
+      if (data.password && !data.newPassword) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "New password is required!",
+      path: ["newPassword"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.newPassword && !data.password && !data.confirmPassword) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "Password is required!",
+      path: ["password"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.newPassword !== data.confirmPassword) {
+        return false;
+      }
+
+      return true;
+    },
+    {
+      message: "Passwords do not match!",
+      path: ["password"],
+    }
+  );
+
 export const ResetSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email",

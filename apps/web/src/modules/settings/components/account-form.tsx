@@ -1,13 +1,17 @@
+"use client"
 import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import React from 'react';
+import { User } from '@/graphql/graphql';
+import AccountCards from './account-cards';
 
-interface AccountFormProps { }
+interface AccountFormProps {
 
-export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
+    user: User;
+}
+
+export const AccountForm: React.FC<AccountFormProps> = ({ user }) => {
     const accountSecurityConfigs = [
-        { title: 'Email', button: 'Change email', info: 'linvivian61@gmail.com', icon: Icons.email, },
+        { title: 'Email', button: 'Change email', info: `${user.email}`, icon: Icons.email, },
         { title: 'Password', button: 'Change password', info: "Last updated July 26, 2018", icon: Icons.password, },
     ];
 
@@ -19,19 +23,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
             </p>
             <div className="mx-auto mb-6 ">
                 {accountSecurityConfigs.map((config, index) => (
-                    <div
-                        key={index}
-                        className="flex cursor-pointer justify-between px-4 py-3 bg-white rounded-md shadow-sm border border-gray-100 mb-4 text-sm"
-                    >
-                        <div>
-                            <div className="flex items-center">
-                                <div className="align-middle" >{<config.icon className={cn("mr-2 h-4 w-4")} />}</div   >
-                                {config.title}
-                            </div>
-                            <p className="text-gray-500">{config.info}</p>
-                        </div>
-                        <Button variant="secondary">{config.button}</Button>
-                    </div>
+                    <AccountCards config={config} />
                 ))}
             </div>
         </main>

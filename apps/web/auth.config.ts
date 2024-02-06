@@ -41,7 +41,6 @@ export default {
         };
 
         let data;
-
         if (!token) {
           const { data: loginData, errors } =
             await client.mutate<LoginMutation>({
@@ -62,6 +61,7 @@ export default {
           }
         } else if (token) {
           const { data: verifyData, errors } =
+            // pass in the new email and then log the user in
             await client.mutate<VerifyTokenMutation>({
               mutation: VerifyTokenDocument,
               variables: {
@@ -69,7 +69,9 @@ export default {
               },
               errorPolicy: "all",
             });
-
+          if (errors) {
+            throw new Error(errors.map((e) => e.message)[0]);
+          }
           data = verifyData?.verifyToken;
         }
 
@@ -132,7 +134,6 @@ export default {
         token.isOAuth = false;
         //the user is signin, add additional properties to the jwt token created
       } else if (token.accessToken) {
-        // Update user settings
         client.setLink(
           setAuthToken(token.accessToken as string).concat(httpLink)
         );

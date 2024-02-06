@@ -1,5 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AccountForm from "@/modules/settings/components/account-form";
+import { getCurrentUser } from "@/lib/auth";
 import { SettingsTemplate } from "@/modules/settings/templates";
 
 interface SettingsPageProps {
@@ -8,10 +7,14 @@ interface SettingsPageProps {
     }
 }
 
-export const SettingsPage: React.FC<SettingsPageProps> = ({ params }) => {
+async function SettingsPage({ params }: SettingsPageProps) {
     const page = params.page;
+    const user = await getCurrentUser();
+    return (<>
 
-    return (<SettingsTemplate page={page} />)
+        <SettingsTemplate page={page} user={user} />
+
+    </>)
 }
 
 export default SettingsPage

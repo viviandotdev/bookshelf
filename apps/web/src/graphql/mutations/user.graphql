@@ -11,3 +11,10 @@ mutation UpdateUser($data: UpdateUserInput!) {
     email
   }
 }
+
+mutation UpdateEmail($data: UpdateEmailInput!) {
+  updateEmail(data: $data) {
+    id
+    email
+  }
+}

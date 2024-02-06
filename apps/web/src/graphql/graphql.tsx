@@ -1514,6 +1514,7 @@ export type Mutation = {
   removeJournalEntry: JournalEntry;
   removeUserBook: UserBook;
   resetPassword: Scalars['Boolean'];
+  updateEmail: User;
   updateJournalEntry: JournalEntry;
   updateReview: Review;
   updateShelf: Shelf;
@@ -1612,6 +1613,11 @@ export type MutationRemoveUserBookArgs = {
 
 export type MutationResetPasswordArgs = {
   resetPasswordInput: ResetPasswordInput;
+};
+
+
+export type MutationUpdateEmailArgs = {
+  data: UpdateEmailInput;
 };
 
 
@@ -2570,6 +2576,12 @@ export type StringFilter = {
   not?: InputMaybe<StringFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateEmailInput = {
+  code: Scalars['String'];
+  email: Scalars['String'];
+  token: Scalars['String'];
 };
 
 export type UpdateUserInput = {
@@ -4177,6 +4189,7 @@ export type VerificationTokenCountAggregate = {
   __typename?: 'VerificationTokenCountAggregate';
   _all: Scalars['Int'];
   email: Scalars['Int'];
+  existingEmail: Scalars['Int'];
   expires: Scalars['Int'];
   id: Scalars['Int'];
   token: Scalars['Int'];
@@ -4185,6 +4198,7 @@ export type VerificationTokenCountAggregate = {
 export type VerificationTokenMaxAggregate = {
   __typename?: 'VerificationTokenMaxAggregate';
   email?: Maybe<Scalars['String']>;
+  existingEmail?: Maybe<Scalars['String']>;
   expires?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -4193,6 +4207,7 @@ export type VerificationTokenMaxAggregate = {
 export type VerificationTokenMinAggregate = {
   __typename?: 'VerificationTokenMinAggregate';
   email?: Maybe<Scalars['String']>;
+  existingEmail?: Maybe<Scalars['String']>;
   expires?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -4351,6 +4366,13 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username?: string | null, email: string } };
+
+export type UpdateEmailMutationVariables = Exact<{
+  data: UpdateEmailInput;
+}>;
+
+
+export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
@@ -5262,6 +5284,40 @@ export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
 export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
+export const UpdateEmailDocument = gql`
+    mutation UpdateEmail($data: UpdateEmailInput!) {
+  updateEmail(data: $data) {
+    id
+    email
+  }
+}
+    `;
+export type UpdateEmailMutationFn = Apollo.MutationFunction<UpdateEmailMutation, UpdateEmailMutationVariables>;
+
+/**
+ * __useUpdateEmailMutation__
+ *
+ * To run a mutation, you first call `useUpdateEmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEmailMutation, { data, loading, error }] = useUpdateEmailMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEmailMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEmailMutation, UpdateEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEmailMutation, UpdateEmailMutationVariables>(UpdateEmailDocument, options);
+      }
+export type UpdateEmailMutationHookResult = ReturnType<typeof useUpdateEmailMutation>;
+export type UpdateEmailMutationResult = Apollo.MutationResult<UpdateEmailMutation>;
+export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<UpdateEmailMutation, UpdateEmailMutationVariables>;
 export const UpdateUserBookDocument = gql`
     mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {
