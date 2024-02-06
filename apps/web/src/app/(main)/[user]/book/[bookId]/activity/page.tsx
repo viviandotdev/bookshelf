@@ -1,12 +1,9 @@
-
-
 import { getActivity } from "@/modules/activity/queries/getActivity";
 import AcitvityTemplate from "@/modules/activity/templates";
 
 interface ActivityPageProps {
     params: { bookId: string };
 }
-
 
 export default async function ActivityPage({ params }: ActivityPageProps) {
     const auditLogs = await getActivity({
@@ -18,7 +15,6 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
     if (auditLogs.length > 0) {
         title = auditLogs[0].book!.title
     }
-
 
     return <AcitvityTemplate auditLogs={auditLogs} title={title} id={params.bookId} />;
 }

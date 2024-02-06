@@ -134,7 +134,6 @@ export default {
         token.isOAuth = false;
         //the user is signin, add additional properties to the jwt token created
       } else if (token.accessToken) {
-        // Update user settings
         client.setLink(
           setAuthToken(token.accessToken as string).concat(httpLink)
         );

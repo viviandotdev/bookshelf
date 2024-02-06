@@ -34,7 +34,7 @@ export const ChangeEmailModal = () => {
     const [isPending, startTransition] = useTransition();
     const changeEmailModal = useChangeEmailModal();
     const [showCodeForm, setShowCodeForm] = useState(false);
-    const { data } = useSession();
+    const { data, update } = useSession();
     const user = data?.user;
 
     useEffect(() => {
@@ -88,6 +88,10 @@ export const ChangeEmailModal = () => {
                             title: data.success,
                             variant: "success",
                         });
+                        // update the client seession
+                        update({
+                            email: form.getValues().email
+                        })
 
                     }
                 })

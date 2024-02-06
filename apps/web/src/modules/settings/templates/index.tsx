@@ -5,17 +5,20 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import ImportForm from "../components/import-form";
 import { ModalProvider } from "../providers/modal-provider";
+import { User } from "@/graphql/graphql";
 interface SettingsTemplateProps {
     page: string
+    user: User
 }
 
 
-export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
+export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page, user }) => {
+
     let pageForm;
 
     switch (page) {
         case 'account':
-            pageForm = <AccountForm />;
+            pageForm = <AccountForm user={user} />;
             break;
         case 'personal':
             pageForm = <PersonalForm />;
@@ -24,7 +27,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
             pageForm = <ImportForm />;
             break;
         default:
-            pageForm = <AccountForm />;
+            pageForm = <AccountForm user={user} />;
     }
 
     const isActiveLink = (linkPage: string) => {
@@ -45,8 +48,8 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({ page }) => {
                         <AvatarImage alt="Vivian Lin" src="/placeholder.svg?height=64&width=64" />
                         <AvatarFallback>VL</AvatarFallback>
                     </Avatar>
-                    <h2 className="mt-4 text-lg font-semibold">Vivian Lin</h2>
-                    <p className="text-sm text-gray-500">linvivian61@gmail.com</p>
+                    <h2 className="mt-4 text-lg font-semibold">{user.username}</h2>
+                    <p className="text-sm text-gray-500">{user.email}</p>
                     <nav className="mt-6">
                         <ul className="space-y-1">
                             {siteConfig.settingsNav.map(({ href, title }) => (
