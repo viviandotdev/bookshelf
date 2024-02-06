@@ -92,7 +92,6 @@ export const ChangeEmailModal = () => {
                         update({
                             email: form.getValues().email
                         })
-
                     }
                 })
                 .catch(() => setError("Something went wrong!"));
