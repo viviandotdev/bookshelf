@@ -25,12 +25,12 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
             break;
         case "dynamic":
         default:
-            width = 176; // Set a default width for "dynamic" or unrecognized sizes
+            width = 260; // Set a default width for "dynamic" or unrecognized sizes
             break;
     }
 
     return (
-        <span className={`relative flex items-start`}>
+        <span className={`relative flex items-end justify-end justify-self-end`}>
             <Image
                 className={`max-w-none w-[${width}px] h-auto object-contain`}
                 src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
