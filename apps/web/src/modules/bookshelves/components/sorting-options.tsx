@@ -23,11 +23,10 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
                 <Button
                     disabled={isPending}
                     aria-label="Sort books"
-                    variant={"tag"}
-                    size={"xs"}
-                    className={"bg-white text-beige"}
+                    variant={"pill"}
+                    size={"sm"}
                 >
-                    Sort
+                    Sort by
                     <Icons.down className="ml-1 h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>

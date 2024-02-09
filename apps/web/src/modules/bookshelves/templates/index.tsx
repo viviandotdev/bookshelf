@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { CardTitle, CardDescription, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Icons } from "@/components/icons"
-import Sidebar from "./sidebar"
+import Sidebar from "../components/sidebar"
 
 export default function Component() {
     return (

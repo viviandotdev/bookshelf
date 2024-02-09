@@ -16,7 +16,7 @@ export default async function PageLayout({ children }: PageLayoutProps) {
             <main className="flex flex-col h-screen">
                 {children}
             </main>
-            <SiteFooter />
+            {/* <SiteFooter /> */}
         </div>
     );
 }

@@ -20,9 +20,9 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
-                <DropdownMenuTrigger className={cn(buttonVariants({ variant: "tag", size: "xs" }))}>
+                <DropdownMenuTrigger className={cn(buttonVariants({ variant: "pill", size: "sm" }), " ")}>
                     {shelf}
-                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" />
+                    {/* <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" /> */}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}

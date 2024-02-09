@@ -33,12 +33,10 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
                 <DropdownMenuTrigger className={cn(
-                    buttonVariants({ variant: "tag", size: "xs" }),
-                    "px-4"
+                    buttonVariants({ variant: "pill", size: "sm" })
                 )} disabled={isPending}>
 
                     {status}
-                    <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     avoidCollisions={false}

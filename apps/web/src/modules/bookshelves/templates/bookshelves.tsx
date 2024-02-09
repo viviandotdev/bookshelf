@@ -23,7 +23,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                         >
                             All Books
                         </h1>
-                        <p className="text-sm text-gray-600 self-end mx-4 py-2">151 Books</p>
+                        <p className="text- text-gray-400 self-end mx-4 py-2">151 Books</p>
                     </div>
                     <div className="flex space-x-2 self-start">
                         <LayoutGridIcon className="text-gray-600" />
