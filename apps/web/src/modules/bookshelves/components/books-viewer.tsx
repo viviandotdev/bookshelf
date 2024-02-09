@@ -27,7 +27,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
 
     return (
         <>
-            <nav className="flex flex-col w-full rounded-lg justify-between mt-8 pb-2">
+            <nav className="flex flex-col w-full rounded-lg justify-between pb-2 gap-2">
                 {children}
                 <div className="flex gap-2 text-sm items-center justify-between relative w-full">
                     <div className="flex gap-2">
@@ -39,9 +39,9 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
                         <ViewOptions view={view} setView={setView} />
                     </div>
                 </div>
-                <hr className="my-2 border-t-1 border-beige" />
+                {/* <hr className="my-2 border-t-1 border-beige" /> */}
             </nav>
-            <div>
+            <div className="mt-2">
                 {contentView}
             </div>
 

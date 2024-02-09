@@ -31,7 +31,8 @@ import {
     BanIcon,
     Bookmark,
     MessageSquare,
-    View, Eye, Mail, LockIcon
+    View, Eye, Mail, LockIcon,
+    LibraryIcon
 
 
 } from "lucide-react";
@@ -65,7 +66,7 @@ export const Icons = {
     heart: Heart,
     edit: Pencil,
     check: Check,
-    shelf: AlignLeft,
+    shelf: LibraryIcon,
     notes: AlignLeft,
     import: FileDown,
     export: FileUp,
