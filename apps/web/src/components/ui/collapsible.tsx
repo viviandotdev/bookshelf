@@ -21,10 +21,10 @@ const Collapsible: React.FC<CollapsibleProps> = ({
     };
     return (
         <div key={1}>
-            <div className="items-start text-beige font-semibold">
+            <div className="items-start text-beige text-sm font-semibold">
                 <div
                     onClick={handleCollapsibleClick}
-                    className={`flex flex-1 text-base py-4 mr-6 font-medium transition-all ${isOpen ? "[&>svg]:rotate-180 " : ""
+                    className={`flex flex-1 py-4 mr-6 font-medium transition-all ${isOpen ? "[&>svg]:rotate-180 " : ""
                         } justify-between items-center cursor-pointer`}
                 >
                     {title}

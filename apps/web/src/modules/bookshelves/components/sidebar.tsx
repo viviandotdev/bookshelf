@@ -79,9 +79,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ shelfSelections, librarySelect
                     <Icons.plus className="h-5 w-5" />
                     Add a Book
                 </Button>
+                {/* <div className={cn('mr-4 flex text-base font-medium items-center gap-2 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-beige-700 cursor-pointer')}>
+                    <Icons.shelf className="h-6 w-6" />
+                    {shelfSelections[0].name}
+                </div> */}
+
                 <nav className="flex-1 flex flex-col overflow-auto scrollbar-thin scrollbar-track-beige-50 scrollbar-thumb-beige-700 mt-1.5 gap-2">
-                    <ShelfContainer shelves={library} collapsible={false} title="My Library " />
-                    <ShelfContainer shelves={shelves} isShelves={true} collapsible={false} title="Shelves " />
+                    <ShelfContainer shelves={library} collapsible={true} title="My Library " />
+                    <ShelfContainer shelves={shelves} isShelves={true} collapsible={true} title="Shelves " />
 
 
                 </nav>

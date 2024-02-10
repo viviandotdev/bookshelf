@@ -48,7 +48,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
 
     return (
         <>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-8 justify-center overflow-hidden px-4 pt-2 pb-10">
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-4 justify-center overflow-hidden pt-2 pb-10">
                 {books &&
                     books?.map((book, idx) => (
                         <div key={idx} >

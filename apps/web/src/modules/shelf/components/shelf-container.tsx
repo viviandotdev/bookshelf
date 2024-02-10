@@ -54,17 +54,25 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
             />
             <Collapsible title={title} collapsible={collapsible}>
 
-                <div className="grid gap-1.5 text-sm">
+
+                <div className="grid gap-0.5 text-sm">
                     {shelves.map((link, index) => (
-                        <Link key={index} href={"/"} className={cn('ml-1 mr-4 flex text-base font-medium items-center gap-2 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-gray-900', `${link.selected && "bg-beige-100"}`)}>
-                            <Icons.shelf className="h-6 w-6" />
-                            {link.name}
-                        </Link>
+                        // <Link key={index} href={"/"} className={cn('mr-4 flex text-base font-medium items-center gap-2 rounded-lg px-3 py-2 text-gray-400 transition-all hover:text-gray-900', `${link.selected && "bg-beige-100"}`)}>
+                        //     <Icons.shelf className="h-6 w-6" />
+                        //     {link.name}
+                        // </Link>
+                        <ShelfItem
+                            key={index}
+                            shelf={link}
+                            isShelves={isShelves}
+                            setOpenAlert={setOpenAlert}
+                        >
+                        </ShelfItem>
                     ))}
                     {
                         isShelves &&
-                        <Button className="flex mr-4 items-center gap-2 text-base justify-start bg-beige-50 text-gray-400 rounded-lg px-3 transition-all ">
-                            <Icons.plus className="h-5 w-5" />
+                        <Button className="flex mr-4 text-sm items-center gap-2 justify-start bg-beige-50 text-gray-400 rounded-lg px-3 transition-all ">
+                            <Icons.plus className="h-4 w-4" />
                             Add a shelf
                         </Button>
                     }

@@ -7,8 +7,8 @@ interface BookCoverProps {
     size?: "xs" | "sm" | "lg" | "md" | "dynamic";
 }
 
-const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
-    let width: number;
+const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic" }) => {
+    let width: number = 0;
 
     switch (size) {
         case "xs":
@@ -25,19 +25,35 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "lg" }) => {
             break;
         case "dynamic":
         default:
-            width = 260; // Set a default width for "dynamic" or unrecognized sizes
+            size = "dynamic";
             break;
     }
 
     return (
         <span className={`relative flex items-end justify-end justify-self-end`}>
-            <Image
-                className={`max-w-none w-[${width}px] h-auto object-contain`}
-                src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
-                alt={"Book Cover"}
-                width={width}
-                height={width * 1.5}
-            />
+            {
+                width == 0 ? (
+                    <Image
+                        className={`max-w-non h-auto object-contain`}
+                        src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
+                        alt={"Book Cover"}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: '100%', height: 'auto' }} // optional
+                    />
+                ) : (
+                    <Image
+                        className={`max-w-none w-[${width}px] h-auto object-contain`}
+                        src={src || DEFAULT_BOOKCOVER_PLACEHOLDER} // If src is empty or null, display the DEFAULT_BOOKCOVER_PLACEHOLDER
+                        alt={"Book Cover"}
+                        width={width}
+                        height={width * 1.5}
+                    />
+                )
+            }
+
+
         </span>
     );
 };

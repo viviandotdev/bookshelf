@@ -8,14 +8,14 @@ import useShelfStore from "@/stores/use-shelf-store";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-interface ShelfItemProps {
+interface ShelfMenuItemProps {
     shelf: Shelf;
     isShelves?: boolean;
     setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
     padding?: string;
 }
 
-export const ShelfItem: React.FC<ShelfItemProps> = ({
+export const ShelfMenuItem: React.FC<ShelfMenuItemProps> = ({
     shelf,
     isShelves,
     setOpenAlert,
@@ -76,4 +76,4 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
 };
 
 
-export default ShelfItem;
+export default ShelfMenuItem;

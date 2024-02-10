@@ -3,10 +3,12 @@ import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import React from 'react'
+import React, { useTransition } from 'react'
 import { ShelfItem } from '../../shelf/components/shelf-item';
 import useShelfStore from '@/stores/use-shelf-store';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import ShelfMenuItem from '@/modules/shelf/components/shelf-menu-item';
+import useCreateQueryString from '../hooks/use-create-query-string';
 interface ShelfMenuProps {
 }
 
@@ -16,7 +18,13 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     const shelf = searchParams?.get("shelf") ?? "All Books"
     const { shelves, library } = useShelfStore()
     const selections = [...library, ...shelves]
-
+    const [isPending, startTransition] = useTransition()
+    const pathname = usePathname()
+    const router = useRouter();
+    const { selected } = useShelfStore()
+    const updateSelected = useShelfStore((state) => state.updateSelected);
+    const createQueryString = useCreateQueryString();
+    const [_, setOpen] = React.useState(false)
     return (
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
@@ -32,19 +40,26 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                     {selections.map((s, i) => (
                         <DropdownMenuItem
                             key={i}
+                            onSelect={() => {
+                                startTransition(() => {
+                                    router.push(
+                                        `${pathname}?${createQueryString({
+                                            shelf: s.name,
+                                            page: 1,
+                                            status: "Any Status",
+                                        })}`,
+                                    )
+                                })
+                                setOpen(false)
+                            }}
                             className={`${s.name === shelf
                                 ? "bg-beige-100"
                                 : "hover:bg-opacity-70"
                                 } `}>
-                            <div className={` w-[fill-available] flex`}>
-                                <ShelfItem
-                                    key={i}
-                                    shelf={s}
-                                    padding={"py-0"}
-                                >
-                                    {s.name}
-                                </ShelfItem>
-                            </div>
+                            {true &&
+                                <Icons.shelf className="h-4 w-4 mr-2" />
+                            }
+                            <span>{s.name}</span>
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuContent>

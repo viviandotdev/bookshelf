@@ -31,6 +31,12 @@ export const viewSelects = [
     value: "board",
     icon: Icons.kanban,
   },
+
+  {
+    label: "Gallery",
+    value: "gallery",
+    icon: Icons.layoutGrid,
+  },
   {
     label: "Gallery",
     value: "gallery",
