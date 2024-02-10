@@ -30,7 +30,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
 
     return (
         <>
-            <nav className="flex flex-col rounded-lg justify-between pb-2 gap-2 mx-16">
+            <nav className="flex flex-col rounded-lg justify-between pb-2 gap-2 mx-16 ">
                 <div className="flex justify-between py-4">
                     <div className="flex gap-2">
                         <h1

@@ -22,7 +22,7 @@ export const EditShelfMenu: React.FC<EditShelfMenuProps> = ({ shelf, setOpenAler
 
                         <span className={`block text-gray-400 group-hover/item:hidden cursor-pointer px-1 rounded-sm`}
                         >
-                            {shelf._count.userBooks}
+                            {/* {shelf._count.userBooks} */}
                         </span>
                     </span>
                 </DropdownMenuTrigger>
