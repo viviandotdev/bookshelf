@@ -9,7 +9,6 @@ import { ViewOptions } from './view-options';
 import { GalleryView } from './gallery-view';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { LayoutGridIcon, ListIcon } from 'lucide-react';
 
 
 interface BooksViewerProps {
