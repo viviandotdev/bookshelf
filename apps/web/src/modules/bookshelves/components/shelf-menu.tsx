@@ -22,6 +22,10 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
     const pathname = usePathname()
     const router = useRouter();
     const { selected } = useShelfStore()
+    // Merge shelves and library arrays
+    const allShelves = [...shelves, ...library];
+
+    const selectedShelf = allShelves.find((s) => s.name === selected?.name);
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
     const [_, setOpen] = React.useState(false)
@@ -29,7 +33,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
                 <DropdownMenuTrigger className={cn(buttonVariants({ variant: "pill", size: "sm" }), " ")}>
-                    {shelf}
+                    {selectedShelf?.name}
                     {/* <Icons.chevronDown className="h-4 w-4 shrink-0 text-beige" /> */}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
@@ -41,6 +45,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                         <DropdownMenuItem
                             key={i}
                             onSelect={() => {
+                                (updateSelected(s.name));
                                 startTransition(() => {
                                     router.push(
                                         `${pathname}?${createQueryString({

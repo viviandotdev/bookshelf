@@ -44,7 +44,7 @@ export const ShelfMenuItem: React.FC<ShelfMenuItemProps> = ({
 
     return (
         <div
-            className={`${shelf.name === selected
+            className={`${shelf.name === selected!.name
                 && "bg-beige-100"
                 } mr-4 text-sm  group/item flex rounded-lg px-3 font-medium `}
         >

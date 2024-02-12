@@ -4,7 +4,7 @@ import { create } from "zustand";
 // Define a type for the shelf state
 interface ShelfState {
   loadingRoute: boolean;
-  selected: string;
+  selected: Shelf | null;
   shelves: Shelf[];
   library: Shelf[];
 }
@@ -24,14 +24,24 @@ type ShelfAction = {
 
 const useShelfStore = create<ShelfState & ShelfAction>((set) => ({
   loadingRoute: false,
-  selected: "",
+  selected: null,
   shelves: [],
   library: [],
 
   setLoadingRoute: (payload: boolean) => set({ loadingRoute: payload }),
+  updateSelected: (payload: string) =>
+    set((state) => {
+      const selectedFromShelves = state.shelves.find(
+        (shelf) => shelf.name === payload
+      );
+      const selectedFromLibrary = state.library.find(
+        (shelf) => shelf.name === payload
+      );
 
-  updateSelected: (payload: string) => set({ selected: payload }),
-
+      return {
+        selected: selectedFromShelves || selectedFromLibrary || null,
+      };
+    }),
   addShelf: (shelf: Shelf) =>
     set((state) => ({
       shelves: [...state.shelves, shelf],

@@ -20,6 +20,7 @@ import { useCreateShelf } from "../../mutations/use-create-shelf";
 import { useUpdateShelf } from "../../mutations/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
 import { Shelf } from "@/graphql/graphql";
+import { update } from "rambda";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -27,7 +28,7 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-    const { addShelf, renameShelf } = useShelfStore();
+    const { selected, addShelf, renameShelf, updateSelected } = useShelfStore();
     const { createShelf, isLoading: isLoadingCreate } = useCreateShelf({
         onSuccess: (shelf: Shelf) => {
             addShelf({ ...shelf })
@@ -37,6 +38,10 @@ export const CreateShelfModal = () => {
     const { updateShelf, isLoading: isLoadingUpdate } = useUpdateShelf({
         onSuccess: (shelf: Shelf) => {
             renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name })
+            if (shelfModal.shelf?.name === selected?.name) { // if the renamed shelf is the same a s currently selected shelf
+                updateSelected(shelf.name)
+            }
+
             shelfModal.onClose();
         },
     });

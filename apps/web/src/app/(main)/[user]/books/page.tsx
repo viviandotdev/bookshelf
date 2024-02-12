@@ -1,11 +1,15 @@
 import { getShelves } from "@/modules/shelf/queries/getShelves";
 import React from "react";
 import Sidebar from "@/modules/bookshelves/components/sidebar";
-import BookshelvesTemplate from "@/modules/bookshelves/templates/bookshelves";
+import BookshelvesTemplate from "@/modules/bookshelves/templates";
 
-interface BookshelvesPageProps { }
+interface BookshelvesPageProps {
 
-export default async function BooksPage({ }: BookshelvesPageProps) {
+
+}
+
+export default async function BooksPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+    console.log(searchParams);
     const { library, shelves } = await getShelves();
     return (
         <>
@@ -18,7 +22,7 @@ export default async function BooksPage({ }: BookshelvesPageProps) {
                 </div>
                 <div className="flex flex-1 flex-col border-l border-gray-200">
                     <div className="w-full pt-3.5 bg-beige-50 overflow-y-auto " style={{ height: 'calc(100vh - 96px)' }}>
-                        <BookshelvesTemplate />
+                        <BookshelvesTemplate shelf={searchParams.shelf}/>
                     </div>
                 </div>
             </div>
