@@ -38,7 +38,6 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
         }
     });
 
-    console.log(shelves)
     return (
         <>
             <AlertModal

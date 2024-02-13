@@ -13,7 +13,7 @@ export const ViewOptions: React.FC<ViewOptionsProps> = ({ view, setView }) => {
     return (
         <div className="flex space-x-2 self-center">
             {viewSelects.slice().reverse().map((option) => (
-                <div className={cn("p-2", option.value == view ? "bg-beige-100 rounded-lg" : "")}><option.icon onClick={
+                <div key={option.value} className={cn("p-2", option.value == view ? "bg-beige-100 rounded-lg" : "")}><option.icon onClick={
                     () => {
                         setView(option.value)
                     }
