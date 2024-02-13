@@ -44,14 +44,14 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     return (
         <div
             className={`${selected && shelf.name === selected!.name
-                && "bg-beige-100"
-                } mr-6 text-base  group/item flex rounded-lg px-3 font-medium `}
+                ? "bg-beige-100 text-beige-700" :
+                "text-gray-400"} mr-6 text-base  group/item flex rounded-lg px-3 font-medium `}
         >
             <div
                 className={`w-[fill-available] cursor-pointer py-[8px]`}
                 onClick={handleClick}
             >
-                <span className="flex items-center text-gray-400 hover:text-beige-700   ">
+                <span className="flex items-center hover:text-beige-700   ">
                     <Icons.shelf className="h-6 w-6 mr-2" />
                     {shelf.name}
                 </span>

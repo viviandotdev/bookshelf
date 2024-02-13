@@ -90,7 +90,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
                         (provided) => (
                             <ol {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className="overflow-y-auto flex gap-x-3 h-full">
+                                className="overflow-y-auto grid grid-cols-4 gap-x-3 h-full">
                                 {orderedData.map((list, index) => {
                                     return (
                                         <ColumnItem

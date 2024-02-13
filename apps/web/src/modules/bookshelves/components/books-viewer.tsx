@@ -24,7 +24,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
 
     // Find the item in the merged array based on the selected name
     const selectedShelf = allShelves.find((item) => item.name === selected?.name);
-    const [view, setView] = React.useState<string>("gallery");
+    const [view, setView] = React.useState<string>("board");
     let contentView;
 
     if (view === 'gallery') {

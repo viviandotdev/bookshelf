@@ -37,11 +37,6 @@ export const viewSelects = [
     value: "gallery",
     icon: Icons.layoutGrid,
   },
-  {
-    label: "Gallery",
-    value: "gallery",
-    icon: Icons.layoutGrid,
-  },
 ];
 
 export const librarySelects = [

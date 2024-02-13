@@ -61,9 +61,9 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({
                                 ? "bg-beige-100"
                                 : "hover:bg-opacity-70"
                                 } `}>
-                            {true &&
-                                <Icons.shelf className="h-4 w-4 mr-2" />
-                            }
+
+                            <Icons.shelf className=" text-gray-400  h-5 w-5 mr-2" />
+
                             <span>{s.name}</span>
                         </DropdownMenuItem>
                     ))}
