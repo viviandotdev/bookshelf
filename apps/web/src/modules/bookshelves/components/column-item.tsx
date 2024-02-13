@@ -59,7 +59,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
 
     return (
         <li
-            className="shrink-0 h-full select-none"
+            className="shrink-0 h-full w-[312px] select-none"
         >
             <div
                 className="w-full rounded-md bg-beige-100 shadow-md pb-2">

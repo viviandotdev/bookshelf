@@ -5,6 +5,11 @@ import { MainNav } from "@/modules/layout/components/main-nav";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import NavLink from "../components/nav-link";
 import { Icons } from "@/components/icons";
+import { UserAccountNav } from "../components/user-account-nav";
+import { LogBookButton } from "../components/log-book-button";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface SiteHeaderProps {
     user: any
@@ -55,10 +60,32 @@ const SiteHeader = ({ user }: SiteHeaderProps) => {
                 <div className="flex items-center space-x-6">
                     {/* <MicroscopeIcon className="text-gray-600" /> */}
                     <Icons.search className="text-beige-700" />
-                    <Avatar size={"default"}>
+                    {user ? (
+                        <div className="flex gap-4">
+                            <UserAccountNav
+                                user={{
+                                    email: user.email,
+                                    username: user.username,
+                                    id: user.id,
+                                }}
+                            />
+                            {/* <LogBookButton /> */}
+                        </div>
+                    ) : (
+                        <Link
+                            href="/login"
+                            className={cn(
+                                buttonVariants({ variant: "secondary", size: "sm" }),
+                                "px-4"
+                            )}
+                        >
+                            Login
+                        </Link>
+                    )}
+                    {/* <Avatar size={"default"}>
                         <AvatarImage alt="User avatar" src="/placeholder.svg?height=32&width=32" />
                         <AvatarFallback>VL</AvatarFallback>
-                    </Avatar>
+                    </Avatar> */}
                 </div>
             </header>
             <hr className="border-gray-200" />
