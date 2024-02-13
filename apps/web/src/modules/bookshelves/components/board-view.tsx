@@ -53,7 +53,7 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     }, [loadBooks, query]);
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto mb-6">
             <ColumnContainer data={data} setData={setData} />
         </div>
     );

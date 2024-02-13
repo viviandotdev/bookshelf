@@ -29,17 +29,17 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({ }) => {
                     Sort by
                     <Icons.down className="ml-1 h-4 w-4" />
                 </Button>
-            </DropdownMenuTrigger>
+            </DropdownMenuTrigger >
             <DropdownMenuContent
                 avoidCollisions={false}
-                align="start" side={"bottom"}
+                align="end" side={"bottom"}
                 className="w-48">
-                <DropdownMenuLabel>Sort by</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="text-beige-700">Sort by</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-gray-200" />
                 {sortingSelects.map((option) => (
                     <DropdownMenuItem
                         key={option.label}
-                        className={cn(option.value === sort && "font-bold")}
+                        className={cn(option.value === sort ? "bg-beige-100 font-semibold text-beige-700" : "text-gray-500")}
                         onClick={() => {
                             startTransition(() => {
                                 router.push(
