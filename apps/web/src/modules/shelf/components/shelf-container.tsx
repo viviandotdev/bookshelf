@@ -8,9 +8,8 @@ import useCreateShelfModal from '../hooks/use-create-shelf-modal';
 import { useDeleteShelf } from '../mutations/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '@/components/icons';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { CreateShelfModal } from './modals/create-shelf-modal';
 ;
 
 interface ShelfContainerProps {
@@ -67,10 +66,15 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
                     ))}
                     {
                         isShelves &&
-                        <Button className="flex mr-4 text-base items-center gap-2 justify-start bg-beige-50 text-gray-400 rounded-lg px-3 transition-all ">
-                            <Icons.plus className="h-4 w-4" />
-                            Add a shelf
-                        </Button>
+
+                        <>
+                            <Button onClick={() => {
+                                shelfModal.onOpen()
+                            }}
+                                variant={"link"} className="hover:text-beige-700 hover:no-underline flex mr-4 text-base items-center gap-2 justify-start bg-beige-50 text-gray-400 rounded-lg px-3 transition-all ">
+                                <Icons.plus className="h-4 w-4" />
+                                Add a shelf
+                            </Button></>
                     }
 
                 </div>
