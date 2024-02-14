@@ -316,6 +316,9 @@ importers:
       react:
         specifier: 18.2.0
         version: 18.2.0
+      react-content-loader:
+        specifier: ^6.2.1
+        version: 6.2.1(react@18.2.0)
       react-day-picker:
         specifier: ^8.9.0
         version: 8.9.0(date-fns@2.30.0)(react@18.2.0)
@@ -328,6 +331,9 @@ importers:
       react-icons:
         specifier: ^5.0.1
         version: 5.0.1(react@18.2.0)
+      react-loading-skeleton:
+        specifier: ^3.4.0
+        version: 3.4.0(react@18.2.0)
       react-paginate:
         specifier: ^8.2.0
         version: 8.2.0(react@18.2.0)
@@ -11567,6 +11573,15 @@ packages:
       unpipe: 1.0.0
     dev: false
 
+  /react-content-loader@6.2.1(react@18.2.0):
+    resolution: {integrity: sha512-6ONbFX+Hi3SHuP66JB8CPvJn372pj+qwltJV0J8z/8MFrq98I1cbFdZuhDWeQXu3CFxiiDTXJn7DFxx2ZvrO7g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16.0.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-day-picker@8.9.0(date-fns@2.30.0)(react@18.2.0):
     resolution: {integrity: sha512-XgoUgexp5KUy03lGsBDRkV+YQy73qJOLNPojeKe0dDNamrCM75PSBhMBkYVjgMSDy12LGWlbThSRK8p0kozAOA==}
     peerDependencies:
@@ -11610,6 +11625,14 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+
+  /react-loading-skeleton@3.4.0(react@18.2.0):
+    resolution: {integrity: sha512-1oJEBc9+wn7BbkQQk7YodlYEIjgeR+GrRjD+QXkVjwZN7LGIcAFHrx4NhT7UHGBxNY1+zax3c+Fo6XQM4R7CgA==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-paginate@8.2.0(react@18.2.0):
     resolution: {integrity: sha512-sJCz1PW+9PNIjUSn919nlcRVuleN2YPoFBOvL+6TPgrH/3lwphqiSOgdrLafLdyLDxsgK+oSgviqacF4hxsDIw==}

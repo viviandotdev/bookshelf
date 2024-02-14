@@ -33,7 +33,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({
         <div className=" gap-2 text-sm flex items-center space-x-4">
             <DropdownMenu>
                 <DropdownMenuTrigger className={cn(
-                    buttonVariants({ variant: "pill", size: "sm" })
+                    buttonVariants({ variant: "pill", size: "sm" }), "min-w-20"
                 )} disabled={isPending}>
 
                     {status}

@@ -41,21 +41,19 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
         loadData();
     }, [query, loadBooks, getCount, library]);
 
-    if (loading) {
-        return <SkeletonGalleryView />
-    }
-
 
     return (
         <>
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-4 justify-center overflow-hidden pt-2 pb-10">
-                {books &&
-                    books?.map((book, idx) => (
-                        <div key={idx} >
-                            <Book userBook={book} showRemoveBook={true} />
-                        </div>
-                    ))}
-            </div>
+            {!books || loading ? <SkeletonGalleryView /> :
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-4 justify-center overflow-hidden pt-2 pb-10">
+                    {
+                        books?.map((book, idx) => (
+                            <div key={idx} >
+                                <Book userBook={book} showRemoveBook={true} />
+                            </div>
+                        ))}
+                </div>
+            }
             <Pagination
                 page={page}
                 totalPages={totalPages}

@@ -1,5 +1,5 @@
 "use client"
-import React, { use, useEffect } from 'react'
+import React, { Suspense } from 'react'
 import BoardView from './board-view';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
@@ -7,9 +7,7 @@ import { SortingOptions } from './sorting-options';
 import StatusMenu from './status-menu';
 import { ViewOptions } from './view-options';
 import { GalleryView } from './gallery-view';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
-import useShelfStore from '@/stores/use-shelf-store';
+import { ShelfTitle } from './shelf-title';
 
 
 interface BooksViewerProps {
@@ -17,13 +15,8 @@ interface BooksViewerProps {
 
 }
 
-export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
-    const { selected, shelves, library } = useShelfStore();
-    // Merge shelves and library arrays
-    const allShelves = [...shelves, ...library];
+export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
 
-    // Find the item in the merged array based on the selected name
-    const selectedShelf = allShelves.find((item) => item.name === selected?.name);
     const [view, setView] = React.useState<string>("gallery");
     let contentView;
 
@@ -40,15 +33,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
             <nav className="flex flex-col rounded-lg justify-between pb-2 gap-2 mx-16 ">
                 <div className="flex justify-between py-4">
                     <div className="flex gap-1">
-                        <h1
-                            className={cn(
-                                dm_sefif_display.className,
-                                "text-beige text-5xl"
-                            )}
-                        >
-                            {selectedShelf?.name}
-                        </h1>
-                        <p className="text-sm text-gray-400 self-end mx-8 pt-2 pb-1">{selectedShelf?._count.userBooks} books</p>
+                        <ShelfTitle />
                     </div>
                     <ViewOptions view={view} setView={setView} />
                 </div>
@@ -64,7 +49,9 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
             </nav>
 
             <div className="mt-4 mx-16">
-                {contentView}
+                <Suspense fallback={<div>Loading...</div>}>
+                    {contentView}
+                </Suspense>
             </div>
 
         </>
