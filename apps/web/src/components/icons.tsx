@@ -31,13 +31,20 @@ import {
     BanIcon,
     Bookmark,
     MessageSquare,
-    View, Eye, Mail, LockIcon
+    Eye, Mail, LockIcon,
 
 
 } from "lucide-react";
 import { DotsVerticalIcon, LayoutIcon } from "@radix-ui/react-icons";
 
 export type Icon = LucideIcon;
+
+const bookShelf = ({ className }: { className: string }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M9 3v15h3V3zm3 2l4 13l3-1l-4-13zM5 5v13h3V5zM3 19v2h18v-2z" />
+    </svg>
+);
+
 
 export const Icons = {
     close: X,
@@ -65,7 +72,7 @@ export const Icons = {
     heart: Heart,
     edit: Pencil,
     check: Check,
-    shelf: AlignLeft,
+    shelf: bookShelf,
     notes: AlignLeft,
     import: FileDown,
     export: FileUp,

@@ -41,8 +41,8 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
         const loadData = async () => {
             try {
                 const promises = statuses.map(status => loadBooksByStatus(status));
-                const [wantToReadItem, upNext, readingItem, readItem, abandonedItem] = await Promise.all(promises);
-                setData([wantToReadItem, upNext, readingItem, readItem, abandonedItem]);
+                const [wantToReadItem, upNext, readingItem, readItem] = await Promise.all(promises);
+                setData([wantToReadItem, upNext, readingItem, readItem]);
             } catch (error) {
                 // Handle errors here
                 console.error('Error while loading book data:', error);
@@ -53,7 +53,7 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     }, [loadBooks, query]);
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto mb-6">
             <ColumnContainer data={data} setData={setData} />
         </div>
     );

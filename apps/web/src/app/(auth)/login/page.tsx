@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { Icons } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { dm_sefif_display, inter } from "@/lib/fonts";
+import { dm_sefif_display } from "@/lib/fonts";
 import LoginTemplate from "@/modules/auth/templates/login-template";
 
 export const metadata: Metadata = {

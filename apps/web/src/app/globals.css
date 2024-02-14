@@ -12,3 +12,12 @@
         --radius: 0.5rem;
     }
 }
+
+@layer utilities {
+    .underline-distance {
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        /* Adjust this value as needed */
+    }
+
+}

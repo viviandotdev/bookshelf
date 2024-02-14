@@ -1,23 +1,30 @@
 "use client"
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
 import React from 'react'
 
 interface NavLinkProps {
-    href: string,
-    children: React.ReactNode,
-
+    href: string;
+    children: React.ReactNode;
+    type?: 'underlined' | 'default'; // Make type optional using `?`
 }
 
-export const NavLink: React.FC<NavLinkProps> = ({ href, children }) => {
-    const segment = useSelectedLayoutSegment();
-    const active = href.startsWith(`/${segment}`)
+export const NavLink: React.FC<NavLinkProps> = ({ href, children, type = 'default' }) => {
+
+    const segments = useSelectedLayoutSegments()
+    const active = href.startsWith(`/${segments.join('/')}`)
+    let activeStyle;
+    if (type === 'underlined') {
+        activeStyle = active ? 'underline-distance"' : 'text-gray-400 text-xs font-normal'
+    } else {
+        activeStyle = active ? 'bg-beige-100 py-2 px-3 rounded-xl' : ''
+    }
     return (
         <Link
             className={cn(
-                "flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm",
-                active ? 'text-foreground/60' : 'text-foreground',
+                "flex items-center font-medium transition-colors hover:text-foreground/80 sm:text-sm text-beige-700",
+                activeStyle,
                 // item.disabled && "cursor-not-allowed opacity-80"
             )}
             href={href}>

@@ -20,6 +20,8 @@ import { useCreateShelf } from "../../mutations/use-create-shelf";
 import { useUpdateShelf } from "../../mutations/use-update-shelf";
 import useShelfStore from "@/stores/use-shelf-store";
 import { Shelf } from "@/graphql/graphql";
+import { usePathname, useRouter, useSearchParams, useSelectedLayoutSegments } from "next/navigation";
+
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -27,7 +29,10 @@ const formSchema = z.object({
 
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
-    const { addShelf, renameShelf } = useShelfStore();
+    const router = useRouter();
+    const searchParams = useSearchParams()
+    const pathname = usePathname()
+    const { selected, addShelf, renameShelf, updateSelected } = useShelfStore();
     const { createShelf, isLoading: isLoadingCreate } = useCreateShelf({
         onSuccess: (shelf: Shelf) => {
             addShelf({ ...shelf })
@@ -37,6 +42,35 @@ export const CreateShelfModal = () => {
     const { updateShelf, isLoading: isLoadingUpdate } = useUpdateShelf({
         onSuccess: (shelf: Shelf) => {
             renameShelf({ id: shelfModal.shelf!.id!, name: shelf.name })
+            if (shelfModal.shelf?.name === selected?.name) { // if the renamed shelf is the same a s currently selected shelf
+                // const newParams = {};
+
+                const shelfParam = searchParams?.get("shelf") || ""
+                if (shelfParam) {
+                    // update shelf para
+                    const newSearchParams = new URLSearchParams(searchParams?.toString());
+
+                    for (const [key, value] of Object.entries({
+                        shelf: shelf.name,
+                        page: Number(searchParams?.get("page")) || 1,
+                        status: searchParams?.get("status") || "Any Status",
+                    })) {
+                        if (value === null) {
+                            newSearchParams.delete(key);
+                        } else {
+                            newSearchParams.set(key, String(value));
+                        }
+                    }
+
+                    const res = newSearchParams.toString();
+                    router.replace(`${pathname}?${res}`)
+
+                }
+
+                // router.replace(`/?shelf=${shelf.name}`, undefined)
+                updateSelected(shelf.name)
+            }
+
             shelfModal.onClose();
         },
     });

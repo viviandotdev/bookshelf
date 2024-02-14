@@ -1,5 +1,5 @@
 "use client"
-import React, { use, useEffect } from 'react'
+import React, { Suspense } from 'react'
 import BoardView from './board-view';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
@@ -7,13 +7,16 @@ import { SortingOptions } from './sorting-options';
 import StatusMenu from './status-menu';
 import { ViewOptions } from './view-options';
 import { GalleryView } from './gallery-view';
+import { ShelfTitle } from './shelf-title';
 
 
 interface BooksViewerProps {
     children?: React.ReactNode
+
 }
 
-export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
+export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
+
     const [view, setView] = React.useState<string>("gallery");
     let contentView;
 
@@ -27,22 +30,28 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ children }) => {
 
     return (
         <>
-            <nav className="flex flex-col w-full rounded-lg justify-between mt-8 pb-2">
-                {children}
+            <nav className="flex flex-col rounded-lg justify-between pb-2 gap-2 mx-16 ">
+                <div className="flex justify-between py-4">
+                    <div className="flex gap-1">
+                        <ShelfTitle />
+                    </div>
+                    <ViewOptions view={view} setView={setView} />
+                </div>
                 <div className="flex gap-2 text-sm items-center justify-between relative w-full">
-                    <div className="flex gap-2">
+                    <div className="flex gap-4">
                         <ShelfMenu />
                         <StatusMenu />
                     </div>
                     <div className="flex text-sm gap-2 items-center">
                         <SortingOptions />
-                        <ViewOptions view={view} setView={setView} />
                     </div>
                 </div>
-                <hr className="my-2 border-t-1 border-beige" />
             </nav>
-            <div>
-                {contentView}
+
+            <div className="mt-4 mx-16">
+                <Suspense fallback={<div>Loading...</div>}>
+                    {contentView}
+                </Suspense>
             </div>
 
         </>

@@ -7,6 +7,9 @@ import { ShelfItem } from './shelf-item';
 import useCreateShelfModal from '../hooks/use-create-shelf-modal';
 import { useDeleteShelf } from '../mutations/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
+import { Icons } from '@/components/icons';
+import { Button } from '@/components/ui/button';
+import { CreateShelfModal } from './modals/create-shelf-modal';
 ;
 
 interface ShelfContainerProps {
@@ -48,19 +51,38 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
                 loading={false}
             />
             <Collapsible title={title} collapsible={collapsible}>
-                <>
-                    {shelves.map((shelf, i) => (
+
+
+                <div className="grid gap-1 text-sm">
+                    {shelves.map((link, index) => (
                         <ShelfItem
-                            key={i}
-                            shelf={shelf}
+                            key={index}
+                            shelf={link}
                             isShelves={isShelves}
                             setOpenAlert={setOpenAlert}
                         >
                         </ShelfItem>
                     ))}
-                    {children}
-                </>
+                    {
+                        isShelves &&
+
+                        <>
+                            <Button onClick={() => {
+                                shelfModal.onOpen()
+                            }}
+                                variant={"link"} className="hover:text-beige-700 hover:no-underline flex mr-4 text-base items-center gap-2 justify-start bg-beige-50 text-gray-400 rounded-lg px-3 transition-all ">
+                                <Icons.plus className="h-4 w-4" />
+                                Add a shelf
+                            </Button></>
+                    }
+
+                </div>
+
+
+
             </Collapsible>
+
+
         </>
     );
 };

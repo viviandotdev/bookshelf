@@ -15,6 +15,10 @@ module.exports = {
       },
     },
     extend: {
+      minWidth: {
+        24: "6rem",
+        20: "5rem",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -58,5 +62,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
+  ],
 };

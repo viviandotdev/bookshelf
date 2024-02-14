@@ -19,18 +19,17 @@ const Collapsible: React.FC<CollapsibleProps> = ({
             setIsOpen(!isOpen);
         }
     };
-
     return (
         <div key={1}>
-            <div className="leading-7 items-start text-beige font-semibold">
+            <div className=" items-start text-beige text-base font-semibold">
                 <div
                     onClick={handleCollapsibleClick}
-                    className={`flex flex-1  py-4 text-sm font-medium transition-all ${isOpen ? "[&>svg]:rotate-180 " : ""
+                    className={`group/title flex flex-1 py-4 mr-6 ml-2 pr-2 font-medium transition-all ${isOpen ? "[&>svg]:rotate-180 " : ""
                         } justify-between items-center cursor-pointer`}
                 >
                     {title}
                     {collapsible && (
-                        <ChevronUpIcon className="h-4 w-4 shrink-0 text-beige transition-transform duration-300" />
+                        <ChevronUpIcon className="hidden group-hover/title:block h-4 w-4 shrink-0 stroke-1 stroke-beige-700/50 fill-current text-beige-700/50 transition-transform duration-300" />
                     )}
                 </div>
             </div>
