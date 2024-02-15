@@ -7,6 +7,8 @@ import { Shelf, User, UserBook } from "@/graphql/graphql";
 import ReadingChallenge from "../components/reading-challenge";
 import ShelvesSection from "../components/shelves-section";
 import ProfileSummary from "../components/profile-summary";
+import { Tabs } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
 
 
 interface ProfileTemplateProps {
@@ -21,16 +23,25 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, she
     return (
         <>
             <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
-            <div className="grid grid-cols-3 gap-2 pt-8">
+            <Tabs>
+                <div className="px-12 mt-4 flex space-x-10 rounded-xl bg-white p-1 shadow-sm border border-gray-200 justify-center">
+                    <div className="cursor-pointer text-center rounded-lg py-3.5 text-base font-light text-beige-700">Profile</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Activity</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Library</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Journal</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Reviews</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Want to Read</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Lists</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Tags</div>
+                    <div className="text-center rounded-lg py-3.5 text-base font-light text-beige-700">Stats</div>
+                </div>
+            </Tabs>
+            <div className="grid grid-cols-3 gap-2 pt-12">
                 <div className="col-span-2">
-                    <Section books={currentlyReading} title={"Currently Reading"} />
+                    <Section books={currentlyReading} title={"Favorite Books "} />
                     <Section books={currentlyReading} title={"Currently Reading"} />
                     {/* Activity section */}
-                    <div>
-                        <div className="text-beige font-medium">{"Activity".toLocaleUpperCase()}</div>
-                        <hr />
-                        {/* Activity section content */}
-                    </div>
+
                 </div>
                 <div className="col-span-1 pl-10 flex flex-col gap-4">
                     <ProfileSection title="Goals">
@@ -58,8 +69,9 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({ currentlyReading, she
 const ProfileSection: React.FC<{ title: string, children?: React.ReactNode }> = ({ title, children }) => {
     return (
         <div>
-            <div className="text-beige font-medium">{title.toLocaleUpperCase()}</div>
-            <hr />
+
+            <div className="text-beige text-lg font-semibold">{title}</div>
+
             {children}
         </div>
     );

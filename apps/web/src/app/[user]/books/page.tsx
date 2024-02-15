@@ -1,6 +1,6 @@
 import { getShelves } from "@/modules/shelf/queries/getShelves";
 import React from "react";
-import Sidebar from "@/modules/bookshelves/components/sidebar";
+import Sidebar from "@/modules/shelf/components/shelf-sidebar";
 import BookshelvesTemplate from "@/modules/bookshelves/templates";
 
 interface BookshelvesPageProps {

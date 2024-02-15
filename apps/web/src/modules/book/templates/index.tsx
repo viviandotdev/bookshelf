@@ -21,7 +21,7 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
 
     const reviewed = reviews.filter((review) => review.userBook?.user?.id === user?.id);
     return (
-        <>
+        <div className="mt-8">
             <BookStatusModal />
             <div className="grid w-full grid-cols-5 gap-2 ">
                 <section className="p-4 hidden xl:block xl:col-span-1">
@@ -82,6 +82,6 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                     </div>
                 </section>
             </div>
-        </>
+        </div>
     );
 }
