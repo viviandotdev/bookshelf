@@ -25,7 +25,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ reviewId, user, bo
                 <ReviewInfo review={review} />
             </section>
             <section className="col-span-2">
-                <ActionsPanel book={book} shelves={shelves} review={reviewData} reviewed={reviewUser.id == user.id} reviewId={reviewId} />
+                <ActionsPanel book={book} shelves={shelves} review={review} reviewed={reviewUser.id == user.id} reviewId={reviewId} />
             </section>
         </>
     );

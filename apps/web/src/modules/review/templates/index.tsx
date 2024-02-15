@@ -22,7 +22,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({ shelves, book, r
     return (
         <>
             <BookStatusModal />
-            <div className="grid w-full grid-cols-5 gap-2 ">
+            <div className="grid w-full grid-cols-5 gap-2 mt-4">
                 <section className="p-4 hidden xl:block xl:col-span-1">
                     <Image
                         width={184}

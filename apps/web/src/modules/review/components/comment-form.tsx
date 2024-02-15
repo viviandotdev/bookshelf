@@ -62,7 +62,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ reviewId, }) => {
                                 <FormControl>
                                     <Textarea
                                         placeholder={`Leave a comment as ${"test"}...`}
-                                        className="resize-none pt-2"
+                                        className="resize-none pt-2 border rounded-md border-gray-200"
                                         {...field}
                                     />
                                 </FormControl>
