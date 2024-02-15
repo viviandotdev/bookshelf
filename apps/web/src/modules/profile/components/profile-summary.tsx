@@ -1,14 +1,12 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { dm_sefif_display } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/modules/layout/components/user-avatar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFollowUser } from "../mutations/use-follow-user";
 import { User } from "@/graphql/graphql";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { LocateIcon, CalendarIcon, UsersIcon, UserIcon } from "lucide-react";
+import Link from "next/link";
 
 interface ProfileSummaryProps {
     profileUser: User;
@@ -20,10 +18,8 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
     const { followUser, loading } = useFollowUser();
     const [followerCount, setFollowerCount] = useState(profileUser.followerCount ? profileUser.followerCount : 0);
     const [isFollowing, setIsFollowing] = useState(profileUser.isFollowing);
-    // useEffect(() => {
-    //     console.log(profileUser)
-    // }
-    //     , []);
+
+    const linkRef = useRef<HTMLAnchorElement>(null);
     const handleFollowUser = async () => {
         if (!loading) {
             if (!isFollowing) {
@@ -37,22 +33,43 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
         }
     };
     return (
-        <div className="mb-12 pt-12 flex items-center space-x-6">
+        <div className="mb-12 pt-12 flex items-center space-x-6 ">
             <div className="w-32 h-32 flex-shrink-0 bg-gray-200 rounded-xl">
                 <Avatar className="h-full w-full">
                     <AvatarImage alt="Profile picture" src="/placeholder.svg?height=200&width=200" />
-                    {/* <AvatarFallback>VL</AvatarFallback> */}
                 </Avatar>
             </div>
             <div className="flex-1 min-w-0">
                 <div className="flex items-center text-sm text-gray-500">
-                    @vivianlin
+                    @{profileUser.username}
                 </div>
                 <div className="flex items-center space-x-8">
                     <h2 className="text-5xl font-medium leading-7 text-gray-900 py-4">
                         Vivian Lin
                     </h2>
-                    <Button className="bg-beige-700 text-white text-sm font-normal hover:bg-gray-200">Edit Profile</Button>
+                    {
+                        profileUser.username === currentUser.username ? (
+                            <>
+                                <Button onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (linkRef.current) {
+                                        linkRef.current.click();
+                                    }
+                                }} className="bg-beige-700 text-white text-sm font-normal hover:bg-beige-700/80">Edit Profile</Button>
+                                <Link ref={linkRef} href={`/settings/personal`} className="hidden"></Link>
+                            </>
+
+                        ) : (
+                            isFollowing ? (
+                                <Button onClick={handleFollowUser} className="bg-beige-700 text-white text-sm font-normal hover:bg-beige-700/80">Unfollow</Button>
+                            ) : (
+                                <Button onClick={handleFollowUser}
+                                    className="bg-beige-700 text-white text-sm font-normal hover:bg-beige-700/80">Follow</Button>
+
+                            )
+                        )
+                    }
+
                 </div>
                 <div className="flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
                     <div className="mt-4 flex items-center text-sm text-gray-500">
@@ -65,12 +82,12 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
                     </div>
                     <div className="mt-4 flex items-center text-sm text-gray-500">
                         <UsersIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-                        <span className="font-bold mr-1.5">4,545 </span> Followers
+                        <span className="font-bold mr-1.5">{profileUser.followerCount}</span> Followers
+
                     </div>
                     <div className="mt-4 flex items-center text-sm text-gray-500">
                         <UserIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
-
-                        <span className="font-bold mr-1.5">99 </span>  Following
+                        <span className="font-bold mr-1.5">{profileUser.followingCount} </span>  Following
                     </div>
                 </div>
             </div>
@@ -94,28 +111,5 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
     );
 };
 
-interface UserStatsProps {
-    followers: number;
-    following: number;
-}
-const UserStats: React.FC<UserStatsProps> = ({ followers, following }) => {
-    const stats = [
-        { number: following, label: "Following" },
-        { number: followers, label: "Followers" },
-        { number: "300", label: "Books" },
-        { number: "43", label: "Ratings" },
-    ];
 
-    return (
-        <div className="items-start gap-10 relative flex">
-            {stats.map((stat, index) => (
-                <div key={index} className="flex-col items-center justify-center relative flex">
-                    <div className="relative w-fit text-xl font-bold">{stat.number}</div>
-                    <div className="relative w-fit">{stat.label}</div>
-                </div>
-            ))}
-        </div>
-    );
-};
-
-export default ProfileSummary
+export default ProfileSummary;

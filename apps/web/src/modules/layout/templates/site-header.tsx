@@ -1,17 +1,6 @@
 
 import React from "react";
-import { MainNav } from "@/modules/layout/components/main-nav";
-;
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import NavLink from "../components/nav-link";
-import { Icons } from "@/components/icons";
-import { UserAccountNav } from "../components/user-account-nav";
-import { LogBookButton } from "../components/log-book-button";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import MainHeader from "../components/main-header";
-import SecondaryHeader from "../components/secondary-header";
 
 interface SiteHeaderProps {
     user: any
@@ -26,7 +15,7 @@ const SiteHeader = ({ user, secondary }: SiteHeaderProps) => {
             {secondary}
 
         </header>
-       
+
     );
 
 }
