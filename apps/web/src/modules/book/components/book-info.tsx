@@ -59,8 +59,8 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                 ></div>
             </div>
             <div>
-                <div className="text-sm text-beige">GENRES</div>
-                <hr className="border-t-1 border-beige" />
+                {/* <div className="text-sm text-beige">GENRES</div>
+                <hr className="border-t-1 border-beige" /> */}
                 <div className="mt-2">
                     {processedBook.categories.map((category, index) => {
                         return (

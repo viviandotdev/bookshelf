@@ -8,6 +8,7 @@ import ActionsPanel from "@/modules/book/components/actions-panel";
 import BookInfo from "@/modules/book/components/book-info";
 import ReviewCard from "../components/review-card";
 import BookStatusModal from "@/components/modals/book-status-modal";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 interface BookTemplateProps {
     book: BookData;
     shelves: Shelf[];
@@ -21,7 +22,7 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
 
     const reviewed = reviews.filter((review) => review.userBook?.user?.id === user?.id);
     return (
-        <div className="mt-8">
+        <div className="my-12">
             <BookStatusModal />
             <div className="grid w-full grid-cols-5 gap-2 ">
                 <section className="p-4 hidden xl:block xl:col-span-1">
@@ -65,18 +66,27 @@ export default function BookTemplate({ book, shelves, reviews, user }: BookTempl
                             </div>
                             <hr className="border-t-1 border-beige" />
 
-                            <div>
+                            {reviews.length > 0 ?
+                                <div>
+                                    {reviews.map((review) => {
+                                        return (
+                                            <ReviewCard
+                                                key={review.id}
+                                                review={review}
+                                            />
+                                        );
 
-                                {reviews.map((review) => {
-                                    return (
-                                        <ReviewCard
-                                            key={review.id}
-                                            review={review}
-                                        />
-                                    );
-
-                                })}
-                            </div>
+                                    })}
+                                </div>
+                                :
+                                <div className="bg-white shadow-sm">
+                                    <div className="mt-4 flex justify-between ">
+                                    </div>
+                                    <div className="p-6 bg-gray-100 text-center rounded-md">
+                                        <p>There are no reviews for this book.</p>
+                                    </div>
+                                </div>
+                            }
                         </div>
 
                     </div>
