@@ -22,8 +22,8 @@ export const ShelvesSection: React.FC<ShelvesSectionProps> = ({ shelves }) => {
                         <Link
                             key={index}
                             className={cn(
-                                buttonVariants({ variant: "tag", size: "xs" }),
-                                "mr-1 mb-1"
+                                buttonVariants({ variant: "pill", size: "xs" }),
+                                "mr-1 mb-1 rounded-md bg-beige-200 text-xs text-beige-700 font-normal"
                             )}
                             href={`${pathname}/books?${createQueryString({
                                 shelf: shelf.name,
