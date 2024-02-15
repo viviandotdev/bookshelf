@@ -16,5 +16,5 @@ export default async function ActivityPage({ params }: ActivityPageProps) {
         title = auditLogs[0].book!.title
     }
 
-    return <AcitvityTemplate auditLogs={auditLogs} title={title} id={params.bookId} />;
+    return <AcitvityTemplate auditLogs={auditLogs} title={title} book={auditLogs[0].book} id={params.bookId} />;
 }

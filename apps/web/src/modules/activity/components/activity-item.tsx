@@ -14,7 +14,7 @@ export const ActivityItem = ({
     data,
 }: ActivityItemProps) => {
     return (
-        <li className="flex items-start gap-x-2">
+        <li className="flex items-start gap-x-2 ">
             <Avatar className="h-8 w-8">
                 <UserAvatar
                     user={{ id: data.user.id, username: data.user.username || null }}
