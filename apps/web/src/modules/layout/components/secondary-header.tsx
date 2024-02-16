@@ -1,30 +1,15 @@
 import React from 'react'
 import { NavLink } from './nav-link';
+import { NavItem } from '@/types';
 
 interface SecondaryHeaderProps {
     user: any
+    subItems: NavItem[]
 }
 
-export const SecondaryHeader: React.FC<SecondaryHeaderProps> = ({ user }) => {
+export const SecondaryHeader: React.FC<SecondaryHeaderProps> = ({ user, subItems }) => {
 
-    const subItems = [
-        {
-            title: "My Library",
-            href: user ? `/${user.username}/books` : "/",
-        },
-        {
-            title: "Journal",
-            href: user ? `/${user.username}/journal` : "/",
-        },
-        {
-            title: "Reviews",
-            href: user ? `/${user.username}/reviews` : "/",
-        },
-        {
-            title: "Activity",
-            href: user ? `/${user.username}/activity` : "/",
-        },
-    ]
+
     return (
         <><header className="flex justify-start items-center py-2 px-8">
             <nav className="md:flex space-x-4 justify-start flex-1">

@@ -1,13 +1,15 @@
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface BookCoverProps {
     src: string | null;
     size?: "xs" | "sm" | "lg" | "md" | "dynamic";
+    className?: string;
 }
 
-const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic" }) => {
+const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className }) => {
     let width: number = 0;
 
     switch (size) {
@@ -30,7 +32,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic" }) => {
     }
 
     return (
-        <span className={`relative flex items-end justify-end justify-self-end`}>
+        <span className={cn("relative flex items-end justify-end justify-self-end ", className)}>
             {
                 width == 0 ? (
                     <Image

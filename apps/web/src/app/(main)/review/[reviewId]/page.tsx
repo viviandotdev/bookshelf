@@ -12,6 +12,7 @@ interface ReviewPageProps {
 export default async function ReviewPage({ params }: ReviewPageProps) {
     const { shelves } = await getShelves();
     const review = await getReview(params.reviewId);
+    console.log(review)
     if (!review || !review.book) {
         return notFound();
     }

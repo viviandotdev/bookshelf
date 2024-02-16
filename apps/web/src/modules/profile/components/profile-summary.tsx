@@ -81,12 +81,12 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
                         Joined April 20, 2023
                     </div>
                     <div className="mt-4 flex items-center text-sm text-gray-500">
-                        <UsersIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+                        {/* <UsersIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" /> */}
                         <span className="font-bold mr-1.5">{profileUser.followerCount}</span> Followers
 
                     </div>
                     <div className="mt-4 flex items-center text-sm text-gray-500">
-                        <UserIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" />
+                        {/* <UserIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" /> */}
                         <span className="font-bold mr-1.5">{profileUser.followingCount} </span>  Following
                     </div>
                 </div>
