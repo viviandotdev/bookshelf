@@ -14,7 +14,11 @@ export default async function IndexPage() {
             }
         });
 
-        return <HomeTemplate shelves={shelves} currentlyReading={currentlyReading} />;
+        return (
+            <main className="container flex-1 z-40 mx-auto">
+                <HomeTemplate shelves={shelves} currentlyReading={currentlyReading} />;
+            </main>)
+
     }
     else {
         return <MarketingTemplate />;
