@@ -106,6 +106,7 @@ export const Icons = {
     email: Mail,
     password: LockIcon,
     trendingUp: trendingUp,
+    finished: CheckCircle2
 
 
 };
