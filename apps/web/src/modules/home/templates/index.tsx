@@ -6,9 +6,7 @@ import { Shelf, UserBook } from "@/graphql/graphql";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-import { BookOpenIcon, Badge, CalendarIcon, ClockIcon, CheckIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calender";
-import { Icons } from "@/components/icons";
 import ReadingCard from "../components/reading-card";
 import UpdateCard from "../components/update-card";
 
@@ -18,11 +16,6 @@ interface HomeTemplateProps {
 }
 ;
 export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplateProps) {
-    const headings = [
-        "New York Times Bestsellers",
-        "Most Recommended Non-Fiction Books",
-        "Most Recommended Fiction Books",
-    ];
     return (
         <>
 
@@ -92,16 +85,16 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                                     <div className="text-sm text-gray-500">Current Streak</div>
                                 </div>
                             </div>
-                            <div className="bg-white rounded-md border p-4">
-                                <h3 className="text-sm font-medium text-gray-400 ">2024 READING CHALLENGE PROGRESS</h3>
-                                <p className="text-base text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
+                            <div className="bg-white rounded-lg border p-4">
+                                <h3 className="text-sm font-medium text-gray-400 mb-1">2024 READING CHALLENGE PROGRESS</h3>
+                                <p className="text-lg text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
                                 <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>
                                 <div className="flex justify-center gap-2 items-center">
                                     <Progress className="w-full items-center h-3" value={60} />
                                     <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
                                 </div>
 
-                                <p className="text-sm text-gray-500 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
+                                <p className="text-sm text-beige-700 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
                             </div>
                             <section aria-labelledby="up-next-heading">
                                 <h2 className={cn(
