@@ -8,7 +8,7 @@ interface ReadingCardProps {
 
 export const ReadingCard: React.FC<ReadingCardProps> = ({ }) => {
     return (
-        <Card className="w-full max-w-72">
+        <Card className="w-full min-w-76">
             <CardContent className="p-2.5 shadow-md">
                 <div className="flex space-x-4">
                     <div

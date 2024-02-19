@@ -26,9 +26,9 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
     return (
         <>
 
-            <div className="max-w-8xl mx-auto px-0 py-6">
-                <div className="grid grid-cols-4 gap-16">
-                    <div className="col-span-3 space-y-6">
+            <div className="mx-auto px-0 py-6">
+                <div className="flex gap-16">
+                    <div className="space-y-6">
                         <section aria-labelledby="currently-reading-heading">
                             <h2 className={cn(
                                 dm_sefif_display.className,
@@ -70,12 +70,12 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                             <UpdateCard />
                         </section>
                     </div>
-                    <aside className="col-span-1 space-y-6">
+                    <aside className="min-w-96 space-y-6">
                         <h2 className={cn(
                             dm_sefif_display.className,
                             "text-2xl font-semibold text-beige-700 mb-2"
                         )}>Reading Goals</h2>
-                        <Calendar className="rounded-md border" mode="single" />
+                        {/* <Calendar className="rounded-md border" mode="single" /> */}
                         <div className="space-y-4">
 
                             <div className="flex justify-between bg-white p-4 rounded-lg shadow">
@@ -93,16 +93,21 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                                 </div>
                             </div>
                             <div className="bg-white rounded-md border p-4">
-                                <h3 className="text-lg font-semibold mb-2">2022 READING CHALLENGE PROGRESS</h3>
-                                <p className="text-sm text-gray-500 mb-1">22 / 35 books completed</p>
-                                <p className="text-sm text-gray-500 mb-4">You're 2 books behind schedule</p>
-                                <Progress className="w-full" value={60} />
-                                <p className="text-sm text-gray-500 mt-2">There are still 85 days left! You can do it!</p>
+                                <h3 className="text-sm font-medium text-gray-400 ">2024 READING CHALLENGE PROGRESS</h3>
+                                <p className="text-base text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
+                                <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>
+                                <div className="flex justify-center gap-2 items-center">
+                                    <Progress className="w-full items-center h-3" value={60} />
+                                    <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
+                                </div>
+
+                                <p className="text-sm text-gray-500 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
                             </div>
                             <section aria-labelledby="up-next-heading">
-                                <h2 className="text-lg font-semibold mb-2" id="up-next-heading">
-                                    Up Next
-                                </h2>
+                                <h2 className={cn(
+                                    dm_sefif_display.className,
+                                    "text-2xl font-semibold text-beige-700 mb-2"
+                                )}>Up Next</h2>
                                 <div className="space-y-2">
                                     <ReadingCard />
                                     <ReadingCard />
