@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { HeartIcon, SendIcon, StarIcon } from 'lucide-react';
+import { HeartIcon, SendIcon } from 'lucide-react';
 import React from 'react'
 import Rating from '@/components/rating';
 

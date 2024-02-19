@@ -14,7 +14,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className 
 
     switch (size) {
         case "xs":
-            width = 56;
+            width = 48;
             break;
         case "sm":
             width = 76;

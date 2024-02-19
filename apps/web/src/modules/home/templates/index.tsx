@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Calendar } from "@/components/ui/calender";
 import ReadingCard from "../components/reading-card";
 import UpdateCard from "../components/update-card";
+import { CurrentlyReadingSection } from "../components/currently-reading-section";
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
@@ -22,17 +23,11 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
             <div className="mx-auto px-0 py-6">
                 <div className="flex gap-16">
                     <div className="space-y-6">
-                        <section aria-labelledby="currently-reading-heading">
-                            <h2 className={cn(
-                                dm_sefif_display.className,
-                                "text-2xl font-semibold text-beige-700 mb-4"
-                            )}>Currently Reading</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <ReadingCard />
-                                <ReadingCard />
-                                <ReadingCard />
-                            </div>
-                        </section>
+                        <CurrentlyReadingSection
+                            details={{ progress: 90, date_started: "Sept 12" }}
+                            booksData={currentlyReading}
+                            shelves={shelves}
+                        />
                         <section aria-labelledby="popular-books-heading">
                             <h2 className={cn(
                                 dm_sefif_display.className,
