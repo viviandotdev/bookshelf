@@ -3,28 +3,28 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Shelf, UserBook } from "@/graphql/graphql";
-import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 import { Calendar } from "@/components/ui/calender";
-import ReadingCard from "../components/reading-card";
 import UpdateCard from "../components/update-card";
-import { CurrentlyReadingSection } from "../components/currently-reading-section";
+import { BookStatusSection } from "../components/books-status-section";
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
     shelves: Shelf[];
+    upNext: UserBook[];
 }
 ;
-export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplateProps) {
+export default function HomeTemplate({ currentlyReading, shelves, upNext }: HomeTemplateProps) {
     return (
         <>
-
             <div className="mx-auto px-0 py-6">
                 <div className="flex gap-16">
                     <div className="space-y-6">
-                        <CurrentlyReadingSection
+                        <BookStatusSection
                             details={{ progress: 90, date_started: "Sept 12" }}
+                            status={"Currently Reading"}
+                            layout="row"
                             booksData={currentlyReading}
                             shelves={shelves}
                         />
@@ -91,17 +91,13 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
 
                                 <p className="text-sm text-beige-700 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
                             </div>
-                            <section aria-labelledby="up-next-heading">
-                                <h2 className={cn(
-                                    dm_sefif_display.className,
-                                    "text-2xl font-semibold text-beige-700 mb-2"
-                                )}>Up Next</h2>
-                                <div className="space-y-2">
-                                    <ReadingCard />
-                                    <ReadingCard />
-                                    <ReadingCard />
-                                </div>
-                            </section>
+                            <BookStatusSection
+                                details={{ progress: 90, date_started: "Sept 12" }}
+                                status={"Up Next"}
+                                layout="column"
+                                booksData={upNext}
+                                shelves={shelves}
+                            />
                         </div>
                     </aside>
                 </div>

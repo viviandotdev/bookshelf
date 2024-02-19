@@ -9,7 +9,7 @@ interface ReadingCardProps {
     userBook: UserBook;
 }
 
-export const ReadingCard: React.FC<ReadingCardProps> = ({ userBook }) => {
+export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
 
 
     if (!userBook) return null;
@@ -36,4 +36,4 @@ export const ReadingCard: React.FC<ReadingCardProps> = ({ userBook }) => {
         </Card>
     );
 }
-export default ReadingCard
+export default BookCard
