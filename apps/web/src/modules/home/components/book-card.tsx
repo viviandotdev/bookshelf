@@ -15,14 +15,13 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
     if (!userBook) return null;
     const { book, shelves } = userBook;
     return (
-        <Card className="w-full min-w-76">
+        <Card className="w-full cursor-pointer">
             <CardContent className="p-2.5 shadow-md">
                 <div className="flex space-x-4">
-
                     <BookCover src={book?.coverImage} size={"xs"} />
                     <div className="flex flex-col justify-center">
-                        <div className="">
-                            <h3 className="text-base font-medium text-gray-900">{book?.title}</h3>
+                        <div className="flex flex-col">
+                            <h3 className="w-56 text-base font-medium text-gray-900 overflow-hidden truncate">{book?.title}</h3>
                             <p className="text-sm text-gray-600">{book?.author}</p>
                             <p className="flex items-center text-sm text-gray-500 gap-1">
                                 <Icons.read className="h-4 w-4 text-gray-400" />

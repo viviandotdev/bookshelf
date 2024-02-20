@@ -8,6 +8,9 @@ import { Progress } from "@/components/ui/progress";
 import { Calendar } from "@/components/ui/calender";
 import UpdateCard from "../components/update-card";
 import { BookStatusSection } from "../components/books-status-section";
+import { Card, CardContent } from "@/components/ui/card";
+import { Stats } from "fs";
+import StatsCard from "@/components/stats-card";
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
@@ -18,9 +21,9 @@ interface HomeTemplateProps {
 export default function HomeTemplate({ currentlyReading, shelves, upNext }: HomeTemplateProps) {
     return (
         <>
-            <div className="mx-auto px-0 py-6">
-                <div className="flex gap-16">
-                    <div className="space-y-6">
+            <div className="mx-auto px-0">
+                <div className="flex">
+                    <div className="space-y-6 py-6 pr-10">
                         <BookStatusSection
                             details={{ progress: 90, date_started: "Sept 12" }}
                             status={"Currently Reading"}
@@ -58,29 +61,23 @@ export default function HomeTemplate({ currentlyReading, shelves, upNext }: Home
                             <UpdateCard />
                         </section>
                     </div>
-                    <aside className="min-w-96 space-y-6">
+                    <aside className="min-w-96 space-y-6 py-6 border-l border-gray-200 pl-10">
                         <h2 className={cn(
                             dm_sefif_display.className,
                             "text-2xl font-semibold text-beige-700 mb-2"
                         )}>Reading Goals</h2>
                         {/* <Calendar className="rounded-md border" mode="single" /> */}
                         <div className="space-y-4">
-
-                            <div className="flex justify-between bg-white p-4 rounded-lg shadow">
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">10</div>
-                                    <div className="text-sm text-gray-500">Total Check Ins</div>
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">132</div>
-                                    <div className="text-sm text-gray-500">Best Streak</div>
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">10</div>
-                                    <div className="text-sm text-gray-500">Current Streak</div>
-                                </div>
+                            {/* <div className="flex justify-between rounded-lg">
+                                <StatsCard title="Today Pages" value={351} />
+                                <StatsCard title="Total Check-Ins" value={167} />
                             </div>
-                            <div className="bg-white rounded-lg border p-4">
+                            <div className="flex justify-between rounded-lg">
+                                <StatsCard title="Current Streak" value={351} />
+                                <StatsCard title="Best Streak" value={167} />
+
+                            </div> */}
+                            <div className="bg-white rounded-lg border border-gray-700/10 p-4">
                                 <h3 className="text-sm font-medium text-gray-400 mb-1">2024 READING CHALLENGE PROGRESS</h3>
                                 <p className="text-lg text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
                                 <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>

@@ -20,7 +20,7 @@ export default async function IndexPage() {
         });
 
         return (
-            <main className="container max-w-[1440px] flex-1 z-40 mx-auto">
+            <main className="container max-w-[1440px] flex-1 z-40 mx-auto p-0">
                 <HomeTemplate shelves={shelves} currentlyReading={currentlyReading} upNext={upNext} />;
             </main>)
 

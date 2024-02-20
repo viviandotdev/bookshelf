@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { LocateIcon, CalendarIcon, UsersIcon, UserIcon } from "lucide-react";
 import Link from "next/link";
+import { Stats } from "fs";
+import StatsCard from "@/components/stats-card";
 
 interface ProfileSummaryProps {
     profileUser: User;
@@ -65,7 +67,6 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
                             ) : (
                                 <Button onClick={handleFollowUser}
                                     className="bg-beige-700 text-white text-sm font-normal hover:bg-beige-700/80">Follow</Button>
-
                             )
                         )
                     }
@@ -93,18 +94,8 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ profileUser, currentUse
             </div>
             <div className="flex-shrink-0 space-x-3">
                 <div className="flex items-center space-x-4">
-                    <Card className="bg-white shadow-md ">
-                        <CardContent className="px-4 py-2 min-w-32">
-                            <div className="text-2xl font-medium mb-0.5 ">351</div>
-                            <div className="text-xs text-beige-700 font-medium">Books Read</div>
-                        </CardContent>
-                    </Card>
-                    <Card className="bg-white shadow-md">
-                        <CardContent className="px-4 py-2 min-w-32">
-                            <div className="text-2xl font-medium mb-0.5 ">167</div>
-                            <div className="text-xs text-beige-700 font-medium">Want to Read</div>
-                        </CardContent>
-                    </Card>
+                    <StatsCard title="Books Read" value={351} />
+                    <StatsCard title="Want to Read" value={160} />
                 </div>
             </div>
         </div>
