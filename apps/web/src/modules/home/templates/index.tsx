@@ -3,14 +3,9 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Shelf, UserBook } from "@/graphql/graphql";
-import { Progress } from "@/components/ui/progress";
-
-import { Calendar } from "@/components/ui/calender";
 import UpdateCard from "../components/update-card";
 import { BookStatusSection } from "../components/books-status-section";
-import { Card, CardContent } from "@/components/ui/card";
-import { Stats } from "fs";
-import StatsCard from "@/components/stats-card";
+;
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
@@ -77,7 +72,7 @@ export default function HomeTemplate({ currentlyReading, shelves, upNext }: Home
                                 <StatsCard title="Best Streak" value={167} />
 
                             </div> */}
-                            <div className="bg-white rounded-lg border border-gray-700/10 p-4">
+                            {/* <div className="bg-white rounded-lg border border-gray-700/10 p-4">
                                 <h3 className="text-sm font-medium text-gray-400 mb-1">2024 READING CHALLENGE PROGRESS</h3>
                                 <p className="text-lg text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
                                 <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>
@@ -87,7 +82,7 @@ export default function HomeTemplate({ currentlyReading, shelves, upNext }: Home
                                 </div>
 
                                 <p className="text-sm text-beige-700 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
-                            </div>
+                            </div> */}
                             <BookStatusSection
                                 details={{ progress: 90, date_started: "Sept 12" }}
                                 status={"Up Next"}

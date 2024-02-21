@@ -149,6 +149,7 @@ export const Book: React.FC<BookProps> = ({
                             setRating={setRating}
                             rating={rating}
                             shelves={shelves!}
+                            type="icon"
                             showRemoveBook={showRemoveBook}
                         />
                     </div>

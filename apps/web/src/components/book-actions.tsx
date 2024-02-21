@@ -16,10 +16,11 @@ import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-t
 import useUserBookStore from "@/stores/use-user-book-store";
 import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 interface BookActionsProps {
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
@@ -30,8 +31,7 @@ interface BookActionsProps {
     type: "button" | "icon";
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     setRating: React.Dispatch<React.SetStateAction<number>>;
-    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
+    setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -71,12 +71,13 @@ const BookActions: React.FC<BookActionsProps> = ({
                 >
                     {type === "button" ? ( // Check the type prop to render the trigger as button or icon
                         <Button
-                            className="gap-2"
-                            variant={"tag"}
+                            variant={"card"}
                             size={"xs"}
+                            className={cn("px-2 rounded-r-md")}
                         >
-                            {status}
-                            <Icons.chevronDown className="h-4 w-4" />
+                            <a className="">
+                                <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-gray-500 stroke-1" />
+                            </a>
                         </Button>
                     ) : (
                         <Icons.more className="stroke-1 fill-current stroke-beige cursor-pointer rotate-90 h-6 w-6 text-beige" />

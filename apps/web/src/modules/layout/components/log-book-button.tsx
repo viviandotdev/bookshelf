@@ -17,7 +17,7 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({ }) => {
             <button
                 onClick={() => logBookModal.onOpen()}
                 className={cn(
-                    buttonVariants({ variant: "tag", size: "xs" }),
+                    buttonVariants({ variant: "pill", size: "xs" }),
                     "pl-2 pr-3"
                 )}
             >

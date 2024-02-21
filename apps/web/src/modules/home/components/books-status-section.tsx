@@ -39,7 +39,7 @@ export const BookStatusSection: React.FC<BookStatusSectionProps> = ({
             )}>{status}</h2>
             <div className={cn(layout == "row" ? "grid grid-cols-1 sm:grid-cols-3 gap-4" : "space-y-2")}>
                 {limitedBooksData.map((book, idx) => (
-                    <BookCard key={idx} userBook={book} />
+                    <BookCard key={idx} userBook={book} status={status} />
                 ))}
             </div>
         </section>
