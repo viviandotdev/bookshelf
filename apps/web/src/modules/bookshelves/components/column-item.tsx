@@ -77,7 +77,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData }) => {
                                 <div onScroll={(e) => {
                                     handleScroll(e, data.title)
                                 }} className={cn(
-                                    "overflow-y-auto max-h-[700px] mx-1 px-1 py-0.5 flex flex-col gap-y-2",
+                                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
                                     data.books.length > 0 ? "mt-2" : "mt-0",)}>
                                     {
                                         data.books.map((book: UserBook, index: number) => (
