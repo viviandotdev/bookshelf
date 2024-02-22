@@ -12,7 +12,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
-import BookCardActions from './book-card-actions';
+
 import BookActions from '@/components/book-actions';
 
 interface ReadingCardProps {
@@ -71,7 +71,17 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook, status: cardSta
                                         setRating={setRating}
                                         rating={rating}
                                         shelves={shelves!}
-                                        type="button"
+                                        trigger={
+                                            <Button
+                                                variant={"card"}
+                                                size={"xs"}
+                                                className={cn("px-2 rounded-md")}
+                                            >
+                                                <a className="">
+                                                    <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-gray-500 stroke-1" />
+                                                </a>
+                                            </Button>
+                                        }
                                     />
                                 </div>
 

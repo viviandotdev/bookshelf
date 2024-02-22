@@ -49,7 +49,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                     {
                         books?.map((book, idx) => (
                             <div key={idx} >
-                                <Book userBook={book} showRemoveBook={true} />
+                                <Book userBook={book} showRemoveBook={true} view="gallery" />
                             </div>
                         ))}
                 </div>

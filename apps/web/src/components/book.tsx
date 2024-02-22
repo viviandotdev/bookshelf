@@ -10,6 +10,8 @@ import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/us
 import useUserBookStore from "@/stores/use-user-book-store";
 import { useRemoveUserBook } from "@/modules/bookshelves/mutations/use-remove-user-book";
 import useShelfStore from "@/stores/use-shelf-store";
+import GalleryCard from "@/modules/bookshelves/components/gallery-card";
+import ListCard from "@/modules/bookshelves/components/list-card";
 
 interface BookProps {
     details?: {
@@ -19,6 +21,7 @@ interface BookProps {
     userBook: UserBook;
     responsive?: boolean;
     showRemoveBook?: boolean;
+    view: string
 }
 
 export const Book: React.FC<BookProps> = ({
@@ -26,14 +29,13 @@ export const Book: React.FC<BookProps> = ({
     details,
     responsive,
     showRemoveBook,
+    view
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const [openMenu, setOpenMenu] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
     const { book, shelves } = userBook;
     const [isLoading, setIsLoading] = useState(false);
-    const linkRef = useRef<HTMLAnchorElement>(null);
+
     const { removeUserBook } = useRemoveUserBook();
     const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
     const { book: myBook } = useUserBookStore();
@@ -73,117 +75,41 @@ export const Book: React.FC<BookProps> = ({
         setOpenAlert(false);
     };
     return (
-        <div
-            className={`${responsive && "hidden md:block"
-                } cursor-pointer group/item relative transition shadow-md duration-300 ease-in-out transform ${isHovered ? "scale-95 " : ""
-                }`}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => {
-                setOpenMenu(false);
-                setIsHovered(false);
-            }}
+        <div>
 
-        >
-            <div className={`flex-row cursor-pointer `}>
-                <div>
-                    <BookCover
-                        src={book && book.coverImage ? book.coverImage : null}
-                        size={"dynamic"}
-                    />
-                    <div className="top-0 absolute"></div>
-                </div>
-                {details && (
-                    <BookDetails
-                        progress={percent}
-                        dateStarted={details.date_started}
-                    />
-                )}
-            </div>
-            {bookActions()}
-        </div>
-    );
+            {view == "gallery" && <GalleryCard
+                responsive={responsive}
+                book={book!}
+                details={details}
+                openAlert={openAlert}
+                isLoading={isLoading}
+                onDelete={onDelete}
+                status={status}
+                setOpenAlert={setOpenAlert}
+                setStatus={setStatus}
+                setRating={setRating}
+                rating={rating}
+                shelves={shelves} // Adjust accordingly if `userBook.shelves` is not the correct type
+                showRemoveBook={showRemoveBook}
+            />}
+            {view == "list" && (
+                <ListCard
+                    book={book!}
+                    status={status}
+                    rating={rating}
+                    shelves={shelves}
+                    setStatus={setStatus}
+                    setRating={setRating}
+                    setOpenAlert={setOpenAlert}
+                    onDelete={onDelete}
+                    openAlert={openAlert}
+                    isLoading={isLoading}
+                />
+            )}
 
-    function bookActions() {
-        return <>
-            <AlertModal
-                title={"Are you sure you want to remove this book from your shelf?"}
-                description={
-                    "Removing this book will clear associated ratings, reviews and reading activity"
-                }
-                isOpen={openAlert}
-                onClose={() => setOpenAlert(false)}
-                onConfirm={onDelete}
-                loading={isLoading}
-            />
-            <div
-                className={`${details ? "mb-10" : "mb-2"}   ${isHovered || openMenu ? "block" : "hidden"} flex inset-2 items-end justify-center opacity-90 absolute`}
-                onClick={() => {
-                    if (linkRef.current) {
-                        linkRef.current.click();
-                    }
-                }}
-            >
-                <div className="flex-col justify-end" onClick={(e) => {
-                    e.stopPropagation();
-                }}>
-                    <div
-                        onMouseLeave={() => {
-                            setOpenMenu(false);
-                            setOpenDropdown(false);
-                        }}
-                        className="flex gap-3 bg-beige-200 text-beige font-bold py-2 px-4 rounded mx-2"
-                    >
-                        <Icons.book className="cursor-pointer h-6 w-6 text-beige" onClick={(e) => {
-                            e.stopPropagation();
-                        }} />
-                        <Icons.heart className="cursor-pointer h-6 w-6 text-beige" onClick={(e) => {
-                            e.stopPropagation();
-                        }} />
-                        <BookActions
-                            openDropdown={openDropdown}
-                            setOpenDropdown={setOpenDropdown}
-                            setOpenAlert={setOpenAlert}
-                            status={status}
-                            setStatus={setStatus}
-                            book={book!}
-                            setRating={setRating}
-                            rating={rating}
-                            shelves={shelves!}
-                            type="icon"
-                            showRemoveBook={showRemoveBook}
-                        />
-                    </div>
-                </div>
-            </div>
-            <Link ref={linkRef} href={`/book/${book?.id}`} className="hidden"></Link>
-        </>
-    }
-};
-
-interface BookDetailsProps {
-    progress: number;
-    dateStarted: string;
-}
-
-export const BookDetails: React.FC<BookDetailsProps> = ({
-    progress,
-    dateStarted,
-}) => {
-    return (
-        <div className="pt-1.5 pb-1.5 pl-3 pr-3 bg-beige-100 rounded-sm text-xs text-gray-500">
-            <div className="flex justify-between">
-                <div className="flex items-center text-beige">
-                    <div className="align-middle">
-                        <Icons.pieChart className="h-3 w-3 opacity-50" />
-                    </div>
-                    <span className="ml-1.5 text-gray-500">{progress}%</span>
-                </div>
-                <div className="text-gray-500 hidden lg:block">
-                    {dateStarted}
-                </div>
-            </div>
         </div>
     );
 };
+
 
 export default Book;
