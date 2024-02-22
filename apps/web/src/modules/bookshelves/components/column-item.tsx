@@ -79,7 +79,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
                                     {
                                         data.books.map((book: BookItem, index: number) => (
                                             <CardItem
-                                                columnTitle={data.title}
+                                                status={data.title}
                                                 index={index}
                                                 key={index}
                                                 data={book}

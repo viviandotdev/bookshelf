@@ -17,7 +17,7 @@ interface BooksViewerProps {
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
 
-    const [view, setView] = React.useState<string>("gallery");
+    const [view, setView] = React.useState<string>("board");
     let contentView;
 
     if (view === 'gallery') {

@@ -27,6 +27,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook, status: cardSta
     const [openDropdown, setOpenDropdown] = useState(false);
     const [status, setStatus] = useState(userBook.status ? userBook.status : "");
     const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+    const [openAlert, setOpenAlert] = useState(false); // Initial value
     if (!userBook) return null;
     const { book, shelves } = userBook;
     return (
@@ -64,6 +65,8 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook, status: cardSta
                                     }
                                     <BookActions
                                         book={book!}
+                                        setOpenAlert={setOpenAlert}
+                                        // openAlert={openAlert}
                                         openDropdown={openDropdown}
                                         setOpenDropdown={setOpenDropdown}
                                         status={status}
