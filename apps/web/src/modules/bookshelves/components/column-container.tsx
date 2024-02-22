@@ -19,6 +19,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
     const { updateUserBookOrder } = useUpdateUserBookOrder();
     useEffect(() => {
         setOrderedData(data)
+        console.log(data)
     }, [data])
 
     const onDragEnd = (result: any) => {
@@ -55,8 +56,15 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
                 })
                 sourceList.books = reorderedCards;
                 setOrderedData(newOrderedData);
-
-                updateUserBookOrder({ items: reorderedCards })
+                const items = reorderedCards.map((userBook, index) => {
+                    return {
+                        id: userBook.book?.id,
+                        title: userBook.book?.title,
+                        order: index,
+                        status: userBook.status
+                    }
+                });
+                updateUserBookOrder({ items })
             }
             // Moving cards between lists
             else {
@@ -75,7 +83,15 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
                     book.order = index;
                 })
                 setOrderedData(newOrderedData);
-                updateUserBookOrder({ items: destinationList.books })
+                const items = destinationList.books.map((userBook, index) => {
+                    return {
+                        id: userBook.book?.id,
+                        title: userBook.book?.title,
+                        order: index,
+                        status: userBook.status
+                    }
+                });
+                updateUserBookOrder({ items })
             }
 
         }
@@ -97,7 +113,6 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
                                             key={index}
                                             isScrollable={true}
                                             setData={setData}
-                                            index={index}
                                             data={list}
                                         />
                                     )

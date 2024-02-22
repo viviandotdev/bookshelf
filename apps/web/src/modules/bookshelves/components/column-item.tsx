@@ -8,15 +8,15 @@ import { BookItem, ColumnWithBooks } from '../types';
 import { STATUS } from '@/lib/constants';
 import useBuildQuery from '../hooks/use-build-query';
 import { generateQueryFilter } from '../utils';
+import { UserBook } from '@/graphql/graphql';
 
 interface ColumnItemProps {
     data: ColumnWithBooks;
-    index: number;
     setData: React.Dispatch<React.SetStateAction<ColumnWithBooks[]>>;
     isScrollable?: boolean;
 }
 
-export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) => {
+export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData }) => {
     const query = useBuildQuery();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -39,21 +39,24 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
             if (fetchedData.data.userBooks) {
                 setData(prevData => {
                     const newData = [...prevData];
+                    // console.log(newData[index].books.length)
+                    const length = newData[index].books.length;
+                    // Check if newData[index] is undefined
+
                     newData[index] = {
                         ...newData[index],
-                        books: [...newData[index].books, ...fetchedData.data.userBooks?.map((book: any) => ({
-                            id: book.book?.id,
-                            title: book.book?.title,
-                            order: book.order,
-                            status: book.status,
-                            coverImage: book.book?.coverImage,
-                            author: book.book.author,
-
-                        }))],
+                        books: [
+                            ...newData[index].books,
+                            ...fetchedData.data.userBooks?.map((book: any, index: number) => ({
+                                ...book,
+                                order: length + index // Calculate order based on current length of books array
+                            }))
+                        ],
                     };
                     return newData;
                 });
             }
+
         }
     }
 
@@ -77,11 +80,10 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
                                     "overflow-y-auto max-h-[700px] mx-1 px-1 py-0.5 flex flex-col gap-y-2",
                                     data.books.length > 0 ? "mt-2" : "mt-0",)}>
                                     {
-                                        data.books.map((book: BookItem, index: number) => (
+                                        data.books.map((book: UserBook, index: number) => (
                                             <CardItem
                                                 status={data.title}
                                                 index={index}
-                                                key={index}
                                                 data={book}
                                             />
                                         ))

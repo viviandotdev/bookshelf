@@ -1,21 +1,24 @@
 import { Draggable } from '@hello-pangea/dnd';
 import React, { useRef } from 'react'
-import { BookItem } from '../types';
 import BookCover from '@/components/book-cover';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { UserBook } from '@/graphql/graphql';
 interface CardItemProps {
-    data: BookItem;
+    data: UserBook;
     index: number;
     status: string;
 }
 
-export const CardItem: React.FC<CardItemProps> = ({ data, index, status }) => {
+export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardStatus }) => {
+    // console.log(data);
     const router = useRouter();
     const linkRef = useRef<HTMLAnchorElement>(null);
-    const buttonText = status === "Read" ? "Write a Review" : "View Activity";
+    const buttonText = cardStatus === "Read" ? "Write a Review" : "View Activity";
+    const { book, shelves } = data
+    console.log(index)
     return (
         <Draggable key={data.id} draggableId={data.id} index={index}>
             {(provided) => (
@@ -29,17 +32,18 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status }) => {
                             linkRef.current.click();
                         }
                     }}
-                    className="border-2 border-transparent hover:border-beige-500/50 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
+                    className="group/item relative border-2 border-transparent hover:border-beige-500/50 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
                 >
                     <div className="flex gap-4">
-                        <BookCover src={data.coverImage} className={"shadow-md"} size={"sm"} />
+                        <div>{data.order}</div>
+                        <BookCover src={book.coverImage} className={"shadow-md"} size={"sm"} />
                         <div className="flex flex-col justify-between">
                             <div className="flex flex-col gap-0.5">
                                 <div className="text-base font-medium text-beige-700 line-clamp-2">
-                                    {data.title}
+                                    {book.title}
                                 </div>
                                 <div className="text-gray-400">
-                                    {data.author}
+                                    {book.author}
                                 </div>
 
                             </div>
@@ -49,8 +53,14 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status }) => {
 
                     </div>
 
-                    {status !== "Currently Reading" ?
-                        <Button variant={"secondary"} size={"sm"} className="w-full h-9 mt-4 mb-1 border border-beige-500/50">
+                    {cardStatus !== "Currently Reading" ?
+                        <Button
+                            onClick={
+                                (e) => {
+                                    e.stopPropagation();
+                                }
+                            }
+                            variant={"secondary"} size={"sm"} className="w-full h-9 mt-4 mb-1 border border-beige-500/50">
                             {buttonText}
                         </Button>
                         :
@@ -59,6 +69,52 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status }) => {
                             <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
                         </div>
                     }
+                    {/*
+                    <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
+                        <div className="flex absolute top-2 right-2 shadow-md rounded-md" >
+                            {
+                                cardStatus == "Currently Reading" &&
+                                <Button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setBook(book!);
+                                        updateStatus(status);
+                                        updateBookId(book!.id);
+                                        journalEntryModal.onOpen();
+                                    }}
+                                    variant={"card"}
+                                    size={"xs"}
+                                    className={cn("px-2 rounded-l-md")}>
+                                    <Icons.plus className={`h-4 w-4`} />
+                                </Button>
+                            }
+                            <BookActions
+                                book={book!}
+                                setOpenAlert={setOpenAlert}
+                                // openAlert={openAlert}
+                                openDropdown={openDropdown}
+                                setOpenDropdown={setOpenDropdown}
+                                status={status}
+                                setStatus={setStatus}
+                                setRating={setRating}
+                                rating={rating}
+                                shelves={shelves!}
+                                trigger={
+                                    <Button
+                                        variant={"card"}
+                                        size={"xs"}
+                                        className={cn("px-2 rounded-md")}
+                                    >
+                                        <a className="">
+                                            <Icons.more className="rotate-90 fill-current h-4 w-4 cursor-pointer stroke-gray-500 stroke-1" />
+                                        </a>
+                                    </Button>
+                                }
+                            />
+                        </div>
+
+                    </div>
+ */}
 
                     <Link ref={linkRef} href={`/book/${data?.id}`} className="hidden"></Link>
                 </div>

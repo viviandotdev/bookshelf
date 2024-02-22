@@ -14,7 +14,14 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     const statuses: string[] = Object.values(STATUS);
     const { loadBooks, networkStatus } = useLoadBooks();
     const query = useBuildQuery();
+    useEffect(() => {
+        if (data[0]?.books) {
 
+            (data[0].books.map((book) => {
+                console.log(book.order)
+            }))
+        }
+    }, [data]);
 
     const loadBooksByStatus = async (status: string) => {
         const queryFilter = generateQueryFilter(query, status);
@@ -25,14 +32,12 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
 
         return {
             title: status,
-            books: bookData?.userBooks?.map((book: any) => ({
-                id: book.book?.id,
-                title: book.book?.title,
-                order: book.order,
-                status: book.status,
-                author: book.book.author,
-                coverImage: book.book?.coverImage,
-            })) || [],
+            books: bookData?.userBooks?.map((book, index) => (
+                {
+                    ...book,
+                    order: index
+                }
+            )) || [],
             fetchMore,
         }
     };
@@ -53,7 +58,7 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     }, [loadBooks, query]);
 
     return (
-        <div className="overflow-x-auto mb-6">
+        <div className="mb-6">
             <ColumnContainer data={data} setData={setData} />
         </div>
     );

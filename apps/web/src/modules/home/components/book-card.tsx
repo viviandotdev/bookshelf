@@ -39,13 +39,13 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook, status: cardSta
                     <BookCover src={book?.coverImage} size={"xs"} />
                     <div className="flex flex-col justify-center" >
                         <div className="flex flex-col">
-                            <h3 className="w-56 text-base font-medium text-gray-900 overfconst { journalEntry } = useJournalEntryModal();w-hidden truncate">{book?.title}</h3>
+                            <h3 className="w-56 text-base font-medium text-gray-900 truncate">{book?.title}</h3>
                             <p className="text-sm text-gray-600">{book?.author}</p>
                             <p className="flex items-center text-sm text-gray-500 gap-1">
                                 <Icons.read className="h-4 w-4 text-gray-400" />
                                 Finished
                             </p>
-                            <div className={cn("group/edit hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
+                            <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
                                 <div className="flex absolute top-2 right-2 shadow-md rounded-md" >
                                     {
                                         cardStatus == "Currently Reading" &&
