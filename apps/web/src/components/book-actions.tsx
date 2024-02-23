@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -71,6 +71,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                         e.stopPropagation();
                         setOpenDropdown(!openDropdown);
                     }}
+
                 >
                     {trigger}
                 </DropdownMenuTrigger>
@@ -109,7 +110,8 @@ const BookActions: React.FC<BookActionsProps> = ({
                         </div>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             // Shelves this part is part of
                             initShelves(shelves!);
                             setShelves(shelves!)

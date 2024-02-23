@@ -1,5 +1,5 @@
 import { Draggable } from '@hello-pangea/dnd';
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import BookCover from '@/components/book-cover';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
@@ -10,6 +10,9 @@ import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
 import rating from '@/components/rating';
 import { cn } from '@/lib/utils';
+import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
+import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
+import useUserBookStore from '@/stores/use-user-book-store';
 interface CardItemProps {
     data: UserBook;
     index: number;
@@ -21,7 +24,16 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
     const router = useRouter();
     const linkRef = useRef<HTMLAnchorElement>(null);
     const buttonText = cardStatus === "Read" ? "Write a Review" : "View Activity";
+    const logBookModal = useLogBookModal();
+    const journalEntryModal = useJournalEntryModal()
+    const { updateBookId, updateStatus, setBook, initShelves } = useUserBookStore();
+    const [openDropdown, setOpenDropdown] = useState(false);
+    const [status, setStatus] = useState(data.status ? data.status : "");
+    const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
+    const [openAlert, setOpenAlert] = useState(false); // Initial value
+    if (!data) return null;
     const { book, shelves } = data
+
     return (
         <Draggable key={data.id} draggableId={data.id} index={index}>
             {(provided) => (
@@ -38,7 +50,6 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                     className="group/item relative border-2 border-transparent hover:border-beige-500/50 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
                 >
                     <div className="flex gap-4">
-                        {index}
                         <BookCover src={book?.coverImage} className={"shadow-md"} size={"sm"} />
                         <div className="flex flex-col justify-between">
                             <div className="flex flex-col gap-0.5">
@@ -72,8 +83,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
                         </div>
                     }
-
-                    {/* <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
+                    <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
                         <div className="flex absolute top-2 right-2 shadow-md rounded-md" >
                             {
                                 cardStatus == "Currently Reading" &&
@@ -102,6 +112,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                                 setRating={setRating}
                                 rating={rating}
                                 shelves={shelves!}
+                                side={"bottom"}
                                 trigger={
                                     <Button
                                         variant={"card"}
@@ -116,9 +127,9 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             />
                         </div>
 
-                    </div> */}
+                    </div>
 
-                    <Link ref={linkRef} href={`/book/${data?.id}`} className="hidden"></Link>
+                    <Link ref={linkRef} href={`/book/${data?.book?.id}`} className="hidden"></Link>
                 </div>
             )
             }
