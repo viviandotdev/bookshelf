@@ -51,6 +51,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className 
                         alt={"Book Cover"}
                         width={width}
                         height={width * 1.5}
+                        style={{ width: 'auto', height: 'auto' }} // optional
                     />
                 )
             }

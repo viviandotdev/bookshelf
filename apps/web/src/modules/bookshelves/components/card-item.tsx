@@ -6,6 +6,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { UserBook } from '@/graphql/graphql';
+import BookActions from '@/components/book-actions';
+import { Icons } from '@/components/icons';
+import rating from '@/components/rating';
+import { cn } from '@/lib/utils';
 interface CardItemProps {
     data: UserBook;
     index: number;
@@ -18,7 +22,6 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
     const linkRef = useRef<HTMLAnchorElement>(null);
     const buttonText = cardStatus === "Read" ? "Write a Review" : "View Activity";
     const { book, shelves } = data
-    console.log(index)
     return (
         <Draggable key={data.id} draggableId={data.id} index={index}>
             {(provided) => (
@@ -35,15 +38,15 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                     className="group/item relative border-2 border-transparent hover:border-beige-500/50 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
                 >
                     <div className="flex gap-4">
-                        <div>{data.order}</div>
-                        <BookCover src={book.coverImage} className={"shadow-md"} size={"sm"} />
+                        {index}
+                        <BookCover src={book?.coverImage} className={"shadow-md"} size={"sm"} />
                         <div className="flex flex-col justify-between">
                             <div className="flex flex-col gap-0.5">
                                 <div className="text-base font-medium text-beige-700 line-clamp-2">
-                                    {book.title}
+                                    {book?.title}
                                 </div>
                                 <div className="text-gray-400">
-                                    {book.author}
+                                    {book?.author}
                                 </div>
 
                             </div>
@@ -69,8 +72,8 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
                         </div>
                     }
-                    {/*
-                    <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
+
+                    {/* <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
                         <div className="flex absolute top-2 right-2 shadow-md rounded-md" >
                             {
                                 cardStatus == "Currently Reading" &&
@@ -113,8 +116,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             />
                         </div>
 
-                    </div>
- */}
+                    </div> */}
 
                     <Link ref={linkRef} href={`/book/${data?.id}`} className="hidden"></Link>
                 </div>

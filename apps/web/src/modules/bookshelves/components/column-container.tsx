@@ -5,8 +5,6 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { ColumnWithBooks } from '../types';
 import { useUpdateUserBookOrder } from '../mutations/use-update-userbook-order';
 import { reorder } from '../utils';
-// export type CardWithList = Card & { list: List };
-
 
 interface ColumnContainerProps {
     data: ColumnWithBooks[];
@@ -19,7 +17,6 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
     const { updateUserBookOrder } = useUpdateUserBookOrder();
     useEffect(() => {
         setOrderedData(data)
-        console.log(data)
     }, [data])
 
     const onDragEnd = (result: any) => {
@@ -95,9 +92,8 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
             }
 
         }
-
-
     }
+
     return (
         <div>
             <DragDropContext onDragEnd={onDragEnd}  >
@@ -110,7 +106,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({ data, setData 
                                 {orderedData.map((list, index) => {
                                     return (
                                         <ColumnItem
-                                            key={index}
+                                            key={list.title}
                                             isScrollable={true}
                                             setData={setData}
                                             data={list}
