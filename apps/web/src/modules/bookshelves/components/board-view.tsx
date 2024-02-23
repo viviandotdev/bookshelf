@@ -24,14 +24,14 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
     const loadMore = async (index: number) => {
         const queryFilter = generateQueryFilter(query, data[index].title, data[index].books.length)
         setIsLoading(true);
-        if (data[index]) {
+        if (data[index] && data[index].hasMore) {
             const { data: fetchedData } = await data[index].fetchMore({
                 variables: {
                     ...queryFilter,
                 },
             });
 
-            if (fetchedData.userBooks) {
+            if (fetchedData.getUserBooks.userBooks) {
                 setData(prevData => {
                     const newData = [...prevData];
                     // console.log(newData[index].books.length)
@@ -42,25 +42,19 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
                         ...newData[index],
                         books: [
                             ...newData[index].books,
-                            ...fetchedData.userBooks?.map((book: any, index: number) => ({
+                            ...fetchedData.getUserBooks.userBooks?.map((book: any, index: number) => ({
                                 ...book,
                                 order: length + index // Calculate order based on current length of books array
                             }))
                         ],
+                        hasMore: fetchedData.getUserBooks.hasMore
                     };
                     return newData;
                 });
             }
 
-            setIsLoading(false);
-
-
         }
-
-
-
-
-
+        setIsLoading(false);
     }
 
     const loadBooksByStatus = async (status: string) => {
@@ -72,13 +66,14 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
 
         return {
             title: status,
-            books: bookData?.userBooks?.map((book, index) => (
+            books: bookData?.getUserBooks.userBooks?.map((book, index) => (
                 {
                     ...book,
                     order: index
                 }
             )) || [],
             fetchMore,
+            hasMore: bookData?.getUserBooks.hasMore || false
         }
     };
 
@@ -134,6 +129,7 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
                 </Suspense>
                 <div>
                     {isLoading && <div>Loading...</div>}
+                    {!data.some(column => column.hasMore) && <div>No more books</div>}
                 </div>
             </div>
         </div>

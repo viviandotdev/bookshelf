@@ -1526,12 +1526,12 @@ type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
+  getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: MeResponse!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {
@@ -3061,6 +3061,11 @@ input UserBookWhereUniqueInput {
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
+}
+
+type UserBooksResponse {
+  hasMore: Boolean!
+  userBooks: [UserBook!]
 }
 
 type UserCount {

@@ -21,51 +21,59 @@ query UserBook($where: BookWhereUniqueInput!) {
   }
 }
 
-query UserBooks(
+query GetUserBooks(
   $where: UserBookWhereInput
   $limit: Int! = 100
   $offset: Int! = 0
   $orderBy: UserBookOrderByWithRelationInput
 ) {
-  userBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
-    id
-    userId
-    bookId
-    status
-    rating
-    createdAt
-    updatedAt
-    order
-    book {
+  getUserBooks(
+    where: $where
+    offset: $offset
+    limit: $limit
+    orderBy: $orderBy
+  ) {
+    userBooks {
       id
-      title
-      author
-      pageCount
-      coverImage
-      categories
-      _count {
-        userBook
-        reviews
-      }
-    }
-    shelves {
-      shelf {
+      userId
+      bookId
+      status
+      rating
+      createdAt
+      updatedAt
+      order
+      book {
         id
-        name
+        title
+        author
+        pageCount
+        coverImage
+        categories
+        _count {
+          userBook
+          reviews
+        }
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
+      _count {
+        shelves
+        reviews
+        journalEntry
+      }
+      journalEntry {
+        id
+        readingNotes
+        dateRead
+        currentPage
+        currentPercent
       }
     }
-    _count {
-      shelves
-      reviews
-      journalEntry
-    }
-    journalEntry {
-      id
-      readingNotes
-      dateRead
-      currentPage
-      currentPercent
-    }
+    hasMore
   }
 }
 

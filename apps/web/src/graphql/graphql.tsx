@@ -1710,12 +1710,12 @@ export type Query = {
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
+  getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
   me: MeResponse;
   shelves?: Maybe<Array<Shelf>>;
   user: User;
   userBook?: Maybe<UserBook>;
-  userBooks?: Maybe<Array<UserBook>>;
 };
 
 
@@ -1760,6 +1760,14 @@ export type QueryGetMostRecentJournalEntryArgs = {
 };
 
 
+export type QueryGetUserBooksArgs = {
+  limit?: Scalars['Int'];
+  offset?: Scalars['Int'];
+  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
+  where?: InputMaybe<UserBookWhereInput>;
+};
+
+
 export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
   limit?: Scalars['Int'];
@@ -1774,14 +1782,6 @@ export type QueryUserArgs = {
 
 export type QueryUserBookArgs = {
   where: BookWhereUniqueInput;
-};
-
-
-export type QueryUserBooksArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
-  orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
-  where?: InputMaybe<UserBookWhereInput>;
 };
 
 export enum QueryMode {
@@ -3333,6 +3333,12 @@ export type UserBookWhereUniqueInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export type UserBooksResponse = {
+  __typename?: 'UserBooksResponse';
+  hasMore: Scalars['Boolean'];
+  userBooks?: Maybe<Array<UserBook>>;
+};
+
 export type UserCount = {
   __typename?: 'UserCount';
   accounts: Scalars['Int'];
@@ -4484,7 +4490,7 @@ export type UserBookQueryVariables = Exact<{
 
 export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, categories?: string | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
-export type UserBooksQueryVariables = Exact<{
+export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
@@ -4492,7 +4498,7 @@ export type UserBooksQueryVariables = Exact<{
 }>;
 
 
-export type UserBooksQuery = { __typename?: 'Query', userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, categories?: string | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, categories?: string | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5960,62 +5966,65 @@ export function useUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<U
 export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
-export const UserBooksDocument = gql`
-    query UserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
-  userBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
-    id
-    userId
-    bookId
-    status
-    rating
-    createdAt
-    updatedAt
-    order
-    book {
+export const GetUserBooksDocument = gql`
+    query GetUserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
+  getUserBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
+    userBooks {
       id
-      title
-      author
-      pageCount
-      coverImage
-      categories
-      _count {
-        userBook
-        reviews
-      }
-    }
-    shelves {
-      shelf {
+      userId
+      bookId
+      status
+      rating
+      createdAt
+      updatedAt
+      order
+      book {
         id
-        name
+        title
+        author
+        pageCount
+        coverImage
+        categories
+        _count {
+          userBook
+          reviews
+        }
+      }
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
+      _count {
+        shelves
+        reviews
+        journalEntry
+      }
+      journalEntry {
+        id
+        readingNotes
+        dateRead
+        currentPage
+        currentPercent
       }
     }
-    _count {
-      shelves
-      reviews
-      journalEntry
-    }
-    journalEntry {
-      id
-      readingNotes
-      dateRead
-      currentPage
-      currentPercent
-    }
+    hasMore
   }
 }
     `;
 
 /**
- * __useUserBooksQuery__
+ * __useGetUserBooksQuery__
  *
- * To run a query within a React component, call `useUserBooksQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserBooksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useUserBooksQuery({
+ * const { data, loading, error } = useGetUserBooksQuery({
  *   variables: {
  *      where: // value for 'where'
  *      limit: // value for 'limit'
@@ -6024,17 +6033,17 @@ export const UserBooksDocument = gql`
  *   },
  * });
  */
-export function useUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<UserBooksQuery, UserBooksQueryVariables>) {
+export function useGetUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserBooksQuery, UserBooksQueryVariables>(UserBooksDocument, options);
+        return Apollo.useQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
       }
-export function useUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBooksQuery, UserBooksQueryVariables>) {
+export function useGetUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserBooksQuery, UserBooksQueryVariables>(UserBooksDocument, options);
+          return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
         }
-export type UserBooksQueryHookResult = ReturnType<typeof useUserBooksQuery>;
-export type UserBooksLazyQueryHookResult = ReturnType<typeof useUserBooksLazyQuery>;
-export type UserBooksQueryResult = Apollo.QueryResult<UserBooksQuery, UserBooksQueryVariables>;
+export type GetUserBooksQueryHookResult = ReturnType<typeof useGetUserBooksQuery>;
+export type GetUserBooksLazyQueryHookResult = ReturnType<typeof useGetUserBooksLazyQuery>;
+export type GetUserBooksQueryResult = Apollo.QueryResult<GetUserBooksQuery, GetUserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
     query CountUserBooks($where: UserBookWhereInput) {
   countUserBooks(where: $where)

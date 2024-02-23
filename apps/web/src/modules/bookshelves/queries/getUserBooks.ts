@@ -1,8 +1,8 @@
 import {
+  GetUserBooksDocument,
+  GetUserBooksQuery,
   UserBook,
   UserBookWhereInput,
-  UserBooksDocument,
-  UserBooksQuery,
 } from "@/graphql/graphql";
 import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
 import { getCurrentUser } from "@/lib/auth";
@@ -12,12 +12,14 @@ export async function getUserBooks(where: UserBookWhereInput) {
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 
-  const { data } = await client.query<UserBooksQuery>({
-    query: UserBooksDocument,
+  const { data } = await client.query<GetUserBooksQuery>({
+    query: GetUserBooksDocument,
     variables: {
       where,
     },
   });
 
-  return data.userBooks ? (data.userBooks as UserBook[]) : [];
+  return data.getUserBooks.userBooks
+    ? (data.getUserBooks.userBooks as UserBook[])
+    : [];
 }

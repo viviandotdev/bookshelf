@@ -15,6 +15,7 @@ import { UserBookUpdateInput } from './models/user-book-update.input';
 import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
 import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
+import { UserBooksResponse } from './models/user-books.response';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -36,8 +37,8 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Query(() => [UserBook], { nullable: true })
-  userBooks(
+  @Query(() => UserBooksResponse)
+  getUserBooks(
     @Args('where', { nullable: true })
     where: UserBookWhereInput,
     @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,

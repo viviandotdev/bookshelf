@@ -29,7 +29,7 @@ export const ListView: React.FC<ListViewProps> = ({ }) => {
     });
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
-    const books = booksData && booksData?.userBooks
+    const books = booksData && booksData?.getUserBooks?.userBooks;
     const loading = networkStatus === NetworkStatus.loading;
 
     useEffect(() => {

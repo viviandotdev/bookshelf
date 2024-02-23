@@ -12,4 +12,5 @@ export type ColumnWithBooks = {
   title: string;
   books: any[];
   fetchMore: any;
+  hasMore: boolean;
 };

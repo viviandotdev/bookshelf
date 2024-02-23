@@ -111,7 +111,18 @@ export class UserBookService {
       skip: args.skip,
       take: args.take,
     });
-    return userBooks;
+    const totalBooksCount = await this.count({
+      where: args.where,
+      userId,
+    });
+
+    // Calculate hasMore
+    const hasMore = args.skip + userBooks.length < totalBooksCount;
+
+    return {
+      userBooks,
+      hasMore,
+    };
   }
 
   async count(args: { where: Prisma.UserBookWhereInput; userId: string }) {
