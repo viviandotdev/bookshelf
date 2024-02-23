@@ -1,5 +1,5 @@
 import { Draggable } from '@hello-pangea/dnd';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { startTransition, useEffect, useRef, useState } from 'react'
 import BookCover from '@/components/book-cover';
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
@@ -11,8 +11,8 @@ import { Icons } from '@/components/icons';
 import rating from '@/components/rating';
 import { cn } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
-import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
+import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
 interface CardItemProps {
     data: UserBook;
     index: number;
@@ -20,19 +20,38 @@ interface CardItemProps {
 }
 
 export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardStatus }) => {
-    // console.log(data);
     const router = useRouter();
     const linkRef = useRef<HTMLAnchorElement>(null);
     const buttonText = cardStatus === "Read" ? "Write a Review" : "View Activity";
-    const logBookModal = useLogBookModal();
     const journalEntryModal = useJournalEntryModal()
     const { updateBookId, updateStatus, setBook, initShelves } = useUserBookStore();
     const [openDropdown, setOpenDropdown] = useState(false);
     const [status, setStatus] = useState(data.status ? data.status : "");
     const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
     const [openAlert, setOpenAlert] = useState(false); // Initial value
+    const [percent, setPercent] = useState(0);
+    const { book: myBook } = useUserBookStore();
+    const { journalEntry } = useJournalEntryModal();
+    const createReviewModal = useCreateReviewModal();
+    useEffect(() => {
+        setStatus(data.status ? data.status : "");
+        setRating(data.rating ? data.rating : 0);
+        if (data.journalEntry && data.journalEntry.length > 0) {
+            setPercent(data.journalEntry[0].currentPercent || 0,)
+        }
+    }, [data]);
+
+    useEffect(() => {
+        // update percent detail
+        if (myBook && myBook.id === data.book?.id) {
+            setPercent(journalEntry.percent)
+        }
+
+    }, [journalEntry]);
+
     if (!data) return null;
     const { book, shelves } = data
+
 
     return (
         <Draggable key={data.id} draggableId={data.id} index={index}>
@@ -42,8 +61,11 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     role="button"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.stopPropagation();
+
                         if (linkRef.current) {
+                            console.log("linked cliked")
                             linkRef.current.click();
                         }
                     }}
@@ -72,6 +94,26 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             onClick={
                                 (e) => {
                                     e.stopPropagation();
+                                    if (cardStatus === "Read") {
+                                        //    get review
+                                        
+                                        updateBookId(book!.id);
+                                        setBook(book!)
+
+                                        // updateRating(rating)
+                                        // createReviewModal.setReview({
+                                        //     spoilers: review.spoilers || false,
+                                        //     content: review.content || "",
+                                        // })
+                                        // createReviewModal.onEdit(reviewId || "");
+
+                                    } else {
+                                        startTransition(() => {
+                                            router.push(
+                                                `/test1/book/${book?.id}/activity`
+                                            )
+                                        })
+                                    }
                                 }
                             }
                             variant={"secondary"} size={"sm"} className="w-full h-9 mt-4 mb-1 border border-beige-500/50">
@@ -79,8 +121,11 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                         </Button>
                         :
                         <div className=" mt-4 mb-1 w-full flex justify-center gap-2 items-center">
-                            <Progress className="w-full items-center h-2.5" value={60} />
-                            <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
+                            <Progress className="w-full items-center h-2.5" value={percent} />
+                            <div className="flex items-center gap-0.5">
+                                <div className="items-center text-xs text-beige-700 font-semibold">{percent}</div>
+                                <span >%</span>
+                            </div>
                         </div>
                     }
                     <div className={cn("hidden group-hover/item:block hover:bg-gray-200 rounded-sm px-1", openDropdown && "block")}>
@@ -133,7 +178,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                 </div>
             )
             }
-        </Draggable>
+        </Draggable >
     );
 }
 export default CardItem
