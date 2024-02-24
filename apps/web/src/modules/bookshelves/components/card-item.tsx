@@ -13,10 +13,12 @@ import { cn } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import useCreateReviewModal from "@/components/modals/create-review-modal/use-create-review.modal";
+import { getReview } from '@/modules/review/queries/getReview';
 interface CardItemProps {
     data: UserBook;
     index: number;
     status: string;
+    totalBooks: number;
 }
 
 export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardStatus }) => {
@@ -24,7 +26,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
     const linkRef = useRef<HTMLAnchorElement>(null);
     const buttonText = cardStatus === "Read" ? "Write a Review" : "View Activity";
     const journalEntryModal = useJournalEntryModal()
-    const { updateBookId, updateStatus, setBook, initShelves } = useUserBookStore();
+    const { updateBookId, updateStatus, updateRating, setBook } = useUserBookStore();
     const [openDropdown, setOpenDropdown] = useState(false);
     const [status, setStatus] = useState(data.status ? data.status : "");
     const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
@@ -72,6 +74,7 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                     className="group/item relative border-2 border-transparent hover:border-beige-500/50 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
                 >
                     <div className="flex gap-4">
+                        {index}
                         <BookCover src={book?.coverImage} className={"shadow-md"} size={"sm"} />
                         <div className="flex flex-col justify-between">
                             <div className="flex flex-col gap-0.5">
@@ -85,8 +88,6 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                             </div>
                             <div className="text-xs text-gray-400">Completed On Jul 23, 2022</div>
                         </div>
-
-
                     </div>
 
                     {cardStatus !== "Currently Reading" ?
@@ -96,16 +97,29 @@ export const CardItem: React.FC<CardItemProps> = ({ data, index, status: cardSta
                                     e.stopPropagation();
                                     if (cardStatus === "Read") {
                                         //    get review
-                                        
-                                        updateBookId(book!.id);
-                                        setBook(book!)
+                                        // fetch a review
 
-                                        // updateRating(rating)
-                                        // createReviewModal.setReview({
-                                        //     spoilers: review.spoilers || false,
-                                        //     content: review.content || "",
-                                        // })
-                                        // createReviewModal.onEdit(reviewId || "");
+                                        startTransition(() => {
+                                            getReview("", book!.id)
+                                                .then((data: any) => {
+                                                    updateBookId(book!.id);
+                                                    setBook(book!)
+                                                    // updateRating(data.userBook.rating || 0)
+
+                                                    if (data) {
+                                                        createReviewModal.setReview({
+                                                            spoilers: data.spoilers || false,
+                                                            content: data.content || "",
+                                                        })
+                                                        createReviewModal.onEdit(data.id || "");
+
+                                                    } else {
+                                                        createReviewModal.onOpen();
+                                                    }
+
+
+                                                });
+                                        });
 
                                     } else {
                                         startTransition(() => {

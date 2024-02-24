@@ -74,6 +74,7 @@ query GetUserBooks(
       }
     }
     hasMore
+    totalBooks
   }
 }
 

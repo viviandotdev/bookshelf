@@ -1727,7 +1727,7 @@ export type QueryAuditLogsArgs = {
 
 
 export type QueryBookReviewArgs = {
-  where: ReviewWhereUniqueInput;
+  where: ReviewUniqueInput;
 };
 
 
@@ -2020,6 +2020,11 @@ export type ReviewDataInput = {
   spoilers?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type ReviewIdentifierCompoundUniqueInput = {
+  bookId: Scalars['String'];
+  userId: Scalars['String'];
+};
+
 export type ReviewListRelationFilter = {
   every?: InputMaybe<ReviewWhereInput>;
   none?: InputMaybe<ReviewWhereInput>;
@@ -2076,6 +2081,11 @@ export type ReviewScalarWhereInput = {
 export type ReviewSumAggregate = {
   __typename?: 'ReviewSumAggregate';
   likeCount?: Maybe<Scalars['Int']>;
+};
+
+export type ReviewUniqueInput = {
+  bookId?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type ReviewUpdateManyMutationInput = {
@@ -2315,6 +2325,7 @@ export type ReviewWhereUniqueInput = {
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<ReviewIdentifierCompoundUniqueInput>;
   likeCount?: InputMaybe<IntFilter>;
   likedBy?: InputMaybe<UserListRelationFilter>;
   spoilers?: InputMaybe<BoolFilter>;
@@ -3336,6 +3347,7 @@ export type UserBookWhereUniqueInput = {
 export type UserBooksResponse = {
   __typename?: 'UserBooksResponse';
   hasMore: Scalars['Boolean'];
+  totalBooks: Scalars['Float'];
   userBooks?: Maybe<Array<UserBook>>;
 };
 
@@ -4465,7 +4477,7 @@ export type BookReviewsQueryVariables = Exact<{
 export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, commentCount: number, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null }> };
 
 export type BookReviewQueryVariables = Exact<{
-  where: ReviewWhereUniqueInput;
+  where: ReviewUniqueInput;
 }>;
 
 
@@ -4498,7 +4510,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, categories?: string | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, author?: string | null, pageCount?: number | null, coverImage?: string | null, categories?: string | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5780,7 +5792,7 @@ export type BookReviewsQueryHookResult = ReturnType<typeof useBookReviewsQuery>;
 export type BookReviewsLazyQueryHookResult = ReturnType<typeof useBookReviewsLazyQuery>;
 export type BookReviewsQueryResult = Apollo.QueryResult<BookReviewsQuery, BookReviewsQueryVariables>;
 export const BookReviewDocument = gql`
-    query BookReview($where: ReviewWhereUniqueInput!) {
+    query BookReview($where: ReviewUniqueInput!) {
   bookReview(where: $where) {
     id
     content
@@ -6010,6 +6022,7 @@ export const GetUserBooksDocument = gql`
       }
     }
     hasMore
+    totalBooks
   }
 }
     `;

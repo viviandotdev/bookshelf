@@ -47,7 +47,8 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
                                 order: length + index // Calculate order based on current length of books array
                             }))
                         ],
-                        hasMore: fetchedData.getUserBooks.hasMore
+                        hasMore: fetchedData.getUserBooks.hasMore,
+                        totalBooks: fetchedData.getUserBooks.totalBooks
                     };
                     return newData;
                 });
@@ -73,7 +74,8 @@ export const BoardView: React.FC<BoardViewProps> = ({ }) => {
                 }
             )) || [],
             fetchMore,
-            hasMore: bookData?.getUserBooks.hasMore || false
+            hasMore: bookData?.getUserBooks.hasMore || false,
+            totalBooks: bookData?.getUserBooks.totalBooks || 0
         }
     };
 

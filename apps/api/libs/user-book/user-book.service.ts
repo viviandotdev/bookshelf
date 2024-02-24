@@ -122,6 +122,7 @@ export class UserBookService {
     return {
       userBooks,
       hasMore,
+      totalBooks: totalBooksCount,
     };
   }
 

@@ -21,7 +21,7 @@ export const JouranlEntryModal: React.FC = ({
                 < Dialog open={journalEntryModal.isOpen} onOpenChange={onChange}>
                     <DialogContent className="flex min-w-[720px]">
                         <div className="flex gap-8 min-w-full">
-                            <BookCover src={userBook.book.coverImage} />
+                            <BookCover src={userBook.book.coverImage} size={"md"} className="items-start" />
                             <div className="flex text-sm flex-col w-[fill-available] justify-evenly">
                                 <DialogHeader>
                                     {
@@ -43,7 +43,7 @@ export const JouranlEntryModal: React.FC = ({
                             </div>
                         </div>
                     </DialogContent>
-                </Dialog>
+                </Dialog >
             }
         </>
     );

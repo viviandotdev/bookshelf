@@ -18,7 +18,7 @@ interface BooksViewerProps {
 export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
 
     const [view, setView] = React.useState<string>("board");
-    const boardViewRef = useRef<any>(null);
+
     let contentView;
 
     if (view == "board") {
@@ -29,7 +29,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
     } else if (view === 'list') {
         contentView = <ListView />;
     } else if (view === 'board') {
-        contentView = <BoardView ref={boardViewRef} />;
+        contentView = <BoardView />;
     }
 
 

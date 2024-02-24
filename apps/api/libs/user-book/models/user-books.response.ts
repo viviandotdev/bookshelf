@@ -1,6 +1,11 @@
 import { UserBook } from '@bookcue/api/generated-db-types';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, ValidateNested } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
 
 @ObjectType()
 export class UserBooksResponse {
@@ -11,4 +16,7 @@ export class UserBooksResponse {
   @IsBoolean()
   @Field()
   hasMore: boolean;
+  @IsNumber()
+  @Field()
+  totalBooks: number;
 }

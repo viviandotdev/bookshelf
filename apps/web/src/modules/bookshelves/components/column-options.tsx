@@ -18,7 +18,7 @@ export const ColumnOptions = ({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button className="h-auto w-auto p-2" variant={"tag"}>
+                <Button className="h-auto w-auto p-2" variant={"pill"}>
                     <MoreHorizontal className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>

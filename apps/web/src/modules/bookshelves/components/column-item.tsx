@@ -27,7 +27,8 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData }) => {
         >
             <div
                 className="w-full rounded-md bg-beige-100 shadow-md pb-2">
-                <ColumnHeader title={data.title} />
+                <ColumnHeader title={data.title} totalBooks={data.totalBooks} />
+
                 <Droppable droppableId={data.title} type="card">
                     {
                         (provided) => (
@@ -44,6 +45,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData }) => {
                                             <CardItem
                                                 key={index}
                                                 status={data.title}
+                                                totalBooks={data.totalBooks}
                                                 index={index}
                                                 data={book}
                                             />

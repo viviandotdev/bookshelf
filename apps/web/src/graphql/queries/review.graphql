@@ -23,7 +23,7 @@ query BookReviews(
   }
 }
 
-query BookReview($where: ReviewWhereUniqueInput!) {
+query BookReview($where: ReviewUniqueInput!) {
   bookReview(where: $where) {
     id
     content
