@@ -1,11 +1,11 @@
-import { useGetMostRecentJournalEntryLazyQuery } from "@/graphql/graphql";
+import { useGetMostRecentJournalEntryLazyQuery } from '@/graphql/graphql';
 
 const useLoadJournalEntry = (setJournalEntry: any) => {
   const [loadEntry] = useGetMostRecentJournalEntryLazyQuery({
     onError: (error) => {
       console.log(error);
     },
-    fetchPolicy: "network-only",
+    fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data.getMostRecentJournalEntry && setJournalEntry) {
         setJournalEntry({

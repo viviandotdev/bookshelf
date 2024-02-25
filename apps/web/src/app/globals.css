@@ -2,22 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 27 28% 24%;
-        --ring: 27 39% 95%;
-        --radius: 0.5rem;
-    }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 27 28% 24%;
+    --ring: 27 39% 95%;
+    --radius: 0.5rem;
+  }
 }
 
 @layer utilities {
-    .underline-distance {
-        text-decoration: underline;
-        text-underline-offset: 0.2em;
-        /* Adjust this value as needed */
-    }
-
+  .underline-distance {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    /* Adjust this value as needed */
+  }
 }

@@ -1,11 +1,11 @@
-import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { signIn } from '@/auth';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 export const verifyUser = async (token: string | string[] | undefined) => {
   try {
     // Remove user from session
 
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       token,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
@@ -14,9 +14,9 @@ export const verifyUser = async (token: string | string[] | undefined) => {
     }
   } catch (error) {
     console.log(error);
-    return { error: "Unable to generate reset token" };
+    return { error: 'Unable to generate reset token' };
   }
-  console.log("success");
+  console.log('success');
 
-  return { success: "Email reset" };
+  return { success: 'Email reset' };
 };

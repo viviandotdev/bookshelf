@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import * as z from "zod";
-import { getCurrentUser } from "@/lib/auth";
-import { setAuthToken, httpLink, getApolloClient } from "@/lib/apollo";
-import { UpdateUserDocument, UpdateUserMutation } from "@/graphql/graphql";
-import { changeEmailSchema } from "../components/modals/change-email";
+import * as z from 'zod';
+import { getCurrentUser } from '@/lib/auth';
+import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
+import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
+import { changeEmailSchema } from '../components/modals/change-email';
 
 export const changeEmail = async (
   values: z.infer<typeof changeEmailSchema>
@@ -14,7 +14,7 @@ export const changeEmail = async (
   client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
 
   if (!user) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' };
   }
 
   try {
@@ -25,7 +25,7 @@ export const changeEmail = async (
           email: values.email,
         },
       },
-      errorPolicy: "all",
+      errorPolicy: 'all',
     });
 
     if (errors) {
@@ -33,10 +33,10 @@ export const changeEmail = async (
     }
 
     if (values.email && values.email === data?.updateUser.email) {
-      return { error: "Please enter a new email" };
+      return { error: 'Please enter a new email' };
     }
   } catch (error) {
-    return { error: "There was a problem with your request" };
+    return { error: 'There was a problem with your request' };
   }
   // if there is a code, we can actually change the email, otherwise we need to send a verification code
   return {

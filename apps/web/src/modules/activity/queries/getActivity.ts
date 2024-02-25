@@ -3,9 +3,9 @@ import {
   GetAuditLogsDocument,
   GetAuditLogsQuery,
   UserBookWhereInput,
-} from "@/graphql/graphql";
-import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
-import { getCurrentUser } from "@/lib/auth";
+} from '@/graphql/graphql';
+import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function getActivity(where: UserBookWhereInput) {
   const user = await getCurrentUser();

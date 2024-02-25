@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import * as z from "zod";
-import { getCurrentUser } from "@/lib/auth";
-import { setAuthToken, httpLink, getApolloClient } from "@/lib/apollo";
-import { UpdateUserDocument, UpdateUserMutation } from "@/graphql/graphql";
-import { changeEmailSchema } from "../components/modals/change-email";
+import * as z from 'zod';
+import { getCurrentUser } from '@/lib/auth';
+import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
+import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
+import { changeEmailSchema } from '../components/modals/change-email';
 
 export const verifyCode = async (values: z.infer<typeof changeEmailSchema>) => {
   const user = await getCurrentUser();
@@ -12,7 +12,7 @@ export const verifyCode = async (values: z.infer<typeof changeEmailSchema>) => {
   client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
 
   if (!user) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' };
   }
 
   try {
@@ -23,7 +23,7 @@ export const verifyCode = async (values: z.infer<typeof changeEmailSchema>) => {
           email: values.email,
         },
       },
-      errorPolicy: "all",
+      errorPolicy: 'all',
     });
 
     if (errors) {
@@ -31,10 +31,10 @@ export const verifyCode = async (values: z.infer<typeof changeEmailSchema>) => {
     }
 
     if (values.email && values.email === data?.updateUser.email) {
-      return { error: "Please enter a new email" };
+      return { error: 'Please enter a new email' };
     }
   } catch (error) {
-    return { error: "There was a problem with your request" };
+    return { error: 'There was a problem with your request' };
   }
   // if there is a code, we can actually change the email, otherwise we need to send a verification code
   return {

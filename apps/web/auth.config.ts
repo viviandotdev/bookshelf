@@ -1,6 +1,6 @@
-import Credentials from "next-auth/providers/credentials";
-import type { NextAuthConfig } from "next-auth";
-import { getApolloClient, httpLink, setAuthToken } from "@/lib/apollo";
+import Credentials from 'next-auth/providers/credentials';
+import type { NextAuthConfig } from 'next-auth';
+import { getApolloClient, httpLink, setAuthToken } from '@/lib/apollo';
 import {
   LoginDocument,
   LoginMutation,
@@ -10,8 +10,8 @@ import {
   OAuthMutation,
   VerifyTokenDocument,
   VerifyTokenMutation,
-} from "@/graphql/graphql";
-import Github from "next-auth/providers/github";
+} from '@/graphql/graphql';
+import Github from 'next-auth/providers/github';
 // import Google from "next-auth/providers/google";
 
 const client = getApolloClient();
@@ -23,15 +23,15 @@ export default {
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
     Credentials({
-      name: "Sign in",
+      name: 'Sign in',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "hello@example.com",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'hello@example.com',
         },
-        password: { label: "Password", type: "password" },
-        token: { label: "Token", type: "token" },
+        password: { label: 'Password', type: 'password' },
+        token: { label: 'Token', type: 'token' },
       },
       async authorize(credentials): Promise<any> {
         const { email, password, token } = credentials as {
@@ -48,11 +48,11 @@ export default {
               variables: {
                 input: {
                   email: email,
-                  password: password || "",
+                  password: password || '',
                 },
               },
               //   Error policay call catches the error in errors
-              errorPolicy: "all",
+              errorPolicy: 'all',
             });
 
           data = loginData?.login;
@@ -67,7 +67,7 @@ export default {
               variables: {
                 token,
               },
-              errorPolicy: "all",
+              errorPolicy: 'all',
             });
           if (errors) {
             throw new Error(errors.map((e) => e.message)[0]);
@@ -75,7 +75,7 @@ export default {
           data = verifyData?.verifyToken;
         }
 
-        if (!data) throw new Error("No data returned from server");
+        if (!data) throw new Error('No data returned from server');
 
         return {
           id: data!.user.id,
@@ -92,7 +92,7 @@ export default {
   callbacks: {
     async signIn({ user, account }) {
       // If provider allow signin regardless of email verification
-      if (account?.provider !== "credentials") return true;
+      if (account?.provider !== 'credentials') return true;
       //   Check if email is verified
       const u = user as unknown as any;
       // Prevent sign in without email verification
@@ -102,7 +102,7 @@ export default {
     },
     async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
-      if (account && account?.provider != "credentials") {
+      if (account && account?.provider != 'credentials') {
         const { data } = await client.mutate<OAuthMutation>({
           mutation: OAuthDocument,
           variables: {
@@ -125,7 +125,7 @@ export default {
       }
       //  handle oauth provider case
       // create provider account in the database
-      else if (user && account?.provider == "credentials") {
+      else if (user && account?.provider == 'credentials') {
         token.username = u.username;
         token.email = u.email;
         token.id = u.id;
@@ -139,7 +139,7 @@ export default {
         );
         const { data } = await client.query<MeQuery>({
           query: MeDocument,
-          fetchPolicy: "network-only",
+          fetchPolicy: 'network-only',
         });
 
         if (data) {
@@ -154,7 +154,7 @@ export default {
       if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
         //the api token expired sign in again
         await client.resetStore();
-        token.error = "TokenExpiredError" as string;
+        token.error = 'TokenExpiredError' as string;
       }
 
       return Promise.resolve(token); //signed in user is returning to the same session

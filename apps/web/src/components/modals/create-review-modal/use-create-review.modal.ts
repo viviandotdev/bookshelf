@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 interface useReviewStore {
   isOpen: boolean;
   isEdit: boolean;
@@ -13,7 +13,7 @@ interface useReviewStore {
   setReview: (review: ReviewType) => void;
 }
 
-type ReviewType = useReviewStore["review"];
+type ReviewType = useReviewStore['review'];
 
 const useCreateReviewModal = create<useReviewStore>((set) => ({
   isOpen: false,
@@ -21,7 +21,7 @@ const useCreateReviewModal = create<useReviewStore>((set) => ({
   editId: undefined,
   review: {
     spoilers: false,
-    content: "",
+    content: '',
   },
   setReview: (review: ReviewType) => set({ review }),
   onOpen: () => set({ isOpen: true, isEdit: false, editId: undefined }),

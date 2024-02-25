@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
-import authConfig from "../auth.config";
+import NextAuth from 'next-auth';
+import authConfig from '../auth.config';
 import {
   apiAuthPrefix,
   publicRoutes,
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
-} from "../routes";
+} from '../routes';
 
 const { auth } = NextAuth(authConfig);
 
@@ -51,5 +51,5 @@ export default auth(async (req): Promise<any> => {
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };

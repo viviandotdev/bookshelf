@@ -1,6 +1,6 @@
-import { processBook } from "@/lib/utils";
-import { BookData } from "@/types/interfaces";
-import axios from "axios";
+import { processBook } from '@/lib/utils';
+import { BookData } from '@/types/interfaces';
+import axios from 'axios';
 
 export async function getBook(bookId: string) {
   try {
@@ -12,7 +12,7 @@ export async function getBook(bookId: string) {
       const book: BookData = response.data; // Assuming response.data contains the book data
       const processedBook: BookData = processBook(book) as BookData;
       //  also get user book if it exists
-      console.log("processed", processedBook);
+      console.log('processed', processedBook);
       return processedBook;
     } else {
       // Handle non-successful response status codes (4xx, 5xx, etc.) if needed
@@ -20,7 +20,7 @@ export async function getBook(bookId: string) {
     }
   } catch (error) {
     // Handle Axios errors here
-    console.error("Error fetching book:", error);
+    console.error('Error fetching book:', error);
     return null;
   }
 }

@@ -1,6 +1,6 @@
-import { processBook } from "@/lib/utils";
-import { BookData } from "@/types/interfaces";
-import axios from "axios";
+import { processBook } from '@/lib/utils';
+import { BookData } from '@/types/interfaces';
+import axios from 'axios';
 
 export async function getBookFromISBN(isbn: string) {
   try {
@@ -20,7 +20,7 @@ export async function getBookFromISBN(isbn: string) {
     return null;
   } catch (error) {
     // Handle Axios errors here
-    console.error("Error fetching book:", error);
+    console.error('Error fetching book:', error);
     return null;
   }
 }

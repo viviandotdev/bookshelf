@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import authConfig from "./auth.config";
+import NextAuth from 'next-auth';
+import authConfig from './auth.config';
 
 export const {
   handlers: { GET, POST },
@@ -9,10 +9,10 @@ export const {
   unstable_update,
 } = NextAuth({
   pages: {
-    signIn: "/login",
-    error: "/login",
+    signIn: '/login',
+    error: '/login',
   },
-  session: { strategy: "jwt" },
+  session: { strategy: 'jwt' },
 
   ...authConfig,
 });

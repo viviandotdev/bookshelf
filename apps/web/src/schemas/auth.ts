@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 export const loginUserSchema = z.object({
   email: z.string().email(),
@@ -26,8 +26,8 @@ export const changePasswordSchema = z
       return true;
     },
     {
-      message: "New password is required!",
-      path: ["newPassword"],
+      message: 'New password is required!',
+      path: ['newPassword'],
     }
   )
   .refine(
@@ -39,8 +39,8 @@ export const changePasswordSchema = z
       return true;
     },
     {
-      message: "Password is required!",
-      path: ["password"],
+      message: 'Password is required!',
+      path: ['password'],
     }
   )
   .refine(
@@ -52,20 +52,20 @@ export const changePasswordSchema = z
       return true;
     },
     {
-      message: "Passwords do not match!",
-      path: ["password"],
+      message: 'Passwords do not match!',
+      path: ['password'],
     }
   );
 
 export const ResetSchema = z.object({
   email: z.string().email({
-    message: "Please enter a valid email",
+    message: 'Please enter a valid email',
   }),
 });
 
 export const NewPasswordSchema = z.object({
   password: z.string().min(4, {
-    message: "Minimum of 4 characters required",
+    message: 'Minimum of 4 characters required',
   }),
 });
 
@@ -85,8 +85,8 @@ export const SettingsSchema = z
       return true;
     },
     {
-      message: "New password is required!",
-      path: ["newPassword"],
+      message: 'New password is required!',
+      path: ['newPassword'],
     }
   )
   .refine(
@@ -98,7 +98,7 @@ export const SettingsSchema = z
       return true;
     },
     {
-      message: "Password is required!",
-      path: ["password"],
+      message: 'Password is required!',
+      path: ['password'],
     }
   );

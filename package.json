@@ -26,7 +26,10 @@
         "update:api": "pnpm --filter api update -i --latest",
         "update:web": "pnpm --filter web update -i --latest",
         "----DEVELOPMENT SECTION----": "-------------------------",
-        "create:resolver": "pnpm --filter api exec nest g resource users --no-spec"
+        "create:resolver": "pnpm --filter api exec nest g resource users --no-spec",
+        "---Format SECTION----": "-------------------------",
+        "format": "pnpm --filter web exec prettier --check --ignore-path .gitignore .",
+        "format:fix": "pnpm --filter web exec prettier --write --ignore-path .gitignore ."
     },
     "keywords": [],
     "author": "",

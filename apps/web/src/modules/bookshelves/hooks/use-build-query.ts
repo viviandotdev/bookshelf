@@ -1,7 +1,7 @@
-import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { split } from "rambda";
-import { BOOKS_PAGE_SIZE } from "@/lib/constants";
+import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { split } from 'rambda';
+import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 
 const useBuildQuery = () => {
   const searchParams = useSearchParams();
@@ -10,22 +10,22 @@ const useBuildQuery = () => {
   // Parse search parameters
   const parseSearchParams = () => {
     return {
-      page: searchParams?.get("page") ?? "1",
-      status: searchParams?.get("status") ?? "Any Status",
-      sort: searchParams?.get("sort") ?? "createdAt.desc",
-      shelf: searchParams?.get("shelf") ?? "All Books",
+      page: searchParams?.get('page') ?? '1',
+      status: searchParams?.get('status') ?? 'Any Status',
+      sort: searchParams?.get('sort') ?? 'createdAt.desc',
+      shelf: searchParams?.get('shelf') ?? 'All Books',
     };
   };
 
   // Build query based on shelf parameter
   const buildQueryByShelf = (shelfParam: string) => {
-    if (shelfParam === "Unshelved") {
+    if (shelfParam === 'Unshelved') {
       return {
         shelves: {
           none: {}, // Checks if the shelves array is empty
         },
       };
-    } else if (shelfParam === "All Books") {
+    } else if (shelfParam === 'All Books') {
       return {};
     } else {
       return {
@@ -45,10 +45,10 @@ const useBuildQuery = () => {
   };
 
   const buildSortQuery = (sortParam: string) => {
-    const sortBy = split(".", sortParam)[0];
-    const sortOrder = split(".", sortParam)[1];
+    const sortBy = split('.', sortParam)[0];
+    const sortOrder = split('.', sortParam)[1];
 
-    if (sortBy == "title" || sortBy == "author") {
+    if (sortBy == 'title' || sortBy == 'author') {
       return {
         orderBy: {
           book: {
@@ -84,7 +84,7 @@ const useBuildQuery = () => {
 
     // Build query based on status parameter
     const statusQuery =
-      status === "Any Status" ? {} : { status: { equals: status } };
+      status === 'Any Status' ? {} : { status: { equals: status } };
 
     // Merge the shelf and status queries
     const finalQuery = {

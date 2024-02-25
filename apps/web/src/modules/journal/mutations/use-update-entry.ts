@@ -1,8 +1,8 @@
 import {
   JournalEntryUpdateInput,
   useUpdateJournalEntryMutation,
-} from "@/graphql/graphql";
-import { toast } from "@/hooks/use-toast";
+} from '@/graphql/graphql';
+import { toast } from '@/hooks/use-toast';
 
 export const useUpdateJournalEntry = () => {
   const [UpdateJournalEntry] = useUpdateJournalEntryMutation();
@@ -17,13 +17,13 @@ export const useUpdateJournalEntry = () => {
           id: entryId,
         },
       },
-      errorPolicy: "all",
+      errorPolicy: 'all',
     });
 
     if (errors) {
       toast({
-        title: "Error updating journal entry",
-        variant: "destructive",
+        title: 'Error updating journal entry',
+        variant: 'destructive',
       });
     }
 

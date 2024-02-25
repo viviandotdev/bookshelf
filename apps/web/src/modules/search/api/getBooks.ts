@@ -1,14 +1,14 @@
-import { RESULTS_PAGE_SIZE } from "@/lib/constants";
-import { processBookData } from "@/lib/utils";
-import axios from "axios";
+import { RESULTS_PAGE_SIZE } from '@/lib/constants';
+import { processBookData } from '@/lib/utils';
+import axios from 'axios';
 
 export async function getBooks(search: string, field: string, offset: number) {
   try {
-    let inField: string = "intitle";
-    if (field === "author") {
-      inField = "inauthor";
-    } else if (field === "categories") {
-      inField = "insubject";
+    let inField: string = 'intitle';
+    if (field === 'author') {
+      inField = 'inauthor';
+    } else if (field === 'categories') {
+      inField = 'insubject';
     }
     const url = `https://www.googleapis.com/books/v1/volumes?q=${inField}:${search}&maxResults=${RESULTS_PAGE_SIZE}&startIndex=${offset}`;
     const response = await axios.get(url);

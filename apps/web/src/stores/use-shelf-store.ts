@@ -1,5 +1,5 @@
-import { Shelf } from "../graphql/graphql";
-import { create } from "zustand";
+import { Shelf } from '../graphql/graphql';
+import { create } from 'zustand';
 
 // Define a type for the shelf state
 interface ShelfState {

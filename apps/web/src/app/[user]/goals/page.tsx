@@ -1,11 +1,7 @@
-import GoalsTemplate from "@/modules/goals/templates";
+import GoalsTemplate from '@/modules/goals/templates';
 
-interface GoalsPageProps {
-
-}
+interface GoalsPageProps {}
 
 export default async function GoalsPage({ params }: GoalsPageProps) {
-
-
-    return <GoalsTemplate />;
+  return <GoalsTemplate />;
 }

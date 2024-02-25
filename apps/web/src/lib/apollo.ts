@@ -3,12 +3,12 @@ import {
   from,
   createHttpLink,
   InMemoryCache,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 export const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_URL,
-  credentials: "include",
+  credentials: 'include',
 });
 
 export const setAuthToken = (token: string) =>

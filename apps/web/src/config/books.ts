@@ -1,68 +1,68 @@
-import { Icons } from "@/components/icons";
+import { Icons } from '@/components/icons';
 
 export const sortingSelects = [
-  { label: "Date: Old to new", value: "createdAt.asc" },
+  { label: 'Date: Old to new', value: 'createdAt.asc' },
   {
-    label: "Date: New to old",
-    value: "createdAt.desc",
+    label: 'Date: New to old',
+    value: 'createdAt.desc',
   },
   {
-    label: "Title: A to Z",
-    value: "title.asc",
+    label: 'Title: A to Z',
+    value: 'title.asc',
   },
   {
-    label: "Title: Z to A",
-    value: "title.desc",
+    label: 'Title: Z to A',
+    value: 'title.desc',
   },
   {
-    label: "Author: A to Z",
-    value: "author.asc",
+    label: 'Author: A to Z',
+    value: 'author.asc',
   },
   {
-    label: "Author: Z to A",
-    value: "author.desc",
+    label: 'Author: Z to A',
+    value: 'author.desc',
   },
 ];
 
 export const viewSelects = [
-  { label: "List", value: "list", icon: Icons.layoutList },
+  { label: 'List', value: 'list', icon: Icons.layoutList },
   {
-    label: "Board",
-    value: "board",
+    label: 'Board',
+    value: 'board',
     icon: Icons.kanban,
   },
 
   {
-    label: "Gallery",
-    value: "gallery",
+    label: 'Gallery',
+    value: 'gallery',
     icon: Icons.layoutGrid,
   },
 ];
 
 export const librarySelects = [
   {
-    name: "All Books",
+    name: 'All Books',
   },
   {
-    name: "Unshelved",
+    name: 'Unshelved',
   },
 ];
 
 export const bookStatuses = [
   {
-    name: "Want to Read",
+    name: 'Want to Read',
     icon: Icons.save,
   },
   {
-    name: "Currently Reading",
+    name: 'Currently Reading',
     icon: Icons.bookOpen,
   },
   {
-    name: "Read",
+    name: 'Read',
     icon: Icons.book,
   },
   {
-    name: "Abandoned",
+    name: 'Abandoned',
     icon: Icons.abondoned,
   },
 ];

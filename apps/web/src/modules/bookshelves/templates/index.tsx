@@ -1,22 +1,16 @@
-import React from "react";
-import BooksViewer from "../components/books-viewer";
-
+import React from 'react';
+import BooksViewer from '../components/books-viewer';
 
 interface BookshelvesTemplateProps {
-    shelf: string;
+  shelf: string;
 }
 
-export default function BookshelvesTemplate({ shelf }: BookshelvesTemplateProps) {
-
-    return (
-        <>
-            <BooksViewer shelf={shelf}>
-
-            </BooksViewer>
-
-
-
-        </>
-
-    );
+export default function BookshelvesTemplate({
+  shelf,
+}: BookshelvesTemplateProps) {
+  return (
+    <>
+      <BooksViewer shelf={shelf}></BooksViewer>
+    </>
+  );
 }

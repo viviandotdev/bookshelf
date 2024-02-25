@@ -1,7 +1,7 @@
-import { BookData } from "@/types/interfaces";
-import { ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "./constants";
+import { BookData } from '@/types/interfaces';
+import { ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
 
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 export function cleanText(text: string) {
   // Remove any non-alphanumeric characters from the
-  let cleanText = text.replace(/[^a-zA-Z0-9]/g, "");
+  let cleanText = text.replace(/[^a-zA-Z0-9]/g, '');
   return cleanText;
 }
 
@@ -22,20 +22,20 @@ export function processBook(
 ): BookData | null {
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
-  const author: string = book.volumeInfo.authors?.join(", ") || "N/A";
+  const author: string = book.volumeInfo.authors?.join(', ') || 'N/A';
   const titleAndAuthor = `${title} ${author}`;
   // Skip processing the book if the title and author is already encountered
   if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
-  const publishedDate: string = book.volumeInfo.publishedDate || "N/A";
-  const publisher: string = book.volumeInfo.publisher || "N/A";
+  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
+  const publisher: string = book.volumeInfo.publisher || 'N/A';
   const coverImage: string =
     book.volumeInfo.imageLinks?.thumbnail || DEFAULT_BOOKCOVER_PLACEHOLDER;
-  const description: string = book.volumeInfo.description || "N/A";
+  const description: string = book.volumeInfo.description || 'N/A';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn: string = "N/A";
-  let isbn13: string = "N/A";
+  let isbn: string = 'N/A';
+  let isbn13: string = 'N/A';
   if (book.volumeInfo.industryIdentifiers) {
     const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
     const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
@@ -46,7 +46,7 @@ export function processBook(
   const ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
-      category.split(" / ")
+      category.split(' / ')
     ) || [];
   const categories = allCategories.filter(
     (value: string, index: number, self: string[]) => {
@@ -88,16 +88,16 @@ export function processBookData(bookInfo: any[]): BookData[] {
 export function formatDate(dateString: string): string {
   const date = new Date(dateString);
   const options: Intl.DateTimeFormatOptions = {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   };
-  return date.toLocaleDateString("en-US", options);
+  return date.toLocaleDateString('en-US', options);
 }
 
 export function timeAgo(createdAt: number) {
   if (!createdAt || isNaN(createdAt) || createdAt <= 0) {
-    return "Invalid date";
+    return 'Invalid date';
   }
 
   const now = Date.now();
@@ -107,16 +107,16 @@ export function timeAgo(createdAt: number) {
   let unit;
   let timeAgo;
   if (minutes < 60) {
-    unit = minutes > 1 ? "minutes" : "minute";
+    unit = minutes > 1 ? 'minutes' : 'minute';
     timeAgo = `${minutes} ${unit} ago`;
   } else if (Math.round(minutes / 60) < 24) {
-    unit = Math.round(minutes / 60) > 1 ? "hours" : "hour";
+    unit = Math.round(minutes / 60) > 1 ? 'hours' : 'hour';
     timeAgo = `${Math.round(minutes / 60)} ${unit} ago`;
   } else if (Math.round(minutes / 60 / 24) < 30) {
-    unit = Math.round(minutes / 60 / 24) > 1 ? "days" : "day";
+    unit = Math.round(minutes / 60 / 24) > 1 ? 'days' : 'day';
     timeAgo = `${Math.round(minutes / 60 / 24)} ${unit} ago`;
   } else {
-    unit = "months";
+    unit = 'months';
     timeAgo = `${Math.round(minutes / 60 / 24 / 30)} ${unit} ago`;
   }
 

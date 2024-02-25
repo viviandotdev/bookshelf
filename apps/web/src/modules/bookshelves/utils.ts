@@ -1,5 +1,5 @@
-import { SortOrder } from "@/graphql/graphql";
-import { BOOKS_PAGE_SIZE } from "@/lib/constants";
+import { SortOrder } from '@/graphql/graphql';
+import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 
 export const generateQueryFilter = (query: any, status: string, offset = 0) => {
   const whereFilter = {
@@ -12,7 +12,7 @@ export const generateQueryFilter = (query: any, status: string, offset = 0) => {
     offset,
     limit: BOOKS_PAGE_SIZE,
     where: whereFilter,
-    // the sort order 
+    // the sort order
     orderBy: { order: SortOrder.Asc },
   };
 };

@@ -1,13 +1,13 @@
-import { librarySelects } from "@/config/books";
+import { librarySelects } from '@/config/books';
 import {
   ShelvesQuery,
   ShelvesDocument,
   CountUserBooksQuery,
   CountUserBooksDocument,
   Shelf,
-} from "@/graphql/graphql";
-import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
-import { getCurrentUser } from "@/lib/auth";
+} from '@/graphql/graphql';
+import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function getShelves(): Promise<{
   shelves: Shelf[];
@@ -44,7 +44,7 @@ export async function getShelves(): Promise<{
         name: item.name,
         _count: {
           userBooks:
-            item.name == "All Books"
+            item.name == 'All Books'
               ? AllBooks.countUserBooks
               : UnShelvedBooks.countUserBooks,
         },

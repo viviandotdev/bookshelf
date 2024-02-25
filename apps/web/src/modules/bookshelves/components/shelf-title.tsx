@@ -4,58 +4,54 @@ import useShelfStore from '@/stores/use-shelf-store';
 import React, { useState, useEffect } from 'react';
 import ContentLoader from 'react-content-loader';
 
-interface ShelfTitleProps { }
+interface ShelfTitleProps {}
 
 export const ShelfTitle: React.FC<ShelfTitleProps> = () => {
-    const { selected, shelves, library } = useShelfStore();
-    // Merge shelves and library arrays
-    const allShelves = [...shelves, ...library];
-    const [isLoading, setIsLoading] = useState(true);
+  const { selected, shelves, library } = useShelfStore();
+  // Merge shelves and library arrays
+  const allShelves = [...shelves, ...library];
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Find the item in the merged array based on the selected name
-    const selectedShelf = allShelves.find((item) => item.name === selected?.name);
+  // Find the item in the merged array based on the selected name
+  const selectedShelf = allShelves.find((item) => item.name === selected?.name);
 
-    useEffect(() => {
-        if (!selectedShelf) {
-            setIsLoading(true); // If selectedShelf is not available, set isLoading to true
-        } else {
-            setIsLoading(false); // If selectedShelf is available, set isLoading to false
-        }
-    }, [selectedShelf]);
+  useEffect(() => {
+    if (!selectedShelf) {
+      setIsLoading(true); // If selectedShelf is not available, set isLoading to true
+    } else {
+      setIsLoading(false); // If selectedShelf is available, set isLoading to false
+    }
+  }, [selectedShelf]);
 
-    const ShelfTitleLoader = (props: any) => (
-        <ContentLoader
-            uniqueKey='shelf-title-loader'
-            speed={2}
-            width={150}
-            height={50}
-            backgroundColor="#f7f2ee"
-        >
-            <rect rx="5" ry="5" width="150" height="50" />
-        </ContentLoader>
-    )
+  const ShelfTitleLoader = (props: any) => (
+    <ContentLoader
+      uniqueKey='shelf-title-loader'
+      speed={2}
+      width={150}
+      height={50}
+      backgroundColor='#f7f2ee'
+    >
+      <rect rx='5' ry='5' width='150' height='50' />
+    </ContentLoader>
+  );
 
-
-    return (
+  return (
+    <>
+      {isLoading ? (
         <>
-            {isLoading ? (
-                <>
-                    <ShelfTitleLoader />
-                </>
-            ) : (
-                <>
-                    <h1
-                        className={cn(
-                            dm_sefif_display.className,
-                            "text-beige text-5xl"
-                        )}
-                    >
-                        {selectedShelf?.name}
-                    </h1>
-                    <p className="text-sm text-gray-400 self-end mx-8 pt-2 pb-1">{selectedShelf?._count.userBooks} books</p>
-                </>
-            )}
+          <ShelfTitleLoader />
         </>
-    );
+      ) : (
+        <>
+          <h1 className={cn(dm_sefif_display.className, 'text-5xl text-beige')}>
+            {selectedShelf?.name}
+          </h1>
+          <p className='mx-8 self-end pb-1 pt-2 text-sm text-gray-400'>
+            {selectedShelf?._count.userBooks} books
+          </p>
+        </>
+      )}
+    </>
+  );
 };
 export default ShelfTitle;

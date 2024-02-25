@@ -1,4 +1,4 @@
-import { UserBook } from "@/graphql/graphql";
+import { UserBook } from '@/graphql/graphql';
 
 export interface BookItem {
   id: string;

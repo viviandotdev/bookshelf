@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { toast } from "@/hooks/use-toast";
-import { BookData } from "@/types/interfaces";
-import { getBooks } from "../api/getBooks";
+import { useEffect, useState } from 'react';
+import { toast } from '@/hooks/use-toast';
+import { BookData } from '@/types/interfaces';
+import { getBooks } from '../api/getBooks';
 
 const useBooksSearch = (search: string) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +11,7 @@ const useBooksSearch = (search: string) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        if (search !== "") {
+        if (search !== '') {
           const books = await getBooks(search);
           setResults(books);
         } else {
@@ -19,8 +19,8 @@ const useBooksSearch = (search: string) => {
         }
       } catch (error) {
         toast({
-          title: "Invalid Search",
-          description: "There was an error with your search.",
+          title: 'Invalid Search',
+          description: 'There was an error with your search.',
         });
       } finally {
         setIsLoading(false);

@@ -1,19 +1,19 @@
-"use server";
+'use server';
 
-import * as z from "zod";
+import * as z from 'zod';
 
-import { getCurrentUser } from "@/lib/auth";
-import { SettingsSchema } from "@/schemas/auth";
-import { unstable_update } from "@/auth";
-import { setAuthToken, httpLink, getApolloClient } from "@/lib/apollo";
-import { UpdateUserDocument, UpdateUserMutation } from "@/graphql/graphql";
+import { getCurrentUser } from '@/lib/auth';
+import { SettingsSchema } from '@/schemas/auth';
+import { unstable_update } from '@/auth';
+import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
+import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await getCurrentUser();
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
   if (!user) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' };
   }
 
   if (user.isOAuth) {
@@ -36,7 +36,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   }
 
   if (values.email && values.email !== data?.updateUser.email) {
-    return { success: "Check your email for a verification link!" };
+    return { success: 'Check your email for a verification link!' };
   }
 
   unstable_update({
@@ -46,5 +46,5 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     },
   });
 
-  return { success: "Settings Updated!" };
+  return { success: 'Settings Updated!' };
 };

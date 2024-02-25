@@ -1,11 +1,11 @@
-"use server";
+'use server';
 
-import * as z from "zod";
+import * as z from 'zod';
 
-import { getCurrentUser } from "@/lib/auth";
-import { changePasswordSchema } from "@/schemas/auth";
-import { setAuthToken, httpLink, getApolloClient } from "@/lib/apollo";
-import { UpdateUserDocument, UpdateUserMutation } from "@/graphql/graphql";
+import { getCurrentUser } from '@/lib/auth';
+import { changePasswordSchema } from '@/schemas/auth';
+import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
+import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
 
 export const changePassword = async (
   values: z.infer<typeof changePasswordSchema>
@@ -15,7 +15,7 @@ export const changePassword = async (
   client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
 
   if (!user) {
-    return { error: "Unauthorized" };
+    return { error: 'Unauthorized' };
   }
 
   if (user.isOAuth) {
@@ -31,14 +31,14 @@ export const changePassword = async (
           newPassword: values.newPassword,
         },
       },
-      errorPolicy: "all",
+      errorPolicy: 'all',
     });
     if (errors) {
       return { error: errors?.map((e) => e.message)[0] };
     }
   } catch (error) {
-    return { error: "There was a problem with your request" };
+    return { error: 'There was a problem with your request' };
   }
 
-  return { success: "Password Updated!" };
+  return { success: 'Password Updated!' };
 };

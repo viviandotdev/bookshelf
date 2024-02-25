@@ -1,15 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-interface GoalsTemplateProps {
+interface GoalsTemplateProps {}
 
-}
-
-export const GoalsTemplate: React.FC<GoalsTemplateProps> = ({ }) => {
-    return (
-        <div>
-            GOALS
-
-        </div>
-    );
-}
-export default GoalsTemplate
+export const GoalsTemplate: React.FC<GoalsTemplateProps> = ({}) => {
+  return <div>GOALS</div>;
+};
+export default GoalsTemplate;

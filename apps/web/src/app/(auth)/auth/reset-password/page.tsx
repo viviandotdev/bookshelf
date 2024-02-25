@@ -1,9 +1,7 @@
-import { ResetPasswordForm } from "@/modules/auth/components/reset-password-form";
+import { ResetPasswordForm } from '@/modules/auth/components/reset-password-form';
 
 const ResetPasswordPage = () => {
-    return (
-        <ResetPasswordForm />
-    );
-}
+  return <ResetPasswordForm />;
+};
 
 export default ResetPasswordPage;

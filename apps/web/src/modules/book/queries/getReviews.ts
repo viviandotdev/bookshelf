@@ -1,6 +1,6 @@
-import { BookReviewsQuery, BookReviewsDocument } from "@/graphql/graphql";
-import { getApolloClient, setAuthToken, httpLink } from "@/lib/apollo";
-import { getCurrentUser } from "@/lib/auth";
+import { BookReviewsQuery, BookReviewsDocument } from '@/graphql/graphql';
+import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function getReviews(bookId: string) {
   const user = await getCurrentUser();

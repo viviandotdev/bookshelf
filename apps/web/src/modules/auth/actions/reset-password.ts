@@ -1,23 +1,23 @@
 import {
   ResetPasswordMutation,
   ResetPasswordDocument,
-} from "@/graphql/graphql";
-import { getApolloClient } from "@/lib/apollo";
-import { NewPasswordSchema } from "@/schemas/auth";
-import { z } from "zod";
+} from '@/graphql/graphql';
+import { getApolloClient } from '@/lib/apollo';
+import { NewPasswordSchema } from '@/schemas/auth';
+import { z } from 'zod';
 
 export const resetPassword = async (
   values: z.infer<typeof NewPasswordSchema>,
   token?: string | null
 ) => {
   if (!token) {
-    return { error: "Missing token!" };
+    return { error: 'Missing token!' };
   }
 
   const validatedFields = NewPasswordSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields!" };
+    return { error: 'Invalid fields!' };
   }
 
   const client = getApolloClient();
@@ -33,13 +33,13 @@ export const resetPassword = async (
           token,
         },
       },
-      errorPolicy: "all",
+      errorPolicy: 'all',
     });
     // Handle error
     console.log(errors?.map((e) => e.message));
   } catch (error) {
-    return { error: "Unable to change password, Please try again" };
+    return { error: 'Unable to change password, Please try again' };
   }
 
-  return { success: "Password updated!" };
+  return { success: 'Password updated!' };
 };

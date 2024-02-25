@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import JournalTemplate from "@/modules/journal/templates";
+import JournalTemplate from '@/modules/journal/templates';
 
 export default function JournalPage() {
-    return <main className="container flex-1 z-40 mx-auto ">
-        <JournalTemplate />;
+  return (
+    <main className='container z-40 mx-auto flex-1 '>
+      <JournalTemplate />;
     </main>
-
+  );
 }
