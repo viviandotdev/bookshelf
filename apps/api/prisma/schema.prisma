@@ -129,6 +129,8 @@ model Review {
     userId     String?
     book       Book?     @relation(fields: [bookId], references: [id])
     bookId     String?
+
+    @@unique(fields: [userId, bookId], name: "identifier")
 }
 
 model Comment {

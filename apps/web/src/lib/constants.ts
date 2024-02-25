@@ -33,5 +33,4 @@ export const STATUS = {
   UpNext: "Up Next",
   CurrentlyReading: "Currently Reading",
   Read: "Read",
-  Abandoned: "Abandoned",
 };

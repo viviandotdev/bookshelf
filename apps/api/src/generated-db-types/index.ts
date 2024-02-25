@@ -7842,7 +7842,7 @@ export class DeleteOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -7854,7 +7854,7 @@ export class FindFirstReviewOrThrowArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7872,7 +7872,7 @@ export class FindFirstReviewArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7890,7 +7890,7 @@ export class FindManyReviewArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7904,7 +7904,7 @@ export class FindUniqueReviewOrThrowArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -7912,7 +7912,7 @@ export class FindUniqueReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -7924,7 +7924,7 @@ export class ReviewAggregateArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -8145,7 +8145,7 @@ export class ReviewCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8158,7 +8158,7 @@ export class ReviewCreateNestedManyWithoutLikedByInput {
     connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8174,7 +8174,7 @@ export class ReviewCreateNestedManyWithoutUserBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8190,7 +8190,7 @@ export class ReviewCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8203,14 +8203,14 @@ export class ReviewCreateNestedOneWithoutCommentsInput {
     connectOrCreate?: InstanceType<typeof ReviewCreateOrConnectWithoutCommentsInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @InputType()
 export class ReviewCreateOrConnectWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateWithoutBookInput, {nullable:false})
     @Type(() => ReviewCreateWithoutBookInput)
     create!: InstanceType<typeof ReviewCreateWithoutBookInput>;
@@ -8220,7 +8220,7 @@ export class ReviewCreateOrConnectWithoutBookInput {
 export class ReviewCreateOrConnectWithoutCommentsInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateWithoutCommentsInput, {nullable:false})
     @Type(() => ReviewCreateWithoutCommentsInput)
     create!: InstanceType<typeof ReviewCreateWithoutCommentsInput>;
@@ -8230,7 +8230,7 @@ export class ReviewCreateOrConnectWithoutCommentsInput {
 export class ReviewCreateOrConnectWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewCreateWithoutLikedByInput)
     create!: InstanceType<typeof ReviewCreateWithoutLikedByInput>;
@@ -8240,7 +8240,7 @@ export class ReviewCreateOrConnectWithoutLikedByInput {
 export class ReviewCreateOrConnectWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewCreateWithoutUserBookInput)
     create!: InstanceType<typeof ReviewCreateWithoutUserBookInput>;
@@ -8250,7 +8250,7 @@ export class ReviewCreateOrConnectWithoutUserBookInput {
 export class ReviewCreateOrConnectWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateWithoutUserInput, {nullable:false})
     @Type(() => ReviewCreateWithoutUserInput)
     create!: InstanceType<typeof ReviewCreateWithoutUserInput>;
@@ -8446,6 +8446,14 @@ export class ReviewGroupBy {
     _min?: InstanceType<typeof ReviewMinAggregate>;
     @Field(() => ReviewMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof ReviewMaxAggregate>;
+}
+
+@InputType()
+export class ReviewIdentifierCompoundUniqueInput {
+    @Field(() => String, {nullable:false})
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    bookId!: string;
 }
 
 @InputType()
@@ -8735,7 +8743,7 @@ export class ReviewUncheckedCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8748,7 +8756,7 @@ export class ReviewUncheckedCreateNestedManyWithoutLikedByInput {
     connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8764,7 +8772,7 @@ export class ReviewUncheckedCreateNestedManyWithoutUserBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8780,7 +8788,7 @@ export class ReviewUncheckedCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
 }
 
 @InputType()
@@ -8933,16 +8941,16 @@ export class ReviewUncheckedUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutBookInput>;
@@ -8985,16 +8993,16 @@ export class ReviewUncheckedUpdateManyWithoutLikedByNestedInput {
     upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
@@ -9042,16 +9050,16 @@ export class ReviewUncheckedUpdateManyWithoutUserBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserBookInput>;
@@ -9097,16 +9105,16 @@ export class ReviewUncheckedUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserInput>;
@@ -9360,16 +9368,16 @@ export class ReviewUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutBookInput>;
@@ -9394,16 +9402,16 @@ export class ReviewUpdateManyWithoutLikedByNestedInput {
     upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
@@ -9431,16 +9439,16 @@ export class ReviewUpdateManyWithoutUserBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserBookInput>;
@@ -9468,16 +9476,16 @@ export class ReviewUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserInput>;
@@ -9508,7 +9516,7 @@ export class ReviewUpdateOneWithoutCommentsNestedInput {
     delete?: InstanceType<typeof ReviewWhereInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateToOneWithWhereWithoutCommentsInput, {nullable:true})
     @Type(() => ReviewUpdateToOneWithWhereWithoutCommentsInput)
     update?: InstanceType<typeof ReviewUpdateToOneWithWhereWithoutCommentsInput>;
@@ -9528,7 +9536,7 @@ export class ReviewUpdateToOneWithWhereWithoutCommentsInput {
 export class ReviewUpdateWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutBookInput)
     data!: InstanceType<typeof ReviewUpdateWithoutBookInput>;
@@ -9538,7 +9546,7 @@ export class ReviewUpdateWithWhereUniqueWithoutBookInput {
 export class ReviewUpdateWithWhereUniqueWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutLikedByInput)
     data!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
@@ -9548,7 +9556,7 @@ export class ReviewUpdateWithWhereUniqueWithoutLikedByInput {
 export class ReviewUpdateWithWhereUniqueWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserBookInput)
     data!: InstanceType<typeof ReviewUpdateWithoutUserBookInput>;
@@ -9558,7 +9566,7 @@ export class ReviewUpdateWithWhereUniqueWithoutUserBookInput {
 export class ReviewUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutUserInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserInput)
     data!: InstanceType<typeof ReviewUpdateWithoutUserInput>;
@@ -9702,7 +9710,7 @@ export class ReviewUpdateInput {
 export class ReviewUpsertWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutBookInput)
     update!: InstanceType<typeof ReviewUpdateWithoutBookInput>;
@@ -9715,7 +9723,7 @@ export class ReviewUpsertWithWhereUniqueWithoutBookInput {
 export class ReviewUpsertWithWhereUniqueWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutLikedByInput)
     update!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
@@ -9728,7 +9736,7 @@ export class ReviewUpsertWithWhereUniqueWithoutLikedByInput {
 export class ReviewUpsertWithWhereUniqueWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserBookInput)
     update!: InstanceType<typeof ReviewUpdateWithoutUserBookInput>;
@@ -9741,7 +9749,7 @@ export class ReviewUpsertWithWhereUniqueWithoutUserBookInput {
 export class ReviewUpsertWithWhereUniqueWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewUpdateWithoutUserInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserInput)
     update!: InstanceType<typeof ReviewUpdateWithoutUserInput>;
@@ -9767,6 +9775,8 @@ export class ReviewUpsertWithoutCommentsInput {
 export class ReviewWhereUniqueInput {
     @Field(() => String, {nullable:true})
     id?: string;
+    @Field(() => ReviewIdentifierCompoundUniqueInput, {nullable:true})
+    identifier?: InstanceType<typeof ReviewIdentifierCompoundUniqueInput>;
     @Field(() => [ReviewWhereInput], {nullable:true})
     AND?: Array<ReviewWhereInput>;
     @Field(() => [ReviewWhereInput], {nullable:true})
@@ -9888,7 +9898,7 @@ export class UpdateOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
 }
 
 @ArgsType()
@@ -9896,7 +9906,7 @@ export class UpsertOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
     @Field(() => ReviewCreateInput, {nullable:false})
     @Type(() => ReviewCreateInput)
     create!: InstanceType<typeof ReviewCreateInput>;

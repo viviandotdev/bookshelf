@@ -8,54 +8,18 @@ import { BookItem, ColumnWithBooks } from '../types';
 import { STATUS } from '@/lib/constants';
 import useBuildQuery from '../hooks/use-build-query';
 import { generateQueryFilter } from '../utils';
+import { UserBook } from '@/graphql/graphql';
 
 interface ColumnItemProps {
     data: ColumnWithBooks;
-    index: number;
     setData: React.Dispatch<React.SetStateAction<ColumnWithBooks[]>>;
     isScrollable?: boolean;
 }
 
-export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) => {
+export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData }) => {
     const query = useBuildQuery();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleScroll = async (e: any, status: string) => {
-        const statuses: string[] = Object.values(STATUS);
-        const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === Math.floor(e.target.clientHeight);
-        if (bottom) {
-            const index = statuses.indexOf(status)
-            // Load more books
-            const queryFilter = generateQueryFilter(query, data.title, data.books.length)
-            setIsLoading(true);
-            const fetchedData = await data.fetchMore({
-                variables: {
-                    ...queryFilter,
-                },
-            });
-
-            setIsLoading(false);
-
-            if (fetchedData.data.userBooks) {
-                setData(prevData => {
-                    const newData = [...prevData];
-                    newData[index] = {
-                        ...newData[index],
-                        books: [...newData[index].books, ...fetchedData.data.userBooks?.map((book: any) => ({
-                            id: book.book?.id,
-                            title: book.book?.title,
-                            order: book.order,
-                            status: book.status,
-                            coverImage: book.book?.coverImage,
-                            author: book.book.author,
-
-                        }))],
-                    };
-                    return newData;
-                });
-            }
-        }
-    }
 
     return (
         <li
@@ -63,7 +27,8 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
         >
             <div
                 className="w-full rounded-md bg-beige-100 shadow-md pb-2">
-                <ColumnHeader title={data.title} />
+                <ColumnHeader title={data.title} totalBooks={data.totalBooks} />
+
                 <Droppable droppableId={data.title} type="card">
                     {
                         (provided) => (
@@ -71,17 +36,17 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, index, setData }) 
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                             >
-                                <div onScroll={(e) => {
-                                    handleScroll(e, data.title)
-                                }} className={cn(
-                                    "overflow-y-auto max-h-[700px] mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                                    data.books.length > 0 ? "mt-2" : "mt-0",)}>
+                                <div
+                                    className={cn(
+                                        "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
+                                        data.books.length > 0 ? "mt-2" : "mt-0",)}>
                                     {
-                                        data.books.map((book: BookItem, index: number) => (
+                                        data.books.map((book: UserBook, index: number) => (
                                             <CardItem
-                                                columnTitle={data.title}
-                                                index={index}
                                                 key={index}
+                                                status={data.title}
+                                                totalBooks={data.totalBooks}
+                                                index={index}
                                                 data={book}
                                             />
                                         ))

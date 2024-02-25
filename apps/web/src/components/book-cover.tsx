@@ -1,8 +1,7 @@
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from "@/lib/constants";
 import Image from "next/image";
-import { Skeleton } from "./ui/skeleton";
 import { cn } from "@/lib/utils";
-
+import { twMerge } from 'tailwind-merge'
 interface BookCoverProps {
     src: string | null;
     size?: "xs" | "sm" | "lg" | "md" | "dynamic";
@@ -14,7 +13,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className 
 
     switch (size) {
         case "xs":
-            width = 56;
+            width = 48;
             break;
         case "sm":
             width = 76;
@@ -31,8 +30,9 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className 
             break;
     }
 
+
     return (
-        <span className={cn("relative flex items-end justify-end justify-self-end ", className)}>
+        <span className={twMerge("relative flex items-end justify-end justify-self-end ", className)}>
             {
                 width == 0 ? (
                     <Image
@@ -51,6 +51,7 @@ const BookCover: React.FC<BookCoverProps> = ({ src, size = "dynamic", className 
                         alt={"Book Cover"}
                         width={width}
                         height={width * 1.5}
+                        style={{ height: 'auto' }} // optional
                     />
                 )
             }

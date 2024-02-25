@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Icons } from "./icons";
 import {
     DropdownMenu,
@@ -16,7 +16,6 @@ import useAddToShelfModal from "@/components/modals/add-to-shelf-modal/use-add-t
 import useUserBookStore from "@/stores/use-user-book-store";
 import { BookRating } from "./book-rating";
 import { bookStatuses } from "@/config/books";
-import { Button } from "./ui/button";
 import { useJournalEntryModal } from "@/components/modals/journal-entry-modal/use-journal-entry-modal";
 import { useUpdateUserBook } from "@/modules/bookshelves/mutations/use-update-user-book";
 import Link from "next/link";
@@ -27,12 +26,13 @@ interface BookActionsProps {
     rating: number;
     status: string;
     showRemoveBook?: boolean;
-    type: "button" | "icon";
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     setRating: React.Dispatch<React.SetStateAction<number>>;
-    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+    trigger: React.ReactNode
+    side?: "top" | "bottom";
+    align?: "start" | "end";
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -42,11 +42,13 @@ const BookActions: React.FC<BookActionsProps> = ({
     shelves,
     openDropdown,
     showRemoveBook,
-    type = "icon",
     setStatus,
     setOpenAlert,
     setRating,
     setOpenDropdown,
+    trigger,
+    side = "top",
+    align = "start"
 }) => {
     const addToShelfModal = useAddToShelfModal();
     const { updateBookId, updateStatus, setBook, initShelves } = useUserBookStore();
@@ -61,35 +63,27 @@ const BookActions: React.FC<BookActionsProps> = ({
     const linkRef = useRef<HTMLAnchorElement>(null);
     return (
         <>
-            <DropdownMenu open={openDropdown} modal={false} >
+            <DropdownMenu open={openDropdown} modal={false}
+            >
                 <DropdownMenuTrigger
                     asChild
                     onClick={(e) => {
                         e.stopPropagation();
                         setOpenDropdown(!openDropdown);
                     }}
+
                 >
-                    {type === "button" ? ( // Check the type prop to render the trigger as button or icon
-                        <Button
-                            className="gap-2"
-                            variant={"tag"}
-                            size={"xs"}
-                        >
-                            {status}
-                            <Icons.chevronDown className="h-4 w-4" />
-                        </Button>
-                    ) : (
-                        <Icons.more className="stroke-1 fill-current stroke-beige cursor-pointer rotate-90 h-6 w-6 text-beige" />
-                    )}
+                    {trigger}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                     onMouseLeave={(e) => {
                         e.stopPropagation();
                         setOpenDropdown(false);
                     }}
-                    align={"start"}
+                    align={align}
+
                     sideOffset={8}
-                    side={"top"}
+                    side={side}
                     className="w-56"
                 >
                     {bookStatuses.map(item => (
@@ -116,7 +110,8 @@ const BookActions: React.FC<BookActionsProps> = ({
                         </div>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             // Shelves this part is part of
                             initShelves(shelves!);
                             setShelves(shelves!)

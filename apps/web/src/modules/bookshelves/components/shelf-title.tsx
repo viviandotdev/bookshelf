@@ -25,11 +25,11 @@ export const ShelfTitle: React.FC<ShelfTitleProps> = () => {
 
     const ShelfTitleLoader = (props: any) => (
         <ContentLoader
+            uniqueKey='shelf-title-loader'
             speed={2}
             width={150}
             height={50}
             backgroundColor="#f7f2ee"
-            {...props}
         >
             <rect rx="5" ry="5" width="150" height="50" />
         </ContentLoader>

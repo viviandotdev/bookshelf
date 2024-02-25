@@ -13,10 +13,15 @@ export default async function IndexPage() {
                 equals: "Currently Reading"
             }
         });
+        const upNext = await getUserBooks({
+            status: {
+                equals: "Up Next"
+            }
+        });
 
         return (
-            <main className="container flex-1 z-40 mx-auto">
-                <HomeTemplate shelves={shelves} currentlyReading={currentlyReading} />;
+            <main className="container max-w-[1440px] flex-1 z-40 mx-auto p-0">
+                <HomeTemplate shelves={shelves} currentlyReading={currentlyReading} upNext={upNext} />;
             </main>)
 
     }

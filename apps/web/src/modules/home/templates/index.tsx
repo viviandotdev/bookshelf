@@ -3,43 +3,29 @@ import { dm_sefif_display } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { Shelf, UserBook } from "@/graphql/graphql";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-
-import { BookOpenIcon, Badge, CalendarIcon, ClockIcon, CheckIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calender";
-import { Icons } from "@/components/icons";
-import ReadingCard from "../components/reading-card";
 import UpdateCard from "../components/update-card";
+import { BookStatusSection } from "../components/books-status-section";
+;
 
 interface HomeTemplateProps {
     currentlyReading: UserBook[];
     shelves: Shelf[];
+    upNext: UserBook[];
 }
 ;
-export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplateProps) {
-    const headings = [
-        "New York Times Bestsellers",
-        "Most Recommended Non-Fiction Books",
-        "Most Recommended Fiction Books",
-    ];
+export default function HomeTemplate({ currentlyReading, shelves, upNext }: HomeTemplateProps) {
     return (
         <>
-
-            <div className="max-w-8xl mx-auto px-0 py-6">
-                <div className="grid grid-cols-4 gap-16">
-                    <div className="col-span-3 space-y-6">
-                        <section aria-labelledby="currently-reading-heading">
-                            <h2 className={cn(
-                                dm_sefif_display.className,
-                                "text-2xl font-semibold text-beige-700 mb-4"
-                            )}>Currently Reading</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <ReadingCard />
-                                <ReadingCard />
-                                <ReadingCard />
-                            </div>
-                        </section>
+            <div className="mx-auto px-0">
+                <div className="flex">
+                    <div className="space-y-6 py-6 pr-10">
+                        <BookStatusSection
+                            details={{ progress: 90, date_started: "Sept 12" }}
+                            status={"Currently Reading"}
+                            layout="row"
+                            booksData={currentlyReading}
+                            shelves={shelves}
+                        />
                         <section aria-labelledby="popular-books-heading">
                             <h2 className={cn(
                                 dm_sefif_display.className,
@@ -70,45 +56,40 @@ export default function HomeTemplate({ currentlyReading, shelves }: HomeTemplate
                             <UpdateCard />
                         </section>
                     </div>
-                    <aside className="col-span-1 space-y-6">
+                    <aside className="min-w-96 space-y-6 py-6 border-l border-gray-200 pl-10">
                         <h2 className={cn(
                             dm_sefif_display.className,
                             "text-2xl font-semibold text-beige-700 mb-2"
                         )}>Reading Goals</h2>
-                        <Calendar className="rounded-md border" mode="single" />
+                        {/* <Calendar className="rounded-md border" mode="single" /> */}
                         <div className="space-y-4">
+                            {/* <div className="flex justify-between rounded-lg">
+                                <StatsCard title="Today Pages" value={351} />
+                                <StatsCard title="Total Check-Ins" value={167} />
+                            </div>
+                            <div className="flex justify-between rounded-lg">
+                                <StatsCard title="Current Streak" value={351} />
+                                <StatsCard title="Best Streak" value={167} />
 
-                            <div className="flex justify-between bg-white p-4 rounded-lg shadow">
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">10</div>
-                                    <div className="text-sm text-gray-500">Total Check Ins</div>
+                            </div> */}
+                            {/* <div className="bg-white rounded-lg border border-gray-700/10 p-4">
+                                <h3 className="text-sm font-medium text-gray-400 mb-1">2024 READING CHALLENGE PROGRESS</h3>
+                                <p className="text-lg text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
+                                <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>
+                                <div className="flex justify-center gap-2 items-center">
+                                    <Progress className="w-full items-center h-3" value={60} />
+                                    <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
                                 </div>
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">132</div>
-                                    <div className="text-sm text-gray-500">Best Streak</div>
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-lg font-semibold">10</div>
-                                    <div className="text-sm text-gray-500">Current Streak</div>
-                                </div>
-                            </div>
-                            <div className="bg-white rounded-md border p-4">
-                                <h3 className="text-lg font-semibold mb-2">2022 READING CHALLENGE PROGRESS</h3>
-                                <p className="text-sm text-gray-500 mb-1">22 / 35 books completed</p>
-                                <p className="text-sm text-gray-500 mb-4">You're 2 books behind schedule</p>
-                                <Progress className="w-full" value={60} />
-                                <p className="text-sm text-gray-500 mt-2">There are still 85 days left! You can do it!</p>
-                            </div>
-                            <section aria-labelledby="up-next-heading">
-                                <h2 className="text-lg font-semibold mb-2" id="up-next-heading">
-                                    Up Next
-                                </h2>
-                                <div className="space-y-2">
-                                    <ReadingCard />
-                                    <ReadingCard />
-                                    <ReadingCard />
-                                </div>
-                            </section>
+
+                                <p className="text-sm text-beige-700 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
+                            </div> */}
+                            <BookStatusSection
+                                details={{ progress: 90, date_started: "Sept 12" }}
+                                status={"Up Next"}
+                                layout="column"
+                                booksData={upNext}
+                                shelves={shelves}
+                            />
                         </div>
                     </aside>
                 </div>

@@ -29,7 +29,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
     });
     const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
-    const books = booksData && booksData?.userBooks
+    const books = booksData && booksData?.getUserBooks?.userBooks;
     const loading = networkStatus === NetworkStatus.loading;
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
                     {
                         books?.map((book, idx) => (
                             <div key={idx} >
-                                <Book userBook={book} showRemoveBook={true} />
+                                <Book userBook={book} showRemoveBook={true} view="gallery" />
                             </div>
                         ))}
                 </div>

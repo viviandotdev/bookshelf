@@ -1,3 +1,5 @@
+import { UserBook } from "@/graphql/graphql";
+
 export interface BookItem {
   id: string;
   title: string;
@@ -8,6 +10,8 @@ export interface BookItem {
 }
 export type ColumnWithBooks = {
   title: string;
-  books: BookItem[];
+  books: any[];
   fetchMore: any;
+  hasMore: boolean;
+  totalBooks: number;
 };

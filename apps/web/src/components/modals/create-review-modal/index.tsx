@@ -33,6 +33,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
         }
     };
 
+
     const { createReview } = useCreateReview();
     const { updateReview } = useUpdateReview();
     const createReviewModal = useCreateReviewModal();
@@ -113,8 +114,8 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({
             {userBook && userBook.book &&
                 < Dialog open={createReviewModal.isOpen} onOpenChange={onChange}>
                     <DialogContent className="flex min-w-[720px]">
-                        <div className="flex gap-8 min-w-full">
-                            <BookCover src={userBook.book.coverImage} />
+                        <div className="flex gap-8 min-w-full ">
+                            <BookCover src={userBook.book.coverImage} size={"md"} className="items-start" />
                             <div className="flex text-sm flex-col w-[fill-available] justify-evenly">
                                 <DialogHeader>
                                     {

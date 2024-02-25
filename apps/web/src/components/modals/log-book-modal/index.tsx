@@ -31,7 +31,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({
 
         loadData();
     }, [loadBooks, logBookModal.isOpen]);
-    const userBooks = booksData && booksData?.userBooks
+    const userBooks = booksData && booksData?.getUserBooks?.userBooks;
     const loading = networkStatus === NetworkStatus.loading;
 
     return (

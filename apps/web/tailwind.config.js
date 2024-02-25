@@ -16,10 +16,18 @@ module.exports = {
     },
     extend: {
       minWidth: {
+        36: "9rem",
+        40: "10rem",
+        44: "11rem",
+        48: "12rem",
+        52: "13rem",
         32: "8rem",
         28: "7rem",
         24: "6rem",
         20: "5rem",
+        72: "18rem",
+        92: "23rem",
+        96: "24rem",
       },
       colors: {
         border: "hsl(var(--border))",

@@ -27,6 +27,7 @@ import { UserBookUpdateInput } from 'libs/user-book/models/user-book-update.inpu
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { OptionalAccessTokenGuard } from 'libs/auth/guards/optional-jwt.guard';
 import { ActivityService } from 'libs/activity/activity.service';
+import { ReviewUniqueInput } from './models/review-unique.input';
 
 @Resolver(() => Review)
 export class ReviewResolver {
@@ -38,13 +39,30 @@ export class ReviewResolver {
     private readonly prisma: PrismaRepository,
   ) {}
 
+  @UseGuards(OptionalAccessTokenGuard)
   @Query(() => Review)
-  async bookReview(@Args('where') where: ReviewWhereUniqueInput) {
-    const reviewExists = await this.service.findUnique({
-      where: {
-        id: where.id,
-      },
-    });
+  async bookReview(
+    @Args('where') where: ReviewUniqueInput,
+    @CurrentUser() currentUser: JwtPayload,
+  ) {
+    let reviewExists;
+    if (!currentUser) {
+      reviewExists = await this.service.findUnique({
+        where: {
+          id: where.id,
+        },
+      });
+    } else {
+      reviewExists = await this.service.findUnique({
+        where: {
+          identifier: {
+            bookId: where.bookId,
+            userId: currentUser.userId,
+          },
+        },
+      });
+    }
+
     if (!reviewExists) {
       throw new Error('Review does not exist');
     }

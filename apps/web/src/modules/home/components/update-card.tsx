@@ -1,9 +1,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { HeartIcon, SendIcon, StarIcon } from 'lucide-react';
+import { HeartIcon, SendIcon } from 'lucide-react';
 import React from 'react'
-
+import Rating from '@/components/rating';
 
 interface UpdateCardProps {
 
@@ -11,18 +11,17 @@ interface UpdateCardProps {
 
 export const UpdateCard: React.FC<UpdateCardProps> = ({ }) => {
     return (
-        <div className=" bg-white rounded-lg shadow-md overflow-hidden ">
+        <div className=" bg-beige-50 border-beige-100 rounded-lg overflow-hidden ">
             <div className="md:flex">
                 <div className="md:flex-shrink-0">
                     <div
-                        className="h-64 w-[192px] bg-gray-200"
+                        className="h-64 w-[192px] bg-gray-200 rounded"
                         style={{
                             aspectRatio: "192/192",
                             objectFit: "cover",
                         }} />
-
                 </div>
-                <div className="p-4">
+                <div className="flex flex-col justify-between"><div className="p-4">
                     <div className="flex items-center mb-2">
                         <Avatar>
                             <AvatarImage alt="Jacob Jones" src="/placeholder.svg?height=32&width=32" />
@@ -45,32 +44,30 @@ export const UpdateCard: React.FC<UpdateCardProps> = ({ }) => {
                         un terremoto llamado Naomi, una novia a la fuga en busca de su gemela, de la que lleva años sin saber nada.
                         Lástima que su hermana le...
                     </p>
-                    <div className="mt-3 flex space-x-4 justify-between">
-                        <Button variant="outline">Want To Read</Button>
-                        <div className="flex items-center">
-                            Rate it
-                            <StarIcon className="text-gray-300" />
-                            <StarIcon className="text-gray-300" />
-                            <StarIcon className="text-gray-300" />
-                            <StarIcon className="text-gray-300" />
-                            <StarIcon className="text-gray-300" />
-                        </div>
-                    </div>
 
                 </div>
 
-            </div>
-            <div className="p-4 border-t border-gray-200">
+                    <div className="mt-3 flex p-4 space-x-4 justify-between">
+                        <Button variant="secondary">Want To Read</Button>
+                        <div className="flex items-center">
+                            <Rating value={5} />
 
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div className="py-4">
                 <div className=" flex">
                     <div className="relative flex-1 items-center">
-                        <Input className="pr-10 text-sm bg-beige-200" placeholder="Write a comment..." type="text" />
-                        <Button className="py-1 px-2 absolute right-2 bg-white top-1/2 transform -translate-y-1/2" variant="ghost">
-                            <SendIcon className="w-4 h-4 text-gray-500" />
+                        <Input className="outline-beige-100 pr-10 text-sm h-12 bg-beige-100" placeholder="Write a comment..." type="text" />
+                        <Button className="py-1 px-2 absolute right-2 bg-white h-[32px] w-[32px] top-1/2 transform -translate-y-1/2" variant="secondary">
+                            <SendIcon className="w-4 h-4 text-gray-400" />
                         </Button>
                     </div>
-                    <Button className="p-2 ml-4" variant="ghost">
-                        <HeartIcon className="w-4 h-4  text-gray-500" />
+                    <Button className="p-2 ml-4 w-12 h-12 bg-white border border-gray-200" variant="secondary">
+                        <HeartIcon className="w-5 h-5 text-gray-400" />
                     </Button>
                 </div>
             </div>

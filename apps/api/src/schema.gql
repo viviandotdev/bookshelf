@@ -1520,18 +1520,18 @@ type PasswordResetTokenMinAggregate {
 
 type Query {
   auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AuditLog!]!
-  bookReview(where: ReviewWhereUniqueInput!): Review!
+  bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
+  getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: MeResponse!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
-  userBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): [UserBook!]
 }
 
 enum QueryMode {
@@ -1765,6 +1765,11 @@ input ReviewDataInput {
   spoilers: Boolean
 }
 
+input ReviewIdentifierCompoundUniqueInput {
+  bookId: String!
+  userId: String!
+}
+
 input ReviewListRelationFilter {
   every: ReviewWhereInput
   none: ReviewWhereInput
@@ -1818,6 +1823,11 @@ input ReviewScalarWhereInput {
 
 type ReviewSumAggregate {
   likeCount: Int
+}
+
+input ReviewUniqueInput {
+  bookId: String
+  id: String
 }
 
 input ReviewUpdateManyMutationInput {
@@ -2057,6 +2067,7 @@ input ReviewWhereUniqueInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: String
+  identifier: ReviewIdentifierCompoundUniqueInput
   likeCount: IntFilter
   likedBy: UserListRelationFilter
   spoilers: BoolFilter
@@ -3061,6 +3072,12 @@ input UserBookWhereUniqueInput {
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
+}
+
+type UserBooksResponse {
+  hasMore: Boolean!
+  totalBooks: Float!
+  userBooks: [UserBook!]
 }
 
 type UserCount {
