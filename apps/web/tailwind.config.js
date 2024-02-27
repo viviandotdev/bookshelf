@@ -15,6 +15,11 @@ module.exports = {
       },
     },
     extend: {
+      maxWidth: {
+        48: '12rem',
+        52: '13rem',
+        56: '14rem',
+      },
       minWidth: {
         36: '9rem',
         40: '10rem',
