@@ -10,16 +10,17 @@ import React from 'react';
 interface NavLinkProps {
     href: string;
     children: React.ReactNode;
+    isUserRoute?: boolean;
     type?: 'underlined' | 'default'; // Make type optional using `?`
 }
 
 export const NavLink: React.FC<NavLinkProps> = ({
     href,
     children,
+    isUserRoute,
     type = 'default',
 }) => {
     const segments = useSelectedLayoutSegments();
-    console.log(segments, href)
     let active = href.startsWith(`/${segments.join('/')}`);
     if (segments.length === 0) {
         if (href !== '/') {
@@ -27,6 +28,14 @@ export const NavLink: React.FC<NavLinkProps> = ({
         }
 
     }
+
+    if (isUserRoute) {
+        const hrefSegments = href.split('/');
+        active = hrefSegments[2] === segments[0] ? active = true : active = false;
+    }
+
+
+
     let activeStyle;
     if (type === 'underlined') {
         activeStyle = active
@@ -35,7 +44,10 @@ export const NavLink: React.FC<NavLinkProps> = ({
     } else {
         activeStyle = active ? 'bg-beige-100 py-2 px-3 rounded-xl' : '';
     }
-    console.log(segments, active)
+
+
+
+    // console.log(segments, active)
     return (
         <Link
             className={cn(

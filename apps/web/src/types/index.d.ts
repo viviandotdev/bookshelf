@@ -7,6 +7,7 @@ export type NavItem = {
   id?: string;
   title?: string;
   href?: string;
+  isUserRoute?: boolean;
   disabled?: boolean;
   icon?: keyof typeof Icons;
 };
