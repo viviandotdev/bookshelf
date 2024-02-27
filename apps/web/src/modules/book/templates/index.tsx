@@ -55,11 +55,11 @@ export default function BookTemplate({
                             </h1>
                             <span className='inline text-base'>by {book.author}</span>
                         </div>
-                        <div className='grid grid-cols-6 gap-2'>
-                            <section className='col-span-4 flex flex-col gap-2 pr-4'>
+                        <div className='flex gap-2'>
+                            <section className='  flex flex-col gap-2 pr-4'>
                                 <BookInfo processedBook={book} />
                             </section>
-                            <section className='col-span-2'>
+                            <section className='min-w-72'>
                                 <ActionsPanel
                                     book={book}
                                     shelves={shelves}
