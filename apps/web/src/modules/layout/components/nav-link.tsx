@@ -22,13 +22,15 @@ export const NavLink: React.FC<NavLinkProps> = ({
 }) => {
     const segments = useSelectedLayoutSegments();
     let active = href.startsWith(`/${segments.join('/')}`);
+    
+    // home
     if (segments.length === 0) {
         if (href !== '/') {
             active = false;
         }
-
     }
 
+    // /[user]/:route
     if (isUserRoute) {
         const hrefSegments = href.split('/');
         active = hrefSegments[2] === segments[0] ? active = true : active = false;
@@ -44,8 +46,6 @@ export const NavLink: React.FC<NavLinkProps> = ({
     } else {
         activeStyle = active ? 'bg-beige-100 py-2 px-3 rounded-xl' : '';
     }
-
-
 
     // console.log(segments, active)
     return (
