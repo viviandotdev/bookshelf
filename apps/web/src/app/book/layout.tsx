@@ -9,34 +9,35 @@ interface PageLayoutProps {
 
 export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
+    // pathname
     const subItems = [
         {
-            title: 'My Library',
-            href: user ? `/${user.username}/books` : '/',
-            type: user ? "user" : "",
+            title: 'Activity',
+            href: `/activity`,
+            type: "book"
         },
         {
             title: 'Journal',
-            href: user ? `/${user.username}/journal` : '/',
-            type: user ? "user" : "",
+            href: `/journal`,
+            type: "book"
         },
         {
             title: 'Reviews',
-            href: user ? `/${user.username}/reviews` : '/',
-            type: user ? "user" : "",
+            href: `/reviews`,
+            type: "book"
         },
         {
-            title: 'Activity',
-            href: user ? `/${user.username}/activity` : '/',
-            type: user ? "user" : "",
+            title: 'Lists',
+            href: `/lists`,
+            type: "book"
         },
     ];
     return (
         <div className='flex min-h-screen flex-col bg-background'>
             <SiteHeader user={user} />
             <SecondaryHeader user={user} subItems={subItems} />
-            <main className='flex flex-col '>{children}</main>
-            {/* <SiteFooter /> */}
+            <main className='container z-40 mx-auto flex-1 '>{children}</main>
+            <SiteFooter />
         </div>
     );
 }

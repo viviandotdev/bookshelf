@@ -31,7 +31,7 @@ export function MainNav({ children, items }: MainNavProps) {
                 {items?.length ? (
                     <nav className='hidden gap-6 md:flex'>
                         {items?.map((item, index) => (
-                            <NavLink key={index} href={item.href} isUserRoute={item.isUserRoute}>
+                            <NavLink key={index} href={item.href} routeType={item.type}>
                                 {item.title}
                             </NavLink>
                         ))}

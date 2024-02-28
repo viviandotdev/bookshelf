@@ -20,7 +20,7 @@ export const MainHeader: React.FC<MainHeaderProps> = ({ user }) => {
         {
             title: 'My Library',
             href: user ? `/${user.username}/books` : '/',
-            isUserRoute: true,
+            type: "user",
         },
         {
             title: 'Browse',

@@ -18,7 +18,7 @@ export const SecondaryHeader: React.FC<SecondaryHeaderProps> = ({
                     {subItems?.length ? (
                         <nav className='hidden gap-6 md:flex'>
                             {subItems?.map((item, index) => (
-                                <NavLink type='underlined' key={index} href={item.href} isUserRoute={item.isUserRoute}>
+                                <NavLink type='underlined' key={index} href={item.href} routeType={item.type}>
                                     {item.title}
                                 </NavLink>
                             ))}
