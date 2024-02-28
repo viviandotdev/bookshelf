@@ -10,6 +10,7 @@ import ProfileSummary from '../components/profile-summary';
 import { Tabs } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import NavLink from '../components/nav-link';
+import ProfileNav from '../components/profile-nav';
 
 interface ProfileTemplateProps {
     currentlyReading: UserBook[];
@@ -24,29 +25,13 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     profileUser,
     currentUser,
 }) => {
-    const tabs = [
-        { name: 'Profile', href: '/profile' },
-        { name: 'Activity', href: '/activity' },
-        { name: 'Library', href: '/library' },
-        { name: 'Journal', href: '/journal' },
-        { name: 'Reviews', href: '/reviews' },
-        { name: 'Want to Read', href: '/want-to-read' },
-        { name: 'Lists', href: '/lists' },
-        { name: 'Tags', href: '/tags' },
-        { name: 'Stats', href: '/stats' },
-    ];
+
 
     const selectedTab = 'Profile';
     return (
         <div className="container">
             <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
-            <Tabs>
-                <div className='mt-4 flex justify-center space-x-1 rounded-xl border border-gray-200 bg-white px-12 py-3 shadow-sm'>
-                    {tabs.map((tab, index) => (
-                        <NavLink href={tab.href}>{tab.name}</NavLink>
-                    ))}
-                </div>
-            </Tabs>
+            <ProfileNav currentUser={currentUser} />
             <div className='grid grid-cols-3 gap-2 pt-12'>
                 <div className='col-span-2'>
                     <Section books={currentlyReading} title={'Favorite Books '} />

@@ -30,6 +30,11 @@ export default async function PageLayout({ children }: PageLayoutProps) {
             href: user ? `/${user.username}/activity` : '/',
             type: user ? "user" : "",
         },
+        {
+            title: 'Lists',
+            href: user ? `/${user.username}/lists` : '/',
+            type: user ? "user" : "",
+        },
     ];
     return (
         <div className='flex min-h-screen flex-col bg-background'>
