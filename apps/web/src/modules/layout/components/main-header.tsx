@@ -6,6 +6,7 @@ import { MainNav } from './main-nav';
 import { UserAccountNav } from './user-account-nav';
 import Link from 'next/link';
 import { NavItem } from '@/types';
+import SearchInput from './search-input';
 
 interface MainHeaderProps {
     user: any;
@@ -35,8 +36,10 @@ export const MainHeader: React.FC<MainHeaderProps> = ({ user }) => {
         <header className='container mx-0 flex max-w-[none] items-center justify-between py-2'>
             <MainNav items={items} />
             <div className='flex items-center space-x-6'>
-                {/* <MicroscopeIcon className="text-gray-600" /> */}
-                <Icons.search className='text-beige-700' />
+                {/* <Icons.search className='text-beige-700' /> */}
+                <div className="flex-1 sm:grow-0">
+                    <SearchInput />
+                </div>
                 {user ? (
                     <div className='flex gap-4'>
                         <UserAccountNav
