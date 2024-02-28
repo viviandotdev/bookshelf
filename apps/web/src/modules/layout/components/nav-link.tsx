@@ -37,8 +37,9 @@ export const NavLink: React.FC<NavLinkProps> = ({
     }
 
     // /book/[bookId]/:route
+
     if (routeType === 'book') {
-        active = hrefSegments[1] === segments[1] ? active = true : active = false;
+        active = href === segments[1] ? active = true : active = false;
     }
 
     let activeStyle;

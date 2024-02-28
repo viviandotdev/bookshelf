@@ -5,30 +5,32 @@ import SecondaryHeader from '@/modules/layout/components/secondary-header';
 
 interface PageLayoutProps {
     children: React.ReactNode;
+    params: { bookId: string };
 }
 
-export default async function PageLayout({ children }: PageLayoutProps) {
+export default async function PageLayout({ children, params }: PageLayoutProps) {
+    console.log(params)
     const user = await getCurrentUser();
     // pathname
     const subItems = [
         {
             title: 'Activity',
-            href: `/activity`,
+            href: `activity`,
             type: "book"
         },
         {
             title: 'Journal',
-            href: `/journal`,
+            href: `journal`,
             type: "book"
         },
         {
             title: 'Reviews',
-            href: `/reviews`,
+            href: `reviews`,
             type: "book"
         },
         {
             title: 'Lists',
-            href: `/lists`,
+            href: `lists`,
             type: "book"
         },
     ];

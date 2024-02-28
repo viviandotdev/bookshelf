@@ -7,7 +7,8 @@ interface ReviewsPageProps {
 export const ReviewsPage: React.FC<ReviewsPageProps> = ({ }) => {
     return (
         <div>
-            Reviews page
+            REVEWS PAGE
+
         </div>
     );
 }
