@@ -17,6 +17,22 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
     title,
     id,
 }) => {
+
+    function renderTitle(title?: string, id?: string) {
+        if (id) {
+            return (
+                <Link href={`/book/${id}`} className="text-beige hover:text-stone-500">
+                    {title}
+                </Link>
+            );
+        }
+        return (
+            <div className="text-beige">
+                {title}
+            </div>
+        );
+    }
+
     return (
         <div className="my-12">
             <div className='mx-auto mb-6 flex container flex-col justify-center'>
@@ -32,27 +48,14 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                         'mb-6 text-4xl font-bold text-beige-700'
                     )}
                 >
-                    {
-                        id ? (
-                            <Link href={`/book/${id}`} className='text-beige hover:text-stone-500'>
-                                {title}
-                            </Link>
-                        ) : (
-                            <div className='text-beige'>
-                                {title}
-                            </div>
-                        )
-                    }
-
+                    {renderTitle(title, id)}
                 </h1>
                 <div className="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
                     <Tabs defaultValue="all" className="w-[400px]">
                         <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="progress">Progress</TabsTrigger>
-                            <TabsTrigger value="=shelf">Shelf</TabsTrigger>
                             <TabsTrigger value="rating">Rating</TabsTrigger>
-                            <TabsTrigger value="review">Review</TabsTrigger>
+                            <TabsTrigger value="review">Reviews</TabsTrigger>
                         </TabsList>
                     </Tabs>
                     <div className="mt-3 flex sm:ml-4 sm:mt-0">

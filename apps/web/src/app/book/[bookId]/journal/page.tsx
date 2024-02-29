@@ -1,14 +1,15 @@
+import JournalTemplate from '@/modules/journal/templates';
 import React from 'react'
 
 interface JournalPageProps {
-
+    params: { bookId: string };
 }
 
-export const JournalPage: React.FC<JournalPageProps> = ({ }) => {
+export const JournalPage: React.FC<JournalPageProps> = ({ params }) => {
     return (
-        <div>
-            journal page
-        </div>
+        <main className='container z-40 mx-auto flex-1 '>
+            <JournalTemplate bookId={params.bookId} />
+        </main>
     );
 }
 export default JournalPage

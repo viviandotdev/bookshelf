@@ -10,9 +10,12 @@ import { Icons } from '@/components/icons';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 
-interface JournalTemplateProps { }
+interface JournalTemplateProps {
 
-export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
+    bookId?: string;
+}
+
+export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId }) => {
     const [loadEntries, { data: journalData, fetchMore, networkStatus }] =
         useJournalEntriesLazyQuery({
             fetchPolicy: 'cache-and-network',
@@ -71,6 +74,9 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ }) => {
         const loadData = async () => {
             await loadEntries({
                 variables: {
+                    book: {
+                        id: bookId,
+                    },
                     offset: 0,
                     limit: BOOKS_PAGE_SIZE,
                 },
