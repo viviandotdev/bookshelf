@@ -23,7 +23,7 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
     return (
         <div className="my-12">
             <div className='mx-auto mb-6 flex container flex-col justify-center'>
-                <Heading title={title} subTitle={id ? "Vivian's Activity For" : ""} href={`/book/${id}`} />
+                <Heading title={title} subTitle={id ? "Your Activity For" : ""} href={id ? `/book/${id}` : ''} />
                 <div className="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
                     <Tabs defaultValue="all" className="w-[400px]">
                         <TabsList>

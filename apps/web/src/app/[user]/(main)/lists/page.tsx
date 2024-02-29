@@ -8,7 +8,8 @@ interface ListsPageProps {
 export const ListsPage: React.FC<ListsPageProps> = ({ }) => {
     return (
         <div>
-            <ShelvesTemplate title="Shelves" id="Shelves" />
+            <ShelvesTemplate title="Shelves" description="Lists are organized collections of books created by anyone. Create a list
+and maybe we'll feature it!"/>
         </div>
     );
 }

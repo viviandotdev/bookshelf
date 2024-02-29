@@ -88,7 +88,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
         <>
             <section className='relative z-0 space-y-6 pb-8 pt-12'>
                 <div className='bg-white'>
-                    <Heading href={`/book/${bookId}`} title={title} subTitle={bookId ? "Vivian's Reading Journal for" : ""} />
+                    <Heading href={bookId ? `/book/${bookId}` : ''} title={title} subTitle={bookId ? "Your Journal Entries for" : ""} />
                     <div className='grid grid-cols-3 gap-4'>
                         <div className='flex flex-col justify-between gap-1 rounded-lg bg-blue-50 p-4'>
                             <div className='flex items-center justify-between'>

@@ -1,27 +1,28 @@
 import React from 'react'
-import { AuditLog, Book } from '@/graphql/graphql';
-import Link from 'next/link';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn, } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Heading } from '@/components/heading';
 interface ShelvesTemplateProps {
     title: string;
-    id: string
+    bookId?: string
+    description?: string
 }
 
-export const ShelvesTemplate: React.FC<ShelvesTemplateProps> = ({ title, id }) => {
+export const ShelvesTemplate: React.FC<ShelvesTemplateProps> = ({ title, bookId, description }) => {
 
     return (
         <div className="my-12">
             <div className='mx-auto mb-6 flex container flex-col justify-center'>
-                <Heading title={title} />
+                <Heading
+                    description={description}
+                    buttonText={title == "Shelves" ? "Create shelf" : ""}
+                    subTitle={bookId ? "Your Shelves that include" : ""}
+                    title={title}
+                    href={bookId ? `/book/${bookId}` : ''} />
                 <div className="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
                     <Tabs defaultValue="all" className="w-[400px]">
                         <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="rating">Rating</TabsTrigger>
-                            <TabsTrigger value="review">Reviews</TabsTrigger>
+                            <TabsTrigger value="bookmarks">Bookmarks</TabsTrigger>
                         </TabsList>
                     </Tabs>
                     <div className="mt-3 flex sm:ml-4 sm:mt-0">
