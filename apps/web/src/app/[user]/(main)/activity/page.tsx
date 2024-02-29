@@ -1,14 +1,19 @@
 import React from 'react'
-
+import { getActivity } from '@/modules/activity/queries/getActivity';
+import AcitvityTemplate from '@/modules/activity/templates';
+import { getCurrentUser } from '@/lib/auth';
 interface ActivityPageProps {
 
 }
 
-export const ActivityPage: React.FC<ActivityPageProps> = ({ }) => {
+export default async function ActivityPage({ }: ActivityPageProps) {
+    const auditLogs = await getActivity({});
+    const user = await getCurrentUser();
+    console.log(auditLogs)
     return (
-        <div>
-            All ACTIVITIES PAGE
-        </div>
+        <AcitvityTemplate
+            auditLogs={auditLogs}
+            title={"Activity for " + user?.username}
+        />
     );
 }
-export default ActivityPage

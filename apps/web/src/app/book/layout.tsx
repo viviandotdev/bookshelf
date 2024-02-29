@@ -24,11 +24,6 @@ export default async function PageLayout({ children, params }: PageLayoutProps) 
             type: "book"
         },
         {
-            title: 'Reviews',
-            href: `reviews`,
-            type: "book"
-        },
-        {
             title: 'Lists',
             href: `lists`,
             type: "book"

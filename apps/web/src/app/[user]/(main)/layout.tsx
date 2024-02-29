@@ -21,11 +21,6 @@ export default async function PageLayout({ children }: PageLayoutProps) {
             type: user ? "user" : "",
         },
         {
-            title: 'Reviews',
-            href: user ? `/${user.username}/reviews` : '/',
-            type: user ? "user" : "",
-        },
-        {
             title: 'Activity',
             href: user ? `/${user.username}/activity` : '/',
             type: user ? "user" : "",

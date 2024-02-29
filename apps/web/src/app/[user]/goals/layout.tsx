@@ -21,10 +21,6 @@ export default async function PageLayout({ children }: PageLayoutProps) {
             href: user ? `/book/journal` : '/',
         },
         {
-            title: 'Reviews',
-            href: user ? `/book/reviews` : '/',
-        },
-        {
             title: 'Lists',
             href: user ? `/book/lists` : '/',
         },
