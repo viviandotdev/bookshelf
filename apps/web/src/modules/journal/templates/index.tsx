@@ -7,15 +7,14 @@ import React, { useEffect } from 'react';
 import { columns } from '../components/columns';
 import { DataTable } from '@/components/ui/data-table';
 import { Icons } from '@/components/icons';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+import Heading from '@/components/heading';
 
 interface JournalTemplateProps {
-
     bookId?: string;
+    title?: string;
 }
 
-export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId }) => {
+export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title }) => {
     const [loadEntries, { data: journalData, fetchMore, networkStatus }] =
         useJournalEntriesLazyQuery({
             fetchPolicy: 'cache-and-network',
@@ -89,14 +88,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId }) => {
         <>
             <section className='relative z-0 space-y-6 pb-8 pt-12'>
                 <div className='bg-white'>
-                    <h1
-                        className={cn(
-                            dm_sefif_display.className,
-                            'mb-6 text-4xl font-bold text-beige-700'
-                        )}
-                    >
-                        Vivian's Reading Journal
-                    </h1>
+                    <Heading href={`/book/${bookId}`} title={title} subTitle={bookId ? "Vivian's Reading Journal for" : ""} />
                     <div className='grid grid-cols-3 gap-4'>
                         <div className='flex flex-col justify-between gap-1 rounded-lg bg-blue-50 p-4'>
                             <div className='flex items-center justify-between'>

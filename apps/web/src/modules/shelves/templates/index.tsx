@@ -1,29 +1,21 @@
-import React from 'react';
-import { ActivityItem } from '../components/activity-item';
+import React from 'react'
 import { AuditLog, Book } from '@/graphql/graphql';
 import Link from 'next/link';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn, } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Heading from '@/components/heading';
-
-interface AcitvityTemplateProps {
-    auditLogs: any;
-    title?: string;
-    id?: string;
+import { Heading } from '@/components/heading';
+interface ShelvesTemplateProps {
+    title: string;
+    id: string
 }
 
-export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
-    auditLogs,
-    title,
-    id,
-}) => {
-
+export const ShelvesTemplate: React.FC<ShelvesTemplateProps> = ({ title, id }) => {
 
     return (
         <div className="my-12">
             <div className='mx-auto mb-6 flex container flex-col justify-center'>
-                <Heading title={title} subTitle={id ? "Vivian's Activity For" : ""} href={`/book/${id}`} />
+                <Heading title={title} />
                 <div className="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
                     <Tabs defaultValue="all" className="w-[400px]">
                         <TabsList>
@@ -47,20 +39,18 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                         <p className='hidden text-center text-xs text-gray-500 last:block'>
                             No activity found
                         </p>
-                        {auditLogs.map((log: AuditLog) => (
+                        {/* {auditLogs.map((log: AuditLog) => (
                             <React.Fragment key={log.id}>
                                 <ActivityItem data={log} />
                                 <hr />
                             </React.Fragment>
-                        ))}
+                        ))} */}
                     </ol>
                 </div>
             </div>
 
 
         </div>
-
     );
-};
-
-export default AcitvityTemplate;
+}
+export default ShelvesTemplate

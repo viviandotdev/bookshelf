@@ -1,3 +1,4 @@
+import ShelvesTemplate from '@/modules/shelves/templates';
 import React from 'react'
 
 interface ListsPageProps {
@@ -7,7 +8,7 @@ interface ListsPageProps {
 export const ListsPage: React.FC<ListsPageProps> = ({ }) => {
     return (
         <div>
-            All LISTS PAGE
+            <ShelvesTemplate title="Shelves" id="Shelves" />
         </div>
     );
 }
