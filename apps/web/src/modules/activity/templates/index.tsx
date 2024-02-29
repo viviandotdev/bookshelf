@@ -3,31 +3,28 @@ import { ActivityItem } from '../components/activity-item';
 import { AuditLog, Book } from '@/graphql/graphql';
 import Link from 'next/link';
 import { dm_sefif_display } from '@/lib/fonts';
-import { cn, formatDate } from '@/lib/utils';
-import BookCover from '@/components/book-cover';
-import ActionsPanel from '@/modules/book/components/actions-panel';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn, } from '@/lib/utils';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface AcitvityTemplateProps {
     auditLogs: any;
     title?: string;
     id?: string;
-    book: Book;
 }
 
 export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
     auditLogs,
     title,
-    book,
     id,
 }) => {
     return (
         <div className="my-12">
             <div className='mx-auto mb-6 flex container flex-col justify-center'>
+
                 <h3
                     className={cn(dm_sefif_display.className, 'text-2xl text-gray-400')}
                 >
-                    Vivian's Activity For
+                    {id ? "Vivian's Activity For" : ""}
                 </h3>
                 <h1
                     className={cn(
@@ -35,12 +32,18 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                         'mb-6 text-4xl font-bold text-beige-700'
                     )}
                 >
-                    <Link
-                        href={`/book/${id}`}
-                        className='text-beige hover:text-stone-500'
-                    >
-                        {title}
-                    </Link>
+                    {
+                        id ? (
+                            <Link href={`/book/${id}`} className='text-beige hover:text-stone-500'>
+                                {title}
+                            </Link>
+                        ) : (
+                            <div className='text-beige'>
+                                {title}
+                            </div>
+                        )
+                    }
+
                 </h1>
                 <div className="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
                     <Tabs defaultValue="all" className="w-[400px]">
