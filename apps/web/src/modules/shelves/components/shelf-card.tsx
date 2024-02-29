@@ -53,11 +53,10 @@ export const ShelfCard: React.FC<ShelfCardProps> = ({ }) => {
                 <CardTitle>
                     <div className="flex gap-2">
                         Top 100 Science-Fiction and Fantasy Books of All Time
-                        <Icons.password className='h-4 w-4 text-black' />
+                        <Icons.lock className='h-4 w-4 text-black' />
                     </div>
 
                 </CardTitle>
-
                 <CardDescription>
                     These are the top 100 best scifi and fantasy books
                 </CardDescription>
