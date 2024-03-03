@@ -8,6 +8,7 @@ import { columns } from '../components/columns';
 import { DataTable } from '@/components/ui/data-table';
 import { Icons } from '@/components/icons';
 import Heading from '@/components/heading';
+import NoResults from '@/components/no-results';
 
 interface JournalTemplateProps {
     bookId?: string;
