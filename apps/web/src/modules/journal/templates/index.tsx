@@ -93,7 +93,6 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
         // ...add more stats objects as needed
     ];
 
-
     return (
         <>
             <section className='relative z-0 space-y-6 pb-8 pt-12'>
