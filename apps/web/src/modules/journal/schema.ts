@@ -7,7 +7,7 @@ export const journalEntrySchema = z.object({
   progress: z.number().int().positive(),
   notes: z.string(),
   liked: z.boolean(),
-  abandoned: z.boolean(),
+  dnf: z.boolean(),
   userBook: z.object({
     id: z.string(),
     status: z.string(),

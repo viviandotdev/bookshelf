@@ -127,13 +127,13 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         accessorKey: 'status',
         header: ({ column }) => <ColumnHeader column={column} title='DNF' />,
         cell: ({ row }) => {
-            const abandoned = row.getValue('status') === 'Abandoned';
+            const dnf = row.getValue('status') === 'Did Not Finish';
             return (
                 <div
                     className='cursor-pointer px-2 text-center text-beige'
                     onClick={() => { }}
                 >
-                    {abandoned! && <Icons.abondoned className='h-5' />}
+                    {dnf! && <Icons.abondoned className='h-5' />}
                 </div>
             );
         },
@@ -157,7 +157,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             const readingNotes = row.getValue('notes') as string;
             const date = row.getValue('date') as { month: string; year: number; day: number };
             // put this in a global state?
-            const abandoned = row.getValue('status') == "Abandoned";
+            const dnf = row.getValue('status') == "Did Not Finish";
             const { setJournalEntry, onEdit } = useJournalEntryModal();
             const { setBook, updateStatus } = useUserBookStore();
             useEffect(() => {
@@ -185,7 +185,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setBook(userBook.book);
-                                updateStatus(abandoned ? 'Abandoned' : 'Currently Reading');
+                                updateStatus(dnf ? 'Did Not Finish' : 'Currently Reading');
                                 onEdit(entry.id);
                             }}
                         >
