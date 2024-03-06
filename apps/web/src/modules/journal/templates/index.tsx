@@ -89,21 +89,38 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
     }, [loadEntries]);
 
     const stats = [
-        { trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
-        { trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
-        { trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
-        // ...add more stats objects as needed
+        { statTitle: '', trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
+        { statTitle: '', trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
+        { statTitle: 'Current reading streak', trend: '+100', trendPercentage: '2.5', totalCount: '351', comparisonCount: '200' },
     ];
-
+    // Previous best reading streak
     return (
         <>
             <section className='relative z-0 space-y-6 pb-8 pt-12'>
                 <div className='bg-white'>
                     <Heading href={bookId ? `/book/${bookId}` : ''} title={title} subTitle={bookId ? "Your Journal Entries for" : ""} />
                     <div className='grid grid-cols-3 gap-4'>
-                        {stats.map((stat, index) => (
-                            <StatCard key={index} {...stat} />
-                        ))}
+                        <StatCard
+                            title='Total pages read today'
+                            trend="+100"
+                            trendPercentage={5.3}
+                            count={`${120} pages`}
+                            info={`Compared to ${90} yesterday`}
+                        />
+                        <StatCard
+                            title='Total books read this year'
+                            trend="0/25"
+                            trendPercentage={10}
+                            count={`${120} books`}
+                            info={`${4} books behind schedule`}
+                        />
+                        <StatCard
+                            title='🔥 Current reading streak'
+                            trend="+100"
+                            trendPercentage={5.3}
+                            count={`${54} days`}
+                            info={`Previous best streak ${90} days`}
+                        />
                     </div>
                 </div>
                 <DataTable data={journalEntires!} columns={columns} loading={loading} />
