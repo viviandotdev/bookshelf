@@ -16,12 +16,14 @@ import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
 import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
+import { AuthorService } from 'libs/author/author.service';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
   constructor(
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
+    private readonly authorService: AuthorService,
   ) {}
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
@@ -136,15 +138,20 @@ export class UserBookResolver {
       const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
       // Check if the number of requests exceeds the limit (10 requests per second)
+      // if book is found
       console.log(book);
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
+        const authors = await this.authorService.createAuthors(book.authors);
+            
         const bookData: BookCreateInput = {
           id: book.id,
           title: book.title,
           pageCount: book.pageCount,
-          //   authors: book.authors,
+          authors: {
+            connect: authors.map((author) => ({ id: author.id })),
+          },
           publisher: book.publisher,
           coverImage: book.coverImage,
         };

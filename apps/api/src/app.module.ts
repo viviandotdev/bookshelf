@@ -15,6 +15,7 @@ import { JournalEntryModule } from '../libs/journal-entry/journal-entry.module';
 import { ReviewModule } from 'libs/review/review.module';
 import { CommentModule } from 'libs/comment/comment.module';
 import { ActivityModule } from '../libs/activity/activity.module';
+import { AuthorModule } from '../libs/author/author.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,6 +36,7 @@ import { ActivityModule } from '../libs/activity/activity.module';
     CommentModule,
     JournalEntryModule,
     ActivityModule,
+    AuthorModule,
   ],
   providers: [PrismaRepository],
 })

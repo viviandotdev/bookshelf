@@ -547,6 +547,18 @@ type AuthorCountAggregate {
   wikipedia: Int!
 }
 
+input AuthorCreateInput {
+  bio: String
+  birthDate: Timestamp
+  books: BookCreateNestedManyWithoutAuthorsInput
+  deathDate: Timestamp
+  id: String
+  name: String!
+  photo: String
+  wikipedia: String
+  works: WorkCreateNestedManyWithoutAuthorsInput
+}
+
 input AuthorCreateNestedManyWithoutBooksInput {
   connect: [AuthorWhereUniqueInput!]
   connectOrCreate: [AuthorCreateOrConnectWithoutBooksInput!]
@@ -2066,6 +2078,7 @@ type MeResponse {
 }
 
 type Mutation {
+  createAuthor(data: AuthorCreateInput!): Author!
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
