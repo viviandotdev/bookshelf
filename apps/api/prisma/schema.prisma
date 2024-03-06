@@ -152,7 +152,7 @@ model UserBook {
     /// @Validator.IsString()
     bookId    String
     /// @Validator.IsString()
-    status    String //WANT TO READ, READ, READING, ABANDONED, UP NEXT
+    status    String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
     /// @Validator.Max(5)
     /// @Validator.IsInt()

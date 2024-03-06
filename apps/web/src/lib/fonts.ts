@@ -1,4 +1,4 @@
-import { Inter, DM_Serif_Display } from 'next/font/google';
+import { Inter, DM_Serif_Display, Fraunces } from 'next/font/google';
 
 export const inter = Inter({
   subsets: ['latin'],
@@ -10,3 +10,4 @@ export const dm_sefif_display = DM_Serif_Display({
   weight: '400',
   display: 'swap',
 });
+

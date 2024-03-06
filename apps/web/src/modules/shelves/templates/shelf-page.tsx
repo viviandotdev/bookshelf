@@ -19,7 +19,7 @@ export const ShelfPageTemplate: React.FC<ShelfPageTemplateProps> = ({ }) => {
                 <section className="w-full">
                     <nav className='flex flex-col justify-between gap-2 rounded-lg pb-2 '>
                         <div className="flex justify-between py-4">
-                            <div className="flex gap-1">
+                          <div className="flex gap-1">
                                 <ShelfTitle />
                             </div>
                             <ViewOptions />

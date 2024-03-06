@@ -103,7 +103,7 @@ export const Icons = {
     import: FileDown,
     export: FileUp,
     more: DotsVerticalIcon,
-    abondoned: BanIcon,
+    dnf: BanIcon,
     save: Bookmark,
     comment: MessageSquare,
     kanban: LayoutIcon,

@@ -14,19 +14,20 @@ export const RESULTS_FETCH_MORE_INTERVAL = 20;
 export const REVIEWS_FETCH_MORE_INTERVAL = 15;
 
 export const MONTH = [
-  'JAN',
-  'FEB',
-  'MAR',
-  'APR',
-  'MAY',
-  'JUN',
-  'JUL',
-  'AUG',
-  'SEP',
-  'OCT',
-  'NOV',
-  'DEC',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
+
 
 export const STATUS = {
   WantToRead: 'Want to Read',

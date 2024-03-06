@@ -62,7 +62,7 @@ export const bookStatuses = [
     icon: Icons.book,
   },
   {
-    name: 'Abandoned',
+    name: 'Did Not Finish',
     icon: Icons.abondoned,
   },
 ];

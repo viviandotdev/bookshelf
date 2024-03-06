@@ -141,12 +141,12 @@ export default function ActionsPanel({
                 />
             );
             break;
-        case 'Abandoned':
+        case 'Did Not Finish':
             actionItemToShow = (
                 <ActionItem
                     onClick={() => openUpdateStatusModal()}
-                    icon={<Icons.abondoned className='h-8 w-8 items-center' />}
-                    label='Abandoned'
+                    icon={<Icons.dnf className='h-8 w-8 items-center' />}
+                    label='Did Not Finish'
                 />
             );
             break;
