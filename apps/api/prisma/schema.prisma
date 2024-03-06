@@ -85,14 +85,34 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-// Table stores all books
+model Work {
+    /// @Validator.IsString()
+    id           String   @id @default(uuid())
+    /// @Validator.IsString()
+    title        String
+    authors      Author[]
+    /// @Validator.IsString()
+    description  String?
+    /// @Validator.IsString()
+    categories   String[]
+    /// @Validator.IsString()
+    mainCategory String?
+
+    averageRating Float?
+    /// @Validator.IsInt()
+    ratingsCount  Int?
+
+    mainEditionId String?
+    editions      Book[]
+}
+
 model Book {
     /// @Validator.IsString()
-    id            String  @id @unique
+    id            String      @id @default(uuid())
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
-    author        String?
+    authors       Author[]
     /// @Validator.IsString()
     publishedDate String?
     /// @Validator.IsString()
@@ -101,18 +121,45 @@ model Book {
     coverImage    String?
     /// @Validator.IsString()
     description   String?
+    /// @Validator.IsString()
+    language      String?
     /// @Validator.IsInt()
     pageCount     Int?
     /// @Validator.IsString()
-    categories    String?
-
+    mainCategory  String?
     /// @Validator.IsString()
-    mainCategory String?
+    identifier    Identifier?
     // One to Many: multiple users can own the same book
     /// @Validator.ValidateNested()
-    userBook     UserBook[]
-    reviews      Review[]
-    logs         AuditLog[]
+    userBook      UserBook[]
+    reviews       Review[]
+    logs          AuditLog[]
+
+    work   Work?   @relation(fields: [workId], references: [id])
+    workId String?
+}
+
+model Identifier {
+    bookId      String  @id
+    book        Book?   @relation(fields: [bookId], references: [id])
+    isbn10      String?
+    isbn13      String?
+    googleBooks String?
+    openLibrary String?
+    goodreads   String?
+    amazon      String?
+}
+
+model Author {
+    id        String    @id @default(uuid())
+    name      String
+    bio       String?
+    birthDate DateTime?
+    deathDate DateTime?
+    wikipedia String?
+    photo     String?
+    works     Work[]
+    books     Book[]
 }
 
 model Review {
@@ -144,6 +191,7 @@ model Comment {
 }
 
 // Table stores all user books
+//BookshelvesBook
 model UserBook {
     /// @Validator.IsString()
     id        String   @id @default(uuid())
@@ -155,8 +203,8 @@ model UserBook {
     status    String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
     /// @Validator.Max(5)
-    /// @Validator.IsInt()
-    rating    Int?     @default(0)
+    /// @Validator.IsFloat()
+    rating    Float?   @default(0)
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
     user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
@@ -170,23 +218,11 @@ model UserBook {
     journalEntry JournalEntry[]
     reviews      Review[]
     order        Int
-    // Status       Status?           @relation(fields: [statusId], references: [id])
-    // statusId     String?
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, bookId], name: "identifier")
 }
-
-// model Status {
-//     id   String @id @default(uuid())
-//     name String
-
-//     userBooks UserBook[]
-
-//     createdAt DateTime @default(now())
-//     updatedAt DateTime @updatedAt
-// }
 
 model UserBookShelves {
     userBook   UserBook @relation(fields: [userBookId], references: [id], onDelete: Cascade)
