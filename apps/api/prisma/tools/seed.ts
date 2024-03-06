@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import {
-  createRandomUser,
-  createRandomBook,
-  createRandomUserBook,
-  createRandomShelf,
-} from './seed.data'; // Import your fake data generation functions
+// import {
+//   createRandomUser,
+//   createRandomBook,
+//   createRandomUserBook,
+//   createRandomShelf,
+// } from './seed.data'; // Import your fake data generation functions
 
 const prisma = new PrismaClient();
 

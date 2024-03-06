@@ -1,7 +1,7 @@
 export interface BookData {
   id: string;
   title: string;
-  author: string;
+  authors: string[];
   averageRating: number;
   ratingsCount: number;
   publishedDate: string;

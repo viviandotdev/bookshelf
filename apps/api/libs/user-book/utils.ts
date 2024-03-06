@@ -73,8 +73,8 @@ export function processBook(
 ): BookData | null {
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
-  const author: string = book.volumeInfo.authors?.join(', ') || 'N/A';
-  const titleAndAuthor = `${title} ${author}`;
+  const authors: string[] = book.volumeInfo.authors;
+  const titleAndAuthor = `${title} ${book.volumeInfo.authors?.join(', ')}`;
   // Skip processing the book if the title and author is already encountered
   if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
@@ -108,7 +108,7 @@ export function processBook(
     title,
     averageRating,
     ratingsCount,
-    author,
+    authors,
     publishedDate,
     publisher,
     categories,

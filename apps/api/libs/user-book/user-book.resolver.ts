@@ -139,11 +139,12 @@ export class UserBookResolver {
       console.log(book);
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
+        // need to create authors
         const bookData: BookCreateInput = {
           id: book.id,
           title: book.title,
           pageCount: book.pageCount,
-          author: book.author,
+          //   authors: book.authors,
           publisher: book.publisher,
           coverImage: book.coverImage,
         };

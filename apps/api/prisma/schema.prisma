@@ -203,7 +203,7 @@ model UserBook {
     status    String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
     /// @Validator.Max(5)
-    /// @Validator.IsFloat()
+    /// @Validator.IsNumber()
     rating    Float?   @default(0)
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
     user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
