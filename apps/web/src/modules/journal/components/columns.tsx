@@ -133,7 +133,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                     className='cursor-pointer px-2 text-center text-beige'
                     onClick={() => { }}
                 >
-                    {dnf! && <Icons.abondoned className='h-5' />}
+                    {dnf! && <Icons.dnf className='h-5' />}
                 </div>
             );
         },

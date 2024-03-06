@@ -145,7 +145,7 @@ export default function ActionsPanel({
             actionItemToShow = (
                 <ActionItem
                     onClick={() => openUpdateStatusModal()}
-                    icon={<Icons.abondoned className='h-8 w-8 items-center' />}
+                    icon={<Icons.dnf className='h-8 w-8 items-center' />}
                     label='Did Not Finish'
                 />
             );
