@@ -23,7 +23,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({
-    columns,
+columns,
     data,
     loading,
 }: DataTableProps<TData, TValue>): JSX.Element {

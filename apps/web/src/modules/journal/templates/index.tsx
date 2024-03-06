@@ -6,9 +6,8 @@ import { NetworkStatus } from '@apollo/client';
 import React, { useEffect } from 'react';
 import { columns } from '../components/columns';
 import { DataTable } from '@/components/ui/data-table';
-import { Icons } from '@/components/icons';
 import Heading from '@/components/heading';
-import { StatCard, StatGrid } from '../components/stats-card';
+import { StatCard } from '../components/stats-card';
 
 interface JournalTemplateProps {
     bookId?: string;
@@ -42,28 +41,32 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
         return {
             userBook: entry.userBook,
             monthYear: [MONTH[date.getMonth()], date.getFullYear()].join(' '),
-            date: date.getDate(),
+            date: {
+                month: MONTH[date.getMonth()],
+                year: date.getFullYear(),
+                day: date.getDate(),
+            },
             entry: {
                 id: entry.id,
+                author: entry.userBook?.book?.author,
                 title:
                     (entry.userBook &&
                         entry.userBook.book &&
-                        entry.userBook.book.title) ||
-                    '',
+                        entry.userBook.book.title) || '',
                 image:
                     entry.userBook &&
                     entry.userBook.book &&
                     entry.userBook.book.coverImage,
             },
-            pagesRead: entry.pagesRead,
             progress: {
                 currentPercent: entry.currentPercent,
                 currentPage: entry.currentPage,
+                pagesRead: entry.pagesRead,
                 totalPages: entry.userBook?.book?.pageCount,
             },
+            status: entry.userBook?.status,
             notes: entry.readingNotes || '',
             liked: true,
-            abandoned: entry.userBook?.status === 'Abandoned',
         };
     });
     const loading = networkStatus === NetworkStatus.loading;
@@ -82,7 +85,6 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
                 },
             });
         };
-
         loadData();
     }, [loadEntries]);
 

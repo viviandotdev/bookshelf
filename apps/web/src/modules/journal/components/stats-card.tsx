@@ -6,8 +6,11 @@ export const StatCard = ({ trend, trendPercentage, totalCount, comparisonCount }
             <p className='text-base text-beige-700'>
                 Total pages read today
             </p>
-            <div className='flex items-center align-middle text-sm font-semibold text-green-500'>
-                <Icons.trendingUp className='mr-1 h-4 w-4 text-green-500' />
+            <div className='flex items-center align-middle text-sm font-semibold text-beige'>
+                <div className="bg-white px-2 rounded-md text-center mr-2">
+                    <Icons.trendingUp className='h-4 w-4 text-beige' />
+                </div>
+
                 {trend} ({trendPercentage}%)
             </div>
         </div>
