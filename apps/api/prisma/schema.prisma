@@ -108,7 +108,7 @@ model Work {
 
 model Book {
     /// @Validator.IsString()
-    id            String      @id @default(uuid())
+    id            String      @id
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
@@ -140,7 +140,7 @@ model Book {
 }
 
 model Identifier {
-    bookId      String  @id
+    bookId      String  @id @default(uuid())
     book        Book?   @relation(fields: [bookId], references: [id])
     isbn10      String?
     isbn13      String?

@@ -17,6 +17,9 @@ import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { AuthorService } from 'libs/author/author.service';
+import { WorkCreateInput } from '@bookcue/api/generated-db-types';
+import { WorkService } from 'libs/work/work.service';
+import { PrismaRepository } from 'prisma/prisma.repository';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -24,6 +27,8 @@ export class UserBookResolver {
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
     private readonly authorService: AuthorService,
+    private readonly workService: WorkService,
+    private readonly prisma: PrismaRepository,
   ) {}
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
@@ -139,14 +144,39 @@ export class UserBookResolver {
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
       // Check if the number of requests exceeds the limit (10 requests per second)
       // if book is found
+      //   - [ ]  check if work already exists, if it does add the book as a new edition.
+      // - [ ]  if work does not exist create the work and then add the book as new edition
       console.log(book);
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
         const authors = await this.authorService.createAuthors(book.authors);
-            
+        const workData: WorkCreateInput = {
+          title: book.title,
+          authors: {
+            connect: authors.map((author) => ({ id: author.id })),
+          },
+          description: book.description,
+          mainCategory: book.mainCategory,
+          categories: book.categories,
+          averageRating:
+            Number(objectFromCSV['Average Rating']) || book.averageRating,
+          ratingsCount: book.ratingsCount,
+          //mainEDition if work already exists
+        };
+        const work = await this.workService.createUniqueWork(workData);
+        // create identifiers abstract away into bookservice create
+        const identifiers = await this.prisma.identifier.create({
+          data: {
+            isbn10: book.isbn,
+            isbn13: book.isbn13,
+            googleBooks: book.id,
+            goodreads: objectFromCSV['Book Id'],
+          },
+        });
+
         const bookData: BookCreateInput = {
-          id: book.id,
+          id: identifiers.bookId,
           title: book.title,
           pageCount: book.pageCount,
           authors: {
@@ -154,10 +184,22 @@ export class UserBookResolver {
           },
           publisher: book.publisher,
           coverImage: book.coverImage,
+          identifier: {
+            connect: {
+              bookId: identifiers.bookId,
+            },
+          },
+          work: {
+            connect: {
+              id: work.id,
+            },
+          },
         };
+        // update the average  average rating
 
         try {
           await this.bookService.create(bookData, user.userId);
+
           const userBookData: UserBookUpdateInput = {
             status,
             rating: Number(rating),
