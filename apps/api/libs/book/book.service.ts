@@ -69,10 +69,28 @@ export class BookService {
     }
   }
 
-  async create(data: BookCreateInput, userId: string, status?: string) {
-    let book = await this.prisma.book.findUnique({
+  async create(
+    data: BookCreateInput,
+    userId: string,
+    identifiers?: any,
+    status?: string,
+  ) {
+    // check if any of of the identifiers are already in the database
+    let book = await this.prisma.book.findFirst({
       where: {
-        id: data.id,
+        identifier: {
+          OR: [
+            // The OR array allows searching for any of the conditions to be true
+            { isbn10: identifiers.isbn10 }, // Replace with actual input variables
+            { isbn13: identifiers.isbn13 },
+            { googleBooks: identifiers.googleBooks },
+            { openLibrary: identifiers.openLibrary },
+            { goodreads: identifiers.goodreads },
+            { amazon: identifiers.amazon },
+          ].filter(
+            (identifier) => identifier[Object.keys(identifier)[0]] != '',
+          ), // This will filter out any undefined or null identifiers
+        },
       },
     });
 
@@ -80,6 +98,14 @@ export class BookService {
       const createBookArgs: Prisma.BookCreateArgs = {
         data: {
           ...data,
+          identifier: {
+            create: {
+              isbn10: identifiers.isbn,
+              isbn13: identifiers.isbn13,
+              googleBooks: identifiers.id,
+              goodreads: identifiers.goodreads,
+            },
+          },
         },
       };
 

@@ -8515,7 +8515,7 @@ export class IdentifierWhereInput {
 
 @ObjectType()
 export class Identifier {
-    @Field(() => ID, {nullable:false})
+    @Field(() => String, {nullable:false})
     bookId!: string;
     @Field(() => String, {nullable:true})
     isbn10!: string | null;

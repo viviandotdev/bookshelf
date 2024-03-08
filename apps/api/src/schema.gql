@@ -1606,7 +1606,7 @@ input FloatFilter {
 type Identifier {
   amazon: String
   book: Book
-  bookId: ID!
+  bookId: String!
   goodreads: String
   googleBooks: String
   isbn10: String

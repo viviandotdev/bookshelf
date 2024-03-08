@@ -8,6 +8,6 @@ export class WorkResolver {
 
   @Mutation(() => Work)
   createWork(@Args('data') createWorkInput: WorkCreateInput) {
-    return this.workService.createUniqueWork(createWorkInput);
+    // return this.workService.createUniqueWork(createWorkInput, );
   }
 }

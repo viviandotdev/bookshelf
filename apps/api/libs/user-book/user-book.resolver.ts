@@ -151,6 +151,7 @@ export class UserBookResolver {
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
         const authors = await this.authorService.createAuthors(book.authors);
+        console.log(authors);
         const workData: WorkCreateInput = {
           title: book.title,
           authors: {
@@ -164,19 +165,9 @@ export class UserBookResolver {
           ratingsCount: book.ratingsCount,
           //mainEDition if work already exists
         };
-        const work = await this.workService.createUniqueWork(workData);
-        // create identifiers abstract away into bookservice create
-        const identifiers = await this.prisma.identifier.create({
-          data: {
-            isbn10: book.isbn,
-            isbn13: book.isbn13,
-            googleBooks: book.id,
-            goodreads: objectFromCSV['Book Id'],
-          },
-        });
+        const work = await this.workService.createUniqueWork(workData, authors);
 
         const bookData: BookCreateInput = {
-          id: identifiers.bookId,
           title: book.title,
           pageCount: book.pageCount,
           authors: {
@@ -184,11 +175,6 @@ export class UserBookResolver {
           },
           publisher: book.publisher,
           coverImage: book.coverImage,
-          identifier: {
-            connect: {
-              bookId: identifiers.bookId,
-            },
-          },
           work: {
             connect: {
               id: work.id,
@@ -198,7 +184,16 @@ export class UserBookResolver {
         // update the average  average rating
 
         try {
-          await this.bookService.create(bookData, user.userId);
+          const currentBook = await this.bookService.create(
+            bookData,
+            user.userId,
+            {
+              isbn10: book.isbn,
+              isbn13: book.isbn13,
+              googleBooks: book.id,
+              goodreads: objectFromCSV['Book Id'],
+            },
+          );
 
           const userBookData: UserBookUpdateInput = {
             status,
@@ -209,7 +204,7 @@ export class UserBookResolver {
             data: userBookData,
             where: {
               userId: user.userId,
-              bookId: book.id,
+              bookId: currentBook.id,
             },
           });
         } catch (error) {

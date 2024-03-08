@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WorkCreateInput } from '@bookcue/api/generated-db-types';
-import { Prisma } from '@prisma/client';
+import { Author, WorkCreateInput } from '@bookcue/api/generated-db-types';
 import { WorkRepository } from './work.repository';
 import { PrismaRepository } from 'prisma/prisma.repository';
 
@@ -11,7 +10,7 @@ export class WorkService {
     private readonly prisma: PrismaRepository,
   ) {}
 
-  async createUniqueWork(data: WorkCreateInput) {
+  async createUniqueWork(data: WorkCreateInput, authors: Author[]) {
     // Start a transaction to ensure atomicity of the operations
     const result = await this.prisma.$transaction(async (prisma) => {
       // Check if a work with the same title and first author name already exists
@@ -21,7 +20,7 @@ export class WorkService {
           AND: {
             authors: {
               some: {
-                name: data.authors[0].name,
+                name: authors[0].name,
               },
             },
           },
