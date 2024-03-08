@@ -9,7 +9,7 @@ export class WorkService {
     private readonly work: WorkRepository,
     private readonly prisma: PrismaRepository,
   ) {}
-
+  update = this.work.update;
   async createUniqueWork(data: WorkCreateInput, authors: Author[]) {
     // Start a transaction to ensure atomicity of the operations
     const result = await this.prisma.$transaction(async (prisma) => {

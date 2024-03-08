@@ -103,6 +103,7 @@ model Work {
     ratingsCount  Int?
 
     mainEditionId String?
+    // mainEdition   Book?   @relation("MainEdtition", fields: [mainEditionId], references: [id])
     editions      Book[]
 }
 
@@ -137,11 +138,13 @@ model Book {
 
     work   Work?   @relation(fields: [workId], references: [id])
     workId String?
+
+    // mainWork Work? @relation("MainEdtition")
 }
 
 model Identifier {
+    bookId      String  @unique
     book        Book?   @relation(fields: [bookId], references: [id])
-    bookId          String  @unique
     isbn10      String?
     isbn13      String?
     googleBooks String?
