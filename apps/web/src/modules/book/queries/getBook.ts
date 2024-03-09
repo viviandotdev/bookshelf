@@ -10,7 +10,7 @@ export async function getBook(bookId: string) {
     query: BookDocument,
     variables: {
       where: {
-        id: bookId,
+        id: parseInt(bookId),
       },
     },
   });

@@ -33,6 +33,10 @@ export class BookResolver {
       where: {
         id: where.id,
       },
+      include: {
+        work: true,
+        authors: true,
+      },
     });
   }
 

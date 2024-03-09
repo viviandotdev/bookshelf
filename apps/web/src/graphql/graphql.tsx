@@ -5360,7 +5360,7 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', mainCategory?: string | null, categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6505,6 +6505,17 @@ export const BookDocument = gql`
     title
     authors {
       name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      mainCategory
+      categories
+      averageRating
+      ratingsCount
     }
   }
 }

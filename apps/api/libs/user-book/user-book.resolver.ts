@@ -180,6 +180,8 @@ export class UserBookResolver {
             connect: authors.map((author) => ({ id: author.id })),
           },
           publisher: book.publisher,
+          publishedDate: book.publishedDate,
+          description: book.description,
           coverImage: book.coverImage,
           work: {
             connect: {

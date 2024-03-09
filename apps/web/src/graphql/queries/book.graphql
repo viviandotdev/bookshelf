@@ -5,5 +5,16 @@ query Book($where: BookWhereUniqueInput!) {
     authors {
       name
     }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      mainCategory
+      categories
+      averageRating
+      ratingsCount
+    }
   }
 }

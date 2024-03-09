@@ -11,7 +11,7 @@ export async function getReviews(bookId: string) {
     query: BookReviewsDocument,
     variables: {
       where: {
-        id: bookId,
+        id: parseInt(bookId),
       },
     },
   });
