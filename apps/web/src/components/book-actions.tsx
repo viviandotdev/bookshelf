@@ -91,7 +91,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 // Selected is not the same as the current status params
                             }}
                         >
-                            <item.icon className='mr-2 h-5 w-5' />
+                            {/* <item.icon className='mr-2 h-5 w-5' /> */}
                             {item.name}
                         </DropdownMenuItem>
                     ))}

@@ -58,7 +58,7 @@ export class JournalEntryService {
 
   async findMany(args: {
     user: string;
-    book?: string;
+    book?: number;
     skip?: number;
     take?: number;
     orderBy?: Prisma.JournalEntryOrderByWithRelationInput;

@@ -38,7 +38,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
                 <DialogHeader>
                   <DialogTitle>{processedBook.title}</DialogTitle>
                   <DialogDescription className='inline text-sm leading-normal'>
-                    by {processedBook.author}
+                    by {processedBook.authors}
                   </DialogDescription>
                 </DialogHeader>
                 <DialogDescription>

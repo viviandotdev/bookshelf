@@ -2,15 +2,9 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -30,7 +24,7 @@ export enum Action {
   Rate = 'RATE',
   Review = 'REVIEW',
   Shelve = 'SHELVE',
-  StatusUpdate = 'STATUS_UPDATE',
+  StatusUpdate = 'STATUS_UPDATE'
 }
 
 export type Account = {
@@ -289,12 +283,17 @@ export type AuditLog = {
   action: Action;
   actionContent?: Maybe<Scalars['String']>;
   book?: Maybe<Book>;
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   createdAt: Scalars['Timestamp'];
   id: Scalars['ID'];
   updatedAt: Scalars['Timestamp'];
   user?: Maybe<User>;
   userId: Scalars['String'];
+};
+
+export type AuditLogAvgAggregate = {
+  __typename?: 'AuditLogAvgAggregate';
+  bookId?: Maybe<Scalars['Float']>;
 };
 
 export type AuditLogCountAggregate = {
@@ -326,7 +325,7 @@ export type AuditLogCreateManyBookInputEnvelope = {
 export type AuditLogCreateManyUserInput = {
   action: Action;
   actionContent?: InputMaybe<Scalars['String']>;
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -389,7 +388,7 @@ export type AuditLogMaxAggregate = {
   __typename?: 'AuditLogMaxAggregate';
   action?: Maybe<Action>;
   actionContent?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
@@ -400,7 +399,7 @@ export type AuditLogMinAggregate = {
   __typename?: 'AuditLogMinAggregate';
   action?: Maybe<Action>;
   actionContent?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
@@ -417,11 +416,16 @@ export type AuditLogScalarWhereInput = {
   OR?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
+};
+
+export type AuditLogSumAggregate = {
+  __typename?: 'AuditLogSumAggregate';
+  bookId?: Maybe<Scalars['Int']>;
 };
 
 export type AuditLogUpdateManyMutationInput = {
@@ -517,7 +521,7 @@ export type AuditLogWhereInput = {
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -532,7 +536,7 @@ export type AuditLogWhereUniqueInput = {
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -550,31 +554,288 @@ export type AuthResponse = {
   verificationToken?: Maybe<Scalars['String']>;
 };
 
+export type Author = {
+  __typename?: 'Author';
+  _count: AuthorCount;
+  bio?: Maybe<Scalars['String']>;
+  birthDate?: Maybe<Scalars['Timestamp']>;
+  books?: Maybe<Array<Book>>;
+  deathDate?: Maybe<Scalars['Timestamp']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
+  wikipedia?: Maybe<Scalars['String']>;
+  works?: Maybe<Array<Work>>;
+};
+
+export type AuthorCount = {
+  __typename?: 'AuthorCount';
+  books: Scalars['Int'];
+  works: Scalars['Int'];
+};
+
+export type AuthorCountAggregate = {
+  __typename?: 'AuthorCountAggregate';
+  _all: Scalars['Int'];
+  bio: Scalars['Int'];
+  birthDate: Scalars['Int'];
+  deathDate: Scalars['Int'];
+  id: Scalars['Int'];
+  name: Scalars['Int'];
+  photo: Scalars['Int'];
+  wikipedia: Scalars['Int'];
+};
+
+export type AuthorCreateInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  books?: InputMaybe<BookCreateNestedManyWithoutAuthorsInput>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+  works?: InputMaybe<WorkCreateNestedManyWithoutAuthorsInput>;
+};
+
+export type AuthorCreateNestedManyWithoutBooksInput = {
+  connect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuthorCreateOrConnectWithoutBooksInput>>;
+  create?: InputMaybe<Array<AuthorCreateWithoutBooksInput>>;
+};
+
+export type AuthorCreateNestedManyWithoutWorksInput = {
+  connect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuthorCreateOrConnectWithoutWorksInput>>;
+  create?: InputMaybe<Array<AuthorCreateWithoutWorksInput>>;
+};
+
+export type AuthorCreateOrConnectWithoutBooksInput = {
+  create: AuthorCreateWithoutBooksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorCreateOrConnectWithoutWorksInput = {
+  create: AuthorCreateWithoutWorksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorCreateWithoutBooksInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+  works?: InputMaybe<WorkCreateNestedManyWithoutAuthorsInput>;
+};
+
+export type AuthorCreateWithoutWorksInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  books?: InputMaybe<BookCreateNestedManyWithoutAuthorsInput>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+};
+
+export type AuthorListRelationFilter = {
+  every?: InputMaybe<AuthorWhereInput>;
+  none?: InputMaybe<AuthorWhereInput>;
+  some?: InputMaybe<AuthorWhereInput>;
+};
+
+export type AuthorMaxAggregate = {
+  __typename?: 'AuthorMaxAggregate';
+  bio?: Maybe<Scalars['String']>;
+  birthDate?: Maybe<Scalars['Timestamp']>;
+  deathDate?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  photo?: Maybe<Scalars['String']>;
+  wikipedia?: Maybe<Scalars['String']>;
+};
+
+export type AuthorMinAggregate = {
+  __typename?: 'AuthorMinAggregate';
+  bio?: Maybe<Scalars['String']>;
+  birthDate?: Maybe<Scalars['Timestamp']>;
+  deathDate?: Maybe<Scalars['Timestamp']>;
+  id?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  photo?: Maybe<Scalars['String']>;
+  wikipedia?: Maybe<Scalars['String']>;
+};
+
+export type AuthorOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type AuthorScalarWhereInput = {
+  AND?: InputMaybe<Array<AuthorScalarWhereInput>>;
+  NOT?: InputMaybe<Array<AuthorScalarWhereInput>>;
+  OR?: InputMaybe<Array<AuthorScalarWhereInput>>;
+  bio?: InputMaybe<StringFilter>;
+  birthDate?: InputMaybe<DateTimeFilter>;
+  deathDate?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  photo?: InputMaybe<StringFilter>;
+  wikipedia?: InputMaybe<StringFilter>;
+};
+
+export type AuthorUpdateManyMutationInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+};
+
+export type AuthorUpdateManyWithWhereWithoutBooksInput = {
+  data: AuthorUpdateManyMutationInput;
+  where: AuthorScalarWhereInput;
+};
+
+export type AuthorUpdateManyWithWhereWithoutWorksInput = {
+  data: AuthorUpdateManyMutationInput;
+  where: AuthorScalarWhereInput;
+};
+
+export type AuthorUpdateManyWithoutBooksNestedInput = {
+  connect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuthorCreateOrConnectWithoutBooksInput>>;
+  create?: InputMaybe<Array<AuthorCreateWithoutBooksInput>>;
+  delete?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<AuthorScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  set?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  update?: InputMaybe<Array<AuthorUpdateWithWhereUniqueWithoutBooksInput>>;
+  updateMany?: InputMaybe<Array<AuthorUpdateManyWithWhereWithoutBooksInput>>;
+  upsert?: InputMaybe<Array<AuthorUpsertWithWhereUniqueWithoutBooksInput>>;
+};
+
+export type AuthorUpdateManyWithoutWorksNestedInput = {
+  connect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<AuthorCreateOrConnectWithoutWorksInput>>;
+  create?: InputMaybe<Array<AuthorCreateWithoutWorksInput>>;
+  delete?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<AuthorScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  set?: InputMaybe<Array<AuthorWhereUniqueInput>>;
+  update?: InputMaybe<Array<AuthorUpdateWithWhereUniqueWithoutWorksInput>>;
+  updateMany?: InputMaybe<Array<AuthorUpdateManyWithWhereWithoutWorksInput>>;
+  upsert?: InputMaybe<Array<AuthorUpsertWithWhereUniqueWithoutWorksInput>>;
+};
+
+export type AuthorUpdateWithWhereUniqueWithoutBooksInput = {
+  data: AuthorUpdateWithoutBooksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorUpdateWithWhereUniqueWithoutWorksInput = {
+  data: AuthorUpdateWithoutWorksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorUpdateWithoutBooksInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+  works?: InputMaybe<WorkUpdateManyWithoutAuthorsNestedInput>;
+};
+
+export type AuthorUpdateWithoutWorksInput = {
+  bio?: InputMaybe<Scalars['String']>;
+  birthDate?: InputMaybe<Scalars['Timestamp']>;
+  books?: InputMaybe<BookUpdateManyWithoutAuthorsNestedInput>;
+  deathDate?: InputMaybe<Scalars['Timestamp']>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  wikipedia?: InputMaybe<Scalars['String']>;
+};
+
+export type AuthorUpsertWithWhereUniqueWithoutBooksInput = {
+  create: AuthorCreateWithoutBooksInput;
+  update: AuthorUpdateWithoutBooksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorUpsertWithWhereUniqueWithoutWorksInput = {
+  create: AuthorCreateWithoutWorksInput;
+  update: AuthorUpdateWithoutWorksInput;
+  where: AuthorWhereUniqueInput;
+};
+
+export type AuthorWhereInput = {
+  AND?: InputMaybe<Array<AuthorWhereInput>>;
+  NOT?: InputMaybe<Array<AuthorWhereInput>>;
+  OR?: InputMaybe<Array<AuthorWhereInput>>;
+  bio?: InputMaybe<StringFilter>;
+  birthDate?: InputMaybe<DateTimeFilter>;
+  books?: InputMaybe<BookListRelationFilter>;
+  deathDate?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  photo?: InputMaybe<StringFilter>;
+  wikipedia?: InputMaybe<StringFilter>;
+  works?: InputMaybe<WorkListRelationFilter>;
+};
+
+export type AuthorWhereUniqueInput = {
+  AND?: InputMaybe<Array<AuthorWhereInput>>;
+  NOT?: InputMaybe<Array<AuthorWhereInput>>;
+  OR?: InputMaybe<Array<AuthorWhereInput>>;
+  bio?: InputMaybe<StringFilter>;
+  birthDate?: InputMaybe<DateTimeFilter>;
+  books?: InputMaybe<BookListRelationFilter>;
+  deathDate?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<StringFilter>;
+  photo?: InputMaybe<StringFilter>;
+  wikipedia?: InputMaybe<StringFilter>;
+  works?: InputMaybe<WorkListRelationFilter>;
+};
+
 export type Book = {
   __typename?: 'Book';
   _count: BookCount;
-  author?: Maybe<Scalars['String']>;
-  categories?: Maybe<Scalars['String']>;
+  authors?: Maybe<Array<Author>>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  identifier?: Maybe<Identifier>;
+  language?: Maybe<Scalars['String']>;
   logs?: Maybe<Array<AuditLog>>;
-  mainCategory?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   reviews?: Maybe<Array<Review>>;
   title: Scalars['String'];
   userBook?: Maybe<Array<UserBook>>;
+  work?: Maybe<Work>;
+  workId?: Maybe<Scalars['String']>;
 };
 
 export type BookAvgAggregate = {
   __typename?: 'BookAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
   pageCount?: Maybe<Scalars['Float']>;
 };
 
 export type BookCount = {
   __typename?: 'BookCount';
+  authors: Scalars['Int'];
   logs: Scalars['Int'];
   reviews: Scalars['Int'];
   userBook: Scalars['Int'];
@@ -583,32 +844,60 @@ export type BookCount = {
 export type BookCountAggregate = {
   __typename?: 'BookCountAggregate';
   _all: Scalars['Int'];
-  author: Scalars['Int'];
-  categories: Scalars['Int'];
   coverImage: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
-  mainCategory: Scalars['Int'];
+  language: Scalars['Int'];
   pageCount: Scalars['Int'];
   publishedDate: Scalars['Int'];
   publisher: Scalars['Int'];
   title: Scalars['Int'];
+  workId: Scalars['Int'];
 };
 
 export type BookCreateInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
+};
+
+export type BookCreateManyWorkInput = {
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  language?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type BookCreateManyWorkInputEnvelope = {
+  data: Array<BookCreateManyWorkInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type BookCreateNestedManyWithoutAuthorsInput = {
+  connect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BookCreateOrConnectWithoutAuthorsInput>>;
+  create?: InputMaybe<Array<BookCreateWithoutAuthorsInput>>;
+};
+
+export type BookCreateNestedManyWithoutWorkInput = {
+  connect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BookCreateOrConnectWithoutWorkInput>>;
+  create?: InputMaybe<Array<BookCreateWithoutWorkInput>>;
+  createMany?: InputMaybe<BookCreateManyWorkInputEnvelope>;
 };
 
 export type BookCreateNestedOneWithoutLogsInput = {
@@ -629,6 +918,11 @@ export type BookCreateNestedOneWithoutUserBookInput = {
   create?: InputMaybe<BookCreateWithoutUserBookInput>;
 };
 
+export type BookCreateOrConnectWithoutAuthorsInput = {
+  create: BookCreateWithoutAuthorsInput;
+  where: BookWhereUniqueInput;
+};
+
 export type BookCreateOrConnectWithoutLogsInput = {
   create: BookCreateWithoutLogsInput;
   where: BookWhereUniqueInput;
@@ -644,100 +938,145 @@ export type BookCreateOrConnectWithoutUserBookInput = {
   where: BookWhereUniqueInput;
 };
 
-export type BookCreateWithoutLogsInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+export type BookCreateOrConnectWithoutWorkInput = {
+  create: BookCreateWithoutWorkInput;
+  where: BookWhereUniqueInput;
+};
+
+export type BookCreateWithoutAuthorsInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  mainCategory?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
+};
+
+export type BookCreateWithoutLogsInput = {
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
+  title: Scalars['String'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
 };
 
 export type BookCreateWithoutReviewsInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
 };
 
 export type BookCreateWithoutUserBookInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
+};
+
+export type BookCreateWithoutWorkInput = {
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
+  title: Scalars['String'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
 
 export type BookItemInput = {
-  id: Scalars['String'];
+  id: Scalars['Float'];
   order: Scalars['Float'];
   status: Scalars['String'];
   title: Scalars['String'];
 };
 
+export type BookListRelationFilter = {
+  every?: InputMaybe<BookWhereInput>;
+  none?: InputMaybe<BookWhereInput>;
+  some?: InputMaybe<BookWhereInput>;
+};
+
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
-  author?: Maybe<Scalars['String']>;
-  categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  language?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+  workId?: Maybe<Scalars['String']>;
 };
 
 export type BookMinAggregate = {
   __typename?: 'BookMinAggregate';
-  author?: Maybe<Scalars['String']>;
-  categories?: Maybe<Scalars['String']>;
   coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  language?: Maybe<Scalars['String']>;
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+  workId?: Maybe<Scalars['String']>;
+};
+
+export type BookOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
 export type BookOrderByWithRelationInput = {
-  author?: InputMaybe<SortOrderInput>;
-  categories?: InputMaybe<SortOrderInput>;
+  authors?: InputMaybe<AuthorOrderByRelationAggregateInput>;
   coverImage?: InputMaybe<SortOrderInput>;
   description?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
+  identifier?: InputMaybe<IdentifierOrderByWithRelationInput>;
+  language?: InputMaybe<SortOrderInput>;
   logs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
-  mainCategory?: InputMaybe<SortOrderInput>;
   pageCount?: InputMaybe<SortOrderInput>;
   publishedDate?: InputMaybe<SortOrderInput>;
   publisher?: InputMaybe<SortOrderInput>;
   reviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   title?: InputMaybe<SortOrder>;
   userBook?: InputMaybe<UserBookOrderByRelationAggregateInput>;
+  work?: InputMaybe<WorkOrderByWithRelationInput>;
+  workId?: InputMaybe<SortOrderInput>;
 };
 
 export type BookRelationFilter = {
@@ -745,9 +1084,72 @@ export type BookRelationFilter = {
   isNot?: InputMaybe<BookWhereInput>;
 };
 
+export type BookScalarWhereInput = {
+  AND?: InputMaybe<Array<BookScalarWhereInput>>;
+  NOT?: InputMaybe<Array<BookScalarWhereInput>>;
+  OR?: InputMaybe<Array<BookScalarWhereInput>>;
+  coverImage?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  language?: InputMaybe<StringFilter>;
+  pageCount?: InputMaybe<IntFilter>;
+  publishedDate?: InputMaybe<StringFilter>;
+  publisher?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  workId?: InputMaybe<StringFilter>;
+};
+
 export type BookSumAggregate = {
   __typename?: 'BookSumAggregate';
+  id?: Maybe<Scalars['Int']>;
   pageCount?: Maybe<Scalars['Int']>;
+};
+
+export type BookUpdateManyMutationInput = {
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type BookUpdateManyWithWhereWithoutAuthorsInput = {
+  data: BookUpdateManyMutationInput;
+  where: BookScalarWhereInput;
+};
+
+export type BookUpdateManyWithWhereWithoutWorkInput = {
+  data: BookUpdateManyMutationInput;
+  where: BookScalarWhereInput;
+};
+
+export type BookUpdateManyWithoutAuthorsNestedInput = {
+  connect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BookCreateOrConnectWithoutAuthorsInput>>;
+  create?: InputMaybe<Array<BookCreateWithoutAuthorsInput>>;
+  delete?: InputMaybe<Array<BookWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<BookScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  set?: InputMaybe<Array<BookWhereUniqueInput>>;
+  update?: InputMaybe<Array<BookUpdateWithWhereUniqueWithoutAuthorsInput>>;
+  updateMany?: InputMaybe<Array<BookUpdateManyWithWhereWithoutAuthorsInput>>;
+  upsert?: InputMaybe<Array<BookUpsertWithWhereUniqueWithoutAuthorsInput>>;
+};
+
+export type BookUpdateManyWithoutWorkNestedInput = {
+  connect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<BookCreateOrConnectWithoutWorkInput>>;
+  create?: InputMaybe<Array<BookCreateWithoutWorkInput>>;
+  createMany?: InputMaybe<BookCreateManyWorkInputEnvelope>;
+  delete?: InputMaybe<Array<BookWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<BookScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<BookWhereUniqueInput>>;
+  set?: InputMaybe<Array<BookWhereUniqueInput>>;
+  update?: InputMaybe<Array<BookUpdateWithWhereUniqueWithoutWorkInput>>;
+  updateMany?: InputMaybe<Array<BookUpdateManyWithWhereWithoutWorkInput>>;
+  upsert?: InputMaybe<Array<BookUpsertWithWhereUniqueWithoutWorkInput>>;
 };
 
 export type BookUpdateOneWithoutLogsNestedInput = {
@@ -795,49 +1197,101 @@ export type BookUpdateToOneWithWhereWithoutUserBookInput = {
   where?: InputMaybe<BookWhereInput>;
 };
 
-export type BookUpdateWithoutLogsInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+export type BookUpdateWithWhereUniqueWithoutAuthorsInput = {
+  data: BookUpdateWithoutAuthorsInput;
+  where: BookWhereUniqueInput;
+};
+
+export type BookUpdateWithWhereUniqueWithoutWorkInput = {
+  data: BookUpdateWithoutWorkInput;
+  where: BookWhereUniqueInput;
+};
+
+export type BookUpdateWithoutAuthorsInput = {
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+  work?: InputMaybe<WorkUpdateOneWithoutEditionsNestedInput>;
+};
+
+export type BookUpdateWithoutLogsInput = {
+  authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
+  title?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+  work?: InputMaybe<WorkUpdateOneWithoutEditionsNestedInput>;
 };
 
 export type BookUpdateWithoutReviewsInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+  work?: InputMaybe<WorkUpdateOneWithoutEditionsNestedInput>;
 };
 
 export type BookUpdateWithoutUserBookInput = {
-  author?: InputMaybe<Scalars['String']>;
-  categories?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
   coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
+  work?: InputMaybe<WorkUpdateOneWithoutEditionsNestedInput>;
+};
+
+export type BookUpdateWithoutWorkInput = {
+  authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
+  coverImage?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
+  title?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+};
+
+export type BookUpsertWithWhereUniqueWithoutAuthorsInput = {
+  create: BookCreateWithoutAuthorsInput;
+  update: BookUpdateWithoutAuthorsInput;
+  where: BookWhereUniqueInput;
+};
+
+export type BookUpsertWithWhereUniqueWithoutWorkInput = {
+  create: BookCreateWithoutWorkInput;
+  update: BookUpdateWithoutWorkInput;
+  where: BookWhereUniqueInput;
 };
 
 export type BookUpsertWithoutLogsInput = {
@@ -862,38 +1316,42 @@ export type BookWhereInput = {
   AND?: InputMaybe<Array<BookWhereInput>>;
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
-  author?: InputMaybe<StringFilter>;
-  categories?: InputMaybe<StringFilter>;
+  authors?: InputMaybe<AuthorListRelationFilter>;
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
+  id?: InputMaybe<IntFilter>;
+  identifier?: InputMaybe<IdentifierRelationFilter>;
+  language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
+  work?: InputMaybe<WorkRelationFilter>;
+  workId?: InputMaybe<StringFilter>;
 };
 
 export type BookWhereUniqueInput = {
   AND?: InputMaybe<Array<BookWhereInput>>;
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
-  author?: InputMaybe<StringFilter>;
-  categories?: InputMaybe<StringFilter>;
+  authors?: InputMaybe<AuthorListRelationFilter>;
   coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  identifier?: InputMaybe<IdentifierRelationFilter>;
+  language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
+  work?: InputMaybe<WorkRelationFilter>;
+  workId?: InputMaybe<StringFilter>;
 };
 
 export type BoolFilter = {
@@ -1155,6 +1613,167 @@ export type EnumActionFilter = {
   notIn?: InputMaybe<Array<Action>>;
 };
 
+export type FloatFilter = {
+  equals?: InputMaybe<Scalars['Float']>;
+  gt?: InputMaybe<Scalars['Float']>;
+  gte?: InputMaybe<Scalars['Float']>;
+  in?: InputMaybe<Array<Scalars['Float']>>;
+  lt?: InputMaybe<Scalars['Float']>;
+  lte?: InputMaybe<Scalars['Float']>;
+  not?: InputMaybe<FloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']>>;
+};
+
+export type Identifier = {
+  __typename?: 'Identifier';
+  amazon?: Maybe<Scalars['String']>;
+  book?: Maybe<Book>;
+  bookId: Scalars['Int'];
+  goodreads?: Maybe<Scalars['String']>;
+  googleBooks?: Maybe<Scalars['String']>;
+  isbn10?: Maybe<Scalars['String']>;
+  isbn13?: Maybe<Scalars['String']>;
+  openLibrary?: Maybe<Scalars['String']>;
+};
+
+export type IdentifierAvgAggregate = {
+  __typename?: 'IdentifierAvgAggregate';
+  bookId?: Maybe<Scalars['Float']>;
+};
+
+export type IdentifierCountAggregate = {
+  __typename?: 'IdentifierCountAggregate';
+  _all: Scalars['Int'];
+  amazon: Scalars['Int'];
+  bookId: Scalars['Int'];
+  goodreads: Scalars['Int'];
+  googleBooks: Scalars['Int'];
+  isbn10: Scalars['Int'];
+  isbn13: Scalars['Int'];
+  openLibrary: Scalars['Int'];
+};
+
+export type IdentifierCreateNestedOneWithoutBookInput = {
+  connect?: InputMaybe<IdentifierWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<IdentifierCreateOrConnectWithoutBookInput>;
+  create?: InputMaybe<IdentifierCreateWithoutBookInput>;
+};
+
+export type IdentifierCreateOrConnectWithoutBookInput = {
+  create: IdentifierCreateWithoutBookInput;
+  where: IdentifierWhereUniqueInput;
+};
+
+export type IdentifierCreateWithoutBookInput = {
+  amazon?: InputMaybe<Scalars['String']>;
+  goodreads?: InputMaybe<Scalars['String']>;
+  googleBooks?: InputMaybe<Scalars['String']>;
+  isbn10?: InputMaybe<Scalars['String']>;
+  isbn13?: InputMaybe<Scalars['String']>;
+  openLibrary?: InputMaybe<Scalars['String']>;
+};
+
+export type IdentifierMaxAggregate = {
+  __typename?: 'IdentifierMaxAggregate';
+  amazon?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
+  goodreads?: Maybe<Scalars['String']>;
+  googleBooks?: Maybe<Scalars['String']>;
+  isbn10?: Maybe<Scalars['String']>;
+  isbn13?: Maybe<Scalars['String']>;
+  openLibrary?: Maybe<Scalars['String']>;
+};
+
+export type IdentifierMinAggregate = {
+  __typename?: 'IdentifierMinAggregate';
+  amazon?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
+  goodreads?: Maybe<Scalars['String']>;
+  googleBooks?: Maybe<Scalars['String']>;
+  isbn10?: Maybe<Scalars['String']>;
+  isbn13?: Maybe<Scalars['String']>;
+  openLibrary?: Maybe<Scalars['String']>;
+};
+
+export type IdentifierOrderByWithRelationInput = {
+  amazon?: InputMaybe<SortOrderInput>;
+  book?: InputMaybe<BookOrderByWithRelationInput>;
+  bookId?: InputMaybe<SortOrder>;
+  goodreads?: InputMaybe<SortOrderInput>;
+  googleBooks?: InputMaybe<SortOrderInput>;
+  isbn10?: InputMaybe<SortOrderInput>;
+  isbn13?: InputMaybe<SortOrderInput>;
+  openLibrary?: InputMaybe<SortOrderInput>;
+};
+
+export type IdentifierRelationFilter = {
+  is?: InputMaybe<IdentifierWhereInput>;
+  isNot?: InputMaybe<IdentifierWhereInput>;
+};
+
+export type IdentifierSumAggregate = {
+  __typename?: 'IdentifierSumAggregate';
+  bookId?: Maybe<Scalars['Int']>;
+};
+
+export type IdentifierUpdateOneWithoutBookNestedInput = {
+  connect?: InputMaybe<IdentifierWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<IdentifierCreateOrConnectWithoutBookInput>;
+  create?: InputMaybe<IdentifierCreateWithoutBookInput>;
+  delete?: InputMaybe<IdentifierWhereInput>;
+  disconnect?: InputMaybe<IdentifierWhereInput>;
+  update?: InputMaybe<IdentifierUpdateToOneWithWhereWithoutBookInput>;
+  upsert?: InputMaybe<IdentifierUpsertWithoutBookInput>;
+};
+
+export type IdentifierUpdateToOneWithWhereWithoutBookInput = {
+  data: IdentifierUpdateWithoutBookInput;
+  where?: InputMaybe<IdentifierWhereInput>;
+};
+
+export type IdentifierUpdateWithoutBookInput = {
+  amazon?: InputMaybe<Scalars['String']>;
+  goodreads?: InputMaybe<Scalars['String']>;
+  googleBooks?: InputMaybe<Scalars['String']>;
+  isbn10?: InputMaybe<Scalars['String']>;
+  isbn13?: InputMaybe<Scalars['String']>;
+  openLibrary?: InputMaybe<Scalars['String']>;
+};
+
+export type IdentifierUpsertWithoutBookInput = {
+  create: IdentifierCreateWithoutBookInput;
+  update: IdentifierUpdateWithoutBookInput;
+  where?: InputMaybe<IdentifierWhereInput>;
+};
+
+export type IdentifierWhereInput = {
+  AND?: InputMaybe<Array<IdentifierWhereInput>>;
+  NOT?: InputMaybe<Array<IdentifierWhereInput>>;
+  OR?: InputMaybe<Array<IdentifierWhereInput>>;
+  amazon?: InputMaybe<StringFilter>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<IntFilter>;
+  goodreads?: InputMaybe<StringFilter>;
+  googleBooks?: InputMaybe<StringFilter>;
+  isbn10?: InputMaybe<StringFilter>;
+  isbn13?: InputMaybe<StringFilter>;
+  openLibrary?: InputMaybe<StringFilter>;
+};
+
+export type IdentifierWhereUniqueInput = {
+  AND?: InputMaybe<Array<IdentifierWhereInput>>;
+  NOT?: InputMaybe<Array<IdentifierWhereInput>>;
+  OR?: InputMaybe<Array<IdentifierWhereInput>>;
+  amazon?: InputMaybe<StringFilter>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<Scalars['Int']>;
+  goodreads?: InputMaybe<StringFilter>;
+  googleBooks?: InputMaybe<StringFilter>;
+  isbn10?: InputMaybe<StringFilter>;
+  isbn13?: InputMaybe<StringFilter>;
+  openLibrary?: InputMaybe<StringFilter>;
+};
+
 export type IntFilter = {
   equals?: InputMaybe<Scalars['Int']>;
   gt?: InputMaybe<Scalars['Int']>;
@@ -1248,18 +1867,14 @@ export type JournalEntryCreateManyUserInputEnvelope = {
 
 export type JournalEntryCreateNestedManyWithoutUserBookInput = {
   connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<JournalEntryCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<JournalEntryCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<JournalEntryCreateManyUserBookInputEnvelope>;
 };
 
 export type JournalEntryCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<JournalEntryCreateOrConnectWithoutUserInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<JournalEntryCreateWithoutUserInput>>;
   createMany?: InputMaybe<JournalEntryCreateManyUserInputEnvelope>;
 };
@@ -1388,31 +2003,21 @@ export type JournalEntryUpdateManyWithWhereWithoutUserInput = {
 
 export type JournalEntryUpdateManyWithoutUserBookNestedInput = {
   connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<JournalEntryCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<JournalEntryCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<JournalEntryCreateManyUserBookInputEnvelope>;
   delete?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<JournalEntryScalarWhereInput>>;
   disconnect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
   set?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
-  update?: InputMaybe<
-    Array<JournalEntryUpdateWithWhereUniqueWithoutUserBookInput>
-  >;
-  updateMany?: InputMaybe<
-    Array<JournalEntryUpdateManyWithWhereWithoutUserBookInput>
-  >;
-  upsert?: InputMaybe<
-    Array<JournalEntryUpsertWithWhereUniqueWithoutUserBookInput>
-  >;
+  update?: InputMaybe<Array<JournalEntryUpdateWithWhereUniqueWithoutUserBookInput>>;
+  updateMany?: InputMaybe<Array<JournalEntryUpdateManyWithWhereWithoutUserBookInput>>;
+  upsert?: InputMaybe<Array<JournalEntryUpsertWithWhereUniqueWithoutUserBookInput>>;
 };
 
 export type JournalEntryUpdateManyWithoutUserNestedInput = {
   connect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<JournalEntryCreateOrConnectWithoutUserInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<JournalEntryCreateOrConnectWithoutUserInput>>;
   create?: InputMaybe<Array<JournalEntryCreateWithoutUserInput>>;
   createMany?: InputMaybe<JournalEntryCreateManyUserInputEnvelope>;
   delete?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
@@ -1420,9 +2025,7 @@ export type JournalEntryUpdateManyWithoutUserNestedInput = {
   disconnect?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
   set?: InputMaybe<Array<JournalEntryWhereUniqueInput>>;
   update?: InputMaybe<Array<JournalEntryUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<
-    Array<JournalEntryUpdateManyWithWhereWithoutUserInput>
-  >;
+  updateMany?: InputMaybe<Array<JournalEntryUpdateManyWithWhereWithoutUserInput>>;
   upsert?: InputMaybe<Array<JournalEntryUpsertWithWhereUniqueWithoutUserInput>>;
 };
 
@@ -1518,6 +2121,7 @@ export type MeResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAuthor: Author;
   createBook: Book;
   createComment: Comment;
   createJournalEntry: JournalEntry;
@@ -1546,19 +2150,28 @@ export type Mutation = {
   verifyToken: AuthResponse;
 };
 
+
+export type MutationCreateAuthorArgs = {
+  data: AuthorCreateInput;
+};
+
+
 export type MutationCreateBookArgs = {
   data: BookCreateInput;
 };
+
 
 export type MutationCreateCommentArgs = {
   data: CommentCreateInput;
   where: ReviewWhereUniqueInput;
 };
 
+
 export type MutationCreateJournalEntryArgs = {
   book: BookWhereUniqueInput;
   data: JournalEntryCreateInput;
 };
+
 
 export type MutationCreateReviewArgs = {
   bookData: BookCreateInput;
@@ -1566,91 +2179,112 @@ export type MutationCreateReviewArgs = {
   where: BookWhereUniqueInput;
 };
 
+
 export type MutationCreateShelfArgs = {
   data: ShelfCreateInput;
 };
 
+
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
 };
+
 
 export type MutationFollowArgs = {
   value: Scalars['Boolean'];
   where: UserWhereUniqueInput;
 };
 
+
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
+
 export type MutationImportUserBooksArgs = {
   content: Scalars['String'];
 };
+
 
 export type MutationLikeReviewArgs = {
   value: Scalars['Boolean'];
   where: ReviewWhereUniqueInput;
 };
 
+
 export type MutationLoginArgs = {
   logInInput: LogInInput;
 };
+
 
 export type MutationLogoutArgs = {
   id: Scalars['String'];
 };
 
+
 export type MutationOAuthArgs = {
   oAuthInput: OAuthInput;
 };
+
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
 };
 
+
 export type MutationRemoveJournalEntryArgs = {
   where: JournalEntryWhereUniqueInput;
 };
+
 
 export type MutationRemoveUserBookArgs = {
   where: BookWhereUniqueInput;
 };
 
+
 export type MutationResetPasswordArgs = {
   resetPasswordInput: ResetPasswordInput;
 };
 
+
 export type MutationUpdateEmailArgs = {
   data: UpdateEmailInput;
 };
+
 
 export type MutationUpdateJournalEntryArgs = {
   data: JournalEntryUpdateInput;
   where: JournalEntryWhereUniqueInput;
 };
 
+
 export type MutationUpdateReviewArgs = {
   data: ReviewDataInput;
   where: ReviewWhereUniqueInput;
 };
+
 
 export type MutationUpdateShelfArgs = {
   data: ShelfUpdateInput;
   where: ShelfWhereUniqueInput;
 };
 
+
 export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
 };
+
 
 export type MutationUpdateUserBookArgs = {
   data: UserBookUpdateInput;
   where: BookWhereUniqueInput;
 };
 
+
 export type MutationUpdateUserBookOrderArgs = {
   data: UserBookUpdateOrderInput;
 };
+
 
 export type MutationVerifyTokenArgs = {
   token: Scalars['String'];
@@ -1658,7 +2292,7 @@ export type MutationVerifyTokenArgs = {
 
 export enum NullsOrder {
   First = 'first',
-  Last = 'last',
+  Last = 'last'
 }
 
 export type OAuthInput = {
@@ -1715,15 +2349,18 @@ export type Query = {
   userBook?: Maybe<UserBook>;
 };
 
+
 export type QueryAuditLogsArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
   where?: InputMaybe<UserBookWhereUniqueInput>;
 };
 
+
 export type QueryBookReviewArgs = {
   where: ReviewUniqueInput;
 };
+
 
 export type QueryBookReviewsArgs = {
   limit?: Scalars['Int'];
@@ -1731,23 +2368,28 @@ export type QueryBookReviewsArgs = {
   where: BookWhereUniqueInput;
 };
 
+
 export type QueryCommentsArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
   where: ReviewWhereUniqueInput;
 };
 
+
 export type QueryCountJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
 };
+
 
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
 };
 
+
 export type QueryGetMostRecentJournalEntryArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
 };
+
 
 export type QueryGetUserBooksArgs = {
   limit?: Scalars['Int'];
@@ -1756,15 +2398,18 @@ export type QueryGetUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
 };
 
+
 export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
 };
 
+
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
+
 
 export type QueryUserBookArgs = {
   where: BookWhereUniqueInput;
@@ -1772,7 +2417,7 @@ export type QueryUserBookArgs = {
 
 export enum QueryMode {
   Default = 'default',
-  Insensitive = 'insensitive',
+  Insensitive = 'insensitive'
 }
 
 export type RefreshResponse = {
@@ -1797,7 +2442,7 @@ export type Review = {
   __typename?: 'Review';
   _count: ReviewCount;
   book?: Maybe<Book>;
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   commentCount: Scalars['Int'];
   comments?: Maybe<Array<Comment>>;
   content?: Maybe<Scalars['String']>;
@@ -1815,6 +2460,7 @@ export type Review = {
 
 export type ReviewAvgAggregate = {
   __typename?: 'ReviewAvgAggregate';
+  bookId?: Maybe<Scalars['Float']>;
   likeCount?: Maybe<Scalars['Float']>;
 };
 
@@ -1853,7 +2499,7 @@ export type ReviewCreateManyBookInputEnvelope = {
 };
 
 export type ReviewCreateManyUserBookInput = {
-  bookId?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<Scalars['Int']>;
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
@@ -1868,7 +2514,7 @@ export type ReviewCreateManyUserBookInputEnvelope = {
 };
 
 export type ReviewCreateManyUserInput = {
-  bookId?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<Scalars['Int']>;
   content?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
@@ -1897,9 +2543,7 @@ export type ReviewCreateNestedManyWithoutLikedByInput = {
 
 export type ReviewCreateNestedManyWithoutUserBookInput = {
   connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<ReviewCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<ReviewCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<ReviewCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<ReviewCreateManyUserBookInputEnvelope>;
 };
@@ -2009,7 +2653,7 @@ export type ReviewDataInput = {
 };
 
 export type ReviewIdentifierCompoundUniqueInput = {
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   userId: Scalars['String'];
 };
 
@@ -2021,7 +2665,7 @@ export type ReviewListRelationFilter = {
 
 export type ReviewMaxAggregate = {
   __typename?: 'ReviewMaxAggregate';
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
@@ -2033,7 +2677,7 @@ export type ReviewMaxAggregate = {
 
 export type ReviewMinAggregate = {
   __typename?: 'ReviewMinAggregate';
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
@@ -2056,7 +2700,7 @@ export type ReviewScalarWhereInput = {
   AND?: InputMaybe<Array<ReviewScalarWhereInput>>;
   NOT?: InputMaybe<Array<ReviewScalarWhereInput>>;
   OR?: InputMaybe<Array<ReviewScalarWhereInput>>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
@@ -2068,11 +2712,12 @@ export type ReviewScalarWhereInput = {
 
 export type ReviewSumAggregate = {
   __typename?: 'ReviewSumAggregate';
+  bookId?: Maybe<Scalars['Int']>;
   likeCount?: Maybe<Scalars['Int']>;
 };
 
 export type ReviewUniqueInput = {
-  bookId?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<Scalars['Float']>;
   id?: InputMaybe<Scalars['String']>;
 };
 
@@ -2133,9 +2778,7 @@ export type ReviewUpdateManyWithoutLikedByNestedInput = {
 
 export type ReviewUpdateManyWithoutUserBookNestedInput = {
   connect?: InputMaybe<Array<ReviewWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<ReviewCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<ReviewCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<ReviewCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<ReviewCreateManyUserBookInputEnvelope>;
   delete?: InputMaybe<Array<ReviewWhereUniqueInput>>;
@@ -2291,7 +2934,7 @@ export type ReviewWhereInput = {
   NOT?: InputMaybe<Array<ReviewWhereInput>>;
   OR?: InputMaybe<Array<ReviewWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -2310,7 +2953,7 @@ export type ReviewWhereUniqueInput = {
   NOT?: InputMaybe<Array<ReviewWhereInput>>;
   OR?: InputMaybe<Array<ReviewWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -2556,7 +3199,7 @@ export type ShelfWhereUniqueInput = {
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export type SortOrderInput = {
@@ -2577,6 +3220,14 @@ export type StringFilter = {
   not?: InputMaybe<StringFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type StringListFilter = {
+  equals?: InputMaybe<Array<Scalars['String']>>;
+  has?: InputMaybe<Scalars['String']>;
+  hasEvery?: InputMaybe<Array<Scalars['String']>>;
+  hasSome?: InputMaybe<Array<Scalars['String']>>;
+  isEmpty?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type UpdateEmailInput = {
@@ -2621,12 +3272,12 @@ export type UserBook = {
   __typename?: 'UserBook';
   _count: UserBookCount;
   book?: Maybe<Book>;
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   createdAt: Scalars['Timestamp'];
   id: Scalars['ID'];
   journalEntry?: Maybe<Array<JournalEntry>>;
   order: Scalars['Int'];
-  rating?: Maybe<Scalars['Int']>;
+  rating?: Maybe<Scalars['Float']>;
   reviews?: Maybe<Array<Review>>;
   shelves?: Maybe<Array<UserBookShelves>>;
   status: Scalars['String'];
@@ -2637,6 +3288,7 @@ export type UserBook = {
 
 export type UserBookAvgAggregate = {
   __typename?: 'UserBookAvgAggregate';
+  bookId?: Maybe<Scalars['Float']>;
   order?: Maybe<Scalars['Float']>;
   rating?: Maybe<Scalars['Float']>;
 };
@@ -2665,7 +3317,7 @@ export type UserBookCreateManyBookInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   status: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
   userId: Scalars['String'];
@@ -2677,11 +3329,11 @@ export type UserBookCreateManyBookInputEnvelope = {
 };
 
 export type UserBookCreateManyUserInput = {
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   status: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -2753,7 +3405,7 @@ export type UserBookCreateWithoutBookInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserBookInput>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
@@ -2766,7 +3418,7 @@ export type UserBookCreateWithoutJournalEntryInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserBookInput>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
@@ -2780,7 +3432,7 @@ export type UserBookCreateWithoutReviewsInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -2793,7 +3445,7 @@ export type UserBookCreateWithoutShelvesInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -2806,7 +3458,7 @@ export type UserBookCreateWithoutUserInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
   order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserBookInput>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String'];
@@ -2814,7 +3466,7 @@ export type UserBookCreateWithoutUserInput = {
 };
 
 export type UserBookIdentifierCompoundUniqueInput = {
-  bookId: Scalars['String'];
+  bookId: Scalars['Int'];
   userId: Scalars['String'];
 };
 
@@ -2826,11 +3478,11 @@ export type UserBookListRelationFilter = {
 
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Int']>;
+  rating?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -2838,11 +3490,11 @@ export type UserBookMaxAggregate = {
 
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
-  bookId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
   order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Int']>;
+  rating?: Maybe<Scalars['Float']>;
   status?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['Timestamp']>;
   userId?: Maybe<Scalars['String']>;
@@ -2877,11 +3529,11 @@ export type UserBookScalarWhereInput = {
   AND?: InputMaybe<Array<UserBookScalarWhereInput>>;
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   order?: InputMaybe<IntFilter>;
-  rating?: InputMaybe<IntFilter>;
+  rating?: InputMaybe<FloatFilter>;
   status?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -2922,18 +3574,14 @@ export type UserBookShelvesCreateManyUserBookInputEnvelope = {
 
 export type UserBookShelvesCreateNestedManyWithoutShelfInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserBookShelvesCreateOrConnectWithoutShelfInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutShelfInput>>;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutShelfInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyShelfInputEnvelope>;
 };
 
 export type UserBookShelvesCreateNestedManyWithoutUserBookInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyUserBookInputEnvelope>;
 };
@@ -3006,46 +3654,30 @@ export type UserBookShelvesUpdateManyWithWhereWithoutUserBookInput = {
 
 export type UserBookShelvesUpdateManyWithoutShelfNestedInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserBookShelvesCreateOrConnectWithoutShelfInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutShelfInput>>;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutShelfInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyShelfInputEnvelope>;
   delete?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserBookShelvesScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   set?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  update?: InputMaybe<
-    Array<UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput>
-  >;
-  updateMany?: InputMaybe<
-    Array<UserBookShelvesUpdateManyWithWhereWithoutShelfInput>
-  >;
-  upsert?: InputMaybe<
-    Array<UserBookShelvesUpsertWithWhereUniqueWithoutShelfInput>
-  >;
+  update?: InputMaybe<Array<UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput>>;
+  updateMany?: InputMaybe<Array<UserBookShelvesUpdateManyWithWhereWithoutShelfInput>>;
+  upsert?: InputMaybe<Array<UserBookShelvesUpsertWithWhereUniqueWithoutShelfInput>>;
 };
 
 export type UserBookShelvesUpdateManyWithoutUserBookNestedInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>>;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyUserBookInputEnvelope>;
   delete?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserBookShelvesScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   set?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  update?: InputMaybe<
-    Array<UserBookShelvesUpdateWithWhereUniqueWithoutUserBookInput>
-  >;
-  updateMany?: InputMaybe<
-    Array<UserBookShelvesUpdateManyWithWhereWithoutUserBookInput>
-  >;
-  upsert?: InputMaybe<
-    Array<UserBookShelvesUpsertWithWhereUniqueWithoutUserBookInput>
-  >;
+  update?: InputMaybe<Array<UserBookShelvesUpdateWithWhereUniqueWithoutUserBookInput>>;
+  updateMany?: InputMaybe<Array<UserBookShelvesUpdateManyWithWhereWithoutUserBookInput>>;
+  upsert?: InputMaybe<Array<UserBookShelvesUpsertWithWhereUniqueWithoutUserBookInput>>;
 };
 
 export type UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput = {
@@ -3106,8 +3738,9 @@ export type UserBookShelvesWhereUniqueInput = {
 
 export type UserBookSumAggregate = {
   __typename?: 'UserBookSumAggregate';
+  bookId?: Maybe<Scalars['Int']>;
   order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Int']>;
+  rating?: Maybe<Scalars['Float']>;
 };
 
 export type UserBookUpdateInput = {
@@ -3120,7 +3753,7 @@ export type UserBookUpdateManyMutationInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   status?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
 };
@@ -3225,7 +3858,7 @@ export type UserBookUpdateWithoutBookInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserBookNestedInput>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
@@ -3238,7 +3871,7 @@ export type UserBookUpdateWithoutJournalEntryInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   id?: InputMaybe<Scalars['String']>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserBookNestedInput>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
@@ -3252,7 +3885,7 @@ export type UserBookUpdateWithoutReviewsInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -3265,7 +3898,7 @@ export type UserBookUpdateWithoutShelvesInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']>;
@@ -3278,7 +3911,7 @@ export type UserBookUpdateWithoutUserInput = {
   id?: InputMaybe<Scalars['String']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Int']>;
+  rating?: InputMaybe<Scalars['Float']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserBookNestedInput>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']>;
@@ -3320,12 +3953,12 @@ export type UserBookWhereInput = {
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   order?: InputMaybe<IntFilter>;
-  rating?: InputMaybe<IntFilter>;
+  rating?: InputMaybe<FloatFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
@@ -3339,13 +3972,13 @@ export type UserBookWhereUniqueInput = {
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   order?: InputMaybe<IntFilter>;
-  rating?: InputMaybe<IntFilter>;
+  rating?: InputMaybe<FloatFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
@@ -3401,9 +4034,7 @@ export type UserCreateNestedManyWithoutFollowingInput = {
 
 export type UserCreateNestedManyWithoutLikedReviewsInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserCreateOrConnectWithoutLikedReviewsInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
 };
 
@@ -3806,18 +4437,14 @@ export type UserUpdateManyWithoutFollowingNestedInput = {
 
 export type UserUpdateManyWithoutLikedReviewsNestedInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<
-    Array<UserCreateOrConnectWithoutLikedReviewsInput>
-  >;
+  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
   delete?: InputMaybe<Array<UserWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
   set?: InputMaybe<Array<UserWhereUniqueInput>>;
   update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutLikedReviewsInput>>;
-  updateMany?: InputMaybe<
-    Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>
-  >;
+  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>>;
   upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>>;
 };
 
@@ -4247,216 +4874,368 @@ export type VerificationTokenMinAggregate = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type Work = {
+  __typename?: 'Work';
+  _count: WorkCount;
+  authors?: Maybe<Array<Author>>;
+  averageRating?: Maybe<Scalars['Float']>;
+  categories?: Maybe<Array<Scalars['String']>>;
+  description?: Maybe<Scalars['String']>;
+  editions?: Maybe<Array<Book>>;
+  id: Scalars['ID'];
+  mainCategory?: Maybe<Scalars['String']>;
+  mainEditionId?: Maybe<Scalars['Int']>;
+  ratingsCount?: Maybe<Scalars['Int']>;
+  title: Scalars['String'];
+};
+
+export type WorkAvgAggregate = {
+  __typename?: 'WorkAvgAggregate';
+  averageRating?: Maybe<Scalars['Float']>;
+  mainEditionId?: Maybe<Scalars['Float']>;
+  ratingsCount?: Maybe<Scalars['Float']>;
+};
+
+export type WorkCount = {
+  __typename?: 'WorkCount';
+  authors: Scalars['Int'];
+  editions: Scalars['Int'];
+};
+
+export type WorkCountAggregate = {
+  __typename?: 'WorkCountAggregate';
+  _all: Scalars['Int'];
+  averageRating: Scalars['Int'];
+  categories: Scalars['Int'];
+  description: Scalars['Int'];
+  id: Scalars['Int'];
+  mainCategory: Scalars['Int'];
+  mainEditionId: Scalars['Int'];
+  ratingsCount: Scalars['Int'];
+  title: Scalars['Int'];
+};
+
+export type WorkCreateNestedManyWithoutAuthorsInput = {
+  connect?: InputMaybe<Array<WorkWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<WorkCreateOrConnectWithoutAuthorsInput>>;
+  create?: InputMaybe<Array<WorkCreateWithoutAuthorsInput>>;
+};
+
+export type WorkCreateNestedOneWithoutEditionsInput = {
+  connect?: InputMaybe<WorkWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<WorkCreateOrConnectWithoutEditionsInput>;
+  create?: InputMaybe<WorkCreateWithoutEditionsInput>;
+};
+
+export type WorkCreateOrConnectWithoutAuthorsInput = {
+  create: WorkCreateWithoutAuthorsInput;
+  where: WorkWhereUniqueInput;
+};
+
+export type WorkCreateOrConnectWithoutEditionsInput = {
+  create: WorkCreateWithoutEditionsInput;
+  where: WorkWhereUniqueInput;
+};
+
+export type WorkCreateWithoutAuthorsInput = {
+  averageRating?: InputMaybe<Scalars['Float']>;
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  description?: InputMaybe<Scalars['String']>;
+  editions?: InputMaybe<BookCreateNestedManyWithoutWorkInput>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  mainEditionId?: InputMaybe<Scalars['Int']>;
+  ratingsCount?: InputMaybe<Scalars['Int']>;
+  title: Scalars['String'];
+};
+
+export type WorkCreateWithoutEditionsInput = {
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutWorksInput>;
+  averageRating?: InputMaybe<Scalars['Float']>;
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  mainEditionId?: InputMaybe<Scalars['Int']>;
+  ratingsCount?: InputMaybe<Scalars['Int']>;
+  title: Scalars['String'];
+};
+
+export type WorkListRelationFilter = {
+  every?: InputMaybe<WorkWhereInput>;
+  none?: InputMaybe<WorkWhereInput>;
+  some?: InputMaybe<WorkWhereInput>;
+};
+
+export type WorkMaxAggregate = {
+  __typename?: 'WorkMaxAggregate';
+  averageRating?: Maybe<Scalars['Float']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  mainCategory?: Maybe<Scalars['String']>;
+  mainEditionId?: Maybe<Scalars['Int']>;
+  ratingsCount?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type WorkMinAggregate = {
+  __typename?: 'WorkMinAggregate';
+  averageRating?: Maybe<Scalars['Float']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  mainCategory?: Maybe<Scalars['String']>;
+  mainEditionId?: Maybe<Scalars['Int']>;
+  ratingsCount?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type WorkOrderByWithRelationInput = {
+  authors?: InputMaybe<AuthorOrderByRelationAggregateInput>;
+  averageRating?: InputMaybe<SortOrderInput>;
+  categories?: InputMaybe<SortOrder>;
+  description?: InputMaybe<SortOrderInput>;
+  editions?: InputMaybe<BookOrderByRelationAggregateInput>;
+  id?: InputMaybe<SortOrder>;
+  mainCategory?: InputMaybe<SortOrderInput>;
+  mainEditionId?: InputMaybe<SortOrderInput>;
+  ratingsCount?: InputMaybe<SortOrderInput>;
+  title?: InputMaybe<SortOrder>;
+};
+
+export type WorkRelationFilter = {
+  is?: InputMaybe<WorkWhereInput>;
+  isNot?: InputMaybe<WorkWhereInput>;
+};
+
+export type WorkScalarWhereInput = {
+  AND?: InputMaybe<Array<WorkScalarWhereInput>>;
+  NOT?: InputMaybe<Array<WorkScalarWhereInput>>;
+  OR?: InputMaybe<Array<WorkScalarWhereInput>>;
+  averageRating?: InputMaybe<FloatFilter>;
+  categories?: InputMaybe<StringListFilter>;
+  description?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  mainCategory?: InputMaybe<StringFilter>;
+  mainEditionId?: InputMaybe<IntFilter>;
+  ratingsCount?: InputMaybe<IntFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export type WorkSumAggregate = {
+  __typename?: 'WorkSumAggregate';
+  averageRating?: Maybe<Scalars['Float']>;
+  mainEditionId?: Maybe<Scalars['Int']>;
+  ratingsCount?: Maybe<Scalars['Int']>;
+};
+
+export type WorkUpdateManyMutationInput = {
+  averageRating?: InputMaybe<Scalars['Float']>;
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  mainEditionId?: InputMaybe<Scalars['Int']>;
+  ratingsCount?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type WorkUpdateManyWithWhereWithoutAuthorsInput = {
+  data: WorkUpdateManyMutationInput;
+  where: WorkScalarWhereInput;
+};
+
+export type WorkUpdateManyWithoutAuthorsNestedInput = {
+  connect?: InputMaybe<Array<WorkWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<WorkCreateOrConnectWithoutAuthorsInput>>;
+  create?: InputMaybe<Array<WorkCreateWithoutAuthorsInput>>;
+  delete?: InputMaybe<Array<WorkWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<WorkScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<WorkWhereUniqueInput>>;
+  set?: InputMaybe<Array<WorkWhereUniqueInput>>;
+  update?: InputMaybe<Array<WorkUpdateWithWhereUniqueWithoutAuthorsInput>>;
+  updateMany?: InputMaybe<Array<WorkUpdateManyWithWhereWithoutAuthorsInput>>;
+  upsert?: InputMaybe<Array<WorkUpsertWithWhereUniqueWithoutAuthorsInput>>;
+};
+
+export type WorkUpdateOneWithoutEditionsNestedInput = {
+  connect?: InputMaybe<WorkWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<WorkCreateOrConnectWithoutEditionsInput>;
+  create?: InputMaybe<WorkCreateWithoutEditionsInput>;
+  delete?: InputMaybe<WorkWhereInput>;
+  disconnect?: InputMaybe<WorkWhereInput>;
+  update?: InputMaybe<WorkUpdateToOneWithWhereWithoutEditionsInput>;
+  upsert?: InputMaybe<WorkUpsertWithoutEditionsInput>;
+};
+
+export type WorkUpdateToOneWithWhereWithoutEditionsInput = {
+  data: WorkUpdateWithoutEditionsInput;
+  where?: InputMaybe<WorkWhereInput>;
+};
+
+export type WorkUpdateWithWhereUniqueWithoutAuthorsInput = {
+  data: WorkUpdateWithoutAuthorsInput;
+  where: WorkWhereUniqueInput;
+};
+
+export type WorkUpdateWithoutAuthorsInput = {
+  averageRating?: InputMaybe<Scalars['Float']>;
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  description?: InputMaybe<Scalars['String']>;
+  editions?: InputMaybe<BookUpdateManyWithoutWorkNestedInput>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  mainEditionId?: InputMaybe<Scalars['Int']>;
+  ratingsCount?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type WorkUpdateWithoutEditionsInput = {
+  authors?: InputMaybe<AuthorUpdateManyWithoutWorksNestedInput>;
+  averageRating?: InputMaybe<Scalars['Float']>;
+  categories?: InputMaybe<Array<Scalars['String']>>;
+  description?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<Scalars['String']>;
+  mainEditionId?: InputMaybe<Scalars['Int']>;
+  ratingsCount?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type WorkUpsertWithWhereUniqueWithoutAuthorsInput = {
+  create: WorkCreateWithoutAuthorsInput;
+  update: WorkUpdateWithoutAuthorsInput;
+  where: WorkWhereUniqueInput;
+};
+
+export type WorkUpsertWithoutEditionsInput = {
+  create: WorkCreateWithoutEditionsInput;
+  update: WorkUpdateWithoutEditionsInput;
+  where?: InputMaybe<WorkWhereInput>;
+};
+
+export type WorkWhereInput = {
+  AND?: InputMaybe<Array<WorkWhereInput>>;
+  NOT?: InputMaybe<Array<WorkWhereInput>>;
+  OR?: InputMaybe<Array<WorkWhereInput>>;
+  authors?: InputMaybe<AuthorListRelationFilter>;
+  averageRating?: InputMaybe<FloatFilter>;
+  categories?: InputMaybe<StringListFilter>;
+  description?: InputMaybe<StringFilter>;
+  editions?: InputMaybe<BookListRelationFilter>;
+  id?: InputMaybe<StringFilter>;
+  mainCategory?: InputMaybe<StringFilter>;
+  mainEditionId?: InputMaybe<IntFilter>;
+  ratingsCount?: InputMaybe<IntFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export type WorkWhereUniqueInput = {
+  AND?: InputMaybe<Array<WorkWhereInput>>;
+  NOT?: InputMaybe<Array<WorkWhereInput>>;
+  OR?: InputMaybe<Array<WorkWhereInput>>;
+  authors?: InputMaybe<AuthorListRelationFilter>;
+  averageRating?: InputMaybe<FloatFilter>;
+  categories?: InputMaybe<StringListFilter>;
+  description?: InputMaybe<StringFilter>;
+  editions?: InputMaybe<BookListRelationFilter>;
+  id?: InputMaybe<Scalars['String']>;
+  mainCategory?: InputMaybe<StringFilter>;
+  mainEditionId?: InputMaybe<IntFilter>;
+  ratingsCount?: InputMaybe<IntFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
 export type LoginMutationVariables = Exact<{
   input: LogInInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login: {
-    __typename?: 'AuthResponse';
-    accessToken?: string | null;
-    refreshToken?: string | null;
-    verificationToken?: string | null;
-    expiresIn?: number | null;
-    user: {
-      __typename?: 'User';
-      email: string;
-      username?: string | null;
-      emailVerified?: any | null;
-      id: string;
-    };
-  };
-};
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
-export type ForgotPasswordMutation = {
-  __typename?: 'Mutation';
-  forgotPassword: boolean;
-};
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
 
 export type ResetPasswordMutationVariables = Exact<{
   input: ResetPasswordInput;
 }>;
 
-export type ResetPasswordMutation = {
-  __typename?: 'Mutation';
-  resetPassword: boolean;
-};
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
 export type VerifyTokenMutationVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
 
-export type VerifyTokenMutation = {
-  __typename?: 'Mutation';
-  verifyToken: {
-    __typename?: 'AuthResponse';
-    accessToken?: string | null;
-    refreshToken?: string | null;
-    verificationToken?: string | null;
-    expiresIn?: number | null;
-    user: {
-      __typename?: 'User';
-      email: string;
-      username?: string | null;
-      emailVerified?: any | null;
-      id: string;
-    };
-  };
-};
+
+export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
-export type RegisterMutation = {
-  __typename?: 'Mutation';
-  register: {
-    __typename?: 'User';
-    email: string;
-    id: string;
-    username?: string | null;
-  };
-};
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string, id: string, username?: string | null } };
 
 export type OAuthMutationVariables = Exact<{
   input: OAuthInput;
 }>;
 
-export type OAuthMutation = {
-  __typename?: 'Mutation';
-  oAuth: {
-    __typename?: 'AuthResponse';
-    accessToken?: string | null;
-    refreshToken?: string | null;
-    expiresIn?: number | null;
-    user: {
-      __typename?: 'User';
-      email: string;
-      username?: string | null;
-      id: string;
-    };
-  };
-};
 
-export type RefreshAuthMutationVariables = Exact<{ [key: string]: never }>;
+export type OAuthMutation = { __typename?: 'Mutation', oAuth: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
 
-export type RefreshAuthMutation = {
-  __typename?: 'Mutation';
-  refreshAuth: {
-    __typename?: 'RefreshResponse';
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-  };
-};
+export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string, expiresIn: number } };
 
 export type LogoutMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
-export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type CreateBookMutationVariables = Exact<{
   data: BookCreateInput;
 }>;
 
-export type CreateBookMutation = {
-  __typename?: 'Mutation';
-  createBook: {
-    __typename?: 'Book';
-    author?: string | null;
-    categories?: string | null;
-    coverImage?: string | null;
-    description?: string | null;
-    id: string;
-    pageCount?: number | null;
-    publishedDate?: string | null;
-    publisher?: string | null;
-    title: string;
-  };
-};
+
+export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', coverImage?: string | null, description?: string | null, id: string, pageCount?: number | null, publishedDate?: string | null, publisher?: string | null, title: string, authors?: Array<{ __typename?: 'Author', name: string }> | null } };
 
 export type CreateCommentMutationVariables = Exact<{
   data: CommentCreateInput;
   where: ReviewWhereUniqueInput;
 }>;
 
-export type CreateCommentMutation = {
-  __typename?: 'Mutation';
-  createComment: {
-    __typename?: 'Comment';
-    id: string;
-    content?: string | null;
-    createdAt: any;
-    user?: { __typename?: 'User'; id: string; username?: string | null } | null;
-  };
-};
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null } };
 
 export type CreateJournalEntryMutationVariables = Exact<{
   data: JournalEntryCreateInput;
   book: BookWhereUniqueInput;
 }>;
 
-export type CreateJournalEntryMutation = {
-  __typename?: 'Mutation';
-  createJournalEntry: {
-    __typename?: 'JournalEntry';
-    id: string;
-    readingNotes?: string | null;
-    pagesRead: number;
-    dateRead: any;
-    currentPage: number;
-    currentPercent: number;
-  };
-};
+
+export type CreateJournalEntryMutation = { __typename?: 'Mutation', createJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number } };
 
 export type RemoveJournalEntryMutationVariables = Exact<{
   where: JournalEntryWhereUniqueInput;
 }>;
 
-export type RemoveJournalEntryMutation = {
-  __typename?: 'Mutation';
-  removeJournalEntry: { __typename?: 'JournalEntry'; id: string };
-};
+
+export type RemoveJournalEntryMutation = { __typename?: 'Mutation', removeJournalEntry: { __typename?: 'JournalEntry', id: string } };
 
 export type UpdateJournalEntryMutationVariables = Exact<{
   data: JournalEntryUpdateInput;
   where: JournalEntryWhereUniqueInput;
 }>;
 
-export type UpdateJournalEntryMutation = {
-  __typename?: 'Mutation';
-  updateJournalEntry: {
-    __typename?: 'JournalEntry';
-    id: string;
-    readingNotes?: string | null;
-    pagesRead: number;
-    dateRead: any;
-    currentPage: number;
-    currentPercent: number;
-    userBook?: {
-      __typename?: 'UserBook';
-      status: string;
-      book?: {
-        __typename?: 'Book';
-        id: string;
-        title: string;
-        author?: string | null;
-        pageCount?: number | null;
-        coverImage?: string | null;
-      } | null;
-      shelves?: Array<{
-        __typename?: 'UserBookShelves';
-        shelf: { __typename?: 'Shelf'; id: string; name: string };
-      }> | null;
-    } | null;
-  };
-};
+
+export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null } };
 
 export type CreateReviewMutationVariables = Exact<{
   data: ReviewDataInput;
@@ -4464,164 +5243,97 @@ export type CreateReviewMutationVariables = Exact<{
   bookData: BookCreateInput;
 }>;
 
-export type CreateReviewMutation = {
-  __typename?: 'Mutation';
-  createReview: { __typename?: 'Review'; id: string; content?: string | null };
-};
+
+export type CreateReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'Review', id: string, content?: string | null } };
 
 export type UpdateReviewMutationVariables = Exact<{
   where: ReviewWhereUniqueInput;
   data: ReviewDataInput;
 }>;
 
-export type UpdateReviewMutation = {
-  __typename?: 'Mutation';
-  updateReview: {
-    __typename?: 'Review';
-    id: string;
-    content?: string | null;
-    spoilers: boolean;
-  };
-};
+
+export type UpdateReviewMutation = { __typename?: 'Mutation', updateReview: { __typename?: 'Review', id: string, content?: string | null, spoilers: boolean } };
 
 export type LikeReviewMutationVariables = Exact<{
   where: ReviewWhereUniqueInput;
   value: Scalars['Boolean']['input'];
 }>;
 
-export type LikeReviewMutation = {
-  __typename?: 'Mutation';
-  likeReview: { __typename?: 'Review'; id: string; likeCount: number };
-};
+
+export type LikeReviewMutation = { __typename?: 'Mutation', likeReview: { __typename?: 'Review', id: string, likeCount: number } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
 }>;
 
-export type CreateShelfMutation = {
-  __typename?: 'Mutation';
-  createShelf: {
-    __typename?: 'Shelf';
-    id: string;
-    name: string;
-    _count: { __typename?: 'ShelfCount'; userBooks: number };
-  };
-};
+
+export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type DeleteShelfMutationVariables = Exact<{
   where: ShelfWhereUniqueInput;
 }>;
 
-export type DeleteShelfMutation = {
-  __typename?: 'Mutation';
-  deleteShelf: {
-    __typename?: 'Shelf';
-    id: string;
-    name: string;
-    _count: { __typename?: 'ShelfCount'; userBooks: number };
-  };
-};
+
+export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type UpdateShelfMutationVariables = Exact<{
   data: ShelfUpdateInput;
   where: ShelfWhereUniqueInput;
 }>;
 
-export type UpdateShelfMutation = {
-  __typename?: 'Mutation';
-  updateShelf: {
-    __typename?: 'Shelf';
-    id: string;
-    name: string;
-    _count: { __typename?: 'ShelfCount'; userBooks: number };
-  };
-};
+
+export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
 export type FollowMutationVariables = Exact<{
   where: UserWhereUniqueInput;
   value: Scalars['Boolean']['input'];
 }>;
 
-export type FollowMutation = {
-  __typename?: 'Mutation';
-  follow: { __typename?: 'User'; id: string };
-};
+
+export type FollowMutation = { __typename?: 'Mutation', follow: { __typename?: 'User', id: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
 }>;
 
-export type UpdateUserMutation = {
-  __typename?: 'Mutation';
-  updateUser: {
-    __typename?: 'User';
-    id: string;
-    username?: string | null;
-    email: string;
-  };
-};
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username?: string | null, email: string } };
 
 export type UpdateEmailMutationVariables = Exact<{
   data: UpdateEmailInput;
 }>;
 
-export type UpdateEmailMutation = {
-  __typename?: 'Mutation';
-  updateEmail: { __typename?: 'User'; id: string; email: string };
-};
+
+export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
   where: BookWhereUniqueInput;
 }>;
 
-export type UpdateUserBookMutation = {
-  __typename?: 'Mutation';
-  updateUserBook: {
-    __typename?: 'UserBook';
-    status: string;
-    id: string;
-    book?: { __typename?: 'Book'; title: string } | null;
-  };
-};
+
+export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename?: 'UserBook', status: string, id: string, book?: { __typename?: 'Book', title: string } | null } };
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: BookWhereUniqueInput;
 }>;
 
-export type RemoveUserBookMutation = {
-  __typename?: 'Mutation';
-  removeUserBook: {
-    __typename?: 'UserBook';
-    id: string;
-    shelves?: Array<{
-      __typename?: 'UserBookShelves';
-      shelf: { __typename?: 'Shelf'; name: string };
-    }> | null;
-  };
-};
+
+export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', id: string, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
 
 export type ImportUserBooksMutationVariables = Exact<{
   content: Scalars['String']['input'];
 }>;
 
-export type ImportUserBooksMutation = {
-  __typename?: 'Mutation';
-  importUserBooks: boolean;
-};
+
+export type ImportUserBooksMutation = { __typename?: 'Mutation', importUserBooks: boolean };
 
 export type UpdateUserBookOrderMutationVariables = Exact<{
   data: UserBookUpdateOrderInput;
 }>;
 
-export type UpdateUserBookOrderMutation = {
-  __typename?: 'Mutation';
-  updateUserBookOrder: Array<{
-    __typename?: 'UserBook';
-    id: string;
-    order: number;
-  }>;
-};
+
+export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
 export type GetAuditLogsQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereUniqueInput>;
@@ -4629,43 +5341,13 @@ export type GetAuditLogsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetAuditLogsQuery = {
-  __typename?: 'Query';
-  auditLogs: Array<{
-    __typename?: 'AuditLog';
-    id: string;
-    action: Action;
-    createdAt: any;
-    updatedAt: any;
-    actionContent?: string | null;
-    user?: {
-      __typename?: 'User';
-      id: string;
-      username?: string | null;
-      email: string;
-    } | null;
-    book?: {
-      __typename?: 'Book';
-      id: string;
-      title: string;
-      author?: string | null;
-      pageCount?: number | null;
-      coverImage?: string | null;
-    } | null;
-  }>;
-};
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, actionContent?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null }> };
 
-export type MeQuery = {
-  __typename?: 'Query';
-  me: {
-    __typename?: 'MeResponse';
-    email?: string | null;
-    username?: string | null;
-    isOAuth?: boolean | null;
-  };
-};
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', email?: string | null, username?: string | null, isOAuth?: boolean | null } };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -4673,41 +5355,22 @@ export type CommentsQueryVariables = Exact<{
   offset?: Scalars['Int']['input'];
 }>;
 
-export type CommentsQuery = {
-  __typename?: 'Query';
-  comments: Array<{
-    __typename?: 'Comment';
-    id: string;
-    content?: string | null;
-    createdAt: any;
-    user?: { __typename?: 'User'; id: string; username?: string | null } | null;
-  }>;
-};
+
+export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> };
 
 export type CountJournalEntriesQueryVariables = Exact<{
   book: BookWhereUniqueInput;
 }>;
 
-export type CountJournalEntriesQuery = {
-  __typename?: 'Query';
-  countJournalEntries: number;
-};
+
+export type CountJournalEntriesQuery = { __typename?: 'Query', countJournalEntries: number };
 
 export type GetMostRecentJournalEntryQueryVariables = Exact<{
   book: BookWhereUniqueInput;
 }>;
 
-export type GetMostRecentJournalEntryQuery = {
-  __typename?: 'Query';
-  getMostRecentJournalEntry?: {
-    __typename?: 'JournalEntry';
-    id: string;
-    readingNotes?: string | null;
-    dateRead: any;
-    currentPage: number;
-    currentPercent: number;
-  } | null;
-};
+
+export type GetMostRecentJournalEntryQuery = { __typename?: 'Query', getMostRecentJournalEntry?: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number } | null };
 
 export type JournalEntriesQueryVariables = Exact<{
   book?: InputMaybe<BookWhereUniqueInput>;
@@ -4715,34 +5378,8 @@ export type JournalEntriesQueryVariables = Exact<{
   offset?: Scalars['Int']['input'];
 }>;
 
-export type JournalEntriesQuery = {
-  __typename?: 'Query';
-  journalEntries: Array<{
-    __typename?: 'JournalEntry';
-    id: string;
-    readingNotes?: string | null;
-    dateRead: any;
-    currentPage: number;
-    pagesRead: number;
-    currentPercent: number;
-    userBook?: {
-      __typename?: 'UserBook';
-      status: string;
-      book?: {
-        __typename?: 'Book';
-        id: string;
-        title: string;
-        author?: string | null;
-        pageCount?: number | null;
-        coverImage?: string | null;
-      } | null;
-      shelves?: Array<{
-        __typename?: 'UserBookShelves';
-        shelf: { __typename?: 'Shelf'; id: string; name: string };
-      }> | null;
-    } | null;
-  }>;
-};
+
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, pagesRead: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null }> };
 
 export type BookReviewsQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -4750,124 +5387,34 @@ export type BookReviewsQueryVariables = Exact<{
   offset?: Scalars['Int']['input'];
 }>;
 
-export type BookReviewsQuery = {
-  __typename?: 'Query';
-  bookReviews: Array<{
-    __typename?: 'Review';
-    id: string;
-    content?: string | null;
-    createdAt: any;
-    spoilers: boolean;
-    likeCount: number;
-    liked: boolean;
-    commentCount: number;
-    userBook?: {
-      __typename?: 'UserBook';
-      id: string;
-      rating?: number | null;
-      status: string;
-      user?: {
-        __typename?: 'User';
-        id: string;
-        username?: string | null;
-      } | null;
-    } | null;
-  }>;
-};
+
+export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, commentCount: number, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, status: string, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null }> };
 
 export type BookReviewQueryVariables = Exact<{
   where: ReviewUniqueInput;
 }>;
 
-export type BookReviewQuery = {
-  __typename?: 'Query';
-  bookReview: {
-    __typename?: 'Review';
-    id: string;
-    content?: string | null;
-    createdAt: any;
-    spoilers: boolean;
-    likeCount: number;
-    liked: boolean;
-    book?: {
-      __typename?: 'Book';
-      id: string;
-      title: string;
-      author?: string | null;
-      pageCount?: number | null;
-      coverImage?: string | null;
-      publishedDate?: string | null;
-    } | null;
-    userBook?: {
-      __typename?: 'UserBook';
-      id: string;
-      rating?: number | null;
-      user?: {
-        __typename?: 'User';
-        id: string;
-        username?: string | null;
-      } | null;
-    } | null;
-  };
-};
 
-export type ShelvesQueryVariables = Exact<{ [key: string]: never }>;
+export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
 
-export type ShelvesQuery = {
-  __typename?: 'Query';
-  shelves?: Array<{
-    __typename?: 'Shelf';
-    id: string;
-    name: string;
-    userId?: string | null;
-    _count: { __typename?: 'ShelfCount'; userBooks: number };
-  }> | null;
-};
+export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
-export type UserQuery = {
-  __typename?: 'Query';
-  user: {
-    __typename?: 'User';
-    id: string;
-    username?: string | null;
-    email: string;
-    isFollowing: boolean;
-    followerCount: number;
-    followingCount: number;
-  };
-};
+
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username?: string | null, email: string, isFollowing: boolean, followerCount: number, followingCount: number } };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
 }>;
 
-export type UserBookQuery = {
-  __typename?: 'Query';
-  userBook?: {
-    __typename?: 'UserBook';
-    userId: string;
-    bookId: string;
-    status: string;
-    rating?: number | null;
-    book?: {
-      __typename?: 'Book';
-      id: string;
-      title: string;
-      author?: string | null;
-      pageCount?: number | null;
-      coverImage?: string | null;
-      categories?: string | null;
-    } | null;
-    shelves?: Array<{
-      __typename?: 'UserBookShelves';
-      shelf: { __typename?: 'Shelf'; id: string; name: string };
-    }> | null;
-  } | null;
-};
+
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: number, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -4876,83 +5423,34 @@ export type GetUserBooksQueryVariables = Exact<{
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
 }>;
 
-export type GetUserBooksQuery = {
-  __typename?: 'Query';
-  getUserBooks: {
-    __typename?: 'UserBooksResponse';
-    hasMore: boolean;
-    totalBooks: number;
-    userBooks?: Array<{
-      __typename?: 'UserBook';
-      id: string;
-      userId: string;
-      bookId: string;
-      status: string;
-      rating?: number | null;
-      createdAt: any;
-      updatedAt: any;
-      order: number;
-      book?: {
-        __typename?: 'Book';
-        id: string;
-        title: string;
-        author?: string | null;
-        pageCount?: number | null;
-        coverImage?: string | null;
-        categories?: string | null;
-        _count: { __typename?: 'BookCount'; userBook: number; reviews: number };
-      } | null;
-      shelves?: Array<{
-        __typename?: 'UserBookShelves';
-        shelf: { __typename?: 'Shelf'; id: string; name: string };
-      }> | null;
-      _count: {
-        __typename?: 'UserBookCount';
-        shelves: number;
-        reviews: number;
-        journalEntry: number;
-      };
-      journalEntry?: Array<{
-        __typename?: 'JournalEntry';
-        id: string;
-        readingNotes?: string | null;
-        dateRead: any;
-        currentPage: number;
-        currentPercent: number;
-      }> | null;
-    }> | null;
-  };
-};
+
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: number, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
 }>;
 
-export type CountUserBooksQuery = {
-  __typename?: 'Query';
-  countUserBooks: number;
-};
+
+export type CountUserBooksQuery = { __typename?: 'Query', countUserBooks: number };
+
 
 export const LoginDocument = gql`
-  mutation Login($input: LogInInput!) {
-    login(logInInput: $input) {
-      accessToken
-      refreshToken
-      verificationToken
-      expiresIn
-      user {
-        email
-        username
-        emailVerified
-        id
-      }
+    mutation Login($input: LogInInput!) {
+  login(logInInput: $input) {
+    accessToken
+    refreshToken
+    verificationToken
+    expiresIn
+    user {
+      email
+      username
+      emailVerified
+      id
     }
   }
-`;
-export type LoginMutationFn = Apollo.MutationFunction<
-  LoginMutation,
-  LoginMutationVariables
->;
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
  * __useLoginMutation__
@@ -4971,33 +5469,19 @@ export type LoginMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LoginMutation,
-    LoginMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
-    LoginDocument,
-    options
-  );
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const ForgotPasswordDocument = gql`
-  mutation ForgotPassword($email: String!) {
-    forgotPassword(email: $email)
-  }
-`;
-export type ForgotPasswordMutationFn = Apollo.MutationFunction<
-  ForgotPasswordMutation,
-  ForgotPasswordMutationVariables
->;
+    mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email)
+}
+    `;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 
 /**
  * __useForgotPasswordMutation__
@@ -5016,36 +5500,19 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useForgotPasswordMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    ForgotPasswordMutation,
-    ForgotPasswordMutationVariables
-  >(ForgotPasswordDocument, options);
-}
-export type ForgotPasswordMutationHookResult = ReturnType<
-  typeof useForgotPasswordMutation
->;
-export type ForgotPasswordMutationResult =
-  Apollo.MutationResult<ForgotPasswordMutation>;
-export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
-  ForgotPasswordMutation,
-  ForgotPasswordMutationVariables
->;
+export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
+      }
+export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
+export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
 export const ResetPasswordDocument = gql`
-  mutation ResetPassword($input: ResetPasswordInput!) {
-    resetPassword(resetPasswordInput: $input)
-  }
-`;
-export type ResetPasswordMutationFn = Apollo.MutationFunction<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
+    mutation ResetPassword($input: ResetPasswordInput!) {
+  resetPassword(resetPasswordInput: $input)
+}
+    `;
+export type ResetPasswordMutationFn = Apollo.MutationFunction<ResetPasswordMutation, ResetPasswordMutationVariables>;
 
 /**
  * __useResetPasswordMutation__
@@ -5064,47 +5531,30 @@ export type ResetPasswordMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useResetPasswordMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    ResetPasswordMutation,
-    ResetPasswordMutationVariables
-  >(ResetPasswordDocument, options);
-}
-export type ResetPasswordMutationHookResult = ReturnType<
-  typeof useResetPasswordMutation
->;
-export type ResetPasswordMutationResult =
-  Apollo.MutationResult<ResetPasswordMutation>;
-export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<
-  ResetPasswordMutation,
-  ResetPasswordMutationVariables
->;
-export const VerifyTokenDocument = gql`
-  mutation VerifyToken($token: String!) {
-    verifyToken(token: $token) {
-      accessToken
-      refreshToken
-      verificationToken
-      expiresIn
-      user {
-        email
-        username
-        emailVerified
-        id
+export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ResetPasswordMutation, ResetPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, options);
       }
+export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
+export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
+export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export const VerifyTokenDocument = gql`
+    mutation VerifyToken($token: String!) {
+  verifyToken(token: $token) {
+    accessToken
+    refreshToken
+    verificationToken
+    expiresIn
+    user {
+      email
+      username
+      emailVerified
+      id
     }
   }
-`;
-export type VerifyTokenMutationFn = Apollo.MutationFunction<
-  VerifyTokenMutation,
-  VerifyTokenMutationVariables
->;
+}
+    `;
+export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation, VerifyTokenMutationVariables>;
 
 /**
  * __useVerifyTokenMutation__
@@ -5123,40 +5573,23 @@ export type VerifyTokenMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useVerifyTokenMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    VerifyTokenMutation,
-    VerifyTokenMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(
-    VerifyTokenDocument,
-    options
-  );
-}
-export type VerifyTokenMutationHookResult = ReturnType<
-  typeof useVerifyTokenMutation
->;
-export type VerifyTokenMutationResult =
-  Apollo.MutationResult<VerifyTokenMutation>;
-export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<
-  VerifyTokenMutation,
-  VerifyTokenMutationVariables
->;
+export function useVerifyTokenMutation(baseOptions?: Apollo.MutationHookOptions<VerifyTokenMutation, VerifyTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(VerifyTokenDocument, options);
+      }
+export type VerifyTokenMutationHookResult = ReturnType<typeof useVerifyTokenMutation>;
+export type VerifyTokenMutationResult = Apollo.MutationResult<VerifyTokenMutation>;
+export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<VerifyTokenMutation, VerifyTokenMutationVariables>;
 export const RegisterDocument = gql`
-  mutation Register($input: RegisterInput!) {
-    register(registerInput: $input) {
-      email
-      id
-      username
-    }
+    mutation Register($input: RegisterInput!) {
+  register(registerInput: $input) {
+    email
+    id
+    username
   }
-`;
-export type RegisterMutationFn = Apollo.MutationFunction<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -5175,42 +5608,28 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RegisterMutation,
-    RegisterMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
-    RegisterDocument,
-    options
-  );
-}
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const OAuthDocument = gql`
-  mutation OAuth($input: OAuthInput!) {
-    oAuth(oAuthInput: $input) {
-      accessToken
-      refreshToken
-      expiresIn
-      user {
-        email
-        username
-        id
-      }
+    mutation OAuth($input: OAuthInput!) {
+  oAuth(oAuthInput: $input) {
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      id
     }
   }
-`;
-export type OAuthMutationFn = Apollo.MutationFunction<
-  OAuthMutation,
-  OAuthMutationVariables
->;
+}
+    `;
+export type OAuthMutationFn = Apollo.MutationFunction<OAuthMutation, OAuthMutationVariables>;
 
 /**
  * __useOAuthMutation__
@@ -5229,37 +5648,23 @@ export type OAuthMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useOAuthMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    OAuthMutation,
-    OAuthMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<OAuthMutation, OAuthMutationVariables>(
-    OAuthDocument,
-    options
-  );
-}
+export function useOAuthMutation(baseOptions?: Apollo.MutationHookOptions<OAuthMutation, OAuthMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<OAuthMutation, OAuthMutationVariables>(OAuthDocument, options);
+      }
 export type OAuthMutationHookResult = ReturnType<typeof useOAuthMutation>;
 export type OAuthMutationResult = Apollo.MutationResult<OAuthMutation>;
-export type OAuthMutationOptions = Apollo.BaseMutationOptions<
-  OAuthMutation,
-  OAuthMutationVariables
->;
+export type OAuthMutationOptions = Apollo.BaseMutationOptions<OAuthMutation, OAuthMutationVariables>;
 export const RefreshAuthDocument = gql`
-  mutation RefreshAuth {
-    refreshAuth {
-      accessToken
-      refreshToken
-      expiresIn
-    }
+    mutation RefreshAuth {
+  refreshAuth {
+    accessToken
+    refreshToken
+    expiresIn
   }
-`;
-export type RefreshAuthMutationFn = Apollo.MutationFunction<
-  RefreshAuthMutation,
-  RefreshAuthMutationVariables
->;
+}
+    `;
+export type RefreshAuthMutationFn = Apollo.MutationFunction<RefreshAuthMutation, RefreshAuthMutationVariables>;
 
 /**
  * __useRefreshAuthMutation__
@@ -5277,36 +5682,19 @@ export type RefreshAuthMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRefreshAuthMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RefreshAuthMutation,
-    RefreshAuthMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RefreshAuthMutation, RefreshAuthMutationVariables>(
-    RefreshAuthDocument,
-    options
-  );
-}
-export type RefreshAuthMutationHookResult = ReturnType<
-  typeof useRefreshAuthMutation
->;
-export type RefreshAuthMutationResult =
-  Apollo.MutationResult<RefreshAuthMutation>;
-export type RefreshAuthMutationOptions = Apollo.BaseMutationOptions<
-  RefreshAuthMutation,
-  RefreshAuthMutationVariables
->;
+export function useRefreshAuthMutation(baseOptions?: Apollo.MutationHookOptions<RefreshAuthMutation, RefreshAuthMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefreshAuthMutation, RefreshAuthMutationVariables>(RefreshAuthDocument, options);
+      }
+export type RefreshAuthMutationHookResult = ReturnType<typeof useRefreshAuthMutation>;
+export type RefreshAuthMutationResult = Apollo.MutationResult<RefreshAuthMutation>;
+export type RefreshAuthMutationOptions = Apollo.BaseMutationOptions<RefreshAuthMutation, RefreshAuthMutationVariables>;
 export const LogoutDocument = gql`
-  mutation Logout($id: String!) {
-    logout(id: $id)
-  }
-`;
-export type LogoutMutationFn = Apollo.MutationFunction<
-  LogoutMutation,
-  LogoutMutationVariables
->;
+    mutation Logout($id: String!) {
+  logout(id: $id)
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
  * __useLogoutMutation__
@@ -5325,43 +5713,30 @@ export type LogoutMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLogoutMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LogoutMutation,
-    LogoutMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
-    LogoutDocument,
-    options
-  );
-}
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<
-  LogoutMutation,
-  LogoutMutationVariables
->;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const CreateBookDocument = gql`
-  mutation CreateBook($data: BookCreateInput!) {
-    createBook(data: $data) {
-      author
-      categories
-      coverImage
-      description
-      id
-      pageCount
-      publishedDate
-      publisher
-      title
+    mutation CreateBook($data: BookCreateInput!) {
+  createBook(data: $data) {
+    authors {
+      name
     }
+    coverImage
+    description
+    id
+    pageCount
+    publishedDate
+    publisher
+    title
   }
-`;
-export type CreateBookMutationFn = Apollo.MutationFunction<
-  CreateBookMutation,
-  CreateBookMutationVariables
->;
+}
+    `;
+export type CreateBookMutationFn = Apollo.MutationFunction<CreateBookMutation, CreateBookMutationVariables>;
 
 /**
  * __useCreateBookMutation__
@@ -5380,47 +5755,27 @@ export type CreateBookMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateBookMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateBookMutation,
-    CreateBookMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateBookMutation, CreateBookMutationVariables>(
-    CreateBookDocument,
-    options
-  );
-}
-export type CreateBookMutationHookResult = ReturnType<
-  typeof useCreateBookMutation
->;
-export type CreateBookMutationResult =
-  Apollo.MutationResult<CreateBookMutation>;
-export type CreateBookMutationOptions = Apollo.BaseMutationOptions<
-  CreateBookMutation,
-  CreateBookMutationVariables
->;
-export const CreateCommentDocument = gql`
-  mutation CreateComment(
-    $data: CommentCreateInput!
-    $where: ReviewWhereUniqueInput!
-  ) {
-    createComment(data: $data, where: $where) {
-      id
-      content
-      createdAt
-      user {
-        id
-        username
+export function useCreateBookMutation(baseOptions?: Apollo.MutationHookOptions<CreateBookMutation, CreateBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBookMutation, CreateBookMutationVariables>(CreateBookDocument, options);
       }
+export type CreateBookMutationHookResult = ReturnType<typeof useCreateBookMutation>;
+export type CreateBookMutationResult = Apollo.MutationResult<CreateBookMutation>;
+export type CreateBookMutationOptions = Apollo.BaseMutationOptions<CreateBookMutation, CreateBookMutationVariables>;
+export const CreateCommentDocument = gql`
+    mutation CreateComment($data: CommentCreateInput!, $where: ReviewWhereUniqueInput!) {
+  createComment(data: $data, where: $where) {
+    id
+    content
+    createdAt
+    user {
+      id
+      username
     }
   }
-`;
-export type CreateCommentMutationFn = Apollo.MutationFunction<
-  CreateCommentMutation,
-  CreateCommentMutationVariables
->;
+}
+    `;
+export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
 
 /**
  * __useCreateCommentMutation__
@@ -5440,46 +5795,26 @@ export type CreateCommentMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateCommentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >(CreateCommentDocument, options);
-}
-export type CreateCommentMutationHookResult = ReturnType<
-  typeof useCreateCommentMutation
->;
-export type CreateCommentMutationResult =
-  Apollo.MutationResult<CreateCommentMutation>;
-export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
-  CreateCommentMutation,
-  CreateCommentMutationVariables
->;
+export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
+      }
+export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
+export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const CreateJournalEntryDocument = gql`
-  mutation CreateJournalEntry(
-    $data: JournalEntryCreateInput!
-    $book: BookWhereUniqueInput!
-  ) {
-    createJournalEntry(data: $data, book: $book) {
-      id
-      readingNotes
-      pagesRead
-      dateRead
-      currentPage
-      currentPercent
-    }
+    mutation CreateJournalEntry($data: JournalEntryCreateInput!, $book: BookWhereUniqueInput!) {
+  createJournalEntry(data: $data, book: $book) {
+    id
+    readingNotes
+    pagesRead
+    dateRead
+    currentPage
+    currentPercent
   }
-`;
-export type CreateJournalEntryMutationFn = Apollo.MutationFunction<
-  CreateJournalEntryMutation,
-  CreateJournalEntryMutationVariables
->;
+}
+    `;
+export type CreateJournalEntryMutationFn = Apollo.MutationFunction<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>;
 
 /**
  * __useCreateJournalEntryMutation__
@@ -5499,38 +5834,21 @@ export type CreateJournalEntryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateJournalEntryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateJournalEntryMutation,
-    CreateJournalEntryMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateJournalEntryMutation,
-    CreateJournalEntryMutationVariables
-  >(CreateJournalEntryDocument, options);
-}
-export type CreateJournalEntryMutationHookResult = ReturnType<
-  typeof useCreateJournalEntryMutation
->;
-export type CreateJournalEntryMutationResult =
-  Apollo.MutationResult<CreateJournalEntryMutation>;
-export type CreateJournalEntryMutationOptions = Apollo.BaseMutationOptions<
-  CreateJournalEntryMutation,
-  CreateJournalEntryMutationVariables
->;
+export function useCreateJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>(CreateJournalEntryDocument, options);
+      }
+export type CreateJournalEntryMutationHookResult = ReturnType<typeof useCreateJournalEntryMutation>;
+export type CreateJournalEntryMutationResult = Apollo.MutationResult<CreateJournalEntryMutation>;
+export type CreateJournalEntryMutationOptions = Apollo.BaseMutationOptions<CreateJournalEntryMutation, CreateJournalEntryMutationVariables>;
 export const RemoveJournalEntryDocument = gql`
-  mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
-    removeJournalEntry(where: $where) {
-      id
-    }
+    mutation RemoveJournalEntry($where: JournalEntryWhereUniqueInput!) {
+  removeJournalEntry(where: $where) {
+    id
   }
-`;
-export type RemoveJournalEntryMutationFn = Apollo.MutationFunction<
-  RemoveJournalEntryMutation,
-  RemoveJournalEntryMutationVariables
->;
+}
+    `;
+export type RemoveJournalEntryMutationFn = Apollo.MutationFunction<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>;
 
 /**
  * __useRemoveJournalEntryMutation__
@@ -5549,62 +5867,44 @@ export type RemoveJournalEntryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRemoveJournalEntryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RemoveJournalEntryMutation,
-    RemoveJournalEntryMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    RemoveJournalEntryMutation,
-    RemoveJournalEntryMutationVariables
-  >(RemoveJournalEntryDocument, options);
-}
-export type RemoveJournalEntryMutationHookResult = ReturnType<
-  typeof useRemoveJournalEntryMutation
->;
-export type RemoveJournalEntryMutationResult =
-  Apollo.MutationResult<RemoveJournalEntryMutation>;
-export type RemoveJournalEntryMutationOptions = Apollo.BaseMutationOptions<
-  RemoveJournalEntryMutation,
-  RemoveJournalEntryMutationVariables
->;
+export function useRemoveJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>(RemoveJournalEntryDocument, options);
+      }
+export type RemoveJournalEntryMutationHookResult = ReturnType<typeof useRemoveJournalEntryMutation>;
+export type RemoveJournalEntryMutationResult = Apollo.MutationResult<RemoveJournalEntryMutation>;
+export type RemoveJournalEntryMutationOptions = Apollo.BaseMutationOptions<RemoveJournalEntryMutation, RemoveJournalEntryMutationVariables>;
 export const UpdateJournalEntryDocument = gql`
-  mutation UpdateJournalEntry(
-    $data: JournalEntryUpdateInput!
-    $where: JournalEntryWhereUniqueInput!
-  ) {
-    updateJournalEntry(data: $data, where: $where) {
-      id
-      readingNotes
-      pagesRead
-      dateRead
-      currentPage
-      currentPercent
-      userBook {
-        status
-        book {
-          id
-          title
-          author
-          pageCount
-          coverImage
+    mutation UpdateJournalEntry($data: JournalEntryUpdateInput!, $where: JournalEntryWhereUniqueInput!) {
+  updateJournalEntry(data: $data, where: $where) {
+    id
+    readingNotes
+    pagesRead
+    dateRead
+    currentPage
+    currentPercent
+    userBook {
+      status
+      book {
+        id
+        title
+        authors {
+          name
         }
-        shelves {
-          shelf {
-            id
-            name
-          }
+        pageCount
+        coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
         }
       }
     }
   }
-`;
-export type UpdateJournalEntryMutationFn = Apollo.MutationFunction<
-  UpdateJournalEntryMutation,
-  UpdateJournalEntryMutationVariables
->;
+}
+    `;
+export type UpdateJournalEntryMutationFn = Apollo.MutationFunction<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 
 /**
  * __useUpdateJournalEntryMutation__
@@ -5624,43 +5924,22 @@ export type UpdateJournalEntryMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateJournalEntryMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateJournalEntryMutation,
-    UpdateJournalEntryMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateJournalEntryMutation,
-    UpdateJournalEntryMutationVariables
-  >(UpdateJournalEntryDocument, options);
-}
-export type UpdateJournalEntryMutationHookResult = ReturnType<
-  typeof useUpdateJournalEntryMutation
->;
-export type UpdateJournalEntryMutationResult =
-  Apollo.MutationResult<UpdateJournalEntryMutation>;
-export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<
-  UpdateJournalEntryMutation,
-  UpdateJournalEntryMutationVariables
->;
+export function useUpdateJournalEntryMutation(baseOptions?: Apollo.MutationHookOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>(UpdateJournalEntryDocument, options);
+      }
+export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJournalEntryMutation>;
+export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
+export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 export const CreateReviewDocument = gql`
-  mutation CreateReview(
-    $data: ReviewDataInput!
-    $where: BookWhereUniqueInput!
-    $bookData: BookCreateInput!
-  ) {
-    createReview(data: $data, where: $where, bookData: $bookData) {
-      id
-      content
-    }
+    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!, $bookData: BookCreateInput!) {
+  createReview(data: $data, where: $where, bookData: $bookData) {
+    id
+    content
   }
-`;
-export type CreateReviewMutationFn = Apollo.MutationFunction<
-  CreateReviewMutation,
-  CreateReviewMutationVariables
->;
+}
+    `;
+export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
 
 /**
  * __useCreateReviewMutation__
@@ -5681,43 +5960,23 @@ export type CreateReviewMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateReviewMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateReviewMutation,
-    CreateReviewMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    CreateReviewMutation,
-    CreateReviewMutationVariables
-  >(CreateReviewDocument, options);
-}
-export type CreateReviewMutationHookResult = ReturnType<
-  typeof useCreateReviewMutation
->;
-export type CreateReviewMutationResult =
-  Apollo.MutationResult<CreateReviewMutation>;
-export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<
-  CreateReviewMutation,
-  CreateReviewMutationVariables
->;
+export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, options);
+      }
+export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
+export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
+export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
 export const UpdateReviewDocument = gql`
-  mutation UpdateReview(
-    $where: ReviewWhereUniqueInput!
-    $data: ReviewDataInput!
-  ) {
-    updateReview(where: $where, data: $data) {
-      id
-      content
-      spoilers
-    }
+    mutation UpdateReview($where: ReviewWhereUniqueInput!, $data: ReviewDataInput!) {
+  updateReview(where: $where, data: $data) {
+    id
+    content
+    spoilers
   }
-`;
-export type UpdateReviewMutationFn = Apollo.MutationFunction<
-  UpdateReviewMutation,
-  UpdateReviewMutationVariables
->;
+}
+    `;
+export type UpdateReviewMutationFn = Apollo.MutationFunction<UpdateReviewMutation, UpdateReviewMutationVariables>;
 
 /**
  * __useUpdateReviewMutation__
@@ -5737,39 +5996,22 @@ export type UpdateReviewMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateReviewMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateReviewMutation,
-    UpdateReviewMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateReviewMutation,
-    UpdateReviewMutationVariables
-  >(UpdateReviewDocument, options);
-}
-export type UpdateReviewMutationHookResult = ReturnType<
-  typeof useUpdateReviewMutation
->;
-export type UpdateReviewMutationResult =
-  Apollo.MutationResult<UpdateReviewMutation>;
-export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<
-  UpdateReviewMutation,
-  UpdateReviewMutationVariables
->;
+export function useUpdateReviewMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReviewMutation, UpdateReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateReviewMutation, UpdateReviewMutationVariables>(UpdateReviewDocument, options);
+      }
+export type UpdateReviewMutationHookResult = ReturnType<typeof useUpdateReviewMutation>;
+export type UpdateReviewMutationResult = Apollo.MutationResult<UpdateReviewMutation>;
+export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<UpdateReviewMutation, UpdateReviewMutationVariables>;
 export const LikeReviewDocument = gql`
-  mutation LikeReview($where: ReviewWhereUniqueInput!, $value: Boolean!) {
-    likeReview(where: $where, value: $value) {
-      id
-      likeCount
-    }
+    mutation LikeReview($where: ReviewWhereUniqueInput!, $value: Boolean!) {
+  likeReview(where: $where, value: $value) {
+    id
+    likeCount
   }
-`;
-export type LikeReviewMutationFn = Apollo.MutationFunction<
-  LikeReviewMutation,
-  LikeReviewMutationVariables
->;
+}
+    `;
+export type LikeReviewMutationFn = Apollo.MutationFunction<LikeReviewMutation, LikeReviewMutationVariables>;
 
 /**
  * __useLikeReviewMutation__
@@ -5789,42 +6031,25 @@ export type LikeReviewMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useLikeReviewMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    LikeReviewMutation,
-    LikeReviewMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LikeReviewMutation, LikeReviewMutationVariables>(
-    LikeReviewDocument,
-    options
-  );
-}
-export type LikeReviewMutationHookResult = ReturnType<
-  typeof useLikeReviewMutation
->;
-export type LikeReviewMutationResult =
-  Apollo.MutationResult<LikeReviewMutation>;
-export type LikeReviewMutationOptions = Apollo.BaseMutationOptions<
-  LikeReviewMutation,
-  LikeReviewMutationVariables
->;
-export const CreateShelfDocument = gql`
-  mutation CreateShelf($data: ShelfCreateInput!) {
-    createShelf(data: $data) {
-      id
-      name
-      _count {
-        userBooks
+export function useLikeReviewMutation(baseOptions?: Apollo.MutationHookOptions<LikeReviewMutation, LikeReviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeReviewMutation, LikeReviewMutationVariables>(LikeReviewDocument, options);
       }
+export type LikeReviewMutationHookResult = ReturnType<typeof useLikeReviewMutation>;
+export type LikeReviewMutationResult = Apollo.MutationResult<LikeReviewMutation>;
+export type LikeReviewMutationOptions = Apollo.BaseMutationOptions<LikeReviewMutation, LikeReviewMutationVariables>;
+export const CreateShelfDocument = gql`
+    mutation CreateShelf($data: ShelfCreateInput!) {
+  createShelf(data: $data) {
+    id
+    name
+    _count {
+      userBooks
     }
   }
-`;
-export type CreateShelfMutationFn = Apollo.MutationFunction<
-  CreateShelfMutation,
-  CreateShelfMutationVariables
->;
+}
+    `;
+export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation, CreateShelfMutationVariables>;
 
 /**
  * __useCreateShelfMutation__
@@ -5843,42 +6068,25 @@ export type CreateShelfMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateShelfMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateShelfMutation,
-    CreateShelfMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateShelfMutation, CreateShelfMutationVariables>(
-    CreateShelfDocument,
-    options
-  );
-}
-export type CreateShelfMutationHookResult = ReturnType<
-  typeof useCreateShelfMutation
->;
-export type CreateShelfMutationResult =
-  Apollo.MutationResult<CreateShelfMutation>;
-export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<
-  CreateShelfMutation,
-  CreateShelfMutationVariables
->;
-export const DeleteShelfDocument = gql`
-  mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
-    deleteShelf(where: $where) {
-      id
-      name
-      _count {
-        userBooks
+export function useCreateShelfMutation(baseOptions?: Apollo.MutationHookOptions<CreateShelfMutation, CreateShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateShelfMutation, CreateShelfMutationVariables>(CreateShelfDocument, options);
       }
+export type CreateShelfMutationHookResult = ReturnType<typeof useCreateShelfMutation>;
+export type CreateShelfMutationResult = Apollo.MutationResult<CreateShelfMutation>;
+export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<CreateShelfMutation, CreateShelfMutationVariables>;
+export const DeleteShelfDocument = gql`
+    mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
+  deleteShelf(where: $where) {
+    id
+    name
+    _count {
+      userBooks
     }
   }
-`;
-export type DeleteShelfMutationFn = Apollo.MutationFunction<
-  DeleteShelfMutation,
-  DeleteShelfMutationVariables
->;
+}
+    `;
+export type DeleteShelfMutationFn = Apollo.MutationFunction<DeleteShelfMutation, DeleteShelfMutationVariables>;
 
 /**
  * __useDeleteShelfMutation__
@@ -5897,45 +6105,25 @@ export type DeleteShelfMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteShelfMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteShelfMutation,
-    DeleteShelfMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<DeleteShelfMutation, DeleteShelfMutationVariables>(
-    DeleteShelfDocument,
-    options
-  );
-}
-export type DeleteShelfMutationHookResult = ReturnType<
-  typeof useDeleteShelfMutation
->;
-export type DeleteShelfMutationResult =
-  Apollo.MutationResult<DeleteShelfMutation>;
-export type DeleteShelfMutationOptions = Apollo.BaseMutationOptions<
-  DeleteShelfMutation,
-  DeleteShelfMutationVariables
->;
-export const UpdateShelfDocument = gql`
-  mutation UpdateShelf(
-    $data: ShelfUpdateInput!
-    $where: ShelfWhereUniqueInput!
-  ) {
-    updateShelf(data: $data, where: $where) {
-      id
-      name
-      _count {
-        userBooks
+export function useDeleteShelfMutation(baseOptions?: Apollo.MutationHookOptions<DeleteShelfMutation, DeleteShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteShelfMutation, DeleteShelfMutationVariables>(DeleteShelfDocument, options);
       }
+export type DeleteShelfMutationHookResult = ReturnType<typeof useDeleteShelfMutation>;
+export type DeleteShelfMutationResult = Apollo.MutationResult<DeleteShelfMutation>;
+export type DeleteShelfMutationOptions = Apollo.BaseMutationOptions<DeleteShelfMutation, DeleteShelfMutationVariables>;
+export const UpdateShelfDocument = gql`
+    mutation UpdateShelf($data: ShelfUpdateInput!, $where: ShelfWhereUniqueInput!) {
+  updateShelf(data: $data, where: $where) {
+    id
+    name
+    _count {
+      userBooks
     }
   }
-`;
-export type UpdateShelfMutationFn = Apollo.MutationFunction<
-  UpdateShelfMutation,
-  UpdateShelfMutationVariables
->;
+}
+    `;
+export type UpdateShelfMutationFn = Apollo.MutationFunction<UpdateShelfMutation, UpdateShelfMutationVariables>;
 
 /**
  * __useUpdateShelfMutation__
@@ -5955,38 +6143,21 @@ export type UpdateShelfMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateShelfMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateShelfMutation,
-    UpdateShelfMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateShelfMutation, UpdateShelfMutationVariables>(
-    UpdateShelfDocument,
-    options
-  );
-}
-export type UpdateShelfMutationHookResult = ReturnType<
-  typeof useUpdateShelfMutation
->;
-export type UpdateShelfMutationResult =
-  Apollo.MutationResult<UpdateShelfMutation>;
-export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<
-  UpdateShelfMutation,
-  UpdateShelfMutationVariables
->;
+export function useUpdateShelfMutation(baseOptions?: Apollo.MutationHookOptions<UpdateShelfMutation, UpdateShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateShelfMutation, UpdateShelfMutationVariables>(UpdateShelfDocument, options);
+      }
+export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMutation>;
+export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
+export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
 export const FollowDocument = gql`
-  mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
-    follow(where: $where, value: $value) {
-      id
-    }
+    mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
+  follow(where: $where, value: $value) {
+    id
   }
-`;
-export type FollowMutationFn = Apollo.MutationFunction<
-  FollowMutation,
-  FollowMutationVariables
->;
+}
+    `;
+export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
 
 /**
  * __useFollowMutation__
@@ -6006,37 +6177,23 @@ export type FollowMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useFollowMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    FollowMutation,
-    FollowMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<FollowMutation, FollowMutationVariables>(
-    FollowDocument,
-    options
-  );
-}
+export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
+      }
 export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
 export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
-export type FollowMutationOptions = Apollo.BaseMutationOptions<
-  FollowMutation,
-  FollowMutationVariables
->;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const UpdateUserDocument = gql`
-  mutation UpdateUser($data: UpdateUserInput!) {
-    updateUser(data: $data) {
-      id
-      username
-      email
-    }
+    mutation UpdateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    id
+    username
+    email
   }
-`;
-export type UpdateUserMutationFn = Apollo.MutationFunction<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
 
 /**
  * __useUpdateUserMutation__
@@ -6055,39 +6212,22 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserMutation,
-    UpdateUserMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
-    UpdateUserDocument,
-    options
-  );
-}
-export type UpdateUserMutationHookResult = ReturnType<
-  typeof useUpdateUserMutation
->;
-export type UpdateUserMutationResult =
-  Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserMutation,
-  UpdateUserMutationVariables
->;
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const UpdateEmailDocument = gql`
-  mutation UpdateEmail($data: UpdateEmailInput!) {
-    updateEmail(data: $data) {
-      id
-      email
-    }
+    mutation UpdateEmail($data: UpdateEmailInput!) {
+  updateEmail(data: $data) {
+    id
+    email
   }
-`;
-export type UpdateEmailMutationFn = Apollo.MutationFunction<
-  UpdateEmailMutation,
-  UpdateEmailMutationVariables
->;
+}
+    `;
+export type UpdateEmailMutationFn = Apollo.MutationFunction<UpdateEmailMutation, UpdateEmailMutationVariables>;
 
 /**
  * __useUpdateEmailMutation__
@@ -6106,45 +6246,25 @@ export type UpdateEmailMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateEmailMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateEmailMutation,
-    UpdateEmailMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<UpdateEmailMutation, UpdateEmailMutationVariables>(
-    UpdateEmailDocument,
-    options
-  );
-}
-export type UpdateEmailMutationHookResult = ReturnType<
-  typeof useUpdateEmailMutation
->;
-export type UpdateEmailMutationResult =
-  Apollo.MutationResult<UpdateEmailMutation>;
-export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<
-  UpdateEmailMutation,
-  UpdateEmailMutationVariables
->;
-export const UpdateUserBookDocument = gql`
-  mutation UpdateUserBook(
-    $data: UserBookUpdateInput!
-    $where: BookWhereUniqueInput!
-  ) {
-    updateUserBook(data: $data, where: $where) {
-      status
-      id
-      book {
-        title
+export function useUpdateEmailMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEmailMutation, UpdateEmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateEmailMutation, UpdateEmailMutationVariables>(UpdateEmailDocument, options);
       }
+export type UpdateEmailMutationHookResult = ReturnType<typeof useUpdateEmailMutation>;
+export type UpdateEmailMutationResult = Apollo.MutationResult<UpdateEmailMutation>;
+export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<UpdateEmailMutation, UpdateEmailMutationVariables>;
+export const UpdateUserBookDocument = gql`
+    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
+  updateUserBook(data: $data, where: $where) {
+    status
+    id
+    book {
+      title
     }
   }
-`;
-export type UpdateUserBookMutationFn = Apollo.MutationFunction<
-  UpdateUserBookMutation,
-  UpdateUserBookMutationVariables
->;
+}
+    `;
+export type UpdateUserBookMutationFn = Apollo.MutationFunction<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
 
 /**
  * __useUpdateUserBookMutation__
@@ -6164,43 +6284,26 @@ export type UpdateUserBookMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateUserBookMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserBookMutation,
-    UpdateUserBookMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateUserBookMutation,
-    UpdateUserBookMutationVariables
-  >(UpdateUserBookDocument, options);
-}
-export type UpdateUserBookMutationHookResult = ReturnType<
-  typeof useUpdateUserBookMutation
->;
-export type UpdateUserBookMutationResult =
-  Apollo.MutationResult<UpdateUserBookMutation>;
-export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserBookMutation,
-  UpdateUserBookMutationVariables
->;
+export function useUpdateUserBookMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserBookMutation, UpdateUserBookMutationVariables>(UpdateUserBookDocument, options);
+      }
+export type UpdateUserBookMutationHookResult = ReturnType<typeof useUpdateUserBookMutation>;
+export type UpdateUserBookMutationResult = Apollo.MutationResult<UpdateUserBookMutation>;
+export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
 export const RemoveUserBookDocument = gql`
-  mutation RemoveUserBook($where: BookWhereUniqueInput!) {
-    removeUserBook(where: $where) {
-      id
-      shelves {
-        shelf {
-          name
-        }
+    mutation RemoveUserBook($where: BookWhereUniqueInput!) {
+  removeUserBook(where: $where) {
+    id
+    shelves {
+      shelf {
+        name
       }
     }
   }
-`;
-export type RemoveUserBookMutationFn = Apollo.MutationFunction<
-  RemoveUserBookMutation,
-  RemoveUserBookMutationVariables
->;
+}
+    `;
+export type RemoveUserBookMutationFn = Apollo.MutationFunction<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
 
 /**
  * __useRemoveUserBookMutation__
@@ -6219,36 +6322,19 @@ export type RemoveUserBookMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRemoveUserBookMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    RemoveUserBookMutation,
-    RemoveUserBookMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    RemoveUserBookMutation,
-    RemoveUserBookMutationVariables
-  >(RemoveUserBookDocument, options);
-}
-export type RemoveUserBookMutationHookResult = ReturnType<
-  typeof useRemoveUserBookMutation
->;
-export type RemoveUserBookMutationResult =
-  Apollo.MutationResult<RemoveUserBookMutation>;
-export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<
-  RemoveUserBookMutation,
-  RemoveUserBookMutationVariables
->;
+export function useRemoveUserBookMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserBookMutation, RemoveUserBookMutationVariables>(RemoveUserBookDocument, options);
+      }
+export type RemoveUserBookMutationHookResult = ReturnType<typeof useRemoveUserBookMutation>;
+export type RemoveUserBookMutationResult = Apollo.MutationResult<RemoveUserBookMutation>;
+export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
 export const ImportUserBooksDocument = gql`
-  mutation ImportUserBooks($content: String!) {
-    importUserBooks(content: $content)
-  }
-`;
-export type ImportUserBooksMutationFn = Apollo.MutationFunction<
-  ImportUserBooksMutation,
-  ImportUserBooksMutationVariables
->;
+    mutation ImportUserBooks($content: String!) {
+  importUserBooks(content: $content)
+}
+    `;
+export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
 
 /**
  * __useImportUserBooksMutation__
@@ -6267,39 +6353,22 @@ export type ImportUserBooksMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useImportUserBooksMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    ImportUserBooksMutation,
-    ImportUserBooksMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    ImportUserBooksMutation,
-    ImportUserBooksMutationVariables
-  >(ImportUserBooksDocument, options);
-}
-export type ImportUserBooksMutationHookResult = ReturnType<
-  typeof useImportUserBooksMutation
->;
-export type ImportUserBooksMutationResult =
-  Apollo.MutationResult<ImportUserBooksMutation>;
-export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<
-  ImportUserBooksMutation,
-  ImportUserBooksMutationVariables
->;
+export function useImportUserBooksMutation(baseOptions?: Apollo.MutationHookOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ImportUserBooksMutation, ImportUserBooksMutationVariables>(ImportUserBooksDocument, options);
+      }
+export type ImportUserBooksMutationHookResult = ReturnType<typeof useImportUserBooksMutation>;
+export type ImportUserBooksMutationResult = Apollo.MutationResult<ImportUserBooksMutation>;
+export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
 export const UpdateUserBookOrderDocument = gql`
-  mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
-    updateUserBookOrder(data: $data) {
-      id
-      order
-    }
+    mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
+  updateUserBookOrder(data: $data) {
+    id
+    order
   }
-`;
-export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<
-  UpdateUserBookOrderMutation,
-  UpdateUserBookOrderMutationVariables
->;
+}
+    `;
+export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 
 /**
  * __useUpdateUserBookOrderMutation__
@@ -6318,54 +6387,38 @@ export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useUpdateUserBookOrderMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    UpdateUserBookOrderMutation,
-    UpdateUserBookOrderMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<
-    UpdateUserBookOrderMutation,
-    UpdateUserBookOrderMutationVariables
-  >(UpdateUserBookOrderDocument, options);
-}
-export type UpdateUserBookOrderMutationHookResult = ReturnType<
-  typeof useUpdateUserBookOrderMutation
->;
-export type UpdateUserBookOrderMutationResult =
-  Apollo.MutationResult<UpdateUserBookOrderMutation>;
-export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<
-  UpdateUserBookOrderMutation,
-  UpdateUserBookOrderMutationVariables
->;
+export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>(UpdateUserBookOrderDocument, options);
+      }
+export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
+export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
+export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const GetAuditLogsDocument = gql`
-  query GetAuditLogs(
-    $where: UserBookWhereUniqueInput
-    $offset: Int
-    $limit: Int
-  ) {
-    auditLogs(where: $where, offset: $offset, limit: $limit) {
+    query GetAuditLogs($where: UserBookWhereUniqueInput, $offset: Int, $limit: Int) {
+  auditLogs(where: $where, offset: $offset, limit: $limit) {
+    id
+    action
+    createdAt
+    updatedAt
+    user {
       id
-      action
-      createdAt
-      updatedAt
-      user {
-        id
-        username
-        email
-      }
-      book {
-        id
-        title
-        author
-        pageCount
-        coverImage
-      }
-      actionContent
+      username
+      email
     }
+    book {
+      id
+      title
+      authors {
+        name
+      }
+      pageCount
+      coverImage
+    }
+    actionContent
   }
-`;
+}
+    `;
 
 /**
  * __useGetAuditLogsQuery__
@@ -6385,49 +6438,26 @@ export const GetAuditLogsDocument = gql`
  *   },
  * });
  */
-export function useGetAuditLogsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetAuditLogsQuery,
-    GetAuditLogsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(
-    GetAuditLogsDocument,
-    options
-  );
-}
-export function useGetAuditLogsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAuditLogsQuery,
-    GetAuditLogsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(
-    GetAuditLogsDocument,
-    options
-  );
-}
-export type GetAuditLogsQueryHookResult = ReturnType<
-  typeof useGetAuditLogsQuery
->;
-export type GetAuditLogsLazyQueryHookResult = ReturnType<
-  typeof useGetAuditLogsLazyQuery
->;
-export type GetAuditLogsQueryResult = Apollo.QueryResult<
-  GetAuditLogsQuery,
-  GetAuditLogsQueryVariables
->;
+export function useGetAuditLogsQuery(baseOptions?: Apollo.QueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
+      }
+export function useGetAuditLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
+        }
+export type GetAuditLogsQueryHookResult = ReturnType<typeof useGetAuditLogsQuery>;
+export type GetAuditLogsLazyQueryHookResult = ReturnType<typeof useGetAuditLogsLazyQuery>;
+export type GetAuditLogsQueryResult = Apollo.QueryResult<GetAuditLogsQuery, GetAuditLogsQueryVariables>;
 export const MeDocument = gql`
-  query Me {
-    me {
-      email
-      username
-      isOAuth
-    }
+    query Me {
+  me {
+    email
+    username
+    isOAuth
   }
-`;
+}
+    `;
 
 /**
  * __useMeQuery__
@@ -6444,38 +6474,30 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(
-  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
-export function useMeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const CommentsDocument = gql`
-  query Comments(
-    $where: ReviewWhereUniqueInput!
-    $limit: Int! = 20
-    $offset: Int! = 0
-  ) {
-    comments(where: $where, offset: $offset, limit: $limit) {
+    query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
+  comments(where: $where, offset: $offset, limit: $limit) {
+    id
+    content
+    createdAt
+    user {
       id
-      content
-      createdAt
-      user {
-        id
-        username
-      }
+      username
     }
   }
-`;
+}
+    `;
 
 /**
  * __useCommentsQuery__
@@ -6495,40 +6517,22 @@ export const CommentsDocument = gql`
  *   },
  * });
  */
-export function useCommentsQuery(
-  baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(
-    CommentsDocument,
-    options
-  );
-}
-export function useCommentsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CommentsQuery,
-    CommentsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(
-    CommentsDocument,
-    options
-  );
-}
+export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
+      }
+export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
+        }
 export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
-export type CommentsLazyQueryHookResult = ReturnType<
-  typeof useCommentsLazyQuery
->;
-export type CommentsQueryResult = Apollo.QueryResult<
-  CommentsQuery,
-  CommentsQueryVariables
->;
+export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
+export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const CountJournalEntriesDocument = gql`
-  query countJournalEntries($book: BookWhereUniqueInput!) {
-    countJournalEntries(book: $book)
-  }
-`;
+    query countJournalEntries($book: BookWhereUniqueInput!) {
+  countJournalEntries(book: $book)
+}
+    `;
 
 /**
  * __useCountJournalEntriesQuery__
@@ -6546,51 +6550,28 @@ export const CountJournalEntriesDocument = gql`
  *   },
  * });
  */
-export function useCountJournalEntriesQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    CountJournalEntriesQuery,
-    CountJournalEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    CountJournalEntriesQuery,
-    CountJournalEntriesQueryVariables
-  >(CountJournalEntriesDocument, options);
-}
-export function useCountJournalEntriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CountJournalEntriesQuery,
-    CountJournalEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    CountJournalEntriesQuery,
-    CountJournalEntriesQueryVariables
-  >(CountJournalEntriesDocument, options);
-}
-export type CountJournalEntriesQueryHookResult = ReturnType<
-  typeof useCountJournalEntriesQuery
->;
-export type CountJournalEntriesLazyQueryHookResult = ReturnType<
-  typeof useCountJournalEntriesLazyQuery
->;
-export type CountJournalEntriesQueryResult = Apollo.QueryResult<
-  CountJournalEntriesQuery,
-  CountJournalEntriesQueryVariables
->;
+export function useCountJournalEntriesQuery(baseOptions: Apollo.QueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+      }
+export function useCountJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+        }
+export type CountJournalEntriesQueryHookResult = ReturnType<typeof useCountJournalEntriesQuery>;
+export type CountJournalEntriesLazyQueryHookResult = ReturnType<typeof useCountJournalEntriesLazyQuery>;
+export type CountJournalEntriesQueryResult = Apollo.QueryResult<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>;
 export const GetMostRecentJournalEntryDocument = gql`
-  query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
-    getMostRecentJournalEntry(book: $book) {
-      id
-      readingNotes
-      dateRead
-      currentPage
-      currentPercent
-    }
+    query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
+  getMostRecentJournalEntry(book: $book) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    currentPercent
   }
-`;
+}
+    `;
 
 /**
  * __useGetMostRecentJournalEntryQuery__
@@ -6608,72 +6589,47 @@ export const GetMostRecentJournalEntryDocument = gql`
  *   },
  * });
  */
-export function useGetMostRecentJournalEntryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMostRecentJournalEntryQuery,
-    GetMostRecentJournalEntryQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMostRecentJournalEntryQuery,
-    GetMostRecentJournalEntryQueryVariables
-  >(GetMostRecentJournalEntryDocument, options);
-}
-export function useGetMostRecentJournalEntryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMostRecentJournalEntryQuery,
-    GetMostRecentJournalEntryQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMostRecentJournalEntryQuery,
-    GetMostRecentJournalEntryQueryVariables
-  >(GetMostRecentJournalEntryDocument, options);
-}
-export type GetMostRecentJournalEntryQueryHookResult = ReturnType<
-  typeof useGetMostRecentJournalEntryQuery
->;
-export type GetMostRecentJournalEntryLazyQueryHookResult = ReturnType<
-  typeof useGetMostRecentJournalEntryLazyQuery
->;
-export type GetMostRecentJournalEntryQueryResult = Apollo.QueryResult<
-  GetMostRecentJournalEntryQuery,
-  GetMostRecentJournalEntryQueryVariables
->;
-export const JournalEntriesDocument = gql`
-  query JournalEntries(
-    $book: BookWhereUniqueInput
-    $limit: Int! = 20
-    $offset: Int! = 0
-  ) {
-    journalEntries(book: $book, offset: $offset, limit: $limit) {
-      id
-      readingNotes
-      dateRead
-      currentPage
-      pagesRead
-      currentPercent
-      userBook {
-        status
-        book {
-          id
-          title
-          author
-          pageCount
-          coverImage
+export function useGetMostRecentJournalEntryQuery(baseOptions: Apollo.QueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+      }
+export function useGetMostRecentJournalEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
         }
-        shelves {
-          shelf {
-            id
-            name
-          }
+export type GetMostRecentJournalEntryQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryQuery>;
+export type GetMostRecentJournalEntryLazyQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryLazyQuery>;
+export type GetMostRecentJournalEntryQueryResult = Apollo.QueryResult<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>;
+export const JournalEntriesDocument = gql`
+    query JournalEntries($book: BookWhereUniqueInput, $limit: Int! = 20, $offset: Int! = 0) {
+  journalEntries(book: $book, offset: $offset, limit: $limit) {
+    id
+    readingNotes
+    dateRead
+    currentPage
+    pagesRead
+    currentPercent
+    userBook {
+      status
+      book {
+        id
+        title
+        authors {
+          name
+        }
+        pageCount
+        coverImage
+      }
+      shelves {
+        shelf {
+          id
+          name
         }
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useJournalEntriesQuery__
@@ -6693,66 +6649,39 @@ export const JournalEntriesDocument = gql`
  *   },
  * });
  */
-export function useJournalEntriesQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    JournalEntriesQuery,
-    JournalEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(
-    JournalEntriesDocument,
-    options
-  );
-}
-export function useJournalEntriesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    JournalEntriesQuery,
-    JournalEntriesQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(
-    JournalEntriesDocument,
-    options
-  );
-}
-export type JournalEntriesQueryHookResult = ReturnType<
-  typeof useJournalEntriesQuery
->;
-export type JournalEntriesLazyQueryHookResult = ReturnType<
-  typeof useJournalEntriesLazyQuery
->;
-export type JournalEntriesQueryResult = Apollo.QueryResult<
-  JournalEntriesQuery,
-  JournalEntriesQueryVariables
->;
-export const BookReviewsDocument = gql`
-  query BookReviews(
-    $where: BookWhereUniqueInput!
-    $limit: Int! = 20
-    $offset: Int! = 0
-  ) {
-    bookReviews(where: $where, offset: $offset, limit: $limit) {
-      id
-      content
-      createdAt
-      spoilers
-      likeCount
-      liked
-      userBook {
-        id
-        rating
-        status
-        user {
-          id
-          username
-        }
+export function useJournalEntriesQuery(baseOptions?: Apollo.QueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
       }
-      commentCount
+export function useJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+        }
+export type JournalEntriesQueryHookResult = ReturnType<typeof useJournalEntriesQuery>;
+export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntriesLazyQuery>;
+export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
+export const BookReviewsDocument = gql`
+    query BookReviews($where: BookWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
+  bookReviews(where: $where, offset: $offset, limit: $limit) {
+    id
+    content
+    createdAt
+    spoilers
+    likeCount
+    liked
+    userBook {
+      id
+      rating
+      status
+      user {
+        id
+        username
+      }
     }
+    commentCount
   }
-`;
+}
+    `;
 
 /**
  * __useBookReviewsQuery__
@@ -6772,66 +6701,47 @@ export const BookReviewsDocument = gql`
  *   },
  * });
  */
-export function useBookReviewsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    BookReviewsQuery,
-    BookReviewsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<BookReviewsQuery, BookReviewsQueryVariables>(
-    BookReviewsDocument,
-    options
-  );
-}
-export function useBookReviewsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    BookReviewsQuery,
-    BookReviewsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<BookReviewsQuery, BookReviewsQueryVariables>(
-    BookReviewsDocument,
-    options
-  );
-}
-export type BookReviewsQueryHookResult = ReturnType<typeof useBookReviewsQuery>;
-export type BookReviewsLazyQueryHookResult = ReturnType<
-  typeof useBookReviewsLazyQuery
->;
-export type BookReviewsQueryResult = Apollo.QueryResult<
-  BookReviewsQuery,
-  BookReviewsQueryVariables
->;
-export const BookReviewDocument = gql`
-  query BookReview($where: ReviewUniqueInput!) {
-    bookReview(where: $where) {
-      id
-      content
-      createdAt
-      spoilers
-      likeCount
-      liked
-      book {
-        id
-        title
-        author
-        pageCount
-        coverImage
-        publishedDate
+export function useBookReviewsQuery(baseOptions: Apollo.QueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
       }
-      userBook {
-        id
-        rating
-        user {
-          id
-          username
+export function useBookReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
         }
+export type BookReviewsQueryHookResult = ReturnType<typeof useBookReviewsQuery>;
+export type BookReviewsLazyQueryHookResult = ReturnType<typeof useBookReviewsLazyQuery>;
+export type BookReviewsQueryResult = Apollo.QueryResult<BookReviewsQuery, BookReviewsQueryVariables>;
+export const BookReviewDocument = gql`
+    query BookReview($where: ReviewUniqueInput!) {
+  bookReview(where: $where) {
+    id
+    content
+    createdAt
+    spoilers
+    likeCount
+    liked
+    book {
+      id
+      title
+      authors {
+        name
+      }
+      pageCount
+      coverImage
+      publishedDate
+    }
+    userBook {
+      id
+      rating
+      user {
+        id
+        username
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useBookReviewQuery__
@@ -6849,50 +6759,29 @@ export const BookReviewDocument = gql`
  *   },
  * });
  */
-export function useBookReviewQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    BookReviewQuery,
-    BookReviewQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<BookReviewQuery, BookReviewQueryVariables>(
-    BookReviewDocument,
-    options
-  );
-}
-export function useBookReviewLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    BookReviewQuery,
-    BookReviewQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<BookReviewQuery, BookReviewQueryVariables>(
-    BookReviewDocument,
-    options
-  );
-}
-export type BookReviewQueryHookResult = ReturnType<typeof useBookReviewQuery>;
-export type BookReviewLazyQueryHookResult = ReturnType<
-  typeof useBookReviewLazyQuery
->;
-export type BookReviewQueryResult = Apollo.QueryResult<
-  BookReviewQuery,
-  BookReviewQueryVariables
->;
-export const ShelvesDocument = gql`
-  query Shelves {
-    shelves {
-      id
-      name
-      _count {
-        userBooks
+export function useBookReviewQuery(baseOptions: Apollo.QueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
       }
-      userId
+export function useBookReviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
+        }
+export type BookReviewQueryHookResult = ReturnType<typeof useBookReviewQuery>;
+export type BookReviewLazyQueryHookResult = ReturnType<typeof useBookReviewLazyQuery>;
+export type BookReviewQueryResult = Apollo.QueryResult<BookReviewQuery, BookReviewQueryVariables>;
+export const ShelvesDocument = gql`
+    query Shelves {
+  shelves {
+    id
+    name
+    _count {
+      userBooks
     }
+    userId
   }
-`;
+}
+    `;
 
 /**
  * __useShelvesQuery__
@@ -6909,42 +6798,29 @@ export const ShelvesDocument = gql`
  *   },
  * });
  */
-export function useShelvesQuery(
-  baseOptions?: Apollo.QueryHookOptions<ShelvesQuery, ShelvesQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ShelvesQuery, ShelvesQueryVariables>(
-    ShelvesDocument,
-    options
-  );
-}
-export function useShelvesLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(
-    ShelvesDocument,
-    options
-  );
-}
+export function useShelvesQuery(baseOptions?: Apollo.QueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
+      }
+export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
+        }
 export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
-export type ShelvesQueryResult = Apollo.QueryResult<
-  ShelvesQuery,
-  ShelvesQueryVariables
->;
+export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
 export const UserDocument = gql`
-  query User($where: UserWhereUniqueInput!) {
-    user(where: $where) {
-      id
-      username
-      email
-      isFollowing
-      followerCount
-      followingCount
-    }
+    query User($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    username
+    email
+    isFollowing
+    followerCount
+    followingCount
   }
-`;
+}
+    `;
 
 /**
  * __useUserQuery__
@@ -6962,48 +6838,42 @@ export const UserDocument = gql`
  *   },
  * });
  */
-export function useUserQuery(
-  baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-}
-export function useUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(
-    UserDocument,
-    options
-  );
-}
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UserBookDocument = gql`
-  query UserBook($where: BookWhereUniqueInput!) {
-    userBook(where: $where) {
-      userId
-      bookId
-      status
-      rating
-      book {
-        id
-        title
-        author
-        pageCount
-        coverImage
-        categories
+    query UserBook($where: BookWhereUniqueInput!) {
+  userBook(where: $where) {
+    userId
+    bookId
+    status
+    rating
+    book {
+      id
+      title
+      authors {
+        name
       }
-      shelves {
-        shelf {
-          id
-          name
-        }
+      pageCount
+      coverImage
+    }
+    shelves {
+      shelf {
+        id
+        name
       }
     }
   }
-`;
+}
+    `;
 
 /**
  * __useUserBookQuery__
@@ -7021,93 +6891,66 @@ export const UserBookDocument = gql`
  *   },
  * });
  */
-export function useUserBookQuery(
-  baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<UserBookQuery, UserBookQueryVariables>(
-    UserBookDocument,
-    options
-  );
-}
-export function useUserBookLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    UserBookQuery,
-    UserBookQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(
-    UserBookDocument,
-    options
-  );
-}
+export function useUserBookQuery(baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
+      }
+export function useUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
+        }
 export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
-export type UserBookLazyQueryHookResult = ReturnType<
-  typeof useUserBookLazyQuery
->;
-export type UserBookQueryResult = Apollo.QueryResult<
-  UserBookQuery,
-  UserBookQueryVariables
->;
+export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
+export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const GetUserBooksDocument = gql`
-  query GetUserBooks(
-    $where: UserBookWhereInput
-    $limit: Int! = 100
-    $offset: Int! = 0
-    $orderBy: UserBookOrderByWithRelationInput
-  ) {
-    getUserBooks(
-      where: $where
-      offset: $offset
-      limit: $limit
-      orderBy: $orderBy
-    ) {
-      userBooks {
+    query GetUserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
+  getUserBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
+    userBooks {
+      id
+      userId
+      bookId
+      status
+      rating
+      createdAt
+      updatedAt
+      order
+      book {
         id
-        userId
-        bookId
-        status
-        rating
-        createdAt
-        updatedAt
-        order
-        book {
-          id
-          title
-          author
-          pageCount
-          coverImage
-          categories
-          _count {
-            userBook
-            reviews
-          }
+        title
+        authors {
+          name
         }
-        shelves {
-          shelf {
-            id
-            name
-          }
-        }
+        pageCount
+        coverImage
         _count {
-          shelves
+          userBook
           reviews
-          journalEntry
-        }
-        journalEntry {
-          id
-          readingNotes
-          dateRead
-          currentPage
-          currentPercent
         }
       }
-      hasMore
-      totalBooks
+      shelves {
+        shelf {
+          id
+          name
+        }
+      }
+      _count {
+        shelves
+        reviews
+        journalEntry
+      }
+      journalEntry {
+        id
+        readingNotes
+        dateRead
+        currentPage
+        currentPercent
+      }
     }
+    hasMore
+    totalBooks
   }
-`;
+}
+    `;
 
 /**
  * __useGetUserBooksQuery__
@@ -7128,45 +6971,22 @@ export const GetUserBooksDocument = gql`
  *   },
  * });
  */
-export function useGetUserBooksQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetUserBooksQuery,
-    GetUserBooksQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(
-    GetUserBooksDocument,
-    options
-  );
-}
-export function useGetUserBooksLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserBooksQuery,
-    GetUserBooksQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(
-    GetUserBooksDocument,
-    options
-  );
-}
-export type GetUserBooksQueryHookResult = ReturnType<
-  typeof useGetUserBooksQuery
->;
-export type GetUserBooksLazyQueryHookResult = ReturnType<
-  typeof useGetUserBooksLazyQuery
->;
-export type GetUserBooksQueryResult = Apollo.QueryResult<
-  GetUserBooksQuery,
-  GetUserBooksQueryVariables
->;
+export function useGetUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
+      }
+export function useGetUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
+        }
+export type GetUserBooksQueryHookResult = ReturnType<typeof useGetUserBooksQuery>;
+export type GetUserBooksLazyQueryHookResult = ReturnType<typeof useGetUserBooksLazyQuery>;
+export type GetUserBooksQueryResult = Apollo.QueryResult<GetUserBooksQuery, GetUserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
-  query CountUserBooks($where: UserBookWhereInput) {
-    countUserBooks(where: $where)
-  }
-`;
+    query CountUserBooks($where: UserBookWhereInput) {
+  countUserBooks(where: $where)
+}
+    `;
 
 /**
  * __useCountUserBooksQuery__
@@ -7184,37 +7004,14 @@ export const CountUserBooksDocument = gql`
  *   },
  * });
  */
-export function useCountUserBooksQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    CountUserBooksQuery,
-    CountUserBooksQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(
-    CountUserBooksDocument,
-    options
-  );
-}
-export function useCountUserBooksLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    CountUserBooksQuery,
-    CountUserBooksQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(
-    CountUserBooksDocument,
-    options
-  );
-}
-export type CountUserBooksQueryHookResult = ReturnType<
-  typeof useCountUserBooksQuery
->;
-export type CountUserBooksLazyQueryHookResult = ReturnType<
-  typeof useCountUserBooksLazyQuery
->;
-export type CountUserBooksQueryResult = Apollo.QueryResult<
-  CountUserBooksQuery,
-  CountUserBooksQueryVariables
->;
+export function useCountUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
+      }
+export function useCountUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
+        }
+export type CountUserBooksQueryHookResult = ReturnType<typeof useCountUserBooksQuery>;
+export type CountUserBooksLazyQueryHookResult = ReturnType<typeof useCountUserBooksLazyQuery>;
+export type CountUserBooksQueryResult = Apollo.QueryResult<CountUserBooksQuery, CountUserBooksQueryVariables>;

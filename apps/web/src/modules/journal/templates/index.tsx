@@ -8,6 +8,7 @@ import { columns } from '../components/columns';
 import { DataTable } from '@/components/ui/data-table';
 import Heading from '@/components/heading';
 import { StatCard } from '../components/stats-card';
+import { formatAuthors } from '@/lib/utils';
 
 interface JournalTemplateProps {
     bookId?: string;
@@ -48,7 +49,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
             },
             entry: {
                 id: entry.id,
-                author: entry.userBook?.book?.author,
+                authors: formatAuthors(entry.userBook?.book!),
                 title:
                     (entry.userBook &&
                         entry.userBook.book &&

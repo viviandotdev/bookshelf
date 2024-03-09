@@ -2,6 +2,7 @@ import { BookData } from '@/types/interfaces';
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
+import { Book } from '@/graphql/graphql';
 
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
@@ -15,6 +16,27 @@ export function cleanText(text: string) {
   let cleanText = text.replace(/[^a-zA-Z0-9]/g, '');
   return cleanText;
 }
+
+export const formatAuthors = (book: Book) => {
+  if (!book || !book.authors || book.authors.length === 0) {
+    return '';
+  }
+  const authors = book.authors;
+  if (authors.length === 1) {
+    return authors[0].name;
+  }
+
+  // Join all authors except the last with ', '
+  const allButLast = authors
+    .slice(0, -1)
+    .map((author) => author.name)
+    .join(', ');
+
+  // Add the last author with ' and '
+  const lastAuthor = authors[authors.length - 1].name;
+
+  return `${allButLast} and ${lastAuthor}`;
+};
 
 export function processBook(
   book: any,

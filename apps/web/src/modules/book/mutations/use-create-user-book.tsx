@@ -18,7 +18,7 @@ const useCreateUserBook = () => {
             id: book.id,
             title: book.title,
             pageCount: parseInt(book.pageCount),
-            author: book.author,
+            authors: book.author,
             publisher: book.publisher,
             coverImage: book.coverImage,
           },

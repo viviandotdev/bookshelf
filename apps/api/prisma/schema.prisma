@@ -102,14 +102,14 @@ model Work {
     /// @Validator.IsInt()
     ratingsCount  Int?
 
-    mainEditionId String?
+    mainEditionId Int?
     // mainEdition   Book?   @relation("MainEdtition", fields: [mainEditionId], references: [id])
     editions      Book[]
 }
 
 model Book {
     /// @Validator.IsString()
-    id            String      @id @default(uuid())
+    id            Int         @id @default(autoincrement())
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
@@ -127,8 +127,6 @@ model Book {
     /// @Validator.IsInt()
     pageCount     Int?
     /// @Validator.IsString()
-    mainCategory  String?
-    /// @Validator.IsString()
     identifier    Identifier?
     // One to Many: multiple users can own the same book
     /// @Validator.ValidateNested()
@@ -143,7 +141,7 @@ model Book {
 }
 
 model Identifier {
-    bookId      String  @unique
+    bookId      Int     @unique
     book        Book?   @relation(fields: [bookId], references: [id])
     isbn10      String?
     isbn13      String?
@@ -178,7 +176,7 @@ model Review {
     user       User?     @relation(fields: [userId], references: [id])
     userId     String?
     book       Book?     @relation(fields: [bookId], references: [id])
-    bookId     String?
+    bookId     Int?
 
     @@unique(fields: [userId, bookId], name: "identifier")
 }
@@ -200,8 +198,8 @@ model UserBook {
     id        String   @id @default(uuid())
     /// @Validator.IsString()
     userId    String
-    /// @Validator.IsString()
-    bookId    String
+    /// @Validator.IsInt()
+    bookId    Int
     /// @Validator.IsString()
     status    String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
@@ -294,7 +292,7 @@ model AuditLog {
 
     action ACTION
     // BOOK the action was performed on
-    bookId String
+    bookId Int
     book   Book?  @relation(fields: [bookId], references: [id])
 
     // ACTION content

@@ -53,7 +53,7 @@ export default function BookTemplate({
                             >
                                 {book.title}
                             </h1>
-                            <span className='inline text-base'>by {book.author}</span>
+                            <span className='inline text-base'>by {book.author && book.author[0].name}</span>
                         </div>
                         <div className='flex gap-2'>
                             <section className='  flex flex-col gap-2 pr-4'>
@@ -73,7 +73,6 @@ export default function BookTemplate({
                                 <div className='text-sm text-beige'>MORE</div>
                             </div>
                             <hr className='border-t-1 border-beige' />
-
                             {reviews.length > 0 ? (
                                 <div>
                                     {reviews.map((review) => {

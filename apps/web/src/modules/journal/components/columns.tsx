@@ -38,7 +38,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
         cell: ({ row }) => {
             const entry = row.getValue('entry') as {
                 id: string;
-                author: string;
+                authors: string;
                 title: string;
                 image: string;
             };
@@ -51,7 +51,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
                         <span className={cn(dm_sefif_display.className, 'max-w-[24rem] truncate text-2xl')}>
                             {entry.title}
                         </span>
-                        <span className="text-gray-500">by {entry.author}</span>
+                        <span className="text-gray-500">by {entry.authors}</span>
                     </div>
 
                 </div>

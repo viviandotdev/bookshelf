@@ -7,10 +7,11 @@ query UserBook($where: BookWhereUniqueInput!) {
     book {
       id
       title
-      author
+      authors {
+        name
+      }
       pageCount
       coverImage
-      categories
     }
     shelves {
       shelf {
@@ -45,10 +46,11 @@ query GetUserBooks(
       book {
         id
         title
-        author
+        authors {
+          name
+        }
         pageCount
         coverImage
-        categories
         _count {
           userBook
           reviews
