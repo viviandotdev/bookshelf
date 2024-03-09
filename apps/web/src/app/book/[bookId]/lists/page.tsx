@@ -1,4 +1,4 @@
-import { getBook } from '@/modules/book/queries/getBook';
+import { getBook } from '@/modules/book/queries/getGoogleBook';
 import ShelvesTemplate from '@/modules/shelves/templates';
 import { notFound } from 'next/navigation';
 import React from 'react'

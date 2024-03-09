@@ -15,7 +15,7 @@ export const useCreateJournalEntry = () => {
       variables: {
         data: createInput,
         book: {
-          id: bookId,
+          id: parseInt(bookId),
         },
       },
       errorPolicy: 'all',

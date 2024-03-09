@@ -4,14 +4,14 @@ import BookTemplate from '@/modules/book/templates';
 import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { getCurrentUser } from '@/lib/auth';
 import { getReviews } from '@/modules/book/queries/getReviews';
-import { getBook } from '@/modules/book/queries/getBook';
+import { getGoogleBook } from '@/modules/book/queries/getGoogleBook';
 
 interface BookPageProps {
     params: { bookId: string };
 }
 
 export default async function BookPage({ params }: BookPageProps) {
-    const book = await getBook(params.bookId);
+    const book = await getGoogleBook(params.bookId);
     if (!book) {
         notFound();
     }

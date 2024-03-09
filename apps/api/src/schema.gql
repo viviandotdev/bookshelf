@@ -2133,6 +2133,7 @@ type PasswordResetTokenMinAggregate {
 
 type Query {
   auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AuditLog!]!
+  book(where: BookWhereUniqueInput!): Book
   bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!

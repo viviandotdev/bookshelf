@@ -1,6 +1,10 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { BookService } from './book.service';
-import { Book, BookCreateInput } from 'src/generated-db-types';
+import {
+  Book,
+  BookCreateInput,
+  BookWhereUniqueInput,
+} from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
@@ -20,10 +24,22 @@ export class BookResolver {
     return this.bookService.create(data, currentUser.userId);
   }
 
+  @Query(() => Book, { nullable: true, name: 'book' })
+  book(
+    @Args('where')
+    where: BookWhereUniqueInput,
+  ) {
+    return this.bookService.findUnique({
+      where: {
+        id: where.id,
+      },
+    });
+  }
+
   //   @Mutation(() => Book)
   //   @UseGuards(AccessTokenGuard)
   //   async favoriteArticle(
-  //     @Args('where') where: BookWhereUniqueInput,
+  //     @Args('where') where: B√ookWhereUniqueInput,
   //     @Args('value') value: boolean,
   //     @CurrentUser() currentUser: JwtPayload,
   //   ) {

@@ -108,7 +108,7 @@ model Work {
 }
 
 model Book {
-    /// @Validator.IsString()
+    /// @Validator.IsInt()
     id            Int         @id @default(autoincrement())
     /// @Validator.IsString()
     title         String

@@ -66,7 +66,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                 await loadEntry({
                     variables: {
                         book: {
-                            id: userBook!.book.id,
+                            id: parseInt(userBook!.book.id),
                         },
                     },
                 });
@@ -199,7 +199,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
         };
         //  if editing journal entry
         if (editId) {
-            await updateUserBook(userBook.book!.id, {
+            await updateUserBook(parseInt(userBook.book!.id), {
                 status: values.mark_dnf ? 'Did Not Finish' : 'Currently Reading',
             });
         }

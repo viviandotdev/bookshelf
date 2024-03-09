@@ -4,7 +4,6 @@ import {
   Author,
   BookCreateInput,
   BookWhereUniqueInput,
-  Identifier,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,

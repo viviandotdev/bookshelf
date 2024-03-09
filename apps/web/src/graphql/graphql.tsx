@@ -2335,6 +2335,7 @@ export type PasswordResetTokenMinAggregate = {
 export type Query = {
   __typename?: 'Query';
   auditLogs: Array<AuditLog>;
+  book?: Maybe<Book>;
   bookReview: Review;
   bookReviews: Array<Review>;
   comments: Array<Comment>;
@@ -2354,6 +2355,11 @@ export type QueryAuditLogsArgs = {
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
   where?: InputMaybe<UserBookWhereUniqueInput>;
+};
+
+
+export type QueryBookArgs = {
+  where: BookWhereUniqueInput;
 };
 
 
@@ -5349,6 +5355,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', email?: string | null, username?: string | null, isOAuth?: boolean | null } };
 
+export type BookQueryVariables = Exact<{
+  where: BookWhereUniqueInput;
+}>;
+
+
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null };
+
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
   limit?: Scalars['Int']['input'];
@@ -6485,6 +6498,45 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const BookDocument = gql`
+    query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    id
+    title
+    authors {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useBookQuery__
+ *
+ * To run a query within a React component, call `useBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useBookQuery(baseOptions: Apollo.QueryHookOptions<BookQuery, BookQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+      }
+export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQuery, BookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+        }
+export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
+export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
+export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {

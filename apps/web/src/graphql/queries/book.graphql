@@ -1,0 +1,9 @@
+query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    id
+    title
+    authors {
+      name
+    }
+  }
+}
