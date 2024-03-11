@@ -74,7 +74,11 @@ export class ReviewResolver {
             user: true,
           },
         },
-        book: true,
+        book: {
+          include: {
+            authors: true
+          },
+        },
         comments: {
           include: {
             user: true,

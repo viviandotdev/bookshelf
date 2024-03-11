@@ -25,7 +25,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
     return (
         <>
             <BookStatusModal />
-            <div className='mt-4 grid w-full grid-cols-5 gap-2'>
+            <div className='container mt-4 grid w-full grid-cols-5 gap-2'>
                 <section className='hidden p-4 xl:col-span-1 xl:block'>
                     <Image
                         width={184}
@@ -36,7 +36,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
                     />
                     <div className='mt-3 text-xs font-light'>
                         <div>{book.pageCount} Pages</div>
-                        <div>First published {formatDate(book.publishedDate) || ''}</div>
+                        <div>First published {formatDate(book.publishedDate!) || ''}</div>
                     </div>
                 </section>
                 <section className=' col-span-5 grid gap-2 p-4 xl:col-span-4'>
