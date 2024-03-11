@@ -16,7 +16,9 @@ query GetAuditLogs(
     book {
       id
       title
-      author
+      authors {
+        name
+      }
       pageCount
       coverImage
     }

@@ -1,7 +1,7 @@
 export interface BookData {
   id: string;
   title: string;
-  author: string;
+  authors: string[];
   averageRating: number;
   ratingsCount: number;
   publishedDate: string;
@@ -11,6 +11,7 @@ export interface BookData {
   pageCount: number;
   isbn: string;
   categories: string[];
+  mainCategory: string;
   isbn13: string;
 }
 

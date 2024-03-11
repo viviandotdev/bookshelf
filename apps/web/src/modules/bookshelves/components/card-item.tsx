@@ -9,7 +9,7 @@ import { UserBook } from '@/graphql/graphql';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
 import rating from '@/components/rating';
-import { cn } from '@/lib/utils';
+import { cn, formatAuthors } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import useCreateReviewModal from '@/components/modals/create-review-modal/use-create-review.modal';
@@ -88,7 +88,7 @@ export const CardItem: React.FC<CardItemProps> = ({
                                 <div className='line-clamp-2 text-base font-medium text-beige-700'>
                                     {book?.title}
                                 </div>
-                                <div className='text-gray-400'>{book?.author}</div>
+                                <div className='text-gray-400'> {formatAuthors(book!)}</div>
                             </div>
                             <div className='text-xs text-gray-400'>
                                 Completed On Jul 23, 2022

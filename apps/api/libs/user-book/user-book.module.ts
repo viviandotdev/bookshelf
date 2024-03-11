@@ -8,6 +8,9 @@ import { BookRepository } from 'libs/book/book.repository';
 import { HttpModule } from '@nestjs/axios';
 import { ActivityService } from 'libs/activity/activity.service';
 import { ActivityRepository } from 'libs/activity/activity.respository';
+import { AuthorService } from 'libs/author/author.service';
+import { WorkService } from 'libs/work/work.service';
+import { WorkRepository } from 'libs/work/work.repository';
 
 @Module({
   providers: [
@@ -18,6 +21,9 @@ import { ActivityRepository } from 'libs/activity/activity.respository';
     BookRepository,
     ActivityRepository,
     ActivityService,
+    AuthorService,
+    WorkService,
+    WorkRepository,
   ],
   imports: [PrismaModule, HttpModule],
   exports: [UserBookService],

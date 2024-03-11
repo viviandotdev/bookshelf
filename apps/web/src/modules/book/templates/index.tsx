@@ -1,16 +1,15 @@
 import { dm_sefif_display } from '@/lib/fonts';
-import { cn, formatDate } from '@/lib/utils';
-import { BookData, User } from '@/types/interfaces';
+import { cn, formatAuthors, formatDate } from '@/lib/utils';
+import { User } from '@/types/interfaces';
 import React from 'react';
 import Image from 'next/image';
-import { Shelf, Review } from '@/graphql/graphql';
+import { Shelf, Review, Book } from '@/graphql/graphql';
 import ActionsPanel from '@/modules/book/components/actions-panel';
 import BookInfo from '@/modules/book/components/book-info';
 import ReviewCard from '../components/review-card';
 import BookStatusModal from '@/components/modals/book-status-modal';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface BookTemplateProps {
-    book: BookData;
+    book: Book;
     shelves: Shelf[];
     reviews: Review[];
     user: User;
@@ -39,7 +38,7 @@ export default function BookTemplate({
                     />
                     <div className='mt-3 text-xs font-light'>
                         <div>{book.pageCount} Pages</div>
-                        <div>First published {formatDate(book.publishedDate)}</div>
+                        <div>First published {formatDate(book.publishedDate!)}</div>
                     </div>
                 </section>
                 <section className=' col-span-5 grid gap-2 p-4 xl:col-span-4'>
@@ -53,7 +52,7 @@ export default function BookTemplate({
                             >
                                 {book.title}
                             </h1>
-                            <span className='inline text-base'>by {book.author}</span>
+                            <span className='inline text-base'>by {formatAuthors(book)}</span>
                         </div>
                         <div className='flex gap-2'>
                             <section className='  flex flex-col gap-2 pr-4'>
@@ -73,7 +72,6 @@ export default function BookTemplate({
                                 <div className='text-sm text-beige'>MORE</div>
                             </div>
                             <hr className='border-t-1 border-beige' />
-
                             {reviews.length > 0 ? (
                                 <div>
                                     {reviews.map((review) => {

@@ -4,6 +4,7 @@ import BookTemplate from '@/modules/book/templates';
 import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { getCurrentUser } from '@/lib/auth';
 import { getReviews } from '@/modules/book/queries/getReviews';
+import { getGoogleBook } from '@/modules/book/queries/getGoogleBook';
 import { getBook } from '@/modules/book/queries/getBook';
 
 interface BookPageProps {

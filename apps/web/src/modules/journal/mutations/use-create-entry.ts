@@ -1,6 +1,5 @@
 import {
   JournalEntryCreateInput,
-  JournalEntryUpdateInput,
   useCreateJournalEntryMutation,
 } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
@@ -15,7 +14,7 @@ export const useCreateJournalEntry = () => {
       variables: {
         data: createInput,
         book: {
-          id: bookId,
+          id: parseInt(bookId),
         },
       },
       errorPolicy: 'all',

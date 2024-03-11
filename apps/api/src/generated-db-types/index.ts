@@ -12,6 +12,17 @@ import { ID } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { HideField } from '@nestjs/graphql';
 
+export enum WorkScalarFieldEnum {
+    id = "id",
+    title = "title",
+    description = "description",
+    categories = "categories",
+    mainCategory = "mainCategory",
+    averageRating = "averageRating",
+    ratingsCount = "ratingsCount",
+    mainEditionId = "mainEditionId"
+}
+
 export enum VerificationTokenScalarFieldEnum {
     id = "id",
     email = "email",
@@ -117,6 +128,16 @@ export enum JournalEntryScalarFieldEnum {
     userBookId = "userBookId"
 }
 
+export enum IdentifierScalarFieldEnum {
+    bookId = "bookId",
+    isbn10 = "isbn10",
+    isbn13 = "isbn13",
+    googleBooks = "googleBooks",
+    openLibrary = "openLibrary",
+    goodreads = "goodreads",
+    amazon = "amazon"
+}
+
 export enum CommentScalarFieldEnum {
     id = "id",
     createdAt = "createdAt",
@@ -128,14 +149,23 @@ export enum CommentScalarFieldEnum {
 export enum BookScalarFieldEnum {
     id = "id",
     title = "title",
-    author = "author",
     publishedDate = "publishedDate",
     publisher = "publisher",
     coverImage = "coverImage",
     description = "description",
+    language = "language",
     pageCount = "pageCount",
-    categories = "categories",
-    mainCategory = "mainCategory"
+    workId = "workId"
+}
+
+export enum AuthorScalarFieldEnum {
+    id = "id",
+    name = "name",
+    bio = "bio",
+    birthDate = "birthDate",
+    deathDate = "deathDate",
+    wikipedia = "wikipedia",
+    photo = "photo"
 }
 
 export enum AuditLogScalarFieldEnum {
@@ -165,8 +195,10 @@ export enum AccountScalarFieldEnum {
 
 registerEnumType(AccountScalarFieldEnum, { name: 'AccountScalarFieldEnum', description: undefined })
 registerEnumType(AuditLogScalarFieldEnum, { name: 'AuditLogScalarFieldEnum', description: undefined })
+registerEnumType(AuthorScalarFieldEnum, { name: 'AuthorScalarFieldEnum', description: undefined })
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
+registerEnumType(IdentifierScalarFieldEnum, { name: 'IdentifierScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
 registerEnumType(PasswordResetTokenScalarFieldEnum, { name: 'PasswordResetTokenScalarFieldEnum', description: undefined })
 registerEnumType(ACTION, { name: 'ACTION', description: undefined })
@@ -180,6 +212,7 @@ registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description
 registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', description: undefined })
 registerEnumType(UserBookShelvesScalarFieldEnum, { name: 'UserBookShelvesScalarFieldEnum', description: undefined })
 registerEnumType(VerificationTokenScalarFieldEnum, { name: 'VerificationTokenScalarFieldEnum', description: undefined })
+registerEnumType(WorkScalarFieldEnum, { name: 'WorkScalarFieldEnum', description: undefined })
 
 @ArgsType()
 export class AccountAggregateArgs {
@@ -1497,6 +1530,10 @@ export class UpsertOneAccountArgs {
 export class AggregateAuditLog {
     @Field(() => AuditLogCountAggregate, {nullable:true})
     _count?: InstanceType<typeof AuditLogCountAggregate>;
+    @Field(() => AuditLogAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof AuditLogAvgAggregate>;
+    @Field(() => AuditLogSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof AuditLogSumAggregate>;
     @Field(() => AuditLogMinAggregate, {nullable:true})
     _min?: InstanceType<typeof AuditLogMinAggregate>;
     @Field(() => AuditLogMaxAggregate, {nullable:true})
@@ -1519,10 +1556,32 @@ export class AuditLogAggregateArgs {
     skip?: number;
     @Field(() => AuditLogCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof AuditLogCountAggregateInput>;
+    @Field(() => AuditLogAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AuditLogAvgAggregateInput>;
+    @Field(() => AuditLogSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AuditLogSumAggregateInput>;
     @Field(() => AuditLogMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof AuditLogMinAggregateInput>;
     @Field(() => AuditLogMaxAggregateInput, {nullable:true})
     _max?: InstanceType<typeof AuditLogMaxAggregateInput>;
+}
+
+@InputType()
+export class AuditLogAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class AuditLogAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class AuditLogAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -1623,8 +1682,8 @@ export class AuditLogCreateManyUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -1641,8 +1700,8 @@ export class AuditLogCreateManyInput {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -1771,6 +1830,10 @@ export class AuditLogGroupByArgs {
     skip?: number;
     @Field(() => AuditLogCountAggregateInput, {nullable:true})
     _count?: InstanceType<typeof AuditLogCountAggregateInput>;
+    @Field(() => AuditLogAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AuditLogAvgAggregateInput>;
+    @Field(() => AuditLogSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AuditLogSumAggregateInput>;
     @Field(() => AuditLogMinAggregateInput, {nullable:true})
     _min?: InstanceType<typeof AuditLogMinAggregateInput>;
     @Field(() => AuditLogMaxAggregateInput, {nullable:true})
@@ -1785,8 +1848,8 @@ export class AuditLogGroupBy {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:false})
@@ -1795,6 +1858,10 @@ export class AuditLogGroupBy {
     updatedAt!: Date | string;
     @Field(() => AuditLogCountAggregate, {nullable:true})
     _count?: InstanceType<typeof AuditLogCountAggregate>;
+    @Field(() => AuditLogAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof AuditLogAvgAggregate>;
+    @Field(() => AuditLogSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof AuditLogSumAggregate>;
     @Field(() => AuditLogMinAggregate, {nullable:true})
     _min?: InstanceType<typeof AuditLogMinAggregate>;
     @Field(() => AuditLogMaxAggregate, {nullable:true})
@@ -1837,8 +1904,8 @@ export class AuditLogMaxAggregate {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -1891,8 +1958,8 @@ export class AuditLogMinAggregate {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -1943,10 +2010,14 @@ export class AuditLogOrderByWithAggregationInput {
     updatedAt?: keyof typeof SortOrder;
     @Field(() => AuditLogCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof AuditLogCountOrderByAggregateInput>;
+    @Field(() => AuditLogAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof AuditLogAvgOrderByAggregateInput>;
     @Field(() => AuditLogMaxOrderByAggregateInput, {nullable:true})
     _max?: InstanceType<typeof AuditLogMaxOrderByAggregateInput>;
     @Field(() => AuditLogMinOrderByAggregateInput, {nullable:true})
     _min?: InstanceType<typeof AuditLogMinOrderByAggregateInput>;
+    @Field(() => AuditLogSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof AuditLogSumOrderByAggregateInput>;
 }
 
 @InputType()
@@ -1985,8 +2056,8 @@ export class AuditLogScalarWhereWithAggregatesInput {
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => EnumACTIONWithAggregatesFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     actionContent?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -2009,14 +2080,32 @@ export class AuditLogScalarWhereInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+}
+
+@InputType()
+export class AuditLogSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class AuditLogSumAggregate {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class AuditLogSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -2073,8 +2162,8 @@ export class AuditLogUncheckedCreateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2091,8 +2180,8 @@ export class AuditLogUncheckedCreateInput {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2197,8 +2286,8 @@ export class AuditLogUncheckedUpdateManyWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2215,8 +2304,8 @@ export class AuditLogUncheckedUpdateManyInput {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2247,8 +2336,8 @@ export class AuditLogUncheckedUpdateWithoutUserInput {
     id?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2265,8 +2354,8 @@ export class AuditLogUncheckedUpdateInput {
     userId?: string;
     @Field(() => ACTION, {nullable:true})
     action?: keyof typeof ACTION;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => String, {nullable:true})
     actionContent?: string;
     @Field(() => Date, {nullable:true})
@@ -2493,8 +2582,8 @@ export class AuditLogWhereUniqueInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -2521,8 +2610,8 @@ export class AuditLogWhereInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     action?: InstanceType<typeof EnumACTIONFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     actionContent?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -2543,8 +2632,8 @@ export class AuditLog {
     userId!: string;
     @Field(() => ACTION, {nullable:false})
     action!: keyof typeof ACTION;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:true})
     actionContent!: string | null;
     @Field(() => Date, {nullable:false})
@@ -2700,6 +2789,1204 @@ export class UpsertOneAuditLogArgs {
 }
 
 @ObjectType()
+export class AggregateAuthor {
+    @Field(() => AuthorCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AuthorCountAggregate>;
+    @Field(() => AuthorMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AuthorMinAggregate>;
+    @Field(() => AuthorMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AuthorMaxAggregate>;
+}
+
+@ArgsType()
+export class AuthorAggregateArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => [AuthorOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuthorOrderByWithRelationInput>;
+    @Field(() => AuthorWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => AuthorCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuthorCountAggregateInput>;
+    @Field(() => AuthorMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuthorMinAggregateInput>;
+    @Field(() => AuthorMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuthorMaxAggregateInput>;
+}
+
+@InputType()
+export class AuthorCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    bio?: true;
+    @Field(() => Boolean, {nullable:true})
+    birthDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    deathDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    wikipedia?: true;
+    @Field(() => Boolean, {nullable:true})
+    photo?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class AuthorCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    name!: number;
+    @Field(() => Int, {nullable:false})
+    bio!: number;
+    @Field(() => Int, {nullable:false})
+    birthDate!: number;
+    @Field(() => Int, {nullable:false})
+    deathDate!: number;
+    @Field(() => Int, {nullable:false})
+    wikipedia!: number;
+    @Field(() => Int, {nullable:false})
+    photo!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class AuthorCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bio?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    birthDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    deathDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    wikipedia?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    photo?: keyof typeof SortOrder;
+}
+
+@ObjectType()
+export class AuthorCount {
+    @Field(() => Int, {nullable:false})
+    works?: number;
+    @Field(() => Int, {nullable:false})
+    books?: number;
+}
+
+@InputType()
+export class AuthorCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorCreateNestedManyWithoutBooksInput {
+    @Field(() => [AuthorCreateWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create?: Array<AuthorCreateWithoutBooksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutBooksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutBooksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class AuthorCreateNestedManyWithoutWorksInput {
+    @Field(() => [AuthorCreateWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create?: Array<AuthorCreateWithoutWorksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutWorksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutWorksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class AuthorCreateOrConnectWithoutBooksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorCreateWithoutBooksInput, {nullable:false})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create!: InstanceType<typeof AuthorCreateWithoutBooksInput>;
+}
+
+@InputType()
+export class AuthorCreateOrConnectWithoutWorksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorCreateWithoutWorksInput, {nullable:false})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create!: InstanceType<typeof AuthorCreateWithoutWorksInput>;
+}
+
+@InputType()
+export class AuthorCreateWithoutBooksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    works?: InstanceType<typeof WorkCreateNestedManyWithoutAuthorsInput>;
+}
+
+@InputType()
+export class AuthorCreateWithoutWorksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => BookCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    books?: InstanceType<typeof BookCreateNestedManyWithoutAuthorsInput>;
+}
+
+@InputType()
+export class AuthorCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    works?: InstanceType<typeof WorkCreateNestedManyWithoutAuthorsInput>;
+    @Field(() => BookCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    books?: InstanceType<typeof BookCreateNestedManyWithoutAuthorsInput>;
+}
+
+@ArgsType()
+export class AuthorGroupByArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => [AuthorOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<AuthorOrderByWithAggregationInput>;
+    @Field(() => [AuthorScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof AuthorScalarFieldEnum>;
+    @Field(() => AuthorScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof AuthorScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => AuthorCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuthorCountAggregateInput>;
+    @Field(() => AuthorMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuthorMinAggregateInput>;
+    @Field(() => AuthorMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuthorMaxAggregateInput>;
+}
+
+@ObjectType()
+export class AuthorGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => AuthorCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof AuthorCountAggregate>;
+    @Field(() => AuthorMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof AuthorMinAggregate>;
+    @Field(() => AuthorMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof AuthorMaxAggregate>;
+}
+
+@InputType()
+export class AuthorListRelationFilter {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    every?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => AuthorWhereInput, {nullable:true})
+    some?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => AuthorWhereInput, {nullable:true})
+    none?: InstanceType<typeof AuthorWhereInput>;
+}
+
+@InputType()
+export class AuthorMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    bio?: true;
+    @Field(() => Boolean, {nullable:true})
+    birthDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    deathDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    wikipedia?: true;
+    @Field(() => Boolean, {nullable:true})
+    photo?: true;
+}
+
+@ObjectType()
+export class AuthorMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bio?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    birthDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    deathDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    wikipedia?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    photo?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AuthorMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    name?: true;
+    @Field(() => Boolean, {nullable:true})
+    bio?: true;
+    @Field(() => Boolean, {nullable:true})
+    birthDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    deathDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    wikipedia?: true;
+    @Field(() => Boolean, {nullable:true})
+    photo?: true;
+}
+
+@ObjectType()
+export class AuthorMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bio?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    birthDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    deathDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    wikipedia?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    photo?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AuthorOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class AuthorOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    bio?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    birthDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    deathDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    wikipedia?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    photo?: InstanceType<typeof SortOrderInput>;
+    @Field(() => AuthorCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof AuthorCountOrderByAggregateInput>;
+    @Field(() => AuthorMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof AuthorMaxOrderByAggregateInput>;
+    @Field(() => AuthorMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof AuthorMinOrderByAggregateInput>;
+}
+
+@InputType()
+export class AuthorOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    name?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    bio?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    birthDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    deathDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    wikipedia?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    photo?: InstanceType<typeof SortOrderInput>;
+    @Field(() => WorkOrderByRelationAggregateInput, {nullable:true})
+    works?: InstanceType<typeof WorkOrderByRelationAggregateInput>;
+    @Field(() => BookOrderByRelationAggregateInput, {nullable:true})
+    books?: InstanceType<typeof BookOrderByRelationAggregateInput>;
+}
+
+@InputType()
+export class AuthorScalarWhereWithAggregatesInput {
+    @Field(() => [AuthorScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<AuthorScalarWhereWithAggregatesInput>;
+    @Field(() => [AuthorScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<AuthorScalarWhereWithAggregatesInput>;
+    @Field(() => [AuthorScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<AuthorScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    name?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    bio?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    birthDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    deathDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    wikipedia?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    photo?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class AuthorScalarWhereInput {
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    AND?: Array<AuthorScalarWhereInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    OR?: Array<AuthorScalarWhereInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    NOT?: Array<AuthorScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    bio?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    birthDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    deathDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    wikipedia?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    photo?: InstanceType<typeof StringFilter>;
+}
+
+@InputType()
+export class AuthorUncheckedCreateNestedManyWithoutBooksInput {
+    @Field(() => [AuthorCreateWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create?: Array<AuthorCreateWithoutBooksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutBooksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutBooksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class AuthorUncheckedCreateNestedManyWithoutWorksInput {
+    @Field(() => [AuthorCreateWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create?: Array<AuthorCreateWithoutWorksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutWorksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutWorksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class AuthorUncheckedCreateWithoutBooksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUncheckedCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    works?: InstanceType<typeof WorkUncheckedCreateNestedManyWithoutAuthorsInput>;
+}
+
+@InputType()
+export class AuthorUncheckedCreateWithoutWorksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => BookUncheckedCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    books?: InstanceType<typeof BookUncheckedCreateNestedManyWithoutAuthorsInput>;
+}
+
+@InputType()
+export class AuthorUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUncheckedCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    works?: InstanceType<typeof WorkUncheckedCreateNestedManyWithoutAuthorsInput>;
+    @Field(() => BookUncheckedCreateNestedManyWithoutAuthorsInput, {nullable:true})
+    books?: InstanceType<typeof BookUncheckedCreateNestedManyWithoutAuthorsInput>;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateManyWithoutBooksNestedInput {
+    @Field(() => [AuthorCreateWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create?: Array<AuthorCreateWithoutBooksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutBooksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutBooksInput>;
+    @Field(() => [AuthorUpsertWithWhereUniqueWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpsertWithWhereUniqueWithoutBooksInput)
+    upsert?: Array<AuthorUpsertWithWhereUniqueWithoutBooksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorUpdateWithWhereUniqueWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpdateWithWhereUniqueWithoutBooksInput)
+    update?: Array<AuthorUpdateWithWhereUniqueWithoutBooksInput>;
+    @Field(() => [AuthorUpdateManyWithWhereWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpdateManyWithWhereWithoutBooksInput)
+    updateMany?: Array<AuthorUpdateManyWithWhereWithoutBooksInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    @Type(() => AuthorScalarWhereInput)
+    deleteMany?: Array<AuthorScalarWhereInput>;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateManyWithoutBooksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateManyWithoutWorksNestedInput {
+    @Field(() => [AuthorCreateWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create?: Array<AuthorCreateWithoutWorksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutWorksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutWorksInput>;
+    @Field(() => [AuthorUpsertWithWhereUniqueWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpsertWithWhereUniqueWithoutWorksInput)
+    upsert?: Array<AuthorUpsertWithWhereUniqueWithoutWorksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorUpdateWithWhereUniqueWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpdateWithWhereUniqueWithoutWorksInput)
+    update?: Array<AuthorUpdateWithWhereUniqueWithoutWorksInput>;
+    @Field(() => [AuthorUpdateManyWithWhereWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpdateManyWithWhereWithoutWorksInput)
+    updateMany?: Array<AuthorUpdateManyWithWhereWithoutWorksInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    @Type(() => AuthorScalarWhereInput)
+    deleteMany?: Array<AuthorScalarWhereInput>;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateManyWithoutWorksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateWithoutBooksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUncheckedUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    works?: InstanceType<typeof WorkUncheckedUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateWithoutWorksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => BookUncheckedUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    books?: InstanceType<typeof BookUncheckedUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUncheckedUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    works?: InstanceType<typeof WorkUncheckedUpdateManyWithoutAuthorsNestedInput>;
+    @Field(() => BookUncheckedUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    books?: InstanceType<typeof BookUncheckedUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+}
+
+@InputType()
+export class AuthorUpdateManyWithWhereWithoutBooksInput {
+    @Field(() => AuthorScalarWhereInput, {nullable:false})
+    @Type(() => AuthorScalarWhereInput)
+    where!: InstanceType<typeof AuthorScalarWhereInput>;
+    @Field(() => AuthorUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuthorUpdateManyMutationInput)
+    data!: InstanceType<typeof AuthorUpdateManyMutationInput>;
+}
+
+@InputType()
+export class AuthorUpdateManyWithWhereWithoutWorksInput {
+    @Field(() => AuthorScalarWhereInput, {nullable:false})
+    @Type(() => AuthorScalarWhereInput)
+    where!: InstanceType<typeof AuthorScalarWhereInput>;
+    @Field(() => AuthorUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuthorUpdateManyMutationInput)
+    data!: InstanceType<typeof AuthorUpdateManyMutationInput>;
+}
+
+@InputType()
+export class AuthorUpdateManyWithoutBooksNestedInput {
+    @Field(() => [AuthorCreateWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create?: Array<AuthorCreateWithoutBooksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutBooksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutBooksInput>;
+    @Field(() => [AuthorUpsertWithWhereUniqueWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpsertWithWhereUniqueWithoutBooksInput)
+    upsert?: Array<AuthorUpsertWithWhereUniqueWithoutBooksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorUpdateWithWhereUniqueWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpdateWithWhereUniqueWithoutBooksInput)
+    update?: Array<AuthorUpdateWithWhereUniqueWithoutBooksInput>;
+    @Field(() => [AuthorUpdateManyWithWhereWithoutBooksInput], {nullable:true})
+    @Type(() => AuthorUpdateManyWithWhereWithoutBooksInput)
+    updateMany?: Array<AuthorUpdateManyWithWhereWithoutBooksInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    @Type(() => AuthorScalarWhereInput)
+    deleteMany?: Array<AuthorScalarWhereInput>;
+}
+
+@InputType()
+export class AuthorUpdateManyWithoutWorksNestedInput {
+    @Field(() => [AuthorCreateWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create?: Array<AuthorCreateWithoutWorksInput>;
+    @Field(() => [AuthorCreateOrConnectWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorCreateOrConnectWithoutWorksInput)
+    connectOrCreate?: Array<AuthorCreateOrConnectWithoutWorksInput>;
+    @Field(() => [AuthorUpsertWithWhereUniqueWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpsertWithWhereUniqueWithoutWorksInput)
+    upsert?: Array<AuthorUpsertWithWhereUniqueWithoutWorksInput>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorWhereUniqueInput], {nullable:true})
+    @Type(() => AuthorWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>>;
+    @Field(() => [AuthorUpdateWithWhereUniqueWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpdateWithWhereUniqueWithoutWorksInput)
+    update?: Array<AuthorUpdateWithWhereUniqueWithoutWorksInput>;
+    @Field(() => [AuthorUpdateManyWithWhereWithoutWorksInput], {nullable:true})
+    @Type(() => AuthorUpdateManyWithWhereWithoutWorksInput)
+    updateMany?: Array<AuthorUpdateManyWithWhereWithoutWorksInput>;
+    @Field(() => [AuthorScalarWhereInput], {nullable:true})
+    @Type(() => AuthorScalarWhereInput)
+    deleteMany?: Array<AuthorScalarWhereInput>;
+}
+
+@InputType()
+export class AuthorUpdateWithWhereUniqueWithoutBooksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorUpdateWithoutBooksInput, {nullable:false})
+    @Type(() => AuthorUpdateWithoutBooksInput)
+    data!: InstanceType<typeof AuthorUpdateWithoutBooksInput>;
+}
+
+@InputType()
+export class AuthorUpdateWithWhereUniqueWithoutWorksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorUpdateWithoutWorksInput, {nullable:false})
+    @Type(() => AuthorUpdateWithoutWorksInput)
+    data!: InstanceType<typeof AuthorUpdateWithoutWorksInput>;
+}
+
+@InputType()
+export class AuthorUpdateWithoutBooksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    works?: InstanceType<typeof WorkUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUpdateWithoutWorksInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => BookUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    books?: InstanceType<typeof BookUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    name?: string;
+    @Field(() => String, {nullable:true})
+    bio?: string;
+    @Field(() => Date, {nullable:true})
+    birthDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    deathDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    wikipedia?: string;
+    @Field(() => String, {nullable:true})
+    photo?: string;
+    @Field(() => WorkUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    works?: InstanceType<typeof WorkUpdateManyWithoutAuthorsNestedInput>;
+    @Field(() => BookUpdateManyWithoutAuthorsNestedInput, {nullable:true})
+    books?: InstanceType<typeof BookUpdateManyWithoutAuthorsNestedInput>;
+}
+
+@InputType()
+export class AuthorUpsertWithWhereUniqueWithoutBooksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorUpdateWithoutBooksInput, {nullable:false})
+    @Type(() => AuthorUpdateWithoutBooksInput)
+    update!: InstanceType<typeof AuthorUpdateWithoutBooksInput>;
+    @Field(() => AuthorCreateWithoutBooksInput, {nullable:false})
+    @Type(() => AuthorCreateWithoutBooksInput)
+    create!: InstanceType<typeof AuthorCreateWithoutBooksInput>;
+}
+
+@InputType()
+export class AuthorUpsertWithWhereUniqueWithoutWorksInput {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorUpdateWithoutWorksInput, {nullable:false})
+    @Type(() => AuthorUpdateWithoutWorksInput)
+    update!: InstanceType<typeof AuthorUpdateWithoutWorksInput>;
+    @Field(() => AuthorCreateWithoutWorksInput, {nullable:false})
+    @Type(() => AuthorCreateWithoutWorksInput)
+    create!: InstanceType<typeof AuthorCreateWithoutWorksInput>;
+}
+
+@InputType()
+export class AuthorWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    AND?: Array<AuthorWhereInput>;
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    OR?: Array<AuthorWhereInput>;
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    NOT?: Array<AuthorWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    bio?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    birthDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    deathDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    wikipedia?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    photo?: InstanceType<typeof StringFilter>;
+    @Field(() => WorkListRelationFilter, {nullable:true})
+    works?: InstanceType<typeof WorkListRelationFilter>;
+    @Field(() => BookListRelationFilter, {nullable:true})
+    books?: InstanceType<typeof BookListRelationFilter>;
+}
+
+@InputType()
+export class AuthorWhereInput {
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    AND?: Array<AuthorWhereInput>;
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    OR?: Array<AuthorWhereInput>;
+    @Field(() => [AuthorWhereInput], {nullable:true})
+    NOT?: Array<AuthorWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    name?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    bio?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    birthDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    deathDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    wikipedia?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    photo?: InstanceType<typeof StringFilter>;
+    @Field(() => WorkListRelationFilter, {nullable:true})
+    works?: InstanceType<typeof WorkListRelationFilter>;
+    @Field(() => BookListRelationFilter, {nullable:true})
+    books?: InstanceType<typeof BookListRelationFilter>;
+}
+
+@ObjectType()
+export class Author {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    name!: string;
+    @Field(() => String, {nullable:true})
+    bio!: string | null;
+    @Field(() => Date, {nullable:true})
+    birthDate!: Date | null;
+    @Field(() => Date, {nullable:true})
+    deathDate!: Date | null;
+    @Field(() => String, {nullable:true})
+    wikipedia!: string | null;
+    @Field(() => String, {nullable:true})
+    photo!: string | null;
+    @Field(() => [Work], {nullable:true})
+    works?: Array<Work>;
+    @Field(() => [Book], {nullable:true})
+    books?: Array<Book>;
+    @Field(() => AuthorCount, {nullable:false})
+    _count?: InstanceType<typeof AuthorCount>;
+}
+
+@ArgsType()
+export class CreateManyAuthorArgs {
+    @Field(() => [AuthorCreateManyInput], {nullable:false})
+    @Type(() => AuthorCreateManyInput)
+    @ValidateNested()
+    data!: Array<AuthorCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneAuthorArgs {
+    @Field(() => AuthorCreateInput, {nullable:false})
+    @Type(() => AuthorCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AuthorCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyAuthorArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneAuthorArgs {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindFirstAuthorOrThrowArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => [AuthorOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuthorOrderByWithRelationInput>;
+    @Field(() => AuthorWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AuthorScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuthorScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstAuthorArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => [AuthorOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuthorOrderByWithRelationInput>;
+    @Field(() => AuthorWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AuthorScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuthorScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyAuthorArgs {
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+    @Field(() => [AuthorOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<AuthorOrderByWithRelationInput>;
+    @Field(() => AuthorWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [AuthorScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof AuthorScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueAuthorOrThrowArgs {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindUniqueAuthorArgs {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpdateManyAuthorArgs {
+    @Field(() => AuthorUpdateManyMutationInput, {nullable:false})
+    @Type(() => AuthorUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AuthorUpdateManyMutationInput>;
+    @Field(() => AuthorWhereInput, {nullable:true})
+    @Type(() => AuthorWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof AuthorWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneAuthorArgs {
+    @Field(() => AuthorUpdateInput, {nullable:false})
+    @Type(() => AuthorUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof AuthorUpdateInput>;
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpsertOneAuthorArgs {
+    @Field(() => AuthorWhereUniqueInput, {nullable:false})
+    @Type(() => AuthorWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<AuthorWhereUniqueInput, 'id'>;
+    @Field(() => AuthorCreateInput, {nullable:false})
+    @Type(() => AuthorCreateInput)
+    create!: InstanceType<typeof AuthorCreateInput>;
+    @Field(() => AuthorUpdateInput, {nullable:false})
+    @Type(() => AuthorUpdateInput)
+    update!: InstanceType<typeof AuthorUpdateInput>;
+}
+
+@ObjectType()
 export class AggregateBook {
     @Field(() => BookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregate>;
@@ -2742,17 +4029,23 @@ export class BookAggregateArgs {
 @InputType()
 export class BookAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
     pageCount?: true;
 }
 
 @ObjectType()
 export class BookAvgAggregate {
     @Field(() => Float, {nullable:true})
+    id?: number;
+    @Field(() => Float, {nullable:true})
     pageCount?: number;
 }
 
 @InputType()
 export class BookAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
 }
@@ -2764,8 +4057,6 @@ export class BookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     title?: true;
     @Field(() => Boolean, {nullable:true})
-    author?: true;
-    @Field(() => Boolean, {nullable:true})
     publishedDate?: true;
     @Field(() => Boolean, {nullable:true})
     publisher?: true;
@@ -2774,11 +4065,11 @@ export class BookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
+    language?: true;
+    @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
-    categories?: true;
-    @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
+    workId?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
@@ -2786,11 +4077,10 @@ export class BookCountAggregateInput {
 @ObjectType()
 export class BookCountAggregate {
     @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
     id!: number;
     @Field(() => Int, {nullable:false})
     title!: number;
-    @Field(() => Int, {nullable:false})
-    author!: number;
     @Field(() => Int, {nullable:false})
     publishedDate!: number;
     @Field(() => Int, {nullable:false})
@@ -2800,12 +4090,12 @@ export class BookCountAggregate {
     @Field(() => Int, {nullable:false})
     description!: number;
     @Field(() => Int, {nullable:false})
+    language!: number;
+    @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     pageCount!: number;
     @Field(() => Int, {nullable:false})
-    categories!: number;
-    @Field(() => Int, {nullable:false})
-    mainCategory!: number;
+    workId!: number;
     @Field(() => Int, {nullable:false})
     _all!: number;
 }
@@ -2817,8 +4107,6 @@ export class BookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     title?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    author?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     publishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
@@ -2827,15 +4115,17 @@ export class BookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    language?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    categories?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
+    workId?: keyof typeof SortOrder;
 }
 
 @ObjectType()
 export class BookCount {
+    @Field(() => Int, {nullable:false})
+    authors?: number;
     @Field(() => Int, {nullable:false})
     userBook?: number;
     @Field(() => Int, {nullable:false})
@@ -2845,16 +4135,22 @@ export class BookCount {
 }
 
 @InputType()
-export class BookCreateManyInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+export class BookCreateManyWorkInputEnvelope {
+    @Field(() => [BookCreateManyWorkInput], {nullable:false})
+    @Type(() => BookCreateManyWorkInput)
+    data!: Array<BookCreateManyWorkInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class BookCreateManyWorkInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -2867,15 +4163,84 @@ export class BookCreateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+}
+
+@InputType()
+export class BookCreateManyInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+}
+
+@InputType()
+export class BookCreateNestedManyWithoutAuthorsInput {
+    @Field(() => [BookCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create?: Array<BookCreateWithoutAuthorsInput>;
+    @Field(() => [BookCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class BookCreateNestedManyWithoutWorkInput {
+    @Field(() => [BookCreateWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateWithoutWorkInput)
+    create?: Array<BookCreateWithoutWorkInput>;
+    @Field(() => [BookCreateOrConnectWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutWorkInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutWorkInput>;
+    @Field(() => BookCreateManyWorkInputEnvelope, {nullable:true})
+    @Type(() => BookCreateManyWorkInputEnvelope)
+    createMany?: InstanceType<typeof BookCreateManyWorkInputEnvelope>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class BookCreateNestedOneWithoutIdentifierInput {
+    @Field(() => BookCreateWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookCreateWithoutIdentifierInput)
+    create?: InstanceType<typeof BookCreateWithoutIdentifierInput>;
+    @Field(() => BookCreateOrConnectWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutIdentifierInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutIdentifierInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
 }
 
 @InputType()
@@ -2918,6 +4283,26 @@ export class BookCreateNestedOneWithoutUserBookInput {
 }
 
 @InputType()
+export class BookCreateOrConnectWithoutAuthorsInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookCreateWithoutAuthorsInput, {nullable:false})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create!: InstanceType<typeof BookCreateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class BookCreateOrConnectWithoutIdentifierInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookCreateWithoutIdentifierInput, {nullable:false})
+    @Type(() => BookCreateWithoutIdentifierInput)
+    create!: InstanceType<typeof BookCreateWithoutIdentifierInput>;
+}
+
+@InputType()
 export class BookCreateOrConnectWithoutLogsInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
@@ -2948,16 +4333,20 @@ export class BookCreateOrConnectWithoutUserBookInput {
 }
 
 @InputType()
-export class BookCreateWithoutLogsInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+export class BookCreateOrConnectWithoutWorkInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookCreateWithoutWorkInput, {nullable:false})
+    @Type(() => BookCreateWithoutWorkInput)
+    create!: InstanceType<typeof BookCreateWithoutWorkInput>;
+}
+
+@InputType()
+export class BookCreateWithoutAuthorsInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -2970,32 +4359,99 @@ export class BookCreateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+}
+
+@InputType()
+export class BookCreateWithoutIdentifierInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+}
+
+@InputType()
+export class BookCreateWithoutLogsInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
 }
 
 @InputType()
 export class BookCreateWithoutReviewsInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
-    id!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3008,32 +4464,29 @@ export class BookCreateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
 }
 
 @InputType()
 export class BookCreateWithoutUserBookInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
-    id!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3046,15 +4499,53 @@ export class BookCreateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
+    @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+}
+
+@InputType()
+export class BookCreateWithoutWorkInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    categories?: string;
+    publishedDate?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    mainCategory?: string;
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
@@ -3065,13 +4556,7 @@ export class BookCreateWithoutUserBookInput {
 export class BookCreateInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
-    id!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3084,21 +4569,24 @@ export class BookCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
 }
 
 @ArgsType()
@@ -3131,15 +4619,12 @@ export class BookGroupByArgs {
 
 @ObjectType()
 export class BookGroupBy {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    id!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3152,15 +4637,14 @@ export class BookGroupBy {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
     @Field(() => BookCountAggregate, {nullable:true})
     _count?: InstanceType<typeof BookCountAggregate>;
     @Field(() => BookAvgAggregate, {nullable:true})
@@ -3174,13 +4658,21 @@ export class BookGroupBy {
 }
 
 @InputType()
+export class BookListRelationFilter {
+    @Field(() => BookWhereInput, {nullable:true})
+    every?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    some?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    none?: InstanceType<typeof BookWhereInput>;
+}
+
+@InputType()
 export class BookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
     title?: true;
-    @Field(() => Boolean, {nullable:true})
-    author?: true;
     @Field(() => Boolean, {nullable:true})
     publishedDate?: true;
     @Field(() => Boolean, {nullable:true})
@@ -3190,24 +4682,21 @@ export class BookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
+    language?: true;
+    @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
-    categories?: true;
-    @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
+    workId?: true;
 }
 
 @ObjectType()
 export class BookMaxAggregate {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3220,15 +4709,14 @@ export class BookMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
 }
 
 @InputType()
@@ -3238,8 +4726,6 @@ export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     title?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    author?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     publishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
@@ -3248,11 +4734,11 @@ export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    language?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    categories?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
+    workId?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -3262,8 +4748,6 @@ export class BookMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     title?: true;
     @Field(() => Boolean, {nullable:true})
-    author?: true;
-    @Field(() => Boolean, {nullable:true})
     publishedDate?: true;
     @Field(() => Boolean, {nullable:true})
     publisher?: true;
@@ -3272,24 +4756,21 @@ export class BookMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
+    language?: true;
+    @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
-    categories?: true;
-    @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
+    workId?: true;
 }
 
 @ObjectType()
 export class BookMinAggregate {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3302,15 +4783,14 @@ export class BookMinAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
 }
 
 @InputType()
@@ -3320,8 +4800,6 @@ export class BookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     title?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    author?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     publishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
@@ -3330,11 +4808,17 @@ export class BookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    language?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    categories?: keyof typeof SortOrder;
+    workId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class BookOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
+    _count?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -3344,8 +4828,6 @@ export class BookOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     title?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    author?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
     publishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     publisher?: InstanceType<typeof SortOrderInput>;
@@ -3354,11 +4836,11 @@ export class BookOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
+    language?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
     pageCount?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    categories?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    mainCategory?: InstanceType<typeof SortOrderInput>;
+    workId?: InstanceType<typeof SortOrderInput>;
     @Field(() => BookCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof BookCountOrderByAggregateInput>;
     @Field(() => BookAvgOrderByAggregateInput, {nullable:true})
@@ -3378,8 +4860,6 @@ export class BookOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     title?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    author?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
     publishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     publisher?: InstanceType<typeof SortOrderInput>;
@@ -3388,17 +4868,23 @@ export class BookOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
+    language?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
     pageCount?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    categories?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    mainCategory?: InstanceType<typeof SortOrderInput>;
+    workId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => AuthorOrderByRelationAggregateInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorOrderByRelationAggregateInput>;
+    @Field(() => IdentifierOrderByWithRelationInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierOrderByWithRelationInput>;
     @Field(() => UserBookOrderByRelationAggregateInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookOrderByRelationAggregateInput>;
     @Field(() => ReviewOrderByRelationAggregateInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewOrderByRelationAggregateInput>;
     @Field(() => AuditLogOrderByRelationAggregateInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
+    @Field(() => WorkOrderByWithRelationInput, {nullable:true})
+    work?: InstanceType<typeof WorkOrderByWithRelationInput>;
 }
 
 @InputType()
@@ -3417,12 +4903,10 @@ export class BookScalarWhereWithAggregatesInput {
     OR?: Array<BookScalarWhereWithAggregatesInput>;
     @Field(() => [BookScalarWhereWithAggregatesInput], {nullable:true})
     NOT?: Array<BookScalarWhereWithAggregatesInput>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     title?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    author?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     publishedDate?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
@@ -3431,16 +4915,46 @@ export class BookScalarWhereWithAggregatesInput {
     coverImage?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     description?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    language?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    categories?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringWithAggregatesFilter>;
+    workId?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class BookScalarWhereInput {
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    AND?: Array<BookScalarWhereInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    OR?: Array<BookScalarWhereInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    NOT?: Array<BookScalarWhereInput>;
+    @Field(() => IntFilter, {nullable:true})
+    id?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    title?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    publishedDate?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    publisher?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    coverImage?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    language?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    pageCount?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    workId?: InstanceType<typeof StringFilter>;
 }
 
 @InputType()
 export class BookSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
     @Field(() => Boolean, {nullable:true})
     pageCount?: true;
 }
@@ -3449,26 +4963,57 @@ export class BookSumAggregateInput {
 export class BookSumAggregate {
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
+    id?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
     pageCount?: number;
 }
 
 @InputType()
 export class BookSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
 }
 
 @InputType()
-export class BookUncheckedCreateWithoutLogsInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+export class BookUncheckedCreateNestedManyWithoutAuthorsInput {
+    @Field(() => [BookCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create?: Array<BookCreateWithoutAuthorsInput>;
+    @Field(() => [BookCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class BookUncheckedCreateNestedManyWithoutWorkInput {
+    @Field(() => [BookCreateWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateWithoutWorkInput)
+    create?: Array<BookCreateWithoutWorkInput>;
+    @Field(() => [BookCreateOrConnectWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutWorkInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutWorkInput>;
+    @Field(() => BookCreateManyWorkInputEnvelope, {nullable:true})
+    @Type(() => BookCreateManyWorkInputEnvelope)
+    createMany?: InstanceType<typeof BookCreateManyWorkInputEnvelope>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class BookUncheckedCreateWithoutAuthorsInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3481,15 +5026,94 @@ export class BookUncheckedCreateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
+export class BookUncheckedCreateWithoutIdentifierInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:false})
     @Validator.IsString()
-    categories?: string;
+    title!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    mainCategory?: string;
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
+export class BookUncheckedCreateWithoutLogsInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
@@ -3498,15 +5122,12 @@ export class BookUncheckedCreateWithoutLogsInput {
 
 @InputType()
 export class BookUncheckedCreateWithoutReviewsInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3519,15 +5140,18 @@ export class BookUncheckedCreateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
@@ -3536,15 +5160,12 @@ export class BookUncheckedCreateWithoutReviewsInput {
 
 @InputType()
 export class BookUncheckedCreateWithoutUserBookInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3557,15 +5178,18 @@ export class BookUncheckedCreateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
@@ -3573,16 +5197,13 @@ export class BookUncheckedCreateWithoutUserBookInput {
 }
 
 @InputType()
-export class BookUncheckedCreateInput {
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    id!: string;
+export class BookUncheckedCreateWithoutWorkInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     title!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3595,15 +5216,16 @@ export class BookUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
@@ -3613,16 +5235,13 @@ export class BookUncheckedCreateInput {
 }
 
 @InputType()
-export class BookUncheckedUpdateManyInput {
-    @Field(() => String, {nullable:true})
+export class BookUncheckedCreateInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:false})
     @Validator.IsString()
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
+    title!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3635,28 +5254,269 @@ export class BookUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateManyWithoutAuthorsNestedInput {
+    @Field(() => [BookCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create?: Array<BookCreateWithoutAuthorsInput>;
+    @Field(() => [BookCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [BookUpsertWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpsertWithWhereUniqueWithoutAuthorsInput)
+    upsert?: Array<BookUpsertWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookUpdateWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpdateWithWhereUniqueWithoutAuthorsInput)
+    update?: Array<BookUpdateWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [BookUpdateManyWithWhereWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpdateManyWithWhereWithoutAuthorsInput)
+    updateMany?: Array<BookUpdateManyWithWhereWithoutAuthorsInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    @Type(() => BookScalarWhereInput)
+    deleteMany?: Array<BookScalarWhereInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateManyWithoutAuthorsInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    mainCategory?: string;
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+}
+
+@InputType()
+export class BookUncheckedUpdateManyWithoutWorkNestedInput {
+    @Field(() => [BookCreateWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateWithoutWorkInput)
+    create?: Array<BookCreateWithoutWorkInput>;
+    @Field(() => [BookCreateOrConnectWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutWorkInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutWorkInput>;
+    @Field(() => [BookUpsertWithWhereUniqueWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpsertWithWhereUniqueWithoutWorkInput)
+    upsert?: Array<BookUpsertWithWhereUniqueWithoutWorkInput>;
+    @Field(() => BookCreateManyWorkInputEnvelope, {nullable:true})
+    @Type(() => BookCreateManyWorkInputEnvelope)
+    createMany?: InstanceType<typeof BookCreateManyWorkInputEnvelope>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookUpdateWithWhereUniqueWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpdateWithWhereUniqueWithoutWorkInput)
+    update?: Array<BookUpdateWithWhereUniqueWithoutWorkInput>;
+    @Field(() => [BookUpdateManyWithWhereWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpdateManyWithWhereWithoutWorkInput)
+    updateMany?: Array<BookUpdateManyWithWhereWithoutWorkInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    @Type(() => BookScalarWhereInput)
+    deleteMany?: Array<BookScalarWhereInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateManyWithoutWorkInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+}
+
+@InputType()
+export class BookUncheckedUpdateManyInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+}
+
+@InputType()
+export class BookUncheckedUpdateWithoutAuthorsInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateWithoutIdentifierInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
 export class BookUncheckedUpdateWithoutLogsInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3669,15 +5529,18 @@ export class BookUncheckedUpdateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
@@ -3686,15 +5549,12 @@ export class BookUncheckedUpdateWithoutLogsInput {
 
 @InputType()
 export class BookUncheckedUpdateWithoutReviewsInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3707,15 +5567,18 @@ export class BookUncheckedUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
@@ -3724,15 +5587,12 @@ export class BookUncheckedUpdateWithoutReviewsInput {
 
 @InputType()
 export class BookUncheckedUpdateWithoutUserBookInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3745,15 +5605,56 @@ export class BookUncheckedUpdateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateWithoutWorkInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    mainCategory?: string;
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
@@ -3762,15 +5663,12 @@ export class BookUncheckedUpdateWithoutUserBookInput {
 
 @InputType()
 export class BookUncheckedUpdateInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3783,15 +5681,18 @@ export class BookUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
     @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
@@ -3804,13 +5705,7 @@ export class BookUncheckedUpdateInput {
 export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3823,15 +5718,128 @@ export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+}
+
+@InputType()
+export class BookUpdateManyWithWhereWithoutAuthorsInput {
+    @Field(() => BookScalarWhereInput, {nullable:false})
+    @Type(() => BookScalarWhereInput)
+    where!: InstanceType<typeof BookScalarWhereInput>;
+    @Field(() => BookUpdateManyMutationInput, {nullable:false})
+    @Type(() => BookUpdateManyMutationInput)
+    data!: InstanceType<typeof BookUpdateManyMutationInput>;
+}
+
+@InputType()
+export class BookUpdateManyWithWhereWithoutWorkInput {
+    @Field(() => BookScalarWhereInput, {nullable:false})
+    @Type(() => BookScalarWhereInput)
+    where!: InstanceType<typeof BookScalarWhereInput>;
+    @Field(() => BookUpdateManyMutationInput, {nullable:false})
+    @Type(() => BookUpdateManyMutationInput)
+    data!: InstanceType<typeof BookUpdateManyMutationInput>;
+}
+
+@InputType()
+export class BookUpdateManyWithoutAuthorsNestedInput {
+    @Field(() => [BookCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create?: Array<BookCreateWithoutAuthorsInput>;
+    @Field(() => [BookCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [BookUpsertWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpsertWithWhereUniqueWithoutAuthorsInput)
+    upsert?: Array<BookUpsertWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookUpdateWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpdateWithWhereUniqueWithoutAuthorsInput)
+    update?: Array<BookUpdateWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [BookUpdateManyWithWhereWithoutAuthorsInput], {nullable:true})
+    @Type(() => BookUpdateManyWithWhereWithoutAuthorsInput)
+    updateMany?: Array<BookUpdateManyWithWhereWithoutAuthorsInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    @Type(() => BookScalarWhereInput)
+    deleteMany?: Array<BookScalarWhereInput>;
+}
+
+@InputType()
+export class BookUpdateManyWithoutWorkNestedInput {
+    @Field(() => [BookCreateWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateWithoutWorkInput)
+    create?: Array<BookCreateWithoutWorkInput>;
+    @Field(() => [BookCreateOrConnectWithoutWorkInput], {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutWorkInput)
+    connectOrCreate?: Array<BookCreateOrConnectWithoutWorkInput>;
+    @Field(() => [BookUpsertWithWhereUniqueWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpsertWithWhereUniqueWithoutWorkInput)
+    upsert?: Array<BookUpsertWithWhereUniqueWithoutWorkInput>;
+    @Field(() => BookCreateManyWorkInputEnvelope, {nullable:true})
+    @Type(() => BookCreateManyWorkInputEnvelope)
+    createMany?: InstanceType<typeof BookCreateManyWorkInputEnvelope>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookWhereUniqueInput], {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<BookWhereUniqueInput, 'id'>>;
+    @Field(() => [BookUpdateWithWhereUniqueWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpdateWithWhereUniqueWithoutWorkInput)
+    update?: Array<BookUpdateWithWhereUniqueWithoutWorkInput>;
+    @Field(() => [BookUpdateManyWithWhereWithoutWorkInput], {nullable:true})
+    @Type(() => BookUpdateManyWithWhereWithoutWorkInput)
+    updateMany?: Array<BookUpdateManyWithWhereWithoutWorkInput>;
+    @Field(() => [BookScalarWhereInput], {nullable:true})
+    @Type(() => BookScalarWhereInput)
+    deleteMany?: Array<BookScalarWhereInput>;
+}
+
+@InputType()
+export class BookUpdateOneWithoutIdentifierNestedInput {
+    @Field(() => BookCreateWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookCreateWithoutIdentifierInput)
+    create?: InstanceType<typeof BookCreateWithoutIdentifierInput>;
+    @Field(() => BookCreateOrConnectWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutIdentifierInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutIdentifierInput>;
+    @Field(() => BookUpsertWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookUpsertWithoutIdentifierInput)
+    upsert?: InstanceType<typeof BookUpsertWithoutIdentifierInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    disconnect?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    delete?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateToOneWithWhereWithoutIdentifierInput, {nullable:true})
+    @Type(() => BookUpdateToOneWithWhereWithoutIdentifierInput)
+    update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutIdentifierInput>;
 }
 
 @InputType()
@@ -3910,6 +5918,16 @@ export class BookUpdateOneWithoutUserBookNestedInput {
 }
 
 @InputType()
+export class BookUpdateToOneWithWhereWithoutIdentifierInput {
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookUpdateWithoutIdentifierInput, {nullable:false})
+    @Type(() => BookUpdateWithoutIdentifierInput)
+    data!: InstanceType<typeof BookUpdateWithoutIdentifierInput>;
+}
+
+@InputType()
 export class BookUpdateToOneWithWhereWithoutLogsInput {
     @Field(() => BookWhereInput, {nullable:true})
     @Type(() => BookWhereInput)
@@ -3940,16 +5958,30 @@ export class BookUpdateToOneWithWhereWithoutUserBookInput {
 }
 
 @InputType()
-export class BookUpdateWithoutLogsInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+export class BookUpdateWithWhereUniqueWithoutAuthorsInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateWithoutAuthorsInput, {nullable:false})
+    @Type(() => BookUpdateWithoutAuthorsInput)
+    data!: InstanceType<typeof BookUpdateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class BookUpdateWithWhereUniqueWithoutWorkInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateWithoutWorkInput, {nullable:false})
+    @Type(() => BookUpdateWithoutWorkInput)
+    data!: InstanceType<typeof BookUpdateWithoutWorkInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutAuthorsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -3962,32 +5994,99 @@ export class BookUpdateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutIdentifierInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutLogsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
 }
 
 @InputType()
 export class BookUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -4000,32 +6099,29 @@ export class BookUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
 }
 
 @InputType()
 export class BookUpdateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -4038,15 +6134,53 @@ export class BookUpdateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutWorkInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    categories?: string;
+    title?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    mainCategory?: string;
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
@@ -4057,13 +6191,7 @@ export class BookUpdateWithoutUserBookInput {
 export class BookUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     title?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    author?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publishedDate?: string;
@@ -4076,21 +6204,63 @@ export class BookUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    categories?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
     @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+}
+
+@InputType()
+export class BookUpsertWithWhereUniqueWithoutAuthorsInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateWithoutAuthorsInput, {nullable:false})
+    @Type(() => BookUpdateWithoutAuthorsInput)
+    update!: InstanceType<typeof BookUpdateWithoutAuthorsInput>;
+    @Field(() => BookCreateWithoutAuthorsInput, {nullable:false})
+    @Type(() => BookCreateWithoutAuthorsInput)
+    create!: InstanceType<typeof BookCreateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class BookUpsertWithWhereUniqueWithoutWorkInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateWithoutWorkInput, {nullable:false})
+    @Type(() => BookUpdateWithoutWorkInput)
+    update!: InstanceType<typeof BookUpdateWithoutWorkInput>;
+    @Field(() => BookCreateWithoutWorkInput, {nullable:false})
+    @Type(() => BookCreateWithoutWorkInput)
+    create!: InstanceType<typeof BookCreateWithoutWorkInput>;
+}
+
+@InputType()
+export class BookUpsertWithoutIdentifierInput {
+    @Field(() => BookUpdateWithoutIdentifierInput, {nullable:false})
+    @Type(() => BookUpdateWithoutIdentifierInput)
+    update!: InstanceType<typeof BookUpdateWithoutIdentifierInput>;
+    @Field(() => BookCreateWithoutIdentifierInput, {nullable:false})
+    @Type(() => BookCreateWithoutIdentifierInput)
+    create!: InstanceType<typeof BookCreateWithoutIdentifierInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
 }
 
 @InputType()
@@ -4134,9 +6304,9 @@ export class BookUpsertWithoutUserBookInput {
 
 @InputType()
 export class BookWhereUniqueInput {
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
     @Field(() => [BookWhereInput], {nullable:true})
     AND?: Array<BookWhereInput>;
     @Field(() => [BookWhereInput], {nullable:true})
@@ -4146,8 +6316,6 @@ export class BookWhereUniqueInput {
     @Field(() => StringFilter, {nullable:true})
     title?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    author?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
     publishedDate?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     publisher?: InstanceType<typeof StringFilter>;
@@ -4155,18 +6323,24 @@ export class BookWhereUniqueInput {
     coverImage?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    language?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
-    categories?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringFilter>;
+    workId?: InstanceType<typeof StringFilter>;
+    @Field(() => AuthorListRelationFilter, {nullable:true})
+    authors?: InstanceType<typeof AuthorListRelationFilter>;
+    @Field(() => IdentifierRelationFilter, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierRelationFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => AuditLogListRelationFilter, {nullable:true})
     logs?: InstanceType<typeof AuditLogListRelationFilter>;
+    @Field(() => WorkRelationFilter, {nullable:true})
+    work?: InstanceType<typeof WorkRelationFilter>;
 }
 
 @InputType()
@@ -4177,12 +6351,10 @@ export class BookWhereInput {
     OR?: Array<BookWhereInput>;
     @Field(() => [BookWhereInput], {nullable:true})
     NOT?: Array<BookWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    id?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    id?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     title?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    author?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     publishedDate?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -4191,28 +6363,32 @@ export class BookWhereInput {
     coverImage?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    language?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
-    categories?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringFilter>;
+    workId?: InstanceType<typeof StringFilter>;
+    @Field(() => AuthorListRelationFilter, {nullable:true})
+    authors?: InstanceType<typeof AuthorListRelationFilter>;
+    @Field(() => IdentifierRelationFilter, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierRelationFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ReviewListRelationFilter, {nullable:true})
     reviews?: InstanceType<typeof ReviewListRelationFilter>;
     @Field(() => AuditLogListRelationFilter, {nullable:true})
     logs?: InstanceType<typeof AuditLogListRelationFilter>;
+    @Field(() => WorkRelationFilter, {nullable:true})
+    work?: InstanceType<typeof WorkRelationFilter>;
 }
 
 @ObjectType()
 export class Book {
     @Field(() => ID, {nullable:false})
-    id!: string;
+    id!: number;
     @Field(() => String, {nullable:false})
     title!: string;
-    @Field(() => String, {nullable:true})
-    author!: string | null;
     @Field(() => String, {nullable:true})
     publishedDate!: string | null;
     @Field(() => String, {nullable:true})
@@ -4221,18 +6397,24 @@ export class Book {
     coverImage!: string | null;
     @Field(() => String, {nullable:true})
     description!: string | null;
+    @Field(() => String, {nullable:true})
+    language!: string | null;
     @Field(() => Int, {nullable:true})
     pageCount!: number | null;
     @Field(() => String, {nullable:true})
-    categories!: string | null;
-    @Field(() => String, {nullable:true})
-    mainCategory!: string | null;
+    workId!: string | null;
+    @Field(() => [Author], {nullable:true})
+    authors?: Array<Author>;
+    @Field(() => Identifier, {nullable:true})
+    identifier?: InstanceType<typeof Identifier> | null;
     @Field(() => [UserBook], {nullable:true})
     userBook?: Array<UserBook>;
     @Field(() => [Review], {nullable:true})
     reviews?: Array<Review>;
     @Field(() => [AuditLog], {nullable:true})
     logs?: Array<AuditLog>;
+    @Field(() => Work, {nullable:true})
+    work?: InstanceType<typeof Work> | null;
     @Field(() => BookCount, {nullable:false})
     _count?: InstanceType<typeof BookCount>;
 }
@@ -5439,6 +7621,895 @@ export class UpsertOneCommentArgs {
     @Field(() => CommentUpdateInput, {nullable:false})
     @Type(() => CommentUpdateInput)
     update!: InstanceType<typeof CommentUpdateInput>;
+}
+
+@ObjectType()
+export class AggregateIdentifier {
+    @Field(() => IdentifierCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof IdentifierCountAggregate>;
+    @Field(() => IdentifierAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof IdentifierAvgAggregate>;
+    @Field(() => IdentifierSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof IdentifierSumAggregate>;
+    @Field(() => IdentifierMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof IdentifierMinAggregate>;
+    @Field(() => IdentifierMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof IdentifierMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyIdentifierArgs {
+    @Field(() => [IdentifierCreateManyInput], {nullable:false})
+    @Type(() => IdentifierCreateManyInput)
+    @ValidateNested()
+    data!: Array<IdentifierCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneIdentifierArgs {
+    @Field(() => IdentifierCreateInput, {nullable:false})
+    @Type(() => IdentifierCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof IdentifierCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyIdentifierArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneIdentifierArgs {
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@ArgsType()
+export class FindFirstIdentifierOrThrowArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => [IdentifierOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<IdentifierOrderByWithRelationInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstIdentifierArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => [IdentifierOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<IdentifierOrderByWithRelationInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyIdentifierArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => [IdentifierOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<IdentifierOrderByWithRelationInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueIdentifierOrThrowArgs {
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@ArgsType()
+export class FindUniqueIdentifierArgs {
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@ArgsType()
+export class IdentifierAggregateArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => [IdentifierOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<IdentifierOrderByWithRelationInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => IdentifierCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof IdentifierCountAggregateInput>;
+    @Field(() => IdentifierAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof IdentifierAvgAggregateInput>;
+    @Field(() => IdentifierSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof IdentifierSumAggregateInput>;
+    @Field(() => IdentifierMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof IdentifierMinAggregateInput>;
+    @Field(() => IdentifierMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof IdentifierMaxAggregateInput>;
+}
+
+@InputType()
+export class IdentifierAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class IdentifierAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class IdentifierAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class IdentifierCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn10?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn13?: true;
+    @Field(() => Boolean, {nullable:true})
+    googleBooks?: true;
+    @Field(() => Boolean, {nullable:true})
+    openLibrary?: true;
+    @Field(() => Boolean, {nullable:true})
+    goodreads?: true;
+    @Field(() => Boolean, {nullable:true})
+    amazon?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class IdentifierCountAggregate {
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => Int, {nullable:false})
+    isbn10!: number;
+    @Field(() => Int, {nullable:false})
+    isbn13!: number;
+    @Field(() => Int, {nullable:false})
+    googleBooks!: number;
+    @Field(() => Int, {nullable:false})
+    openLibrary!: number;
+    @Field(() => Int, {nullable:false})
+    goodreads!: number;
+    @Field(() => Int, {nullable:false})
+    amazon!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class IdentifierCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn10?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn13?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    googleBooks?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    openLibrary?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    goodreads?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    amazon?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class IdentifierCreateManyInput {
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierCreateNestedOneWithoutBookInput {
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create?: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+    @Field(() => IdentifierCreateOrConnectWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateOrConnectWithoutBookInput)
+    connectOrCreate?: InstanceType<typeof IdentifierCreateOrConnectWithoutBookInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    @Type(() => IdentifierWhereUniqueInput)
+    connect?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@InputType()
+export class IdentifierCreateOrConnectWithoutBookInput {
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:false})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create!: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+}
+
+@InputType()
+export class IdentifierCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierCreateInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+    @Field(() => BookCreateNestedOneWithoutIdentifierInput, {nullable:true})
+    book?: InstanceType<typeof BookCreateNestedOneWithoutIdentifierInput>;
+}
+
+@ArgsType()
+export class IdentifierGroupByArgs {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => [IdentifierOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<IdentifierOrderByWithAggregationInput>;
+    @Field(() => [IdentifierScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof IdentifierScalarFieldEnum>;
+    @Field(() => IdentifierScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof IdentifierScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => IdentifierCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof IdentifierCountAggregateInput>;
+    @Field(() => IdentifierAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof IdentifierAvgAggregateInput>;
+    @Field(() => IdentifierSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof IdentifierSumAggregateInput>;
+    @Field(() => IdentifierMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof IdentifierMinAggregateInput>;
+    @Field(() => IdentifierMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof IdentifierMaxAggregateInput>;
+}
+
+@ObjectType()
+export class IdentifierGroupBy {
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+    @Field(() => IdentifierCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof IdentifierCountAggregate>;
+    @Field(() => IdentifierAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof IdentifierAvgAggregate>;
+    @Field(() => IdentifierSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof IdentifierSumAggregate>;
+    @Field(() => IdentifierMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof IdentifierMinAggregate>;
+    @Field(() => IdentifierMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof IdentifierMaxAggregate>;
+}
+
+@InputType()
+export class IdentifierMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn10?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn13?: true;
+    @Field(() => Boolean, {nullable:true})
+    googleBooks?: true;
+    @Field(() => Boolean, {nullable:true})
+    openLibrary?: true;
+    @Field(() => Boolean, {nullable:true})
+    goodreads?: true;
+    @Field(() => Boolean, {nullable:true})
+    amazon?: true;
+}
+
+@ObjectType()
+export class IdentifierMaxAggregate {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn10?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn13?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    googleBooks?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    openLibrary?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    goodreads?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    amazon?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class IdentifierMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn10?: true;
+    @Field(() => Boolean, {nullable:true})
+    isbn13?: true;
+    @Field(() => Boolean, {nullable:true})
+    googleBooks?: true;
+    @Field(() => Boolean, {nullable:true})
+    openLibrary?: true;
+    @Field(() => Boolean, {nullable:true})
+    goodreads?: true;
+    @Field(() => Boolean, {nullable:true})
+    amazon?: true;
+}
+
+@ObjectType()
+export class IdentifierMinAggregate {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn10?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    isbn13?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    googleBooks?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    openLibrary?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    goodreads?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    amazon?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class IdentifierOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    isbn10?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    isbn13?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    googleBooks?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    openLibrary?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    goodreads?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    amazon?: InstanceType<typeof SortOrderInput>;
+    @Field(() => IdentifierCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof IdentifierCountOrderByAggregateInput>;
+    @Field(() => IdentifierAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof IdentifierAvgOrderByAggregateInput>;
+    @Field(() => IdentifierMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof IdentifierMaxOrderByAggregateInput>;
+    @Field(() => IdentifierMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof IdentifierMinOrderByAggregateInput>;
+    @Field(() => IdentifierSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof IdentifierSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class IdentifierOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    isbn10?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    isbn13?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    googleBooks?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    openLibrary?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    goodreads?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    amazon?: InstanceType<typeof SortOrderInput>;
+    @Field(() => BookOrderByWithRelationInput, {nullable:true})
+    book?: InstanceType<typeof BookOrderByWithRelationInput>;
+}
+
+@InputType()
+export class IdentifierRelationFilter {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    is?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    isNot?: InstanceType<typeof IdentifierWhereInput>;
+}
+
+@InputType()
+export class IdentifierScalarWhereWithAggregatesInput {
+    @Field(() => [IdentifierScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<IdentifierScalarWhereWithAggregatesInput>;
+    @Field(() => [IdentifierScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<IdentifierScalarWhereWithAggregatesInput>;
+    @Field(() => [IdentifierScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<IdentifierScalarWhereWithAggregatesInput>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    isbn10?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    isbn13?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    googleBooks?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    openLibrary?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    goodreads?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    amazon?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class IdentifierSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class IdentifierSumAggregate {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class IdentifierSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class IdentifierUncheckedCreateNestedOneWithoutBookInput {
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create?: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+    @Field(() => IdentifierCreateOrConnectWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateOrConnectWithoutBookInput)
+    connectOrCreate?: InstanceType<typeof IdentifierCreateOrConnectWithoutBookInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    @Type(() => IdentifierWhereUniqueInput)
+    connect?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@InputType()
+export class IdentifierUncheckedCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUncheckedCreateInput {
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUncheckedUpdateManyInput {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUncheckedUpdateOneWithoutBookNestedInput {
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create?: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+    @Field(() => IdentifierCreateOrConnectWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateOrConnectWithoutBookInput)
+    connectOrCreate?: InstanceType<typeof IdentifierCreateOrConnectWithoutBookInput>;
+    @Field(() => IdentifierUpsertWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierUpsertWithoutBookInput)
+    upsert?: InstanceType<typeof IdentifierUpsertWithoutBookInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    disconnect?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    delete?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    @Type(() => IdentifierWhereUniqueInput)
+    connect?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => IdentifierUpdateToOneWithWhereWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierUpdateToOneWithWhereWithoutBookInput)
+    update?: InstanceType<typeof IdentifierUpdateToOneWithWhereWithoutBookInput>;
+}
+
+@InputType()
+export class IdentifierUncheckedUpdateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUncheckedUpdateInput {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUpdateOneWithoutBookNestedInput {
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create?: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+    @Field(() => IdentifierCreateOrConnectWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierCreateOrConnectWithoutBookInput)
+    connectOrCreate?: InstanceType<typeof IdentifierCreateOrConnectWithoutBookInput>;
+    @Field(() => IdentifierUpsertWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierUpsertWithoutBookInput)
+    upsert?: InstanceType<typeof IdentifierUpsertWithoutBookInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    disconnect?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    delete?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:true})
+    @Type(() => IdentifierWhereUniqueInput)
+    connect?: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => IdentifierUpdateToOneWithWhereWithoutBookInput, {nullable:true})
+    @Type(() => IdentifierUpdateToOneWithWhereWithoutBookInput)
+    update?: InstanceType<typeof IdentifierUpdateToOneWithWhereWithoutBookInput>;
+}
+
+@InputType()
+export class IdentifierUpdateToOneWithWhereWithoutBookInput {
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => IdentifierUpdateWithoutBookInput, {nullable:false})
+    @Type(() => IdentifierUpdateWithoutBookInput)
+    data!: InstanceType<typeof IdentifierUpdateWithoutBookInput>;
+}
+
+@InputType()
+export class IdentifierUpdateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+}
+
+@InputType()
+export class IdentifierUpdateInput {
+    @Field(() => String, {nullable:true})
+    isbn10?: string;
+    @Field(() => String, {nullable:true})
+    isbn13?: string;
+    @Field(() => String, {nullable:true})
+    googleBooks?: string;
+    @Field(() => String, {nullable:true})
+    openLibrary?: string;
+    @Field(() => String, {nullable:true})
+    goodreads?: string;
+    @Field(() => String, {nullable:true})
+    amazon?: string;
+    @Field(() => BookUpdateOneWithoutIdentifierNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneWithoutIdentifierNestedInput>;
+}
+
+@InputType()
+export class IdentifierUpsertWithoutBookInput {
+    @Field(() => IdentifierUpdateWithoutBookInput, {nullable:false})
+    @Type(() => IdentifierUpdateWithoutBookInput)
+    update!: InstanceType<typeof IdentifierUpdateWithoutBookInput>;
+    @Field(() => IdentifierCreateWithoutBookInput, {nullable:false})
+    @Type(() => IdentifierCreateWithoutBookInput)
+    create!: InstanceType<typeof IdentifierCreateWithoutBookInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    where?: InstanceType<typeof IdentifierWhereInput>;
+}
+
+@InputType()
+export class IdentifierWhereUniqueInput {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    AND?: Array<IdentifierWhereInput>;
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    OR?: Array<IdentifierWhereInput>;
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    NOT?: Array<IdentifierWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    isbn10?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    isbn13?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    googleBooks?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    openLibrary?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    goodreads?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    amazon?: InstanceType<typeof StringFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
+}
+
+@InputType()
+export class IdentifierWhereInput {
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    AND?: Array<IdentifierWhereInput>;
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    OR?: Array<IdentifierWhereInput>;
+    @Field(() => [IdentifierWhereInput], {nullable:true})
+    NOT?: Array<IdentifierWhereInput>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    isbn10?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    isbn13?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    googleBooks?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    openLibrary?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    goodreads?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    amazon?: InstanceType<typeof StringFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
+}
+
+@ObjectType()
+export class Identifier {
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => String, {nullable:true})
+    isbn10!: string | null;
+    @Field(() => String, {nullable:true})
+    isbn13!: string | null;
+    @Field(() => String, {nullable:true})
+    googleBooks!: string | null;
+    @Field(() => String, {nullable:true})
+    openLibrary!: string | null;
+    @Field(() => String, {nullable:true})
+    goodreads!: string | null;
+    @Field(() => String, {nullable:true})
+    amazon!: string | null;
+    @Field(() => Book, {nullable:true})
+    book?: InstanceType<typeof Book> | null;
+}
+
+@ArgsType()
+export class UpdateManyIdentifierArgs {
+    @Field(() => IdentifierUpdateManyMutationInput, {nullable:false})
+    @Type(() => IdentifierUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof IdentifierUpdateManyMutationInput>;
+    @Field(() => IdentifierWhereInput, {nullable:true})
+    @Type(() => IdentifierWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof IdentifierWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneIdentifierArgs {
+    @Field(() => IdentifierUpdateInput, {nullable:false})
+    @Type(() => IdentifierUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof IdentifierUpdateInput>;
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+}
+
+@ArgsType()
+export class UpsertOneIdentifierArgs {
+    @Field(() => IdentifierWhereUniqueInput, {nullable:false})
+    @Type(() => IdentifierWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<IdentifierWhereUniqueInput, 'bookId'>;
+    @Field(() => IdentifierCreateInput, {nullable:false})
+    @Type(() => IdentifierCreateInput)
+    create!: InstanceType<typeof IdentifierCreateInput>;
+    @Field(() => IdentifierUpdateInput, {nullable:false})
+    @Type(() => IdentifierUpdateInput)
+    update!: InstanceType<typeof IdentifierUpdateInput>;
 }
 
 @ObjectType()
@@ -7678,6 +10749,36 @@ export class FloatFilter {
 }
 
 @InputType()
+export class FloatWithAggregatesFilter {
+    @Field(() => Float, {nullable:true})
+    equals?: number;
+    @Field(() => [Float], {nullable:true})
+    in?: Array<number>;
+    @Field(() => [Float], {nullable:true})
+    notIn?: Array<number>;
+    @Field(() => Float, {nullable:true})
+    lt?: number;
+    @Field(() => Float, {nullable:true})
+    lte?: number;
+    @Field(() => Float, {nullable:true})
+    gt?: number;
+    @Field(() => Float, {nullable:true})
+    gte?: number;
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof FloatWithAggregatesFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    _count?: InstanceType<typeof IntFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    _avg?: InstanceType<typeof FloatFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    _sum?: InstanceType<typeof FloatFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    _min?: InstanceType<typeof FloatFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    _max?: InstanceType<typeof FloatFilter>;
+}
+
+@InputType()
 export class IntFilter {
     @Field(() => Int, {nullable:true})
     equals?: number;
@@ -7764,6 +10865,20 @@ export class StringFilter {
 }
 
 @InputType()
+export class StringListFilter {
+    @Field(() => [String], {nullable:true})
+    equals?: Array<string>;
+    @Field(() => String, {nullable:true})
+    has?: string;
+    @Field(() => [String], {nullable:true})
+    hasEvery?: Array<string>;
+    @Field(() => [String], {nullable:true})
+    hasSome?: Array<string>;
+    @Field(() => Boolean, {nullable:true})
+    isEmpty?: boolean;
+}
+
+@InputType()
 export class StringWithAggregatesFilter {
     @Field(() => String, {nullable:true})
     equals?: string;
@@ -7842,7 +10957,7 @@ export class DeleteOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
@@ -7854,7 +10969,7 @@ export class FindFirstReviewOrThrowArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7872,7 +10987,7 @@ export class FindFirstReviewArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7890,7 +11005,7 @@ export class FindManyReviewArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7904,7 +11019,7 @@ export class FindUniqueReviewOrThrowArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
@@ -7912,7 +11027,7 @@ export class FindUniqueReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
@@ -7924,7 +11039,7 @@ export class ReviewAggregateArgs {
     @Field(() => [ReviewOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReviewOrderByWithRelationInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -7945,18 +11060,24 @@ export class ReviewAggregateArgs {
 export class ReviewAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
     likeCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
 }
 
 @ObjectType()
 export class ReviewAvgAggregate {
     @Field(() => Float, {nullable:true})
     likeCount?: number;
+    @Field(() => Float, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
 export class ReviewAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -8081,8 +11202,8 @@ export class ReviewCreateManyUserBookInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -8108,8 +11229,8 @@ export class ReviewCreateManyUserInput {
     likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -8128,8 +11249,8 @@ export class ReviewCreateManyInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -8145,7 +11266,7 @@ export class ReviewCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8158,7 +11279,7 @@ export class ReviewCreateNestedManyWithoutLikedByInput {
     connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8174,7 +11295,7 @@ export class ReviewCreateNestedManyWithoutUserBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8190,7 +11311,7 @@ export class ReviewCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8203,14 +11324,14 @@ export class ReviewCreateNestedOneWithoutCommentsInput {
     connectOrCreate?: InstanceType<typeof ReviewCreateOrConnectWithoutCommentsInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
 }
 
 @InputType()
 export class ReviewCreateOrConnectWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateWithoutBookInput, {nullable:false})
     @Type(() => ReviewCreateWithoutBookInput)
     create!: InstanceType<typeof ReviewCreateWithoutBookInput>;
@@ -8220,7 +11341,7 @@ export class ReviewCreateOrConnectWithoutBookInput {
 export class ReviewCreateOrConnectWithoutCommentsInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateWithoutCommentsInput, {nullable:false})
     @Type(() => ReviewCreateWithoutCommentsInput)
     create!: InstanceType<typeof ReviewCreateWithoutCommentsInput>;
@@ -8230,7 +11351,7 @@ export class ReviewCreateOrConnectWithoutCommentsInput {
 export class ReviewCreateOrConnectWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewCreateWithoutLikedByInput)
     create!: InstanceType<typeof ReviewCreateWithoutLikedByInput>;
@@ -8240,7 +11361,7 @@ export class ReviewCreateOrConnectWithoutLikedByInput {
 export class ReviewCreateOrConnectWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewCreateWithoutUserBookInput)
     create!: InstanceType<typeof ReviewCreateWithoutUserBookInput>;
@@ -8250,7 +11371,7 @@ export class ReviewCreateOrConnectWithoutUserBookInput {
 export class ReviewCreateOrConnectWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateWithoutUserInput, {nullable:false})
     @Type(() => ReviewCreateWithoutUserInput)
     create!: InstanceType<typeof ReviewCreateWithoutUserInput>;
@@ -8434,8 +11555,8 @@ export class ReviewGroupBy {
     spoilers!: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => ReviewCountAggregate, {nullable:true})
     _count?: InstanceType<typeof ReviewCountAggregate>;
     @Field(() => ReviewAvgAggregate, {nullable:true})
@@ -8446,14 +11567,6 @@ export class ReviewGroupBy {
     _min?: InstanceType<typeof ReviewMinAggregate>;
     @Field(() => ReviewMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof ReviewMaxAggregate>;
-}
-
-@InputType()
-export class ReviewIdentifierCompoundUniqueInput {
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
 }
 
 @InputType()
@@ -8502,8 +11615,8 @@ export class ReviewMaxAggregate {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -8562,8 +11675,8 @@ export class ReviewMinAggregate {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -8682,8 +11795,8 @@ export class ReviewScalarWhereWithAggregatesInput {
     spoilers?: InstanceType<typeof BoolWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntWithAggregatesFilter>;
 }
 
 @InputType()
@@ -8708,26 +11821,32 @@ export class ReviewScalarWhereInput {
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
 }
 
 @InputType()
 export class ReviewSumAggregateInput {
     @Field(() => Boolean, {nullable:true})
     likeCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
 }
 
 @ObjectType()
 export class ReviewSumAggregate {
     @Field(() => Int, {nullable:true})
     likeCount?: number;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
 export class ReviewSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     likeCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
 }
 
 @InputType()
@@ -8743,7 +11862,7 @@ export class ReviewUncheckedCreateNestedManyWithoutBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8756,7 +11875,7 @@ export class ReviewUncheckedCreateNestedManyWithoutLikedByInput {
     connectOrCreate?: Array<ReviewCreateOrConnectWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8772,7 +11891,7 @@ export class ReviewUncheckedCreateNestedManyWithoutUserBookInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8788,7 +11907,7 @@ export class ReviewUncheckedCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
 }
 
 @InputType()
@@ -8829,8 +11948,8 @@ export class ReviewUncheckedCreateWithoutCommentsInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
 }
@@ -8851,8 +11970,8 @@ export class ReviewUncheckedCreateWithoutLikedByInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutReviewInput>;
 }
@@ -8871,8 +11990,8 @@ export class ReviewUncheckedCreateWithoutUserBookInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
@@ -8893,8 +12012,8 @@ export class ReviewUncheckedCreateWithoutUserInput {
     likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
@@ -8917,8 +12036,8 @@ export class ReviewUncheckedCreateInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedCreateNestedManyWithoutLikedReviewsInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutLikedReviewsInput>;
     @Field(() => CommentUncheckedCreateNestedManyWithoutReviewInput, {nullable:true})
@@ -8941,16 +12060,16 @@ export class ReviewUncheckedUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutBookInput>;
@@ -8993,16 +12112,16 @@ export class ReviewUncheckedUpdateManyWithoutLikedByNestedInput {
     upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
@@ -9030,8 +12149,8 @@ export class ReviewUncheckedUpdateManyWithoutLikedByInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -9050,16 +12169,16 @@ export class ReviewUncheckedUpdateManyWithoutUserBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserBookInput>;
@@ -9085,8 +12204,8 @@ export class ReviewUncheckedUpdateManyWithoutUserBookInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -9105,16 +12224,16 @@ export class ReviewUncheckedUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserInput>;
@@ -9140,8 +12259,8 @@ export class ReviewUncheckedUpdateManyWithoutUserInput {
     likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -9160,8 +12279,8 @@ export class ReviewUncheckedUpdateManyInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
 }
 
 @InputType()
@@ -9202,8 +12321,8 @@ export class ReviewUncheckedUpdateWithoutCommentsInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
 }
@@ -9224,8 +12343,8 @@ export class ReviewUncheckedUpdateWithoutLikedByInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutReviewNestedInput>;
 }
@@ -9244,8 +12363,8 @@ export class ReviewUncheckedUpdateWithoutUserBookInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
@@ -9266,8 +12385,8 @@ export class ReviewUncheckedUpdateWithoutUserInput {
     likeCount?: number;
     @Field(() => Boolean, {nullable:true})
     spoilers?: boolean;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
@@ -9290,8 +12409,8 @@ export class ReviewUncheckedUpdateInput {
     spoilers?: boolean;
     @Field(() => String, {nullable:true})
     userId?: string;
-    @Field(() => String, {nullable:true})
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
     @Field(() => UserUncheckedUpdateManyWithoutLikedReviewsNestedInput, {nullable:true})
     likedBy?: InstanceType<typeof UserUncheckedUpdateManyWithoutLikedReviewsNestedInput>;
     @Field(() => CommentUncheckedUpdateManyWithoutReviewNestedInput, {nullable:true})
@@ -9368,16 +12487,16 @@ export class ReviewUpdateManyWithoutBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutBookInput>;
@@ -9402,16 +12521,16 @@ export class ReviewUpdateManyWithoutLikedByNestedInput {
     upsert?: Array<ReviewUpsertWithWhereUniqueWithoutLikedByInput>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutLikedByInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutLikedByInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutLikedByInput>;
@@ -9439,16 +12558,16 @@ export class ReviewUpdateManyWithoutUserBookNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserBookInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserBookInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserBookInput>;
@@ -9476,16 +12595,16 @@ export class ReviewUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ReviewCreateManyUserInputEnvelope>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewWhereUniqueInput], {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>>;
     @Field(() => [ReviewUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ReviewUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ReviewUpdateWithWhereUniqueWithoutUserInput>;
@@ -9516,7 +12635,7 @@ export class ReviewUpdateOneWithoutCommentsNestedInput {
     delete?: InstanceType<typeof ReviewWhereInput>;
     @Field(() => ReviewWhereUniqueInput, {nullable:true})
     @Type(() => ReviewWhereUniqueInput)
-    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateToOneWithWhereWithoutCommentsInput, {nullable:true})
     @Type(() => ReviewUpdateToOneWithWhereWithoutCommentsInput)
     update?: InstanceType<typeof ReviewUpdateToOneWithWhereWithoutCommentsInput>;
@@ -9536,7 +12655,7 @@ export class ReviewUpdateToOneWithWhereWithoutCommentsInput {
 export class ReviewUpdateWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutBookInput)
     data!: InstanceType<typeof ReviewUpdateWithoutBookInput>;
@@ -9546,7 +12665,7 @@ export class ReviewUpdateWithWhereUniqueWithoutBookInput {
 export class ReviewUpdateWithWhereUniqueWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutLikedByInput)
     data!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
@@ -9556,7 +12675,7 @@ export class ReviewUpdateWithWhereUniqueWithoutLikedByInput {
 export class ReviewUpdateWithWhereUniqueWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserBookInput)
     data!: InstanceType<typeof ReviewUpdateWithoutUserBookInput>;
@@ -9566,7 +12685,7 @@ export class ReviewUpdateWithWhereUniqueWithoutUserBookInput {
 export class ReviewUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutUserInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserInput)
     data!: InstanceType<typeof ReviewUpdateWithoutUserInput>;
@@ -9710,7 +12829,7 @@ export class ReviewUpdateInput {
 export class ReviewUpsertWithWhereUniqueWithoutBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutBookInput)
     update!: InstanceType<typeof ReviewUpdateWithoutBookInput>;
@@ -9723,7 +12842,7 @@ export class ReviewUpsertWithWhereUniqueWithoutBookInput {
 export class ReviewUpsertWithWhereUniqueWithoutLikedByInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutLikedByInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutLikedByInput)
     update!: InstanceType<typeof ReviewUpdateWithoutLikedByInput>;
@@ -9736,7 +12855,7 @@ export class ReviewUpsertWithWhereUniqueWithoutLikedByInput {
 export class ReviewUpsertWithWhereUniqueWithoutUserBookInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutUserBookInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserBookInput)
     update!: InstanceType<typeof ReviewUpdateWithoutUserBookInput>;
@@ -9749,7 +12868,7 @@ export class ReviewUpsertWithWhereUniqueWithoutUserBookInput {
 export class ReviewUpsertWithWhereUniqueWithoutUserInput {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewUpdateWithoutUserInput, {nullable:false})
     @Type(() => ReviewUpdateWithoutUserInput)
     update!: InstanceType<typeof ReviewUpdateWithoutUserInput>;
@@ -9775,8 +12894,6 @@ export class ReviewUpsertWithoutCommentsInput {
 export class ReviewWhereUniqueInput {
     @Field(() => String, {nullable:true})
     id?: string;
-    @Field(() => ReviewIdentifierCompoundUniqueInput, {nullable:true})
-    identifier?: InstanceType<typeof ReviewIdentifierCompoundUniqueInput>;
     @Field(() => [ReviewWhereInput], {nullable:true})
     AND?: Array<ReviewWhereInput>;
     @Field(() => [ReviewWhereInput], {nullable:true})
@@ -9795,8 +12912,8 @@ export class ReviewWhereUniqueInput {
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
     @Field(() => UserListRelationFilter, {nullable:true})
@@ -9831,8 +12948,8 @@ export class ReviewWhereInput {
     spoilers?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
     @Field(() => UserListRelationFilter, {nullable:true})
@@ -9861,8 +12978,8 @@ export class Review {
     spoilers!: boolean;
     @Field(() => String, {nullable:true})
     userId!: string | null;
-    @Field(() => String, {nullable:true})
-    bookId!: string | null;
+    @Field(() => Int, {nullable:true})
+    bookId!: number | null;
     @Field(() => UserBook, {nullable:true})
     userBook?: InstanceType<typeof UserBook> | null;
     @Field(() => [User], {nullable:true})
@@ -9898,7 +13015,7 @@ export class UpdateOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
 }
 
 @ArgsType()
@@ -9906,7 +13023,7 @@ export class UpsertOneReviewArgs {
     @Field(() => ReviewWhereUniqueInput, {nullable:false})
     @Type(() => ReviewWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ReviewWhereUniqueInput, 'id'>;
     @Field(() => ReviewCreateInput, {nullable:false})
     @Type(() => ReviewCreateInput)
     create!: InstanceType<typeof ReviewCreateInput>;
@@ -14941,6 +18058,8 @@ export class UserBookAggregateArgs {
 @InputType()
 export class UserBookAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
     rating?: true;
     @Field(() => Boolean, {nullable:true})
     order?: true;
@@ -14949,6 +18068,11 @@ export class UserBookAvgAggregateInput {
 @ObjectType()
 export class UserBookAvgAggregate {
     @Field(() => Float, {nullable:true})
+    bookId?: number;
+    @Field(() => Float, {nullable:true})
+    @Validator.Min(0)
+    @Validator.Max(5)
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Float, {nullable:true})
     order?: number;
@@ -14956,6 +18080,8 @@ export class UserBookAvgAggregate {
 
 @InputType()
 export class UserBookAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -14991,13 +18117,11 @@ export class UserBookCountAggregate {
     @Field(() => Int, {nullable:false})
     userId!: number;
     @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
     bookId!: number;
     @Field(() => Int, {nullable:false})
     status!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.Min(0)
-    @Validator.Max(5)
-    @Validator.IsInt()
     rating!: number;
     @Field(() => Int, {nullable:false})
     createdAt!: number;
@@ -15059,10 +18183,10 @@ export class UserBookCreateManyBookInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15087,16 +18211,16 @@ export class UserBookCreateManyUserInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15115,16 +18239,16 @@ export class UserBookCreateManyInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15264,10 +18388,10 @@ export class UserBookCreateWithoutBookInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15294,10 +18418,10 @@ export class UserBookCreateWithoutJournalEntryInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15324,10 +18448,10 @@ export class UserBookCreateWithoutReviewsInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15354,10 +18478,10 @@ export class UserBookCreateWithoutShelvesInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15384,10 +18508,10 @@ export class UserBookCreateWithoutUserInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15414,10 +18538,10 @@ export class UserBookCreateInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15474,16 +18598,16 @@ export class UserBookGroupBy {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:false})
     @Validator.ValidateNested()
@@ -15509,9 +18633,9 @@ export class UserBookIdentifierCompoundUniqueInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
 }
 
 @InputType()
@@ -15552,16 +18676,16 @@ export class UserBookMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15620,16 +18744,16 @@ export class UserBookMinAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15746,12 +18870,12 @@ export class UserBookScalarWhereWithAggregatesInput {
     id?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     status?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    rating?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    rating?: InstanceType<typeof FloatWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -15772,12 +18896,12 @@ export class UserBookScalarWhereInput {
     id?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     status?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    rating?: InstanceType<typeof FloatFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -15789,6 +18913,8 @@ export class UserBookScalarWhereInput {
 @InputType()
 export class UserBookSumAggregateInput {
     @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
     rating?: true;
     @Field(() => Boolean, {nullable:true})
     order?: true;
@@ -15797,9 +18923,12 @@ export class UserBookSumAggregateInput {
 @ObjectType()
 export class UserBookSumAggregate {
     @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Int, {nullable:true})
     order?: number;
@@ -15807,6 +18936,8 @@ export class UserBookSumAggregate {
 
 @InputType()
 export class UserBookSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     rating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -15856,10 +18987,10 @@ export class UserBookUncheckedCreateWithoutBookInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15884,16 +19015,16 @@ export class UserBookUncheckedCreateWithoutJournalEntryInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15916,16 +19047,16 @@ export class UserBookUncheckedCreateWithoutReviewsInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15948,16 +19079,16 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -15977,16 +19108,16 @@ export class UserBookUncheckedCreateWithoutUserInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16011,16 +19142,16 @@ export class UserBookUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     userId!: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsString()
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    bookId!: number;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     status!: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16085,10 +19216,10 @@ export class UserBookUncheckedUpdateManyWithoutBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16141,16 +19272,16 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16169,16 +19300,16 @@ export class UserBookUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16200,10 +19331,10 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16228,16 +19359,16 @@ export class UserBookUncheckedUpdateWithoutJournalEntryInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16260,16 +19391,16 @@ export class UserBookUncheckedUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16292,16 +19423,16 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16321,16 +19452,16 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16355,16 +19486,16 @@ export class UserBookUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     userId?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bookId?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    bookId?: number;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16389,10 +19520,10 @@ export class UserBookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16624,10 +19755,10 @@ export class UserBookUpdateWithoutBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16654,10 +19785,10 @@ export class UserBookUpdateWithoutJournalEntryInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16684,10 +19815,10 @@ export class UserBookUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16714,10 +19845,10 @@ export class UserBookUpdateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16744,10 +19875,10 @@ export class UserBookUpdateWithoutUserInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16774,10 +19905,10 @@ export class UserBookUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     status?: string;
-    @Field(() => Int, {nullable:true})
+    @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
-    @Validator.IsInt()
+    @Validator.IsNumber()
     rating?: number;
     @Field(() => Date, {nullable:true})
     @Validator.ValidateNested()
@@ -16878,12 +20009,12 @@ export class UserBookWhereUniqueInput {
     NOT?: Array<UserBookWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     status?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    rating?: InstanceType<typeof FloatFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -16914,12 +20045,12 @@ export class UserBookWhereInput {
     id?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bookId?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
     @Field(() => StringFilter, {nullable:true})
     status?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    rating?: InstanceType<typeof IntFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    rating?: InstanceType<typeof FloatFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -16944,11 +20075,11 @@ export class UserBook {
     id!: string;
     @Field(() => String, {nullable:false})
     userId!: string;
-    @Field(() => String, {nullable:false})
-    bookId!: string;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
     @Field(() => String, {nullable:false})
     status!: string;
-    @Field(() => Int, {nullable:true,defaultValue:0})
+    @Field(() => Float, {nullable:true,defaultValue:0})
     rating!: number | null;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
@@ -18384,4 +21515,1389 @@ export class VerificationToken {
     token!: string;
     @Field(() => Date, {nullable:false})
     expires!: Date;
+}
+
+@ObjectType()
+export class AggregateWork {
+    @Field(() => WorkCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof WorkCountAggregate>;
+    @Field(() => WorkAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof WorkAvgAggregate>;
+    @Field(() => WorkSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof WorkSumAggregate>;
+    @Field(() => WorkMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof WorkMinAggregate>;
+    @Field(() => WorkMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof WorkMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyWorkArgs {
+    @Field(() => [WorkCreateManyInput], {nullable:false})
+    @Type(() => WorkCreateManyInput)
+    @ValidateNested()
+    data!: Array<WorkCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneWorkArgs {
+    @Field(() => WorkCreateInput, {nullable:false})
+    @Type(() => WorkCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof WorkCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyWorkArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneWorkArgs {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindFirstWorkOrThrowArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => [WorkOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<WorkOrderByWithRelationInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [WorkScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof WorkScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstWorkArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => [WorkOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<WorkOrderByWithRelationInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [WorkScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof WorkScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyWorkArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => [WorkOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<WorkOrderByWithRelationInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [WorkScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof WorkScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueWorkOrThrowArgs {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindUniqueWorkArgs {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpdateManyWorkArgs {
+    @Field(() => WorkUpdateManyMutationInput, {nullable:false})
+    @Type(() => WorkUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof WorkUpdateManyMutationInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneWorkArgs {
+    @Field(() => WorkUpdateInput, {nullable:false})
+    @Type(() => WorkUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof WorkUpdateInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpsertOneWorkArgs {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkCreateInput, {nullable:false})
+    @Type(() => WorkCreateInput)
+    create!: InstanceType<typeof WorkCreateInput>;
+    @Field(() => WorkUpdateInput, {nullable:false})
+    @Type(() => WorkUpdateInput)
+    update!: InstanceType<typeof WorkUpdateInput>;
+}
+
+@ArgsType()
+export class WorkAggregateArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => [WorkOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<WorkOrderByWithRelationInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => WorkCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof WorkCountAggregateInput>;
+    @Field(() => WorkAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof WorkAvgAggregateInput>;
+    @Field(() => WorkSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof WorkSumAggregateInput>;
+    @Field(() => WorkMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof WorkMinAggregateInput>;
+    @Field(() => WorkMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof WorkMaxAggregateInput>;
+}
+
+@InputType()
+export class WorkAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    averageRating?: true;
+    @Field(() => Boolean, {nullable:true})
+    ratingsCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainEditionId?: true;
+}
+
+@ObjectType()
+export class WorkAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Float, {nullable:true})
+    ratingsCount?: number;
+    @Field(() => Float, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    averageRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    ratingsCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainEditionId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class WorkCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    title?: true;
+    @Field(() => Boolean, {nullable:true})
+    description?: true;
+    @Field(() => Boolean, {nullable:true})
+    categories?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainCategory?: true;
+    @Field(() => Boolean, {nullable:true})
+    averageRating?: true;
+    @Field(() => Boolean, {nullable:true})
+    ratingsCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainEditionId?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class WorkCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    title!: number;
+    @Field(() => Int, {nullable:false})
+    description!: number;
+    @Field(() => Int, {nullable:false})
+    categories!: number;
+    @Field(() => Int, {nullable:false})
+    mainCategory!: number;
+    @Field(() => Int, {nullable:false})
+    averageRating!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    ratingsCount!: number;
+    @Field(() => Int, {nullable:false})
+    mainEditionId!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class WorkCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    title?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    description?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    categories?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainCategory?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    averageRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    ratingsCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainEditionId?: keyof typeof SortOrder;
+}
+
+@ObjectType()
+export class WorkCount {
+    @Field(() => Int, {nullable:false})
+    authors?: number;
+    @Field(() => Int, {nullable:false})
+    editions?: number;
+}
+
+@InputType()
+export class WorkCreateManyInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkCreateNestedManyWithoutAuthorsInput {
+    @Field(() => [WorkCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create?: Array<WorkCreateWithoutAuthorsInput>;
+    @Field(() => [WorkCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<WorkCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class WorkCreateNestedOneWithoutEditionsInput {
+    @Field(() => WorkCreateWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkCreateWithoutEditionsInput)
+    create?: InstanceType<typeof WorkCreateWithoutEditionsInput>;
+    @Field(() => WorkCreateOrConnectWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutEditionsInput)
+    connectOrCreate?: InstanceType<typeof WorkCreateOrConnectWithoutEditionsInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+}
+
+@InputType()
+export class WorkCreateOrConnectWithoutAuthorsInput {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkCreateWithoutAuthorsInput, {nullable:false})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create!: InstanceType<typeof WorkCreateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class WorkCreateOrConnectWithoutEditionsInput {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkCreateWithoutEditionsInput, {nullable:false})
+    @Type(() => WorkCreateWithoutEditionsInput)
+    create!: InstanceType<typeof WorkCreateWithoutEditionsInput>;
+}
+
+@InputType()
+export class WorkCreateWithoutAuthorsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => BookCreateNestedManyWithoutWorkInput, {nullable:true})
+    editions?: InstanceType<typeof BookCreateNestedManyWithoutWorkInput>;
+}
+
+@InputType()
+export class WorkCreateWithoutEditionsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorCreateNestedManyWithoutWorksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutWorksInput>;
+}
+
+@InputType()
+export class WorkCreateInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorCreateNestedManyWithoutWorksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutWorksInput>;
+    @Field(() => BookCreateNestedManyWithoutWorkInput, {nullable:true})
+    editions?: InstanceType<typeof BookCreateNestedManyWithoutWorkInput>;
+}
+
+@InputType()
+export class WorkCreatecategoriesInput {
+    @Field(() => [String], {nullable:false})
+    set!: Array<string>;
+}
+
+@ArgsType()
+export class WorkGroupByArgs {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => [WorkOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<WorkOrderByWithAggregationInput>;
+    @Field(() => [WorkScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof WorkScalarFieldEnum>;
+    @Field(() => WorkScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof WorkScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => WorkCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof WorkCountAggregateInput>;
+    @Field(() => WorkAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof WorkAvgAggregateInput>;
+    @Field(() => WorkSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof WorkSumAggregateInput>;
+    @Field(() => WorkMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof WorkMinAggregateInput>;
+    @Field(() => WorkMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof WorkMaxAggregateInput>;
+}
+
+@ObjectType()
+export class WorkGroupBy {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    id!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => WorkCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof WorkCountAggregate>;
+    @Field(() => WorkAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof WorkAvgAggregate>;
+    @Field(() => WorkSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof WorkSumAggregate>;
+    @Field(() => WorkMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof WorkMinAggregate>;
+    @Field(() => WorkMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof WorkMaxAggregate>;
+}
+
+@InputType()
+export class WorkListRelationFilter {
+    @Field(() => WorkWhereInput, {nullable:true})
+    every?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    some?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    none?: InstanceType<typeof WorkWhereInput>;
+}
+
+@InputType()
+export class WorkMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    title?: true;
+    @Field(() => Boolean, {nullable:true})
+    description?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainCategory?: true;
+    @Field(() => Boolean, {nullable:true})
+    averageRating?: true;
+    @Field(() => Boolean, {nullable:true})
+    ratingsCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainEditionId?: true;
+}
+
+@ObjectType()
+export class WorkMaxAggregate {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    title?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    description?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainCategory?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    averageRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    ratingsCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainEditionId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class WorkMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    title?: true;
+    @Field(() => Boolean, {nullable:true})
+    description?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainCategory?: true;
+    @Field(() => Boolean, {nullable:true})
+    averageRating?: true;
+    @Field(() => Boolean, {nullable:true})
+    ratingsCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainEditionId?: true;
+}
+
+@ObjectType()
+export class WorkMinAggregate {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    title?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    description?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainCategory?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    averageRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    ratingsCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainEditionId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class WorkOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class WorkOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    title?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    description?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    categories?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    mainCategory?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    averageRating?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    ratingsCount?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    mainEditionId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => WorkCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof WorkCountOrderByAggregateInput>;
+    @Field(() => WorkAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof WorkAvgOrderByAggregateInput>;
+    @Field(() => WorkMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof WorkMaxOrderByAggregateInput>;
+    @Field(() => WorkMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof WorkMinOrderByAggregateInput>;
+    @Field(() => WorkSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof WorkSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class WorkOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    title?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    description?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    categories?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    mainCategory?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    averageRating?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    ratingsCount?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    mainEditionId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => AuthorOrderByRelationAggregateInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorOrderByRelationAggregateInput>;
+    @Field(() => BookOrderByRelationAggregateInput, {nullable:true})
+    editions?: InstanceType<typeof BookOrderByRelationAggregateInput>;
+}
+
+@InputType()
+export class WorkRelationFilter {
+    @Field(() => WorkWhereInput, {nullable:true})
+    is?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    isNot?: InstanceType<typeof WorkWhereInput>;
+}
+
+@InputType()
+export class WorkScalarWhereWithAggregatesInput {
+    @Field(() => [WorkScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<WorkScalarWhereWithAggregatesInput>;
+    @Field(() => [WorkScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<WorkScalarWhereWithAggregatesInput>;
+    @Field(() => [WorkScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<WorkScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    title?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    description?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringListFilter, {nullable:true})
+    categories?: InstanceType<typeof StringListFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    mainCategory?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => FloatWithAggregatesFilter, {nullable:true})
+    averageRating?: InstanceType<typeof FloatWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    ratingsCount?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    mainEditionId?: InstanceType<typeof IntWithAggregatesFilter>;
+}
+
+@InputType()
+export class WorkScalarWhereInput {
+    @Field(() => [WorkScalarWhereInput], {nullable:true})
+    AND?: Array<WorkScalarWhereInput>;
+    @Field(() => [WorkScalarWhereInput], {nullable:true})
+    OR?: Array<WorkScalarWhereInput>;
+    @Field(() => [WorkScalarWhereInput], {nullable:true})
+    NOT?: Array<WorkScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    title?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringListFilter, {nullable:true})
+    categories?: InstanceType<typeof StringListFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    mainCategory?: InstanceType<typeof StringFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    averageRating?: InstanceType<typeof FloatFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    ratingsCount?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    mainEditionId?: InstanceType<typeof IntFilter>;
+}
+
+@InputType()
+export class WorkSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    averageRating?: true;
+    @Field(() => Boolean, {nullable:true})
+    ratingsCount?: true;
+    @Field(() => Boolean, {nullable:true})
+    mainEditionId?: true;
+}
+
+@ObjectType()
+export class WorkSumAggregate {
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    averageRating?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    ratingsCount?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    mainEditionId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class WorkUncheckedCreateNestedManyWithoutAuthorsInput {
+    @Field(() => [WorkCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create?: Array<WorkCreateWithoutAuthorsInput>;
+    @Field(() => [WorkCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<WorkCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class WorkUncheckedCreateWithoutAuthorsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => BookUncheckedCreateNestedManyWithoutWorkInput, {nullable:true})
+    editions?: InstanceType<typeof BookUncheckedCreateNestedManyWithoutWorkInput>;
+}
+
+@InputType()
+export class WorkUncheckedCreateWithoutEditionsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutWorksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutWorksInput>;
+}
+
+@InputType()
+export class WorkUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutWorksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutWorksInput>;
+    @Field(() => BookUncheckedCreateNestedManyWithoutWorkInput, {nullable:true})
+    editions?: InstanceType<typeof BookUncheckedCreateNestedManyWithoutWorkInput>;
+}
+
+@InputType()
+export class WorkUncheckedUpdateManyWithoutAuthorsNestedInput {
+    @Field(() => [WorkCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create?: Array<WorkCreateWithoutAuthorsInput>;
+    @Field(() => [WorkCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<WorkCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [WorkUpsertWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpsertWithWhereUniqueWithoutAuthorsInput)
+    upsert?: Array<WorkUpsertWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkUpdateWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpdateWithWhereUniqueWithoutAuthorsInput)
+    update?: Array<WorkUpdateWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [WorkUpdateManyWithWhereWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpdateManyWithWhereWithoutAuthorsInput)
+    updateMany?: Array<WorkUpdateManyWithWhereWithoutAuthorsInput>;
+    @Field(() => [WorkScalarWhereInput], {nullable:true})
+    @Type(() => WorkScalarWhereInput)
+    deleteMany?: Array<WorkScalarWhereInput>;
+}
+
+@InputType()
+export class WorkUncheckedUpdateManyWithoutAuthorsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkUncheckedUpdateWithoutAuthorsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => BookUncheckedUpdateManyWithoutWorkNestedInput, {nullable:true})
+    editions?: InstanceType<typeof BookUncheckedUpdateManyWithoutWorkNestedInput>;
+}
+
+@InputType()
+export class WorkUncheckedUpdateWithoutEditionsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUncheckedUpdateManyWithoutWorksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutWorksNestedInput>;
+}
+
+@InputType()
+export class WorkUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUncheckedUpdateManyWithoutWorksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutWorksNestedInput>;
+    @Field(() => BookUncheckedUpdateManyWithoutWorkNestedInput, {nullable:true})
+    editions?: InstanceType<typeof BookUncheckedUpdateManyWithoutWorkNestedInput>;
+}
+
+@InputType()
+export class WorkUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+}
+
+@InputType()
+export class WorkUpdateManyWithWhereWithoutAuthorsInput {
+    @Field(() => WorkScalarWhereInput, {nullable:false})
+    @Type(() => WorkScalarWhereInput)
+    where!: InstanceType<typeof WorkScalarWhereInput>;
+    @Field(() => WorkUpdateManyMutationInput, {nullable:false})
+    @Type(() => WorkUpdateManyMutationInput)
+    data!: InstanceType<typeof WorkUpdateManyMutationInput>;
+}
+
+@InputType()
+export class WorkUpdateManyWithoutAuthorsNestedInput {
+    @Field(() => [WorkCreateWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create?: Array<WorkCreateWithoutAuthorsInput>;
+    @Field(() => [WorkCreateOrConnectWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutAuthorsInput)
+    connectOrCreate?: Array<WorkCreateOrConnectWithoutAuthorsInput>;
+    @Field(() => [WorkUpsertWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpsertWithWhereUniqueWithoutAuthorsInput)
+    upsert?: Array<WorkUpsertWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkWhereUniqueInput], {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<WorkWhereUniqueInput, 'id'>>;
+    @Field(() => [WorkUpdateWithWhereUniqueWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpdateWithWhereUniqueWithoutAuthorsInput)
+    update?: Array<WorkUpdateWithWhereUniqueWithoutAuthorsInput>;
+    @Field(() => [WorkUpdateManyWithWhereWithoutAuthorsInput], {nullable:true})
+    @Type(() => WorkUpdateManyWithWhereWithoutAuthorsInput)
+    updateMany?: Array<WorkUpdateManyWithWhereWithoutAuthorsInput>;
+    @Field(() => [WorkScalarWhereInput], {nullable:true})
+    @Type(() => WorkScalarWhereInput)
+    deleteMany?: Array<WorkScalarWhereInput>;
+}
+
+@InputType()
+export class WorkUpdateOneWithoutEditionsNestedInput {
+    @Field(() => WorkCreateWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkCreateWithoutEditionsInput)
+    create?: InstanceType<typeof WorkCreateWithoutEditionsInput>;
+    @Field(() => WorkCreateOrConnectWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkCreateOrConnectWithoutEditionsInput)
+    connectOrCreate?: InstanceType<typeof WorkCreateOrConnectWithoutEditionsInput>;
+    @Field(() => WorkUpsertWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkUpsertWithoutEditionsInput)
+    upsert?: InstanceType<typeof WorkUpsertWithoutEditionsInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    disconnect?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    delete?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkWhereUniqueInput, {nullable:true})
+    @Type(() => WorkWhereUniqueInput)
+    connect?: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkUpdateToOneWithWhereWithoutEditionsInput, {nullable:true})
+    @Type(() => WorkUpdateToOneWithWhereWithoutEditionsInput)
+    update?: InstanceType<typeof WorkUpdateToOneWithWhereWithoutEditionsInput>;
+}
+
+@InputType()
+export class WorkUpdateToOneWithWhereWithoutEditionsInput {
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    where?: InstanceType<typeof WorkWhereInput>;
+    @Field(() => WorkUpdateWithoutEditionsInput, {nullable:false})
+    @Type(() => WorkUpdateWithoutEditionsInput)
+    data!: InstanceType<typeof WorkUpdateWithoutEditionsInput>;
+}
+
+@InputType()
+export class WorkUpdateWithWhereUniqueWithoutAuthorsInput {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkUpdateWithoutAuthorsInput, {nullable:false})
+    @Type(() => WorkUpdateWithoutAuthorsInput)
+    data!: InstanceType<typeof WorkUpdateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class WorkUpdateWithoutAuthorsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => BookUpdateManyWithoutWorkNestedInput, {nullable:true})
+    editions?: InstanceType<typeof BookUpdateManyWithoutWorkNestedInput>;
+}
+
+@InputType()
+export class WorkUpdateWithoutEditionsInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUpdateManyWithoutWorksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutWorksNestedInput>;
+}
+
+@InputType()
+export class WorkUpdateInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => [String], {nullable:true})
+    @Validator.IsString()
+    categories?: Array<string>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    mainCategory?: string;
+    @Field(() => Float, {nullable:true})
+    averageRating?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    ratingsCount?: number;
+    @Field(() => Int, {nullable:true})
+    mainEditionId?: number;
+    @Field(() => AuthorUpdateManyWithoutWorksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutWorksNestedInput>;
+    @Field(() => BookUpdateManyWithoutWorkNestedInput, {nullable:true})
+    editions?: InstanceType<typeof BookUpdateManyWithoutWorkNestedInput>;
+}
+
+@InputType()
+export class WorkUpdatecategoriesInput {
+    @Field(() => [String], {nullable:true})
+    set?: Array<string>;
+    @Field(() => [String], {nullable:true})
+    push?: Array<string>;
+}
+
+@InputType()
+export class WorkUpsertWithWhereUniqueWithoutAuthorsInput {
+    @Field(() => WorkWhereUniqueInput, {nullable:false})
+    @Type(() => WorkWhereUniqueInput)
+    where!: Prisma.AtLeast<WorkWhereUniqueInput, 'id'>;
+    @Field(() => WorkUpdateWithoutAuthorsInput, {nullable:false})
+    @Type(() => WorkUpdateWithoutAuthorsInput)
+    update!: InstanceType<typeof WorkUpdateWithoutAuthorsInput>;
+    @Field(() => WorkCreateWithoutAuthorsInput, {nullable:false})
+    @Type(() => WorkCreateWithoutAuthorsInput)
+    create!: InstanceType<typeof WorkCreateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class WorkUpsertWithoutEditionsInput {
+    @Field(() => WorkUpdateWithoutEditionsInput, {nullable:false})
+    @Type(() => WorkUpdateWithoutEditionsInput)
+    update!: InstanceType<typeof WorkUpdateWithoutEditionsInput>;
+    @Field(() => WorkCreateWithoutEditionsInput, {nullable:false})
+    @Type(() => WorkCreateWithoutEditionsInput)
+    create!: InstanceType<typeof WorkCreateWithoutEditionsInput>;
+    @Field(() => WorkWhereInput, {nullable:true})
+    @Type(() => WorkWhereInput)
+    where?: InstanceType<typeof WorkWhereInput>;
+}
+
+@InputType()
+export class WorkWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => [WorkWhereInput], {nullable:true})
+    AND?: Array<WorkWhereInput>;
+    @Field(() => [WorkWhereInput], {nullable:true})
+    OR?: Array<WorkWhereInput>;
+    @Field(() => [WorkWhereInput], {nullable:true})
+    NOT?: Array<WorkWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    title?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringListFilter, {nullable:true})
+    categories?: InstanceType<typeof StringListFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    mainCategory?: InstanceType<typeof StringFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    averageRating?: InstanceType<typeof FloatFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    ratingsCount?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    mainEditionId?: InstanceType<typeof IntFilter>;
+    @Field(() => AuthorListRelationFilter, {nullable:true})
+    authors?: InstanceType<typeof AuthorListRelationFilter>;
+    @Field(() => BookListRelationFilter, {nullable:true})
+    editions?: InstanceType<typeof BookListRelationFilter>;
+}
+
+@InputType()
+export class WorkWhereInput {
+    @Field(() => [WorkWhereInput], {nullable:true})
+    AND?: Array<WorkWhereInput>;
+    @Field(() => [WorkWhereInput], {nullable:true})
+    OR?: Array<WorkWhereInput>;
+    @Field(() => [WorkWhereInput], {nullable:true})
+    NOT?: Array<WorkWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    title?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    description?: InstanceType<typeof StringFilter>;
+    @Field(() => StringListFilter, {nullable:true})
+    categories?: InstanceType<typeof StringListFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    mainCategory?: InstanceType<typeof StringFilter>;
+    @Field(() => FloatFilter, {nullable:true})
+    averageRating?: InstanceType<typeof FloatFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    ratingsCount?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    mainEditionId?: InstanceType<typeof IntFilter>;
+    @Field(() => AuthorListRelationFilter, {nullable:true})
+    authors?: InstanceType<typeof AuthorListRelationFilter>;
+    @Field(() => BookListRelationFilter, {nullable:true})
+    editions?: InstanceType<typeof BookListRelationFilter>;
+}
+
+@ObjectType()
+export class Work {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    title!: string;
+    @Field(() => String, {nullable:true})
+    description!: string | null;
+    @Field(() => [String], {nullable:true})
+    categories!: Array<string>;
+    @Field(() => String, {nullable:true})
+    mainCategory!: string | null;
+    @Field(() => Float, {nullable:true})
+    averageRating!: number | null;
+    @Field(() => Int, {nullable:true})
+    ratingsCount!: number | null;
+    @Field(() => Int, {nullable:true})
+    mainEditionId!: number | null;
+    @Field(() => [Author], {nullable:true})
+    authors?: Array<Author>;
+    @Field(() => [Book], {nullable:true})
+    editions?: Array<Book>;
+    @Field(() => WorkCount, {nullable:false})
+    _count?: InstanceType<typeof WorkCount>;
 }

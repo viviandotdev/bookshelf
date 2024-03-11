@@ -8,7 +8,7 @@ interface ActivityPageProps {
 export default async function ActivityPage({ params }: ActivityPageProps) {
     const auditLogs = await getActivity({
         bookId: {
-            equals: params.bookId,
+            equals: parseInt(params.bookId),
         },
     });
     let title;

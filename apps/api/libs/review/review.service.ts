@@ -7,14 +7,14 @@ import {
 } from '@bookcue/api/generated-db-types';
 import { Prisma } from '@prisma/client';
 import { ReviewDataInput } from './models/review-create.input';
-import { ActivityService } from 'libs/activity/activity.service';
 
 @Injectable()
 export class ReviewService {
   constructor(
-    private readonly repository: ReviewRepository,
-  ) // private readonly activityService: ActivityService,
-  {}
+    private readonly repository: ReviewRepository, // private readonly activityService: ActivityService,
+  ) {}
+
+  findFirst = this.repository.findFirst;
   findUnique = this.repository.findUnique;
   async create(
     data: ReviewDataInput,

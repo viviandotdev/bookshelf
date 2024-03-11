@@ -56,7 +56,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     const onUpdate = async (status: string) => {
         // optimistic update
         setStatus(status);
-        await updateUserBook(book!.id, { status });
+        await updateUserBook(parseInt(book!.id), { status });
     };
     const linkRef = useRef<HTMLAnchorElement>(null);
     return (
@@ -91,7 +91,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 // Selected is not the same as the current status params
                             }}
                         >
-                            <item.icon className='mr-2 h-5 w-5' />
+                            {/* <item.icon className='mr-2 h-5 w-5' /> */}
                             {item.name}
                         </DropdownMenuItem>
                     ))}
@@ -100,7 +100,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                         <div className='flex gap-2'>
                             My Rating:
                             <BookRating
-                                bookId={book.id}
+                                bookId={book!.id}
                                 rating={rating}
                                 setRating={setRating}
                             />

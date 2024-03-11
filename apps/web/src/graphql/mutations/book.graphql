@@ -1,7 +1,8 @@
 mutation CreateBook($data: BookCreateInput!) {
   createBook(data: $data) {
-    author
-    categories
+    authors {
+      name
+    }
     coverImage
     description
     id
@@ -11,3 +12,4 @@ mutation CreateBook($data: BookCreateInput!) {
     title
   }
 }
+

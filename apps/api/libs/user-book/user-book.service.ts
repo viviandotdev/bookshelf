@@ -14,7 +14,7 @@ export class UserBookService {
     private readonly prisma: PrismaRepository,
   ) {}
 
-  async create(bookId: string, userId: string, status?: string) {
+  async create(bookId: number, userId: string, status?: string) {
     const lastUserBook = await this.repository.findFirst({
       where: { status: status || 'Want to Read', userId: userId },
       orderBy: { order: 'desc' },
@@ -40,6 +40,7 @@ export class UserBookService {
       },
     };
     //create books with order
+
     return this.repository.create(createUserBookArgs);
   }
 
@@ -87,6 +88,7 @@ export class UserBookService {
         },
         book: {
           include: {
+            authors: { select: { name: true } },
             _count: {
               select: {
                 userBook: true,

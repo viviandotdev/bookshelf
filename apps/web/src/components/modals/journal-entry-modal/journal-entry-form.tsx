@@ -66,7 +66,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                 await loadEntry({
                     variables: {
                         book: {
-                            id: userBook!.book.id,
+                            id: parseInt(userBook!.book.id),
                         },
                     },
                 });
@@ -199,7 +199,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
         };
         //  if editing journal entry
         if (editId) {
-            await updateUserBook(userBook.book!.id, {
+            await updateUserBook(parseInt(userBook.book!.id), {
                 status: values.mark_dnf ? 'Did Not Finish' : 'Currently Reading',
             });
         }
@@ -355,7 +355,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                disabled={editId ? true : false}
+                                                // disabled={editId ? true : false}
                                                 autoComplete='off'
                                                 autoFocus
                                                 className={` ${unit == 'pages' ? 'block' : 'hidden'
@@ -389,7 +389,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                disabled={editId ? true : false}
+                                                // disabled={editId ? true : false}
                                                 autoComplete='off'
                                                 autoFocus
                                                 className={` h-7 w-[48px] px-2 py-4 text-xs `}

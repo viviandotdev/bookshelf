@@ -49,7 +49,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({
                             <h3 className='w-56 max-w-56 truncate text-base font-medium text-gray-900'>
                                 {book?.title}
                             </h3>
-                            <p className='text-sm text-gray-600'>{book?.author}</p>
+                            <p className='text-sm text-gray-600'>{book?.authors && book?.authors[0].name}</p>
                             <p className='flex items-center gap-1 text-sm text-gray-500'>
                                 <Icons.read className='h-4 w-4 text-gray-400' />
                                 Finished

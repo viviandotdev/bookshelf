@@ -73,19 +73,19 @@ export function processBook(
 ): BookData | null {
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
-  const author: string = book.volumeInfo.authors?.join(', ') || 'N/A';
-  const titleAndAuthor = `${title} ${author}`;
+  const authors: string[] = book.volumeInfo.authors;
+  const titleAndAuthor = `${title} ${book.volumeInfo.authors?.join(', ')}`;
   // Skip processing the book if the title and author is already encountered
   if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
-  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
-  const publisher: string = book.volumeInfo.publisher || 'N/A';
+  const publishedDate: string = book.volumeInfo.publishedDate || '';
+  const publisher: string = book.volumeInfo.publisher || '';
   const coverImage: string = book.volumeInfo.imageLinks?.thumbnail || '';
-  const description: string = book.volumeInfo.description || 'N/A';
+  const description: string = book.volumeInfo.description || '';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn: string = 'N/A';
-  let isbn13: string = 'N/A';
+  let isbn: string = '';
+  let isbn13: string = '';
   if (book.volumeInfo.industryIdentifiers) {
     const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
     const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
@@ -103,12 +103,15 @@ export function processBook(
       return self.indexOf(value) === index;
     },
   );
+
+  const mainCategory = book.volumeInfo.mainCategory || '';
   const bookData: BookData = {
     id,
     title,
     averageRating,
+    mainCategory,
     ratingsCount,
-    author,
+    authors,
     publishedDate,
     publisher,
     categories,

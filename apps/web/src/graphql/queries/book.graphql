@@ -1,0 +1,20 @@
+query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    id
+    title
+    authors {
+      name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      mainCategory
+      categories
+      averageRating
+      ratingsCount
+    }
+  }
+}

@@ -53,12 +53,10 @@ export class ReviewResolver {
         },
       });
     } else {
-      reviewExists = await this.service.findUnique({
+      reviewExists = await this.service.findFirst({
         where: {
-          identifier: {
-            bookId: where.bookId,
-            userId: currentUser.userId,
-          },
+          userId: currentUser.userId,
+          bookId: where.bookId,
         },
       });
     }
@@ -76,7 +74,11 @@ export class ReviewResolver {
             user: true,
           },
         },
-        book: true,
+        book: {
+          include: {
+            authors: true
+          },
+        },
         comments: {
           include: {
             user: true,
