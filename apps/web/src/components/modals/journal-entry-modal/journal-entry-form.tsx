@@ -355,7 +355,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                disabled={editId ? true : false}
+                                                // disabled={editId ? true : false}
                                                 autoComplete='off'
                                                 autoFocus
                                                 className={` ${unit == 'pages' ? 'block' : 'hidden'
@@ -389,7 +389,7 @@ export const JournalEntryForm: React.FC = ({ }) => {
                                     <FormItem>
                                         <FormControl>
                                             <Input
-                                                disabled={editId ? true : false}
+                                                // disabled={editId ? true : false}
                                                 autoComplete='off'
                                                 autoFocus
                                                 className={` h-7 w-[48px] px-2 py-4 text-xs `}

@@ -92,10 +92,10 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({ }) => {
                 userBook.book!.id,
                 { ...reviewInput },
                 {
-                    id: userBook.book!.id,
+                    // id: userBook.book!.id,
                     title: userBook.book!.title,
                     coverImage: userBook.book!.coverImage,
-                    pageCount: parseInt(userBook.book.pageCount) || 0,
+                    pageCount: (userBook.book && userBook.book.pageCount) || 0,
                     authors: {
                         connect: userBook.book.authors?.map((author) => ({ id: author.id })),
 

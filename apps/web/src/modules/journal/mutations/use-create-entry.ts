@@ -1,6 +1,5 @@
 import {
   JournalEntryCreateInput,
-  JournalEntryUpdateInput,
   useCreateJournalEntryMutation,
 } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';

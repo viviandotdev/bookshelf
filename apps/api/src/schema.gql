@@ -2380,11 +2380,6 @@ input ReviewDataInput {
   spoilers: Boolean
 }
 
-input ReviewIdentifierCompoundUniqueInput {
-  bookId: Int!
-  userId: String!
-}
-
 input ReviewListRelationFilter {
   every: ReviewWhereInput
   none: ReviewWhereInput
@@ -2683,7 +2678,6 @@ input ReviewWhereUniqueInput {
   content: StringFilter
   createdAt: DateTimeFilter
   id: String
-  identifier: ReviewIdentifierCompoundUniqueInput
   likeCount: IntFilter
   likedBy: UserListRelationFilter
   spoilers: BoolFilter

@@ -79,7 +79,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({ bookId, title 
             await loadEntries({
                 variables: {
                     book: {
-                        id: bookId,
+                        id: parseInt(bookId!),
                     },
                     offset: 0,
                     limit: BOOKS_PAGE_SIZE,
