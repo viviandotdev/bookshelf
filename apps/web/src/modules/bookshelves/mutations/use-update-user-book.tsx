@@ -8,14 +8,14 @@ import { gql } from '@apollo/client';
 export const useUpdateUserBook = () => {
     const [UpdateUserBook] = useUpdateUserBookMutation();
     const updateUserBook = async (
-        bookId: number,
+        bookId: string,
         updateInput: UserBookUpdateInput
     ) => {
         const { data, errors } = await UpdateUserBook({
             variables: {
                 data: updateInput,
                 where: {
-                    id: bookId,
+                    id: parseInt(bookId),
                 },
             },
             update: (cache, { data }) => {
