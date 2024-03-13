@@ -28,7 +28,6 @@ export const MONTH = [
   'Dec',
 ];
 
-
 export const STATUS = {
   WantToRead: 'Want to Read',
   UpNext: 'Up Next',

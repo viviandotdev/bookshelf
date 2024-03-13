@@ -10,4 +10,3 @@ export const dm_sefif_display = DM_Serif_Display({
   weight: '400',
   display: 'swap',
 });
-

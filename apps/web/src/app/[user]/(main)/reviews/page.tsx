@@ -1,15 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-interface ReviewsPageProps {
+interface ReviewsPageProps {}
 
-}
-
-export const ReviewsPage: React.FC<ReviewsPageProps> = ({ }) => {
-    return (
-        <div>
-            REVEWS PAGE
-
-        </div>
-    );
-}
-export default ReviewsPage
+export const ReviewsPage: React.FC<ReviewsPageProps> = ({}) => {
+  return <div>REVEWS PAGE</div>;
+};
+export default ReviewsPage;

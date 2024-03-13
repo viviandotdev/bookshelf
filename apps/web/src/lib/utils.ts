@@ -17,7 +17,6 @@ export function cleanText(text: string) {
 }
 
 export const formatAuthors = (book: Book) => {
-    
   console.log(book.authors);
   if (!book || !book.authors || book.authors.length === 0) {
     return '';

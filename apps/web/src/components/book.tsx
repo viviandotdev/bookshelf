@@ -9,100 +9,100 @@ import GalleryCard from '@/modules/bookshelves/components/gallery-card';
 import ListCard from '@/modules/bookshelves/components/list-card';
 
 interface BookProps {
-    details?: {
-        progress: number;
-        date_started: string;
-    };
-    userBook: UserBook;
-    responsive?: boolean;
-    showRemoveBook?: boolean;
-    view: string;
+  details?: {
+    progress: number;
+    date_started: string;
+  };
+  userBook: UserBook;
+  responsive?: boolean;
+  showRemoveBook?: boolean;
+  view: string;
 }
 
 export const Book: React.FC<BookProps> = ({
-    userBook,
-    details,
-    responsive,
-    showRemoveBook,
-    view,
+  userBook,
+  details,
+  responsive,
+  showRemoveBook,
+  view,
 }) => {
-    const [openAlert, setOpenAlert] = useState(false);
-    const [openDropdown, setOpenDropdown] = useState(false);
-    const { book, shelves } = userBook;
-    const [isLoading, setIsLoading] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const { book, shelves } = userBook;
+  const [isLoading, setIsLoading] = useState(false);
 
-    const { removeUserBook } = useRemoveUserBook();
-    const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
-    const { book: myBook } = useUserBookStore();
-    const [status, setStatus] = useState(userBook.status ? userBook.status : '');
-    const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-    const [percent, setPercent] = useState(0);
-    const { journalEntry } = useJournalEntryModal();
-    useEffect(() => {
-        setStatus(userBook.status ? userBook.status : '');
-        setRating(userBook.rating ? userBook.rating : 0);
-        if (userBook.journalEntry && userBook.journalEntry.length > 0) {
-            setPercent(userBook.journalEntry[0].currentPercent || 0);
-        }
-    }, [userBook]);
+  const { removeUserBook } = useRemoveUserBook();
+  const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
+  const { book: myBook } = useUserBookStore();
+  const [status, setStatus] = useState(userBook.status ? userBook.status : '');
+  const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+  const [percent, setPercent] = useState(0);
+  const { journalEntry } = useJournalEntryModal();
+  useEffect(() => {
+    setStatus(userBook.status ? userBook.status : '');
+    setRating(userBook.rating ? userBook.rating : 0);
+    if (userBook.journalEntry && userBook.journalEntry.length > 0) {
+      setPercent(userBook.journalEntry[0].currentPercent || 0);
+    }
+  }, [userBook]);
 
-    useEffect(() => {
-        // update percent detail
-        if (myBook && myBook.id === userBook.book?.id) {
-            setPercent(journalEntry.percent);
-        }
-    }, [journalEntry]);
+  useEffect(() => {
+    // update percent detail
+    if (myBook && myBook.id === userBook.book?.id) {
+      setPercent(journalEntry.percent);
+    }
+  }, [journalEntry]);
 
-    const onDelete = async () => {
-        setIsLoading(true);
-        const deletedBook = await removeUserBook(book!.id);
-        if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
-            // delete from all shelves
-            deletedBook.shelves.map((item) => {
-                decrementShelfCount(item.shelf.name);
-            });
-        } else {
-            decrementLibraryCount('Unshelved');
-        }
-        decrementLibraryCount('All Books');
-        setIsLoading(false);
-        setOpenAlert(false);
-    };
-    return (
-        <div>
-            {view == 'gallery' && (
-                <GalleryCard
-                    responsive={responsive}
-                    book={book!}
-                    details={details}
-                    openAlert={openAlert}
-                    isLoading={isLoading}
-                    onDelete={onDelete}
-                    status={status}
-                    setOpenAlert={setOpenAlert}
-                    setStatus={setStatus}
-                    setRating={setRating}
-                    rating={rating}
-                    shelves={shelves} // Adjust accordingly if `userBook.shelves` is not the correct type
-                    showRemoveBook={showRemoveBook}
-                />
-            )}
-            {view == 'list' && (
-                <ListCard
-                    book={book!}
-                    status={status}
-                    rating={rating}
-                    shelves={shelves}
-                    setStatus={setStatus}
-                    setRating={setRating}
-                    setOpenAlert={setOpenAlert}
-                    onDelete={onDelete}
-                    openAlert={openAlert}
-                    isLoading={isLoading}
-                />
-            )}
-        </div>
-    );
+  const onDelete = async () => {
+    setIsLoading(true);
+    const deletedBook = await removeUserBook(book!.id);
+    if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
+      // delete from all shelves
+      deletedBook.shelves.map((item) => {
+        decrementShelfCount(item.shelf.name);
+      });
+    } else {
+      decrementLibraryCount('Unshelved');
+    }
+    decrementLibraryCount('All Books');
+    setIsLoading(false);
+    setOpenAlert(false);
+  };
+  return (
+    <div>
+      {view == 'gallery' && (
+        <GalleryCard
+          responsive={responsive}
+          book={book!}
+          details={details}
+          openAlert={openAlert}
+          isLoading={isLoading}
+          onDelete={onDelete}
+          status={status}
+          setOpenAlert={setOpenAlert}
+          setStatus={setStatus}
+          setRating={setRating}
+          rating={rating}
+          shelves={shelves} // Adjust accordingly if `userBook.shelves` is not the correct type
+          showRemoveBook={showRemoveBook}
+        />
+      )}
+      {view == 'list' && (
+        <ListCard
+          book={book!}
+          status={status}
+          rating={rating}
+          shelves={shelves}
+          setStatus={setStatus}
+          setRating={setRating}
+          setOpenAlert={setOpenAlert}
+          onDelete={onDelete}
+          openAlert={openAlert}
+          isLoading={isLoading}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Book;

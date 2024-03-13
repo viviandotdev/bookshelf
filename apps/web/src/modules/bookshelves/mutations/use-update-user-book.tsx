@@ -1,56 +1,56 @@
 import {
-    useUpdateUserBookMutation,
-    UserBookUpdateInput,
+  useUpdateUserBookMutation,
+  UserBookUpdateInput,
 } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { gql } from '@apollo/client';
 
 export const useUpdateUserBook = () => {
-    const [UpdateUserBook] = useUpdateUserBookMutation();
-    const updateUserBook = async (
-        bookId: string,
-        updateInput: UserBookUpdateInput
-    ) => {
-        const { data, errors } = await UpdateUserBook({
-            variables: {
-                data: updateInput,
-                where: {
-                    id: parseInt(bookId),
-                },
-            },
-            update: (cache, { data }) => {
-                // update the status of the book
-                cache.writeFragment({
-                    id: `UserBook:${data?.updateUserBook.id}`,
-                    fragment: gql`
+  const [UpdateUserBook] = useUpdateUserBookMutation();
+  const updateUserBook = async (
+    bookId: string,
+    updateInput: UserBookUpdateInput
+  ) => {
+    const { data, errors } = await UpdateUserBook({
+      variables: {
+        data: updateInput,
+        where: {
+          id: parseInt(bookId),
+        },
+      },
+      update: (cache, { data }) => {
+        // update the status of the book
+        cache.writeFragment({
+          id: `UserBook:${data?.updateUserBook.id}`,
+          fragment: gql`
             fragment MyUserBook on UserBook {
               status
             }
           `,
-                    data: {
-                        status: data?.updateUserBook.status,
-                    },
-                });
-            },
-
-            errorPolicy: 'all',
+          data: {
+            status: data?.updateUserBook.status,
+          },
         });
+      },
 
-        if (errors) {
-            console.log(errors);
-            toast({
-                title: 'Error updating book',
-                variant: 'destructive',
-            });
-        }
+      errorPolicy: 'all',
+    });
 
-        if (data && !errors) {
-            return data.updateUserBook;
-        }
-        return null;
-    };
+    if (errors) {
+      console.log(errors);
+      toast({
+        title: 'Error updating book',
+        variant: 'destructive',
+      });
+    }
 
-    return {
-        updateUserBook,
-    };
+    if (data && !errors) {
+      return data.updateUserBook;
+    }
+    return null;
+  };
+
+  return {
+    updateUserBook,
+  };
 };

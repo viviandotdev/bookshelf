@@ -3,86 +3,89 @@ import { cn, formatAuthors } from '@/lib/utils';
 import React from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Icons } from '../../../components/icons';
 import { Book } from '@/graphql/graphql';
 
 interface BookInfoProps {
-    processedBook: Book;
+  processedBook: Book;
 }
 
 export default function BookInfo({ processedBook }: BookInfoProps) {
-    //TODO: Add a show more button
-    return (
-        <>
-            <div className=' text-base font-semibold'>
-                <span className='flex items-center'>
-                    <span className='mr-2'>About this Book</span>
-                    <span className='relative'>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <button
-                                    className='flex h-8 w-8 items-center justify-center rounded-full transition duration-300 hover:bg-beige-100'
-                                    style={{ top: '-5px', left: '-5px' }}
-                                >
-                                    <Icons.arrowRight className='h-5 w-5 rotate-0 transform text-beige transition duration-300' />
-                                </button>
-                            </DialogTrigger>
-                            <DialogContent className='max-h-4/6 overflow-scroll sm:max-w-[664px]'>
-                                <DialogHeader>
-                                    <DialogTitle>{processedBook.title}</DialogTitle>
-                                    <DialogDescription className='inline text-sm leading-normal'>
-                                        by {formatAuthors(processedBook)}
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <DialogDescription>
-                                    <div
-                                        className={`leading-normal `}
-                                        dangerouslySetInnerHTML={{
-                                            __html: processedBook.description!,
-                                        }}
-                                    ></div>
-                                </DialogDescription>
-                            </DialogContent>
-                        </Dialog>
-                    </span>
-                </span>
-            </div>
-            <div className='max-h-64 overflow-hidden text-sm'>
-                <div
+  //TODO: Add a show more button
+  return (
+    <>
+      <div className=' text-base font-semibold'>
+        <span className='flex items-center'>
+          <span className='mr-2'>About this Book</span>
+          <span className='relative'>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className='flex h-8 w-8 items-center justify-center rounded-full transition duration-300 hover:bg-beige-100'
+                  style={{ top: '-5px', left: '-5px' }}
+                >
+                  <Icons.arrowRight className='h-5 w-5 rotate-0 transform text-beige transition duration-300' />
+                </button>
+              </DialogTrigger>
+              <DialogContent className='max-h-4/6 overflow-scroll sm:max-w-[664px]'>
+                <DialogHeader>
+                  <DialogTitle>{processedBook.title}</DialogTitle>
+                  <DialogDescription className='inline text-sm leading-normal'>
+                    by {formatAuthors(processedBook)}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogDescription>
+                  <div
                     className={`leading-normal `}
                     dangerouslySetInnerHTML={{
-                        __html: processedBook.description!,
+                      __html: processedBook.description!,
                     }}
-                >
-                </div>
-            </div>
-            <div>
-                {/* <div className="text-sm text-beige">GENRES</div>
+                  ></div>
+                </DialogDescription>
+              </DialogContent>
+            </Dialog>
+          </span>
+        </span>
+      </div>
+      <div className='max-h-64 overflow-hidden text-sm'>
+        <div
+          className={`leading-normal `}
+          dangerouslySetInnerHTML={{
+            __html: processedBook.description!,
+          }}
+        ></div>
+      </div>
+      <div>
+        {/* <div className="text-sm text-beige">GENRES</div>
                 <hr className="border-t-1 border-beige" /> */}
-                <div className='mt-2'>
-                    {processedBook?.work && processedBook.work.categories && processedBook.work.categories.map((category: string, index: number) => {
-                        return (
-                            <button
-                                key={index}
-                                className={cn(
-                                    buttonVariants({ variant: 'pill', size: 'xs' }),
-                                    'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
-                                )}
-                                disabled={true}
-                            >
-                                {category}
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-        </>
-    );
+        <div className='mt-2'>
+          {processedBook?.work &&
+            processedBook.work.categories &&
+            processedBook.work.categories.map(
+              (category: string, index: number) => {
+                return (
+                  <button
+                    key={index}
+                    className={cn(
+                      buttonVariants({ variant: 'pill', size: 'xs' }),
+                      'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
+                    )}
+                    disabled={true}
+                  >
+                    {category}
+                  </button>
+                );
+              }
+            )}
+        </div>
+      </div>
+    </>
+  );
 }

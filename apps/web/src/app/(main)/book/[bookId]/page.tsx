@@ -8,26 +8,26 @@ import { getGoogleBook } from '@/modules/book/queries/getGoogleBook';
 import { getBook } from '@/modules/book/queries/getBook';
 
 interface BookPageProps {
-    params: { bookId: string };
+  params: { bookId: string };
 }
 
 export default async function BookPage({ params }: BookPageProps) {
-    const book = await getBook(params.bookId);
-    if (!book) {
-        notFound();
-    }
-    const { shelves } = await getShelves();
-    const { reviews } = await getReviews(params.bookId);
-    // console.log(reviews)
-    const user = await getCurrentUser();
-    return (
-        <>
-            <BookTemplate
-                book={book}
-                shelves={shelves}
-                reviews={reviews}
-                user={user}
-            />
-        </>
-    );
+  const book = await getBook(params.bookId);
+  if (!book) {
+    notFound();
+  }
+  const { shelves } = await getShelves();
+  const { reviews } = await getReviews(params.bookId);
+  // console.log(reviews)
+  const user = await getCurrentUser();
+  return (
+    <>
+      <BookTemplate
+        book={book}
+        shelves={shelves}
+        reviews={reviews}
+        user={user}
+      />
+    </>
+  );
 }

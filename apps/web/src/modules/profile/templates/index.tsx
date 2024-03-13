@@ -13,62 +13,60 @@ import NavLink from '../components/nav-link';
 import ProfileNav from '../components/profile-nav';
 
 interface ProfileTemplateProps {
-    currentlyReading: UserBook[];
-    shelves: Shelf[];
-    profileUser: User;
-    currentUser: User;
+  currentlyReading: UserBook[];
+  shelves: Shelf[];
+  profileUser: User;
+  currentUser: User;
 }
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
-    currentlyReading,
-    shelves,
-    profileUser,
-    currentUser,
+  currentlyReading,
+  shelves,
+  profileUser,
+  currentUser,
 }) => {
-
-
-    const selectedTab = 'Profile';
-    return (
-        <div className="container">
-            <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
-            <ProfileNav currentUser={currentUser} />
-            <div className='grid grid-cols-3 gap-2 pt-12'>
-                <div className='col-span-2'>
-                    <Section books={currentlyReading} title={'Favorite Books '} />
-                    <Section books={currentlyReading} title={'Currently Reading'} />
-                    {/* Activity section */}
-                </div>
-                <div className='col-span-1 flex flex-col gap-4 pl-10'>
-                    <ProfileSection title='Goals'>
-                        <ReadingChallenge />
-                        {/* Show ratings chart */}
-                    </ProfileSection>
-                    <ProfileSection title='Ratings'>
-                        {/* Show ratings chart */}
-                    </ProfileSection>
-                    <ProfileSection title='Diary'>{/* Show diar */}</ProfileSection>
-                    <ProfileSection title='Shelves'>
-                        {/* Show shelves */}
-                        <div className='mt-2'>
-                            <ShelvesSection shelves={shelves} />
-                        </div>
-                    </ProfileSection>
-                </div>
-            </div>
+  const selectedTab = 'Profile';
+  return (
+    <div className='container'>
+      <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
+      <ProfileNav currentUser={currentUser} />
+      <div className='grid grid-cols-3 gap-2 pt-12'>
+        <div className='col-span-2'>
+          <Section books={currentlyReading} title={'Favorite Books '} />
+          <Section books={currentlyReading} title={'Currently Reading'} />
+          {/* Activity section */}
         </div>
-    );
+        <div className='col-span-1 flex flex-col gap-4 pl-10'>
+          <ProfileSection title='Goals'>
+            <ReadingChallenge />
+            {/* Show ratings chart */}
+          </ProfileSection>
+          <ProfileSection title='Ratings'>
+            {/* Show ratings chart */}
+          </ProfileSection>
+          <ProfileSection title='Diary'>{/* Show diar */}</ProfileSection>
+          <ProfileSection title='Shelves'>
+            {/* Show shelves */}
+            <div className='mt-2'>
+              <ShelvesSection shelves={shelves} />
+            </div>
+          </ProfileSection>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const ProfileSection: React.FC<{
-    title: string;
-    children?: React.ReactNode;
+  title: string;
+  children?: React.ReactNode;
 }> = ({ title, children }) => {
-    return (
-        <div>
-            <div className='text-lg font-semibold text-beige'>{title}</div>
-            {children}
-        </div>
-    );
+  return (
+    <div>
+      <div className='text-lg font-semibold text-beige'>{title}</div>
+      {children}
+    </div>
+  );
 };
 
 export default ProfileTemplate;

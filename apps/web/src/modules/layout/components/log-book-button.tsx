@@ -5,23 +5,23 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import React from 'react';
 
-interface LogBookButtonProps { }
+interface LogBookButtonProps {}
 
-export const LogBookButton: React.FC<LogBookButtonProps> = ({ }) => {
-    const logBookModal = useLogBookModal();
-    return (
-        <>
-            <button
-                onClick={() => logBookModal.onOpen()}
-                className={cn(
-                    buttonVariants({ variant: 'pill', size: 'xs' }),
-                    'pl-2 pr-3 h-8 justify-center rounded-sm'
-                )}
-            >
-                <Icons.plus className='mr-1 h-4 w-4' />
-                Log
-            </button>
-        </>
-    );
+export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
+  const logBookModal = useLogBookModal();
+  return (
+    <>
+      <button
+        onClick={() => logBookModal.onOpen()}
+        className={cn(
+          buttonVariants({ variant: 'pill', size: 'xs' }),
+          'h-8 justify-center rounded-sm pl-2 pr-3'
+        )}
+      >
+        <Icons.plus className='mr-1 h-4 w-4' />
+        Log
+      </button>
+    </>
+  );
 };
 export default LogBookButton;
