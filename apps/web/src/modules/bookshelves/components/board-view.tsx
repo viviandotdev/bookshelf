@@ -1,23 +1,16 @@
 'use client';
-import React, { Suspense, forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import ColumnContainer from './column-container';
 import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
 import { STATUS } from '@/lib/constants';
 import { ColumnWithBooks } from '../types';
 import useBuildQuery from '../hooks/use-build-query';
 import { generateQueryFilter } from '../utils';
-import ShelfMenu from './shelf-menu';
-import ShelfTitle from './shelf-title';
-import { SortingOptions } from './sorting-options';
-import StatusMenu from './status-menu';
 import NoResults from '@/components/no-results';
-interface BoardViewProps { }
 
 
 
 export const BoardView = forwardRef((props, ref) => {
-    // ... component state and other functions
-
     // Expose the loadMore function to the parent component using ref
     useImperativeHandle(ref, () => ({
         loadMore
@@ -40,6 +33,9 @@ export const BoardView = forwardRef((props, ref) => {
             const { data: fetchedData } = await data[index].fetchMore({
                 variables: {
                     ...queryFilter,
+                    orderBy: {
+                        order: 'desc',
+                    },
                 },
             });
 
@@ -49,7 +45,6 @@ export const BoardView = forwardRef((props, ref) => {
                     // console.log(newData[index].books.length)
                     const length = newData[index].books.length;
                     // Check if newData[index] is undefined
-
                     newData[index] = {
                         ...newData[index],
                         books: [
@@ -75,7 +70,11 @@ export const BoardView = forwardRef((props, ref) => {
         const queryFilter = generateQueryFilter(query, status);
 
         const { data: bookData, fetchMore } = await loadBooks({
-            variables: { ...queryFilter },
+            variables: {
+                ...queryFilter, orderBy: {
+                    order: 'desc',
+                },
+            },
         });
 
         return {
