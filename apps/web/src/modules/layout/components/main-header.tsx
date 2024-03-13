@@ -139,7 +139,7 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
             </div>
             {children}
             {showMobileMenu && items && (
-                <MobileNav items={subItems}></MobileNav>
+                <MobileNav user={user} items={subItems}></MobileNav>
             )}
         </div>
     )
