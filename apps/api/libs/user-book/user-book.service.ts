@@ -194,13 +194,20 @@ export class UserBookService {
     let newOrder;
     // if status is updated, update order number in the new status
     if (args.data.status) {
-      const lastUserBook = await this.repository.findFirst({
-        where: { status: args.data.status, userId: userId },
-        orderBy: { order: 'desc' },
-        select: { order: true },
+      await this.repository.updateMany({
+        where: {
+          userId: userId,
+          status: args.data.status,
+        },
+        data: {
+          // Increment the 'order' field by 1 for all matched records.
+          order: {
+            increment: 1,
+          },
+        },
       });
-
-      newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
+      // Set the new order for the updated book to 0.
+      newOrder = 0;
       // Create status update activity
       this.activityService.create(
         {
