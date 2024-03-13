@@ -14,16 +14,21 @@ import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/us
 import useUserBookStore from '@/stores/use-user-book-store';
 import useCreateReviewModal from '@/components/modals/create-review-modal/use-create-review.modal';
 import { getReview } from '@/modules/review/queries/getReview';
+import { ColumnWithBooks } from '../types';
 interface CardItemProps {
     data: UserBook;
     index: number;
     status: string;
     totalBooks: number;
+    orderedData: ColumnWithBooks[];
+    setOrderedData: React.Dispatch<React.SetStateAction<ColumnWithBooks[]>>;
 }
 
 export const CardItem: React.FC<CardItemProps> = ({
     data,
     index,
+    orderedData,
+    setOrderedData,
     status: cardStatus,
 }) => {
     const router = useRouter();
@@ -57,7 +62,42 @@ export const CardItem: React.FC<CardItemProps> = ({
 
     if (!data) return null;
     const { book, shelves } = data;
+    const moveCard = (status: string) => {
+        if (status === cardStatus) return;
 
+        let newOrderedData = [...orderedData];
+        const destination = status
+        // Find the list that the card is currently in
+        const sourceList = newOrderedData.find(
+            (list) => list.title === cardStatus
+        );
+        const destinationList = newOrderedData.find(
+            (list) => list.title === destination
+        );
+        if (!sourceList || !destinationList) {
+            return;
+        }
+        if (!sourceList.books || !destinationList.books) {
+            sourceList.books = [];
+        }
+
+        if (!destinationList.books) {
+            destinationList.books = [];
+        }
+
+        const [movedCard] = sourceList.books.splice(index, 1);
+        movedCard.status = status
+        destinationList.books.splice(0, 0, movedCard);
+        sourceList.books.forEach((book, index) => {
+            book.order = index;
+        });
+
+        destinationList.books.forEach((book, index) => {
+            book.order = index;
+        });
+        setOrderedData(newOrderedData);
+
+    }
     return (
         <Draggable key={data.id} draggableId={data.id} index={index}>
             {(provided) => (
@@ -174,6 +214,7 @@ export const CardItem: React.FC<CardItemProps> = ({
                                 openDropdown={openDropdown}
                                 setOpenDropdown={setOpenDropdown}
                                 status={status}
+                                moveCard={moveCard}
                                 setStatus={setStatus}
                                 setRating={setRating}
                                 rating={rating}

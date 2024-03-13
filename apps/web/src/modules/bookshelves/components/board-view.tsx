@@ -102,7 +102,6 @@ export const BoardView = forwardRef((props, ref) => {
                 console.error('Error while loading book data:', error);
             }
         };
-
         loadData();
     }, [loadBooks, query]);
 
