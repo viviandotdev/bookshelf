@@ -1,9 +1,8 @@
 'use client';
 import { Icons } from '@/components/icons';
-import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import React, { useCallback, useRef } from 'react';
 import Link from 'next/link';
+import React, { useRef } from 'react';
 interface SearchInputProps { }
 
 export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
@@ -18,20 +17,30 @@ export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
 
     return (
         <div className={cn('relative w-full')}>
-            <Input
-                type='search'
-                placeholder='Search Books...'
-                className='h-8 w-full sm:w-64 sm:pr-12'
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={handleKeyPress}
-            />
-            <Link
-                ref={linkRef}
-                href={`/search?q=${encodeURIComponent(search)}`}
-                className='absolute right-1.5 top-1.5 hidden h-5 cursor-pointer select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium text-gray-500 opacity-100 sm:flex'
-            >
-                <Icons.search className='h-3 w-3' />
-            </Link>
+            <label htmlFor="search" className="sr-only">
+                Search
+            </label>
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    {/* <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" /> */}
+                    <Icons.search className='h-5 w-5 text-gray-400' aria-hidden="true" />
+                </div>
+                <input
+                    id="search"
+                    name="search"
+                    onKeyDown={handleKeyPress}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    placeholder='Search Books...'
+                    type="search"
+                />
+                <Link
+                    ref={linkRef}
+                    href={`/search?q=${encodeURIComponent(search)}`}
+                    className='hidden'
+                >
+                </Link>
+            </div>
         </div>
     );
 };
