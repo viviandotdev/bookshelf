@@ -27,8 +27,10 @@ export default async function PageLayout({ children }: PageLayoutProps) {
     ];
     return (
         <div className='flex min-h-screen flex-col bg-background'>
-            <SiteHeader user={user} />
-            <SecondaryHeader user={user} subItems={subItems} />
+            <SiteHeader user={user} >
+                <SecondaryHeader user={user} subItems={subItems} />
+            </SiteHeader>
+
             <main className='container z-40 mx-auto flex-1 '>{children}</main>
             <SiteFooter />
         </div>

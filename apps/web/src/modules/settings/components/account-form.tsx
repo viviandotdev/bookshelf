@@ -32,9 +32,9 @@ export const AccountForm: React.FC<AccountFormProps> = ({ user }) => {
                 as well as how to recover your data when you’re having trouble signing
                 in.
             </p>
-            <div className='mx-auto mb-6 '>
+            <div className='mx-auto mb-6 ' >
                 {accountSecurityConfigs.map((config, index) => (
-                    <AccountCards config={config} />
+                    <div key={index}><AccountCards config={config} /></div>
                 ))}
             </div>
         </main>

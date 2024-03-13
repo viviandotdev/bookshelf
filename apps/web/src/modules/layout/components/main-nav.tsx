@@ -15,21 +15,9 @@ interface MainNavProps {
 export function MainNav({ children, items }: MainNavProps) {
     return (
         <>
-            <div className='flex items-center space-x-4'>
-                <Link href='/' className='hidden items-center space-x-2 md:flex'>
-                    <h1
-                        className={cn(
-                            dm_sefif_display.className,
-                            'hidden text-[28px] text-beige sm:inline-block'
-                        )}
-                    >
-                        {siteConfig.name}
-                    </h1>
-                </Link>
-            </div>
-            <nav className='flex-1 justify-center space-x-4 md:flex'>
+            <nav className='flex-1 justify-center space-x-4 flex'>
                 {items?.length ? (
-                    <nav className='hidden gap-6 md:flex'>
+                    <nav className='gap-6 flex'>
                         {items?.map((item, index) => (
                             <NavLink key={index} href={item.href} routeType={item.type}>
                                 {item.title}
@@ -37,7 +25,6 @@ export function MainNav({ children, items }: MainNavProps) {
                         ))}
                     </nav>
                 ) : null}
-                <MobileMenu items={items}>{children}</MobileMenu>
             </nav>
         </>
     );

@@ -1,4 +1,4 @@
-import { getBook } from '@/modules/book/queries/getGoogleBook';
+import { getBook } from '@/modules/book/queries/getBook';
 import ShelvesTemplate from '@/modules/shelves/templates';
 import { notFound } from 'next/navigation';
 import React from 'react'
@@ -19,5 +19,3 @@ export default async function ListsPage({ params }: ListsPageProps) {
     );
 }
 
-
-// making good progress on the patent details page and i think can get out an MR for that by the end of the this week

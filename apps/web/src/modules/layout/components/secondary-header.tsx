@@ -12,13 +12,13 @@ export const SecondaryHeader: React.FC<SecondaryHeaderProps> = ({
     subItems,
 }) => {
     return (
-        <>
-            <header className='flex items-center justify-start px-8 py-2'>
-                <nav className='flex-1 justify-start space-x-4 md:flex'>
+        <nav className="flex py-2.5 px-6 border-t" aria-label="Global">
+            <header className='flex items-center justify-start '>
+                <nav className='flex-1 justify-start space-x-4 flex'>
                     {subItems?.length ? (
-                        <nav className='hidden gap-6 md:flex'>
+                        <nav className='gap-6 flex'>
                             {subItems?.map((item, index) => (
-                                <NavLink type='underlined' key={index} href={item.href} routeType={item.type}>
+                                <NavLink type="underlined" key={index} href={item.href!} routeType={item.type}>
                                     {item.title}
                                 </NavLink>
                             ))}
@@ -26,8 +26,7 @@ export const SecondaryHeader: React.FC<SecondaryHeaderProps> = ({
                     ) : null}
                 </nav>
             </header>
-            <hr className='border-gray-200' />
-        </>
+        </nav>
     );
 };
 export default SecondaryHeader;

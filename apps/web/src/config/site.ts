@@ -14,8 +14,8 @@ export const siteConfig: SiteConfig = {
       href: '/',
     },
     {
-      title: 'My Books',
-      href: '/mybooks',
+      title: 'My Library',
+      href: '/',
     },
     {
       title: 'Browse',

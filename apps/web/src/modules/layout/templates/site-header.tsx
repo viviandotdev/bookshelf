@@ -3,15 +3,19 @@ import MainHeader from '../components/main-header';
 
 interface SiteHeaderProps {
     user: any;
-    secondary?: React.ReactNode;
+    children?: React.ReactNode;
 }
 
-const SiteHeader = ({ user, secondary }: SiteHeaderProps) => {
+const SiteHeader = ({ user, children }: SiteHeaderProps) => {
     return (
         <header className='container max-w-[none] bg-background p-0'>
-            <MainHeader user={user} />
-            <hr className='border-gray-200' />
-            {secondary}
+            <div className="mx-0 bg-white">
+                <MainHeader user={user}>
+                    {children}
+                </MainHeader>
+
+            </div>
+            <hr className="border-t border-gray-200" />
         </header>
     );
 };
