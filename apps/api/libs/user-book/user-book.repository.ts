@@ -14,6 +14,7 @@ export class UserBookRepository {
   delete = this.prisma.userBook.delete;
   findFirst = this.prisma.userBook.findFirst;
   transaction = this.prisma.$transaction;
+  updateMany = this.prisma.userBook.updateMany;
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

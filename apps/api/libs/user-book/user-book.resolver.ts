@@ -95,6 +95,7 @@ export class UserBookResolver {
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
+    //  move recently updated to the top
     return this.userBookService.update({
       data,
       where: {
