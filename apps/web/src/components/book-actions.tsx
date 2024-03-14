@@ -94,8 +94,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                                     moveCard(item.name)
                                     setOpenDropdown(false);
                                 }
-
-                                // Selected is not the same as the current status params
                             }}
                         >
                             {/* <item.icon className='mr-2 h-5 w-5' /> */}

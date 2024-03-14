@@ -33,9 +33,6 @@ export const BoardView = forwardRef((props, ref) => {
             const { data: fetchedData } = await data[index].fetchMore({
                 variables: {
                     ...queryFilter,
-                    orderBy: {
-                        order: 'desc',
-                    },
                 },
             });
 
@@ -71,9 +68,7 @@ export const BoardView = forwardRef((props, ref) => {
 
         const { data: bookData, fetchMore } = await loadBooks({
             variables: {
-                ...queryFilter, orderBy: {
-                    order: 'desc',
-                },
+                ...queryFilter
             },
         });
 
