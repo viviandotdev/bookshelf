@@ -19,7 +19,7 @@ export default async function BooksPage({
                 >
                     <Sidebar librarySelections={library} shelfSelections={shelves} />
                 </div>
-                <div className='flex flex-1 flex-col border-l border-gray-200'>
+                <div className='flex flex-1 flex-col overflow-x-auto w-3/4 border-l border-gray-200'>
                     <BookshelvesTemplate shelf={searchParams.shelf} />
                 </div>
             </div>

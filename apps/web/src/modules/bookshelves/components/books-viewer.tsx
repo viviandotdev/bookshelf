@@ -73,7 +73,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
                     </div>
                 </nav>
 
-                <div className='mx-16 mt-4'>
+                <div className='mx-16 mt-4 overflow-x-auto'>
                     <Suspense fallback={<div>Loading...</div>}>{contentView}</Suspense>
                 </div>
             </div>

@@ -5,9 +5,7 @@ import { cn } from '@/lib/utils';
 import CardItem from './card-item';
 import { Droppable } from '@hello-pangea/dnd';
 import { BookItem, ColumnWithBooks } from '../types';
-import { STATUS } from '@/lib/constants';
 import useBuildQuery from '../hooks/use-build-query';
-import { generateQueryFilter } from '../utils';
 import { UserBook } from '@/graphql/graphql';
 
 interface ColumnItemProps {
@@ -23,7 +21,7 @@ export const ColumnItem: React.FC<ColumnItemProps> = ({ data, setData, orderedDa
     const [isLoading, setIsLoading] = useState(false);
 
     return (
-        <li className='h-full w-[312px] shrink-0 select-none'>
+        <li className='h-full w-[292px] 3xl:w-full shrink-0 select-none'>
             <div className='w-full rounded-md bg-beige-100 pb-2 shadow-md'>
                 <ColumnHeader title={data.title} totalBooks={data.totalBooks} />
 
