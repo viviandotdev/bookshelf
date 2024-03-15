@@ -96,6 +96,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 }
                             }}
                         >
+
                             {/* <item.icon className='mr-2 h-5 w-5' /> */}
                             {item.name}
                         </DropdownMenuItem>

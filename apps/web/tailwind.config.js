@@ -10,11 +10,13 @@ module.exports = {
     container: {
       center: true,
       padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
     },
     extend: {
+      screens: {
+        '2xl': '1400px',
+        '3xl': '1656px',
+        'nav-lg': '1166px', // Add a custom 'mid-width' breakpoint at 900px
+      },
       maxWidth: {
         44: '11rem',
         48: '12rem',

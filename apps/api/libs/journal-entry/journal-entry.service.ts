@@ -82,7 +82,11 @@ export class JournalEntryService {
       include: {
         userBook: {
           include: {
-            book: true,
+            book: {
+              include: {
+                authors: { select: { name: true } },
+              },
+            },
           },
         },
       },
