@@ -15,7 +15,9 @@ export async function getActivity(where: UserBookWhereInput) {
   const { data } = await client.query<GetAuditLogsQuery>({
     query: GetAuditLogsDocument,
     variables: {
-      where,
+      where: {
+        ...where,
+      },
     },
   });
 

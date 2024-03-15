@@ -226,6 +226,7 @@ export class UserBookResolver {
               userId: user.userId,
               bookId: currentBook.id,
             },
+            isImport: true,
           });
         } catch (error) {
           failedBooks.push(titleAuthor);

@@ -8,7 +8,6 @@ export default async function BooksPage({
 }: {
     searchParams: { [key: string]: string | string[] | undefined };
 }) {
-    console.log(searchParams);
     const { library, shelves } = await getShelves();
     return (
         <>
