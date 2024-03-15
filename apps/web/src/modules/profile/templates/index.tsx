@@ -49,6 +49,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
                         {/* Show shelves */}
                         <div className='mt-2'>
                             <ShelvesSection shelves={shelves} />
+                           
                         </div>
                     </ProfileSection>
                 </div>
