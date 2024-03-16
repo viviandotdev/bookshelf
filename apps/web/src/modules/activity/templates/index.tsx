@@ -39,7 +39,7 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                         <p className='hidden text-center text-xs text-gray-500 last:block'>
                             No activity found
                         </p>
-                        <ActivityList initialActivities={auditLogs} />
+                        <ActivityList bookId={id} initialActivities={auditLogs} />
 
                     </ol>
                 </div>

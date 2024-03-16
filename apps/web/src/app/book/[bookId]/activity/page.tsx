@@ -1,3 +1,4 @@
+import { Action } from '@/graphql/graphql';
 import { getActivity } from '@/modules/activity/queries/getActivity';
 import AcitvityTemplate from '@/modules/activity/templates';
 
@@ -7,22 +8,18 @@ interface ActivityPageProps {
 }
 
 export default async function ActivityPage({ params, searchParams }: ActivityPageProps) {
+    const action = searchParams.filter as Action
     let auditLogs = await getActivity({
         bookId: {
             equals: parseInt(params.bookId),
         },
-    });
+    }, 0, 10, action);
     let title;
-    if (auditLogs.length > 0) {
-        title = auditLogs[0].book!.title;
-    }
-
-
-    if (searchParams.filter) {
-        auditLogs = auditLogs.filter((log) => log.action === searchParams.filter);
+    if (auditLogs && auditLogs.activities && auditLogs.activities.length > 0) {
+        title = auditLogs.activities[0].book!.title;
     }
 
     return (
-        <AcitvityTemplate auditLogs={auditLogs} title={title} id={params.bookId} />
+        <AcitvityTemplate auditLogs={auditLogs.activities} title={title} id={params.bookId} />
     );
 }
