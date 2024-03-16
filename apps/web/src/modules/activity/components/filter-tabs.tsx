@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useCreateQueryString from '@/modules/bookshelves/hooks/use-create-query-string';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-interface ActivityFilterProps { }
+interface FilterTabsProps { }
 
 const TABS = [
     { value: 'ALL', label: 'All' },
@@ -12,7 +12,7 @@ const TABS = [
     { value: 'REVIEW', label: 'Reviews' },
 ];
 
-export const ActivityFilter: React.FC<ActivityFilterProps> = () => {
+export const FilterTabs: React.FC<FilterTabsProps> = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const action = searchParams.get("filter") || "ALL";
@@ -44,4 +44,4 @@ export const ActivityFilter: React.FC<ActivityFilterProps> = () => {
     );
 };
 
-export default ActivityFilter;
+export default FilterTabs;

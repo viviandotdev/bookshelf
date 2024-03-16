@@ -1,7 +1,9 @@
 import React from 'react';
 import Heading from '@/components/heading';
-import ActivityFilter from '../components/activity-filter';
+import { FilterTabs } from '../components/filter-tabs';
 import { ActivityList } from '../components/activity-list';
+import SortButton from '../components/sort-button';
+import { SortingOptions } from '@/modules/bookshelves/components/sorting-options';
 
 interface AcitvityTemplateProps {
     auditLogs: any;
@@ -14,6 +16,30 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
     title,
     id,
 }) => {
+
+    const sortingSelects = [
+        { label: 'Date: Old to new', value: 'createdAt.asc' },
+        {
+            label: 'Date: New to old',
+            value: 'createdAt.desc',
+        },
+        {
+            label: 'Title: A to Z',
+            value: 'title.asc',
+        },
+        {
+            label: 'Title: Z to A',
+            value: 'title.desc',
+        },
+        {
+            label: 'Author: A to Z',
+            value: 'author.asc',
+        },
+        {
+            label: 'Author: Z to A',
+            value: 'author.desc',
+        },
+    ];
     return (
         <div className='my-12'>
             <div className='container mx-auto mb-6 flex flex-col justify-center'>
@@ -23,16 +49,8 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                     href={id ? `/book/${id}` : ''}
                 />
                 <div className='border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between'>
-
-                    <ActivityFilter />
-                    <div className='mt-3 flex sm:ml-4 sm:mt-0'>
-                        <button
-                            type='button'
-                            className='inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
-                        >
-                            Sort
-                        </button>
-                    </div>
+                    <FilterTabs />
+                    <SortingOptions selections={sortingSelects} />
                 </div>
                 <div className='flex justify-start gap-4'>
                     <ol className='w-full space-y-4'>
