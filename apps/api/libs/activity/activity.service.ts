@@ -28,6 +28,7 @@ export class ActivityService {
     action?: ACTION;
     skip?: number;
     take?: number;
+    orderBy?: Prisma.AuditLogOrderByWithRelationInput;
   }) {
     const { where, skip, take, action } = args;
 
@@ -44,9 +45,7 @@ export class ActivityService {
           },
         },
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: args.orderBy,
       skip,
       take,
     });

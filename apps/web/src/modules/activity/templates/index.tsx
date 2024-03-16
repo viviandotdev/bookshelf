@@ -23,22 +23,6 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
             label: 'Date: New to old',
             value: 'createdAt.desc',
         },
-        {
-            label: 'Title: A to Z',
-            value: 'title.asc',
-        },
-        {
-            label: 'Title: Z to A',
-            value: 'title.desc',
-        },
-        {
-            label: 'Author: A to Z',
-            value: 'author.asc',
-        },
-        {
-            label: 'Author: Z to A',
-            value: 'author.desc',
-        },
     ];
     return (
         <div className='my-12'>

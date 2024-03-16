@@ -2,6 +2,7 @@ import { Args, Int, Query, Resolver } from '@nestjs/graphql';
 import { ActivityService } from './activity.service';
 import {
   ACTION,
+  AuditLogOrderByWithRelationInput,
   UserBookWhereUniqueInput,
 } from '@bookcue/api/generated-db-types';
 import { UseGuards } from '@nestjs/common';
@@ -24,9 +25,12 @@ export class ActivityResolver {
       nullable: true,
     })
     where: UserBookWhereUniqueInput,
+    @Args('orderBy', { nullable: true })
+    orderBy: AuditLogOrderByWithRelationInput,
     @Args({ name: 'action', type: () => ACTION, nullable: true })
     action?: ACTION,
-    @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
+    @Args({ defaultValue: 0, name: 'offset', type: () => Int })
+    offset = 0,
     @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
   ) {
     // Based on the user book
@@ -36,6 +40,7 @@ export class ActivityResolver {
         bookId: where.bookId,
       },
       action: action,
+      orderBy: orderBy,
       skip: offset,
       take: limit,
     });

@@ -417,6 +417,18 @@ export type AuditLogOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
+export type AuditLogOrderByWithRelationInput = {
+  action?: InputMaybe<SortOrder>;
+  actionContent?: InputMaybe<SortOrderInput>;
+  book?: InputMaybe<BookOrderByWithRelationInput>;
+  bookId?: InputMaybe<SortOrder>;
+  createdAt?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  updatedAt?: InputMaybe<SortOrder>;
+  user?: InputMaybe<UserOrderByWithRelationInput>;
+  userId?: InputMaybe<SortOrder>;
+};
+
 export type AuditLogScalarWhereInput = {
   AND?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   NOT?: InputMaybe<Array<AuditLogScalarWhereInput>>;
@@ -2362,6 +2374,7 @@ export type QueryAuditLogsArgs = {
   action?: InputMaybe<Action>;
   limit?: Scalars['Int'];
   offset?: Scalars['Int'];
+  orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereUniqueInput>;
 };
 
@@ -5348,6 +5361,7 @@ export type GetAuditLogsQueryVariables = Exact<{
   action?: InputMaybe<Action>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
 }>;
 
 
@@ -6411,8 +6425,14 @@ export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateU
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const GetAuditLogsDocument = gql`
-    query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int) {
-  auditLogs(where: $where, action: $action, offset: $offset, limit: $limit) {
+    query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int, $orderBy: AuditLogOrderByWithRelationInput) {
+  auditLogs(
+    where: $where
+    action: $action
+    offset: $offset
+    limit: $limit
+    orderBy: $orderBy
+  ) {
     activities {
       id
       action
@@ -6456,6 +6476,7 @@ export const GetAuditLogsDocument = gql`
  *      action: // value for 'action'
  *      offset: // value for 'offset'
  *      limit: // value for 'limit'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */

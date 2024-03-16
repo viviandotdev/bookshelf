@@ -5,6 +5,7 @@ import { Action, AuditLog, UserBookWhereInput } from '@/graphql/graphql';
 import { getActivity } from '../queries/getActivity';
 import { useInView } from 'react-intersection-observer'
 import { useSearchParams } from 'next/navigation';
+import { buildSortQuery } from '@/lib/utils';
 
 interface ActivityListProps {
     initialActivities: AuditLog[]
@@ -16,8 +17,9 @@ export const ActivityList: React.FC<ActivityListProps> = ({ bookId, initialActiv
     const [logs, setLogs] = useState<AuditLog[]>(initialActivities)
     const [hasMoreActivity, setHasMoreActivity] = useState(true)
     const searchParams = useSearchParams();
-    const action = searchParams.get("filter");
-    const sort = searchParams.get("sort")
+    const action = searchParams.get("filter")
+    const sort = searchParams?.get('sort') ?? 'createdAt.desc';
+    const sortQuery = buildSortQuery(sort)
     const [isPending, startTransition] = useTransition();
     const { ref, inView } = useInView()
     const loadMore = async () => {
@@ -35,7 +37,7 @@ export const ActivityList: React.FC<ActivityListProps> = ({ bookId, initialActiv
             };
         }
 
-        let { activities, hasMore } = await getActivity(activityOptions, offset, NUMBER_TO_FETCH, action as Action);
+        let { activities, hasMore } = await getActivity(activityOptions, offset, NUMBER_TO_FETCH, action as Action, sortQuery);
 
         // Create a new Set to track unique IDs
         const uniqueIds = new Set(logs.map(log => log.id));

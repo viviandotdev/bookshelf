@@ -3,8 +3,15 @@ query GetAuditLogs(
   $action: ACTION
   $offset: Int
   $limit: Int
+  $orderBy: AuditLogOrderByWithRelationInput
 ) {
-  auditLogs(where: $where, action: $action, offset: $offset, limit: $limit) {
+  auditLogs(
+    where: $where
+    action: $action
+    offset: $offset
+    limit: $limit
+    orderBy: $orderBy
+  ) {
     activities {
       id
       action

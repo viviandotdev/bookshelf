@@ -12,7 +12,8 @@ export async function getActivity(
   where: UserBookWhereInput,
   offset: number,
   limit: number,
-  action?: Action
+  action?: Action,
+  sortQuery?: any
 ) {
   const user = await getCurrentUser();
   const client = getApolloClient();
@@ -21,10 +22,11 @@ export async function getActivity(
   const { data } = await client.query<GetAuditLogsQuery>({
     query: GetAuditLogsDocument,
     variables: {
+      ...sortQuery,
       where: {
         ...where,
       },
-      action: action,
+      action,
       offset,
       limit,
     },
