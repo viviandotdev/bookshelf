@@ -2,9 +2,29 @@ import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
 import { Book } from '@/graphql/graphql';
-
+import { split } from 'rambda';
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
+};
+
+export const buildSortQuery = (sortParam: string) => {
+  const sortBy = split('.', sortParam)[0];
+  const sortOrder = split('.', sortParam)[1];
+
+  if (sortBy == 'title' || sortBy == 'author') {
+    return {
+      orderBy: {
+        book: {
+          [sortBy]: sortOrder,
+        },
+      },
+    };
+  }
+  return {
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  };
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,12 +37,10 @@ export function cleanText(text: string) {
 }
 
 export const formatAuthors = (book: Book) => {
-  console.log(book);
   if (!book || !book.authors || book.authors.length === 0) {
     return '';
   }
   const authors = book.authors;
-  console.log(authors[0].name);
   if (authors.length === 1) {
     return authors[0].name;
   }

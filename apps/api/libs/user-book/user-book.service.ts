@@ -168,6 +168,7 @@ export class UserBookService {
   async update(args: {
     data: UserBookUpdateInput;
     where: UserBookIdentifierCompoundUniqueInput;
+    isImport?: boolean;
   }) {
     const { userId, bookId } = args.where;
 
@@ -193,7 +194,7 @@ export class UserBookService {
     const shelfList = args.data.shelves;
     let newOrder;
     // if status is updated, update order number in the new status
-    if (args.data.status) {
+    if (args.data.status && !args.isImport) {
       // with the given status for the user.
       await this.repository.updateMany({
         where: {
@@ -231,7 +232,7 @@ export class UserBookService {
       );
     }
     // if rating is updated, create rating activity
-    if (args.data.rating) {
+    if (args.data.rating && !args.isImport) {
       this.activityService.create(
         {
           action: 'RATE',

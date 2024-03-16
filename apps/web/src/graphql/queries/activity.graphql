@@ -1,27 +1,39 @@
 query GetAuditLogs(
   $where: UserBookWhereUniqueInput
+  $action: ACTION
   $offset: Int
   $limit: Int
+  $orderBy: AuditLogOrderByWithRelationInput
 ) {
-  auditLogs(where: $where, offset: $offset, limit: $limit) {
-    id
-    action
-    createdAt
-    updatedAt
-    user {
+  auditLogs(
+    where: $where
+    action: $action
+    offset: $offset
+    limit: $limit
+    orderBy: $orderBy
+  ) {
+    activities {
       id
-      username
-      email
-    }
-    book {
-      id
-      title
-      authors {
-        name
+      action
+      createdAt
+      updatedAt
+      user {
+        id
+        username
+        email
       }
-      pageCount
-      coverImage
+      book {
+        id
+        title
+        authors {
+          name
+        }
+        pageCount
+        coverImage
+      }
+      actionContent
     }
-    actionContent
+    hasMore
+    totalActivities
   }
 }

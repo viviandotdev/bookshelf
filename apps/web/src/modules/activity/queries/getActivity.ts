@@ -1,5 +1,6 @@
+'use server';
 import {
-  AuditLog,
+  Action,
   GetAuditLogsDocument,
   GetAuditLogsQuery,
   UserBookWhereInput,
@@ -7,7 +8,13 @@ import {
 import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function getActivity(where: UserBookWhereInput) {
+export async function getActivity(
+  where: UserBookWhereInput,
+  offset: number,
+  limit: number,
+  action?: Action,
+  sortQuery?: any
+) {
   const user = await getCurrentUser();
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
@@ -15,9 +22,15 @@ export async function getActivity(where: UserBookWhereInput) {
   const { data } = await client.query<GetAuditLogsQuery>({
     query: GetAuditLogsDocument,
     variables: {
-      where,
+      ...sortQuery,
+      where: {
+        ...where,
+      },
+      action,
+      offset,
+      limit,
     },
   });
 
-  return data.auditLogs ? (data.auditLogs as AuditLog[]) : [];
+  return data.auditLogs;
 }

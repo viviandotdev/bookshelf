@@ -1,22 +1,28 @@
+import { Action } from '@/graphql/graphql';
+import { buildSortQuery } from '@/lib/utils';
 import { getActivity } from '@/modules/activity/queries/getActivity';
 import AcitvityTemplate from '@/modules/activity/templates';
 
 interface ActivityPageProps {
-  params: { bookId: string };
+    params: { bookId: string };
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function ActivityPage({ params }: ActivityPageProps) {
-  const auditLogs = await getActivity({
-    bookId: {
-      equals: parseInt(params.bookId),
-    },
-  });
-  let title;
-  if (auditLogs.length > 0) {
-    title = auditLogs[0].book!.title;
-  }
+export default async function ActivityPage({ params, searchParams }: ActivityPageProps) {
+    const action = searchParams.filter as Action
+    const sort = searchParams.sort ?? 'createdAt.desc';
+    const sortQuery = buildSortQuery(sort as string)
+    let auditLogs = await getActivity({
+        bookId: {
+            equals: parseInt(params.bookId),
+        },
+    }, 0, 10, action, sortQuery);
+    let title;
+    if (auditLogs && auditLogs.activities && auditLogs.activities.length > 0) {
+        title = auditLogs.activities[0].book!.title;
+    }
 
-  return (
-    <AcitvityTemplate auditLogs={auditLogs} title={title} id={params.bookId} />
-  );
+    return (
+        <AcitvityTemplate auditLogs={auditLogs.activities} title={title} id={params.bookId} />
+    );
 }

@@ -9,7 +9,7 @@ import { ViewOptions } from './view-options';
 import { GalleryView } from './gallery-view';
 import { ShelfTitle } from './shelf-title';
 import { STATUS } from '@/lib/constants';
-
+import { sortingSelects } from '@/config/books';
 interface BooksViewerProps {
     children?: React.ReactNode;
 }
@@ -68,7 +68,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
                             <StatusMenu />
                         </div>
                         <div className='flex items-center gap-2 text-sm'>
-                            <SortingOptions />
+                            <SortingOptions selections={sortingSelects} />
                         </div>
                     </div>
                 </nav>
