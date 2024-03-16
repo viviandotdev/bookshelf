@@ -1,9 +1,7 @@
 import React from 'react';
-import { ActivityItem } from '../components/activity-item';
-import { AuditLog } from '@/graphql/graphql';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Heading from '@/components/heading';
 import ActivityFilter from '../components/activity-filter';
+import { ActivityList } from '../components/activity-list';
 
 interface AcitvityTemplateProps {
     auditLogs: any;
@@ -41,12 +39,8 @@ export const AcitvityTemplate: React.FC<AcitvityTemplateProps> = ({
                         <p className='hidden text-center text-xs text-gray-500 last:block'>
                             No activity found
                         </p>
-                        {auditLogs.map((log: AuditLog) => (
-                            <React.Fragment key={log.id}>
-                                <ActivityItem data={log} />
-                                <hr />
-                            </React.Fragment>
-                        ))}
+                        <ActivityList initialActivities={auditLogs} />
+
                     </ol>
                 </div>
             </div>

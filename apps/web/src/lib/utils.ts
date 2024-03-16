@@ -17,12 +17,10 @@ export function cleanText(text: string) {
 }
 
 export const formatAuthors = (book: Book) => {
-  console.log(book);
   if (!book || !book.authors || book.authors.length === 0) {
     return '';
   }
   const authors = book.authors;
-  console.log(authors[0].name);
   if (authors.length === 1) {
     return authors[0].name;
   }

@@ -257,6 +257,12 @@ input AccountWhereUniqueInput {
   userId: StringFilter
 }
 
+type ActivitiesResponse {
+  activities: [AuditLog!]
+  hasMore: Boolean!
+  totalActivities: Float!
+}
+
 type AuditLog {
   action: ACTION!
   actionContent: String
@@ -2132,7 +2138,7 @@ type PasswordResetTokenMinAggregate {
 }
 
 type Query {
-  auditLogs(limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): [AuditLog!]!
+  auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, where: UserBookWhereUniqueInput): ActivitiesResponse!
   book(where: BookWhereUniqueInput!): Book
   bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
