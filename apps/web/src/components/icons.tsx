@@ -34,7 +34,8 @@ import {
     Eye,
     Mail,
     LockIcon,
-    ArrowRightCircleIcon, ListStart
+    ArrowRightCircleIcon, ListStart,
+    Backpack
 
 
 } from 'lucide-react';
@@ -117,4 +118,5 @@ export const Icons = {
     trendingUp: trendingUp,
     finished: CheckCircle2,
     upNext: ListStart,
+    owned: Backpack
 };

@@ -27,6 +27,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         } else {
             updateSelected('All Books');
         }
+        // filter out the owned and favorites
+        // then append the owned and favorites to the tp
         initShelves(shelfSelections);
         initLibrary(librarySelections);
     }, []);
