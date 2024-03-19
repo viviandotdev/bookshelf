@@ -10,11 +10,36 @@ import axiosInstance from 'src/config/axios.config';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
+  findByIdentifier = this.repository.findByIdentifier;
+  findFirst = this.repository.findFirst;
   constructor(
     private readonly prisma: PrismaRepository,
     private readonly userBook: UserBookService,
     private readonly repository: BookRepository,
   ) {}
+
+  async getGoogleBook(bookId: string) {
+    try {
+      const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
+      const response = await axiosInstance.get(url);
+      // console.log("response", response);
+      // Check if the response status is successful (status code 2xx)
+      if (response.status >= 200 && response.status < 300) {
+        const book: BookData = response.data; // Assuming response.data contains the book data
+        const processedBook: BookData = processBook(book) as BookData;
+        //  also get user book if it exists
+        console.log('processed', processedBook);
+        return processedBook;
+      } else {
+        // Handle non-successful response status codes (4xx, 5xx, etc.) if needed
+        return null;
+      }
+    } catch (error) {
+      // Handle Axios errors here
+      console.error('Error fetching book:', error);
+      return null;
+    }
+  }
 
   async findBookByISBN(isbn: string) {
     try {
@@ -74,7 +99,7 @@ export class BookService {
 
   async create(
     data: BookCreateInput,
-    userId: string,
+    userId?: string,
     identifiers?: any,
     status?: string,
   ) {
@@ -114,8 +139,10 @@ export class BookService {
 
       book = await this.prisma.book.create(createBookArgs);
     }
+    if (userId) {
+      await this.userBook.create(book.id, userId, status);
+    }
 
-    await this.userBook.create(book.id, userId, status);
     return book;
   }
 }

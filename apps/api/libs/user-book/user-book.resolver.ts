@@ -203,7 +203,7 @@ export class UserBookResolver {
             },
           );
 
-          if (work.mainEditionId) {
+          if (!work.mainEditionId) {
             // update mainEditionId if not exixts
             await this.workService.update({
               where: {

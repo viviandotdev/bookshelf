@@ -2360,6 +2360,7 @@ export type Query = {
   comments: Array<Comment>;
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
+  getGoogleBook?: Maybe<Book>;
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
   getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
@@ -2410,6 +2411,11 @@ export type QueryCountJournalEntriesArgs = {
 
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryGetGoogleBookArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -5366,6 +5372,13 @@ export type BookQueryVariables = Exact<{
 
 export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
+export type GetGoogleBookQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
   limit?: Scalars['Int']['input'];
@@ -6563,6 +6576,55 @@ export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQ
 export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
+export const GetGoogleBookDocument = gql`
+    query GetGoogleBook($id: String!) {
+  getGoogleBook(id: $id) {
+    id
+    title
+    authors {
+      name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      categories
+      averageRating
+      ratingsCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGoogleBookQuery__
+ *
+ * To run a query within a React component, call `useGetGoogleBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGoogleBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGoogleBookQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetGoogleBookQuery(baseOptions: Apollo.QueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
+      }
+export function useGetGoogleBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
+        }
+export type GetGoogleBookQueryHookResult = ReturnType<typeof useGetGoogleBookQuery>;
+export type GetGoogleBookLazyQueryHookResult = ReturnType<typeof useGetGoogleBookLazyQuery>;
+export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, GetGoogleBookQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {

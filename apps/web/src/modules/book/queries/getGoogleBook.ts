@@ -1,26 +1,20 @@
-import { processBook } from '@/lib/utils';
-import { BookData } from '@/types/interfaces';
-import axios from 'axios';
+import { GetGoogleBookDocument, GetGoogleBookQuery } from '@/graphql/graphql';
+import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function getGoogleBook(bookId: string) {
-  try {
-    const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
-    const response = await axios.get(url);
-    // console.log("response", response);
-    // Check if the response status is successful (status code 2xx)
-    if (response.status >= 200 && response.status < 300) {
-      const book: BookData = response.data; // Assuming response.data contains the book data
-      const processedBook: BookData = processBook(book) as BookData;
-      //  also get user book if it exists
-      console.log('processed', processedBook);
-      return processedBook;
-    } else {
-      // Handle non-successful response status codes (4xx, 5xx, etc.) if needed
-      return null;
-    }
-  } catch (error) {
-    // Handle Axios errors here
-    console.error('Error fetching book:', error);
+  const user = await getCurrentUser();
+  const client = getApolloClient();
+  client.setLink(setAuthToken(user.accessToken).concat(httpLink));
+  const { data } = await client.query<GetGoogleBookQuery>({
+    query: GetGoogleBookDocument,
+    variables: {
+      id: bookId,
+    },
+  });
+  if (data.getGoogleBook) {
+    return data.getGoogleBook;
+  } else {
     return null;
   }
 }

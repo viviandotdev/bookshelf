@@ -2157,6 +2157,7 @@ type Query {
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
+  getGoogleBook(id: String!): Book
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!

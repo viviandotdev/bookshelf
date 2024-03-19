@@ -17,3 +17,23 @@ query Book($where: BookWhereUniqueInput!) {
     }
   }
 }
+
+query GetGoogleBook($id: String!) {
+  getGoogleBook(id: $id) {
+    id
+    title
+    authors {
+      name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      categories
+      averageRating
+      ratingsCount
+    }
+  }
+}
