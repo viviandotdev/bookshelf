@@ -7,6 +7,8 @@ import { RefreshTokenStrategy } from './strategies/refresh.strategy';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { UserService } from 'libs/user/user.service';
 import { UserRepository } from 'libs/user/user.repository';
+import { ShelfService } from 'libs/shelf/shelf.service';
+import { ShelfRepository } from 'libs/shelf/shelf.repository';
 
 @Module({
   providers: [
@@ -15,6 +17,8 @@ import { UserRepository } from 'libs/user/user.repository';
     PrismaRepository,
     JwtService,
     UserService,
+    ShelfService,
+    ShelfRepository,
     UserRepository,
     AccessTokenStrategy,
     RefreshTokenStrategy,

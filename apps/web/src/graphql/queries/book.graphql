@@ -11,7 +11,26 @@ query Book($where: BookWhereUniqueInput!) {
     publisher
     pageCount
     work {
-      mainCategory
+      categories
+      averageRating
+      ratingsCount
+    }
+  }
+}
+
+query GetGoogleBook($id: String!) {
+  getGoogleBook(id: $id) {
+    id
+    title
+    authors {
+      name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
       categories
       averageRating
       ratingsCount

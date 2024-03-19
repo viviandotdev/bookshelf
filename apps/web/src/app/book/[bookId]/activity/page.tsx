@@ -2,6 +2,7 @@ import { Action } from '@/graphql/graphql';
 import { buildSortQuery } from '@/lib/utils';
 import { getActivity } from '@/modules/activity/queries/getActivity';
 import AcitvityTemplate from '@/modules/activity/templates';
+import { getBook } from '@/modules/book/queries/getBook';
 
 interface ActivityPageProps {
     params: { bookId: string };
@@ -12,6 +13,7 @@ export default async function ActivityPage({ params, searchParams }: ActivityPag
     const action = searchParams.filter as Action
     const sort = searchParams.sort ?? 'createdAt.desc';
     const sortQuery = buildSortQuery(sort as string)
+    const book = await getBook(params.bookId);
     let auditLogs = await getActivity({
         bookId: {
             equals: parseInt(params.bookId),
@@ -23,6 +25,6 @@ export default async function ActivityPage({ params, searchParams }: ActivityPag
     }
 
     return (
-        <AcitvityTemplate auditLogs={auditLogs.activities} title={title} id={params.bookId} />
+        <AcitvityTemplate auditLogs={auditLogs.activities} title={book!.title} id={params.bookId} />
     );
 }

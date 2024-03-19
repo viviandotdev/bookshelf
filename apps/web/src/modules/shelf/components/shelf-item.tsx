@@ -6,6 +6,7 @@ import EditShelfMenu from './edit-shelf-menu';
 import useCreateQueryString from '../../bookshelves/hooks/use-create-query-string';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '@/components/icons';
+import { renderIcon } from '@/modules/bookshelves/components/shelf-menu';
 
 interface ShelfItemProps {
     shelf: Shelf;
@@ -52,14 +53,15 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
                 onClick={handleClick}
             >
                 <span className='flex items-center hover:text-beige-700   '>
-                    <Icons.shelf className='mr-2 h-6 w-6' />
+                    {/* <Icons.shelf className='mr-2 h-6 w-6' /> */}
+                    {renderIcon(shelf.name, "6")}
                     <span className='w-44  truncate'>
                         {shelf.name}
                     </span>
 
                 </span>
             </div>
-            {setOpenAlert && isShelves ? (
+            {setOpenAlert && isShelves && shelf.name !== "Favorites" && shelf.name !== "Owned" ? (
                 <EditShelfMenu shelf={shelf} setOpenAlert={setOpenAlert} />
             ) : (
                 <span

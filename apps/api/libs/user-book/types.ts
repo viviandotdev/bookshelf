@@ -11,7 +11,6 @@ export interface BookData {
   pageCount: number;
   isbn: string;
   categories: string[];
-  mainCategory: string;
   isbn13: string;
 }
 

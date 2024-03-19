@@ -44,10 +44,11 @@ export class ShelfResolver {
 
   @UseGuards(AccessTokenGuard)
   @Query(() => [Shelf], { nullable: true })
-  shelves(@CurrentUser() currentUser: JwtPayload) {
-    return this.service.findMany({
+  async shelves(@CurrentUser() currentUser: JwtPayload) {
+    const faves = await this.service.findMany({
       where: {
         userId: currentUser.userId,
+        OR: [{ name: 'Favorites' }, { name: 'Owned' }],
       },
       select: {
         id: true,
@@ -59,6 +60,23 @@ export class ShelfResolver {
         },
       },
     });
+
+    const allShelves = await this.service.findMany({
+      where: {
+        userId: currentUser.userId,
+        NOT: [{ name: 'Favorites' }, { name: 'Owned' }],
+      },
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+      },
+    });
+    return [...faves, ...allShelves];
   }
 
   @Mutation(() => Shelf)

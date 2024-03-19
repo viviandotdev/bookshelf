@@ -2146,6 +2146,7 @@ export type Mutation = {
   createJournalEntry: JournalEntry;
   createReview: Review;
   createShelf: Shelf;
+  createUserBook?: Maybe<UserBook>;
   deleteShelf: Shelf;
   follow: User;
   forgotPassword: Scalars['Boolean'];
@@ -2201,6 +2202,11 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateShelfArgs = {
   data: ShelfCreateInput;
+};
+
+
+export type MutationCreateUserBookArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -2360,6 +2366,7 @@ export type Query = {
   comments: Array<Comment>;
   countJournalEntries: Scalars['Int'];
   countUserBooks: Scalars['Int'];
+  getGoogleBook?: Maybe<Book>;
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
   getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
@@ -2410,6 +2417,11 @@ export type QueryCountJournalEntriesArgs = {
 
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryGetGoogleBookArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -4904,7 +4916,6 @@ export type Work = {
   description?: Maybe<Scalars['String']>;
   editions?: Maybe<Array<Book>>;
   id: Scalars['ID'];
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4930,7 +4941,6 @@ export type WorkCountAggregate = {
   categories: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
-  mainCategory: Scalars['Int'];
   mainEditionId: Scalars['Int'];
   ratingsCount: Scalars['Int'];
   title: Scalars['Int'];
@@ -4964,7 +4974,6 @@ export type WorkCreateWithoutAuthorsInput = {
   description?: InputMaybe<Scalars['String']>;
   editions?: InputMaybe<BookCreateNestedManyWithoutWorkInput>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4976,7 +4985,6 @@ export type WorkCreateWithoutEditionsInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4993,7 +5001,6 @@ export type WorkMaxAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -5004,7 +5011,6 @@ export type WorkMinAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -5017,7 +5023,6 @@ export type WorkOrderByWithRelationInput = {
   description?: InputMaybe<SortOrderInput>;
   editions?: InputMaybe<BookOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
-  mainCategory?: InputMaybe<SortOrderInput>;
   mainEditionId?: InputMaybe<SortOrderInput>;
   ratingsCount?: InputMaybe<SortOrderInput>;
   title?: InputMaybe<SortOrder>;
@@ -5036,7 +5041,6 @@ export type WorkScalarWhereInput = {
   categories?: InputMaybe<StringListFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5054,7 +5058,6 @@ export type WorkUpdateManyMutationInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5104,7 +5107,6 @@ export type WorkUpdateWithoutAuthorsInput = {
   description?: InputMaybe<Scalars['String']>;
   editions?: InputMaybe<BookUpdateManyWithoutWorkNestedInput>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5116,7 +5118,6 @@ export type WorkUpdateWithoutEditionsInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5144,7 +5145,6 @@ export type WorkWhereInput = {
   description?: InputMaybe<StringFilter>;
   editions?: InputMaybe<BookListRelationFilter>;
   id?: InputMaybe<StringFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5160,7 +5160,6 @@ export type WorkWhereUniqueInput = {
   description?: InputMaybe<StringFilter>;
   editions?: InputMaybe<BookListRelationFilter>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5327,6 +5326,13 @@ export type UpdateEmailMutationVariables = Exact<{
 
 export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
 
+export type CreateUserBookMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type CreateUserBookMutation = { __typename?: 'Mutation', createUserBook?: { __typename?: 'UserBook', status: string, id: string, book?: { __typename?: 'Book', title: string } | null } | null };
+
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
   where: BookWhereUniqueInput;
@@ -5377,7 +5383,14 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', mainCategory?: string | null, categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+
+export type GetGoogleBookQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6283,6 +6296,43 @@ export function useUpdateEmailMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateEmailMutationHookResult = ReturnType<typeof useUpdateEmailMutation>;
 export type UpdateEmailMutationResult = Apollo.MutationResult<UpdateEmailMutation>;
 export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<UpdateEmailMutation, UpdateEmailMutationVariables>;
+export const CreateUserBookDocument = gql`
+    mutation createUserBook($id: String!) {
+  createUserBook(id: $id) {
+    status
+    id
+    book {
+      title
+    }
+  }
+}
+    `;
+export type CreateUserBookMutationFn = Apollo.MutationFunction<CreateUserBookMutation, CreateUserBookMutationVariables>;
+
+/**
+ * __useCreateUserBookMutation__
+ *
+ * To run a mutation, you first call `useCreateUserBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserBookMutation, { data, loading, error }] = useCreateUserBookMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCreateUserBookMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserBookMutation, CreateUserBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserBookMutation, CreateUserBookMutationVariables>(CreateUserBookDocument, options);
+      }
+export type CreateUserBookMutationHookResult = ReturnType<typeof useCreateUserBookMutation>;
+export type CreateUserBookMutationResult = Apollo.MutationResult<CreateUserBookMutation>;
+export type CreateUserBookMutationOptions = Apollo.BaseMutationOptions<CreateUserBookMutation, CreateUserBookMutationVariables>;
 export const UpdateUserBookDocument = gql`
     mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {
@@ -6541,7 +6591,6 @@ export const BookDocument = gql`
     publisher
     pageCount
     work {
-      mainCategory
       categories
       averageRating
       ratingsCount
@@ -6577,6 +6626,55 @@ export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQ
 export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
+export const GetGoogleBookDocument = gql`
+    query GetGoogleBook($id: String!) {
+  getGoogleBook(id: $id) {
+    id
+    title
+    authors {
+      name
+    }
+    coverImage
+    description
+    publishedDate
+    publisher
+    pageCount
+    work {
+      categories
+      averageRating
+      ratingsCount
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGoogleBookQuery__
+ *
+ * To run a query within a React component, call `useGetGoogleBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGoogleBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGoogleBookQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetGoogleBookQuery(baseOptions: Apollo.QueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
+      }
+export function useGetGoogleBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
+        }
+export type GetGoogleBookQueryHookResult = ReturnType<typeof useGetGoogleBookQuery>;
+export type GetGoogleBookLazyQueryHookResult = ReturnType<typeof useGetGoogleBookLazyQuery>;
+export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, GetGoogleBookQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {

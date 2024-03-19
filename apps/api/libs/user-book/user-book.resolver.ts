@@ -32,6 +32,35 @@ export class UserBookResolver {
     private readonly workService: WorkService,
     private readonly prisma: PrismaRepository,
   ) {}
+
+  containsNonNumeric(str: string) {
+    return /\D/.test(str);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => UserBook, { nullable: true, name: 'createUserBook' })
+  async createUserBook(
+    @Args('id')
+    id: string,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    let bookId;
+    if (this.containsNonNumeric(id)) {
+      const identifier = await this.bookService.findByIdentifier({
+        where: {
+          googleBooks: id,
+        },
+        include: {
+          book: true, // Include related book information if needed
+        },
+      });
+      bookId = identifier.bookId;
+    } else {
+      bookId = id;
+    }
+    return this.userBookService.create(parseInt(bookId), user.userId);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
   userBook(
@@ -127,7 +156,6 @@ export class UserBookResolver {
         connect: authors.map((author) => ({ id: author.id })),
       },
       description: book.description,
-      mainCategory: book.mainCategory,
       categories: book.categories,
       averageRating:
         Number(objectFromCSV['Average Rating']) || book.averageRating,
@@ -159,6 +187,7 @@ export class UserBookResolver {
       // - [ ]  if work does not exist create the work and then add the book as new edition
 
       if (book) {
+        // console.log(book);
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
         const authors = await this.authorService.createAuthors(book.authors);
@@ -203,7 +232,7 @@ export class UserBookResolver {
             },
           );
 
-          if (work.mainEditionId) {
+          if (!work.mainEditionId) {
             // update mainEditionId if not exixts
             await this.workService.update({
               where: {

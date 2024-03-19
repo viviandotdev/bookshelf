@@ -68,7 +68,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({ }) => {
                             <StatusMenu />
                         </div>
                         <div className='flex items-center gap-2 text-sm'>
-                            <SortingOptions selections={sortingSelects} />
+                            {view !== "board" && <SortingOptions selections={sortingSelects} />}
                         </div>
                     </div>
                 </nav>
