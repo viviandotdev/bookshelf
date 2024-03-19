@@ -1,3 +1,13 @@
+mutation createUserBook($id: String!) {
+  createUserBook(id: $id) {
+    status
+    id
+    book {
+      title
+    }
+  }
+}
+
 mutation UpdateUserBook(
   $data: UserBookUpdateInput!
   $where: BookWhereUniqueInput!

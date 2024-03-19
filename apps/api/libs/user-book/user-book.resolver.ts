@@ -32,6 +32,35 @@ export class UserBookResolver {
     private readonly workService: WorkService,
     private readonly prisma: PrismaRepository,
   ) {}
+
+  containsNonNumeric(str: string) {
+    return /\D/.test(str);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => UserBook, { nullable: true, name: 'createUserBook' })
+  async createUserBook(
+    @Args('id')
+    id: string,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    let bookId;
+    if (this.containsNonNumeric(id)) {
+      const identifier = await this.bookService.findByIdentifier({
+        where: {
+          googleBooks: id,
+        },
+        include: {
+          book: true, // Include related book information if needed
+        },
+      });
+      bookId = identifier.bookId;
+    } else {
+      bookId = id;
+    }
+    return this.userBookService.create(parseInt(bookId), user.userId);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
   userBook(

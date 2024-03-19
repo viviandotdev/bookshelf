@@ -156,6 +156,7 @@ export class BookService {
 
       book = await this.prisma.book.create(createBookArgs);
     }
+    console.log(userId);
     if (userId) {
       await this.userBook.create(book.id, userId, status);
     }

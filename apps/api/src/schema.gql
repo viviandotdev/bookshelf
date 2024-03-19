@@ -2087,6 +2087,7 @@ type Mutation {
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
   createReview(bookData: BookCreateInput!, data: ReviewDataInput!, where: BookWhereUniqueInput!): Review!
   createShelf(data: ShelfCreateInput!): Shelf!
+  createUserBook(id: String!): UserBook
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
   follow(value: Boolean!, where: UserWhereUniqueInput!): User!
   forgotPassword(email: String!): Boolean!

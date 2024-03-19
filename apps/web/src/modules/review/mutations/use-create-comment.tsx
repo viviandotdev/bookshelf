@@ -6,7 +6,7 @@ import {
 import { toast } from '@/hooks/use-toast';
 import { useState } from 'react';
 
-// This is a custom hook named useCreateBook
+
 const useCreateComment = () => {
   const [loading, setLoading] = useState(false);
   const [CreateComment] = useCreateCommentMutation();
