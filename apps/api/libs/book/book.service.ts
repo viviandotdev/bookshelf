@@ -97,6 +97,46 @@ export class BookService {
     }
   }
 
+  async findBook(identifiers) {
+    // Check if 'identifiers' is defined and has properties
+    if (!identifiers) {
+      return null;
+    }
+
+    let searchConditions = [
+      { isbn10: identifiers.isbn10 },
+      { isbn13: identifiers.isbn13 },
+      { googleBooks: identifiers.googleBooks },
+      { openLibrary: identifiers.openLibrary },
+      { goodreads: identifiers.goodreads },
+      { amazon: identifiers.amazon },
+      { bookId: identifiers.bookId },
+    ];
+
+    // Filter out any conditions with undefined or empty string values
+    searchConditions = searchConditions.filter((identifier) => {
+      const value = identifier[Object.keys(identifier)[0]];
+      return value !== undefined && value !== '';
+    });
+
+    // If no valid identifiers are provided, return null or handle as required
+    if (searchConditions.length === 0) {
+      console.log('No valid identifiers provided.');
+      return null;
+    }
+
+    // Use the filtered search conditions in the query
+    const book = await this.prisma.book.findFirst({
+      where: {
+        identifier: {
+          OR: searchConditions,
+        },
+      },
+    });
+
+    return book;
+  }
+
   async create(
     data: BookCreateInput,
     userId?: string,
@@ -104,36 +144,13 @@ export class BookService {
     status?: string,
   ) {
     // check if any of of the identifiers are already in the database
-    let book = await this.prisma.book.findFirst({
-      where: {
-        identifier: {
-          OR: [
-            // The OR array allows searching for any of the conditions to be true
-            { isbn10: identifiers.isbn10 }, // Replace with actual input variables
-            { isbn13: identifiers.isbn13 },
-            { googleBooks: identifiers.googleBooks },
-            { openLibrary: identifiers.openLibrary },
-            { goodreads: identifiers.goodreads },
-            { amazon: identifiers.amazon },
-          ].filter(
-            (identifier) => identifier[Object.keys(identifier)[0]] != '',
-          ), // This will filter out any undefined or null identifiers
-        },
-      },
-    });
+    let book = await this.findBook(identifiers);
 
     if (!book) {
       const createBookArgs: Prisma.BookCreateArgs = {
         data: {
           ...data,
-          identifier: {
-            create: {
-              isbn10: identifiers.isbn,
-              isbn13: identifiers.isbn13,
-              googleBooks: identifiers.id,
-              goodreads: identifiers.goodreads,
-            },
-          },
+          ...(identifiers && { identifier: { create: identifiers } }),
         },
       };
 
