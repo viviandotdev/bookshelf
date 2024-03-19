@@ -4904,7 +4904,6 @@ export type Work = {
   description?: Maybe<Scalars['String']>;
   editions?: Maybe<Array<Book>>;
   id: Scalars['ID'];
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4930,7 +4929,6 @@ export type WorkCountAggregate = {
   categories: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
-  mainCategory: Scalars['Int'];
   mainEditionId: Scalars['Int'];
   ratingsCount: Scalars['Int'];
   title: Scalars['Int'];
@@ -4964,7 +4962,6 @@ export type WorkCreateWithoutAuthorsInput = {
   description?: InputMaybe<Scalars['String']>;
   editions?: InputMaybe<BookCreateNestedManyWithoutWorkInput>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4976,7 +4973,6 @@ export type WorkCreateWithoutEditionsInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
@@ -4993,7 +4989,6 @@ export type WorkMaxAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -5004,7 +4999,6 @@ export type WorkMinAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
-  mainCategory?: Maybe<Scalars['String']>;
   mainEditionId?: Maybe<Scalars['Int']>;
   ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -5017,7 +5011,6 @@ export type WorkOrderByWithRelationInput = {
   description?: InputMaybe<SortOrderInput>;
   editions?: InputMaybe<BookOrderByRelationAggregateInput>;
   id?: InputMaybe<SortOrder>;
-  mainCategory?: InputMaybe<SortOrderInput>;
   mainEditionId?: InputMaybe<SortOrderInput>;
   ratingsCount?: InputMaybe<SortOrderInput>;
   title?: InputMaybe<SortOrder>;
@@ -5036,7 +5029,6 @@ export type WorkScalarWhereInput = {
   categories?: InputMaybe<StringListFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5054,7 +5046,6 @@ export type WorkUpdateManyMutationInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5104,7 +5095,6 @@ export type WorkUpdateWithoutAuthorsInput = {
   description?: InputMaybe<Scalars['String']>;
   editions?: InputMaybe<BookUpdateManyWithoutWorkNestedInput>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5116,7 +5106,6 @@ export type WorkUpdateWithoutEditionsInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<Scalars['String']>;
   mainEditionId?: InputMaybe<Scalars['Int']>;
   ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
@@ -5144,7 +5133,6 @@ export type WorkWhereInput = {
   description?: InputMaybe<StringFilter>;
   editions?: InputMaybe<BookListRelationFilter>;
   id?: InputMaybe<StringFilter>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5160,7 +5148,6 @@ export type WorkWhereUniqueInput = {
   description?: InputMaybe<StringFilter>;
   editions?: InputMaybe<BookListRelationFilter>;
   id?: InputMaybe<Scalars['String']>;
-  mainCategory?: InputMaybe<StringFilter>;
   mainEditionId?: InputMaybe<IntFilter>;
   ratingsCount?: InputMaybe<IntFilter>;
   title?: InputMaybe<StringFilter>;
@@ -5377,7 +5364,7 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', mainCategory?: string | null, categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6541,7 +6528,6 @@ export const BookDocument = gql`
     publisher
     pageCount
     work {
-      mainCategory
       categories
       averageRating
       ratingsCount

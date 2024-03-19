@@ -87,16 +87,14 @@ model Account {
 
 model Work {
     /// @Validator.IsString()
-    id           String   @id @default(uuid())
+    id            String   @id @default(uuid())
     /// @Validator.IsString()
-    title        String
-    authors      Author[]
+    title         String
+    authors       Author[]
     /// @Validator.IsString()
-    description  String?
+    description   String?
     /// @Validator.IsString()
-    categories   String[]
-    /// @Validator.IsString()
-    mainCategory String?
+    categories    String[]
 
     averageRating Float?
     /// @Validator.IsInt()

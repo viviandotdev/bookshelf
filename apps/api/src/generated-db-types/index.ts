@@ -17,7 +17,6 @@ export enum WorkScalarFieldEnum {
     title = "title",
     description = "description",
     categories = "categories",
-    mainCategory = "mainCategory",
     averageRating = "averageRating",
     ratingsCount = "ratingsCount",
     mainEditionId = "mainEditionId"
@@ -21740,8 +21739,6 @@ export class WorkCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     categories?: true;
     @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
-    @Field(() => Boolean, {nullable:true})
     averageRating?: true;
     @Field(() => Boolean, {nullable:true})
     ratingsCount?: true;
@@ -21761,8 +21758,6 @@ export class WorkCountAggregate {
     description!: number;
     @Field(() => Int, {nullable:false})
     categories!: number;
-    @Field(() => Int, {nullable:false})
-    mainCategory!: number;
     @Field(() => Int, {nullable:false})
     averageRating!: number;
     @Field(() => Int, {nullable:false})
@@ -21784,8 +21779,6 @@ export class WorkCountOrderByAggregateInput {
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     categories?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     averageRating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -21816,9 +21809,6 @@ export class WorkCreateManyInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -21888,9 +21878,6 @@ export class WorkCreateWithoutAuthorsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -21916,9 +21903,6 @@ export class WorkCreateWithoutEditionsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -21944,9 +21928,6 @@ export class WorkCreateInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22008,9 +21989,6 @@ export class WorkGroupBy {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22049,8 +22027,6 @@ export class WorkMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
-    @Field(() => Boolean, {nullable:true})
     averageRating?: true;
     @Field(() => Boolean, {nullable:true})
     ratingsCount?: true;
@@ -22069,9 +22045,6 @@ export class WorkMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22090,8 +22063,6 @@ export class WorkMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     averageRating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     ratingsCount?: keyof typeof SortOrder;
@@ -22107,8 +22078,6 @@ export class WorkMinAggregateInput {
     title?: true;
     @Field(() => Boolean, {nullable:true})
     description?: true;
-    @Field(() => Boolean, {nullable:true})
-    mainCategory?: true;
     @Field(() => Boolean, {nullable:true})
     averageRating?: true;
     @Field(() => Boolean, {nullable:true})
@@ -22128,9 +22097,6 @@ export class WorkMinAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22148,8 +22114,6 @@ export class WorkMinOrderByAggregateInput {
     title?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    mainCategory?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     averageRating?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -22174,8 +22138,6 @@ export class WorkOrderByWithAggregationInput {
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     categories?: keyof typeof SortOrder;
-    @Field(() => SortOrderInput, {nullable:true})
-    mainCategory?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     averageRating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -22204,8 +22166,6 @@ export class WorkOrderByWithRelationInput {
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
     categories?: keyof typeof SortOrder;
-    @Field(() => SortOrderInput, {nullable:true})
-    mainCategory?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     averageRating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -22242,8 +22202,6 @@ export class WorkScalarWhereWithAggregatesInput {
     description?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringListFilter, {nullable:true})
     categories?: InstanceType<typeof StringListFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => FloatWithAggregatesFilter, {nullable:true})
     averageRating?: InstanceType<typeof FloatWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
@@ -22268,8 +22226,6 @@ export class WorkScalarWhereInput {
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringListFilter, {nullable:true})
     categories?: InstanceType<typeof StringListFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
     averageRating?: InstanceType<typeof FloatFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -22336,9 +22292,6 @@ export class WorkUncheckedCreateWithoutAuthorsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22364,9 +22317,6 @@ export class WorkUncheckedCreateWithoutEditionsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22392,9 +22342,6 @@ export class WorkUncheckedCreateInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22456,9 +22403,6 @@ export class WorkUncheckedUpdateManyWithoutAuthorsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22482,9 +22426,6 @@ export class WorkUncheckedUpdateManyInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22508,9 +22449,6 @@ export class WorkUncheckedUpdateWithoutAuthorsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22536,9 +22474,6 @@ export class WorkUncheckedUpdateWithoutEditionsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22564,9 +22499,6 @@ export class WorkUncheckedUpdateInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22594,9 +22526,6 @@ export class WorkUpdateManyMutationInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22709,9 +22638,6 @@ export class WorkUpdateWithoutAuthorsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22737,9 +22663,6 @@ export class WorkUpdateWithoutEditionsInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22765,9 +22688,6 @@ export class WorkUpdateInput {
     @Field(() => [String], {nullable:true})
     @Validator.IsString()
     categories?: Array<string>;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    mainCategory?: string;
     @Field(() => Float, {nullable:true})
     averageRating?: number;
     @Field(() => Int, {nullable:true})
@@ -22832,8 +22752,6 @@ export class WorkWhereUniqueInput {
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringListFilter, {nullable:true})
     categories?: InstanceType<typeof StringListFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
     averageRating?: InstanceType<typeof FloatFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -22862,8 +22780,6 @@ export class WorkWhereInput {
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringListFilter, {nullable:true})
     categories?: InstanceType<typeof StringListFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    mainCategory?: InstanceType<typeof StringFilter>;
     @Field(() => FloatFilter, {nullable:true})
     averageRating?: InstanceType<typeof FloatFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -22886,8 +22802,6 @@ export class Work {
     description!: string | null;
     @Field(() => [String], {nullable:true})
     categories!: Array<string>;
-    @Field(() => String, {nullable:true})
-    mainCategory!: string | null;
     @Field(() => Float, {nullable:true})
     averageRating!: number | null;
     @Field(() => Int, {nullable:true})

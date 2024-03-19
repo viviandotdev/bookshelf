@@ -127,7 +127,6 @@ export class UserBookResolver {
         connect: authors.map((author) => ({ id: author.id })),
       },
       description: book.description,
-      mainCategory: book.mainCategory,
       categories: book.categories,
       averageRating:
         Number(objectFromCSV['Average Rating']) || book.averageRating,
@@ -159,6 +158,7 @@ export class UserBookResolver {
       // - [ ]  if work does not exist create the work and then add the book as new edition
 
       if (book) {
+        // console.log(book);
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
         const authors = await this.authorService.createAuthors(book.authors);

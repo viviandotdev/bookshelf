@@ -55,8 +55,11 @@ export class BookService {
       if (response.status >= 200 && response.status < 300) {
         const data = response.data.items;
         if (data.length > 0) {
-          const processedBook: BookData = processBook(data[0]) as BookData;
-          //  also get user book if it exists
+          const fullBookUrl = `https://www.googleapis.com/books/v1/volumes/${data[0].id}`;
+          const fullBook = await axiosInstance.get(fullBookUrl);
+          const processedBook: BookData = processBook(
+            fullBook.data,
+          ) as BookData;
           return processedBook;
         }
       }

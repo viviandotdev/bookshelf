@@ -4599,7 +4599,6 @@ type Work {
   description: String
   editions: [Book!]
   id: ID!
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String!
@@ -4622,7 +4621,6 @@ type WorkCountAggregate {
   categories: Int!
   description: Int!
   id: Int!
-  mainCategory: Int!
   mainEditionId: Int!
   ratingsCount: Int!
   title: Int!
@@ -4656,7 +4654,6 @@ input WorkCreateWithoutAuthorsInput {
   description: String
   editions: BookCreateNestedManyWithoutWorkInput
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String!
@@ -4668,7 +4665,6 @@ input WorkCreateWithoutEditionsInput {
   categories: [String!]
   description: String
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String!
@@ -4684,7 +4680,6 @@ type WorkMaxAggregate {
   averageRating: Float
   description: String
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String
@@ -4694,7 +4689,6 @@ type WorkMinAggregate {
   averageRating: Float
   description: String
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String
@@ -4707,7 +4701,6 @@ input WorkOrderByWithRelationInput {
   description: SortOrderInput
   editions: BookOrderByRelationAggregateInput
   id: SortOrder
-  mainCategory: SortOrderInput
   mainEditionId: SortOrderInput
   ratingsCount: SortOrderInput
   title: SortOrder
@@ -4726,7 +4719,6 @@ input WorkScalarWhereInput {
   categories: StringListFilter
   description: StringFilter
   id: StringFilter
-  mainCategory: StringFilter
   mainEditionId: IntFilter
   ratingsCount: IntFilter
   title: StringFilter
@@ -4743,7 +4735,6 @@ input WorkUpdateManyMutationInput {
   categories: [String!]
   description: String
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String
@@ -4793,7 +4784,6 @@ input WorkUpdateWithoutAuthorsInput {
   description: String
   editions: BookUpdateManyWithoutWorkNestedInput
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String
@@ -4805,7 +4795,6 @@ input WorkUpdateWithoutEditionsInput {
   categories: [String!]
   description: String
   id: String
-  mainCategory: String
   mainEditionId: Int
   ratingsCount: Int
   title: String
@@ -4833,7 +4822,6 @@ input WorkWhereInput {
   description: StringFilter
   editions: BookListRelationFilter
   id: StringFilter
-  mainCategory: StringFilter
   mainEditionId: IntFilter
   ratingsCount: IntFilter
   title: StringFilter
@@ -4849,7 +4837,6 @@ input WorkWhereUniqueInput {
   description: StringFilter
   editions: BookListRelationFilter
   id: String
-  mainCategory: StringFilter
   mainEditionId: IntFilter
   ratingsCount: IntFilter
   title: StringFilter

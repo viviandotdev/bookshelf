@@ -104,12 +104,10 @@ export function processBook(
     },
   );
 
-  const mainCategory = book.volumeInfo.mainCategory || '';
   const bookData: BookData = {
     id,
     title,
     averageRating,
-    mainCategory,
     ratingsCount,
     authors,
     publishedDate,
