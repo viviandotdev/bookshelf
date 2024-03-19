@@ -113,7 +113,7 @@ export const ColumnContainer: React.FC<ColumnContainerProps> = ({
                         <ol
                             {...provided.droppableProps}
                             ref={provided.innerRef}
-                            className='flex justify-between 3xl:grid 3xl:grid-cols-4 gap-6'
+                            className='flex justify-between 3xl:grid 3xl:grid-cols-4 gap-4'
                         >
                             {orderedData.map((list, index) => {
                                 return (

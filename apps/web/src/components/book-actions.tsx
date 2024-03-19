@@ -16,6 +16,7 @@ import { bookStatuses } from '@/config/books';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 interface BookActionsProps {
     book: Book | undefined;
     shelves: UserBookShelves[] | undefined;
@@ -58,7 +59,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     const onUpdate = async (status: string) => {
         // optimistic update
         setStatus(status);
-        await updateUserBook(parseInt(book!.id), { status });
+        await updateUserBook((book!.id), { status });
     };
     const linkRef = useRef<HTMLAnchorElement>(null);
     return (
@@ -96,8 +97,15 @@ const BookActions: React.FC<BookActionsProps> = ({
                                 }
                             }}
                         >
+                            {item.icon && (
+                                <item.icon
+                                    className={cn(
+                                        'mr-2 h-4 w-4',
+                                        item.name === status ? 'opacity-100' : 'opacity-60'
+                                    )}
+                                />
+                            )}
 
-                            {/* <item.icon className='mr-2 h-5 w-5' /> */}
                             {item.name}
                         </DropdownMenuItem>
                     ))}

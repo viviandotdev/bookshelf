@@ -54,6 +54,10 @@ export const bookStatuses = [
     icon: Icons.save,
   },
   {
+    name: 'Up Next',
+    icon: Icons.upNext,
+  },
+  {
     name: 'Currently Reading',
     icon: Icons.bookOpen,
   },
@@ -63,6 +67,6 @@ export const bookStatuses = [
   },
   {
     name: 'Did Not Finish',
-    icon: Icons.abondoned,
+    icon: Icons.dnf,
   },
 ];

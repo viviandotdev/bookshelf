@@ -1,17 +1,16 @@
 'use client';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { MainNav } from './main-nav';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import LogBookButton from './log-book-button';
 import { UserAccountNav } from './user-account-nav';
 import { MobileNav } from './mobile-nav';
 import React from 'react';
 import SearchInput from './search-input';
 import { Icons } from '@/components/icons';
+import Link from 'next/link';
 
 interface MainHeaderProps {
     user: any;
@@ -95,9 +94,9 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
                     >
                         <span className='sr-only'>Open menu</span>
                         {showMobileMenu ? (
-                            <XMarkIcon className='block h-6 w-6' aria-hidden='true' />
+                            <Icons.close className='block h-6 w-6' aria-hidden='true' />
                         ) : (
-                            <Bars3Icon className='block h-6 w-6' aria-hidden='true' />
+                            <Icons.menu className='block h-6 w-6' aria-hidden='true' />
                         )}
                     </Button>
                 </div>
