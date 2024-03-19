@@ -19,12 +19,13 @@ import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
 import { MeResponse } from './dto/me.response';
-import { UpdateEmailInput } from '../user/dto/update-email.input';
+import { ShelfService } from 'libs/shelf/shelf.service';
 @Resolver()
 export class AuthResolver {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly shelfService: ShelfService,
   ) {}
 
   @Mutation(() => User)
@@ -36,6 +37,9 @@ export class AuthResolver {
       username: registerInput.username,
       hashedPassword,
     });
+    // Create default shelves
+    this.shelfService.create({ name: 'Favorites' }, user.id);
+    this.shelfService.create({ name: 'Owned' }, user.id);
 
     await this.authService.sendVerificationEmail(user.email, user.email);
 
