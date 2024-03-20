@@ -213,7 +213,8 @@ export class UserBookResolver {
         // create identifiers abstract away into bookservice create
 
         const work = await this.workService.createUniqueWork(workData, authors);
-        // create identifier
+        // create covers
+        // const authors = await this.authorService.createAuthors(book.authors);
         const bookData: BookCreateInput = {
           //   id: bookIdentifier.bookId,
           title: book.title,

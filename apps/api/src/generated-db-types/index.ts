@@ -88,6 +88,12 @@ export enum SortOrder {
     desc = "desc"
 }
 
+export enum SIZE {
+    SMALL = "SMALL",
+    MEDIUM = "MEDIUM",
+    LARGE = "LARGE"
+}
+
 export enum QueryMode {
     'default' = "default",
     insensitive = "insensitive"
@@ -135,6 +141,14 @@ export enum IdentifierScalarFieldEnum {
     openLibrary = "openLibrary",
     goodreads = "goodreads",
     amazon = "amazon"
+}
+
+export enum CoverScalarFieldEnum {
+    id = "id",
+    url = "url",
+    size = "size",
+    uploadedById = "uploadedById",
+    bookId = "bookId"
 }
 
 export enum CommentScalarFieldEnum {
@@ -197,12 +211,14 @@ registerEnumType(AuditLogScalarFieldEnum, { name: 'AuditLogScalarFieldEnum', des
 registerEnumType(AuthorScalarFieldEnum, { name: 'AuthorScalarFieldEnum', description: undefined })
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CommentScalarFieldEnum, { name: 'CommentScalarFieldEnum', description: undefined })
+registerEnumType(CoverScalarFieldEnum, { name: 'CoverScalarFieldEnum', description: undefined })
 registerEnumType(IdentifierScalarFieldEnum, { name: 'IdentifierScalarFieldEnum', description: undefined })
 registerEnumType(JournalEntryScalarFieldEnum, { name: 'JournalEntryScalarFieldEnum', description: undefined })
 registerEnumType(PasswordResetTokenScalarFieldEnum, { name: 'PasswordResetTokenScalarFieldEnum', description: undefined })
 registerEnumType(ACTION, { name: 'ACTION', description: undefined })
 registerEnumType(NullsOrder, { name: 'NullsOrder', description: undefined })
 registerEnumType(QueryMode, { name: 'QueryMode', description: undefined })
+registerEnumType(SIZE, { name: 'SIZE', description: undefined })
 registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
 registerEnumType(TransactionIsolationLevel, { name: 'TransactionIsolationLevel', description: undefined })
 registerEnumType(ReviewScalarFieldEnum, { name: 'ReviewScalarFieldEnum', description: undefined })
@@ -4131,6 +4147,8 @@ export class BookCount {
     reviews?: number;
     @Field(() => Int, {nullable:false})
     logs?: number;
+    @Field(() => Int, {nullable:false})
+    covers?: number;
 }
 
 @InputType()
@@ -4230,6 +4248,19 @@ export class BookCreateNestedManyWithoutWorkInput {
 }
 
 @InputType()
+export class BookCreateNestedOneWithoutCoversInput {
+    @Field(() => BookCreateWithoutCoversInput, {nullable:true})
+    @Type(() => BookCreateWithoutCoversInput)
+    create?: InstanceType<typeof BookCreateWithoutCoversInput>;
+    @Field(() => BookCreateOrConnectWithoutCoversInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutCoversInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutCoversInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+}
+
+@InputType()
 export class BookCreateNestedOneWithoutIdentifierInput {
     @Field(() => BookCreateWithoutIdentifierInput, {nullable:true})
     @Type(() => BookCreateWithoutIdentifierInput)
@@ -4289,6 +4320,16 @@ export class BookCreateOrConnectWithoutAuthorsInput {
     @Field(() => BookCreateWithoutAuthorsInput, {nullable:false})
     @Type(() => BookCreateWithoutAuthorsInput)
     create!: InstanceType<typeof BookCreateWithoutAuthorsInput>;
+}
+
+@InputType()
+export class BookCreateOrConnectWithoutCoversInput {
+    @Field(() => BookWhereUniqueInput, {nullable:false})
+    @Type(() => BookWhereUniqueInput)
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookCreateWithoutCoversInput, {nullable:false})
+    @Type(() => BookCreateWithoutCoversInput)
+    create!: InstanceType<typeof BookCreateWithoutCoversInput>;
 }
 
 @InputType()
@@ -4374,6 +4415,45 @@ export class BookCreateWithoutAuthorsInput {
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
+export class BookCreateWithoutCoversInput {
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
+    work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
 }
 
 @InputType()
@@ -4409,6 +4489,8 @@ export class BookCreateWithoutIdentifierInput {
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -4444,6 +4526,8 @@ export class BookCreateWithoutLogsInput {
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -4479,6 +4563,8 @@ export class BookCreateWithoutReviewsInput {
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -4514,6 +4600,8 @@ export class BookCreateWithoutUserBookInput {
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -4549,6 +4637,8 @@ export class BookCreateWithoutWorkInput {
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -4586,6 +4676,8 @@ export class BookCreateInput {
     logs?: InstanceType<typeof AuditLogCreateNestedManyWithoutBookInput>;
     @Field(() => WorkCreateNestedOneWithoutEditionsInput, {nullable:true})
     work?: InstanceType<typeof WorkCreateNestedOneWithoutEditionsInput>;
+    @Field(() => CoverCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutBookInput>;
 }
 
 @ArgsType()
@@ -4884,6 +4976,8 @@ export class BookOrderByWithRelationInput {
     logs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
     @Field(() => WorkOrderByWithRelationInput, {nullable:true})
     work?: InstanceType<typeof WorkOrderByWithRelationInput>;
+    @Field(() => CoverOrderByRelationAggregateInput, {nullable:true})
+    covers?: InstanceType<typeof CoverOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -5041,6 +5135,48 @@ export class BookUncheckedCreateWithoutAuthorsInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
+}
+
+@InputType()
+export class BookUncheckedCreateWithoutCoversInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    title!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => AuthorUncheckedCreateNestedManyWithoutBooksInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedCreateNestedManyWithoutBooksInput>;
+    @Field(() => IdentifierUncheckedCreateNestedOneWithoutBookInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedCreateNestedOneWithoutBookInput>;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5079,6 +5215,8 @@ export class BookUncheckedCreateWithoutIdentifierInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5117,6 +5255,8 @@ export class BookUncheckedCreateWithoutLogsInput {
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5155,6 +5295,8 @@ export class BookUncheckedCreateWithoutReviewsInput {
     userBook?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5193,6 +5335,8 @@ export class BookUncheckedCreateWithoutUserBookInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5231,6 +5375,8 @@ export class BookUncheckedCreateWithoutWorkInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5271,6 +5417,8 @@ export class BookUncheckedCreateInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutBookInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutBookInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutBookInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutBookInput>;
 }
 
 @InputType()
@@ -5468,6 +5616,48 @@ export class BookUncheckedUpdateWithoutAuthorsInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
+export class BookUncheckedUpdateWithoutCoversInput {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    id?: number;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => String, {nullable:true})
+    workId?: string;
+    @Field(() => AuthorUncheckedUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUncheckedUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUncheckedUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUncheckedUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5506,6 +5696,8 @@ export class BookUncheckedUpdateWithoutIdentifierInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5544,6 +5736,8 @@ export class BookUncheckedUpdateWithoutLogsInput {
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5582,6 +5776,8 @@ export class BookUncheckedUpdateWithoutReviewsInput {
     userBook?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5620,6 +5816,8 @@ export class BookUncheckedUpdateWithoutUserBookInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5658,6 +5856,8 @@ export class BookUncheckedUpdateWithoutWorkInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5698,6 +5898,8 @@ export class BookUncheckedUpdateInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -5817,6 +6019,31 @@ export class BookUpdateManyWithoutWorkNestedInput {
 }
 
 @InputType()
+export class BookUpdateOneWithoutCoversNestedInput {
+    @Field(() => BookCreateWithoutCoversInput, {nullable:true})
+    @Type(() => BookCreateWithoutCoversInput)
+    create?: InstanceType<typeof BookCreateWithoutCoversInput>;
+    @Field(() => BookCreateOrConnectWithoutCoversInput, {nullable:true})
+    @Type(() => BookCreateOrConnectWithoutCoversInput)
+    connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutCoversInput>;
+    @Field(() => BookUpsertWithoutCoversInput, {nullable:true})
+    @Type(() => BookUpsertWithoutCoversInput)
+    upsert?: InstanceType<typeof BookUpsertWithoutCoversInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    disconnect?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    delete?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookWhereUniqueInput, {nullable:true})
+    @Type(() => BookWhereUniqueInput)
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    @Field(() => BookUpdateToOneWithWhereWithoutCoversInput, {nullable:true})
+    @Type(() => BookUpdateToOneWithWhereWithoutCoversInput)
+    update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutCoversInput>;
+}
+
+@InputType()
 export class BookUpdateOneWithoutIdentifierNestedInput {
     @Field(() => BookCreateWithoutIdentifierInput, {nullable:true})
     @Type(() => BookCreateWithoutIdentifierInput)
@@ -5917,6 +6144,16 @@ export class BookUpdateOneWithoutUserBookNestedInput {
 }
 
 @InputType()
+export class BookUpdateToOneWithWhereWithoutCoversInput {
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
+    @Field(() => BookUpdateWithoutCoversInput, {nullable:false})
+    @Type(() => BookUpdateWithoutCoversInput)
+    data!: InstanceType<typeof BookUpdateWithoutCoversInput>;
+}
+
+@InputType()
 export class BookUpdateToOneWithWhereWithoutIdentifierInput {
     @Field(() => BookWhereInput, {nullable:true})
     @Type(() => BookWhereInput)
@@ -6009,6 +6246,45 @@ export class BookUpdateWithoutAuthorsInput {
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
+}
+
+@InputType()
+export class BookUpdateWithoutCoversInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    title?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publishedDate?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    publisher?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    coverImage?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    description?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    language?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    pageCount?: number;
+    @Field(() => AuthorUpdateManyWithoutBooksNestedInput, {nullable:true})
+    authors?: InstanceType<typeof AuthorUpdateManyWithoutBooksNestedInput>;
+    @Field(() => IdentifierUpdateOneWithoutBookNestedInput, {nullable:true})
+    identifier?: InstanceType<typeof IdentifierUpdateOneWithoutBookNestedInput>;
+    @Field(() => UserBookUpdateManyWithoutBookNestedInput, {nullable:true})
+    userBook?: InstanceType<typeof UserBookUpdateManyWithoutBookNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutBookNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
+    logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
+    work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
 }
 
 @InputType()
@@ -6044,6 +6320,8 @@ export class BookUpdateWithoutIdentifierInput {
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6079,6 +6357,8 @@ export class BookUpdateWithoutLogsInput {
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6114,6 +6394,8 @@ export class BookUpdateWithoutReviewsInput {
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6149,6 +6431,8 @@ export class BookUpdateWithoutUserBookInput {
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6184,6 +6468,8 @@ export class BookUpdateWithoutWorkInput {
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutBookNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutBookNestedInput, {nullable:true})
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6221,6 +6507,8 @@ export class BookUpdateInput {
     logs?: InstanceType<typeof AuditLogUpdateManyWithoutBookNestedInput>;
     @Field(() => WorkUpdateOneWithoutEditionsNestedInput, {nullable:true})
     work?: InstanceType<typeof WorkUpdateOneWithoutEditionsNestedInput>;
+    @Field(() => CoverUpdateManyWithoutBookNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutBookNestedInput>;
 }
 
 @InputType()
@@ -6247,6 +6535,19 @@ export class BookUpsertWithWhereUniqueWithoutWorkInput {
     @Field(() => BookCreateWithoutWorkInput, {nullable:false})
     @Type(() => BookCreateWithoutWorkInput)
     create!: InstanceType<typeof BookCreateWithoutWorkInput>;
+}
+
+@InputType()
+export class BookUpsertWithoutCoversInput {
+    @Field(() => BookUpdateWithoutCoversInput, {nullable:false})
+    @Type(() => BookUpdateWithoutCoversInput)
+    update!: InstanceType<typeof BookUpdateWithoutCoversInput>;
+    @Field(() => BookCreateWithoutCoversInput, {nullable:false})
+    @Type(() => BookCreateWithoutCoversInput)
+    create!: InstanceType<typeof BookCreateWithoutCoversInput>;
+    @Field(() => BookWhereInput, {nullable:true})
+    @Type(() => BookWhereInput)
+    where?: InstanceType<typeof BookWhereInput>;
 }
 
 @InputType()
@@ -6340,6 +6641,8 @@ export class BookWhereUniqueInput {
     logs?: InstanceType<typeof AuditLogListRelationFilter>;
     @Field(() => WorkRelationFilter, {nullable:true})
     work?: InstanceType<typeof WorkRelationFilter>;
+    @Field(() => CoverListRelationFilter, {nullable:true})
+    covers?: InstanceType<typeof CoverListRelationFilter>;
 }
 
 @InputType()
@@ -6380,6 +6683,8 @@ export class BookWhereInput {
     logs?: InstanceType<typeof AuditLogListRelationFilter>;
     @Field(() => WorkRelationFilter, {nullable:true})
     work?: InstanceType<typeof WorkRelationFilter>;
+    @Field(() => CoverListRelationFilter, {nullable:true})
+    covers?: InstanceType<typeof CoverListRelationFilter>;
 }
 
 @ObjectType()
@@ -6414,6 +6719,8 @@ export class Book {
     logs?: Array<AuditLog>;
     @Field(() => Work, {nullable:true})
     work?: InstanceType<typeof Work> | null;
+    @Field(() => [Cover], {nullable:true})
+    covers?: Array<Cover>;
     @Field(() => BookCount, {nullable:false})
     _count?: InstanceType<typeof BookCount>;
 }
@@ -7620,6 +7927,1124 @@ export class UpsertOneCommentArgs {
     @Field(() => CommentUpdateInput, {nullable:false})
     @Type(() => CommentUpdateInput)
     update!: InstanceType<typeof CommentUpdateInput>;
+}
+
+@ObjectType()
+export class AggregateCover {
+    @Field(() => CoverCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof CoverCountAggregate>;
+    @Field(() => CoverAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof CoverAvgAggregate>;
+    @Field(() => CoverSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof CoverSumAggregate>;
+    @Field(() => CoverMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof CoverMinAggregate>;
+    @Field(() => CoverMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof CoverMaxAggregate>;
+}
+
+@ArgsType()
+export class CoverAggregateArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => [CoverOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CoverOrderByWithRelationInput>;
+    @Field(() => CoverWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => CoverCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CoverCountAggregateInput>;
+    @Field(() => CoverAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof CoverAvgAggregateInput>;
+    @Field(() => CoverSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof CoverSumAggregateInput>;
+    @Field(() => CoverMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CoverMinAggregateInput>;
+    @Field(() => CoverMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CoverMaxAggregateInput>;
+}
+
+@InputType()
+export class CoverAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class CoverAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    url?: true;
+    @Field(() => Boolean, {nullable:true})
+    size?: true;
+    @Field(() => Boolean, {nullable:true})
+    uploadedById?: true;
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class CoverCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    url!: number;
+    @Field(() => Int, {nullable:false})
+    size!: number;
+    @Field(() => Int, {nullable:false})
+    uploadedById!: number;
+    @Field(() => Int, {nullable:false})
+    bookId!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class CoverCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    url?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    size?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    uploadedById?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverCreateManyBookInputEnvelope {
+    @Field(() => [CoverCreateManyBookInput], {nullable:false})
+    @Type(() => CoverCreateManyBookInput)
+    data!: Array<CoverCreateManyBookInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class CoverCreateManyBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+}
+
+@InputType()
+export class CoverCreateManyUploadedByInputEnvelope {
+    @Field(() => [CoverCreateManyUploadedByInput], {nullable:false})
+    @Type(() => CoverCreateManyUploadedByInput)
+    data!: Array<CoverCreateManyUploadedByInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class CoverCreateManyUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverCreateNestedManyWithoutBookInput {
+    @Field(() => [CoverCreateWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateWithoutBookInput)
+    create?: Array<CoverCreateWithoutBookInput>;
+    @Field(() => [CoverCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutBookInput>;
+    @Field(() => CoverCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyBookInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class CoverCreateNestedManyWithoutUploadedByInput {
+    @Field(() => [CoverCreateWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create?: Array<CoverCreateWithoutUploadedByInput>;
+    @Field(() => [CoverCreateOrConnectWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutUploadedByInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutUploadedByInput>;
+    @Field(() => CoverCreateManyUploadedByInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyUploadedByInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyUploadedByInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class CoverCreateOrConnectWithoutBookInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverCreateWithoutBookInput, {nullable:false})
+    @Type(() => CoverCreateWithoutBookInput)
+    create!: InstanceType<typeof CoverCreateWithoutBookInput>;
+}
+
+@InputType()
+export class CoverCreateOrConnectWithoutUploadedByInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverCreateWithoutUploadedByInput, {nullable:false})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create!: InstanceType<typeof CoverCreateWithoutUploadedByInput>;
+}
+
+@InputType()
+export class CoverCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => UserCreateNestedOneWithoutCoversInput, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserCreateNestedOneWithoutCoversInput>;
+}
+
+@InputType()
+export class CoverCreateWithoutUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => BookCreateNestedOneWithoutCoversInput, {nullable:true})
+    book?: InstanceType<typeof BookCreateNestedOneWithoutCoversInput>;
+}
+
+@InputType()
+export class CoverCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => UserCreateNestedOneWithoutCoversInput, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserCreateNestedOneWithoutCoversInput>;
+    @Field(() => BookCreateNestedOneWithoutCoversInput, {nullable:true})
+    book?: InstanceType<typeof BookCreateNestedOneWithoutCoversInput>;
+}
+
+@ArgsType()
+export class CoverGroupByArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => [CoverOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<CoverOrderByWithAggregationInput>;
+    @Field(() => [CoverScalarFieldEnum], {nullable:false})
+    by!: Array<keyof typeof CoverScalarFieldEnum>;
+    @Field(() => CoverScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof CoverScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => CoverCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CoverCountAggregateInput>;
+    @Field(() => CoverAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof CoverAvgAggregateInput>;
+    @Field(() => CoverSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof CoverSumAggregateInput>;
+    @Field(() => CoverMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CoverMinAggregateInput>;
+    @Field(() => CoverMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CoverMaxAggregateInput>;
+}
+
+@ObjectType()
+export class CoverGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+    @Field(() => CoverCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof CoverCountAggregate>;
+    @Field(() => CoverAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof CoverAvgAggregate>;
+    @Field(() => CoverSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof CoverSumAggregate>;
+    @Field(() => CoverMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof CoverMinAggregate>;
+    @Field(() => CoverMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof CoverMaxAggregate>;
+}
+
+@InputType()
+export class CoverListRelationFilter {
+    @Field(() => CoverWhereInput, {nullable:true})
+    every?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => CoverWhereInput, {nullable:true})
+    some?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => CoverWhereInput, {nullable:true})
+    none?: InstanceType<typeof CoverWhereInput>;
+}
+
+@InputType()
+export class CoverMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    url?: true;
+    @Field(() => Boolean, {nullable:true})
+    size?: true;
+    @Field(() => Boolean, {nullable:true})
+    uploadedById?: true;
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class CoverMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    url?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    size?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    uploadedById?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    url?: true;
+    @Field(() => Boolean, {nullable:true})
+    size?: true;
+    @Field(() => Boolean, {nullable:true})
+    uploadedById?: true;
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class CoverMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    url?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    size?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    uploadedById?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    url?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    size?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    uploadedById?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    bookId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => CoverCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof CoverCountOrderByAggregateInput>;
+    @Field(() => CoverAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof CoverAvgOrderByAggregateInput>;
+    @Field(() => CoverMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof CoverMaxOrderByAggregateInput>;
+    @Field(() => CoverMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof CoverMinOrderByAggregateInput>;
+    @Field(() => CoverSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof CoverSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class CoverOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    url?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    size?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    uploadedById?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrderInput, {nullable:true})
+    bookId?: InstanceType<typeof SortOrderInput>;
+    @Field(() => UserOrderByWithRelationInput, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserOrderByWithRelationInput>;
+    @Field(() => BookOrderByWithRelationInput, {nullable:true})
+    book?: InstanceType<typeof BookOrderByWithRelationInput>;
+}
+
+@InputType()
+export class CoverScalarWhereWithAggregatesInput {
+    @Field(() => [CoverScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<CoverScalarWhereWithAggregatesInput>;
+    @Field(() => [CoverScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<CoverScalarWhereWithAggregatesInput>;
+    @Field(() => [CoverScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<CoverScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    url?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => EnumSIZEWithAggregatesFilter, {nullable:true})
+    size?: InstanceType<typeof EnumSIZEWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    uploadedById?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntWithAggregatesFilter>;
+}
+
+@InputType()
+export class CoverScalarWhereInput {
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    AND?: Array<CoverScalarWhereInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    OR?: Array<CoverScalarWhereInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    NOT?: Array<CoverScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    url?: InstanceType<typeof StringFilter>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    size?: InstanceType<typeof EnumSIZEFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    uploadedById?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
+}
+
+@InputType()
+export class CoverSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    bookId?: true;
+}
+
+@ObjectType()
+export class CoverSumAggregate {
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    bookId?: keyof typeof SortOrder;
+}
+
+@InputType()
+export class CoverUncheckedCreateNestedManyWithoutBookInput {
+    @Field(() => [CoverCreateWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateWithoutBookInput)
+    create?: Array<CoverCreateWithoutBookInput>;
+    @Field(() => [CoverCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutBookInput>;
+    @Field(() => CoverCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyBookInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class CoverUncheckedCreateNestedManyWithoutUploadedByInput {
+    @Field(() => [CoverCreateWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create?: Array<CoverCreateWithoutUploadedByInput>;
+    @Field(() => [CoverCreateOrConnectWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutUploadedByInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutUploadedByInput>;
+    @Field(() => CoverCreateManyUploadedByInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyUploadedByInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyUploadedByInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class CoverUncheckedCreateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+}
+
+@InputType()
+export class CoverUncheckedCreateWithoutUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUncheckedUpdateManyWithoutBookNestedInput {
+    @Field(() => [CoverCreateWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateWithoutBookInput)
+    create?: Array<CoverCreateWithoutBookInput>;
+    @Field(() => [CoverCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutBookInput>;
+    @Field(() => [CoverUpsertWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpsertWithWhereUniqueWithoutBookInput)
+    upsert?: Array<CoverUpsertWithWhereUniqueWithoutBookInput>;
+    @Field(() => CoverCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyBookInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpdateWithWhereUniqueWithoutBookInput)
+    update?: Array<CoverUpdateWithWhereUniqueWithoutBookInput>;
+    @Field(() => [CoverUpdateManyWithWhereWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpdateManyWithWhereWithoutBookInput)
+    updateMany?: Array<CoverUpdateManyWithWhereWithoutBookInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    @Type(() => CoverScalarWhereInput)
+    deleteMany?: Array<CoverScalarWhereInput>;
+}
+
+@InputType()
+export class CoverUncheckedUpdateManyWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+}
+
+@InputType()
+export class CoverUncheckedUpdateManyWithoutUploadedByNestedInput {
+    @Field(() => [CoverCreateWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create?: Array<CoverCreateWithoutUploadedByInput>;
+    @Field(() => [CoverCreateOrConnectWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutUploadedByInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutUploadedByInput>;
+    @Field(() => [CoverUpsertWithWhereUniqueWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpsertWithWhereUniqueWithoutUploadedByInput)
+    upsert?: Array<CoverUpsertWithWhereUniqueWithoutUploadedByInput>;
+    @Field(() => CoverCreateManyUploadedByInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyUploadedByInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyUploadedByInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverUpdateWithWhereUniqueWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpdateWithWhereUniqueWithoutUploadedByInput)
+    update?: Array<CoverUpdateWithWhereUniqueWithoutUploadedByInput>;
+    @Field(() => [CoverUpdateManyWithWhereWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpdateManyWithWhereWithoutUploadedByInput)
+    updateMany?: Array<CoverUpdateManyWithWhereWithoutUploadedByInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    @Type(() => CoverScalarWhereInput)
+    deleteMany?: Array<CoverScalarWhereInput>;
+}
+
+@InputType()
+export class CoverUncheckedUpdateManyWithoutUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUncheckedUpdateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+}
+
+@InputType()
+export class CoverUncheckedUpdateWithoutUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById?: string;
+    @Field(() => Int, {nullable:true})
+    bookId?: number;
+}
+
+@InputType()
+export class CoverUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+}
+
+@InputType()
+export class CoverUpdateManyWithWhereWithoutBookInput {
+    @Field(() => CoverScalarWhereInput, {nullable:false})
+    @Type(() => CoverScalarWhereInput)
+    where!: InstanceType<typeof CoverScalarWhereInput>;
+    @Field(() => CoverUpdateManyMutationInput, {nullable:false})
+    @Type(() => CoverUpdateManyMutationInput)
+    data!: InstanceType<typeof CoverUpdateManyMutationInput>;
+}
+
+@InputType()
+export class CoverUpdateManyWithWhereWithoutUploadedByInput {
+    @Field(() => CoverScalarWhereInput, {nullable:false})
+    @Type(() => CoverScalarWhereInput)
+    where!: InstanceType<typeof CoverScalarWhereInput>;
+    @Field(() => CoverUpdateManyMutationInput, {nullable:false})
+    @Type(() => CoverUpdateManyMutationInput)
+    data!: InstanceType<typeof CoverUpdateManyMutationInput>;
+}
+
+@InputType()
+export class CoverUpdateManyWithoutBookNestedInput {
+    @Field(() => [CoverCreateWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateWithoutBookInput)
+    create?: Array<CoverCreateWithoutBookInput>;
+    @Field(() => [CoverCreateOrConnectWithoutBookInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutBookInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutBookInput>;
+    @Field(() => [CoverUpsertWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpsertWithWhereUniqueWithoutBookInput)
+    upsert?: Array<CoverUpsertWithWhereUniqueWithoutBookInput>;
+    @Field(() => CoverCreateManyBookInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyBookInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyBookInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverUpdateWithWhereUniqueWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpdateWithWhereUniqueWithoutBookInput)
+    update?: Array<CoverUpdateWithWhereUniqueWithoutBookInput>;
+    @Field(() => [CoverUpdateManyWithWhereWithoutBookInput], {nullable:true})
+    @Type(() => CoverUpdateManyWithWhereWithoutBookInput)
+    updateMany?: Array<CoverUpdateManyWithWhereWithoutBookInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    @Type(() => CoverScalarWhereInput)
+    deleteMany?: Array<CoverScalarWhereInput>;
+}
+
+@InputType()
+export class CoverUpdateManyWithoutUploadedByNestedInput {
+    @Field(() => [CoverCreateWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create?: Array<CoverCreateWithoutUploadedByInput>;
+    @Field(() => [CoverCreateOrConnectWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverCreateOrConnectWithoutUploadedByInput)
+    connectOrCreate?: Array<CoverCreateOrConnectWithoutUploadedByInput>;
+    @Field(() => [CoverUpsertWithWhereUniqueWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpsertWithWhereUniqueWithoutUploadedByInput)
+    upsert?: Array<CoverUpsertWithWhereUniqueWithoutUploadedByInput>;
+    @Field(() => CoverCreateManyUploadedByInputEnvelope, {nullable:true})
+    @Type(() => CoverCreateManyUploadedByInputEnvelope)
+    createMany?: InstanceType<typeof CoverCreateManyUploadedByInputEnvelope>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverWhereUniqueInput], {nullable:true})
+    @Type(() => CoverWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<CoverWhereUniqueInput, 'id'>>;
+    @Field(() => [CoverUpdateWithWhereUniqueWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpdateWithWhereUniqueWithoutUploadedByInput)
+    update?: Array<CoverUpdateWithWhereUniqueWithoutUploadedByInput>;
+    @Field(() => [CoverUpdateManyWithWhereWithoutUploadedByInput], {nullable:true})
+    @Type(() => CoverUpdateManyWithWhereWithoutUploadedByInput)
+    updateMany?: Array<CoverUpdateManyWithWhereWithoutUploadedByInput>;
+    @Field(() => [CoverScalarWhereInput], {nullable:true})
+    @Type(() => CoverScalarWhereInput)
+    deleteMany?: Array<CoverScalarWhereInput>;
+}
+
+@InputType()
+export class CoverUpdateWithWhereUniqueWithoutBookInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverUpdateWithoutBookInput, {nullable:false})
+    @Type(() => CoverUpdateWithoutBookInput)
+    data!: InstanceType<typeof CoverUpdateWithoutBookInput>;
+}
+
+@InputType()
+export class CoverUpdateWithWhereUniqueWithoutUploadedByInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverUpdateWithoutUploadedByInput, {nullable:false})
+    @Type(() => CoverUpdateWithoutUploadedByInput)
+    data!: InstanceType<typeof CoverUpdateWithoutUploadedByInput>;
+}
+
+@InputType()
+export class CoverUpdateWithoutBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => UserUpdateOneWithoutCoversNestedInput, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserUpdateOneWithoutCoversNestedInput>;
+}
+
+@InputType()
+export class CoverUpdateWithoutUploadedByInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => BookUpdateOneWithoutCoversNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneWithoutCoversNestedInput>;
+}
+
+@InputType()
+export class CoverUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    url?: string;
+    @Field(() => SIZE, {nullable:true})
+    size?: keyof typeof SIZE;
+    @Field(() => UserUpdateOneWithoutCoversNestedInput, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserUpdateOneWithoutCoversNestedInput>;
+    @Field(() => BookUpdateOneWithoutCoversNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneWithoutCoversNestedInput>;
+}
+
+@InputType()
+export class CoverUpsertWithWhereUniqueWithoutBookInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverUpdateWithoutBookInput, {nullable:false})
+    @Type(() => CoverUpdateWithoutBookInput)
+    update!: InstanceType<typeof CoverUpdateWithoutBookInput>;
+    @Field(() => CoverCreateWithoutBookInput, {nullable:false})
+    @Type(() => CoverCreateWithoutBookInput)
+    create!: InstanceType<typeof CoverCreateWithoutBookInput>;
+}
+
+@InputType()
+export class CoverUpsertWithWhereUniqueWithoutUploadedByInput {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverUpdateWithoutUploadedByInput, {nullable:false})
+    @Type(() => CoverUpdateWithoutUploadedByInput)
+    update!: InstanceType<typeof CoverUpdateWithoutUploadedByInput>;
+    @Field(() => CoverCreateWithoutUploadedByInput, {nullable:false})
+    @Type(() => CoverCreateWithoutUploadedByInput)
+    create!: InstanceType<typeof CoverCreateWithoutUploadedByInput>;
+}
+
+@InputType()
+export class CoverWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => [CoverWhereInput], {nullable:true})
+    AND?: Array<CoverWhereInput>;
+    @Field(() => [CoverWhereInput], {nullable:true})
+    OR?: Array<CoverWhereInput>;
+    @Field(() => [CoverWhereInput], {nullable:true})
+    NOT?: Array<CoverWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    url?: InstanceType<typeof StringFilter>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    size?: InstanceType<typeof EnumSIZEFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    uploadedById?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
+    @Field(() => UserRelationFilter, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
+}
+
+@InputType()
+export class CoverWhereInput {
+    @Field(() => [CoverWhereInput], {nullable:true})
+    AND?: Array<CoverWhereInput>;
+    @Field(() => [CoverWhereInput], {nullable:true})
+    OR?: Array<CoverWhereInput>;
+    @Field(() => [CoverWhereInput], {nullable:true})
+    NOT?: Array<CoverWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    url?: InstanceType<typeof StringFilter>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    size?: InstanceType<typeof EnumSIZEFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    uploadedById?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    bookId?: InstanceType<typeof IntFilter>;
+    @Field(() => UserRelationFilter, {nullable:true})
+    uploadedBy?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => BookRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookRelationFilter>;
+}
+
+@ObjectType()
+export class Cover {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => String, {nullable:false})
+    url!: string;
+    @Field(() => SIZE, {nullable:false})
+    size!: keyof typeof SIZE;
+    @Field(() => String, {nullable:true})
+    uploadedById!: string | null;
+    @Field(() => Int, {nullable:true})
+    bookId!: number | null;
+    @Field(() => User, {nullable:true})
+    uploadedBy?: InstanceType<typeof User> | null;
+    @Field(() => Book, {nullable:true})
+    book?: InstanceType<typeof Book> | null;
+}
+
+@ArgsType()
+export class CreateManyCoverArgs {
+    @Field(() => [CoverCreateManyInput], {nullable:false})
+    @Type(() => CoverCreateManyInput)
+    @ValidateNested()
+    data!: Array<CoverCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneCoverArgs {
+    @Field(() => CoverCreateInput, {nullable:false})
+    @Type(() => CoverCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof CoverCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyCoverArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+}
+
+@ArgsType()
+export class DeleteOneCoverArgs {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindFirstCoverOrThrowArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => [CoverOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CoverOrderByWithRelationInput>;
+    @Field(() => CoverWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CoverScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindFirstCoverArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => [CoverOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CoverOrderByWithRelationInput>;
+    @Field(() => CoverWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CoverScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindManyCoverArgs {
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => [CoverOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<CoverOrderByWithRelationInput>;
+    @Field(() => CoverWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [CoverScalarFieldEnum], {nullable:true})
+    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+}
+
+@ArgsType()
+export class FindUniqueCoverOrThrowArgs {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindUniqueCoverArgs {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpdateManyCoverArgs {
+    @Field(() => CoverUpdateManyMutationInput, {nullable:false})
+    @Type(() => CoverUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof CoverUpdateManyMutationInput>;
+    @Field(() => CoverWhereInput, {nullable:true})
+    @Type(() => CoverWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof CoverWhereInput>;
+}
+
+@ArgsType()
+export class UpdateOneCoverArgs {
+    @Field(() => CoverUpdateInput, {nullable:false})
+    @Type(() => CoverUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof CoverUpdateInput>;
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpsertOneCoverArgs {
+    @Field(() => CoverWhereUniqueInput, {nullable:false})
+    @Type(() => CoverWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<CoverWhereUniqueInput, 'id'>;
+    @Field(() => CoverCreateInput, {nullable:false})
+    @Type(() => CoverCreateInput)
+    create!: InstanceType<typeof CoverCreateInput>;
+    @Field(() => CoverUpdateInput, {nullable:false})
+    @Type(() => CoverUpdateInput)
+    update!: InstanceType<typeof CoverUpdateInput>;
 }
 
 @ObjectType()
@@ -10725,6 +12150,36 @@ export class EnumACTIONWithAggregatesFilter {
     _min?: InstanceType<typeof EnumACTIONFilter>;
     @Field(() => EnumACTIONFilter, {nullable:true})
     _max?: InstanceType<typeof EnumACTIONFilter>;
+}
+
+@InputType()
+export class EnumSIZEFilter {
+    @Field(() => SIZE, {nullable:true})
+    equals?: keyof typeof SIZE;
+    @Field(() => [SIZE], {nullable:true})
+    in?: Array<keyof typeof SIZE>;
+    @Field(() => [SIZE], {nullable:true})
+    notIn?: Array<keyof typeof SIZE>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    not?: InstanceType<typeof EnumSIZEFilter>;
+}
+
+@InputType()
+export class EnumSIZEWithAggregatesFilter {
+    @Field(() => SIZE, {nullable:true})
+    equals?: keyof typeof SIZE;
+    @Field(() => [SIZE], {nullable:true})
+    in?: Array<keyof typeof SIZE>;
+    @Field(() => [SIZE], {nullable:true})
+    notIn?: Array<keyof typeof SIZE>;
+    @Field(() => EnumSIZEWithAggregatesFilter, {nullable:true})
+    not?: InstanceType<typeof EnumSIZEWithAggregatesFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    _count?: InstanceType<typeof IntFilter>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    _min?: InstanceType<typeof EnumSIZEFilter>;
+    @Field(() => EnumSIZEFilter, {nullable:true})
+    _max?: InstanceType<typeof EnumSIZEFilter>;
 }
 
 @InputType()
@@ -14278,6 +15733,8 @@ export class UserCount {
     auditLogs?: number;
     @Field(() => Int, {nullable:false})
     accounts?: number;
+    @Field(() => Int, {nullable:false})
+    covers?: number;
 }
 
 @InputType()
@@ -14387,6 +15844,19 @@ export class UserCreateNestedOneWithoutCommentsInput {
 }
 
 @InputType()
+export class UserCreateNestedOneWithoutCoversInput {
+    @Field(() => UserCreateWithoutCoversInput, {nullable:true})
+    @Type(() => UserCreateWithoutCoversInput)
+    create?: InstanceType<typeof UserCreateWithoutCoversInput>;
+    @Field(() => UserCreateOrConnectWithoutCoversInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutCoversInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutCoversInput>;
+    @Field(() => UserWhereUniqueInput, {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+}
+
+@InputType()
 export class UserCreateNestedOneWithoutJournalEntriesInput {
     @Field(() => UserCreateWithoutJournalEntriesInput, {nullable:true})
     @Type(() => UserCreateWithoutJournalEntriesInput)
@@ -14466,6 +15936,16 @@ export class UserCreateOrConnectWithoutCommentsInput {
     @Field(() => UserCreateWithoutCommentsInput, {nullable:false})
     @Type(() => UserCreateWithoutCommentsInput)
     create!: InstanceType<typeof UserCreateWithoutCommentsInput>;
+}
+
+@InputType()
+export class UserCreateOrConnectWithoutCoversInput {
+    @Field(() => UserWhereUniqueInput, {nullable:false})
+    @Type(() => UserWhereUniqueInput)
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserCreateWithoutCoversInput, {nullable:false})
+    @Type(() => UserCreateWithoutCoversInput)
+    create!: InstanceType<typeof UserCreateWithoutCoversInput>;
 }
 
 @InputType()
@@ -14582,6 +16062,8 @@ export class UserCreateWithoutAccountsInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14628,6 +16110,8 @@ export class UserCreateWithoutAuditLogsInput {
     comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14670,6 +16154,56 @@ export class UserCreateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
+    @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
+}
+
+@InputType()
+export class UserCreateWithoutCoversInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsEmail()
+    email!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
+    @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
+    @Field(() => JournalEntryCreateNestedManyWithoutUserInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryCreateNestedManyWithoutUserInput>;
+    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
+    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
+    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
+    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
+    @Field(() => ReviewCreateNestedManyWithoutUserInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewCreateNestedManyWithoutLikedByInput>;
+    @Field(() => CommentCreateNestedManyWithoutUserInput, {nullable:true})
+    comments?: InstanceType<typeof CommentCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14720,6 +16254,8 @@ export class UserCreateWithoutFollowersInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14766,6 +16302,8 @@ export class UserCreateWithoutFollowingInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14812,6 +16350,8 @@ export class UserCreateWithoutJournalEntriesInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14858,6 +16398,8 @@ export class UserCreateWithoutLikedReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14904,6 +16446,8 @@ export class UserCreateWithoutReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14950,6 +16494,8 @@ export class UserCreateWithoutShelvesInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -14996,6 +16542,8 @@ export class UserCreateWithoutUserBooksInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15044,6 +16592,8 @@ export class UserCreateInput {
     auditLogs?: InstanceType<typeof AuditLogCreateNestedManyWithoutUserInput>;
     @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverCreateNestedManyWithoutUploadedByInput>;
 }
 
 @ArgsType()
@@ -15326,6 +16876,8 @@ export class UserOrderByWithRelationInput {
     auditLogs?: InstanceType<typeof AuditLogOrderByRelationAggregateInput>;
     @Field(() => AccountOrderByRelationAggregateInput, {nullable:true})
     accounts?: InstanceType<typeof AccountOrderByRelationAggregateInput>;
+    @Field(() => CoverOrderByRelationAggregateInput, {nullable:true})
+    covers?: InstanceType<typeof CoverOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -15475,6 +17027,8 @@ export class UserUncheckedCreateWithoutAccountsInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15521,6 +17075,8 @@ export class UserUncheckedCreateWithoutAuditLogsInput {
     comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15563,6 +17119,56 @@ export class UserUncheckedCreateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
+    @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
+}
+
+@InputType()
+export class UserUncheckedCreateWithoutCoversInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsEmail()
+    email!: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => JournalEntryUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
+    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
+    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
+    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => ReviewUncheckedCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedCreateNestedManyWithoutLikedByInput>;
+    @Field(() => CommentUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AuditLogUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15613,6 +17219,8 @@ export class UserUncheckedCreateWithoutFollowersInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15659,6 +17267,8 @@ export class UserUncheckedCreateWithoutFollowingInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15705,6 +17315,8 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15751,6 +17363,8 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15797,6 +17411,8 @@ export class UserUncheckedCreateWithoutReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15843,6 +17459,8 @@ export class UserUncheckedCreateWithoutShelvesInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15889,6 +17507,8 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -15937,6 +17557,8 @@ export class UserUncheckedCreateInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
+    @Field(() => CoverUncheckedCreateNestedManyWithoutUploadedByInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedCreateNestedManyWithoutUploadedByInput>;
 }
 
 @InputType()
@@ -16197,6 +17819,8 @@ export class UserUncheckedUpdateWithoutAccountsInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16243,6 +17867,8 @@ export class UserUncheckedUpdateWithoutAuditLogsInput {
     comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16285,6 +17911,56 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
+}
+
+@InputType()
+export class UserUncheckedUpdateWithoutCoversInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => JournalEntryUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
+    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
+    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
+    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUncheckedUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => CommentUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16335,6 +18011,8 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16381,6 +18059,8 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16427,6 +18107,8 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16473,6 +18155,8 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16519,6 +18203,8 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16565,6 +18251,8 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16611,6 +18299,8 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16659,6 +18349,8 @@ export class UserUncheckedUpdateInput {
     auditLogs?: InstanceType<typeof AuditLogUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUncheckedUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUncheckedUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -16891,6 +18583,31 @@ export class UserUpdateOneWithoutCommentsNestedInput {
 }
 
 @InputType()
+export class UserUpdateOneWithoutCoversNestedInput {
+    @Field(() => UserCreateWithoutCoversInput, {nullable:true})
+    @Type(() => UserCreateWithoutCoversInput)
+    create?: InstanceType<typeof UserCreateWithoutCoversInput>;
+    @Field(() => UserCreateOrConnectWithoutCoversInput, {nullable:true})
+    @Type(() => UserCreateOrConnectWithoutCoversInput)
+    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutCoversInput>;
+    @Field(() => UserUpsertWithoutCoversInput, {nullable:true})
+    @Type(() => UserUpsertWithoutCoversInput)
+    upsert?: InstanceType<typeof UserUpsertWithoutCoversInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    disconnect?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    delete?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserWhereUniqueInput, {nullable:true})
+    @Type(() => UserWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
+    @Field(() => UserUpdateToOneWithWhereWithoutCoversInput, {nullable:true})
+    @Type(() => UserUpdateToOneWithWhereWithoutCoversInput)
+    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutCoversInput>;
+}
+
+@InputType()
 export class UserUpdateOneWithoutJournalEntriesNestedInput {
     @Field(() => UserCreateWithoutJournalEntriesInput, {nullable:true})
     @Type(() => UserCreateWithoutJournalEntriesInput)
@@ -17021,6 +18738,16 @@ export class UserUpdateToOneWithWhereWithoutCommentsInput {
 }
 
 @InputType()
+export class UserUpdateToOneWithWhereWithoutCoversInput {
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    where?: InstanceType<typeof UserWhereInput>;
+    @Field(() => UserUpdateWithoutCoversInput, {nullable:false})
+    @Type(() => UserUpdateWithoutCoversInput)
+    data!: InstanceType<typeof UserUpdateWithoutCoversInput>;
+}
+
+@InputType()
 export class UserUpdateToOneWithWhereWithoutJournalEntriesInput {
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
@@ -17134,6 +18861,8 @@ export class UserUpdateWithoutAccountsInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17180,6 +18909,8 @@ export class UserUpdateWithoutAuditLogsInput {
     comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17222,6 +18953,56 @@ export class UserUpdateWithoutCommentsInput {
     reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
     @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
     likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
+    auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
+    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
+    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
+}
+
+@InputType()
+export class UserUpdateWithoutCoversInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    @Validator.MaxLength(100)
+    @Validator.MinLength(3)
+    username?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedPassword?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    hashedRefreshToken?: string;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    image?: string;
+    @Field(() => Date, {nullable:true})
+    emailVerified?: Date | string;
+    @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
+    userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
+    @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
+    @Field(() => JournalEntryUpdateManyWithoutUserNestedInput, {nullable:true})
+    journalEntries?: InstanceType<typeof JournalEntryUpdateManyWithoutUserNestedInput>;
+    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
+    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
+    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
+    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutUserNestedInput, {nullable:true})
+    reviews?: InstanceType<typeof ReviewUpdateManyWithoutUserNestedInput>;
+    @Field(() => ReviewUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedReviews?: InstanceType<typeof ReviewUpdateManyWithoutLikedByNestedInput>;
+    @Field(() => CommentUpdateManyWithoutUserNestedInput, {nullable:true})
+    comments?: InstanceType<typeof CommentUpdateManyWithoutUserNestedInput>;
     @Field(() => AuditLogUpdateManyWithoutUserNestedInput, {nullable:true})
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17272,6 +19053,8 @@ export class UserUpdateWithoutFollowersInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17318,6 +19101,8 @@ export class UserUpdateWithoutFollowingInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17364,6 +19149,8 @@ export class UserUpdateWithoutJournalEntriesInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17410,6 +19197,8 @@ export class UserUpdateWithoutLikedReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17456,6 +19245,8 @@ export class UserUpdateWithoutReviewsInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17502,6 +19293,8 @@ export class UserUpdateWithoutShelvesInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17548,6 +19341,8 @@ export class UserUpdateWithoutUserBooksInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17596,6 +19391,8 @@ export class UserUpdateInput {
     auditLogs?: InstanceType<typeof AuditLogUpdateManyWithoutUserNestedInput>;
     @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
     accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
+    @Field(() => CoverUpdateManyWithoutUploadedByNestedInput, {nullable:true})
+    covers?: InstanceType<typeof CoverUpdateManyWithoutUploadedByNestedInput>;
 }
 
 @InputType()
@@ -17671,6 +19468,19 @@ export class UserUpsertWithoutCommentsInput {
     @Field(() => UserCreateWithoutCommentsInput, {nullable:false})
     @Type(() => UserCreateWithoutCommentsInput)
     create!: InstanceType<typeof UserCreateWithoutCommentsInput>;
+    @Field(() => UserWhereInput, {nullable:true})
+    @Type(() => UserWhereInput)
+    where?: InstanceType<typeof UserWhereInput>;
+}
+
+@InputType()
+export class UserUpsertWithoutCoversInput {
+    @Field(() => UserUpdateWithoutCoversInput, {nullable:false})
+    @Type(() => UserUpdateWithoutCoversInput)
+    update!: InstanceType<typeof UserUpdateWithoutCoversInput>;
+    @Field(() => UserCreateWithoutCoversInput, {nullable:false})
+    @Type(() => UserCreateWithoutCoversInput)
+    create!: InstanceType<typeof UserCreateWithoutCoversInput>;
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
     where?: InstanceType<typeof UserWhereInput>;
@@ -17778,6 +19588,8 @@ export class UserWhereUniqueInput {
     auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
     @Field(() => AccountListRelationFilter, {nullable:true})
     accounts?: InstanceType<typeof AccountListRelationFilter>;
+    @Field(() => CoverListRelationFilter, {nullable:true})
+    covers?: InstanceType<typeof CoverListRelationFilter>;
 }
 
 @InputType()
@@ -17826,6 +19638,8 @@ export class UserWhereInput {
     auditLogs?: InstanceType<typeof AuditLogListRelationFilter>;
     @Field(() => AccountListRelationFilter, {nullable:true})
     accounts?: InstanceType<typeof AccountListRelationFilter>;
+    @Field(() => CoverListRelationFilter, {nullable:true})
+    covers?: InstanceType<typeof CoverListRelationFilter>;
 }
 
 @ObjectType()
@@ -17868,6 +19682,8 @@ export class User {
     auditLogs?: Array<AuditLog>;
     @Field(() => [Account], {nullable:true})
     accounts?: Array<Account>;
+    @Field(() => [Cover], {nullable:true})
+    covers?: Array<Cover>;
     @Field(() => UserCount, {nullable:false})
     _count?: InstanceType<typeof UserCount>;
 }
