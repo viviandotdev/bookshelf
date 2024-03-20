@@ -2093,6 +2093,7 @@ type Mutation {
   forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!): Boolean!
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
+  likeUserBook(bookId: Int!): UserBook!
   login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
   oAuth(oAuthInput: OAuthInput!): AuthResponse!

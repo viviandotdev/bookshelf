@@ -14,6 +14,34 @@ export class UserBookService {
     private readonly prisma: PrismaRepository,
   ) {}
 
+  async addToFavorites(bookId: number, userId: string) {
+    // Check if the book is already associated with the user
+    const userBook = await this.repository.findUnique({
+      where: {
+        identifier: {
+          userId,
+          bookId,
+        },
+      },
+      include: {
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
+      },
+    });
+
+    // If the userBook exists, update it to include the "favorites" shelf
+    const shelfList = userBook?.shelves.map((shelf) => shelf.shelf.name);
+    if (userBook) {
+      return this.update({
+        data: { shelves: [...shelfList, 'Favorites'] }, // Assuming shelves is an array of shelf names
+        where: { userId, bookId },
+      });
+    }
+  }
+
   async create(bookId: number, userId: string, status?: string) {
     const lastUserBook = await this.repository.findFirst({
       where: { status: status || 'Want to Read', userId: userId },

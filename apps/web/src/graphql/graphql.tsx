@@ -2152,6 +2152,7 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   importUserBooks: Scalars['Boolean'];
   likeReview: Review;
+  likeUserBook: UserBook;
   login: AuthResponse;
   logout: Scalars['Boolean'];
   oAuth: AuthResponse;
@@ -2234,6 +2235,11 @@ export type MutationImportUserBooksArgs = {
 export type MutationLikeReviewArgs = {
   value: Scalars['Boolean'];
   where: ReviewWhereUniqueInput;
+};
+
+
+export type MutationLikeUserBookArgs = {
+  bookId: Scalars['Int'];
 };
 
 
@@ -5362,6 +5368,13 @@ export type UpdateUserBookOrderMutationVariables = Exact<{
 
 export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
+export type LikeUserBookMutationVariables = Exact<{
+  bookId: Scalars['Int']['input'];
+}>;
+
+
+export type LikeUserBookMutation = { __typename?: 'Mutation', likeUserBook: { __typename?: 'UserBook', id: string, status: string } };
+
 export type GetAuditLogsQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereUniqueInput>;
   action?: InputMaybe<Action>;
@@ -6474,6 +6487,40 @@ export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHook
 export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
+export const LikeUserBookDocument = gql`
+    mutation likeUserBook($bookId: Int!) {
+  likeUserBook(bookId: $bookId) {
+    id
+    status
+  }
+}
+    `;
+export type LikeUserBookMutationFn = Apollo.MutationFunction<LikeUserBookMutation, LikeUserBookMutationVariables>;
+
+/**
+ * __useLikeUserBookMutation__
+ *
+ * To run a mutation, you first call `useLikeUserBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLikeUserBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [likeUserBookMutation, { data, loading, error }] = useLikeUserBookMutation({
+ *   variables: {
+ *      bookId: // value for 'bookId'
+ *   },
+ * });
+ */
+export function useLikeUserBookMutation(baseOptions?: Apollo.MutationHookOptions<LikeUserBookMutation, LikeUserBookMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LikeUserBookMutation, LikeUserBookMutationVariables>(LikeUserBookDocument, options);
+      }
+export type LikeUserBookMutationHookResult = ReturnType<typeof useLikeUserBookMutation>;
+export type LikeUserBookMutationResult = Apollo.MutationResult<LikeUserBookMutation>;
+export type LikeUserBookMutationOptions = Apollo.BaseMutationOptions<LikeUserBookMutation, LikeUserBookMutationVariables>;
 export const GetAuditLogsDocument = gql`
     query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int, $orderBy: AuditLogOrderByWithRelationInput) {
   auditLogs(

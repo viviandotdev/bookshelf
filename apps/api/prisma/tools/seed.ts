@@ -1,83 +1,25 @@
 import { PrismaClient } from '@prisma/client';
-// import {
-//   createRandomUser,
-//   createRandomBook,
-//   createRandomUserBook,
-//   createRandomShelf,
-// } from './seed.data'; // Import your fake data generation functions
 
 const prisma = new PrismaClient();
 
 async function main() {
-  //   // Generate fake data
-  //   const users = Array.from({ length: 10 }, createRandomUser);
-  //   const books = Array.from({ length: 10 }, createRandomBook);
-  //   const userBooks = Array.from({ length: 10 }, () =>
-  //     createRandomUserBook(users),
-  //   );
-  //   const shelves = Array.from({ length: 10 }, () => createRandomShelf(users));
-  //   await Promise.all(
-  //     users.map((user) => {
-  //       return prisma.user.create({
-  //         data: {
-  //           id: user.id,
-  //           email: user.email,
-  //           username: user.username,
-  //           hashedPassword: user.hashedPassword,
-  //           hashedRefreshToken: user.hashedRefreshToken,
-  //           createdAt: user.createdAt,
-  //           updatedAt: user.updatedAt,
-  //         },
-  //       });
-  //     }),
-  //   );
-  //   await Promise.all(
-  //     books.map((book) => {
-  //       return prisma.book.create({
-  //         data: {
-  //           id: book.id,
-  //           title: book.title,
-  //           author: book.author,
-  //           publishedDate: book.publishedDate,
-  //           publisher: book.publisher,
-  //           coverImage: book.coverImage,
-  //           description: book.description,
-  //           pageCount: book.pageCount,
-  //         },
-  //       });
-  //     }),
-  //   );
-  //   await Promise.all(
-  //     userBooks.map(async (userBook, idx) => {
-  //       const { id, status, rating, userId } = userBook;
-  //       const bookId = books[idx].id;
-  //       // You can access user and book like userBook.user and userBook.book
-  //       // Create a UserBook record
-  //       await prisma.userBook.create({
-  //         data: {
-  //           id,
-  //           userId,
-  //           bookId,
-  //           status,
-  //           rating,
-  //         },
-  //       });
-  //     }),
-  //   );
-  //   await Promise.all(
-  //     shelves.map(async (shelf, idx) => {
-  //       const { id, name } = shelf;
-  //       const userId = users[idx].id;
-  //       // You can access user and book like userBook.user and userBook.book
-  //       await prisma.shelf.create({
-  //         data: {
-  //           id,
-  //           name,
-  //           userId,
-  //         },
-  //       });
-  //     }),
-  //   );
+  // Delete data from all tables except User
+  await prisma.account.deleteMany();
+  await prisma.comment.deleteMany();
+  await prisma.review.deleteMany();
+  await prisma.auditLog.deleteMany();
+  await prisma.journalEntry.deleteMany();
+  await prisma.userBookShelves.deleteMany();
+  await prisma.userBook.deleteMany();
+  await prisma.shelf.deleteMany();
+  await prisma.identifier.deleteMany();
+  await prisma.book.deleteMany();
+  await prisma.author.deleteMany();
+  await prisma.work.deleteMany();
+  await prisma.verificationToken.deleteMany();
+  await prisma.passwordResetToken.deleteMany();
+
+  console.log('Data cleared from all tables except User.');
 }
 
 main()

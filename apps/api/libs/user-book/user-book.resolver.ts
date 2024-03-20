@@ -37,6 +37,18 @@ export class UserBookResolver {
     return /\D/.test(str);
   }
 
+  // In user-book.resolver.ts
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => UserBook, { name: 'likeUserBook' })
+  async likeUserBook(
+    @Args('bookId', { type: () => Int }) bookId: number,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    // Use the addToFavorites method from UserBookService
+    return this.userBookService.addToFavorites(bookId, user.userId);
+  }
+
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook, { nullable: true, name: 'createUserBook' })
   async createUserBook(

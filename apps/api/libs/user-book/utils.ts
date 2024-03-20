@@ -80,7 +80,11 @@ export function processBook(
   if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || '';
   const publisher: string = book.volumeInfo.publisher || '';
-  const coverImage: string = book.volumeInfo.imageLinks?.thumbnail || '';
+  const coverImage: string =
+    book.volumeInfo.imageLinks?.large ||
+    book.volumeInfo.imageLinks?.medium ||
+    book.volumeInfo.imageLinks?.small ||
+    '';
   const description: string = book.volumeInfo.description || '';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;

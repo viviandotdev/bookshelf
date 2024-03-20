@@ -42,3 +42,10 @@ mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
     order
   }
 }
+
+mutation likeUserBook($bookId: Int!) {
+  likeUserBook(bookId: $bookId) {
+    id
+    status
+  }
+}

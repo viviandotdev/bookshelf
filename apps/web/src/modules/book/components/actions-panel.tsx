@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { BookData } from '@/types/interfaces';
 import { Book, Review, Shelf, useUserBookLazyQuery } from '@/graphql/graphql';
 import { useSession } from 'next-auth/react';
@@ -17,6 +17,7 @@ import useBookStatusModal from '@/components/modals/book-status-modal/use-book-s
 import useShelfStore from '@/stores/use-shelf-store';
 import SkeletonActionPanel from '@/modules/skeletons/components/skeleton-action-panel';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
+import { likeUserBook } from '../actions/like-book';
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -51,6 +52,7 @@ export default function ActionsPanel({
   const [rating, setRating] = useState(0); // Initial value
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
   const { data: session } = useSession();
   const statusModal = useBookStatusModal();
   const addToShelfModal = useAddToShelfModal();
@@ -119,7 +121,15 @@ export default function ActionsPanel({
 
   async function likeBook(book: BookData) {
     setLoading(true);
-    // await updateUserBook(book.bookId, { shelves });
+    startTransition(() => {
+      likeUserBook(book.id).then((data) => {
+        if (data != null) {
+          toast({ title: `BOOK LIKED` });
+        } else {
+          toast({ title: `ERROR LIKING BOok` });
+        }
+      });
+    });
     setLoading(false);
   }
 

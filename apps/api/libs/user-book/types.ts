@@ -12,6 +12,7 @@ export interface BookData {
   isbn: string;
   categories: string[];
   isbn13: string;
+  thumbnailImage?: string;
 }
 
 export interface GoodreadsBook {
