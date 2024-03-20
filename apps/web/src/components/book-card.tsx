@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '@/lib/utils';
+import { cn, getCoverUrl } from '@/lib/utils';
 import { Icons } from './icons';
 import { Button, buttonVariants } from './ui/button';
 import { Card, CardContent, CardTitle, CardDescription } from './ui/card';
@@ -10,6 +10,7 @@ import { createContext, useContext, useRef } from 'react';
 import { BookData } from '@/types/interfaces';
 import BookCover from './book-cover';
 import Link from 'next/link';
+import { Cover, Size } from '@/graphql/graphql';
 
 const BookCardContext = createContext<{ book: BookData } | null>(null);
 
@@ -67,9 +68,10 @@ interface BookContentProps {
 
 export function BookContent({ image, shelves, info }: BookContentProps) {
   const { book } = useBookCardContext();
+
   return (
     <div className='flex items-start space-x-4 rounded-md'>
-      <BookCover src={book.coverImage} size={'sm'} />
+      <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
       <div className='flex flex-col items-start justify-center gap-1'>
         <CardTitle className='text-base leading-tight '>{book.title}</CardTitle>
         <CardDescription className='line-clamp-1 text-sm'>

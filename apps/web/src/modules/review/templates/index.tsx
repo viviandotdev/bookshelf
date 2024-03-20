@@ -1,6 +1,6 @@
-import { Book, Shelf, User } from '@/graphql/graphql';
+import { Book, Shelf, Size, User } from '@/graphql/graphql';
 import { dm_sefif_display } from '@/lib/fonts';
-import { formatDate, cn, formatAuthors } from '@/lib/utils';
+import { formatDate, cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import React from 'react';
 import Image from 'next/image';
 import CommentSection from '../components/comment-section';
@@ -30,7 +30,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
           <Image
             width={184}
             height={277}
-            src={book && book.coverImage}
+            src={getCoverUrl(book, Size.Small)}
             className='w-[fill-available] max-w-none rounded-lg'
             alt='Picture of the author'
           />

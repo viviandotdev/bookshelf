@@ -7,18 +7,13 @@ import { toast } from '@/hooks/use-toast';
 
 export const useCreateReview = () => {
   const [CreateReview] = useCreateReviewMutation();
-  const createReview = async (
-    bookId: string,
-    createInput: ReviewDataInput,
-    bookData: BookCreateInput
-  ) => {
+  const createReview = async (bookId: string, createInput: ReviewDataInput) => {
     const { data, errors } = await CreateReview({
       variables: {
         data: createInput,
         where: {
           id: parseInt(bookId),
         },
-        bookData: bookData,
       },
       errorPolicy: 'all',
     });

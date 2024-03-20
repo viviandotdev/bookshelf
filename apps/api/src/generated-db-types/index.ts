@@ -164,7 +164,6 @@ export enum BookScalarFieldEnum {
     title = "title",
     publishedDate = "publishedDate",
     publisher = "publisher",
-    coverImage = "coverImage",
     description = "description",
     language = "language",
     pageCount = "pageCount",
@@ -4076,8 +4075,6 @@ export class BookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     publisher?: true;
     @Field(() => Boolean, {nullable:true})
-    coverImage?: true;
-    @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
     language?: true;
@@ -4101,8 +4098,6 @@ export class BookCountAggregate {
     @Field(() => Int, {nullable:false})
     publisher!: number;
     @Field(() => Int, {nullable:false})
-    coverImage!: number;
-    @Field(() => Int, {nullable:false})
     description!: number;
     @Field(() => Int, {nullable:false})
     language!: number;
@@ -4125,8 +4120,6 @@ export class BookCountOrderByAggregateInput {
     publishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    coverImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -4176,9 +4169,6 @@ export class BookCreateManyWorkInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4202,9 +4192,6 @@ export class BookCreateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -4395,9 +4382,6 @@ export class BookCreateWithoutAuthorsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4430,9 +4414,6 @@ export class BookCreateWithoutCoversInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -4469,9 +4450,6 @@ export class BookCreateWithoutIdentifierInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4504,9 +4482,6 @@ export class BookCreateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -4543,9 +4518,6 @@ export class BookCreateWithoutReviewsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4578,9 +4550,6 @@ export class BookCreateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -4617,9 +4586,6 @@ export class BookCreateWithoutWorkInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4652,9 +4618,6 @@ export class BookCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -4724,9 +4687,6 @@ export class BookGroupBy {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4769,8 +4729,6 @@ export class BookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     publisher?: true;
     @Field(() => Boolean, {nullable:true})
-    coverImage?: true;
-    @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
     language?: true;
@@ -4796,9 +4754,6 @@ export class BookMaxAggregate {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4821,8 +4776,6 @@ export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    coverImage?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     language?: keyof typeof SortOrder;
@@ -4842,8 +4795,6 @@ export class BookMinAggregateInput {
     publishedDate?: true;
     @Field(() => Boolean, {nullable:true})
     publisher?: true;
-    @Field(() => Boolean, {nullable:true})
-    coverImage?: true;
     @Field(() => Boolean, {nullable:true})
     description?: true;
     @Field(() => Boolean, {nullable:true})
@@ -4870,9 +4821,6 @@ export class BookMinAggregate {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -4894,8 +4842,6 @@ export class BookMinOrderByAggregateInput {
     publishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     publisher?: keyof typeof SortOrder;
-    @Field(() => SortOrder, {nullable:true})
-    coverImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     description?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -4922,8 +4868,6 @@ export class BookOrderByWithAggregationInput {
     publishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     publisher?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    coverImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -4954,8 +4898,6 @@ export class BookOrderByWithRelationInput {
     publishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     publisher?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    coverImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     description?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -5005,8 +4947,6 @@ export class BookScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     publisher?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    coverImage?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
     description?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     language?: InstanceType<typeof StringWithAggregatesFilter>;
@@ -5032,8 +4972,6 @@ export class BookScalarWhereInput {
     publishedDate?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     publisher?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    coverImage?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -5115,9 +5053,6 @@ export class BookUncheckedCreateWithoutAuthorsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5153,9 +5088,6 @@ export class BookUncheckedCreateWithoutCoversInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5195,9 +5127,6 @@ export class BookUncheckedCreateWithoutIdentifierInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5233,9 +5162,6 @@ export class BookUncheckedCreateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5275,9 +5201,6 @@ export class BookUncheckedCreateWithoutReviewsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5313,9 +5236,6 @@ export class BookUncheckedCreateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5355,9 +5275,6 @@ export class BookUncheckedCreateWithoutWorkInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5393,9 +5310,6 @@ export class BookUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5471,9 +5385,6 @@ export class BookUncheckedUpdateManyWithoutAuthorsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5538,9 +5449,6 @@ export class BookUncheckedUpdateManyWithoutWorkInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5564,9 +5472,6 @@ export class BookUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5594,9 +5499,6 @@ export class BookUncheckedUpdateWithoutAuthorsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5636,9 +5538,6 @@ export class BookUncheckedUpdateWithoutCoversInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5674,9 +5573,6 @@ export class BookUncheckedUpdateWithoutIdentifierInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5716,9 +5612,6 @@ export class BookUncheckedUpdateWithoutLogsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5754,9 +5647,6 @@ export class BookUncheckedUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5796,9 +5686,6 @@ export class BookUncheckedUpdateWithoutUserBookInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5834,9 +5721,6 @@ export class BookUncheckedUpdateWithoutWorkInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -5876,9 +5760,6 @@ export class BookUncheckedUpdateInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -5913,9 +5794,6 @@ export class BookUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -6226,9 +6104,6 @@ export class BookUpdateWithoutAuthorsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -6261,9 +6136,6 @@ export class BookUpdateWithoutCoversInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -6300,9 +6172,6 @@ export class BookUpdateWithoutIdentifierInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -6335,9 +6204,6 @@ export class BookUpdateWithoutLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -6374,9 +6240,6 @@ export class BookUpdateWithoutReviewsInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -6409,9 +6272,6 @@ export class BookUpdateWithoutUserBookInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -6448,9 +6308,6 @@ export class BookUpdateWithoutWorkInput {
     publisher?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    coverImage?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
     description?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -6483,9 +6340,6 @@ export class BookUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     publisher?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    coverImage?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     description?: string;
@@ -6620,8 +6474,6 @@ export class BookWhereUniqueInput {
     @Field(() => StringFilter, {nullable:true})
     publisher?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    coverImage?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     language?: InstanceType<typeof StringFilter>;
@@ -6662,8 +6514,6 @@ export class BookWhereInput {
     @Field(() => StringFilter, {nullable:true})
     publisher?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    coverImage?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
     description?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     language?: InstanceType<typeof StringFilter>;
@@ -6697,8 +6547,6 @@ export class Book {
     publishedDate!: string | null;
     @Field(() => String, {nullable:true})
     publisher!: string | null;
-    @Field(() => String, {nullable:true})
-    coverImage!: string | null;
     @Field(() => String, {nullable:true})
     description!: string | null;
     @Field(() => String, {nullable:true})

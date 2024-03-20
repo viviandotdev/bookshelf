@@ -4,6 +4,7 @@ import {
   Author,
   BookCreateInput,
   BookWhereUniqueInput,
+  CoverCreateInput,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -22,6 +23,7 @@ import { WorkCreateInput } from '@bookcue/api/generated-db-types';
 import { WorkService } from 'libs/work/work.service';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { BookData } from './types';
+import { CoverService } from 'libs/cover/cover.service';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -29,6 +31,7 @@ export class UserBookResolver {
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
     private readonly authorService: AuthorService,
+    private readonly coverService: CoverService,
     private readonly workService: WorkService,
     private readonly prisma: PrismaRepository,
   ) {}
@@ -172,7 +175,6 @@ export class UserBookResolver {
       averageRating:
         Number(objectFromCSV['Average Rating']) || book.averageRating,
       ratingsCount: book.ratingsCount,
-      //   mainEditionId: identifier.bookId,
     };
   }
 
@@ -203,7 +205,11 @@ export class UserBookResolver {
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
         // need to create authors
         const authors = await this.authorService.createAuthors(book.authors);
+        // need to create covers
+        const coverInput: CoverCreateInput[] =
+          this.coverService.createCoverInput(book.imageLinks);
 
+        const covers = await this.coverService.createCovers(coverInput);
         const workData: WorkCreateInput = this.buildWorkData(
           book,
           authors,
@@ -213,8 +219,7 @@ export class UserBookResolver {
         // create identifiers abstract away into bookservice create
 
         const work = await this.workService.createUniqueWork(workData, authors);
-        // create covers
-        // const authors = await this.authorService.createAuthors(book.authors);
+
         const bookData: BookCreateInput = {
           //   id: bookIdentifier.bookId,
           title: book.title,
@@ -225,7 +230,9 @@ export class UserBookResolver {
           publisher: book.publisher,
           publishedDate: book.publishedDate,
           description: book.description,
-          coverImage: book.coverImage,
+          covers: {
+            connect: covers.map((cover) => ({ id: cover.id })),
+          },
           work: {
             connect: {
               id: work.id,

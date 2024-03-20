@@ -29,7 +29,10 @@ query GetAuditLogs(
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
       }
       actionContent
     }

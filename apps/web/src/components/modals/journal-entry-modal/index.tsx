@@ -10,6 +10,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useJournalEntryModal } from './use-journal-entry-modal';
+import { Size } from '@/graphql/graphql';
+import { getCoverUrl } from '@/lib/utils';
 
 export const JouranlEntryModal: React.FC = ({}) => {
   const userBook = useUserBookStore();
@@ -26,7 +28,7 @@ export const JouranlEntryModal: React.FC = ({}) => {
           <DialogContent className='flex min-w-[720px]'>
             <div className='flex min-w-full gap-8'>
               <BookCover
-                src={userBook.book.coverImage}
+                src={getCoverUrl(userBook.book, Size.Small)}
                 size={'md'}
                 className='items-start'
               />

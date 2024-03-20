@@ -88,24 +88,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({}) => {
     if (!createReviewModal.editId) {
       //  create book if not exists
 
-      let data = await createReview(
-        userBook.book!.id,
-        { ...reviewInput },
-        {
-          // id: userBook.book!.id,
-          title: userBook.book!.title,
-          coverImage: userBook.book!.coverImage,
-          pageCount: (userBook.book && userBook.book.pageCount) || 0,
-          authors: {
-            connect: userBook.book.authors?.map((author) => ({
-              id: author.id,
-            })),
-          },
-          description: userBook.book!.description,
-          publisher: userBook.book!.publisher || '',
-          publishedDate: userBook.book!.publishedDate,
-        }
-      );
+      let data = await createReview(userBook.book!.id, { ...reviewInput });
       if (data) {
         createReviewModal.onClose();
       }
@@ -131,7 +114,7 @@ const CreateReviewModal: React.FC<CreateReviewModal> = ({}) => {
           <DialogContent className='flex min-w-[720px]'>
             <div className='flex min-w-full gap-8 '>
               <BookCover
-                src={userBook.book.coverImage}
+                src={userBook.book.covers}
                 size={'md'}
                 className='items-start'
               />

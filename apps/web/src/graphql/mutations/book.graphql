@@ -1,14 +1,5 @@
 mutation CreateBook($data: BookCreateInput!) {
   createBook(data: $data) {
-    authors {
-      name
-    }
-    coverImage
-    description
     id
-    pageCount
-    publishedDate
-    publisher
-    title
   }
 }

@@ -129,8 +129,6 @@ model Book {
     /// @Validator.IsString()
     publisher     String?
     /// @Validator.IsString()
-    coverImage    String?
-    /// @Validator.IsString()
     description   String?
     /// @Validator.IsString()
     language      String?

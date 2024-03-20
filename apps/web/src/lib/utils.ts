@@ -1,7 +1,7 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
-import { Book } from '@/graphql/graphql';
+import { Book, Cover, Size } from '@/graphql/graphql';
 import { split } from 'rambda';
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
@@ -34,6 +34,13 @@ export function cleanText(text: string) {
   // Remove any non-alphanumeric characters from the
   let cleanText = text.replace(/[^a-zA-Z0-9]/g, '');
   return cleanText;
+}
+
+export function getCoverUrl(book: Book, size: string) {
+  if (!book || !book.covers || book.covers.length === 0) {
+    return '';
+  }
+  return book.covers.filter((cover: Cover) => cover.size == size)[0].url;
 }
 
 export const formatAuthors = (book: Book) => {

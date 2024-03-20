@@ -117,6 +117,7 @@ export class UserBookService {
         book: {
           include: {
             authors: { select: { name: true } },
+            covers: { select: { size: true, url: true } },
             _count: {
               select: {
                 userBook: true,

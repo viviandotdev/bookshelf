@@ -6,13 +6,12 @@ export interface BookData {
   ratingsCount: number;
   publishedDate: string;
   publisher: string;
-  coverImage: string;
+  imageLinks: any;
   description: string;
   pageCount: number;
   isbn: string;
   categories: string[];
   isbn13: string;
-  thumbnailImage?: string;
 }
 
 export interface GoodreadsBook {
