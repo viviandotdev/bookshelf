@@ -40,16 +40,24 @@ export class UserBookResolver {
     return /\D/.test(str);
   }
 
-  // In user-book.resolver.ts
-
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook, { name: 'likeUserBook' })
-  async likeUserBook(
+  @Mutation(() => UserBook, { name: 'addBookToShelf' })
+  async addBookToShelf(
     @Args('bookId', { type: () => Int }) bookId: number,
+    @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    // Use the addToFavorites method from UserBookService
-    return this.userBookService.addToFavorites(bookId, user.userId);
+    return this.userBookService.addBookToShelf(bookId, user.userId, shelf);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => UserBook, { name: 'removeBookFromShelf' })
+  async removeUserBookFromShelf(
+    @Args('bookId', { type: () => Int }) bookId: number,
+    @Args('shelf', { type: () => String }) shelf: string,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.userBookService.removeBookFromShelf(bookId, user.userId, shelf);
   }
 
   @UseGuards(AccessTokenGuard)

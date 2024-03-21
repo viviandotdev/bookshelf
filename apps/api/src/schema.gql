@@ -2377,6 +2377,7 @@ type MeResponse {
 }
 
 type Mutation {
+  addBookToShelf(bookId: Int!, shelf: String!): UserBook!
   createAuthor(data: AuthorCreateInput!): Author!
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
@@ -2389,12 +2390,12 @@ type Mutation {
   forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!): Boolean!
   likeReview(value: Boolean!, where: ReviewWhereUniqueInput!): Review!
-  likeUserBook(bookId: Int!): UserBook!
   login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
   oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
+  removeBookFromShelf(bookId: Int!, shelf: String!): UserBook!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!

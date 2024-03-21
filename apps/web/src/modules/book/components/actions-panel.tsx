@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState, useTransition } from 'react';
-import { BookData } from '@/types/interfaces';
 import { Book, Review, Shelf, useUserBookLazyQuery } from '@/graphql/graphql';
 import { useSession } from 'next-auth/react';
 import useUserBookStore from '@/stores/use-user-book-store';
@@ -16,8 +15,9 @@ import useCreateReviewModal from '@/components/modals/create-review-modal/use-cr
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
 import useShelfStore from '@/stores/use-shelf-store';
 import SkeletonActionPanel from '@/modules/skeletons/components/skeleton-action-panel';
-import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
-import { likeUserBook } from '../actions/like-book';
+import { addBookToShelf } from '../actions/add-book-to-shelf';
+import { removeBookFromShelf } from '../actions/remove-book-from-shelf';
+
 interface ActionItemProps {
   icon: React.ReactNode;
   label: string;
@@ -57,7 +57,6 @@ export default function ActionsPanel({
   const statusModal = useBookStatusModal();
   const addToShelfModal = useAddToShelfModal();
   const createReviewModal = useCreateReviewModal();
-  const { updateUserBook } = useUpdateUserBook();
   const {
     setBook,
     updateBookId,
@@ -72,6 +71,7 @@ export default function ActionsPanel({
   const router = useRouter();
   const pathname = usePathname();
   const editReview = pathname.includes('review');
+  const [isLiked, setIsLiked] = useState(true);
 
   const [loadBook] = useUserBookLazyQuery({
     fetchPolicy: 'cache-and-network',
@@ -87,6 +87,8 @@ export default function ActionsPanel({
       setBook(data.userBook?.book as Book);
       setStatus(data.userBook?.status as string);
       setRating(data.userBook?.rating as number);
+      const shelves = data.userBook?.shelves.map((item) => item.shelf.name);
+      setIsLiked((shelves && shelves.includes('Favorites')) || false);
       setLoading(false);
     },
     errorPolicy: 'all',
@@ -119,17 +121,29 @@ export default function ActionsPanel({
     setLoading(false);
   }
 
-  async function likeBook(book: BookData) {
+  async function toggleLike(book: BookData) {
     setLoading(true);
-    startTransition(() => {
-      likeUserBook(book.id).then((data) => {
-        if (data != null) {
-          toast({ title: `BOOK LIKED` });
-        } else {
-          toast({ title: `ERROR LIKING BOok` });
-        }
+    if (isLiked) {
+      startTransition(() => {
+        removeBookFromShelf(book.id, 'Favorites').then((data) => {
+          if (data != null) {
+            setIsLiked(false);
+          } else {
+            toast({ title: `Error unliking book, Please try again` });
+          }
+        });
       });
-    });
+    } else {
+      startTransition(() => {
+        addBookToShelf(book.id, 'Favorites').then((data) => {
+          if (data != null) {
+            setIsLiked(true);
+          } else {
+            toast({ title: `Error liking book, Please try again` });
+          }
+        });
+      });
+    }
     setLoading(false);
   }
 
@@ -217,9 +231,15 @@ export default function ActionsPanel({
                 label='Shelve'
               />
               <ActionItem
-                onClick={() => likeBook(book)}
-                icon={<Icons.heart className='h-8 w-8 items-center' />}
-                label='Like'
+                onClick={() => toggleLike(book)}
+                icon={
+                  isLiked ? (
+                    <Icons.heart className='h-8 w-8 items-center fill-current text-red-400' />
+                  ) : (
+                    <Icons.heart className='h-8 w-8 items-center' />
+                  )
+                }
+                label={isLiked ? 'Liked' : 'Like'}
               />
             </div>
             <div className='flex w-[fill-available] cursor-pointer flex-col items-center justify-center rounded-lg bg-beige-100 p-2 text-center'>

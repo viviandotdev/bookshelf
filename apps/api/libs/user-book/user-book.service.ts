@@ -13,8 +13,63 @@ export class UserBookService {
     private readonly activityService: ActivityService,
     private readonly prisma: PrismaRepository,
   ) {}
+  async removeBookFromShelf(bookId: number, userId: string, shelf: string) {
+    // Retrieve the userBook to see if it exists and to get the current shelves
+    const userBook = await this.repository.findUnique({
+      where: {
+        identifier: {
+          userId,
+          bookId,
+        },
+      },
+      include: {
+        shelves: {
+          include: {
+            shelf: true,
+          },
+        },
+      },
+    });
 
-  async addToFavorites(bookId: number, userId: string) {
+    // If the userBook exists, check if the shelf is associated with it
+    if (userBook) {
+      const shelfList = userBook.shelves.map((shelfRelation) => ({
+        name: shelfRelation.shelf.name,
+        id: shelfRelation.shelf.id,
+      }));
+      if (shelfList.some((shelfObj) => shelfObj.name === shelf)) {
+        // Remove the shelf from the list
+        const updatedShelfList = shelfList.filter(
+          (shelfObj) => shelfObj.name !== shelf,
+        );
+        return this.repository.update({
+          data: {
+            shelves: {
+              deleteMany: { userBookId: userBook.id },
+              create: updatedShelfList.map((shelfObj) => ({
+                shelf: {
+                  connectOrCreate: {
+                    where: { identifier: { userId, name: shelfObj.name } },
+                    create: { userId, name: shelfObj.name },
+                  },
+                },
+              })),
+            },
+          },
+          where: {
+            identifier: {
+              userId,
+              bookId,
+            },
+          },
+        });
+      }
+    } else {
+      // If the userBook does not exist, throw an error or handle accordingly
+      throw new Error('Book not found on user shelf.');
+    }
+  }
+  async addBookToShelf(bookId: number, userId: string, shelf: string) {
     // Check if the book is already associated with the user
     const userBook = await this.repository.findUnique({
       where: {
@@ -36,7 +91,7 @@ export class UserBookService {
     const shelfList = userBook?.shelves.map((shelf) => shelf.shelf.name);
     if (userBook) {
       return this.update({
-        data: { shelves: [...shelfList, 'Favorites'] }, // Assuming shelves is an array of shelf names
+        data: { shelves: [...shelfList, shelf] }, // Assuming shelves is an array of shelf names
         where: { userId, bookId },
       });
     }
