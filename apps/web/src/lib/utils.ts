@@ -49,13 +49,13 @@ export const formatAuthors = (book: Book) => {
   }
   const authors = book.authors;
   if (authors.length === 1) {
-    return authors[0].name;
+    return authors[0];
   }
 
   // Join all authors except the last with ', '
   const allButLast = authors
     .slice(0, -1)
-    .map((author) => author.name)
+    .map((author) => author)
     .join(', ');
 
   // Add the last author with ' and '

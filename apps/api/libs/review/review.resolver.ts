@@ -69,16 +69,8 @@ export class ReviewResolver {
         id: where.id,
       },
       include: {
-        userBook: {
-          include: {
-            user: true,
-          },
-        },
-        book: {
-          include: {
-            authors: true,
-          },
-        },
+        user: true,
+        book: true,
         comments: {
           include: {
             user: true,

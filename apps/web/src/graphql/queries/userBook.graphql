@@ -7,9 +7,7 @@ query UserBook($where: BookWhereUniqueInput!) {
     book {
       id
       title
-      authors {
-        name
-      }
+      authors
       pageCount
       covers {
         url
@@ -49,9 +47,7 @@ query GetUserBooks(
       book {
         id
         title
-        authors {
-          name
-        }
+        authors
         pageCount
         covers {
           url
@@ -70,7 +66,6 @@ query GetUserBooks(
       }
       _count {
         shelves
-        reviews
         journalEntry
       }
       journalEntry {

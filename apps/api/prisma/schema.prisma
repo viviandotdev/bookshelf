@@ -64,7 +64,6 @@ model User {
     image              String?
     emailVerified      DateTime?
     accounts           Account[]
-    covers             Cover[]
 }
 
 model Account {
@@ -91,19 +90,19 @@ model Cover {
     url  String
     size SIZE
 
-    uploadedBy   User?   @relation(fields: [uploadedById], references: [id])
-    uploadedById String?
-    bookId       Int?
-    book         Book?   @relation(fields: [bookId], references: [id])
+    bookId     Int?
+    book       Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    UserBook   UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
+    userBookId String?
 }
 
 model Book {
     /// @Validator.IsInt()
-    id            Int         @id @default(autoincrement())
+    id            Int      @id @default(autoincrement())
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
-    authors       Author[]
+    authors       String[]
     /// @Validator.IsString()
     publishedDate String?
     /// @Validator.IsString()
@@ -114,13 +113,6 @@ model Book {
     language      String?
     /// @Validator.IsInt()
     pageCount     Int?
-    /// @Validator.IsString()
-    identifier    Identifier?
-    // One to Many: multiple users can own the same book
-    /// @Validator.ValidateNested()
-    userBook      UserBook[]
-    reviews       Review[]
-    logs          AuditLog[]
 
     /// @Validator.IsString()
     categories String[]
@@ -128,6 +120,14 @@ model Book {
     averageRating Float?
     /// @Validator.IsInt()
     ratingsCount  Int?
+
+    /// @Validator.IsString()
+    identifier Identifier?
+    // One to Many: multiple users can own the same book
+    /// @Validator.ValidateNested()
+    userBook   UserBook[]
+    reviews    Review[]
+    logs       AuditLog[]
 
     covers Cover[]
 }
@@ -149,31 +149,18 @@ model Identifier {
     amazon      String?
 }
 
-model Author {
-    id        String    @id @default(uuid())
-    name      String
-    bio       String?
-    birthDate DateTime?
-    deathDate DateTime?
-    wikipedia String?
-    photo     String?
-    books     Book[]
-}
-
 model Review {
-    id         String    @id @default(uuid())
-    createdAt  DateTime  @default(now())
-    content    String?
-    userBook   UserBook? @relation(fields: [userBookId], references: [id])
-    userBookId String?
-    likeCount  Int       @default(0)
-    likedBy    User[]    @relation("LikedReviews")
-    spoilers   Boolean   @default(false)
-    comments   Comment[]
-    user       User?     @relation(fields: [userId], references: [id])
-    userId     String?
-    book       Book?     @relation(fields: [bookId], references: [id])
-    bookId     Int?
+    id        String    @id @default(uuid())
+    createdAt DateTime  @default(now())
+    content   String?
+    likeCount Int       @default(0)
+    likedBy   User[]    @relation("LikedReviews")
+    spoilers  Boolean   @default(false)
+    comments  Comment[]
+    user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String?
+    book      Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    bookId    Int?
 }
 
 model Comment {
@@ -190,7 +177,8 @@ model Comment {
 //BookshelvesBook
 model UserBook {
     /// @Validator.IsString()
-    id        String   @id @default(uuid())
+    id String @id @default(uuid())
+
     /// @Validator.IsString()
     userId    String
     /// @Validator.IsInt()
@@ -212,8 +200,14 @@ model UserBook {
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
-    reviews      Review[]
     order        Int
+
+    // Editable book details
+    /// @Validator.IsString()
+    title   String?
+    /// @Validator.IsString()
+    authors String?
+    Cover   Cover[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()

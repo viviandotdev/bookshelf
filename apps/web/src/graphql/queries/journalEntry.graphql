@@ -33,9 +33,7 @@ query JournalEntries(
       book {
         id
         title
-        authors {
-          name
-        }
+        authors
         pageCount
         covers {
           url

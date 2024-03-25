@@ -10,14 +10,9 @@ query BookReviews(
     spoilers
     likeCount
     liked
-    userBook {
+    user {
       id
-      rating
-      status
-      user {
-        id
-        username
-      }
+      username
     }
     commentCount
   }
@@ -34,9 +29,7 @@ query BookReview($where: ReviewUniqueInput!) {
     book {
       id
       title
-      authors {
-        name
-      }
+      authors
       pageCount
       covers {
         url
@@ -44,13 +37,9 @@ query BookReview($where: ReviewUniqueInput!) {
       }
       publishedDate
     }
-    userBook {
+    user {
       id
-      rating
-      user {
-        id
-        username
-      }
+      username
     }
   }
 }
