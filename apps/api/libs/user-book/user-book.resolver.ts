@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
 import {
-  Author,
   BookCreateInput,
   BookWhereUniqueInput,
   CoverCreateInput,
@@ -18,7 +17,6 @@ import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
 import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
-import { AuthorService } from 'libs/author/author.service';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { BookData } from './types';
 import { CoverService } from 'libs/cover/cover.service';
@@ -28,7 +26,6 @@ export class UserBookResolver {
   constructor(
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
-    private readonly authorService: AuthorService,
     private readonly coverService: CoverService,
     private readonly prisma: PrismaRepository,
   ) {}
@@ -190,8 +187,6 @@ export class UserBookResolver {
       if (book) {
         // console.log(book);
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
-        // need to create authors
-        const authors = await this.authorService.createAuthors(book.authors);
         // need to create covers
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput(book.imageLinks);
@@ -199,14 +194,12 @@ export class UserBookResolver {
         const covers = await this.coverService.createCovers(coverInput);
 
         // create identifiers abstract away into bookservice create
-
+        // only create book if it does not already exist,
         const bookData: BookCreateInput = {
           //   id: bookIdentifier.bookId,
           title: book.title,
           pageCount: book.pageCount,
-          authors: {
-            connect: authors.map((author) => ({ id: author.id })),
-          },
+          authors: book.authors,
           publisher: book.publisher,
           publishedDate: book.publishedDate,
           description: book.description,

@@ -30,14 +30,6 @@ export class ReviewService {
         book: {
           connect: { id: where.bookId },
         },
-        userBook: {
-          connect: {
-            identifier: {
-              userId: where.userId,
-              bookId: where.bookId,
-            },
-          },
-        },
       },
       include: {
         user: true,
@@ -118,11 +110,7 @@ export class ReviewService {
         },
       },
       include: {
-        userBook: {
-          include: {
-            user: true,
-          },
-        },
+        user: true,
       },
       orderBy: {
         createdAt: 'desc',

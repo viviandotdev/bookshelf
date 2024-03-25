@@ -84,7 +84,6 @@ export class JournalEntryService {
           include: {
             book: {
               include: {
-                authors: { select: { name: true } },
                 covers: { select: { size: true, url: true } },
               },
             },

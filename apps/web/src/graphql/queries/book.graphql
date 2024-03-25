@@ -2,9 +2,7 @@ query Book($where: BookWhereUniqueInput!) {
   book(where: $where) {
     id
     title
-    authors {
-      name
-    }
+    authors
     covers {
       url
       size
@@ -24,9 +22,7 @@ query GetGoogleBook($id: String!) {
   getGoogleBook(id: $id) {
     id
     title
-    authors {
-      name
-    }
+    authors
     covers {
       url
       size

@@ -10,14 +10,12 @@ import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
-import { AuthorService } from 'libs/author/author.service';
 import { CoverService } from 'libs/cover/cover.service';
 
 @Resolver(() => Book)
 export class BookResolver {
   constructor(
     private readonly bookService: BookService,
-    private readonly authorService: AuthorService,
     private readonly coverService: CoverService,
   ) {}
 
@@ -38,10 +36,6 @@ export class BookResolver {
     });
 
     if (!identifier) {
-      const authors = await this.authorService.createAuthors(
-        googleBook.authors,
-      );
-
       const coverInput: CoverCreateInput[] = this.coverService.createCoverInput(
         googleBook.imageLinks,
       );
@@ -52,9 +46,7 @@ export class BookResolver {
         //   id: bookIdentifier.bookId,
         title: googleBook.title,
         pageCount: googleBook.pageCount,
-        authors: {
-          connect: authors.map((author) => ({ id: author.id })),
-        },
+        authors: googleBook.authors,
         publisher: googleBook.publisher,
         publishedDate: googleBook.publishedDate,
         description: googleBook.description,
@@ -102,7 +94,6 @@ export class BookResolver {
         id: where.id,
       },
       include: {
-        authors: true,
         covers: true,
       },
     });

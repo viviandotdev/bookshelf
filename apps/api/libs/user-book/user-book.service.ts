@@ -165,13 +165,11 @@ export class UserBookService {
         _count: {
           select: {
             shelves: true,
-            reviews: true,
             journalEntry: true,
           },
         },
         book: {
           include: {
-            authors: { select: { name: true } },
             covers: { select: { size: true, url: true } },
             _count: {
               select: {
