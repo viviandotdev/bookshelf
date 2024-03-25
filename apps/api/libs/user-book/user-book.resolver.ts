@@ -170,7 +170,7 @@ export class UserBookResolver {
     @CurrentUser() user: JwtPayload,
   ) {
     const lines = content.split('\n');
-    const mappings = parseLineWithQuotes(lines[0]); // Extract mappings/headers
+    const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
       const line = lines[i];
@@ -179,24 +179,16 @@ export class UserBookResolver {
       // const book = await this.bookService.findBookByISBN(isbn);
       const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
-      // Check if the number of requests exceeds the limit (10 requests per second)
-      // if book is found
-      //   - [ ]  check if work already exists, if it does add the book as a new edition.
-      // - [ ]  if work does not exist create the work and then add the book as new edition
 
       if (book) {
-        // console.log(book);
         const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
-        // need to create covers
+
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput(book.imageLinks);
 
         const covers = await this.coverService.createCovers(coverInput);
 
-        // create identifiers abstract away into bookservice create
-        // only create book if it does not already exist,
         const bookData: BookCreateInput = {
-          //   id: bookIdentifier.bookId,
           title: book.title,
           pageCount: book.pageCount,
           authors: book.authors,
