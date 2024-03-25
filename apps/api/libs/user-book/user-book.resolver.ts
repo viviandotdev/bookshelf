@@ -19,8 +19,6 @@ import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { AuthorService } from 'libs/author/author.service';
-import { WorkCreateInput } from '@bookcue/api/generated-db-types';
-import { WorkService } from 'libs/work/work.service';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { BookData } from './types';
 import { CoverService } from 'libs/cover/cover.service';
@@ -32,7 +30,6 @@ export class UserBookResolver {
     private readonly bookService: BookService,
     private readonly authorService: AuthorService,
     private readonly coverService: CoverService,
-    private readonly workService: WorkService,
     private readonly prisma: PrismaRepository,
   ) {}
 
@@ -168,24 +165,6 @@ export class UserBookResolver {
     return this.userBookService.updateOrder(items, user.userId);
   }
 
-  private buildWorkData(
-    book: BookData,
-    authors: Author[],
-    objectFromCSV: any,
-  ): WorkCreateInput {
-    return {
-      title: book.title,
-      authors: {
-        connect: authors.map((author) => ({ id: author.id })),
-      },
-      description: book.description,
-      categories: book.categories,
-      averageRating:
-        Number(objectFromCSV['Average Rating']) || book.averageRating,
-      ratingsCount: book.ratingsCount,
-    };
-  }
-
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Boolean)
   async importUserBooks(
@@ -218,15 +197,8 @@ export class UserBookResolver {
           this.coverService.createCoverInput(book.imageLinks);
 
         const covers = await this.coverService.createCovers(coverInput);
-        const workData: WorkCreateInput = this.buildWorkData(
-          book,
-          authors,
-          objectFromCSV,
-        );
 
         // create identifiers abstract away into bookservice create
-
-        const work = await this.workService.createUniqueWork(workData, authors);
 
         const bookData: BookCreateInput = {
           //   id: bookIdentifier.bookId,
@@ -241,11 +213,10 @@ export class UserBookResolver {
           covers: {
             connect: covers.map((cover) => ({ id: cover.id })),
           },
-          work: {
-            connect: {
-              id: work.id,
-            },
-          },
+          categories: book.categories,
+          averageRating:
+            Number(objectFromCSV['Average Rating']) || book.averageRating,
+          ratingsCount: book.ratingsCount,
         };
 
         try {
@@ -259,18 +230,6 @@ export class UserBookResolver {
               goodreads: objectFromCSV['Book Id'],
             },
           );
-
-          if (!work.mainEditionId) {
-            // update mainEditionId if not exixts
-            await this.workService.update({
-              where: {
-                id: work.id,
-              },
-              data: {
-                mainEditionId: currentBook.id,
-              },
-            });
-          }
 
           const userBookData: UserBookUpdateInput = {
             status,
