@@ -86,26 +86,6 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model Work {
-    /// @Validator.IsString()
-    id          String   @id @default(uuid())
-    /// @Validator.IsString()
-    title       String
-    authors     Author[]
-    /// @Validator.IsString()
-    description String?
-    /// @Validator.IsString()
-    categories  String[]
-
-    averageRating Float?
-    /// @Validator.IsInt()
-    ratingsCount  Int?
-
-    mainEditionId Int?
-    // mainEdition   Book?   @relation("MainEdtition", fields: [mainEditionId], references: [id])
-    editions      Book[]
-}
-
 model Cover {
     id   String @id @default(uuid())
     url  String
@@ -142,8 +122,12 @@ model Book {
     reviews       Review[]
     logs          AuditLog[]
 
-    work   Work?   @relation(fields: [workId], references: [id])
-    workId String?
+    /// @Validator.IsString()
+    categories String[]
+
+    averageRating Float?
+    /// @Validator.IsInt()
+    ratingsCount  Int?
 
     covers Cover[]
 }
@@ -173,7 +157,6 @@ model Author {
     deathDate DateTime?
     wikipedia String?
     photo     String?
-    works     Work[]
     books     Book[]
 }
 

@@ -66,24 +66,22 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
         {/* <div className="text-sm text-beige">GENRES</div>
                 <hr className="border-t-1 border-beige" /> */}
         <div className='mt-2'>
-          {processedBook?.work &&
-            processedBook.work.categories &&
-            processedBook.work.categories.map(
-              (category: string, index: number) => {
-                return (
-                  <button
-                    key={index}
-                    className={cn(
-                      buttonVariants({ variant: 'pill', size: 'xs' }),
-                      'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
-                    )}
-                    disabled={true}
-                  >
-                    {category}
-                  </button>
-                );
-              }
-            )}
+          {processedBook &&
+            processedBook.categories &&
+            processedBook.categories.map((category: string, index: number) => {
+              return (
+                <button
+                  key={index}
+                  className={cn(
+                    buttonVariants({ variant: 'pill', size: 'xs' }),
+                    'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
+                  )}
+                  disabled={true}
+                >
+                  {category}
+                </button>
+              );
+            })}
         </div>
       </div>
     </>
