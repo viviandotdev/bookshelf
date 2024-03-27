@@ -4,6 +4,7 @@ import {
   Book,
   BookCreateInput,
   BookWhereUniqueInput,
+  CoverCreateInput,
   WorkCreateInput,
 } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
@@ -12,12 +13,14 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { WorkService } from 'libs/work/work.service';
 import { AuthorService } from 'libs/author/author.service';
+import { CoverService } from 'libs/cover/cover.service';
 
 @Resolver(() => Book)
 export class BookResolver {
   constructor(
     private readonly bookService: BookService,
     private readonly authorService: AuthorService,
+    private readonly coverService: CoverService,
     private readonly workService: WorkService,
   ) {}
 
@@ -54,6 +57,12 @@ export class BookResolver {
         googleBook.authors,
       );
 
+      const coverInput: CoverCreateInput[] = this.coverService.createCoverInput(
+        googleBook.imageLinks,
+      );
+
+      const covers = await this.coverService.createCovers(coverInput);
+
       if (!existingWork) {
         const workData: WorkCreateInput = {
           title: googleBook.title,
@@ -76,7 +85,9 @@ export class BookResolver {
           publisher: googleBook.publisher,
           publishedDate: googleBook.publishedDate,
           description: googleBook.description,
-          coverImage: googleBook.coverImage,
+          covers: {
+            connect: covers.map((cover) => ({ id: cover.id })),
+          },
           work: {
             connect: {
               id: work.id,
@@ -114,7 +125,9 @@ export class BookResolver {
           publisher: googleBook.publisher,
           publishedDate: googleBook.publishedDate,
           description: googleBook.description,
-          coverImage: googleBook.coverImage,
+          covers: {
+            connect: covers.map((cover) => ({ id: cover.id })),
+          },
           work: {
             connect: {
               id: existingWork.id,
@@ -162,6 +175,7 @@ export class BookResolver {
       include: {
         work: true,
         authors: true,
+        covers: true,
       },
     });
   }

@@ -830,7 +830,7 @@ export type Book = {
   __typename?: 'Book';
   _count: BookCount;
   authors?: Maybe<Array<Author>>;
-  coverImage?: Maybe<Scalars['String']>;
+  covers?: Maybe<Array<Cover>>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   identifier?: Maybe<Identifier>;
@@ -855,6 +855,7 @@ export type BookAvgAggregate = {
 export type BookCount = {
   __typename?: 'BookCount';
   authors: Scalars['Int'];
+  covers: Scalars['Int'];
   logs: Scalars['Int'];
   reviews: Scalars['Int'];
   userBook: Scalars['Int'];
@@ -863,7 +864,6 @@ export type BookCount = {
 export type BookCountAggregate = {
   __typename?: 'BookCountAggregate';
   _all: Scalars['Int'];
-  coverImage: Scalars['Int'];
   description: Scalars['Int'];
   id: Scalars['Int'];
   language: Scalars['Int'];
@@ -876,7 +876,7 @@ export type BookCountAggregate = {
 
 export type BookCreateInput = {
   authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -891,7 +891,6 @@ export type BookCreateInput = {
 };
 
 export type BookCreateManyWorkInput = {
-  coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   language?: InputMaybe<Scalars['String']>;
@@ -919,6 +918,12 @@ export type BookCreateNestedManyWithoutWorkInput = {
   createMany?: InputMaybe<BookCreateManyWorkInputEnvelope>;
 };
 
+export type BookCreateNestedOneWithoutCoversInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<BookCreateWithoutCoversInput>;
+};
+
 export type BookCreateNestedOneWithoutLogsInput = {
   connect?: InputMaybe<BookWhereUniqueInput>;
   connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutLogsInput>;
@@ -939,6 +944,11 @@ export type BookCreateNestedOneWithoutUserBookInput = {
 
 export type BookCreateOrConnectWithoutAuthorsInput = {
   create: BookCreateWithoutAuthorsInput;
+  where: BookWhereUniqueInput;
+};
+
+export type BookCreateOrConnectWithoutCoversInput = {
+  create: BookCreateWithoutCoversInput;
   where: BookWhereUniqueInput;
 };
 
@@ -963,7 +973,22 @@ export type BookCreateOrConnectWithoutWorkInput = {
 };
 
 export type BookCreateWithoutAuthorsInput = {
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
+  title: Scalars['String'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+  work?: InputMaybe<WorkCreateNestedOneWithoutEditionsInput>;
+};
+
+export type BookCreateWithoutCoversInput = {
+  authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -979,7 +1004,7 @@ export type BookCreateWithoutAuthorsInput = {
 
 export type BookCreateWithoutLogsInput = {
   authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -994,7 +1019,7 @@ export type BookCreateWithoutLogsInput = {
 
 export type BookCreateWithoutReviewsInput = {
   authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1009,7 +1034,7 @@ export type BookCreateWithoutReviewsInput = {
 
 export type BookCreateWithoutUserBookInput = {
   authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1024,7 +1049,7 @@ export type BookCreateWithoutUserBookInput = {
 
 export type BookCreateWithoutWorkInput = {
   authors?: InputMaybe<AuthorCreateNestedManyWithoutBooksInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1052,7 +1077,6 @@ export type BookListRelationFilter = {
 
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
-  coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   language?: Maybe<Scalars['String']>;
@@ -1065,7 +1089,6 @@ export type BookMaxAggregate = {
 
 export type BookMinAggregate = {
   __typename?: 'BookMinAggregate';
-  coverImage?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   language?: Maybe<Scalars['String']>;
@@ -1082,7 +1105,7 @@ export type BookOrderByRelationAggregateInput = {
 
 export type BookOrderByWithRelationInput = {
   authors?: InputMaybe<AuthorOrderByRelationAggregateInput>;
-  coverImage?: InputMaybe<SortOrderInput>;
+  covers?: InputMaybe<CoverOrderByRelationAggregateInput>;
   description?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
   identifier?: InputMaybe<IdentifierOrderByWithRelationInput>;
@@ -1107,7 +1130,6 @@ export type BookScalarWhereInput = {
   AND?: InputMaybe<Array<BookScalarWhereInput>>;
   NOT?: InputMaybe<Array<BookScalarWhereInput>>;
   OR?: InputMaybe<Array<BookScalarWhereInput>>;
-  coverImage?: InputMaybe<StringFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   language?: InputMaybe<StringFilter>;
@@ -1125,7 +1147,6 @@ export type BookSumAggregate = {
 };
 
 export type BookUpdateManyMutationInput = {
-  coverImage?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   language?: InputMaybe<Scalars['String']>;
   pageCount?: InputMaybe<Scalars['Int']>;
@@ -1171,6 +1192,16 @@ export type BookUpdateManyWithoutWorkNestedInput = {
   upsert?: InputMaybe<Array<BookUpsertWithWhereUniqueWithoutWorkInput>>;
 };
 
+export type BookUpdateOneWithoutCoversNestedInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<BookCreateWithoutCoversInput>;
+  delete?: InputMaybe<BookWhereInput>;
+  disconnect?: InputMaybe<BookWhereInput>;
+  update?: InputMaybe<BookUpdateToOneWithWhereWithoutCoversInput>;
+  upsert?: InputMaybe<BookUpsertWithoutCoversInput>;
+};
+
 export type BookUpdateOneWithoutLogsNestedInput = {
   connect?: InputMaybe<BookWhereUniqueInput>;
   connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutLogsInput>;
@@ -1201,6 +1232,11 @@ export type BookUpdateOneWithoutUserBookNestedInput = {
   upsert?: InputMaybe<BookUpsertWithoutUserBookInput>;
 };
 
+export type BookUpdateToOneWithWhereWithoutCoversInput = {
+  data: BookUpdateWithoutCoversInput;
+  where?: InputMaybe<BookWhereInput>;
+};
+
 export type BookUpdateToOneWithWhereWithoutLogsInput = {
   data: BookUpdateWithoutLogsInput;
   where?: InputMaybe<BookWhereInput>;
@@ -1227,7 +1263,22 @@ export type BookUpdateWithWhereUniqueWithoutWorkInput = {
 };
 
 export type BookUpdateWithoutAuthorsInput = {
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
+  description?: InputMaybe<Scalars['String']>;
+  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
+  pageCount?: InputMaybe<Scalars['Int']>;
+  publishedDate?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
+  title?: InputMaybe<Scalars['String']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+  work?: InputMaybe<WorkUpdateOneWithoutEditionsNestedInput>;
+};
+
+export type BookUpdateWithoutCoversInput = {
+  authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1243,7 +1294,7 @@ export type BookUpdateWithoutAuthorsInput = {
 
 export type BookUpdateWithoutLogsInput = {
   authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1258,7 +1309,7 @@ export type BookUpdateWithoutLogsInput = {
 
 export type BookUpdateWithoutReviewsInput = {
   authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1273,7 +1324,7 @@ export type BookUpdateWithoutReviewsInput = {
 
 export type BookUpdateWithoutUserBookInput = {
   authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1288,7 +1339,7 @@ export type BookUpdateWithoutUserBookInput = {
 
 export type BookUpdateWithoutWorkInput = {
   authors?: InputMaybe<AuthorUpdateManyWithoutBooksNestedInput>;
-  coverImage?: InputMaybe<Scalars['String']>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']>;
@@ -1311,6 +1362,12 @@ export type BookUpsertWithWhereUniqueWithoutWorkInput = {
   create: BookCreateWithoutWorkInput;
   update: BookUpdateWithoutWorkInput;
   where: BookWhereUniqueInput;
+};
+
+export type BookUpsertWithoutCoversInput = {
+  create: BookCreateWithoutCoversInput;
+  update: BookUpdateWithoutCoversInput;
+  where?: InputMaybe<BookWhereInput>;
 };
 
 export type BookUpsertWithoutLogsInput = {
@@ -1336,7 +1393,7 @@ export type BookWhereInput = {
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
   authors?: InputMaybe<AuthorListRelationFilter>;
-  coverImage?: InputMaybe<StringFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<IntFilter>;
   identifier?: InputMaybe<IdentifierRelationFilter>;
@@ -1357,7 +1414,7 @@ export type BookWhereUniqueInput = {
   NOT?: InputMaybe<Array<BookWhereInput>>;
   OR?: InputMaybe<Array<BookWhereInput>>;
   authors?: InputMaybe<AuthorListRelationFilter>;
-  coverImage?: InputMaybe<StringFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['Int']>;
   identifier?: InputMaybe<IdentifierRelationFilter>;
@@ -1614,6 +1671,244 @@ export type CommentWhereUniqueInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export type Cover = {
+  __typename?: 'Cover';
+  book?: Maybe<Book>;
+  bookId?: Maybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  size: Size;
+  uploadedBy?: Maybe<User>;
+  uploadedById?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
+};
+
+export type CoverAvgAggregate = {
+  __typename?: 'CoverAvgAggregate';
+  bookId?: Maybe<Scalars['Float']>;
+};
+
+export type CoverCountAggregate = {
+  __typename?: 'CoverCountAggregate';
+  _all: Scalars['Int'];
+  bookId: Scalars['Int'];
+  id: Scalars['Int'];
+  size: Scalars['Int'];
+  uploadedById: Scalars['Int'];
+  url: Scalars['Int'];
+};
+
+export type CoverCreateManyBookInput = {
+  id?: InputMaybe<Scalars['String']>;
+  size: Size;
+  uploadedById?: InputMaybe<Scalars['String']>;
+  url: Scalars['String'];
+};
+
+export type CoverCreateManyBookInputEnvelope = {
+  data: Array<CoverCreateManyBookInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type CoverCreateManyUploadedByInput = {
+  bookId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  size: Size;
+  url: Scalars['String'];
+};
+
+export type CoverCreateManyUploadedByInputEnvelope = {
+  data: Array<CoverCreateManyUploadedByInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type CoverCreateNestedManyWithoutBookInput = {
+  connect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CoverCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<CoverCreateWithoutBookInput>>;
+  createMany?: InputMaybe<CoverCreateManyBookInputEnvelope>;
+};
+
+export type CoverCreateNestedManyWithoutUploadedByInput = {
+  connect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CoverCreateOrConnectWithoutUploadedByInput>>;
+  create?: InputMaybe<Array<CoverCreateWithoutUploadedByInput>>;
+  createMany?: InputMaybe<CoverCreateManyUploadedByInputEnvelope>;
+};
+
+export type CoverCreateOrConnectWithoutBookInput = {
+  create: CoverCreateWithoutBookInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverCreateOrConnectWithoutUploadedByInput = {
+  create: CoverCreateWithoutUploadedByInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverCreateWithoutBookInput = {
+  id?: InputMaybe<Scalars['String']>;
+  size: Size;
+  uploadedBy?: InputMaybe<UserCreateNestedOneWithoutCoversInput>;
+  url: Scalars['String'];
+};
+
+export type CoverCreateWithoutUploadedByInput = {
+  book?: InputMaybe<BookCreateNestedOneWithoutCoversInput>;
+  id?: InputMaybe<Scalars['String']>;
+  size: Size;
+  url: Scalars['String'];
+};
+
+export type CoverListRelationFilter = {
+  every?: InputMaybe<CoverWhereInput>;
+  none?: InputMaybe<CoverWhereInput>;
+  some?: InputMaybe<CoverWhereInput>;
+};
+
+export type CoverMaxAggregate = {
+  __typename?: 'CoverMaxAggregate';
+  bookId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['String']>;
+  size?: Maybe<Size>;
+  uploadedById?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoverMinAggregate = {
+  __typename?: 'CoverMinAggregate';
+  bookId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['String']>;
+  size?: Maybe<Size>;
+  uploadedById?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type CoverOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type CoverScalarWhereInput = {
+  AND?: InputMaybe<Array<CoverScalarWhereInput>>;
+  NOT?: InputMaybe<Array<CoverScalarWhereInput>>;
+  OR?: InputMaybe<Array<CoverScalarWhereInput>>;
+  bookId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<StringFilter>;
+  size?: InputMaybe<EnumSizeFilter>;
+  uploadedById?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+};
+
+export type CoverSumAggregate = {
+  __typename?: 'CoverSumAggregate';
+  bookId?: Maybe<Scalars['Int']>;
+};
+
+export type CoverUpdateManyMutationInput = {
+  id?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<Size>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type CoverUpdateManyWithWhereWithoutBookInput = {
+  data: CoverUpdateManyMutationInput;
+  where: CoverScalarWhereInput;
+};
+
+export type CoverUpdateManyWithWhereWithoutUploadedByInput = {
+  data: CoverUpdateManyMutationInput;
+  where: CoverScalarWhereInput;
+};
+
+export type CoverUpdateManyWithoutBookNestedInput = {
+  connect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CoverCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<CoverCreateWithoutBookInput>>;
+  createMany?: InputMaybe<CoverCreateManyBookInputEnvelope>;
+  delete?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<CoverScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  set?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  update?: InputMaybe<Array<CoverUpdateWithWhereUniqueWithoutBookInput>>;
+  updateMany?: InputMaybe<Array<CoverUpdateManyWithWhereWithoutBookInput>>;
+  upsert?: InputMaybe<Array<CoverUpsertWithWhereUniqueWithoutBookInput>>;
+};
+
+export type CoverUpdateManyWithoutUploadedByNestedInput = {
+  connect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<CoverCreateOrConnectWithoutUploadedByInput>>;
+  create?: InputMaybe<Array<CoverCreateWithoutUploadedByInput>>;
+  createMany?: InputMaybe<CoverCreateManyUploadedByInputEnvelope>;
+  delete?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<CoverScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  set?: InputMaybe<Array<CoverWhereUniqueInput>>;
+  update?: InputMaybe<Array<CoverUpdateWithWhereUniqueWithoutUploadedByInput>>;
+  updateMany?: InputMaybe<Array<CoverUpdateManyWithWhereWithoutUploadedByInput>>;
+  upsert?: InputMaybe<Array<CoverUpsertWithWhereUniqueWithoutUploadedByInput>>;
+};
+
+export type CoverUpdateWithWhereUniqueWithoutBookInput = {
+  data: CoverUpdateWithoutBookInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverUpdateWithWhereUniqueWithoutUploadedByInput = {
+  data: CoverUpdateWithoutUploadedByInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverUpdateWithoutBookInput = {
+  id?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<Size>;
+  uploadedBy?: InputMaybe<UserUpdateOneWithoutCoversNestedInput>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type CoverUpdateWithoutUploadedByInput = {
+  book?: InputMaybe<BookUpdateOneWithoutCoversNestedInput>;
+  id?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<Size>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type CoverUpsertWithWhereUniqueWithoutBookInput = {
+  create: CoverCreateWithoutBookInput;
+  update: CoverUpdateWithoutBookInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverUpsertWithWhereUniqueWithoutUploadedByInput = {
+  create: CoverCreateWithoutUploadedByInput;
+  update: CoverUpdateWithoutUploadedByInput;
+  where: CoverWhereUniqueInput;
+};
+
+export type CoverWhereInput = {
+  AND?: InputMaybe<Array<CoverWhereInput>>;
+  NOT?: InputMaybe<Array<CoverWhereInput>>;
+  OR?: InputMaybe<Array<CoverWhereInput>>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<StringFilter>;
+  size?: InputMaybe<EnumSizeFilter>;
+  uploadedBy?: InputMaybe<UserRelationFilter>;
+  uploadedById?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+};
+
+export type CoverWhereUniqueInput = {
+  AND?: InputMaybe<Array<CoverWhereInput>>;
+  NOT?: InputMaybe<Array<CoverWhereInput>>;
+  OR?: InputMaybe<Array<CoverWhereInput>>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<IntFilter>;
+  id?: InputMaybe<Scalars['String']>;
+  size?: InputMaybe<EnumSizeFilter>;
+  uploadedBy?: InputMaybe<UserRelationFilter>;
+  uploadedById?: InputMaybe<StringFilter>;
+  url?: InputMaybe<StringFilter>;
+};
+
 export type DateTimeFilter = {
   equals?: InputMaybe<Scalars['Timestamp']>;
   gt?: InputMaybe<Scalars['Timestamp']>;
@@ -1630,6 +1925,13 @@ export type EnumActionFilter = {
   in?: InputMaybe<Array<Action>>;
   not?: InputMaybe<EnumActionFilter>;
   notIn?: InputMaybe<Array<Action>>;
+};
+
+export type EnumSizeFilter = {
+  equals?: InputMaybe<Size>;
+  in?: InputMaybe<Array<Size>>;
+  not?: InputMaybe<EnumSizeFilter>;
+  notIn?: InputMaybe<Array<Size>>;
 };
 
 export type FloatFilter = {
@@ -2140,6 +2442,7 @@ export type MeResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addBookToShelf: UserBook;
   createAuthor: Author;
   createBook: Book;
   createComment: Comment;
@@ -2157,6 +2460,7 @@ export type Mutation = {
   oAuth: AuthResponse;
   refreshAuth: RefreshResponse;
   register: User;
+  removeBookFromShelf: UserBook;
   removeJournalEntry: JournalEntry;
   removeUserBook: UserBook;
   resetPassword: Scalars['Boolean'];
@@ -2168,6 +2472,12 @@ export type Mutation = {
   updateUserBook: UserBook;
   updateUserBookOrder: Array<UserBook>;
   verifyToken: AuthResponse;
+};
+
+
+export type MutationAddBookToShelfArgs = {
+  bookId: Scalars['Int'];
+  shelf: Scalars['String'];
 };
 
 
@@ -2194,7 +2504,6 @@ export type MutationCreateJournalEntryArgs = {
 
 
 export type MutationCreateReviewArgs = {
-  bookData: BookCreateInput;
   data: ReviewDataInput;
   where: BookWhereUniqueInput;
 };
@@ -2254,6 +2563,12 @@ export type MutationOAuthArgs = {
 
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
+};
+
+
+export type MutationRemoveBookFromShelfArgs = {
+  bookId: Scalars['Int'];
+  shelf: Scalars['String'];
 };
 
 
@@ -3001,6 +3316,12 @@ export type ReviewWhereUniqueInput = {
   userId?: InputMaybe<StringFilter>;
 };
 
+export enum Size {
+  Large = 'LARGE',
+  Medium = 'MEDIUM',
+  Small = 'SMALL'
+}
+
 export type Shelf = {
   __typename?: 'Shelf';
   _count: ShelfCount;
@@ -3282,6 +3603,7 @@ export type User = {
   accounts?: Maybe<Array<Account>>;
   auditLogs?: Maybe<Array<AuditLog>>;
   comments?: Maybe<Array<Comment>>;
+  covers?: Maybe<Array<Cover>>;
   createdAt: Scalars['Timestamp'];
   email: Scalars['String'];
   emailVerified?: Maybe<Scalars['Timestamp']>;
@@ -4032,6 +4354,7 @@ export type UserCount = {
   accounts: Scalars['Int'];
   auditLogs: Scalars['Int'];
   comments: Scalars['Int'];
+  covers: Scalars['Int'];
   followers: Scalars['Int'];
   following: Scalars['Int'];
   journalEntries: Scalars['Int'];
@@ -4083,6 +4406,12 @@ export type UserCreateNestedOneWithoutCommentsInput = {
   create?: InputMaybe<UserCreateWithoutCommentsInput>;
 };
 
+export type UserCreateNestedOneWithoutCoversInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<UserCreateWithoutCoversInput>;
+};
+
 export type UserCreateNestedOneWithoutJournalEntriesInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutJournalEntriesInput>;
@@ -4114,6 +4443,11 @@ export type UserCreateOrConnectWithoutAuditLogsInput = {
 
 export type UserCreateOrConnectWithoutCommentsInput = {
   create: UserCreateWithoutCommentsInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateOrConnectWithoutCoversInput = {
+  create: UserCreateWithoutCoversInput;
   where: UserWhereUniqueInput;
 };
 
@@ -4155,6 +4489,7 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
 export type UserCreateWithoutAuditLogsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4176,6 +4511,29 @@ export type UserCreateWithoutAuditLogsInput = {
 export type UserCreateWithoutCommentsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email: Scalars['String'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
+  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
+  likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
+  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserCreateWithoutCoversInput = {
+  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
+  comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4198,6 +4556,7 @@ export type UserCreateWithoutFollowersInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4219,6 +4578,7 @@ export type UserCreateWithoutFollowingInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4240,6 +4600,7 @@ export type UserCreateWithoutJournalEntriesInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4261,6 +4622,7 @@ export type UserCreateWithoutLikedReviewsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4282,6 +4644,7 @@ export type UserCreateWithoutReviewsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4303,6 +4666,7 @@ export type UserCreateWithoutShelvesInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4324,6 +4688,7 @@ export type UserCreateWithoutUserBooksInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUploadedByInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4377,6 +4742,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: InputMaybe<AccountOrderByRelationAggregateInput>;
   auditLogs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
+  covers?: InputMaybe<CoverOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
   emailVerified?: InputMaybe<SortOrderInput>;
@@ -4501,6 +4867,16 @@ export type UserUpdateOneWithoutCommentsNestedInput = {
   upsert?: InputMaybe<UserUpsertWithoutCommentsInput>;
 };
 
+export type UserUpdateOneWithoutCoversNestedInput = {
+  connect?: InputMaybe<UserWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<UserCreateWithoutCoversInput>;
+  delete?: InputMaybe<UserWhereInput>;
+  disconnect?: InputMaybe<UserWhereInput>;
+  update?: InputMaybe<UserUpdateToOneWithWhereWithoutCoversInput>;
+  upsert?: InputMaybe<UserUpsertWithoutCoversInput>;
+};
+
 export type UserUpdateOneWithoutJournalEntriesNestedInput = {
   connect?: InputMaybe<UserWhereUniqueInput>;
   connectOrCreate?: InputMaybe<UserCreateOrConnectWithoutJournalEntriesInput>;
@@ -4551,6 +4927,11 @@ export type UserUpdateToOneWithWhereWithoutCommentsInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpdateToOneWithWhereWithoutCoversInput = {
+  data: UserUpdateWithoutCoversInput;
+  where?: InputMaybe<UserWhereInput>;
+};
+
 export type UserUpdateToOneWithWhereWithoutJournalEntriesInput = {
   data: UserUpdateWithoutJournalEntriesInput;
   where?: InputMaybe<UserWhereInput>;
@@ -4589,6 +4970,7 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 export type UserUpdateWithoutAuditLogsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4610,6 +4992,29 @@ export type UserUpdateWithoutAuditLogsInput = {
 export type UserUpdateWithoutCommentsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']>;
+  email?: InputMaybe<Scalars['String']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
+  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
+  hashedPassword?: InputMaybe<Scalars['String']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
+  likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
+  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type UserUpdateWithoutCoversInput = {
+  accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
+  comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4632,6 +5037,7 @@ export type UserUpdateWithoutFollowersInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4653,6 +5059,7 @@ export type UserUpdateWithoutFollowingInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4674,6 +5081,7 @@ export type UserUpdateWithoutJournalEntriesInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4695,6 +5103,7 @@ export type UserUpdateWithoutLikedReviewsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4716,6 +5125,7 @@ export type UserUpdateWithoutReviewsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4737,6 +5147,7 @@ export type UserUpdateWithoutShelvesInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4758,6 +5169,7 @@ export type UserUpdateWithoutUserBooksInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUploadedByNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
@@ -4805,6 +5217,12 @@ export type UserUpsertWithoutCommentsInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
+export type UserUpsertWithoutCoversInput = {
+  create: UserCreateWithoutCoversInput;
+  update: UserUpdateWithoutCoversInput;
+  where?: InputMaybe<UserWhereInput>;
+};
+
 export type UserUpsertWithoutJournalEntriesInput = {
   create: UserCreateWithoutJournalEntriesInput;
   update: UserUpdateWithoutJournalEntriesInput;
@@ -4836,6 +5254,7 @@ export type UserWhereInput = {
   accounts?: InputMaybe<AccountListRelationFilter>;
   auditLogs?: InputMaybe<AuditLogListRelationFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
   emailVerified?: InputMaybe<DateTimeFilter>;
@@ -4861,6 +5280,7 @@ export type UserWhereUniqueInput = {
   accounts?: InputMaybe<AccountListRelationFilter>;
   auditLogs?: InputMaybe<AuditLogListRelationFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<DateTimeFilter>;
@@ -5224,7 +5644,7 @@ export type CreateBookMutationVariables = Exact<{
 }>;
 
 
-export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', coverImage?: string | null, description?: string | null, id: string, pageCount?: number | null, publishedDate?: string | null, publisher?: string | null, title: string, authors?: Array<{ __typename?: 'Author', name: string }> | null } };
+export type CreateBookMutation = { __typename?: 'Mutation', createBook: { __typename?: 'Book', id: string } };
 
 export type CreateCommentMutationVariables = Exact<{
   data: CommentCreateInput;
@@ -5255,12 +5675,11 @@ export type UpdateJournalEntryMutationVariables = Exact<{
 }>;
 
 
-export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null } };
+export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null } };
 
 export type CreateReviewMutationVariables = Exact<{
   data: ReviewDataInput;
   where: BookWhereUniqueInput;
-  bookData: BookCreateInput;
 }>;
 
 
@@ -5362,6 +5781,22 @@ export type UpdateUserBookOrderMutationVariables = Exact<{
 
 export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
+export type AddUserBookToShelfMutationVariables = Exact<{
+  bookId: Scalars['Int']['input'];
+  shelf: Scalars['String']['input'];
+}>;
+
+
+export type AddUserBookToShelfMutation = { __typename?: 'Mutation', addBookToShelf: { __typename?: 'UserBook', id: string, status: string } };
+
+export type RemoveUserBookFromShelfMutationVariables = Exact<{
+  bookId: Scalars['Int']['input'];
+  shelf: Scalars['String']['input'];
+}>;
+
+
+export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeBookFromShelf: { __typename?: 'UserBook', id: string, status: string } };
+
 export type GetAuditLogsQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereUniqueInput>;
   action?: InputMaybe<Action>;
@@ -5371,7 +5806,7 @@ export type GetAuditLogsQueryVariables = Exact<{
 }>;
 
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: { __typename?: 'ActivitiesResponse', hasMore: boolean, totalActivities: number, activities?: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, actionContent?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null }> | null } };
+export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: { __typename?: 'ActivitiesResponse', hasMore: boolean, totalActivities: number, activities?: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, actionContent?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5383,14 +5818,14 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
 export type GetGoogleBookQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, coverImage?: string | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
+export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, work?: { __typename?: 'Work', categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null } | null } | null };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -5422,7 +5857,7 @@ export type JournalEntriesQueryVariables = Exact<{
 }>;
 
 
-export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, pagesRead: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null }> };
+export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, pagesRead: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: string, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null }> };
 
 export type BookReviewsQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -5438,7 +5873,7 @@ export type BookReviewQueryVariables = Exact<{
 }>;
 
 
-export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, publishedDate?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
+export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, publishedDate?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, userBook?: { __typename?: 'UserBook', id: string, rating?: number | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null } };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5457,7 +5892,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: number, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: number, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5467,7 +5902,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: number, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, coverImage?: string | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: number, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, pageCount?: number | null, authors?: Array<{ __typename?: 'Author', name: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, reviews: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5766,16 +6201,7 @@ export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, L
 export const CreateBookDocument = gql`
     mutation CreateBook($data: BookCreateInput!) {
   createBook(data: $data) {
-    authors {
-      name
-    }
-    coverImage
-    description
     id
-    pageCount
-    publishedDate
-    publisher
-    title
   }
 }
     `;
@@ -5935,7 +6361,10 @@ export const UpdateJournalEntryDocument = gql`
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
       }
       shelves {
         shelf {
@@ -5975,8 +6404,8 @@ export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJo
 export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
 export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
 export const CreateReviewDocument = gql`
-    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!, $bookData: BookCreateInput!) {
-  createReview(data: $data, where: $where, bookData: $bookData) {
+    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!) {
+  createReview(data: $data, where: $where) {
     id
     content
   }
@@ -5999,7 +6428,6 @@ export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutatio
  *   variables: {
  *      data: // value for 'data'
  *      where: // value for 'where'
- *      bookData: // value for 'bookData'
  *   },
  * });
  */
@@ -6474,6 +6902,76 @@ export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHook
 export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
+export const AddUserBookToShelfDocument = gql`
+    mutation AddUserBookToShelf($bookId: Int!, $shelf: String!) {
+  addBookToShelf(bookId: $bookId, shelf: $shelf) {
+    id
+    status
+  }
+}
+    `;
+export type AddUserBookToShelfMutationFn = Apollo.MutationFunction<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
+
+/**
+ * __useAddUserBookToShelfMutation__
+ *
+ * To run a mutation, you first call `useAddUserBookToShelfMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddUserBookToShelfMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addUserBookToShelfMutation, { data, loading, error }] = useAddUserBookToShelfMutation({
+ *   variables: {
+ *      bookId: // value for 'bookId'
+ *      shelf: // value for 'shelf'
+ *   },
+ * });
+ */
+export function useAddUserBookToShelfMutation(baseOptions?: Apollo.MutationHookOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>(AddUserBookToShelfDocument, options);
+      }
+export type AddUserBookToShelfMutationHookResult = ReturnType<typeof useAddUserBookToShelfMutation>;
+export type AddUserBookToShelfMutationResult = Apollo.MutationResult<AddUserBookToShelfMutation>;
+export type AddUserBookToShelfMutationOptions = Apollo.BaseMutationOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
+export const RemoveUserBookFromShelfDocument = gql`
+    mutation RemoveUserBookFromShelf($bookId: Int!, $shelf: String!) {
+  removeBookFromShelf(bookId: $bookId, shelf: $shelf) {
+    id
+    status
+  }
+}
+    `;
+export type RemoveUserBookFromShelfMutationFn = Apollo.MutationFunction<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
+
+/**
+ * __useRemoveUserBookFromShelfMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserBookFromShelfMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserBookFromShelfMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserBookFromShelfMutation, { data, loading, error }] = useRemoveUserBookFromShelfMutation({
+ *   variables: {
+ *      bookId: // value for 'bookId'
+ *      shelf: // value for 'shelf'
+ *   },
+ * });
+ */
+export function useRemoveUserBookFromShelfMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>(RemoveUserBookFromShelfDocument, options);
+      }
+export type RemoveUserBookFromShelfMutationHookResult = ReturnType<typeof useRemoveUserBookFromShelfMutation>;
+export type RemoveUserBookFromShelfMutationResult = Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
+export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
 export const GetAuditLogsDocument = gql`
     query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int, $orderBy: AuditLogOrderByWithRelationInput) {
   auditLogs(
@@ -6500,7 +6998,10 @@ export const GetAuditLogsDocument = gql`
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
       }
       actionContent
     }
@@ -6585,7 +7086,10 @@ export const BookDocument = gql`
     authors {
       name
     }
-    coverImage
+    covers {
+      url
+      size
+    }
     description
     publishedDate
     publisher
@@ -6634,7 +7138,10 @@ export const GetGoogleBookDocument = gql`
     authors {
       name
     }
-    coverImage
+    covers {
+      url
+      size
+    }
     description
     publishedDate
     publisher
@@ -6808,7 +7315,10 @@ export const JournalEntriesDocument = gql`
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
       }
       shelves {
         shelf {
@@ -6918,7 +7428,10 @@ export const BookReviewDocument = gql`
         name
       }
       pageCount
-      coverImage
+      covers {
+        url
+        size
+      }
       publishedDate
     }
     userBook {
@@ -7053,7 +7566,10 @@ export const UserBookDocument = gql`
         name
       }
       pageCount
-      coverImage
+      covers {
+        url
+        size
+      }
     }
     shelves {
       shelf {
@@ -7111,7 +7627,10 @@ export const GetUserBooksDocument = gql`
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
         _count {
           userBook
           reviews

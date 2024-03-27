@@ -76,7 +76,7 @@ export class ReviewResolver {
         },
         book: {
           include: {
-            authors: true
+            authors: true,
           },
         },
         comments: {
@@ -229,7 +229,6 @@ export class ReviewResolver {
   @Mutation(() => Review)
   async createReview(
     @Args('data') data: ReviewDataInput,
-    @Args('bookData') bookData: BookCreateInput,
     @Args('where') where: BookWhereUniqueInput,
 
     @CurrentUser() currentUser: JwtPayload,
@@ -240,7 +239,7 @@ export class ReviewResolver {
       },
     });
     if (!bookExists) {
-      await this.bookService.create(bookData, currentUser.userId);
+      throw new Error('Book does not exist');
     }
 
     const userBook: UserBookIdentifierCompoundUniqueInput = {

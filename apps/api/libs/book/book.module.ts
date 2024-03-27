@@ -9,6 +9,8 @@ import { WorkService } from 'libs/work/work.service';
 import { WorkRepository } from 'libs/work/work.repository';
 import { AuthorService } from 'libs/author/author.service';
 import { AuthorRepository } from 'libs/author/author.repository';
+import { CoverService } from 'libs/cover/cover.service';
+import { CoverRepository } from 'libs/cover/cover.repository';
 
 @Module({
   providers: [
@@ -19,6 +21,8 @@ import { AuthorRepository } from 'libs/author/author.repository';
     WorkRepository,
     AuthorService,
     AuthorRepository,
+    CoverService,
+    CoverRepository,
   ],
   imports: [PrismaModule, UserBookModule, HttpModule],
 })

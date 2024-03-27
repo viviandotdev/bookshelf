@@ -37,7 +37,10 @@ query JournalEntries(
           name
         }
         pageCount
-        coverImage
+        covers {
+          url
+          size
+        }
       }
       shelves {
         shelf {

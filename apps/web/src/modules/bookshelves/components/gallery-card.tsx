@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Book, UserBook } from '@/graphql/graphql';
+import { Book, Size, UserBook } from '@/graphql/graphql';
 import { Icons } from '@/components/icons';
 import BookCover from '@/components/book-cover';
 import AlertModal from '@/components/modals/alert-modal';
 import BookActions from '@/components/book-actions';
 import Link from 'next/link';
+import { getCoverUrl } from '@/lib/utils';
 
 interface GalleryCardProps {
   responsive?: boolean;
@@ -60,10 +61,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
     >
       <div className={`cursor-pointer flex-row `}>
         <div>
-          <BookCover
-            src={book && book.coverImage ? book.coverImage : null}
-            size={'dynamic'}
-          />
+          <BookCover src={getCoverUrl(book, Size.Small)} size={'dynamic'} />
           <div className='absolute top-0'></div>
         </div>
         {details && (

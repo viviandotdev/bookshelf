@@ -64,6 +64,7 @@ model User {
     image              String?
     emailVerified      DateTime?
     accounts           Account[]
+    covers             Cover[]
 }
 
 model Account {
@@ -87,14 +88,14 @@ model Account {
 
 model Work {
     /// @Validator.IsString()
-    id            String   @id @default(uuid())
+    id          String   @id @default(uuid())
     /// @Validator.IsString()
-    title         String
-    authors       Author[]
+    title       String
+    authors     Author[]
     /// @Validator.IsString()
-    description   String?
+    description String?
     /// @Validator.IsString()
-    categories    String[]
+    categories  String[]
 
     averageRating Float?
     /// @Validator.IsInt()
@@ -103,6 +104,17 @@ model Work {
     mainEditionId Int?
     // mainEdition   Book?   @relation("MainEdtition", fields: [mainEditionId], references: [id])
     editions      Book[]
+}
+
+model Cover {
+    id   String @id @default(uuid())
+    url  String
+    size SIZE
+
+    uploadedBy   User?   @relation(fields: [uploadedById], references: [id])
+    uploadedById String?
+    bookId       Int?
+    book         Book?   @relation(fields: [bookId], references: [id])
 }
 
 model Book {
@@ -116,8 +128,6 @@ model Book {
     publishedDate String?
     /// @Validator.IsString()
     publisher     String?
-    /// @Validator.IsString()
-    coverImage    String?
     /// @Validator.IsString()
     description   String?
     /// @Validator.IsString()
@@ -135,7 +145,13 @@ model Book {
     work   Work?   @relation(fields: [workId], references: [id])
     workId String?
 
-    // mainWork Work? @relation("MainEdtition")
+    covers Cover[]
+}
+
+enum SIZE {
+    SMALL
+    MEDIUM
+    LARGE
 }
 
 model Identifier {

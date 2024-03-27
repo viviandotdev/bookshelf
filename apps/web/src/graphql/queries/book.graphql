@@ -5,7 +5,10 @@ query Book($where: BookWhereUniqueInput!) {
     authors {
       name
     }
-    coverImage
+    covers {
+      url
+      size
+    }
     description
     publishedDate
     publisher
@@ -25,7 +28,10 @@ query GetGoogleBook($id: String!) {
     authors {
       name
     }
-    coverImage
+    covers {
+      url
+      size
+    }
     description
     publishedDate
     publisher

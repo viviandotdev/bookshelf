@@ -1,10 +1,10 @@
 'use client';
 import { dm_sefif_display } from '@/lib/fonts';
-import { cn, formatAuthors } from '@/lib/utils';
+import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import React, { useEffect, useReducer, useState } from 'react';
 import BookCover from '../../book-cover';
 import { CardDescription } from '../../ui/card';
-import { UserBook } from '@/graphql/graphql';
+import { Size, UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
@@ -29,7 +29,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
         journalEntryModal.onOpen();
       }}
     >
-      <BookCover size={'xs'} src={userBook.book?.coverImage} />
+      <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />
       <div className='flex-col'>
         <div className={cn(dm_sefif_display.className, 'text-xl')}>
           {userBook.book?.title}

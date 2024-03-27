@@ -11,6 +11,8 @@ import { ActivityRepository } from 'libs/activity/activity.respository';
 import { AuthorService } from 'libs/author/author.service';
 import { WorkService } from 'libs/work/work.service';
 import { WorkRepository } from 'libs/work/work.repository';
+import { CoverService } from 'libs/cover/cover.service';
+import { CoverRepository } from 'libs/cover/cover.repository';
 
 @Module({
   providers: [
@@ -24,6 +26,8 @@ import { WorkRepository } from 'libs/work/work.repository';
     AuthorService,
     WorkService,
     WorkRepository,
+    CoverService,
+    CoverRepository,
   ],
   imports: [PrismaModule, HttpModule],
   exports: [UserBookService],
