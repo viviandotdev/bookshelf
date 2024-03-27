@@ -51,6 +51,10 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
+export const buildBook = (book: BookData) => {
+    
+  return book;
+};
 // Function to map GoodreadsBook to BookData
 export const getGoodreadsBookInfo = (
   goodreadsBook: GoodreadsBook,
@@ -62,13 +66,13 @@ export const getGoodreadsBookInfo = (
     averageRating: parseFloat(goodreadsBook['Average Rating'] ?? '0'),
     publishedDate: goodreadsBook['Original Publication Year'] ?? '',
     publisher: goodreadsBook.Publisher ?? '',
+    pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
+    isbn10: goodreadsBook.ISBN ?? '',
+    isbn13: goodreadsBook.ISBN13 ?? '',
     imageLinks: {}, // Populate with appropriate data
     language: '', // Populate with appropriate data
     description: '',
-    pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
-    isbn: goodreadsBook.ISBN ?? '',
     categories: [], // Populate with appropriate data if available
-    isbn13: goodreadsBook.ISBN13 ?? '',
   };
 };
 
@@ -109,14 +113,17 @@ export function processBook(
   const description: string = book.volumeInfo.description || '';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn: string = '';
+  let isbn10: string = '';
   let isbn13: string = '';
   if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
+    book.volumeInfo.industryIdentifiers.forEach((identifier: any) => {
+      if (identifier.type === 'ISBN_10') {
+        isbn10 = identifier.identifier;
+      } else if (identifier.type === 'ISBN_13') {
+        isbn13 = identifier.identifier;
+      }
+    });
 
-    if (identifier1) isbn = identifier1;
-    if (identifier2) isbn13 = identifier2;
   }
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
@@ -140,7 +147,7 @@ export function processBook(
     description,
     language,
     pageCount,
-    isbn,
+    isbn10,
     isbn13,
   };
 

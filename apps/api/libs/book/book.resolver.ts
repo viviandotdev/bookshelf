@@ -58,7 +58,7 @@ export class BookResolver {
         averageRating: googleBook.averageRating,
       };
       const book = await this.bookService.create(bookData, null, {
-        isbn10: googleBook.isbn,
+        isbn10: googleBook.isbn10,
         isbn13: googleBook.isbn13,
         google: googleBook.id,
       });

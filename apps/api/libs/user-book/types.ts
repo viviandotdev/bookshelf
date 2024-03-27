@@ -9,7 +9,7 @@ export interface BookData {
   language;
   description: string;
   pageCount: number;
-  isbn: string;
+  isbn10: string;
   categories: string[];
   isbn13: string;
 }

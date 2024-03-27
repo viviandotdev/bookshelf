@@ -85,11 +85,15 @@ export function processBook(
   let isbn: string = 'N/A';
   let isbn13: string = 'N/A';
   if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
-
-    if (identifier1) isbn = identifier1;
-    if (identifier2) isbn13 = identifier2;
+    let isbn10;
+    let isbn13;
+    book.volumeInfo.industryIdentifiers.forEach((identifier: any) => {
+      if (identifier.type === 'ISBN_10') {
+        isbn10 = identifier.identifier;
+      } else if (identifier.type === 'ISBN_13') {
+        isbn13 = identifier.identifier;
+      }
+    });
   }
   const ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =

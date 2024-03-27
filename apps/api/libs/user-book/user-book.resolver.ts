@@ -14,6 +14,7 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
+  buildBook,
   getGoodreadsBookInfo,
   getUserBookInfo,
   parseLineWithQuotes,
@@ -180,11 +181,11 @@ export class UserBookResolver {
     const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
       const goodreadsBook = processCSVLine(lines[i], mappings);
-      const bookInfo = getGoodreadsBookInfo(goodreadsBook);
-      const book = await findBookByTitleAndAuthor(
-        `${bookInfo.title} ${bookInfo.authors}`,
-      );
-      //   getABookFromTheGoodReadsData
+      const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
+      const book = await buildBook(bookInfo);
+      //   const book = await findBookByTitleAndAuthor(
+      //     `${bookInfo.title} ${bookInfo.authors}`,
+      //   );
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
@@ -212,7 +213,7 @@ export class UserBookResolver {
           bookData,
           user.userId,
           {
-            isbn10: book.isbn,
+            isbn10: book.isbn10,
             isbn13: book.isbn13,
             google: book.id,
             goodreads: goodreadsBook['Book Id'],
