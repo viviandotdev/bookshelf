@@ -13,7 +13,12 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
-import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
+import {
+  getGoodreadsBookInfo,
+  getUserBookInfo,
+  parseLineWithQuotes,
+  processCSVLine,
+} from './utils';
 import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
@@ -174,22 +179,20 @@ export class UserBookResolver {
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
-      const line = lines[i];
-
-      const goodreadsBook = processCSVLine(line, mappings);
-      const titleAuthor = `${goodreadsBook['Title']} ${goodreadsBook['Author']}`;
-      const book = await findBookByTitleAndAuthor(titleAuthor);
+      const goodreadsBook = processCSVLine(lines[i], mappings);
+      const bookInfo = getGoodreadsBookInfo(goodreadsBook);
+      const book = await findBookByTitleAndAuthor(
+        `${bookInfo.title} ${bookInfo.authors}`,
+      );
       //   getABookFromTheGoodReadsData
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
-
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput(book.imageLinks);
 
         const covers = await this.coverService.createCovers(coverInput);
-
         const bookData: BookCreateInput = {
           title: book.title,
           pageCount: book.pageCount,
@@ -200,6 +203,7 @@ export class UserBookResolver {
           covers: {
             connect: covers.map((cover) => ({ id: cover.id })),
           },
+          language: book.language,
           categories: book.categories,
           averageRating: book.averageRating,
         };
@@ -230,7 +234,7 @@ export class UserBookResolver {
           isImport: true,
         });
       } else {
-        failedBooks.push(titleAuthor);
+        failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
       }
     }
     console.log(failedBooks);

@@ -51,10 +51,31 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
+// Function to map GoodreadsBook to BookData
+export const getGoodreadsBookInfo = (
+  goodreadsBook: GoodreadsBook,
+): BookData => {
+  return {
+    id: goodreadsBook['Book Id'] ?? '',
+    title: goodreadsBook.Title ?? '',
+    authors: goodreadsBook.Author ? [goodreadsBook.Author] : [],
+    averageRating: parseFloat(goodreadsBook['Average Rating'] ?? '0'),
+    publishedDate: goodreadsBook['Original Publication Year'] ?? '',
+    publisher: goodreadsBook.Publisher ?? '',
+    imageLinks: {}, // Populate with appropriate data
+    language: '', // Populate with appropriate data
+    description: '',
+    pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
+    isbn: goodreadsBook.ISBN ?? '',
+    categories: [], // Populate with appropriate data if available
+    isbn13: goodreadsBook.ISBN13 ?? '',
+  };
+};
+
 export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
   const parsedData = parseLineWithQuotes(line);
-  const objectFromCSV: GoodreadsBook = {};
-
+  const objectFromCSV = {};
+  //
   mappings.forEach((key: GoodreadsBookKeys, index) => {
     if (key === 'ISBN' || key === 'ISBN13') {
       objectFromCSV[key] = cleanText(parsedData[index]);
@@ -63,7 +84,7 @@ export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
     }
   });
 
-  return objectFromCSV;
+  return objectFromCSV as GoodreadsBook;
 };
 
 export function processBook(
@@ -106,7 +127,7 @@ export function processBook(
       return self.indexOf(value) === index;
     },
   );
-
+  const language = book.volumeInfo.language || '';
   const bookData: BookData = {
     id,
     title,
@@ -117,6 +138,7 @@ export function processBook(
     categories,
     imageLinks,
     description,
+    language,
     pageCount,
     isbn,
     isbn13,
