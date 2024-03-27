@@ -34,9 +34,7 @@ mutation UpdateJournalEntry(
       book {
         id
         title
-        authors {
-          name
-        }
+        authors
         pageCount
         covers {
           url

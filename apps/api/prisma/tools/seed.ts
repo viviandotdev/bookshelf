@@ -14,8 +14,6 @@ async function main() {
   await prisma.shelf.deleteMany();
   await prisma.identifier.deleteMany();
   await prisma.book.deleteMany();
-  await prisma.author.deleteMany();
-  await prisma.work.deleteMany();
   await prisma.verificationToken.deleteMany();
   await prisma.passwordResetToken.deleteMany();
 

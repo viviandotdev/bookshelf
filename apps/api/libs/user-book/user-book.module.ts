@@ -8,9 +8,6 @@ import { BookRepository } from 'libs/book/book.repository';
 import { HttpModule } from '@nestjs/axios';
 import { ActivityService } from 'libs/activity/activity.service';
 import { ActivityRepository } from 'libs/activity/activity.respository';
-import { AuthorService } from 'libs/author/author.service';
-import { WorkService } from 'libs/work/work.service';
-import { WorkRepository } from 'libs/work/work.repository';
 import { CoverService } from 'libs/cover/cover.service';
 import { CoverRepository } from 'libs/cover/cover.repository';
 
@@ -23,9 +20,6 @@ import { CoverRepository } from 'libs/cover/cover.repository';
     BookRepository,
     ActivityRepository,
     ActivityService,
-    AuthorService,
-    WorkService,
-    WorkRepository,
     CoverService,
     CoverRepository,
   ],

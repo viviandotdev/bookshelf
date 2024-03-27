@@ -544,257 +544,11 @@ type AuthResponse {
   verificationToken: String
 }
 
-type Author {
-  _count: AuthorCount!
-  bio: String
-  birthDate: Timestamp
-  books: [Book!]
-  deathDate: Timestamp
-  id: ID!
-  name: String!
-  photo: String
-  wikipedia: String
-  works: [Work!]
-}
-
-type AuthorCount {
-  books: Int!
-  works: Int!
-}
-
-type AuthorCountAggregate {
-  _all: Int!
-  bio: Int!
-  birthDate: Int!
-  deathDate: Int!
-  id: Int!
-  name: Int!
-  photo: Int!
-  wikipedia: Int!
-}
-
-input AuthorCreateInput {
-  bio: String
-  birthDate: Timestamp
-  books: BookCreateNestedManyWithoutAuthorsInput
-  deathDate: Timestamp
-  id: String
-  name: String!
-  photo: String
-  wikipedia: String
-  works: WorkCreateNestedManyWithoutAuthorsInput
-}
-
-input AuthorCreateNestedManyWithoutBooksInput {
-  connect: [AuthorWhereUniqueInput!]
-  connectOrCreate: [AuthorCreateOrConnectWithoutBooksInput!]
-  create: [AuthorCreateWithoutBooksInput!]
-}
-
-input AuthorCreateNestedManyWithoutWorksInput {
-  connect: [AuthorWhereUniqueInput!]
-  connectOrCreate: [AuthorCreateOrConnectWithoutWorksInput!]
-  create: [AuthorCreateWithoutWorksInput!]
-}
-
-input AuthorCreateOrConnectWithoutBooksInput {
-  create: AuthorCreateWithoutBooksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorCreateOrConnectWithoutWorksInput {
-  create: AuthorCreateWithoutWorksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorCreateWithoutBooksInput {
-  bio: String
-  birthDate: Timestamp
-  deathDate: Timestamp
-  id: String
-  name: String!
-  photo: String
-  wikipedia: String
-  works: WorkCreateNestedManyWithoutAuthorsInput
-}
-
-input AuthorCreateWithoutWorksInput {
-  bio: String
-  birthDate: Timestamp
-  books: BookCreateNestedManyWithoutAuthorsInput
-  deathDate: Timestamp
-  id: String
-  name: String!
-  photo: String
-  wikipedia: String
-}
-
-input AuthorListRelationFilter {
-  every: AuthorWhereInput
-  none: AuthorWhereInput
-  some: AuthorWhereInput
-}
-
-type AuthorMaxAggregate {
-  bio: String
-  birthDate: Timestamp
-  deathDate: Timestamp
-  id: String
-  name: String
-  photo: String
-  wikipedia: String
-}
-
-type AuthorMinAggregate {
-  bio: String
-  birthDate: Timestamp
-  deathDate: Timestamp
-  id: String
-  name: String
-  photo: String
-  wikipedia: String
-}
-
-input AuthorOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input AuthorScalarWhereInput {
-  AND: [AuthorScalarWhereInput!]
-  NOT: [AuthorScalarWhereInput!]
-  OR: [AuthorScalarWhereInput!]
-  bio: StringFilter
-  birthDate: DateTimeFilter
-  deathDate: DateTimeFilter
-  id: StringFilter
-  name: StringFilter
-  photo: StringFilter
-  wikipedia: StringFilter
-}
-
-input AuthorUpdateManyMutationInput {
-  bio: String
-  birthDate: Timestamp
-  deathDate: Timestamp
-  id: String
-  name: String
-  photo: String
-  wikipedia: String
-}
-
-input AuthorUpdateManyWithWhereWithoutBooksInput {
-  data: AuthorUpdateManyMutationInput!
-  where: AuthorScalarWhereInput!
-}
-
-input AuthorUpdateManyWithWhereWithoutWorksInput {
-  data: AuthorUpdateManyMutationInput!
-  where: AuthorScalarWhereInput!
-}
-
-input AuthorUpdateManyWithoutBooksNestedInput {
-  connect: [AuthorWhereUniqueInput!]
-  connectOrCreate: [AuthorCreateOrConnectWithoutBooksInput!]
-  create: [AuthorCreateWithoutBooksInput!]
-  delete: [AuthorWhereUniqueInput!]
-  deleteMany: [AuthorScalarWhereInput!]
-  disconnect: [AuthorWhereUniqueInput!]
-  set: [AuthorWhereUniqueInput!]
-  update: [AuthorUpdateWithWhereUniqueWithoutBooksInput!]
-  updateMany: [AuthorUpdateManyWithWhereWithoutBooksInput!]
-  upsert: [AuthorUpsertWithWhereUniqueWithoutBooksInput!]
-}
-
-input AuthorUpdateManyWithoutWorksNestedInput {
-  connect: [AuthorWhereUniqueInput!]
-  connectOrCreate: [AuthorCreateOrConnectWithoutWorksInput!]
-  create: [AuthorCreateWithoutWorksInput!]
-  delete: [AuthorWhereUniqueInput!]
-  deleteMany: [AuthorScalarWhereInput!]
-  disconnect: [AuthorWhereUniqueInput!]
-  set: [AuthorWhereUniqueInput!]
-  update: [AuthorUpdateWithWhereUniqueWithoutWorksInput!]
-  updateMany: [AuthorUpdateManyWithWhereWithoutWorksInput!]
-  upsert: [AuthorUpsertWithWhereUniqueWithoutWorksInput!]
-}
-
-input AuthorUpdateWithWhereUniqueWithoutBooksInput {
-  data: AuthorUpdateWithoutBooksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorUpdateWithWhereUniqueWithoutWorksInput {
-  data: AuthorUpdateWithoutWorksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorUpdateWithoutBooksInput {
-  bio: String
-  birthDate: Timestamp
-  deathDate: Timestamp
-  id: String
-  name: String
-  photo: String
-  wikipedia: String
-  works: WorkUpdateManyWithoutAuthorsNestedInput
-}
-
-input AuthorUpdateWithoutWorksInput {
-  bio: String
-  birthDate: Timestamp
-  books: BookUpdateManyWithoutAuthorsNestedInput
-  deathDate: Timestamp
-  id: String
-  name: String
-  photo: String
-  wikipedia: String
-}
-
-input AuthorUpsertWithWhereUniqueWithoutBooksInput {
-  create: AuthorCreateWithoutBooksInput!
-  update: AuthorUpdateWithoutBooksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorUpsertWithWhereUniqueWithoutWorksInput {
-  create: AuthorCreateWithoutWorksInput!
-  update: AuthorUpdateWithoutWorksInput!
-  where: AuthorWhereUniqueInput!
-}
-
-input AuthorWhereInput {
-  AND: [AuthorWhereInput!]
-  NOT: [AuthorWhereInput!]
-  OR: [AuthorWhereInput!]
-  bio: StringFilter
-  birthDate: DateTimeFilter
-  books: BookListRelationFilter
-  deathDate: DateTimeFilter
-  id: StringFilter
-  name: StringFilter
-  photo: StringFilter
-  wikipedia: StringFilter
-  works: WorkListRelationFilter
-}
-
-input AuthorWhereUniqueInput {
-  AND: [AuthorWhereInput!]
-  NOT: [AuthorWhereInput!]
-  OR: [AuthorWhereInput!]
-  bio: StringFilter
-  birthDate: DateTimeFilter
-  books: BookListRelationFilter
-  deathDate: DateTimeFilter
-  id: String
-  name: StringFilter
-  photo: StringFilter
-  wikipedia: StringFilter
-  works: WorkListRelationFilter
-}
-
 type Book {
   _count: BookCount!
-  authors: [Author!]
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: [Cover!]
   description: String
   id: ID!
@@ -804,20 +558,20 @@ type Book {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: [Review!]
   title: String!
   userBook: [UserBook!]
-  work: Work
-  workId: String
 }
 
 type BookAvgAggregate {
+  averageRating: Float
   id: Float
   pageCount: Float
+  ratingsCount: Float
 }
 
 type BookCount {
-  authors: Int!
   covers: Int!
   logs: Int!
   reviews: Int!
@@ -826,18 +580,23 @@ type BookCount {
 
 type BookCountAggregate {
   _all: Int!
+  authors: Int!
+  averageRating: Int!
+  categories: Int!
   description: Int!
   id: Int!
   language: Int!
   pageCount: Int!
   publishedDate: Int!
   publisher: Int!
+  ratingsCount: Int!
   title: Int!
-  workId: Int!
 }
 
 input BookCreateInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
@@ -846,38 +605,10 @@ input BookCreateInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
-  work: WorkCreateNestedOneWithoutEditionsInput
-}
-
-input BookCreateManyWorkInput {
-  description: String
-  id: Int
-  language: String
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  title: String!
-}
-
-input BookCreateManyWorkInputEnvelope {
-  data: [BookCreateManyWorkInput!]!
-  skipDuplicates: Boolean
-}
-
-input BookCreateNestedManyWithoutAuthorsInput {
-  connect: [BookWhereUniqueInput!]
-  connectOrCreate: [BookCreateOrConnectWithoutAuthorsInput!]
-  create: [BookCreateWithoutAuthorsInput!]
-}
-
-input BookCreateNestedManyWithoutWorkInput {
-  connect: [BookWhereUniqueInput!]
-  connectOrCreate: [BookCreateOrConnectWithoutWorkInput!]
-  create: [BookCreateWithoutWorkInput!]
-  createMany: BookCreateManyWorkInputEnvelope
 }
 
 input BookCreateNestedOneWithoutCoversInput {
@@ -904,11 +635,6 @@ input BookCreateNestedOneWithoutUserBookInput {
   create: BookCreateWithoutUserBookInput
 }
 
-input BookCreateOrConnectWithoutAuthorsInput {
-  create: BookCreateWithoutAuthorsInput!
-  where: BookWhereUniqueInput!
-}
-
 input BookCreateOrConnectWithoutCoversInput {
   create: BookCreateWithoutCoversInput!
   where: BookWhereUniqueInput!
@@ -929,28 +655,10 @@ input BookCreateOrConnectWithoutUserBookInput {
   where: BookWhereUniqueInput!
 }
 
-input BookCreateOrConnectWithoutWorkInput {
-  create: BookCreateWithoutWorkInput!
-  where: BookWhereUniqueInput!
-}
-
-input BookCreateWithoutAuthorsInput {
-  covers: CoverCreateNestedManyWithoutBookInput
-  description: String
-  identifier: IdentifierCreateNestedOneWithoutBookInput
-  language: String
-  logs: AuditLogCreateNestedManyWithoutBookInput
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  reviews: ReviewCreateNestedManyWithoutBookInput
-  title: String!
-  userBook: UserBookCreateNestedManyWithoutBookInput
-  work: WorkCreateNestedOneWithoutEditionsInput
-}
-
 input BookCreateWithoutCoversInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   description: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
@@ -958,14 +666,16 @@ input BookCreateWithoutCoversInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
-  work: WorkCreateNestedOneWithoutEditionsInput
 }
 
 input BookCreateWithoutLogsInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
@@ -973,14 +683,16 @@ input BookCreateWithoutLogsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
-  work: WorkCreateNestedOneWithoutEditionsInput
 }
 
 input BookCreateWithoutReviewsInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
@@ -989,13 +701,15 @@ input BookCreateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
-  work: WorkCreateNestedOneWithoutEditionsInput
 }
 
 input BookCreateWithoutUserBookInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
@@ -1004,24 +718,9 @@ input BookCreateWithoutUserBookInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
-  work: WorkCreateNestedOneWithoutEditionsInput
-}
-
-input BookCreateWithoutWorkInput {
-  authors: AuthorCreateNestedManyWithoutBooksInput
-  covers: CoverCreateNestedManyWithoutBookInput
-  description: String
-  identifier: IdentifierCreateNestedOneWithoutBookInput
-  language: String
-  logs: AuditLogCreateNestedManyWithoutBookInput
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  reviews: ReviewCreateNestedManyWithoutBookInput
-  title: String!
-  userBook: UserBookCreateNestedManyWithoutBookInput
 }
 
 input BookItemInput {
@@ -1031,40 +730,34 @@ input BookItemInput {
   title: String!
 }
 
-input BookListRelationFilter {
-  every: BookWhereInput
-  none: BookWhereInput
-  some: BookWhereInput
-}
-
 type BookMaxAggregate {
+  averageRating: Float
   description: String
   id: Int
   language: String
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   title: String
-  workId: String
 }
 
 type BookMinAggregate {
+  averageRating: Float
   description: String
   id: Int
   language: String
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   title: String
-  workId: String
-}
-
-input BookOrderByRelationAggregateInput {
-  _count: SortOrder
 }
 
 input BookOrderByWithRelationInput {
-  authors: AuthorOrderByRelationAggregateInput
+  authors: SortOrder
+  averageRating: SortOrderInput
+  categories: SortOrder
   covers: CoverOrderByRelationAggregateInput
   description: SortOrderInput
   id: SortOrder
@@ -1074,11 +767,10 @@ input BookOrderByWithRelationInput {
   pageCount: SortOrderInput
   publishedDate: SortOrderInput
   publisher: SortOrderInput
+  ratingsCount: SortOrderInput
   reviews: ReviewOrderByRelationAggregateInput
   title: SortOrder
   userBook: UserBookOrderByRelationAggregateInput
-  work: WorkOrderByWithRelationInput
-  workId: SortOrderInput
 }
 
 input BookRelationFilter {
@@ -1086,69 +778,11 @@ input BookRelationFilter {
   isNot: BookWhereInput
 }
 
-input BookScalarWhereInput {
-  AND: [BookScalarWhereInput!]
-  NOT: [BookScalarWhereInput!]
-  OR: [BookScalarWhereInput!]
-  description: StringFilter
-  id: IntFilter
-  language: StringFilter
-  pageCount: IntFilter
-  publishedDate: StringFilter
-  publisher: StringFilter
-  title: StringFilter
-  workId: StringFilter
-}
-
 type BookSumAggregate {
+  averageRating: Float
   id: Int
   pageCount: Int
-}
-
-input BookUpdateManyMutationInput {
-  description: String
-  language: String
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  title: String
-}
-
-input BookUpdateManyWithWhereWithoutAuthorsInput {
-  data: BookUpdateManyMutationInput!
-  where: BookScalarWhereInput!
-}
-
-input BookUpdateManyWithWhereWithoutWorkInput {
-  data: BookUpdateManyMutationInput!
-  where: BookScalarWhereInput!
-}
-
-input BookUpdateManyWithoutAuthorsNestedInput {
-  connect: [BookWhereUniqueInput!]
-  connectOrCreate: [BookCreateOrConnectWithoutAuthorsInput!]
-  create: [BookCreateWithoutAuthorsInput!]
-  delete: [BookWhereUniqueInput!]
-  deleteMany: [BookScalarWhereInput!]
-  disconnect: [BookWhereUniqueInput!]
-  set: [BookWhereUniqueInput!]
-  update: [BookUpdateWithWhereUniqueWithoutAuthorsInput!]
-  updateMany: [BookUpdateManyWithWhereWithoutAuthorsInput!]
-  upsert: [BookUpsertWithWhereUniqueWithoutAuthorsInput!]
-}
-
-input BookUpdateManyWithoutWorkNestedInput {
-  connect: [BookWhereUniqueInput!]
-  connectOrCreate: [BookCreateOrConnectWithoutWorkInput!]
-  create: [BookCreateWithoutWorkInput!]
-  createMany: BookCreateManyWorkInputEnvelope
-  delete: [BookWhereUniqueInput!]
-  deleteMany: [BookScalarWhereInput!]
-  disconnect: [BookWhereUniqueInput!]
-  set: [BookWhereUniqueInput!]
-  update: [BookUpdateWithWhereUniqueWithoutWorkInput!]
-  updateMany: [BookUpdateManyWithWhereWithoutWorkInput!]
-  upsert: [BookUpsertWithWhereUniqueWithoutWorkInput!]
+  ratingsCount: Int
 }
 
 input BookUpdateOneWithoutCoversNestedInput {
@@ -1211,33 +845,10 @@ input BookUpdateToOneWithWhereWithoutUserBookInput {
   where: BookWhereInput
 }
 
-input BookUpdateWithWhereUniqueWithoutAuthorsInput {
-  data: BookUpdateWithoutAuthorsInput!
-  where: BookWhereUniqueInput!
-}
-
-input BookUpdateWithWhereUniqueWithoutWorkInput {
-  data: BookUpdateWithoutWorkInput!
-  where: BookWhereUniqueInput!
-}
-
-input BookUpdateWithoutAuthorsInput {
-  covers: CoverUpdateManyWithoutBookNestedInput
-  description: String
-  identifier: IdentifierUpdateOneWithoutBookNestedInput
-  language: String
-  logs: AuditLogUpdateManyWithoutBookNestedInput
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  reviews: ReviewUpdateManyWithoutBookNestedInput
-  title: String
-  userBook: UserBookUpdateManyWithoutBookNestedInput
-  work: WorkUpdateOneWithoutEditionsNestedInput
-}
-
 input BookUpdateWithoutCoversInput {
-  authors: AuthorUpdateManyWithoutBooksNestedInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   description: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
   language: String
@@ -1245,14 +856,16 @@ input BookUpdateWithoutCoversInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
-  work: WorkUpdateOneWithoutEditionsNestedInput
 }
 
 input BookUpdateWithoutLogsInput {
-  authors: AuthorUpdateManyWithoutBooksNestedInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
@@ -1260,14 +873,16 @@ input BookUpdateWithoutLogsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
-  work: WorkUpdateOneWithoutEditionsNestedInput
 }
 
 input BookUpdateWithoutReviewsInput {
-  authors: AuthorUpdateManyWithoutBooksNestedInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
@@ -1276,13 +891,15 @@ input BookUpdateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
-  work: WorkUpdateOneWithoutEditionsNestedInput
 }
 
 input BookUpdateWithoutUserBookInput {
-  authors: AuthorUpdateManyWithoutBooksNestedInput
+  authors: [String!]
+  averageRating: Float
+  categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
@@ -1291,36 +908,9 @@ input BookUpdateWithoutUserBookInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
-  work: WorkUpdateOneWithoutEditionsNestedInput
-}
-
-input BookUpdateWithoutWorkInput {
-  authors: AuthorUpdateManyWithoutBooksNestedInput
-  covers: CoverUpdateManyWithoutBookNestedInput
-  description: String
-  identifier: IdentifierUpdateOneWithoutBookNestedInput
-  language: String
-  logs: AuditLogUpdateManyWithoutBookNestedInput
-  pageCount: Int
-  publishedDate: String
-  publisher: String
-  reviews: ReviewUpdateManyWithoutBookNestedInput
-  title: String
-  userBook: UserBookUpdateManyWithoutBookNestedInput
-}
-
-input BookUpsertWithWhereUniqueWithoutAuthorsInput {
-  create: BookCreateWithoutAuthorsInput!
-  update: BookUpdateWithoutAuthorsInput!
-  where: BookWhereUniqueInput!
-}
-
-input BookUpsertWithWhereUniqueWithoutWorkInput {
-  create: BookCreateWithoutWorkInput!
-  update: BookUpdateWithoutWorkInput!
-  where: BookWhereUniqueInput!
 }
 
 input BookUpsertWithoutCoversInput {
@@ -1351,7 +941,9 @@ input BookWhereInput {
   AND: [BookWhereInput!]
   NOT: [BookWhereInput!]
   OR: [BookWhereInput!]
-  authors: AuthorListRelationFilter
+  authors: StringListFilter
+  averageRating: FloatFilter
+  categories: StringListFilter
   covers: CoverListRelationFilter
   description: StringFilter
   id: IntFilter
@@ -1361,18 +953,19 @@ input BookWhereInput {
   pageCount: IntFilter
   publishedDate: StringFilter
   publisher: StringFilter
+  ratingsCount: IntFilter
   reviews: ReviewListRelationFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
-  work: WorkRelationFilter
-  workId: StringFilter
 }
 
 input BookWhereUniqueInput {
   AND: [BookWhereInput!]
   NOT: [BookWhereInput!]
   OR: [BookWhereInput!]
-  authors: AuthorListRelationFilter
+  authors: StringListFilter
+  averageRating: FloatFilter
+  categories: StringListFilter
   covers: CoverListRelationFilter
   description: StringFilter
   id: Int
@@ -1382,11 +975,10 @@ input BookWhereUniqueInput {
   pageCount: IntFilter
   publishedDate: StringFilter
   publisher: StringFilter
+  ratingsCount: IntFilter
   reviews: ReviewListRelationFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
-  work: WorkRelationFilter
-  workId: StringFilter
 }
 
 input BoolFilter {
@@ -1627,13 +1219,13 @@ input CommentWhereUniqueInput {
 }
 
 type Cover {
+  UserBook: UserBook
   book: Book
   bookId: Int
   id: ID!
   size: SIZE!
-  uploadedBy: User
-  uploadedById: String
   url: String!
+  userBookId: String
 }
 
 type CoverAvgAggregate {
@@ -1645,15 +1237,15 @@ type CoverCountAggregate {
   bookId: Int!
   id: Int!
   size: Int!
-  uploadedById: Int!
   url: Int!
+  userBookId: Int!
 }
 
 input CoverCreateManyBookInput {
   id: String
   size: SIZE!
-  uploadedById: String
   url: String!
+  userBookId: String
 }
 
 input CoverCreateManyBookInputEnvelope {
@@ -1661,15 +1253,15 @@ input CoverCreateManyBookInputEnvelope {
   skipDuplicates: Boolean
 }
 
-input CoverCreateManyUploadedByInput {
+input CoverCreateManyUserBookInput {
   bookId: Int
   id: String
   size: SIZE!
   url: String!
 }
 
-input CoverCreateManyUploadedByInputEnvelope {
-  data: [CoverCreateManyUploadedByInput!]!
+input CoverCreateManyUserBookInputEnvelope {
+  data: [CoverCreateManyUserBookInput!]!
   skipDuplicates: Boolean
 }
 
@@ -1680,11 +1272,11 @@ input CoverCreateNestedManyWithoutBookInput {
   createMany: CoverCreateManyBookInputEnvelope
 }
 
-input CoverCreateNestedManyWithoutUploadedByInput {
+input CoverCreateNestedManyWithoutUserBookInput {
   connect: [CoverWhereUniqueInput!]
-  connectOrCreate: [CoverCreateOrConnectWithoutUploadedByInput!]
-  create: [CoverCreateWithoutUploadedByInput!]
-  createMany: CoverCreateManyUploadedByInputEnvelope
+  connectOrCreate: [CoverCreateOrConnectWithoutUserBookInput!]
+  create: [CoverCreateWithoutUserBookInput!]
+  createMany: CoverCreateManyUserBookInputEnvelope
 }
 
 input CoverCreateOrConnectWithoutBookInput {
@@ -1692,19 +1284,19 @@ input CoverCreateOrConnectWithoutBookInput {
   where: CoverWhereUniqueInput!
 }
 
-input CoverCreateOrConnectWithoutUploadedByInput {
-  create: CoverCreateWithoutUploadedByInput!
+input CoverCreateOrConnectWithoutUserBookInput {
+  create: CoverCreateWithoutUserBookInput!
   where: CoverWhereUniqueInput!
 }
 
 input CoverCreateWithoutBookInput {
+  UserBook: UserBookCreateNestedOneWithoutCoverInput
   id: String
   size: SIZE!
-  uploadedBy: UserCreateNestedOneWithoutCoversInput
   url: String!
 }
 
-input CoverCreateWithoutUploadedByInput {
+input CoverCreateWithoutUserBookInput {
   book: BookCreateNestedOneWithoutCoversInput
   id: String
   size: SIZE!
@@ -1721,16 +1313,16 @@ type CoverMaxAggregate {
   bookId: Int
   id: String
   size: SIZE
-  uploadedById: String
   url: String
+  userBookId: String
 }
 
 type CoverMinAggregate {
   bookId: Int
   id: String
   size: SIZE
-  uploadedById: String
   url: String
+  userBookId: String
 }
 
 input CoverOrderByRelationAggregateInput {
@@ -1744,8 +1336,8 @@ input CoverScalarWhereInput {
   bookId: IntFilter
   id: StringFilter
   size: EnumSIZEFilter
-  uploadedById: StringFilter
   url: StringFilter
+  userBookId: StringFilter
 }
 
 type CoverSumAggregate {
@@ -1763,7 +1355,7 @@ input CoverUpdateManyWithWhereWithoutBookInput {
   where: CoverScalarWhereInput!
 }
 
-input CoverUpdateManyWithWhereWithoutUploadedByInput {
+input CoverUpdateManyWithWhereWithoutUserBookInput {
   data: CoverUpdateManyMutationInput!
   where: CoverScalarWhereInput!
 }
@@ -1782,18 +1374,18 @@ input CoverUpdateManyWithoutBookNestedInput {
   upsert: [CoverUpsertWithWhereUniqueWithoutBookInput!]
 }
 
-input CoverUpdateManyWithoutUploadedByNestedInput {
+input CoverUpdateManyWithoutUserBookNestedInput {
   connect: [CoverWhereUniqueInput!]
-  connectOrCreate: [CoverCreateOrConnectWithoutUploadedByInput!]
-  create: [CoverCreateWithoutUploadedByInput!]
-  createMany: CoverCreateManyUploadedByInputEnvelope
+  connectOrCreate: [CoverCreateOrConnectWithoutUserBookInput!]
+  create: [CoverCreateWithoutUserBookInput!]
+  createMany: CoverCreateManyUserBookInputEnvelope
   delete: [CoverWhereUniqueInput!]
   deleteMany: [CoverScalarWhereInput!]
   disconnect: [CoverWhereUniqueInput!]
   set: [CoverWhereUniqueInput!]
-  update: [CoverUpdateWithWhereUniqueWithoutUploadedByInput!]
-  updateMany: [CoverUpdateManyWithWhereWithoutUploadedByInput!]
-  upsert: [CoverUpsertWithWhereUniqueWithoutUploadedByInput!]
+  update: [CoverUpdateWithWhereUniqueWithoutUserBookInput!]
+  updateMany: [CoverUpdateManyWithWhereWithoutUserBookInput!]
+  upsert: [CoverUpsertWithWhereUniqueWithoutUserBookInput!]
 }
 
 input CoverUpdateWithWhereUniqueWithoutBookInput {
@@ -1801,19 +1393,19 @@ input CoverUpdateWithWhereUniqueWithoutBookInput {
   where: CoverWhereUniqueInput!
 }
 
-input CoverUpdateWithWhereUniqueWithoutUploadedByInput {
-  data: CoverUpdateWithoutUploadedByInput!
+input CoverUpdateWithWhereUniqueWithoutUserBookInput {
+  data: CoverUpdateWithoutUserBookInput!
   where: CoverWhereUniqueInput!
 }
 
 input CoverUpdateWithoutBookInput {
+  UserBook: UserBookUpdateOneWithoutCoverNestedInput
   id: String
   size: SIZE
-  uploadedBy: UserUpdateOneWithoutCoversNestedInput
   url: String
 }
 
-input CoverUpdateWithoutUploadedByInput {
+input CoverUpdateWithoutUserBookInput {
   book: BookUpdateOneWithoutCoversNestedInput
   id: String
   size: SIZE
@@ -1826,9 +1418,9 @@ input CoverUpsertWithWhereUniqueWithoutBookInput {
   where: CoverWhereUniqueInput!
 }
 
-input CoverUpsertWithWhereUniqueWithoutUploadedByInput {
-  create: CoverCreateWithoutUploadedByInput!
-  update: CoverUpdateWithoutUploadedByInput!
+input CoverUpsertWithWhereUniqueWithoutUserBookInput {
+  create: CoverCreateWithoutUserBookInput!
+  update: CoverUpdateWithoutUserBookInput!
   where: CoverWhereUniqueInput!
 }
 
@@ -1836,26 +1428,26 @@ input CoverWhereInput {
   AND: [CoverWhereInput!]
   NOT: [CoverWhereInput!]
   OR: [CoverWhereInput!]
+  UserBook: UserBookRelationFilter
   book: BookRelationFilter
   bookId: IntFilter
   id: StringFilter
   size: EnumSIZEFilter
-  uploadedBy: UserRelationFilter
-  uploadedById: StringFilter
   url: StringFilter
+  userBookId: StringFilter
 }
 
 input CoverWhereUniqueInput {
   AND: [CoverWhereInput!]
   NOT: [CoverWhereInput!]
   OR: [CoverWhereInput!]
+  UserBook: UserBookRelationFilter
   book: BookRelationFilter
   bookId: IntFilter
   id: String
   size: EnumSIZEFilter
-  uploadedBy: UserRelationFilter
-  uploadedById: StringFilter
   url: StringFilter
+  userBookId: StringFilter
 }
 
 input DateTimeFilter {
@@ -2378,7 +1970,6 @@ type MeResponse {
 
 type Mutation {
   addBookToShelf(bookId: Int!, shelf: String!): UserBook!
-  createAuthor(data: AuthorCreateInput!): Author!
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
@@ -2502,8 +2093,6 @@ type Review {
   likedBy: [User!]
   spoilers: Boolean!
   user: User
-  userBook: UserBook
-  userBookId: String
   userId: String
 }
 
@@ -2525,7 +2114,6 @@ type ReviewCountAggregate {
   id: Int!
   likeCount: Int!
   spoilers: Int!
-  userBookId: Int!
   userId: Int!
 }
 
@@ -2535,27 +2123,11 @@ input ReviewCreateManyBookInput {
   id: String
   likeCount: Int
   spoilers: Boolean
-  userBookId: String
   userId: String
 }
 
 input ReviewCreateManyBookInputEnvelope {
   data: [ReviewCreateManyBookInput!]!
-  skipDuplicates: Boolean
-}
-
-input ReviewCreateManyUserBookInput {
-  bookId: Int
-  content: String
-  createdAt: Timestamp
-  id: String
-  likeCount: Int
-  spoilers: Boolean
-  userId: String
-}
-
-input ReviewCreateManyUserBookInputEnvelope {
-  data: [ReviewCreateManyUserBookInput!]!
   skipDuplicates: Boolean
 }
 
@@ -2566,7 +2138,6 @@ input ReviewCreateManyUserInput {
   id: String
   likeCount: Int
   spoilers: Boolean
-  userBookId: String
 }
 
 input ReviewCreateManyUserInputEnvelope {
@@ -2585,13 +2156,6 @@ input ReviewCreateNestedManyWithoutLikedByInput {
   connect: [ReviewWhereUniqueInput!]
   connectOrCreate: [ReviewCreateOrConnectWithoutLikedByInput!]
   create: [ReviewCreateWithoutLikedByInput!]
-}
-
-input ReviewCreateNestedManyWithoutUserBookInput {
-  connect: [ReviewWhereUniqueInput!]
-  connectOrCreate: [ReviewCreateOrConnectWithoutUserBookInput!]
-  create: [ReviewCreateWithoutUserBookInput!]
-  createMany: ReviewCreateManyUserBookInputEnvelope
 }
 
 input ReviewCreateNestedManyWithoutUserInput {
@@ -2622,11 +2186,6 @@ input ReviewCreateOrConnectWithoutLikedByInput {
   where: ReviewWhereUniqueInput!
 }
 
-input ReviewCreateOrConnectWithoutUserBookInput {
-  create: ReviewCreateWithoutUserBookInput!
-  where: ReviewWhereUniqueInput!
-}
-
 input ReviewCreateOrConnectWithoutUserInput {
   create: ReviewCreateWithoutUserInput!
   where: ReviewWhereUniqueInput!
@@ -2641,7 +2200,6 @@ input ReviewCreateWithoutBookInput {
   likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
-  userBook: UserBookCreateNestedOneWithoutReviewsInput
 }
 
 input ReviewCreateWithoutCommentsInput {
@@ -2653,7 +2211,6 @@ input ReviewCreateWithoutCommentsInput {
   likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
-  userBook: UserBookCreateNestedOneWithoutReviewsInput
 }
 
 input ReviewCreateWithoutLikedByInput {
@@ -2663,19 +2220,6 @@ input ReviewCreateWithoutLikedByInput {
   createdAt: Timestamp
   id: String
   likeCount: Int
-  spoilers: Boolean
-  user: UserCreateNestedOneWithoutReviewsInput
-  userBook: UserBookCreateNestedOneWithoutReviewsInput
-}
-
-input ReviewCreateWithoutUserBookInput {
-  book: BookCreateNestedOneWithoutReviewsInput
-  comments: CommentCreateNestedManyWithoutReviewInput
-  content: String
-  createdAt: Timestamp
-  id: String
-  likeCount: Int
-  likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
   user: UserCreateNestedOneWithoutReviewsInput
 }
@@ -2689,7 +2233,6 @@ input ReviewCreateWithoutUserInput {
   likeCount: Int
   likedBy: UserCreateNestedManyWithoutLikedReviewsInput
   spoilers: Boolean
-  userBook: UserBookCreateNestedOneWithoutReviewsInput
 }
 
 input ReviewDataInput {
@@ -2711,7 +2254,6 @@ type ReviewMaxAggregate {
   id: String
   likeCount: Int
   spoilers: Boolean
-  userBookId: String
   userId: String
 }
 
@@ -2722,7 +2264,6 @@ type ReviewMinAggregate {
   id: String
   likeCount: Int
   spoilers: Boolean
-  userBookId: String
   userId: String
 }
 
@@ -2745,7 +2286,6 @@ input ReviewScalarWhereInput {
   id: StringFilter
   likeCount: IntFilter
   spoilers: BoolFilter
-  userBookId: StringFilter
   userId: StringFilter
 }
 
@@ -2773,11 +2313,6 @@ input ReviewUpdateManyWithWhereWithoutBookInput {
 }
 
 input ReviewUpdateManyWithWhereWithoutLikedByInput {
-  data: ReviewUpdateManyMutationInput!
-  where: ReviewScalarWhereInput!
-}
-
-input ReviewUpdateManyWithWhereWithoutUserBookInput {
   data: ReviewUpdateManyMutationInput!
   where: ReviewScalarWhereInput!
 }
@@ -2812,20 +2347,6 @@ input ReviewUpdateManyWithoutLikedByNestedInput {
   update: [ReviewUpdateWithWhereUniqueWithoutLikedByInput!]
   updateMany: [ReviewUpdateManyWithWhereWithoutLikedByInput!]
   upsert: [ReviewUpsertWithWhereUniqueWithoutLikedByInput!]
-}
-
-input ReviewUpdateManyWithoutUserBookNestedInput {
-  connect: [ReviewWhereUniqueInput!]
-  connectOrCreate: [ReviewCreateOrConnectWithoutUserBookInput!]
-  create: [ReviewCreateWithoutUserBookInput!]
-  createMany: ReviewCreateManyUserBookInputEnvelope
-  delete: [ReviewWhereUniqueInput!]
-  deleteMany: [ReviewScalarWhereInput!]
-  disconnect: [ReviewWhereUniqueInput!]
-  set: [ReviewWhereUniqueInput!]
-  update: [ReviewUpdateWithWhereUniqueWithoutUserBookInput!]
-  updateMany: [ReviewUpdateManyWithWhereWithoutUserBookInput!]
-  upsert: [ReviewUpsertWithWhereUniqueWithoutUserBookInput!]
 }
 
 input ReviewUpdateManyWithoutUserNestedInput {
@@ -2867,11 +2388,6 @@ input ReviewUpdateWithWhereUniqueWithoutLikedByInput {
   where: ReviewWhereUniqueInput!
 }
 
-input ReviewUpdateWithWhereUniqueWithoutUserBookInput {
-  data: ReviewUpdateWithoutUserBookInput!
-  where: ReviewWhereUniqueInput!
-}
-
 input ReviewUpdateWithWhereUniqueWithoutUserInput {
   data: ReviewUpdateWithoutUserInput!
   where: ReviewWhereUniqueInput!
@@ -2886,7 +2402,6 @@ input ReviewUpdateWithoutBookInput {
   likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
-  userBook: UserBookUpdateOneWithoutReviewsNestedInput
 }
 
 input ReviewUpdateWithoutCommentsInput {
@@ -2898,7 +2413,6 @@ input ReviewUpdateWithoutCommentsInput {
   likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
-  userBook: UserBookUpdateOneWithoutReviewsNestedInput
 }
 
 input ReviewUpdateWithoutLikedByInput {
@@ -2908,19 +2422,6 @@ input ReviewUpdateWithoutLikedByInput {
   createdAt: Timestamp
   id: String
   likeCount: Int
-  spoilers: Boolean
-  user: UserUpdateOneWithoutReviewsNestedInput
-  userBook: UserBookUpdateOneWithoutReviewsNestedInput
-}
-
-input ReviewUpdateWithoutUserBookInput {
-  book: BookUpdateOneWithoutReviewsNestedInput
-  comments: CommentUpdateManyWithoutReviewNestedInput
-  content: String
-  createdAt: Timestamp
-  id: String
-  likeCount: Int
-  likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
   user: UserUpdateOneWithoutReviewsNestedInput
 }
@@ -2934,7 +2435,6 @@ input ReviewUpdateWithoutUserInput {
   likeCount: Int
   likedBy: UserUpdateManyWithoutLikedReviewsNestedInput
   spoilers: Boolean
-  userBook: UserBookUpdateOneWithoutReviewsNestedInput
 }
 
 input ReviewUpsertWithWhereUniqueWithoutBookInput {
@@ -2946,12 +2446,6 @@ input ReviewUpsertWithWhereUniqueWithoutBookInput {
 input ReviewUpsertWithWhereUniqueWithoutLikedByInput {
   create: ReviewCreateWithoutLikedByInput!
   update: ReviewUpdateWithoutLikedByInput!
-  where: ReviewWhereUniqueInput!
-}
-
-input ReviewUpsertWithWhereUniqueWithoutUserBookInput {
-  create: ReviewCreateWithoutUserBookInput!
-  update: ReviewUpdateWithoutUserBookInput!
   where: ReviewWhereUniqueInput!
 }
 
@@ -2981,8 +2475,6 @@ input ReviewWhereInput {
   likedBy: UserListRelationFilter
   spoilers: BoolFilter
   user: UserRelationFilter
-  userBook: UserBookRelationFilter
-  userBookId: StringFilter
   userId: StringFilter
 }
 
@@ -3000,8 +2492,6 @@ input ReviewWhereUniqueInput {
   likedBy: UserListRelationFilter
   spoilers: BoolFilter
   user: UserRelationFilter
-  userBook: UserBookRelationFilter
-  userBookId: StringFilter
   userId: StringFilter
 }
 
@@ -3291,7 +2781,6 @@ type User {
   accounts: [Account!]
   auditLogs: [AuditLog!]
   comments: [Comment!]
-  covers: [Cover!]
   createdAt: Timestamp!
   email: String!
   emailVerified: Timestamp
@@ -3312,7 +2801,9 @@ type User {
 }
 
 type UserBook {
+  Cover: [Cover!]
   _count: UserBookCount!
+  authors: String
   book: Book
   bookId: Int!
   createdAt: Timestamp!
@@ -3320,9 +2811,9 @@ type UserBook {
   journalEntry: [JournalEntry!]
   order: Int!
   rating: Float
-  reviews: [Review!]
   shelves: [UserBookShelves!]
   status: String!
+  title: String
   updatedAt: Timestamp!
   user: User
   userId: String!
@@ -3335,29 +2826,33 @@ type UserBookAvgAggregate {
 }
 
 type UserBookCount {
+  Cover: Int!
   journalEntry: Int!
-  reviews: Int!
   shelves: Int!
 }
 
 type UserBookCountAggregate {
   _all: Int!
+  authors: Int!
   bookId: Int!
   createdAt: Int!
   id: Int!
   order: Int!
   rating: Int!
   status: Int!
+  title: Int!
   updatedAt: Int!
   userId: Int!
 }
 
 input UserBookCreateManyBookInput {
+  authors: String
   createdAt: Timestamp
   id: String
   order: Int!
   rating: Float
   status: String!
+  title: String
   updatedAt: Timestamp
   userId: String!
 }
@@ -3368,12 +2863,14 @@ input UserBookCreateManyBookInputEnvelope {
 }
 
 input UserBookCreateManyUserInput {
+  authors: String
   bookId: Int!
   createdAt: Timestamp
   id: String
   order: Int!
   rating: Float
   status: String!
+  title: String
   updatedAt: Timestamp
 }
 
@@ -3396,16 +2893,16 @@ input UserBookCreateNestedManyWithoutUserInput {
   createMany: UserBookCreateManyUserInputEnvelope
 }
 
+input UserBookCreateNestedOneWithoutCoverInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutCoverInput
+  create: UserBookCreateWithoutCoverInput
+}
+
 input UserBookCreateNestedOneWithoutJournalEntryInput {
   connect: UserBookWhereUniqueInput
   connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
   create: UserBookCreateWithoutJournalEntryInput
-}
-
-input UserBookCreateNestedOneWithoutReviewsInput {
-  connect: UserBookWhereUniqueInput
-  connectOrCreate: UserBookCreateOrConnectWithoutReviewsInput
-  create: UserBookCreateWithoutReviewsInput
 }
 
 input UserBookCreateNestedOneWithoutShelvesInput {
@@ -3419,13 +2916,13 @@ input UserBookCreateOrConnectWithoutBookInput {
   where: UserBookWhereUniqueInput!
 }
 
-input UserBookCreateOrConnectWithoutJournalEntryInput {
-  create: UserBookCreateWithoutJournalEntryInput!
+input UserBookCreateOrConnectWithoutCoverInput {
+  create: UserBookCreateWithoutCoverInput!
   where: UserBookWhereUniqueInput!
 }
 
-input UserBookCreateOrConnectWithoutReviewsInput {
-  create: UserBookCreateWithoutReviewsInput!
+input UserBookCreateOrConnectWithoutJournalEntryInput {
+  create: UserBookCreateWithoutJournalEntryInput!
   where: UserBookWhereUniqueInput!
 }
 
@@ -3440,67 +2937,77 @@ input UserBookCreateOrConnectWithoutUserInput {
 }
 
 input UserBookCreateWithoutBookInput {
+  Cover: CoverCreateNestedManyWithoutUserBookInput
+  authors: String
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int!
   rating: Float
-  reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
+  title: String
+  updatedAt: Timestamp
+  user: UserCreateNestedOneWithoutUserBooksInput
+}
+
+input UserBookCreateWithoutCoverInput {
+  authors: String
+  book: BookCreateNestedOneWithoutUserBookInput
+  createdAt: Timestamp
+  id: String
+  journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
+  order: Int!
+  rating: Float
+  shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
+  status: String!
+  title: String
   updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutJournalEntryInput {
+  Cover: CoverCreateNestedManyWithoutUserBookInput
+  authors: String
   book: BookCreateNestedOneWithoutUserBookInput
   createdAt: Timestamp
   id: String
   order: Int!
   rating: Float
-  reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
-  updatedAt: Timestamp
-  user: UserCreateNestedOneWithoutUserBooksInput
-}
-
-input UserBookCreateWithoutReviewsInput {
-  book: BookCreateNestedOneWithoutUserBookInput
-  createdAt: Timestamp
-  id: String
-  journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int!
-  rating: Float
-  shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
-  status: String!
+  title: String
   updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutShelvesInput {
+  Cover: CoverCreateNestedManyWithoutUserBookInput
+  authors: String
   book: BookCreateNestedOneWithoutUserBookInput
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int!
   rating: Float
-  reviews: ReviewCreateNestedManyWithoutUserBookInput
   status: String!
+  title: String
   updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput
 }
 
 input UserBookCreateWithoutUserInput {
+  Cover: CoverCreateNestedManyWithoutUserBookInput
+  authors: String
   book: BookCreateNestedOneWithoutUserBookInput
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int!
   rating: Float
-  reviews: ReviewCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: String!
+  title: String
   updatedAt: Timestamp
 }
 
@@ -3516,23 +3023,27 @@ input UserBookListRelationFilter {
 }
 
 type UserBookMaxAggregate {
+  authors: String
   bookId: Int
   createdAt: Timestamp
   id: String
   order: Int
   rating: Float
   status: String
+  title: String
   updatedAt: Timestamp
   userId: String
 }
 
 type UserBookMinAggregate {
+  authors: String
   bookId: Int
   createdAt: Timestamp
   id: String
   order: Int
   rating: Float
   status: String
+  title: String
   updatedAt: Timestamp
   userId: String
 }
@@ -3542,6 +3053,8 @@ input UserBookOrderByRelationAggregateInput {
 }
 
 input UserBookOrderByWithRelationInput {
+  Cover: CoverOrderByRelationAggregateInput
+  authors: SortOrderInput
   book: BookOrderByWithRelationInput
   bookId: SortOrder
   createdAt: SortOrder
@@ -3549,9 +3062,9 @@ input UserBookOrderByWithRelationInput {
   journalEntry: JournalEntryOrderByRelationAggregateInput
   order: SortOrder
   rating: SortOrderInput
-  reviews: ReviewOrderByRelationAggregateInput
   shelves: UserBookShelvesOrderByRelationAggregateInput
   status: SortOrder
+  title: SortOrderInput
   updatedAt: SortOrder
   user: UserOrderByWithRelationInput
   userId: SortOrder
@@ -3566,12 +3079,14 @@ input UserBookScalarWhereInput {
   AND: [UserBookScalarWhereInput!]
   NOT: [UserBookScalarWhereInput!]
   OR: [UserBookScalarWhereInput!]
+  authors: StringFilter
   bookId: IntFilter
   createdAt: DateTimeFilter
   id: StringFilter
   order: IntFilter
   rating: FloatFilter
   status: StringFilter
+  title: StringFilter
   updatedAt: DateTimeFilter
   userId: StringFilter
 }
@@ -3782,11 +3297,13 @@ input UserBookUpdateInput {
 }
 
 input UserBookUpdateManyMutationInput {
+  authors: String
   createdAt: Timestamp
   id: String
   order: Int
   rating: Float
   status: String
+  title: String
   updatedAt: Timestamp
 }
 
@@ -3836,6 +3353,16 @@ input UserBookUpdateOneRequiredWithoutShelvesNestedInput {
   upsert: UserBookUpsertWithoutShelvesInput
 }
 
+input UserBookUpdateOneWithoutCoverNestedInput {
+  connect: UserBookWhereUniqueInput
+  connectOrCreate: UserBookCreateOrConnectWithoutCoverInput
+  create: UserBookCreateWithoutCoverInput
+  delete: UserBookWhereInput
+  disconnect: UserBookWhereInput
+  update: UserBookUpdateToOneWithWhereWithoutCoverInput
+  upsert: UserBookUpsertWithoutCoverInput
+}
+
 input UserBookUpdateOneWithoutJournalEntryNestedInput {
   connect: UserBookWhereUniqueInput
   connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
@@ -3846,27 +3373,17 @@ input UserBookUpdateOneWithoutJournalEntryNestedInput {
   upsert: UserBookUpsertWithoutJournalEntryInput
 }
 
-input UserBookUpdateOneWithoutReviewsNestedInput {
-  connect: UserBookWhereUniqueInput
-  connectOrCreate: UserBookCreateOrConnectWithoutReviewsInput
-  create: UserBookCreateWithoutReviewsInput
-  delete: UserBookWhereInput
-  disconnect: UserBookWhereInput
-  update: UserBookUpdateToOneWithWhereWithoutReviewsInput
-  upsert: UserBookUpsertWithoutReviewsInput
-}
-
 input UserBookUpdateOrderInput {
   items: [BookItemInput!]
 }
 
-input UserBookUpdateToOneWithWhereWithoutJournalEntryInput {
-  data: UserBookUpdateWithoutJournalEntryInput!
+input UserBookUpdateToOneWithWhereWithoutCoverInput {
+  data: UserBookUpdateWithoutCoverInput!
   where: UserBookWhereInput
 }
 
-input UserBookUpdateToOneWithWhereWithoutReviewsInput {
-  data: UserBookUpdateWithoutReviewsInput!
+input UserBookUpdateToOneWithWhereWithoutJournalEntryInput {
+  data: UserBookUpdateWithoutJournalEntryInput!
   where: UserBookWhereInput
 }
 
@@ -3886,67 +3403,77 @@ input UserBookUpdateWithWhereUniqueWithoutUserInput {
 }
 
 input UserBookUpdateWithoutBookInput {
+  Cover: CoverUpdateManyWithoutUserBookNestedInput
+  authors: String
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
-  reviews: ReviewUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: String
+  title: String
+  updatedAt: Timestamp
+  user: UserUpdateOneWithoutUserBooksNestedInput
+}
+
+input UserBookUpdateWithoutCoverInput {
+  authors: String
+  book: BookUpdateOneWithoutUserBookNestedInput
+  createdAt: Timestamp
+  id: String
+  journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
+  order: Int
+  rating: Float
+  shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
+  status: String
+  title: String
   updatedAt: Timestamp
   user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutJournalEntryInput {
+  Cover: CoverUpdateManyWithoutUserBookNestedInput
+  authors: String
   book: BookUpdateOneWithoutUserBookNestedInput
   createdAt: Timestamp
   id: String
   order: Int
   rating: Float
-  reviews: ReviewUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: String
-  updatedAt: Timestamp
-  user: UserUpdateOneWithoutUserBooksNestedInput
-}
-
-input UserBookUpdateWithoutReviewsInput {
-  book: BookUpdateOneWithoutUserBookNestedInput
-  createdAt: Timestamp
-  id: String
-  journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
-  order: Int
-  rating: Float
-  shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
-  status: String
+  title: String
   updatedAt: Timestamp
   user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutShelvesInput {
+  Cover: CoverUpdateManyWithoutUserBookNestedInput
+  authors: String
   book: BookUpdateOneWithoutUserBookNestedInput
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
-  reviews: ReviewUpdateManyWithoutUserBookNestedInput
   status: String
+  title: String
   updatedAt: Timestamp
   user: UserUpdateOneWithoutUserBooksNestedInput
 }
 
 input UserBookUpdateWithoutUserInput {
+  Cover: CoverUpdateManyWithoutUserBookNestedInput
+  authors: String
   book: BookUpdateOneWithoutUserBookNestedInput
   createdAt: Timestamp
   id: String
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
-  reviews: ReviewUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: String
+  title: String
   updatedAt: Timestamp
 }
 
@@ -3962,15 +3489,15 @@ input UserBookUpsertWithWhereUniqueWithoutUserInput {
   where: UserBookWhereUniqueInput!
 }
 
-input UserBookUpsertWithoutJournalEntryInput {
-  create: UserBookCreateWithoutJournalEntryInput!
-  update: UserBookUpdateWithoutJournalEntryInput!
+input UserBookUpsertWithoutCoverInput {
+  create: UserBookCreateWithoutCoverInput!
+  update: UserBookUpdateWithoutCoverInput!
   where: UserBookWhereInput
 }
 
-input UserBookUpsertWithoutReviewsInput {
-  create: UserBookCreateWithoutReviewsInput!
-  update: UserBookUpdateWithoutReviewsInput!
+input UserBookUpsertWithoutJournalEntryInput {
+  create: UserBookCreateWithoutJournalEntryInput!
+  update: UserBookUpdateWithoutJournalEntryInput!
   where: UserBookWhereInput
 }
 
@@ -3982,8 +3509,10 @@ input UserBookUpsertWithoutShelvesInput {
 
 input UserBookWhereInput {
   AND: [UserBookWhereInput!]
+  Cover: CoverListRelationFilter
   NOT: [UserBookWhereInput!]
   OR: [UserBookWhereInput!]
+  authors: StringFilter
   book: BookRelationFilter
   bookId: IntFilter
   createdAt: DateTimeFilter
@@ -3991,9 +3520,9 @@ input UserBookWhereInput {
   journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
-  reviews: ReviewListRelationFilter
   shelves: UserBookShelvesListRelationFilter
   status: StringFilter
+  title: StringFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
@@ -4001,8 +3530,10 @@ input UserBookWhereInput {
 
 input UserBookWhereUniqueInput {
   AND: [UserBookWhereInput!]
+  Cover: CoverListRelationFilter
   NOT: [UserBookWhereInput!]
   OR: [UserBookWhereInput!]
+  authors: StringFilter
   book: BookRelationFilter
   bookId: IntFilter
   createdAt: DateTimeFilter
@@ -4011,9 +3542,9 @@ input UserBookWhereUniqueInput {
   journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
-  reviews: ReviewListRelationFilter
   shelves: UserBookShelvesListRelationFilter
   status: StringFilter
+  title: StringFilter
   updatedAt: DateTimeFilter
   user: UserRelationFilter
   userId: StringFilter
@@ -4029,7 +3560,6 @@ type UserCount {
   accounts: Int!
   auditLogs: Int!
   comments: Int!
-  covers: Int!
   followers: Int!
   following: Int!
   journalEntries: Int!
@@ -4080,12 +3610,6 @@ input UserCreateNestedOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
 }
 
-input UserCreateNestedOneWithoutCoversInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutCoversInput
-  create: UserCreateWithoutCoversInput
-}
-
 input UserCreateNestedOneWithoutJournalEntriesInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutJournalEntriesInput
@@ -4117,11 +3641,6 @@ input UserCreateOrConnectWithoutAuditLogsInput {
 
 input UserCreateOrConnectWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutCoversInput {
-  create: UserCreateWithoutCoversInput!
   where: UserWhereUniqueInput!
 }
 
@@ -4163,7 +3682,6 @@ input UserCreateOrConnectWithoutUserBooksInput {
 input UserCreateWithoutAuditLogsInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4185,29 +3703,6 @@ input UserCreateWithoutAuditLogsInput {
 input UserCreateWithoutCommentsInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
-  createdAt: Timestamp
-  email: String!
-  emailVerified: Timestamp
-  followers: UserCreateNestedManyWithoutFollowingInput
-  following: UserCreateNestedManyWithoutFollowersInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
-  reviews: ReviewCreateNestedManyWithoutUserInput
-  shelves: ShelfCreateNestedManyWithoutUserInput
-  updatedAt: Timestamp
-  userBooks: UserBookCreateNestedManyWithoutUserInput
-  username: String
-}
-
-input UserCreateWithoutCoversInput {
-  accounts: AccountCreateNestedManyWithoutUserInput
-  auditLogs: AuditLogCreateNestedManyWithoutUserInput
-  comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4230,7 +3725,6 @@ input UserCreateWithoutFollowersInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4252,7 +3746,6 @@ input UserCreateWithoutFollowingInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4274,7 +3767,6 @@ input UserCreateWithoutJournalEntriesInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4296,7 +3788,6 @@ input UserCreateWithoutLikedReviewsInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4318,7 +3809,6 @@ input UserCreateWithoutReviewsInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4340,7 +3830,6 @@ input UserCreateWithoutShelvesInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4362,7 +3851,6 @@ input UserCreateWithoutUserBooksInput {
   accounts: AccountCreateNestedManyWithoutUserInput
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   comments: CommentCreateNestedManyWithoutUserInput
-  covers: CoverCreateNestedManyWithoutUploadedByInput
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
@@ -4414,7 +3902,6 @@ input UserOrderByWithRelationInput {
   accounts: AccountOrderByRelationAggregateInput
   auditLogs: AuditLogOrderByRelationAggregateInput
   comments: CommentOrderByRelationAggregateInput
-  covers: CoverOrderByRelationAggregateInput
   createdAt: SortOrder
   email: SortOrder
   emailVerified: SortOrderInput
@@ -4539,16 +4026,6 @@ input UserUpdateOneWithoutCommentsNestedInput {
   upsert: UserUpsertWithoutCommentsInput
 }
 
-input UserUpdateOneWithoutCoversNestedInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutCoversInput
-  create: UserCreateWithoutCoversInput
-  delete: UserWhereInput
-  disconnect: UserWhereInput
-  update: UserUpdateToOneWithWhereWithoutCoversInput
-  upsert: UserUpsertWithoutCoversInput
-}
-
 input UserUpdateOneWithoutJournalEntriesNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutJournalEntriesInput
@@ -4599,11 +4076,6 @@ input UserUpdateToOneWithWhereWithoutCommentsInput {
   where: UserWhereInput
 }
 
-input UserUpdateToOneWithWhereWithoutCoversInput {
-  data: UserUpdateWithoutCoversInput!
-  where: UserWhereInput
-}
-
 input UserUpdateToOneWithWhereWithoutJournalEntriesInput {
   data: UserUpdateWithoutJournalEntriesInput!
   where: UserWhereInput
@@ -4642,7 +4114,6 @@ input UserUpdateWithWhereUniqueWithoutLikedReviewsInput {
 input UserUpdateWithoutAuditLogsInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4664,29 +4135,6 @@ input UserUpdateWithoutAuditLogsInput {
 input UserUpdateWithoutCommentsInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
-  createdAt: Timestamp
-  email: String
-  emailVerified: Timestamp
-  followers: UserUpdateManyWithoutFollowingNestedInput
-  following: UserUpdateManyWithoutFollowersNestedInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
-  reviews: ReviewUpdateManyWithoutUserNestedInput
-  shelves: ShelfUpdateManyWithoutUserNestedInput
-  updatedAt: Timestamp
-  userBooks: UserBookUpdateManyWithoutUserNestedInput
-  username: String
-}
-
-input UserUpdateWithoutCoversInput {
-  accounts: AccountUpdateManyWithoutUserNestedInput
-  auditLogs: AuditLogUpdateManyWithoutUserNestedInput
-  comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4709,7 +4157,6 @@ input UserUpdateWithoutFollowersInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4731,7 +4178,6 @@ input UserUpdateWithoutFollowingInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4753,7 +4199,6 @@ input UserUpdateWithoutJournalEntriesInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4775,7 +4220,6 @@ input UserUpdateWithoutLikedReviewsInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4797,7 +4241,6 @@ input UserUpdateWithoutReviewsInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4819,7 +4262,6 @@ input UserUpdateWithoutShelvesInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4841,7 +4283,6 @@ input UserUpdateWithoutUserBooksInput {
   accounts: AccountUpdateManyWithoutUserNestedInput
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   comments: CommentUpdateManyWithoutUserNestedInput
-  covers: CoverUpdateManyWithoutUploadedByNestedInput
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
@@ -4889,12 +4330,6 @@ input UserUpsertWithoutCommentsInput {
   where: UserWhereInput
 }
 
-input UserUpsertWithoutCoversInput {
-  create: UserCreateWithoutCoversInput!
-  update: UserUpdateWithoutCoversInput!
-  where: UserWhereInput
-}
-
 input UserUpsertWithoutJournalEntriesInput {
   create: UserCreateWithoutJournalEntriesInput!
   update: UserUpdateWithoutJournalEntriesInput!
@@ -4926,7 +4361,6 @@ input UserWhereInput {
   accounts: AccountListRelationFilter
   auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
-  covers: CoverListRelationFilter
   createdAt: DateTimeFilter
   email: StringFilter
   emailVerified: DateTimeFilter
@@ -4952,7 +4386,6 @@ input UserWhereUniqueInput {
   accounts: AccountListRelationFilter
   auditLogs: AuditLogListRelationFilter
   comments: CommentListRelationFilter
-  covers: CoverListRelationFilter
   createdAt: DateTimeFilter
   email: String
   emailVerified: DateTimeFilter
@@ -4994,255 +4427,4 @@ type VerificationTokenMinAggregate {
   expires: Timestamp
   id: String
   token: String
-}
-
-type Work {
-  _count: WorkCount!
-  authors: [Author!]
-  averageRating: Float
-  categories: [String!]
-  description: String
-  editions: [Book!]
-  id: ID!
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String!
-}
-
-type WorkAvgAggregate {
-  averageRating: Float
-  mainEditionId: Float
-  ratingsCount: Float
-}
-
-type WorkCount {
-  authors: Int!
-  editions: Int!
-}
-
-type WorkCountAggregate {
-  _all: Int!
-  averageRating: Int!
-  categories: Int!
-  description: Int!
-  id: Int!
-  mainEditionId: Int!
-  ratingsCount: Int!
-  title: Int!
-}
-
-input WorkCreateNestedManyWithoutAuthorsInput {
-  connect: [WorkWhereUniqueInput!]
-  connectOrCreate: [WorkCreateOrConnectWithoutAuthorsInput!]
-  create: [WorkCreateWithoutAuthorsInput!]
-}
-
-input WorkCreateNestedOneWithoutEditionsInput {
-  connect: WorkWhereUniqueInput
-  connectOrCreate: WorkCreateOrConnectWithoutEditionsInput
-  create: WorkCreateWithoutEditionsInput
-}
-
-input WorkCreateOrConnectWithoutAuthorsInput {
-  create: WorkCreateWithoutAuthorsInput!
-  where: WorkWhereUniqueInput!
-}
-
-input WorkCreateOrConnectWithoutEditionsInput {
-  create: WorkCreateWithoutEditionsInput!
-  where: WorkWhereUniqueInput!
-}
-
-input WorkCreateWithoutAuthorsInput {
-  averageRating: Float
-  categories: [String!]
-  description: String
-  editions: BookCreateNestedManyWithoutWorkInput
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String!
-}
-
-input WorkCreateWithoutEditionsInput {
-  authors: AuthorCreateNestedManyWithoutWorksInput
-  averageRating: Float
-  categories: [String!]
-  description: String
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String!
-}
-
-input WorkListRelationFilter {
-  every: WorkWhereInput
-  none: WorkWhereInput
-  some: WorkWhereInput
-}
-
-type WorkMaxAggregate {
-  averageRating: Float
-  description: String
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String
-}
-
-type WorkMinAggregate {
-  averageRating: Float
-  description: String
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String
-}
-
-input WorkOrderByWithRelationInput {
-  authors: AuthorOrderByRelationAggregateInput
-  averageRating: SortOrderInput
-  categories: SortOrder
-  description: SortOrderInput
-  editions: BookOrderByRelationAggregateInput
-  id: SortOrder
-  mainEditionId: SortOrderInput
-  ratingsCount: SortOrderInput
-  title: SortOrder
-}
-
-input WorkRelationFilter {
-  is: WorkWhereInput
-  isNot: WorkWhereInput
-}
-
-input WorkScalarWhereInput {
-  AND: [WorkScalarWhereInput!]
-  NOT: [WorkScalarWhereInput!]
-  OR: [WorkScalarWhereInput!]
-  averageRating: FloatFilter
-  categories: StringListFilter
-  description: StringFilter
-  id: StringFilter
-  mainEditionId: IntFilter
-  ratingsCount: IntFilter
-  title: StringFilter
-}
-
-type WorkSumAggregate {
-  averageRating: Float
-  mainEditionId: Int
-  ratingsCount: Int
-}
-
-input WorkUpdateManyMutationInput {
-  averageRating: Float
-  categories: [String!]
-  description: String
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String
-}
-
-input WorkUpdateManyWithWhereWithoutAuthorsInput {
-  data: WorkUpdateManyMutationInput!
-  where: WorkScalarWhereInput!
-}
-
-input WorkUpdateManyWithoutAuthorsNestedInput {
-  connect: [WorkWhereUniqueInput!]
-  connectOrCreate: [WorkCreateOrConnectWithoutAuthorsInput!]
-  create: [WorkCreateWithoutAuthorsInput!]
-  delete: [WorkWhereUniqueInput!]
-  deleteMany: [WorkScalarWhereInput!]
-  disconnect: [WorkWhereUniqueInput!]
-  set: [WorkWhereUniqueInput!]
-  update: [WorkUpdateWithWhereUniqueWithoutAuthorsInput!]
-  updateMany: [WorkUpdateManyWithWhereWithoutAuthorsInput!]
-  upsert: [WorkUpsertWithWhereUniqueWithoutAuthorsInput!]
-}
-
-input WorkUpdateOneWithoutEditionsNestedInput {
-  connect: WorkWhereUniqueInput
-  connectOrCreate: WorkCreateOrConnectWithoutEditionsInput
-  create: WorkCreateWithoutEditionsInput
-  delete: WorkWhereInput
-  disconnect: WorkWhereInput
-  update: WorkUpdateToOneWithWhereWithoutEditionsInput
-  upsert: WorkUpsertWithoutEditionsInput
-}
-
-input WorkUpdateToOneWithWhereWithoutEditionsInput {
-  data: WorkUpdateWithoutEditionsInput!
-  where: WorkWhereInput
-}
-
-input WorkUpdateWithWhereUniqueWithoutAuthorsInput {
-  data: WorkUpdateWithoutAuthorsInput!
-  where: WorkWhereUniqueInput!
-}
-
-input WorkUpdateWithoutAuthorsInput {
-  averageRating: Float
-  categories: [String!]
-  description: String
-  editions: BookUpdateManyWithoutWorkNestedInput
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String
-}
-
-input WorkUpdateWithoutEditionsInput {
-  authors: AuthorUpdateManyWithoutWorksNestedInput
-  averageRating: Float
-  categories: [String!]
-  description: String
-  id: String
-  mainEditionId: Int
-  ratingsCount: Int
-  title: String
-}
-
-input WorkUpsertWithWhereUniqueWithoutAuthorsInput {
-  create: WorkCreateWithoutAuthorsInput!
-  update: WorkUpdateWithoutAuthorsInput!
-  where: WorkWhereUniqueInput!
-}
-
-input WorkUpsertWithoutEditionsInput {
-  create: WorkCreateWithoutEditionsInput!
-  update: WorkUpdateWithoutEditionsInput!
-  where: WorkWhereInput
-}
-
-input WorkWhereInput {
-  AND: [WorkWhereInput!]
-  NOT: [WorkWhereInput!]
-  OR: [WorkWhereInput!]
-  authors: AuthorListRelationFilter
-  averageRating: FloatFilter
-  categories: StringListFilter
-  description: StringFilter
-  editions: BookListRelationFilter
-  id: StringFilter
-  mainEditionId: IntFilter
-  ratingsCount: IntFilter
-  title: StringFilter
-}
-
-input WorkWhereUniqueInput {
-  AND: [WorkWhereInput!]
-  NOT: [WorkWhereInput!]
-  OR: [WorkWhereInput!]
-  authors: AuthorListRelationFilter
-  averageRating: FloatFilter
-  categories: StringListFilter
-  description: StringFilter
-  editions: BookListRelationFilter
-  id: String
-  mainEditionId: IntFilter
-  ratingsCount: IntFilter
-  title: StringFilter
 }

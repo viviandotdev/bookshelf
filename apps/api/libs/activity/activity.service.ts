@@ -41,7 +41,6 @@ export class ActivityService {
         user: true,
         book: {
           include: {
-            authors: { select: { name: true } },
             covers: { select: { size: true, url: true } },
           },
         },
