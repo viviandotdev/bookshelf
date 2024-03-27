@@ -3,7 +3,6 @@ export interface BookData {
   title: string;
   authors: string[];
   averageRating: number;
-  ratingsCount: number;
   publishedDate: string;
   publisher: string;
   imageLinks: any;

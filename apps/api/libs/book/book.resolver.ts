@@ -11,6 +11,7 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { CoverService } from 'libs/cover/cover.service';
+import { findBookByGoogleBookId } from './google.api';
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -24,11 +25,11 @@ export class BookResolver {
     @Args('id')
     id: string,
   ) {
-    const googleBook = await this.bookService.getGoogleBook(id);
+    const googleBook = await findBookByGoogleBookId(id);
     // Search for an Identifier with the matching googleBooksId
     const identifier = await this.bookService.findByIdentifier({
       where: {
-        googleBooks: googleBook.id,
+        google: googleBook.id,
       },
       include: {
         book: true, // Include related book information if needed
@@ -55,12 +56,11 @@ export class BookResolver {
         },
         categories: googleBook.categories,
         averageRating: googleBook.averageRating,
-        ratingsCount: googleBook.ratingsCount,
       };
       const book = await this.bookService.create(bookData, null, {
         isbn10: googleBook.isbn,
         isbn13: googleBook.isbn13,
-        googleBooks: googleBook.id,
+        google: googleBook.id,
       });
 
       return book;

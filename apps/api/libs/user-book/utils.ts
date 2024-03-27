@@ -97,7 +97,6 @@ export function processBook(
     if (identifier1) isbn = identifier1;
     if (identifier2) isbn13 = identifier2;
   }
-  const ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(' / '),
@@ -112,7 +111,6 @@ export function processBook(
     id,
     title,
     averageRating,
-    ratingsCount,
     authors,
     publishedDate,
     publisher,

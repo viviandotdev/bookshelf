@@ -20,6 +20,7 @@ import { UserBooksResponse } from './models/user-books.response';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { BookData } from './types';
 import { CoverService } from 'libs/cover/cover.service';
+import { findBookByTitleAndAuthor } from 'libs/book/google.api';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -65,7 +66,7 @@ export class UserBookResolver {
     if (this.containsNonNumeric(id)) {
       const identifier = await this.bookService.findByIdentifier({
         where: {
-          googleBooks: id,
+          google: id,
         },
         include: {
           book: true, // Include related book information if needed
@@ -174,14 +175,15 @@ export class UserBookResolver {
     const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
       const line = lines[i];
-      const objectFromCSV = processCSVLine(line, mappings);
-      const titleAuthor = `${objectFromCSV['Title']} ${objectFromCSV['Author']}`;
-      // const book = await this.bookService.findBookByISBN(isbn);
-      const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);
+
+      const goodreadsBook = processCSVLine(line, mappings);
+      const titleAuthor = `${goodreadsBook['Title']} ${goodreadsBook['Author']}`;
+      const book = await findBookByTitleAndAuthor(titleAuthor);
+      //   getABookFromTheGoodReadsData
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
-        const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
+        const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
 
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput(book.imageLinks);
@@ -199,46 +201,38 @@ export class UserBookResolver {
             connect: covers.map((cover) => ({ id: cover.id })),
           },
           categories: book.categories,
-          averageRating:
-            Number(objectFromCSV['Average Rating']) || book.averageRating,
-          ratingsCount: book.ratingsCount,
+          averageRating: book.averageRating,
         };
 
-        try {
-          const currentBook = await this.bookService.create(
-            bookData,
-            user.userId,
-            {
-              isbn10: book.isbn,
-              isbn13: book.isbn13,
-              googleBooks: book.id,
-              goodreads: objectFromCSV['Book Id'],
-            },
-          );
+        const currentBook = await this.bookService.create(
+          bookData,
+          user.userId,
+          {
+            isbn10: book.isbn,
+            isbn13: book.isbn13,
+            google: book.id,
+            goodreads: goodreadsBook['Book Id'],
+          },
+        );
 
-          const userBookData: UserBookUpdateInput = {
-            status,
-            rating: Number(rating),
-            shelves,
-          };
-          await this.userBookService.update({
-            data: userBookData,
-            where: {
-              userId: user.userId,
-              bookId: currentBook.id,
-            },
-            isImport: true,
-          });
-        } catch (error) {
-          failedBooks.push(titleAuthor);
-          console.log(error);
-        }
+        const userBookData: UserBookUpdateInput = {
+          status,
+          rating: Number(rating),
+          shelves,
+        };
+
+        await this.userBookService.update({
+          data: userBookData,
+          where: {
+            userId: user.userId,
+            bookId: currentBook.id,
+          },
+          isImport: true,
+        });
       } else {
         failedBooks.push(titleAuthor);
-        console.log('Book not found');
       }
     }
-    // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
     console.log(failedBooks);
     return true;
     // email user once import is done
