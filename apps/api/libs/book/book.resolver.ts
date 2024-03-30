@@ -80,7 +80,6 @@ export class BookResolver {
     @Args('data') data: BookCreateInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    console.log(data);
     return this.bookService.create(data, currentUser.userId);
   }
 
@@ -89,7 +88,6 @@ export class BookResolver {
     @Args('where')
     where: BookWhereUniqueInput,
   ) {
-    console.log('where' + where);
     const book = this.bookService.findUnique({
       where: {
         id: where.id,
@@ -98,7 +96,6 @@ export class BookResolver {
         covers: true,
       },
     });
-    console.log(book);
 
     if (!book) {
       throw new NotFoundException(

@@ -25,10 +25,19 @@ export default function BookTemplate({
     reviews &&
     reviews.filter((review) => review.userBook?.user?.id === user?.id);
   return (
-    <div className='container my-12'>
+    <div className='container my-12 xl:px-32 2xl:px-48'>
       <BookStatusModal />
-      <div className='grid w-full grid-cols-5 gap-2 '>
-        <section className='hidden p-4 xl:col-span-1 xl:block'>
+      <div className='grid w-full grid-cols-1 gap-2 lg:grid-cols-5 '>
+        <section className='m-auto block min-w-[232px] p-4 lg:col-span-1 lg:hidden'>
+          <Image
+            width={184}
+            height={277}
+            src={getCoverUrl(book, Size.Small)}
+            className='w-[fill-available] max-w-none rounded-lg'
+            alt='Picture of the author'
+          />
+        </section>
+        <section className='hidden p-4 lg:col-span-1 lg:block'>
           <Image
             width={184}
             height={277}
@@ -41,7 +50,7 @@ export default function BookTemplate({
             <div>First published {formatDate(book.publishedDate!)}</div>
           </div>
         </section>
-        <section className=' col-span-5 grid gap-2 p-4 xl:col-span-4'>
+        <section className=' col-span-5 grid gap-2 p-4 lg:col-span-4'>
           <div className='grid gap-2'>
             <div className='flex items-center justify-between gap-2'>
               <h1
@@ -52,12 +61,12 @@ export default function BookTemplate({
               >
                 {book.title}
               </h1>
-              <span className='inline min-w-72 text-base'>
-                by {formatAuthors(book)}
-              </span>
             </div>
             <div className='flex justify-between gap-2'>
               <section className='  flex flex-col gap-2 pr-4'>
+                <span className='inline min-w-72 text-base'>
+                  by {formatAuthors(book)}
+                </span>
                 <BookInfo processedBook={book} />
               </section>
               <section className='min-w-72'>
