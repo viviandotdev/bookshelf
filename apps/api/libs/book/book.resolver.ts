@@ -7,11 +7,11 @@ import {
   CoverCreateInput,
 } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { CoverService } from 'libs/cover/cover.service';
-import { findBookByGoogleBookId } from './google.api';
+import { findBookByGoogleBookId } from './api/google.api';
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -89,7 +89,8 @@ export class BookResolver {
     @Args('where')
     where: BookWhereUniqueInput,
   ) {
-    return this.bookService.findUnique({
+    console.log('where' + where);
+    const book = this.bookService.findUnique({
       where: {
         id: where.id,
       },
@@ -97,5 +98,13 @@ export class BookResolver {
         covers: true,
       },
     });
+    console.log(book);
+
+    if (!book) {
+      throw new NotFoundException(
+        `Book ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return book;
   }
 }

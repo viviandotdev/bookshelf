@@ -4,7 +4,6 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { BookRepository } from './book.repository';
-import { processBook } from 'libs/user-book/utils';
 import { BookData } from 'libs/user-book/types';
 import axiosInstance from 'src/config/axios.config';
 @Injectable()

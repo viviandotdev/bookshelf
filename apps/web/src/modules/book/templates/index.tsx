@@ -43,7 +43,7 @@ export default function BookTemplate({
         </section>
         <section className=' col-span-5 grid gap-2 p-4 xl:col-span-4'>
           <div className='grid gap-2'>
-            <div className='flex items-center'>
+            <div className='flex items-center justify-between gap-2'>
               <h1
                 className={cn(
                   dm_sefif_display.className,
@@ -52,9 +52,11 @@ export default function BookTemplate({
               >
                 {book.title}
               </h1>
-              <span className='inline text-base'>by {formatAuthors(book)}</span>
+              <span className='inline min-w-72 text-base'>
+                by {formatAuthors(book)}
+              </span>
             </div>
-            <div className='flex gap-2'>
+            <div className='flex justify-between gap-2'>
               <section className='  flex flex-col gap-2 pr-4'>
                 <BookInfo processedBook={book} />
               </section>

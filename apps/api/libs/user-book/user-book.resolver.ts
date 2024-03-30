@@ -24,9 +24,7 @@ import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { PrismaRepository } from 'prisma/prisma.repository';
-import { BookData } from './types';
 import { CoverService } from 'libs/cover/cover.service';
-import { findBookByTitleAndAuthor } from 'libs/book/google.api';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -235,6 +233,7 @@ export class UserBookResolver {
           isImport: true,
         });
       } else {
+        console.log(`${bookInfo.title} ${bookInfo.authors}`);
         failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
       }
     }

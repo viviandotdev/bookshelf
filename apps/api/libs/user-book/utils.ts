@@ -1,4 +1,10 @@
+import {
+  findBookByGoogleQuery,
+  findGoogleBookByISBN,
+  getGoogleBook,
+} from 'libs/book/api/google.api';
 import { GoodreadsBookKeys, GoodreadsBook, BookData } from './types';
+import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   let shelves: string[] = []; // get shelves
@@ -51,9 +57,30 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
-export const buildBook = (book: BookData) => {
-    
-  return book;
+export const buildBook = async (book: BookData) => {
+  // try to find book by google
+  const googleBook = await getGoogleBook(book);
+
+  if (googleBook) {
+    book.description = googleBook.description;
+    book.language = googleBook.language;
+    book.categories = googleBook.categories;
+    book.imageLinks = googleBook.imageLinks;
+    return book;
+  }
+
+  const openLibraryBook = await getOpenLibraryBook(book);
+
+  if (openLibraryBook) {
+    book.description = openLibraryBook.description;
+    book.language = openLibraryBook.language;
+    book.categories = openLibraryBook.categories;
+
+    book.imageLinks = openLibraryBook.imageLinks;
+    return book;
+  }
+
+  return null;
 };
 // Function to map GoodreadsBook to BookData
 export const getGoodreadsBookInfo = (
@@ -90,19 +117,71 @@ export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
 
   return objectFromCSV as GoodreadsBook;
 };
+export function processOpenLibraryBook(book: any, work: any): BookData | null {
+  if (!book || !work) return null;
 
-export function processBook(
+  const id: string = book.key.replace('/books/', '');
+  const title: string = work.title || book.title;
+  //   fix authors need to make api call
+  const authors: string[] = (work.authors || book.authors).map((author: any) =>
+    author.author ? author.author.key.replace('/authors/', '') : '',
+  );
+  const publishedDate: string = book.publish_date || '';
+  const publisher: string = book.publishers ? book.publishers[0] : '';
+  const imageLinks = {
+    small: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-S.jpg`
+      : '',
+    medium: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
+      : '',
+    large: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
+      : '',
+  };
+  const description: string = work.description
+    ? typeof work.description === 'string'
+      ? work.description
+      : work.description.value
+    : '';
+  const pageCount: number = book.number_of_pages || 0;
+  const averageRating: number = 0; // Open Library does not provide ratings, so set to 0 or your default
+  const isbn10: string = book.isbn_10 ? book.isbn_10[0] : '';
+  const isbn13: string = book.isbn_13 ? book.isbn_13[0] : '';
+  const categories: string[] = work.subjects
+    ? work.subjects.map((subject: any) => subject)
+    : [];
+  const language: string = book.languages
+    ? book.languages[0].key.replace('/languages/', '')
+    : '';
+
+  const bookData: BookData = {
+    id,
+    title,
+    authors,
+    averageRating,
+    publishedDate,
+    publisher,
+    categories,
+    imageLinks,
+    description,
+    language,
+    pageCount,
+    isbn10,
+    isbn13,
+  };
+
+  return bookData;
+}
+
+export function processGoogleBook(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   book: any,
-  uniqueBooks?: Set<string>,
 ): BookData | null {
   const id: string = book.id;
   const title: string = book.volumeInfo.title;
   const authors: string[] = book.volumeInfo.authors;
-  const titleAndAuthor = `${title} ${book.volumeInfo.authors?.join(', ')}`;
   // Skip processing the book if the title and author is already encountered
-  if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
-  if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || '';
   const publisher: string = book.volumeInfo.publisher || '';
   const imageLinks = {
@@ -123,7 +202,6 @@ export function processBook(
         isbn13 = identifier.identifier;
       }
     });
-
   }
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>

@@ -588,7 +588,6 @@ export type Book = {
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
-  ratingsCount?: Maybe<Scalars['Int']>;
   reviews?: Maybe<Array<Review>>;
   title: Scalars['String'];
   userBook?: Maybe<Array<UserBook>>;
@@ -599,7 +598,6 @@ export type BookAvgAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
   pageCount?: Maybe<Scalars['Float']>;
-  ratingsCount?: Maybe<Scalars['Float']>;
 };
 
 export type BookCount = {
@@ -622,7 +620,6 @@ export type BookCountAggregate = {
   pageCount: Scalars['Int'];
   publishedDate: Scalars['Int'];
   publisher: Scalars['Int'];
-  ratingsCount: Scalars['Int'];
   title: Scalars['Int'];
 };
 
@@ -638,7 +635,6 @@ export type BookCreateInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
@@ -699,7 +695,6 @@ export type BookCreateWithoutCoversInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
@@ -716,7 +711,6 @@ export type BookCreateWithoutLogsInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
@@ -734,7 +728,6 @@ export type BookCreateWithoutReviewsInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
@@ -751,7 +744,6 @@ export type BookCreateWithoutUserBookInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   title: Scalars['String'];
 };
@@ -772,7 +764,6 @@ export type BookMaxAggregate = {
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
-  ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -785,7 +776,6 @@ export type BookMinAggregate = {
   pageCount?: Maybe<Scalars['Int']>;
   publishedDate?: Maybe<Scalars['String']>;
   publisher?: Maybe<Scalars['String']>;
-  ratingsCount?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
 };
 
@@ -802,7 +792,6 @@ export type BookOrderByWithRelationInput = {
   pageCount?: InputMaybe<SortOrderInput>;
   publishedDate?: InputMaybe<SortOrderInput>;
   publisher?: InputMaybe<SortOrderInput>;
-  ratingsCount?: InputMaybe<SortOrderInput>;
   reviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   title?: InputMaybe<SortOrder>;
   userBook?: InputMaybe<UserBookOrderByRelationAggregateInput>;
@@ -818,7 +807,6 @@ export type BookSumAggregate = {
   averageRating?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Int']>;
   pageCount?: Maybe<Scalars['Int']>;
-  ratingsCount?: Maybe<Scalars['Int']>;
 };
 
 export type BookUpdateOneWithoutCoversNestedInput = {
@@ -892,7 +880,6 @@ export type BookUpdateWithoutCoversInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
@@ -909,7 +896,6 @@ export type BookUpdateWithoutLogsInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
@@ -927,7 +913,6 @@ export type BookUpdateWithoutReviewsInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
 };
@@ -944,7 +929,6 @@ export type BookUpdateWithoutUserBookInput = {
   pageCount?: InputMaybe<Scalars['Int']>;
   publishedDate?: InputMaybe<Scalars['String']>;
   publisher?: InputMaybe<Scalars['String']>;
-  ratingsCount?: InputMaybe<Scalars['Int']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -989,7 +973,6 @@ export type BookWhereInput = {
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
-  ratingsCount?: InputMaybe<IntFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
@@ -1011,7 +994,6 @@ export type BookWhereUniqueInput = {
   pageCount?: InputMaybe<IntFilter>;
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
-  ratingsCount?: InputMaybe<IntFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
@@ -1538,7 +1520,7 @@ export type Identifier = {
   book?: Maybe<Book>;
   bookId: Scalars['Int'];
   goodreads?: Maybe<Scalars['String']>;
-  googleBooks?: Maybe<Scalars['String']>;
+  google?: Maybe<Scalars['String']>;
   isbn10?: Maybe<Scalars['String']>;
   isbn13?: Maybe<Scalars['String']>;
   openLibrary?: Maybe<Scalars['String']>;
@@ -1555,7 +1537,7 @@ export type IdentifierCountAggregate = {
   amazon: Scalars['Int'];
   bookId: Scalars['Int'];
   goodreads: Scalars['Int'];
-  googleBooks: Scalars['Int'];
+  google: Scalars['Int'];
   isbn10: Scalars['Int'];
   isbn13: Scalars['Int'];
   openLibrary: Scalars['Int'];
@@ -1575,7 +1557,7 @@ export type IdentifierCreateOrConnectWithoutBookInput = {
 export type IdentifierCreateWithoutBookInput = {
   amazon?: InputMaybe<Scalars['String']>;
   goodreads?: InputMaybe<Scalars['String']>;
-  googleBooks?: InputMaybe<Scalars['String']>;
+  google?: InputMaybe<Scalars['String']>;
   isbn10?: InputMaybe<Scalars['String']>;
   isbn13?: InputMaybe<Scalars['String']>;
   openLibrary?: InputMaybe<Scalars['String']>;
@@ -1586,7 +1568,7 @@ export type IdentifierMaxAggregate = {
   amazon?: Maybe<Scalars['String']>;
   bookId?: Maybe<Scalars['Int']>;
   goodreads?: Maybe<Scalars['String']>;
-  googleBooks?: Maybe<Scalars['String']>;
+  google?: Maybe<Scalars['String']>;
   isbn10?: Maybe<Scalars['String']>;
   isbn13?: Maybe<Scalars['String']>;
   openLibrary?: Maybe<Scalars['String']>;
@@ -1597,7 +1579,7 @@ export type IdentifierMinAggregate = {
   amazon?: Maybe<Scalars['String']>;
   bookId?: Maybe<Scalars['Int']>;
   goodreads?: Maybe<Scalars['String']>;
-  googleBooks?: Maybe<Scalars['String']>;
+  google?: Maybe<Scalars['String']>;
   isbn10?: Maybe<Scalars['String']>;
   isbn13?: Maybe<Scalars['String']>;
   openLibrary?: Maybe<Scalars['String']>;
@@ -1608,7 +1590,7 @@ export type IdentifierOrderByWithRelationInput = {
   book?: InputMaybe<BookOrderByWithRelationInput>;
   bookId?: InputMaybe<SortOrder>;
   goodreads?: InputMaybe<SortOrderInput>;
-  googleBooks?: InputMaybe<SortOrderInput>;
+  google?: InputMaybe<SortOrderInput>;
   isbn10?: InputMaybe<SortOrderInput>;
   isbn13?: InputMaybe<SortOrderInput>;
   openLibrary?: InputMaybe<SortOrderInput>;
@@ -1642,7 +1624,7 @@ export type IdentifierUpdateToOneWithWhereWithoutBookInput = {
 export type IdentifierUpdateWithoutBookInput = {
   amazon?: InputMaybe<Scalars['String']>;
   goodreads?: InputMaybe<Scalars['String']>;
-  googleBooks?: InputMaybe<Scalars['String']>;
+  google?: InputMaybe<Scalars['String']>;
   isbn10?: InputMaybe<Scalars['String']>;
   isbn13?: InputMaybe<Scalars['String']>;
   openLibrary?: InputMaybe<Scalars['String']>;
@@ -1662,7 +1644,7 @@ export type IdentifierWhereInput = {
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<IntFilter>;
   goodreads?: InputMaybe<StringFilter>;
-  googleBooks?: InputMaybe<StringFilter>;
+  google?: InputMaybe<StringFilter>;
   isbn10?: InputMaybe<StringFilter>;
   isbn13?: InputMaybe<StringFilter>;
   openLibrary?: InputMaybe<StringFilter>;
@@ -1676,7 +1658,7 @@ export type IdentifierWhereUniqueInput = {
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<Scalars['Int']>;
   goodreads?: InputMaybe<StringFilter>;
-  googleBooks?: InputMaybe<StringFilter>;
+  google?: InputMaybe<StringFilter>;
   isbn10?: InputMaybe<StringFilter>;
   isbn13?: InputMaybe<StringFilter>;
   openLibrary?: InputMaybe<StringFilter>;
@@ -4983,14 +4965,14 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
 
 export type GetGoogleBookQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, ratingsCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
+export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6255,7 +6237,6 @@ export const BookDocument = gql`
     pageCount
     categories
     averageRating
-    ratingsCount
   }
 }
     `;
@@ -6303,7 +6284,6 @@ export const GetGoogleBookDocument = gql`
     pageCount
     categories
     averageRating
-    ratingsCount
   }
 }
     `;
