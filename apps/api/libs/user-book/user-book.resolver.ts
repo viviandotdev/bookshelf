@@ -4,6 +4,7 @@ import {
   BookCreateInput,
   BookWhereUniqueInput,
   CoverCreateInput,
+  IdentifierCreateInput,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -195,24 +196,30 @@ export class UserBookResolver {
           authors: book.authors,
           publisher: book.publisher,
           publishedDate: book.publishedDate,
+          averageRating: book.averageRating,
           description: book.description,
           covers: {
             connect: covers.map((cover) => ({ id: cover.id })),
           },
           language: book.language,
           categories: book.categories,
-          averageRating: book.averageRating,
         };
+
+        const identifiers: IdentifierCreateInput = {
+          isbn10: book.isbn10,
+          isbn13: book.isbn13,
+        };
+
+        if (book.type === 'GOOGLE') {
+          identifiers.google = book.id;
+        } else if (book.type === 'OPENLIBRARY') {
+          identifiers.openLibrary = book.id;
+        }
 
         const currentBook = await this.bookService.create(
           bookData,
           user.userId,
-          {
-            isbn10: book.isbn10,
-            isbn13: book.isbn13,
-            google: book.id,
-            goodreads: goodreadsBook['Book Id'],
-          },
+          identifiers,
         );
 
         const userBookData: UserBookUpdateInput = {

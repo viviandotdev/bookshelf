@@ -52,18 +52,19 @@ export default function BookTemplate({
         </section>
         <section className=' col-span-5 grid gap-2 p-4 lg:col-span-4'>
           <div className='grid gap-2'>
-            <div className='flex items-center justify-between gap-2'>
-              <h1
-                className={cn(
-                  dm_sefif_display.className,
-                  'mr-4 text-4xl/[1.25]'
-                )}
-              >
-                {book.title}
-              </h1>
-            </div>
+            <div className='flex items-center justify-between gap-2'></div>
+
             <div className='flex justify-between gap-2'>
-              <section className='  flex flex-col gap-2 pr-4'>
+              <section className='flex flex-col gap-2 pr-4'>
+                <h1
+                  className={cn(
+                    dm_sefif_display.className,
+                    'mr-4 line-clamp-2 text-4xl/[1.25]'
+                  )}
+                >
+                  {book.title}
+                </h1>
+
                 <span className='inline min-w-72 text-base'>
                   by {formatAuthors(book)}
                 </span>

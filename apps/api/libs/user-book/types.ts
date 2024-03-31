@@ -1,5 +1,6 @@
 export interface BookData {
   id: string;
+  type?: string;
   title: string;
   authors: string[];
   averageRating: number;
@@ -27,6 +28,7 @@ export interface AdditionalBookData {
   };
   language: string;
   description: string;
+  id: string;
 }
 
 export interface GoodreadsBook {

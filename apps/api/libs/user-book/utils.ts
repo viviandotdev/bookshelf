@@ -67,6 +67,8 @@ export const buildBook = async (book: BookData) => {
     book.language = googleBook.language;
     book.categories = googleBook.categories;
     book.imageLinks = googleBook.imageLinks;
+    book.id = googleBook.id;
+    book.type = 'GOOGLE';
     return book;
   }
 
@@ -78,9 +80,10 @@ export const buildBook = async (book: BookData) => {
     book.categories = openLibraryBook.categories;
 
     book.imageLinks = openLibraryBook.imageLinks;
+    book.id = openLibraryBook.id;
+    book.type = 'OPENLIBRARY';
     return book;
   }
-
   return null;
 };
 // Function to map GoodreadsBook to BookData
@@ -150,8 +153,10 @@ export function processOpenLibraryBook(
   const language: string = book.languages
     ? book.languages[0].key.replace('/languages/', '')
     : '';
+  const id = book.key.replace('/languages/', '');
 
   const bookData: AdditionalBookData = {
+    id,
     description,
     language,
     categories,
@@ -182,6 +187,7 @@ export function processGoogleBook(
   );
   const language = book.volumeInfo.language || '';
   const bookData: AdditionalBookData = {
+    id: book.id,
     description,
     language,
     categories,
