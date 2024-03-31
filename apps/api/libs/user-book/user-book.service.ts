@@ -325,7 +325,7 @@ export class UserBookService {
       );
     }
     // Create activty for shelfing a book
-    if (args.data.shelves) {
+    if (args.data.shelves && !args.isImport) {
       this.activityService.create(
         {
           action: 'SHELVE',

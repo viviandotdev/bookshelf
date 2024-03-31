@@ -97,7 +97,11 @@ export const getGoodreadsBookInfo = (
     pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
     isbn10: goodreadsBook.ISBN ?? '',
     isbn13: goodreadsBook.ISBN13 ?? '',
-    imageLinks: {}, // Populate with appropriate data
+    imageLinks: {
+      small: '',
+      medium: '',
+      large: '',
+    }, // Populate with appropriate data
     language: '', // Populate with appropriate data
     description: '', // Populate with appropriate data
     categories: [], // Populate with appropriate data if available

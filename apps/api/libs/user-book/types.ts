@@ -5,7 +5,11 @@ export interface BookData {
   averageRating: number;
   publishedDate: string;
   publisher: string;
-  imageLinks: any;
+  imageLinks: {
+    small: string;
+    medium: string;
+    large: string;
+  };
   language: string;
   description: string;
   pageCount: number;
