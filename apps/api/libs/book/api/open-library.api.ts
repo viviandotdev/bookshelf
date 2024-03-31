@@ -94,7 +94,11 @@ export async function getBookByOpenLibraryISBN(isbn) {
     const response = await axiosInstance.get(url);
     if (response.status >= 200 && response.status < 300) {
       const bookDetails = response.data;
-      const workId: string = bookDetails.works[0].replace('/works/', ''); // Open Library IDs are in the form /works/OL123M
+      console.log(bookDetails);
+      if (!(bookDetails.works.length > 0)) {
+        return null;
+      }
+      const workId: string = bookDetails.works[0].key.replace('/works/', ''); // Open Library IDs are in the form /works/OL123M
       const workDetails = await getBookByOpenLibraryWorkId(workId);
 
       const processedBook: BookData = processOpenLibraryBook(
@@ -120,7 +124,7 @@ async function getBookByOpenLibraryBookId(bookId) {
     const response = await axiosInstance.get(url);
     if (response.status >= 200 && response.status < 300) {
       const bookDetails = response.data;
-      const workId: string = bookDetails.works[0].replace('/works/', ''); // Open Library IDs are in the form /works/OL123M
+      const workId: string = bookDetails.works[0].key.replace('/works/', ''); // Open Library IDs are in the form /works/OL123M
       const workDetails = await getBookByOpenLibraryWorkId(workId);
 
       const processedBook: BookData = processOpenLibraryBook(

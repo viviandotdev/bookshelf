@@ -1,30 +1,41 @@
 import { BookData } from 'libs/user-book/types';
 import axiosInstance from 'src/config/axios.config';
 import { processGoogleBook } from 'libs/user-book/utils';
+import { getOpenLibraryBook } from './open-library.api';
 export async function getGoogleBook(book) {
-  // Attempt to find by ISBN 10
   try {
-    const googleIsbn10Book = await findGoogleBookByISBN(book.isbn10);
-    if (googleIsbn10Book) return googleIsbn10Book;
+    const googleBook = await findGoogleBookByISBN(book.isbn10);
+    if (googleBook) {
+      //   const openLibraryBook = await getOpenLibraryBook(book);
+      //   if (
+      //     openLibraryBook &&
+      //     openLibraryBook.imageLinks &&
+      //     openLibraryBook.imageLinks.medium
+      //   ) {
+      //     googleBook.imageLinks.medium = openLibraryBook.imageLinks.medium;
+      //   }
+      return googleBook;
+    }
   } catch (error) {
     console.error('Error finding by ISBN 10:', error.message);
   }
-
-  // If ISBN 10 failed or didn't return a book, try ISBN 13
   try {
-    const googleIsbn13Book = await findGoogleBookByISBN(book.isbn13);
-    if (googleIsbn13Book) return googleIsbn13Book;
+    const googleBook = await findGoogleBookByISBN(book.isbn13);
+    if (googleBook) {
+      return googleBook;
+    }
   } catch (error) {
     console.error('Error finding by ISBN 13:', error.message);
   }
 
   // If both ISBN lookups failed, try a query with the title and authors
   try {
-    console.log(book.authors);
-    const googleQueryBook = await findBookByGoogleQuery(
+    const googleBook = await findBookByGoogleQuery(
       `${book.title} ${book.authors.join(' ')}`,
     );
-    if (googleQueryBook) return googleQueryBook;
+    if (googleBook) {
+      return googleBook;
+    }
   } catch (error) {
     console.error('Error finding by Google query:', error.message);
   }
@@ -32,6 +43,7 @@ export async function getGoogleBook(book) {
   // If all attempts fail, return null or handle accordingly
   return null;
 }
+
 export async function findBookByGoogleBookId(bookId: string) {
   try {
     const url = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
@@ -40,8 +52,7 @@ export async function findBookByGoogleBookId(bookId: string) {
     if (response.status >= 200 && response.status < 300) {
       const book: BookData = response.data; // Assuming response.data contains the book data
       const processedBook: BookData = processGoogleBook(book) as BookData;
-      //  also get user book if it exists
-      console.log('processed', processedBook);
+
       return processedBook;
     } else {
       // Handle non-successful response status codes (4xx, 5xx, etc.) if needed

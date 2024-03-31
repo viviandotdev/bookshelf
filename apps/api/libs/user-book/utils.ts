@@ -126,6 +126,7 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
   const authors: string[] = (work.authors || book.authors).map((author: any) =>
     author.author ? author.author.key.replace('/authors/', '') : '',
   );
+  //   get the author keys, make api calls to get the names
   const publishedDate: string = book.publish_date || '';
   const publisher: string = book.publishers ? book.publishers[0] : '';
   const imageLinks = {
