@@ -181,9 +181,6 @@ export class UserBookResolver {
       const goodreadsBook = processCSVLine(lines[i], mappings);
       const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
       const book = await buildBook(bookInfo);
-      //   const book = await findBookByTitleAndAuthor(
-      //     `${bookInfo.title} ${bookInfo.authors}`,
-      //   );
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {

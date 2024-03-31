@@ -6,12 +6,23 @@ export interface BookData {
   publishedDate: string;
   publisher: string;
   imageLinks: any;
-  language;
+  language: string;
   description: string;
   pageCount: number;
   isbn10: string;
   categories: string[];
   isbn13: string;
+}
+
+export interface AdditionalBookData {
+  categories: string[];
+  imageLinks: {
+    small: string;
+    medium: string;
+    large: string;
+  };
+  language: string;
+  description: string;
 }
 
 export interface GoodreadsBook {

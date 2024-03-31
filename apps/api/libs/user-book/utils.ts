@@ -1,9 +1,10 @@
+import { getGoogleBook } from 'libs/book/api/google.api';
 import {
-  findBookByGoogleQuery,
-  findGoogleBookByISBN,
-  getGoogleBook,
-} from 'libs/book/api/google.api';
-import { GoodreadsBookKeys, GoodreadsBook, BookData } from './types';
+  GoodreadsBookKeys,
+  GoodreadsBook,
+  BookData,
+  AdditionalBookData,
+} from './types';
 import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
@@ -98,7 +99,7 @@ export const getGoodreadsBookInfo = (
     isbn13: goodreadsBook.ISBN13 ?? '',
     imageLinks: {}, // Populate with appropriate data
     language: '', // Populate with appropriate data
-    description: '',
+    description: '', // Populate with appropriate data
     categories: [], // Populate with appropriate data if available
   };
 };
@@ -117,24 +118,18 @@ export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
 
   return objectFromCSV as GoodreadsBook;
 };
-export function processOpenLibraryBook(book: any, work: any): BookData | null {
-  if (!book || !work) return null;
 
-  const id: string = book.key.replace('/books/', '');
-  const title: string = work.title || book.title;
-  //   fix authors need to make api call
-  const authors: string[] = (work.authors || book.authors).map((author: any) =>
-    author.author ? author.author.key.replace('/authors/', '') : '',
-  );
-  //   get the author keys, make api calls to get the names
-  const publishedDate: string = book.publish_date || '';
-  const publisher: string = book.publishers ? book.publishers[0] : '';
+export function processOpenLibraryBook(
+  book: any,
+  work: any,
+): AdditionalBookData | null {
+  if (!book || !work) return null;
   const imageLinks = {
     small: book.covers
-      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-S.jpg`
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
       : '',
     medium: book.covers
-      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
       : '',
     large: book.covers
       ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
@@ -145,10 +140,6 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
       ? work.description
       : work.description.value
     : '';
-  const pageCount: number = book.number_of_pages || 0;
-  const averageRating: number = 0; // Open Library does not provide ratings, so set to 0 or your default
-  const isbn10: string = book.isbn_10 ? book.isbn_10[0] : '';
-  const isbn13: string = book.isbn_13 ? book.isbn_13[0] : '';
   const categories: string[] = work.subjects
     ? work.subjects.map((subject: any) => subject)
     : [];
@@ -156,20 +147,11 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
     ? book.languages[0].key.replace('/languages/', '')
     : '';
 
-  const bookData: BookData = {
-    id,
-    title,
-    authors,
-    averageRating,
-    publishedDate,
-    publisher,
-    categories,
-    imageLinks,
+  const bookData: AdditionalBookData = {
     description,
     language,
-    pageCount,
-    isbn10,
-    isbn13,
+    categories,
+    imageLinks,
   };
 
   return bookData;
@@ -178,32 +160,13 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
 export function processGoogleBook(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   book: any,
-): BookData | null {
-  const id: string = book.id;
-  const title: string = book.volumeInfo.title;
-  const authors: string[] = book.volumeInfo.authors;
-  // Skip processing the book if the title and author is already encountered
-  const publishedDate: string = book.volumeInfo.publishedDate || '';
-  const publisher: string = book.volumeInfo.publisher || '';
+): AdditionalBookData | null {
   const imageLinks = {
     small: book.volumeInfo.imageLinks?.thumbnail || '',
     medium: book.volumeInfo.imageLinks?.small || '',
     large: book.volumeInfo.imageLinks?.medium || '',
   };
   const description: string = book.volumeInfo.description || '';
-  const pageCount: number = book.volumeInfo.pageCount || 0;
-  const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn10: string = '';
-  let isbn13: string = '';
-  if (book.volumeInfo.industryIdentifiers) {
-    book.volumeInfo.industryIdentifiers.forEach((identifier: any) => {
-      if (identifier.type === 'ISBN_10') {
-        isbn10 = identifier.identifier;
-      } else if (identifier.type === 'ISBN_13') {
-        isbn13 = identifier.identifier;
-      }
-    });
-  }
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(' / '),
@@ -214,21 +177,11 @@ export function processGoogleBook(
     },
   );
   const language = book.volumeInfo.language || '';
-  const bookData: BookData = {
-    id,
-    title,
-    averageRating,
-    authors,
-    publishedDate,
-    publisher,
-    categories,
-    imageLinks,
+  const bookData: AdditionalBookData = {
     description,
     language,
-    pageCount,
-    isbn10,
-    isbn13,
+    categories,
+    imageLinks,
   };
-
   return bookData;
 }
