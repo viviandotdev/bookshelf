@@ -11,10 +11,8 @@ query Book($where: BookWhereUniqueInput!) {
     publishedDate
     publisher
     pageCount
-
     categories
     averageRating
-    ratingsCount
   }
 }
 
@@ -33,6 +31,5 @@ query GetGoogleBook($id: String!) {
     pageCount
     categories
     averageRating
-    ratingsCount
   }
 }

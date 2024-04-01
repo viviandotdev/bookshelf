@@ -558,7 +558,6 @@ type Book {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: [Review!]
   title: String!
   userBook: [UserBook!]
@@ -568,7 +567,6 @@ type BookAvgAggregate {
   averageRating: Float
   id: Float
   pageCount: Float
-  ratingsCount: Float
 }
 
 type BookCount {
@@ -589,7 +587,6 @@ type BookCountAggregate {
   pageCount: Int!
   publishedDate: Int!
   publisher: Int!
-  ratingsCount: Int!
   title: Int!
 }
 
@@ -605,7 +602,6 @@ input BookCreateInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
@@ -666,7 +662,6 @@ input BookCreateWithoutCoversInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
@@ -683,7 +678,6 @@ input BookCreateWithoutLogsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
@@ -701,7 +695,6 @@ input BookCreateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
 }
@@ -718,7 +711,6 @@ input BookCreateWithoutUserBookInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewCreateNestedManyWithoutBookInput
   title: String!
 }
@@ -738,7 +730,6 @@ type BookMaxAggregate {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   title: String
 }
 
@@ -750,7 +741,6 @@ type BookMinAggregate {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   title: String
 }
 
@@ -767,7 +757,6 @@ input BookOrderByWithRelationInput {
   pageCount: SortOrderInput
   publishedDate: SortOrderInput
   publisher: SortOrderInput
-  ratingsCount: SortOrderInput
   reviews: ReviewOrderByRelationAggregateInput
   title: SortOrder
   userBook: UserBookOrderByRelationAggregateInput
@@ -782,7 +771,6 @@ type BookSumAggregate {
   averageRating: Float
   id: Int
   pageCount: Int
-  ratingsCount: Int
 }
 
 input BookUpdateOneWithoutCoversNestedInput {
@@ -856,7 +844,6 @@ input BookUpdateWithoutCoversInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
@@ -873,7 +860,6 @@ input BookUpdateWithoutLogsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
@@ -891,7 +877,6 @@ input BookUpdateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
 }
@@ -908,7 +893,6 @@ input BookUpdateWithoutUserBookInput {
   pageCount: Int
   publishedDate: String
   publisher: String
-  ratingsCount: Int
   reviews: ReviewUpdateManyWithoutBookNestedInput
   title: String
 }
@@ -953,7 +937,6 @@ input BookWhereInput {
   pageCount: IntFilter
   publishedDate: StringFilter
   publisher: StringFilter
-  ratingsCount: IntFilter
   reviews: ReviewListRelationFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
@@ -975,7 +958,6 @@ input BookWhereUniqueInput {
   pageCount: IntFilter
   publishedDate: StringFilter
   publisher: StringFilter
-  ratingsCount: IntFilter
   reviews: ReviewListRelationFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
@@ -1491,7 +1473,7 @@ type Identifier {
   book: Book
   bookId: Int!
   goodreads: String
-  googleBooks: String
+  google: String
   isbn10: String
   isbn13: String
   openLibrary: String
@@ -1506,7 +1488,7 @@ type IdentifierCountAggregate {
   amazon: Int!
   bookId: Int!
   goodreads: Int!
-  googleBooks: Int!
+  google: Int!
   isbn10: Int!
   isbn13: Int!
   openLibrary: Int!
@@ -1526,7 +1508,7 @@ input IdentifierCreateOrConnectWithoutBookInput {
 input IdentifierCreateWithoutBookInput {
   amazon: String
   goodreads: String
-  googleBooks: String
+  google: String
   isbn10: String
   isbn13: String
   openLibrary: String
@@ -1536,7 +1518,7 @@ type IdentifierMaxAggregate {
   amazon: String
   bookId: Int
   goodreads: String
-  googleBooks: String
+  google: String
   isbn10: String
   isbn13: String
   openLibrary: String
@@ -1546,7 +1528,7 @@ type IdentifierMinAggregate {
   amazon: String
   bookId: Int
   goodreads: String
-  googleBooks: String
+  google: String
   isbn10: String
   isbn13: String
   openLibrary: String
@@ -1557,7 +1539,7 @@ input IdentifierOrderByWithRelationInput {
   book: BookOrderByWithRelationInput
   bookId: SortOrder
   goodreads: SortOrderInput
-  googleBooks: SortOrderInput
+  google: SortOrderInput
   isbn10: SortOrderInput
   isbn13: SortOrderInput
   openLibrary: SortOrderInput
@@ -1590,7 +1572,7 @@ input IdentifierUpdateToOneWithWhereWithoutBookInput {
 input IdentifierUpdateWithoutBookInput {
   amazon: String
   goodreads: String
-  googleBooks: String
+  google: String
   isbn10: String
   isbn13: String
   openLibrary: String
@@ -1610,7 +1592,7 @@ input IdentifierWhereInput {
   book: BookRelationFilter
   bookId: IntFilter
   goodreads: StringFilter
-  googleBooks: StringFilter
+  google: StringFilter
   isbn10: StringFilter
   isbn13: StringFilter
   openLibrary: StringFilter
@@ -1624,7 +1606,7 @@ input IdentifierWhereUniqueInput {
   book: BookRelationFilter
   bookId: Int
   goodreads: StringFilter
-  googleBooks: StringFilter
+  google: StringFilter
   isbn10: StringFilter
   isbn13: StringFilter
   openLibrary: StringFilter

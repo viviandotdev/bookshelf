@@ -1,4 +1,11 @@
-import { GoodreadsBookKeys, GoodreadsBook, BookData } from './types';
+import { getGoogleBook } from 'libs/book/api/google.api';
+import {
+  GoodreadsBookKeys,
+  GoodreadsBook,
+  BookData,
+  AdditionalBookData,
+} from './types';
+import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   let shelves: string[] = []; // get shelves
@@ -51,10 +58,63 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
+export const buildBook = async (book: BookData) => {
+  // try to find book by google
+  const googleBook = await getGoogleBook(book);
+
+  if (googleBook) {
+    book.description = googleBook.description;
+    book.language = googleBook.language;
+    book.categories = googleBook.categories;
+    book.imageLinks = googleBook.imageLinks;
+    book.id = googleBook.id;
+    book.type = 'GOOGLE';
+    return book;
+  }
+
+  const openLibraryBook = await getOpenLibraryBook(book);
+
+  if (openLibraryBook) {
+    book.description = openLibraryBook.description;
+    book.language = openLibraryBook.language;
+    book.categories = openLibraryBook.categories;
+
+    book.imageLinks = openLibraryBook.imageLinks;
+    book.id = openLibraryBook.id;
+    book.type = 'OPENLIBRARY';
+    return book;
+  }
+  return null;
+};
+// Function to map GoodreadsBook to BookData
+export const getGoodreadsBookInfo = (
+  goodreadsBook: GoodreadsBook,
+): BookData => {
+  return {
+    id: goodreadsBook['Book Id'] ?? '',
+    title: goodreadsBook.Title ?? '',
+    authors: goodreadsBook.Author ? [goodreadsBook.Author] : [],
+    averageRating: parseFloat(goodreadsBook['Average Rating'] ?? '0'),
+    publishedDate: goodreadsBook['Original Publication Year'] ?? '',
+    publisher: goodreadsBook.Publisher ?? '',
+    pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
+    isbn10: goodreadsBook.ISBN ?? '',
+    isbn13: goodreadsBook.ISBN13 ?? '',
+    imageLinks: {
+      small: '',
+      medium: '',
+      large: '',
+    }, // Populate with appropriate data
+    language: '', // Populate with appropriate data
+    description: '', // Populate with appropriate data
+    categories: [], // Populate with appropriate data if available
+  };
+};
+
 export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
   const parsedData = parseLineWithQuotes(line);
-  const objectFromCSV: GoodreadsBook = {};
-
+  const objectFromCSV = {};
+  //
   mappings.forEach((key: GoodreadsBookKeys, index) => {
     if (key === 'ISBN' || key === 'ISBN13') {
       objectFromCSV[key] = cleanText(parsedData[index]);
@@ -63,41 +123,59 @@ export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
     }
   });
 
-  return objectFromCSV;
+  return objectFromCSV as GoodreadsBook;
 };
 
-export function processBook(
+export function processOpenLibraryBook(
+  book: any,
+  work: any,
+): AdditionalBookData | null {
+  if (!book || !work) return null;
+  const imageLinks = {
+    small: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
+      : '',
+    medium: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
+      : '',
+    large: book.covers
+      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
+      : '',
+  };
+  const description: string = work.description
+    ? typeof work.description === 'string'
+      ? work.description
+      : work.description.value
+    : '';
+  const categories: string[] = work.subjects
+    ? work.subjects.map((subject: any) => subject)
+    : [];
+  const language: string = book.languages
+    ? book.languages[0].key.replace('/languages/', '')
+    : '';
+  const id = book.key.replace('/languages/', '');
+
+  const bookData: AdditionalBookData = {
+    id,
+    description,
+    language,
+    categories,
+    imageLinks,
+  };
+
+  return bookData;
+}
+
+export function processGoogleBook(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   book: any,
-  uniqueBooks?: Set<string>,
-): BookData | null {
-  const id: string = book.id;
-  const title: string = book.volumeInfo.title;
-  const authors: string[] = book.volumeInfo.authors;
-  const titleAndAuthor = `${title} ${book.volumeInfo.authors?.join(', ')}`;
-  // Skip processing the book if the title and author is already encountered
-  if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
-  if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
-  const publishedDate: string = book.volumeInfo.publishedDate || '';
-  const publisher: string = book.volumeInfo.publisher || '';
+): AdditionalBookData | null {
   const imageLinks = {
     small: book.volumeInfo.imageLinks?.thumbnail || '',
     medium: book.volumeInfo.imageLinks?.small || '',
     large: book.volumeInfo.imageLinks?.medium || '',
   };
   const description: string = book.volumeInfo.description || '';
-  const pageCount: number = book.volumeInfo.pageCount || 0;
-  const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn: string = '';
-  let isbn13: string = '';
-  if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
-
-    if (identifier1) isbn = identifier1;
-    if (identifier2) isbn13 = identifier2;
-  }
-  const ratingsCount = book.volumeInfo.ratingsCount || 0;
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
       category.split(' / '),
@@ -107,22 +185,13 @@ export function processBook(
       return self.indexOf(value) === index;
     },
   );
-
-  const bookData: BookData = {
-    id,
-    title,
-    averageRating,
-    ratingsCount,
-    authors,
-    publishedDate,
-    publisher,
+  const language = book.volumeInfo.language || '';
+  const bookData: AdditionalBookData = {
+    id: book.id,
+    description,
+    language,
     categories,
     imageLinks,
-    description,
-    pageCount,
-    isbn,
-    isbn13,
   };
-
   return bookData;
 }

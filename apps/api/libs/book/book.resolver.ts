@@ -7,10 +7,11 @@ import {
   CoverCreateInput,
 } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { CoverService } from 'libs/cover/cover.service';
+import { findBookByGoogleBookId } from './api/google.api';
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -24,11 +25,11 @@ export class BookResolver {
     @Args('id')
     id: string,
   ) {
-    const googleBook = await this.bookService.getGoogleBook(id);
+    const googleBook = await findBookByGoogleBookId(id);
     // Search for an Identifier with the matching googleBooksId
     const identifier = await this.bookService.findByIdentifier({
       where: {
-        googleBooks: googleBook.id,
+        google: googleBook.id,
       },
       include: {
         book: true, // Include related book information if needed
@@ -55,12 +56,11 @@ export class BookResolver {
         },
         categories: googleBook.categories,
         averageRating: googleBook.averageRating,
-        ratingsCount: googleBook.ratingsCount,
       };
       const book = await this.bookService.create(bookData, null, {
-        isbn10: googleBook.isbn,
+        isbn10: googleBook.isbn10,
         isbn13: googleBook.isbn13,
-        googleBooks: googleBook.id,
+        google: googleBook.id,
       });
 
       return book;
@@ -80,7 +80,6 @@ export class BookResolver {
     @Args('data') data: BookCreateInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    console.log(data);
     return this.bookService.create(data, currentUser.userId);
   }
 
@@ -89,7 +88,7 @@ export class BookResolver {
     @Args('where')
     where: BookWhereUniqueInput,
   ) {
-    return this.bookService.findUnique({
+    const book = this.bookService.findUnique({
       where: {
         id: where.id,
       },
@@ -97,5 +96,12 @@ export class BookResolver {
         covers: true,
       },
     });
+
+    if (!book) {
+      throw new NotFoundException(
+        `Book ${JSON.stringify(where)} does not exist`,
+      );
+    }
+    return book;
   }
 }

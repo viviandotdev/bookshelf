@@ -118,8 +118,6 @@ model Book {
     categories String[]
 
     averageRating Float?
-    /// @Validator.IsInt()
-    ratingsCount  Int?
 
     /// @Validator.IsString()
     identifier Identifier?
@@ -143,7 +141,7 @@ model Identifier {
     book        Book?   @relation(fields: [bookId], references: [id])
     isbn10      String?
     isbn13      String?
-    googleBooks String?
+    google      String?
     openLibrary String?
     goodreads   String?
     amazon      String?

@@ -4,6 +4,7 @@ import {
   BookCreateInput,
   BookWhereUniqueInput,
   CoverCreateInput,
+  IdentifierCreateInput,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -13,12 +14,17 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
-import { getUserBookInfo, parseLineWithQuotes, processCSVLine } from './utils';
+import {
+  buildBook,
+  getGoodreadsBookInfo,
+  getUserBookInfo,
+  parseLineWithQuotes,
+  processCSVLine,
+} from './utils';
 import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { PrismaRepository } from 'prisma/prisma.repository';
-import { BookData } from './types';
 import { CoverService } from 'libs/cover/cover.service';
 
 @Resolver(() => UserBook)
@@ -65,7 +71,7 @@ export class UserBookResolver {
     if (this.containsNonNumeric(id)) {
       const identifier = await this.bookService.findByIdentifier({
         where: {
-          googleBooks: id,
+          google: id,
         },
         include: {
           book: true, // Include related book information if needed
@@ -173,72 +179,68 @@ export class UserBookResolver {
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
     for (let i = 1; i < lines.length - 1; i++) {
-      const line = lines[i];
-      const objectFromCSV = processCSVLine(line, mappings);
-      const titleAuthor = `${objectFromCSV['Title']} ${objectFromCSV['Author']}`;
-      // const book = await this.bookService.findBookByISBN(isbn);
-      const book = await this.bookService.findBookByTitleAndAuthor(titleAuthor);
+      const goodreadsBook = processCSVLine(lines[i], mappings);
+      const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
+      const book = await buildBook(bookInfo);
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
-        const { shelves, status, rating } = getUserBookInfo(objectFromCSV);
-
+        const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput(book.imageLinks);
 
         const covers = await this.coverService.createCovers(coverInput);
-
         const bookData: BookCreateInput = {
           title: book.title,
           pageCount: book.pageCount,
           authors: book.authors,
           publisher: book.publisher,
           publishedDate: book.publishedDate,
+          averageRating: book.averageRating,
           description: book.description,
           covers: {
             connect: covers.map((cover) => ({ id: cover.id })),
           },
+          language: book.language,
           categories: book.categories,
-          averageRating:
-            Number(objectFromCSV['Average Rating']) || book.averageRating,
-          ratingsCount: book.ratingsCount,
         };
 
-        try {
-          const currentBook = await this.bookService.create(
-            bookData,
-            user.userId,
-            {
-              isbn10: book.isbn,
-              isbn13: book.isbn13,
-              googleBooks: book.id,
-              goodreads: objectFromCSV['Book Id'],
-            },
-          );
+        const identifiers: IdentifierCreateInput = {
+          isbn10: book.isbn10,
+          isbn13: book.isbn13,
+        };
 
-          const userBookData: UserBookUpdateInput = {
-            status,
-            rating: Number(rating),
-            shelves,
-          };
-          await this.userBookService.update({
-            data: userBookData,
-            where: {
-              userId: user.userId,
-              bookId: currentBook.id,
-            },
-            isImport: true,
-          });
-        } catch (error) {
-          failedBooks.push(titleAuthor);
-          console.log(error);
+        if (book.type === 'GOOGLE') {
+          identifiers.google = book.id;
+        } else if (book.type === 'OPENLIBRARY') {
+          identifiers.openLibrary = book.id;
         }
+
+        const currentBook = await this.bookService.create(
+          bookData,
+          user.userId,
+          identifiers,
+        );
+
+        const userBookData: UserBookUpdateInput = {
+          status,
+          rating: Number(rating),
+          shelves,
+        };
+
+        await this.userBookService.update({
+          data: userBookData,
+          where: {
+            userId: user.userId,
+            bookId: currentBook.id,
+          },
+          isImport: true,
+        });
       } else {
-        failedBooks.push(titleAuthor);
-        console.log('Book not found');
+        console.log(`${bookInfo.title} ${bookInfo.authors}`);
+        failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
       }
     }
-    // this.userBookService.importBook(objectFromCSV, isbn, user.userId);
     console.log(failedBooks);
     return true;
     // email user once import is done
