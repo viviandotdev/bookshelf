@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { BookCard, BookInfo, BookShelves } from '@/components/book-card';
+import { BookCard, BookInfo, BookShelves } from '@/components/ui/book-card';
 import BookCover from '../../../components/book-cover';
 import { Icons } from '../../../components/icons';
 import { BookData } from '@/types/interfaces';
