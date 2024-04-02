@@ -59,7 +59,7 @@ export default function UploadFileDialog({
   };
 
   return (
-    <Dialog open={open}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button
           variant='secondary'
