@@ -11,7 +11,6 @@ import {
   Text,
   Hr,
 } from "@react-email/components";
-import * as React from "react";
 
 interface ImportSummaryEmailProps {
   totalBooks: string;
@@ -19,7 +18,7 @@ interface ImportSummaryEmailProps {
   failedBooks: string;
   username: string;
   importId: string;
-  summaryLink: string
+  summaryLink: string;
 }
 
 export const ImportSummaryEmail = ({
@@ -44,33 +43,34 @@ export const ImportSummaryEmail = ({
             We finished importing your books. For detailed insights, please
             visit the import summary page.
           </Text>
-          <Container >
+          <Container>
             <Text className="mt-0">
-            Here's a quick summary of the import results:
-          </Text>
+              Here's a quick summary of the import results:
+            </Text>
 
-       <Text className="m-0 font-bold">
-        Total Books: <span className="font-normal">{totalBooks}</span>
-        </Text>
-        <Text className="m-0 font-bold">
-        Successfully imported books: <span className="font-normal">{successBooks}</span>
-        </Text>
-        <Text className="m-0 font-bold">
-        Failed imported books: <span className="font-normal">{failedBooks}</span>
-        </Text>
-        </Container>
+            <Text className="m-0 font-bold">
+              Total Books: <span className="font-normal">{totalBooks}</span>
+            </Text>
+            <Text className="m-0 font-bold">
+              Successfully imported books:{" "}
+              <span className="font-normal">{successBooks}</span>
+            </Text>
+            <Text className="m-0 font-bold">
+              Failed imported books:{" "}
+              <span className="font-normal">{failedBooks}</span>
+            </Text>
+          </Container>
 
-        <Section className="mt-4">
-          <Button  className="bg-[#4e3b2c] cursor-pointer rounded text-white text-sm font-medium px-4 py-3">
-                View Import Summary
-          </Button>
-        </Section>
+          <Section className="mt-4">
+            <Button className="bg-[#4e3b2c] cursor-pointer rounded text-white text-sm font-medium px-4 py-3">
+              View Import Summary
+            </Button>
+          </Section>
 
-    <Hr className="border-gray-200 my-4" />
-        <Link href={summaryLink} className="text-xs text-gray-400">
-         Bookcue
-        </Link>
-
+          <Hr className="border-gray-200 my-4" />
+          <Link href={summaryLink} className="text-xs text-gray-400">
+            Bookcue
+          </Link>
         </Container>
       </Body>
     </Tailwind>
@@ -83,7 +83,7 @@ ImportSummaryEmail.PreviewProps = {
   successBooks: "103",
   failedBooks: "4",
   importId: "12",
-  summaryLink: 'https://localhost:3000'
+  summaryLink: "https://localhost:3000",
 } as ImportSummaryEmailProps;
 
 export default ImportSummaryEmail;

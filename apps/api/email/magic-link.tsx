@@ -10,7 +10,6 @@ import {
   Hr,
   Text,
 } from "@react-email/components";
-import * as React from "react";
 
 interface MagicLinkEmailProps {
   loginCode?: string;
@@ -43,13 +42,12 @@ export const MagicLinkEmail = ({ loginCode }: MagicLinkEmailProps) => (
             If you didn&apos;t try to login, you can safely ignore this email.
           </Text>
           <Text className="text-gray-500 mb-9.5">
-            Hint: You can set a permanent password in Settings→ My
-            account.
+            Hint: You can set a permanent password in Settings→ My account.
           </Text>
-    <Hr className="border-gray-200 my-4" />
-        <Link href={"localhost:3000"} className="text-xs text-gray-400">
-         Bookcue
-        </Link>
+          <Hr className="border-gray-200 my-4" />
+          <Link href={"localhost:3000"} className="text-xs text-gray-400">
+            Bookcue
+          </Link>
         </Container>
       </Body>
     </Tailwind>
