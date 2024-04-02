@@ -1,5 +1,5 @@
 'use client';
-import { BookCard, BookInfo } from '@/components/book-card';
+import { BookCard, BookInfo } from '@/components/ui/book-card';
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
 import useCreateUserBook from '@/modules/book/mutations/use-create-user-book';

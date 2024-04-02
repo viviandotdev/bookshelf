@@ -4,6 +4,7 @@ import { User } from '../../src/generated-db-types';
 export type JwtPayload = {
   email: string;
   userId: string;
+  username: string
 };
 
 export type JwtPayloadWithRefreshToken = JwtPayload & {

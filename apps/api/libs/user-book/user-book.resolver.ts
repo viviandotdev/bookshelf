@@ -26,13 +26,22 @@ import { UserBookUpdateOrderInput } from './models/user-book-update-order.input'
 import { UserBooksResponse } from './models/user-books.response';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { CoverService } from 'libs/cover/cover.service';
+import { render } from '@react-email/components';
+import ImportSummaryEmail from '../../email/import-result';
+import { Resend } from 'resend';
+import { ConfigService } from '@nestjs/config';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
+  private readonly resend = new Resend(
+    this.configService.get<string>('resend.api'),
+  );
+  private readonly domain = this.configService.get<string>('web.url');
   constructor(
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
     private readonly coverService: CoverService,
+    private configService: ConfigService,
     private readonly prisma: PrismaRepository,
   ) {}
 
@@ -175,9 +184,10 @@ export class UserBookResolver {
     content: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    const lines = content.split('\n');
+    const lines = content.split('\n'); // -1 for empty last line, -1 for the top row
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
+    const totalBooks = lines.length - 2;
     for (let i = 1; i < lines.length - 1; i++) {
       const goodreadsBook = processCSVLine(lines[i], mappings);
       const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
@@ -237,11 +247,27 @@ export class UserBookResolver {
           isImport: true,
         });
       } else {
-        console.log(`${bookInfo.title} ${bookInfo.authors}`);
+        // console.log(`${bookInfo.title} ${bookInfo.authors}`);
         failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
       }
     }
     console.log(failedBooks);
+    await this.resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: user.email,
+      subject: 'Confirm your email',
+      html: render(
+        ImportSummaryEmail({
+          totalBooks: totalBooks.toString(),
+          successBooks: (totalBooks - failedBooks.length).toString(),
+          failedBooks: failedBooks.length.toString(), // Replace with the actual number of failed imports
+          summaryLink: 'https://example.com/import-summary', // Replace with the actual link to the import summary
+          username: user.username, // Replace with the actual username
+          importId: 'import_123456', // Replace with the actual import ID
+        }),
+      ),
+    });
+
     return true;
     // email user once import is done
   }

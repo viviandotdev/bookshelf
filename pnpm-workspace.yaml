@@ -1,3 +1,2 @@
 packages:
-  # executable/launchable applications
-  - 'apps/*'
+  - "apps/*"

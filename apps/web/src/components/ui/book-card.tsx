@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 import { cn, getCoverUrl } from '@/lib/utils';
-import { Icons } from './icons';
-import { Button, buttonVariants } from './ui/button';
-import { Card, CardContent, CardTitle, CardDescription } from './ui/card';
+import { Icons } from '../icons';
+import { Button, buttonVariants } from './button';
+import { Card, CardContent, CardTitle, CardDescription } from './card';
 import { Dot } from 'lucide-react';
 import { createContext, useContext, useRef } from 'react';
 import { BookData } from '@/types/interfaces';
-import BookCover from './book-cover';
+import BookCover from '../book-cover';
 import Link from 'next/link';
 import { Cover, Size } from '@/graphql/graphql';
 

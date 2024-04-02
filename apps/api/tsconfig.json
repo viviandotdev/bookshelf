@@ -13,6 +13,7 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "allowJs": true,
+        "jsx": "react-jsx",
         "paths": {
             "@bookcue/api/user": [
                 "libs/user"
