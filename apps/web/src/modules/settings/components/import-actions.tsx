@@ -1,50 +1,58 @@
 'use client';
+import React from 'react';
+import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import React from 'react';
 import UploadFileDialog from './upload-file-dialog';
+
 interface ImportActionsProps {}
 
-export const ImportActions: React.FC<ImportActionsProps> = ({}) => {
+interface StepProps {
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}
+
+const Step: React.FC<StepProps> = ({ title, description, children }) => (
+  <div className='flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm'>
+    <div>
+      <h1 className='text-base font-semibold'>{title}</h1>
+      <p className='py-1 text-xs text-gray-500'>{description}</p>
+    </div>
+    {children}
+  </div>
+);
+
+export const ImportActions: React.FC<ImportActionsProps> = () => {
   return (
-    <>
-      <div className='mt-12 flex flex-col gap-6'>
-        <div className='mb-4 flex justify-between rounded-md border border-gray-100 bg-white p-6 text-sm shadow-sm'>
-          <h1 className='text-lg font-bold'> 1. Export Library</h1>
-          <div className='flex flex-col items-end'>
-            <div className='justify-end'>
-              <Link
-                target='_blank'
-                href={'https://www.goodreads.com/review/import'}
-                className={cn(
-                  buttonVariants({ variant: 'secondary' }),
-                  'w-[400px] justify-start pl-6 '
-                )}
-              >
-                Export Goodreads Library
-              </Link>
-            </div>
-            <p className='px-1 py-1 text-sm text-beige'>
-              Download your data from the Goodreads Export page
-            </p>
-          </div>
-        </div>
-        <div className='mb-4 flex justify-between rounded-md border border-gray-100 bg-white p-6 text-sm shadow-sm'>
-          <h1 className='text-lg font-bold'> 2. Upload CSV File</h1>
-          <div className='flex flex-col items-end'>
-            <UploadFileDialog
-              actionLabel={'Import'}
-              className='w-[400px] justify-start pl-6'
-              buttonLabel={'Upload a File'}
-            />
-            <p className='px-1 py-1 text-sm text-beige'>
-              Upload the file downloaded from step 1
-            </p>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className='mt-6 flex flex-col gap-6'>
+      <Step
+        title='1. Export Library'
+        description='Download your data from the Goodreads Export page'
+      >
+        <Link
+          target='_blank'
+          href='https://www.goodreads.com/review/import'
+          className={cn(
+            buttonVariants({ variant: 'secondary' }),
+            'justify-start'
+          )}
+        >
+          Export Goodreads Library
+        </Link>
+      </Step>
+      <Step
+        title='2. Upload CSV File'
+        description='Upload the file downloaded from step 1'
+      >
+        <UploadFileDialog
+          actionLabel='Import'
+          className='justify-start'
+          buttonLabel='Upload a File'
+        />
+      </Step>
+    </div>
   );
 };
+
 export default ImportActions;

@@ -52,27 +52,12 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
     return page === linkPage;
   };
 
-  const accountSecurityConfigs = [
-    {
-      title: 'Email',
-      button: 'Change email',
-      info: `${user.email}`,
-      icon: Icons.email,
-    },
-    {
-      title: 'Password',
-      button: 'Change password',
-      info: 'Last updated July 26, 2018',
-      icon: Icons.lock,
-    },
-  ];
-
   return (
     <>
       <div className='mx-auto h-full max-w-7xl lg:flex lg:gap-x-16 lg:px-8'>
         <ModalProvider />
         <aside className='flex overflow-x-auto border-b border-gray-900/5 py-4 lg:block lg:w-64 lg:flex-none lg:border-0 lg:py-20'>
-          <div className='mb-4 hidden flex-none px-4 sm:px-6 lg:block lg:px-0'>
+          <div className='mb-4 ml-3 hidden flex-none px-4 sm:px-6 lg:block lg:px-0'>
             <Avatar size={'profile'}>
               <AvatarImage
                 alt='Vivian Lin'

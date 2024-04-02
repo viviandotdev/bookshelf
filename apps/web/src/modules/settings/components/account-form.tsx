@@ -35,7 +35,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({ user }) => {
             trouble signing in.
           </p>
 
-          <dl className='mt-6 text-sm'>
+          <dl className='text-sm'>
             {accountSecurityConfigs.map((config, index) => (
               <div key={index} className='pt-6'>
                 <AccountCards config={config} />
