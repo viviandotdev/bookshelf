@@ -25,7 +25,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
       pageForm = <AccountForm user={user} />;
       break;
     case 'personal':
-      pageForm = <PersonalForm />;
+      pageForm = <PersonalForm user={user} />;
       break;
     case 'import':
       pageForm = <ImportForm />;

@@ -5,10 +5,13 @@ import UploadFileDialog from './upload-file-dialog';
 import CollapsibleForm, { FormNames } from './collapsible-form';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
+import { User } from '@/graphql/graphql';
 
-interface PersonalFormProps {}
+interface PersonalFormProps {
+  user: User;
+}
 
-export const PersonalForm: React.FC<PersonalFormProps> = () => {
+export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
   const { data: session } = useSession();
   const [openForm, setOpenForm] = useState<FormNames | ''>('');
 
@@ -38,7 +41,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
                 <AvatarFallback>VL</AvatarFallback>
               </Avatar>
               <h2 className='ml-4 text-lg font-medium'>
-                {session?.user.username}
+                {session?.user.username || user.username}
               </h2>
               <UploadFileDialog
                 actionLabel={'Save'}
@@ -56,7 +59,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
               />
               <CollapsibleForm
                 label='Username'
-                value={session?.user.username}
+                value={session?.user.username || user.username}
                 openForm={openForm}
                 isOpen={openForm === 'username'}
                 onToggle={() => handleToggle('username')}

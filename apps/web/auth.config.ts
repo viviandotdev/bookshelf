@@ -80,6 +80,7 @@ export default {
         return {
           id: data!.user.id,
           email: data!.user.email,
+          
           username: data!.user.username,
           emailVerified: data!.user.emailVerified,
           accessToken: data!.accessToken,

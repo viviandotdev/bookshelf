@@ -59,7 +59,7 @@ export function MobileNav({ user }: MobileNavProps) {
               {session?.user.username || user.username}
             </div>
             <div className='text-sm font-medium text-gray-500'>
-              {user.email}
+              {session?.user.email || user.email}
             </div>
           </div>
         </div>

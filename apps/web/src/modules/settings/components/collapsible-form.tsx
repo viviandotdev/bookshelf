@@ -56,17 +56,17 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
-      username: '',
-      location: '',
-      bio: '',
+      username: undefined,
+      location: undefined,
+      bio: undefined,
     },
   });
 
   useEffect(() => {
     form.reset({
-      username: openForm == 'username' ? value : '',
-      location: openForm == 'location' ? value : '',
-      bio: openForm == 'bio' ? value : '',
+      username: openForm == 'username' ? value : undefined,
+      location: openForm == 'location' ? value : undefined,
+      bio: openForm == 'bio' ? value : undefined,
     });
   }, [openForm]);
 
