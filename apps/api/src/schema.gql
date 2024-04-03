@@ -2752,7 +2752,11 @@ input UpdateEmailInput {
 }
 
 input UpdateUserInput {
+  bio: String
   email: String
+  firstName: String
+  lastName: String
+  location: String
   newPassword: String
   password: String
   username: String

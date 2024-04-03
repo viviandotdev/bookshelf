@@ -2,15 +2,17 @@
 import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UploadFileDialog from './upload-file-dialog';
-import CollapsibleForm from './collapsible-form';
+import CollapsibleForm, { FormNames } from './collapsible-form';
 import { Button } from '@/components/ui/button';
+import { useSession } from 'next-auth/react';
 
 interface PersonalFormProps {}
 
 export const PersonalForm: React.FC<PersonalFormProps> = () => {
-  const [openForm, setOpenForm] = useState('');
+  const { data: session } = useSession();
+  const [openForm, setOpenForm] = useState<FormNames | ''>('');
 
-  const handleToggle = (formName: string) => {
+  const handleToggle = (formName: FormNames) => {
     setOpenForm(openForm === formName ? '' : formName);
   };
 
@@ -35,7 +37,9 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
                 />
                 <AvatarFallback>VL</AvatarFallback>
               </Avatar>
-              <h2 className='ml-4 text-lg font-medium'>vivianlin</h2>
+              <h2 className='ml-4 text-lg font-medium'>
+                {session?.user.username}
+              </h2>
               <UploadFileDialog
                 actionLabel={'Save'}
                 className='ml-auto'
@@ -46,24 +50,28 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
               <CollapsibleForm
                 label='Preferred Name'
                 value='Vivian Lin'
-                isOpen={openForm === 'preferredName'}
-                onToggle={() => handleToggle('preferredName')}
+                openForm={openForm}
+                isOpen={openForm === 'firstName'}
+                onToggle={() => handleToggle('firstName')}
               />
               <CollapsibleForm
                 label='Username'
-                value='vivianlin123'
+                value={session?.user.username}
+                openForm={openForm}
                 isOpen={openForm === 'username'}
                 onToggle={() => handleToggle('username')}
               />
-              <CollapsibleForm
+              {/* <CollapsibleForm
                 label='Date of Birth'
                 value='January 1, 1990'
+                openForm={openForm}
                 isOpen={openForm === 'dateOfBirth'}
                 onToggle={() => handleToggle('dateOfBirth')}
-              />
+              /> */}
               <CollapsibleForm
                 label='Location'
                 value=''
+                openForm={openForm}
                 isOpen={openForm === 'location'}
                 onToggle={() => handleToggle('location')}
               />
@@ -71,6 +79,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
                 label='Bio'
                 value='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
                 isLastSection={true}
+                openForm={openForm}
                 isOpen={openForm === 'bio'}
                 onToggle={() => handleToggle('bio')}
               />

@@ -1,24 +1,13 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Icons } from '@/components/icons';
 import { User } from '@/graphql/graphql';
 import AccountForm from '@/modules/settings/components/account-form';
 import PersonalForm from '@/modules/settings/components/personal-form';
 import ImportForm from '../components/import-form';
 import { siteConfig } from '@/config/site';
 import Link from 'next/link';
-import AccountCards from '../components/account-cards';
 import { ModalProvider } from '../providers/modal-provider';
-const secondaryNavigation = [
-  {
-    name: 'Personal Information',
-    href: '#',
-    icon: Icons.search,
-    current: true,
-  },
-  { name: 'Account', href: '#', icon: Icons.search, current: false },
-  { name: 'Import', href: '#', icon: Icons.search, current: false },
-];
+import { useSession } from 'next-auth/react';
 
 interface SettingsTemplateProps {
   page: string;
@@ -30,6 +19,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
   user,
 }) => {
   let pageForm;
+  const { data: session } = useSession();
   switch (page) {
     case 'account':
       pageForm = <AccountForm user={user} />;
@@ -48,7 +38,6 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
     if (linkPage === 'personal information') {
       linkPage = 'personal';
     }
-    console.log(linkPage);
     return page === linkPage;
   };
 
@@ -65,8 +54,10 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
               />
               <AvatarFallback>VL</AvatarFallback>
             </Avatar>
-            <h2 className='mt-4 text-lg font-semibold'>{user.username}</h2>
-            <p className='text-sm text-gray-500'>{user.email}</p>
+            <h2 className='mt-4 text-lg font-semibold'>
+              {session?.user.username}
+            </h2>
+            <p className='text-sm text-gray-500'>{session?.user.email}</p>
           </div>
 
           <nav className='flex-none px-4 sm:px-6 lg:px-0'>

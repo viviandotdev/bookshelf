@@ -71,6 +71,7 @@ export class UserResolver {
         hashedPassword: data.newPassword,
         email: data.email,
         username: data.username,
+       
       },
     });
   }

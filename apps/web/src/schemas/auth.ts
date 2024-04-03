@@ -72,6 +72,10 @@ export const NewPasswordSchema = z.object({
 export const SettingsSchema = z
   .object({
     username: z.optional(z.string()),
+    location: z.optional(z.string()),
+    firstName: z.optional(z.string()),
+    lastName: z.optional(z.string()),
+    bio: z.optional(z.string()),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(4)),
     newPassword: z.optional(z.string().min(4)),
