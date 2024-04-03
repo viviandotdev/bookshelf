@@ -1,10 +1,19 @@
-import React from 'react';
+// PersonalForm.tsx
+import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UploadFileDialog from './upload-file-dialog';
+import CollapsibleForm from './collapsible-form';
+import { Button } from '@/components/ui/button';
 
 interface PersonalFormProps {}
 
 export const PersonalForm: React.FC<PersonalFormProps> = () => {
+  const [openForm, setOpenForm] = useState('');
+
+  const handleToggle = (formName: string) => {
+    setOpenForm(openForm === formName ? '' : formName);
+  };
+
   return (
     <main className='px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20'>
       <div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-none'>
@@ -33,49 +42,43 @@ export const PersonalForm: React.FC<PersonalFormProps> = () => {
                 buttonLabel={'Change Avatar'}
               />
             </div>
-            <div className='rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm '>
-              <ProfileSection label='Preferred Name' value='Vivian Lin' />
-              <ProfileSection label='Username' value='vivianlin123' />
-              <ProfileSection label='Date of Birth' value='January 1, 1990' />
-              <ProfileSection label='Location' value='' />
-              <ProfileSection
+            <div className='rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
+              <CollapsibleForm
+                label='Preferred Name'
+                value='Vivian Lin'
+                isOpen={openForm === 'preferredName'}
+                onToggle={() => handleToggle('preferredName')}
+              />
+              <CollapsibleForm
+                label='Username'
+                value='vivianlin123'
+                isOpen={openForm === 'username'}
+                onToggle={() => handleToggle('username')}
+              />
+              <CollapsibleForm
+                label='Date of Birth'
+                value='January 1, 1990'
+                isOpen={openForm === 'dateOfBirth'}
+                onToggle={() => handleToggle('dateOfBirth')}
+              />
+              <CollapsibleForm
+                label='Location'
+                value=''
+                isOpen={openForm === 'location'}
+                onToggle={() => handleToggle('location')}
+              />
+              <CollapsibleForm
                 label='Bio'
                 value='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-                isLastSection={true} // Set isLastSection to true for the last section
+                isLastSection={true}
+                isOpen={openForm === 'bio'}
+                onToggle={() => handleToggle('bio')}
               />
             </div>
           </div>
         </div>
       </div>
     </main>
-  );
-};
-
-interface ProfileSectionProps {
-  label: string;
-  value: string | JSX.Element;
-  onAddClick?: () => void; // Optional callback for the Add button click
-  isLastSection?: boolean; // Optional flag to determine if it's the last section
-}
-
-const ProfileSection: React.FC<ProfileSectionProps> = ({
-  label,
-  value,
-  onAddClick,
-  isLastSection,
-}) => {
-  const textColor = value ? 'text-black' : 'text-gray-400';
-
-  return (
-    <div className='cursor-pointer rounded-md hover:bg-gray-100'>
-      <div className={`flex justify-between px-4 py-3 ${textColor}`}>
-        <div className='text-sm font-normal text-gray-400'>{label}</div>
-        <div className={`text-sm ${textColor}`} onClick={onAddClick}>
-          {!value ? '+ Add' : value}
-        </div>
-      </div>
-      {isLastSection ? null : <hr className='mx-2 border-gray-100' />}
-    </div>
   );
 };
 
