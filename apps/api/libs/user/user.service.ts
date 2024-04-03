@@ -37,7 +37,6 @@ export class UserService {
   }
 
   async updateUserEmail(email: string, newEmail: string) {
-    console.log(email);
     const existingUser = await this.findUnique({
       where: {
         email,
