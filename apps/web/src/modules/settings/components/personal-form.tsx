@@ -90,7 +90,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
                 buttonLabel={'Change Avatar'}
               />
             </div>
-            <div className='rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
+            <div className=' rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
               <CollapsibleForm
                 label='Name'
                 value={personalInfo.name}

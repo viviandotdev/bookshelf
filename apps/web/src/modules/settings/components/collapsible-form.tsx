@@ -97,7 +97,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   return (
     <div>
-      <div className=' justify-between text-base text-beige'>
+      <div className='justify-between text-base text-beige'>
         <div
           onClick={onToggle}
           className={`transition-all ${
@@ -106,7 +106,9 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         >
           <div className='cursor-pointer rounded-t-md hover:bg-beige-50'>
             <div className={`flex justify-between px-4 py-3 text-black`}>
-              <div className='text-sm font-normal text-gray-400'>{label}</div>
+              <div className='min-w-20 text-sm font-normal text-gray-400'>
+                {label}
+              </div>
               <div
                 className={`transform text-sm duration-150 ${textColor} transition-all ease-in-out ${
                   isOpen
@@ -155,6 +157,9 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                               )}
                             </FormControl>
                             <FormMessage setError={setError} />
+                            <p className={'pb-1 pt-2 text-sm text-red-400'}>
+                              {error}
+                            </p>
                           </FormItem>
                         )}
                       />
