@@ -20,6 +20,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
 }) => {
   let pageForm;
   const { data: session } = useSession();
+
   switch (page) {
     case 'account':
       pageForm = <AccountForm user={user} />;
@@ -54,10 +55,12 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
               />
               <AvatarFallback>VL</AvatarFallback>
             </Avatar>
-            <h2 className='mt-4 text-lg font-semibold'>
-              {session?.user.username}
+            <h2 className='mt-4 line-clamp-1 overflow-clip text-lg font-semibold'>
+              {session?.user.username || user.username}
             </h2>
-            <p className='text-sm text-gray-500'>{session?.user.email}</p>
+            <p className='text-sm text-gray-500'>
+              {session?.user.email || user.email}
+            </p>
           </div>
 
           <nav className='flex-none px-4 sm:px-6 lg:px-0'>

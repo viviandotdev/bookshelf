@@ -29,11 +29,7 @@ export class UpdateUserInput {
 
   @IsString()
   @Field({ nullable: true })
-  firstName?: string;
-
-  @IsString()
-  @Field({ nullable: true })
-  lastName?: string;
+  name?: string;
 
   @IsString()
   @Field({ nullable: true })

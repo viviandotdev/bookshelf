@@ -1,5 +1,5 @@
 // PersonalForm.tsx
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UploadFileDialog from './upload-file-dialog';
 import CollapsibleForm, { FormNames } from './collapsible-form';
@@ -11,9 +11,50 @@ interface PersonalFormProps {
   user: User;
 }
 
+// Define the state shape
+interface PersonalInfoState {
+  bio: string;
+  location: string;
+  name: string;
+  dateOfBirth: string;
+}
+
+// Define the action types
+type PersonalInfoAction =
+  | { type: 'SET_BIO'; payload: string }
+  | { type: 'SET_LOCATION'; payload: string }
+  | { type: 'SET_DATE_OF_BIRTH'; payload: string }
+  | { type: 'SET_NAME'; payload: string };
+
+// Define the reducer function
+const personalInfoReducer = (
+  state: PersonalInfoState,
+  action: PersonalInfoAction
+) => {
+  switch (action.type) {
+    case 'SET_BIO':
+      return { ...state, bio: action.payload };
+    case 'SET_LOCATION':
+      return { ...state, location: action.payload };
+    case 'SET_DATE_OF_BIRTH':
+      return { ...state, dateOfBirth: action.payload };
+    case 'SET_NAME':
+      return { ...state, name: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
   const { data: session } = useSession();
   const [openForm, setOpenForm] = useState<FormNames | ''>('');
+  // Initialize useReducer with the reducer function and initial state
+  const [personalInfo, dispatch] = useReducer(personalInfoReducer, {
+    bio: user.bio || '',
+    location: user.location || '',
+    dateOfBirth: user.dateOfBirth || '',
+    name: user.name || '',
+  });
 
   const handleToggle = (formName: FormNames) => {
     setOpenForm(openForm === formName ? '' : formName);
@@ -51,11 +92,14 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
             </div>
             <div className='rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
               <CollapsibleForm
-                label='Preferred Name'
-                value='Vivian Lin'
+                label='Name'
+                value={personalInfo.name}
                 openForm={openForm}
-                isOpen={openForm === 'firstName'}
-                onToggle={() => handleToggle('firstName')}
+                isOpen={openForm === 'name'}
+                onToggle={() => handleToggle('name')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_NAME', payload: newValue })
+                }
               />
               <CollapsibleForm
                 label='Username'
@@ -64,27 +108,36 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
                 isOpen={openForm === 'username'}
                 onToggle={() => handleToggle('username')}
               />
-              {/* <CollapsibleForm
+              <CollapsibleForm
                 label='Date of Birth'
                 value='January 1, 1990'
                 openForm={openForm}
                 isOpen={openForm === 'dateOfBirth'}
                 onToggle={() => handleToggle('dateOfBirth')}
-              /> */}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_DATE_OF_BIRTH', payload: newValue })
+                }
+              />
               <CollapsibleForm
                 label='Location'
-                value=''
+                value={personalInfo.location}
                 openForm={openForm}
                 isOpen={openForm === 'location'}
                 onToggle={() => handleToggle('location')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_LOCATION', payload: newValue })
+                }
               />
               <CollapsibleForm
                 label='Bio'
-                value='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+                value={personalInfo.bio}
                 isLastSection={true}
                 openForm={openForm}
                 isOpen={openForm === 'bio'}
                 onToggle={() => handleToggle('bio')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_BIO', payload: newValue })
+                }
               />
             </div>
           </div>

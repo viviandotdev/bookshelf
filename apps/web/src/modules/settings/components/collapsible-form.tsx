@@ -23,12 +23,10 @@ import { useSession } from 'next-auth/react';
 export type FormNames =
   | 'username'
   | 'location'
-  | 'firstName'
-  | 'lastName'
+  | 'name'
   | 'bio'
   | 'email'
-  | 'password'
-  | 'newPassword';
+  | 'dateOfBirth';
 
 interface CollapsibleFormProps {
   label: string;
@@ -37,6 +35,7 @@ interface CollapsibleFormProps {
   isOpen: boolean;
   openForm: FormNames | '';
   onToggle: () => void;
+  onChange?: (value: string) => void; // Add this prop to handle changes
 }
 
 export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
@@ -46,6 +45,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   openForm,
   isOpen,
   onToggle,
+  onChange, // Include the onChange handler in the component prop
 }) => {
   const textColor = value ? 'text-black' : 'text-gray-400';
   const [isPending, startTransition] = useTransition();
@@ -56,6 +56,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const form = useForm<z.infer<typeof SettingsSchema>>({
     resolver: zodResolver(SettingsSchema),
     defaultValues: {
+      name: undefined,
       username: undefined,
       location: undefined,
       bio: undefined,
@@ -64,6 +65,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   useEffect(() => {
     form.reset({
+      name: openForm == 'name' ? value : undefined,
       username: openForm == 'username' ? value : undefined,
       location: openForm == 'location' ? value : undefined,
       bio: openForm == 'bio' ? value : undefined,
@@ -72,6 +74,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
     console.log(values);
+    onToggle();
     startTransition(() => {
       settings(values)
         .then((data) => {
@@ -81,9 +84,12 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
           if (data.success) {
             update();
+            if (openForm) {
+              // Update the date of the value
+              onChange(values[openForm] || '');
+            }
             setSuccess(data.success);
           }
-          onToggle();
         })
         .catch(() => setError('Something went wrong!'));
     });
@@ -108,6 +114,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                     : 'translate-x-0 translate-y-0 opacity-100'
                 }`}
               >
+                {/* if bio truncate the text to only one line set the ma width */}
                 {!value ? '+ Add' : value}
               </div>
             </div>
@@ -132,14 +139,22 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                         render={({ field }) => (
                           <FormItem className='mt-0'>
                             <FormControl>
-                              <Input
-                                {...field}
-                                // value={value || ''}
-                                //   placeholder='John Doe'
-                                disabled={isPending}
-                              />
+                              {openForm === 'bio' ? (
+                                <Textarea
+                                  {...field}
+                                  className='resize-none'
+                                  placeholder='Tell us a little bit about yourself'
+                                  disabled={isPending}
+                                />
+                              ) : (
+                                <Input
+                                  {...field}
+                                  disabled={isPending}
+                                  className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+                                />
+                              )}
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage setError={setError} />
                           </FormItem>
                         )}
                       />
