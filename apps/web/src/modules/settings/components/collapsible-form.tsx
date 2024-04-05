@@ -18,7 +18,7 @@ import {
 import { settings } from '../actions/settings';
 import { useSession } from 'next-auth/react';
 import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
   Popover,
@@ -37,8 +37,7 @@ export type FormNames =
 
 interface CollapsibleFormProps {
   label: string;
-  value?: string;
-  date?: Date;
+  value: string;
   isLastSection?: boolean;
   isOpen: boolean;
   openForm: FormNames | '';
@@ -53,7 +52,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   openForm,
   isOpen,
   onToggle,
-  date,
   onChange, // Include the onChange handler in the component prop
 }) => {
   const textColor = value ? 'text-black' : 'text-gray-400';
@@ -79,7 +77,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       username: openForm == 'username' ? value : undefined,
       location: openForm == 'location' ? value : undefined,
       bio: openForm == 'bio' ? value : undefined,
-      dob: openForm == 'dob' ? date : undefined,
+      dob: openForm == 'dob' && value ? new Date(value) : undefined,
     });
   }, [openForm]);
 
@@ -95,9 +93,12 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
           if (data.success) {
             update();
-            if (openForm) {
-              // Update the date of the value
-              onChange(values[openForm] || '');
+            if (onChange && openForm) {
+              if (openForm == 'dob') {
+                onChange(values[openForm]?.toISOString() || '');
+              } else {
+                onChange(values[openForm] || '');
+              }
             }
             setSuccess(data.success);
           }
@@ -105,6 +106,18 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         .catch(() => setError('Something went wrong!'));
     });
   };
+  function formatDateOrDisplayValue(value: string) {
+    // console.log(value);
+    if (label == 'Date of Birth') {
+      const dateObject = new Date(value);
+      if (dateObject && isValid(dateObject)) {
+        const date = format(dateObject, 'PPP');
+        console.log(date);
+        return date;
+      }
+    }
+    return value || '+ Add';
+  }
 
   // Extract the form control rendering logic into a function
   const renderFormControl = (field) => {
@@ -131,7 +144,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                   !field.value && 'text-muted-foreground'
                 )}
               >
-                {field.value ? (
+                {field.value && isValid(field.value) ? (
                   format(field.value, 'PPP')
                 ) : (
                   <span>Pick a date</span>
@@ -187,8 +200,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                     : 'translate-x-0 translate-y-0 opacity-100'
                 }`}
               >
-                {/* if bio truncate the text to only one line set the ma width */}
-                {!value ? '+ Add' : value}
+                {formatDateOrDisplayValue(value)}
               </div>
             </div>
           </div>

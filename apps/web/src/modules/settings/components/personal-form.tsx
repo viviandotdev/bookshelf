@@ -1,5 +1,5 @@
 // PersonalForm.tsx
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UploadFileDialog from './upload-file-dialog';
 import CollapsibleForm, { FormNames } from './collapsible-form';
@@ -52,10 +52,13 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
   const [personalInfo, dispatch] = useReducer(personalInfoReducer, {
     bio: user.bio || '',
     location: user.location || '',
-    dob: user.dob || '',
+    dob: new Date(user.dob).toISOString() || '',
     name: user.name || '',
   });
 
+  useEffect(() => {
+    console.log(personalInfo);
+  }, [openForm]);
   const handleToggle = (formName: FormNames) => {
     setOpenForm(openForm === formName ? '' : formName);
   };
@@ -110,7 +113,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
               />
               <CollapsibleForm
                 label='Date of Birth'
-                date={new Date()}
+                value={personalInfo.dob}
                 openForm={openForm}
                 isOpen={openForm === 'dob'}
                 onToggle={() => handleToggle('dob')}
