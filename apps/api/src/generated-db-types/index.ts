@@ -46,7 +46,7 @@ export enum UserScalarFieldEnum {
     name = "name",
     location = "location",
     bio = "bio",
-    dateOfBirth = "dateOfBirth",
+    dob = "dob",
     hashedRefreshToken = "hashedRefreshToken",
     createdAt = "createdAt",
     updatedAt = "updatedAt",
@@ -13397,7 +13397,7 @@ export class UserCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     bio?: true;
     @Field(() => Boolean, {nullable:true})
-    dateOfBirth?: true;
+    dob?: true;
     @Field(() => Boolean, {nullable:true})
     hashedRefreshToken?: true;
     @Field(() => Boolean, {nullable:true})
@@ -13429,7 +13429,7 @@ export class UserCountAggregate {
     @Field(() => Int, {nullable:false})
     bio!: number;
     @Field(() => Int, {nullable:false})
-    dateOfBirth!: number;
+    dob!: number;
     @HideField()
     hashedRefreshToken!: number;
     @Field(() => Int, {nullable:false})
@@ -13461,7 +13461,7 @@ export class UserCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     bio?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dateOfBirth?: keyof typeof SortOrder;
+    dob?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     hashedRefreshToken?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -13522,9 +13522,9 @@ export class UserCreateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -13792,9 +13792,9 @@ export class UserCreateWithoutAccountsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -13850,9 +13850,9 @@ export class UserCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -13908,9 +13908,9 @@ export class UserCreateWithoutCommentsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -13966,9 +13966,9 @@ export class UserCreateWithoutFollowersInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14024,9 +14024,9 @@ export class UserCreateWithoutFollowingInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14082,9 +14082,9 @@ export class UserCreateWithoutJournalEntriesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14140,9 +14140,9 @@ export class UserCreateWithoutLikedReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14198,9 +14198,9 @@ export class UserCreateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14256,9 +14256,9 @@ export class UserCreateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14314,9 +14314,9 @@ export class UserCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14372,9 +14372,9 @@ export class UserCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14455,9 +14455,9 @@ export class UserGroupBy {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @HideField()
     hashedRefreshToken?: string;
     @Field(() => Date, {nullable:false})
@@ -14503,7 +14503,7 @@ export class UserMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     bio?: true;
     @Field(() => Boolean, {nullable:true})
-    dateOfBirth?: true;
+    dob?: true;
     @Field(() => Boolean, {nullable:true})
     hashedRefreshToken?: true;
     @Field(() => Boolean, {nullable:true})
@@ -14539,9 +14539,9 @@ export class UserMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @HideField()
     hashedRefreshToken?: string;
     @Field(() => Date, {nullable:true})
@@ -14571,7 +14571,7 @@ export class UserMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     bio?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dateOfBirth?: keyof typeof SortOrder;
+    dob?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     hashedRefreshToken?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -14601,7 +14601,7 @@ export class UserMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     bio?: true;
     @Field(() => Boolean, {nullable:true})
-    dateOfBirth?: true;
+    dob?: true;
     @Field(() => Boolean, {nullable:true})
     hashedRefreshToken?: true;
     @Field(() => Boolean, {nullable:true})
@@ -14637,9 +14637,9 @@ export class UserMinAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @HideField()
     hashedRefreshToken?: string;
     @Field(() => Date, {nullable:true})
@@ -14669,7 +14669,7 @@ export class UserMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     bio?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    dateOfBirth?: keyof typeof SortOrder;
+    dob?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     hashedRefreshToken?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -14705,7 +14705,7 @@ export class UserOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     bio?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    dateOfBirth?: InstanceType<typeof SortOrderInput>;
+    dob?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
@@ -14741,7 +14741,7 @@ export class UserOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     bio?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
-    dateOfBirth?: InstanceType<typeof SortOrderInput>;
+    dob?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
@@ -14804,8 +14804,8 @@ export class UserScalarWhereWithAggregatesInput {
     location?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     bio?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    dateOfBirth?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    dob?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -14840,8 +14840,8 @@ export class UserScalarWhereInput {
     location?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bio?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    dateOfBirth?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    dob?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -14917,9 +14917,9 @@ export class UserUncheckedCreateWithoutAccountsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -14975,9 +14975,9 @@ export class UserUncheckedCreateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15033,9 +15033,9 @@ export class UserUncheckedCreateWithoutCommentsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15091,9 +15091,9 @@ export class UserUncheckedCreateWithoutFollowersInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15149,9 +15149,9 @@ export class UserUncheckedCreateWithoutFollowingInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15207,9 +15207,9 @@ export class UserUncheckedCreateWithoutJournalEntriesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15265,9 +15265,9 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15323,9 +15323,9 @@ export class UserUncheckedCreateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15381,9 +15381,9 @@ export class UserUncheckedCreateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15439,9 +15439,9 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15497,9 +15497,9 @@ export class UserUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15591,9 +15591,9 @@ export class UserUncheckedUpdateManyWithoutFollowersInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15665,9 +15665,9 @@ export class UserUncheckedUpdateManyWithoutFollowingInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15739,9 +15739,9 @@ export class UserUncheckedUpdateManyWithoutLikedReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15779,9 +15779,9 @@ export class UserUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15819,9 +15819,9 @@ export class UserUncheckedUpdateWithoutAccountsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15877,9 +15877,9 @@ export class UserUncheckedUpdateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15935,9 +15935,9 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -15993,9 +15993,9 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16051,9 +16051,9 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16109,9 +16109,9 @@ export class UserUncheckedUpdateWithoutJournalEntriesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16167,9 +16167,9 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16225,9 +16225,9 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16283,9 +16283,9 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16341,9 +16341,9 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16399,9 +16399,9 @@ export class UserUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16459,9 +16459,9 @@ export class UserUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16900,9 +16900,9 @@ export class UserUpdateWithoutAccountsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -16958,9 +16958,9 @@ export class UserUpdateWithoutAuditLogsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17016,9 +17016,9 @@ export class UserUpdateWithoutCommentsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17074,9 +17074,9 @@ export class UserUpdateWithoutFollowersInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17132,9 +17132,9 @@ export class UserUpdateWithoutFollowingInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17190,9 +17190,9 @@ export class UserUpdateWithoutJournalEntriesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17248,9 +17248,9 @@ export class UserUpdateWithoutLikedReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17306,9 +17306,9 @@ export class UserUpdateWithoutReviewsInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17364,9 +17364,9 @@ export class UserUpdateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17422,9 +17422,9 @@ export class UserUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17480,9 +17480,9 @@ export class UserUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    dateOfBirth?: string;
+    @Field(() => Date, {nullable:true})
+    @Validator.IsDate()
+    dob?: Date | string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     hashedRefreshToken?: string;
@@ -17672,8 +17672,8 @@ export class UserWhereUniqueInput {
     location?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bio?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    dateOfBirth?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    dob?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -17728,8 +17728,8 @@ export class UserWhereInput {
     location?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bio?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    dateOfBirth?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    dob?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -17778,8 +17778,8 @@ export class User {
     location!: string | null;
     @Field(() => String, {nullable:true})
     bio!: string | null;
-    @Field(() => String, {nullable:true})
-    dateOfBirth!: string | null;
+    @Field(() => Date, {nullable:true})
+    dob!: Date | null;
     @HideField()
     hashedRefreshToken!: string | null;
     @Field(() => Date, {nullable:false})

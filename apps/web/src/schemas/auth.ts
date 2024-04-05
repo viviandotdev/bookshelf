@@ -73,6 +73,11 @@ export const SettingsSchema = z.object({
   username: z.optional(z.string()),
   location: z.optional(z.string()),
   name: z.optional(z.string()),
+  dob: z.optional(
+    z.date({
+      required_error: 'A date of birth is required.',
+    })
+  ),
   bio: z.optional(
     z.string().max(160, {
       message: 'Bio must not be longer than 160 characters.',

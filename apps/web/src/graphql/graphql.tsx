@@ -3054,6 +3054,7 @@ export type UpdateEmailInput = {
 
 export type UpdateUserInput = {
   bio?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   location?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -3070,7 +3071,7 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp'];
-  dateOfBirth?: Maybe<Scalars['String']>;
+  dob?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: Maybe<Scalars['Timestamp']>;
   followerCount: Scalars['Float'];
@@ -3878,7 +3879,7 @@ export type UserCountAggregate = {
   _all: Scalars['Int'];
   bio: Scalars['Int'];
   createdAt: Scalars['Int'];
-  dateOfBirth: Scalars['Int'];
+  dob: Scalars['Int'];
   email: Scalars['Int'];
   emailVerified: Scalars['Int'];
   id: Scalars['Int'];
@@ -3993,7 +3994,7 @@ export type UserCreateWithoutAuditLogsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4018,7 +4019,7 @@ export type UserCreateWithoutCommentsInput = {
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   bio?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4044,7 +4045,7 @@ export type UserCreateWithoutFollowersInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
@@ -4069,7 +4070,7 @@ export type UserCreateWithoutFollowingInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4094,7 +4095,7 @@ export type UserCreateWithoutJournalEntriesInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4119,7 +4120,7 @@ export type UserCreateWithoutLikedReviewsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4144,7 +4145,7 @@ export type UserCreateWithoutReviewsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4169,7 +4170,7 @@ export type UserCreateWithoutShelvesInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4194,7 +4195,7 @@ export type UserCreateWithoutUserBooksInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
@@ -4223,7 +4224,7 @@ export type UserMaxAggregate = {
   __typename?: 'UserMaxAggregate';
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
-  dateOfBirth?: Maybe<Scalars['String']>;
+  dob?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   emailVerified?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
@@ -4238,7 +4239,7 @@ export type UserMinAggregate = {
   __typename?: 'UserMinAggregate';
   bio?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Timestamp']>;
-  dateOfBirth?: Maybe<Scalars['String']>;
+  dob?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
   emailVerified?: Maybe<Scalars['Timestamp']>;
   id?: Maybe<Scalars['String']>;
@@ -4259,7 +4260,7 @@ export type UserOrderByWithRelationInput = {
   bio?: InputMaybe<SortOrderInput>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
-  dateOfBirth?: InputMaybe<SortOrderInput>;
+  dob?: InputMaybe<SortOrderInput>;
   email?: InputMaybe<SortOrder>;
   emailVerified?: InputMaybe<SortOrderInput>;
   followers?: InputMaybe<UserOrderByRelationAggregateInput>;
@@ -4290,7 +4291,7 @@ export type UserScalarWhereInput = {
   OR?: InputMaybe<Array<UserScalarWhereInput>>;
   bio?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  dateOfBirth?: InputMaybe<StringFilter>;
+  dob?: InputMaybe<StringFilter>;
   email?: InputMaybe<StringFilter>;
   emailVerified?: InputMaybe<DateTimeFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
@@ -4306,7 +4307,7 @@ export type UserScalarWhereInput = {
 export type UserUpdateManyMutationInput = {
   bio?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   hashedPassword?: InputMaybe<Scalars['String']>;
@@ -4483,7 +4484,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4508,7 +4509,7 @@ export type UserUpdateWithoutCommentsInput = {
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   bio?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4534,7 +4535,7 @@ export type UserUpdateWithoutFollowersInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
@@ -4559,7 +4560,7 @@ export type UserUpdateWithoutFollowingInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4584,7 +4585,7 @@ export type UserUpdateWithoutJournalEntriesInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4609,7 +4610,7 @@ export type UserUpdateWithoutLikedReviewsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4634,7 +4635,7 @@ export type UserUpdateWithoutReviewsInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4659,7 +4660,7 @@ export type UserUpdateWithoutShelvesInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4684,7 +4685,7 @@ export type UserUpdateWithoutUserBooksInput = {
   bio?: InputMaybe<Scalars['String']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
+  dob?: InputMaybe<Scalars['String']>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
@@ -4766,7 +4767,7 @@ export type UserWhereInput = {
   bio?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  dateOfBirth?: InputMaybe<StringFilter>;
+  dob?: InputMaybe<StringFilter>;
   email?: InputMaybe<StringFilter>;
   emailVerified?: InputMaybe<DateTimeFilter>;
   followers?: InputMaybe<UserListRelationFilter>;
@@ -4795,7 +4796,7 @@ export type UserWhereUniqueInput = {
   bio?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  dateOfBirth?: InputMaybe<StringFilter>;
+  dob?: InputMaybe<StringFilter>;
   email?: InputMaybe<Scalars['String']>;
   emailVerified?: InputMaybe<DateTimeFilter>;
   followers?: InputMaybe<UserListRelationFilter>;
@@ -5143,7 +5144,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username?: string | null, email: string, bio?: string | null, location?: string | null, name?: string | null, dateOfBirth?: string | null, isFollowing: boolean, followerCount: number, followingCount: number } };
+export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id: string, username?: string | null, email: string, bio?: string | null, location?: string | null, name?: string | null, dob?: string | null, isFollowing: boolean, followerCount: number, followingCount: number } };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -6752,7 +6753,7 @@ export const UserDocument = gql`
     bio
     location
     name
-    dateOfBirth
+    dob
     isFollowing
     followerCount
     followingCount

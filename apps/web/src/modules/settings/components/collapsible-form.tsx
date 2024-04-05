@@ -13,12 +13,19 @@ import {
   FormField,
   FormControl,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { settings } from '../actions/settings';
 import { useSession } from 'next-auth/react';
-
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calender';
 // Assuming these are the fields we want to be collapsible
 export type FormNames =
   | 'username'
@@ -26,11 +33,12 @@ export type FormNames =
   | 'name'
   | 'bio'
   | 'email'
-  | 'dateOfBirth';
+  | 'dob';
 
 interface CollapsibleFormProps {
   label: string;
-  value: string;
+  value?: string;
+  date?: Date;
   isLastSection?: boolean;
   isOpen: boolean;
   openForm: FormNames | '';
@@ -45,6 +53,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   openForm,
   isOpen,
   onToggle,
+  date,
   onChange, // Include the onChange handler in the component prop
 }) => {
   const textColor = value ? 'text-black' : 'text-gray-400';
@@ -59,6 +68,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       name: undefined,
       username: undefined,
       location: undefined,
+      dob: undefined,
       bio: undefined,
     },
   });
@@ -69,6 +79,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       username: openForm == 'username' ? value : undefined,
       location: openForm == 'location' ? value : undefined,
       bio: openForm == 'bio' ? value : undefined,
+      dob: openForm == 'dob' ? date : undefined,
     });
   }, [openForm]);
 
@@ -93,6 +104,66 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         })
         .catch(() => setError('Something went wrong!'));
     });
+  };
+
+  // Extract the form control rendering logic into a function
+  const renderFormControl = (field) => {
+    if (openForm === 'bio') {
+      return (
+        <FormControl>
+          <Textarea
+            {...field}
+            className='resize-none'
+            placeholder='Tell us a little bit about yourself'
+            disabled={isPending}
+          />
+        </FormControl>
+      );
+    } else if (openForm === 'dob') {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <FormControl>
+              <Button
+                variant={'outline'}
+                className={cn(
+                  'w-[240px] pl-3 text-left font-normal',
+                  !field.value && 'text-muted-foreground'
+                )}
+              >
+                {field.value ? (
+                  format(field.value, 'PPP')
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+              </Button>
+            </FormControl>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto p-0' align='start'>
+            <Calendar
+              mode='single'
+              selected={field.value}
+              onSelect={field.onChange}
+              disabled={(date) =>
+                date > new Date() || date < new Date('1900-01-01')
+              }
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      );
+    } else {
+      return (
+        <FormControl>
+          <Input
+            {...field}
+            disabled={isPending}
+            className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+          />
+        </FormControl>
+      );
+    }
   };
 
   return (
@@ -141,20 +212,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                         render={({ field }) => (
                           <FormItem className='mt-0'>
                             <FormControl>
-                              {openForm === 'bio' ? (
-                                <Textarea
-                                  {...field}
-                                  className='resize-none'
-                                  placeholder='Tell us a little bit about yourself'
-                                  disabled={isPending}
-                                />
-                              ) : (
-                                <Input
-                                  {...field}
-                                  disabled={isPending}
-                                  className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-                                />
-                              )}
+                              {renderFormControl(field)}
                             </FormControl>
                             <FormMessage setError={setError} />
                             <p className={'pb-1 pt-2 text-sm text-red-400'}>

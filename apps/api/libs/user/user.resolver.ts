@@ -75,6 +75,7 @@ export class UserResolver {
         location: data.location,
         bio: data.bio,
         name: data.name,
+        dob: new Date(data.dob),
       },
     });
   }

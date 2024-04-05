@@ -14,7 +14,7 @@ query User($where: UserWhereUniqueInput!) {
     bio
     location
     name
-    dateOfBirth
+    dob
     isFollowing
     followerCount
     followingCount

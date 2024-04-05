@@ -2753,6 +2753,7 @@ input UpdateEmailInput {
 
 input UpdateUserInput {
   bio: String
+  dob: String
   email: String
   location: String
   name: String
@@ -2768,7 +2769,7 @@ type User {
   bio: String
   comments: [Comment!]
   createdAt: Timestamp!
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followerCount: Float!
@@ -3562,7 +3563,7 @@ type UserCountAggregate {
   _all: Int!
   bio: Int!
   createdAt: Int!
-  dateOfBirth: Int!
+  dob: Int!
   email: Int!
   emailVerified: Int!
   id: Int!
@@ -3677,7 +3678,7 @@ input UserCreateWithoutAuditLogsInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3702,7 +3703,7 @@ input UserCreateWithoutCommentsInput {
   auditLogs: AuditLogCreateNestedManyWithoutUserInput
   bio: String
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3728,7 +3729,7 @@ input UserCreateWithoutFollowersInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   following: UserCreateNestedManyWithoutFollowersInput
@@ -3753,7 +3754,7 @@ input UserCreateWithoutFollowingInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3778,7 +3779,7 @@ input UserCreateWithoutJournalEntriesInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3803,7 +3804,7 @@ input UserCreateWithoutLikedReviewsInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3828,7 +3829,7 @@ input UserCreateWithoutReviewsInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3853,7 +3854,7 @@ input UserCreateWithoutShelvesInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3878,7 +3879,7 @@ input UserCreateWithoutUserBooksInput {
   bio: String
   comments: CommentCreateNestedManyWithoutUserInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
@@ -3906,7 +3907,7 @@ input UserListRelationFilter {
 type UserMaxAggregate {
   bio: String
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   id: String
@@ -3920,7 +3921,7 @@ type UserMaxAggregate {
 type UserMinAggregate {
   bio: String
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   id: String
@@ -3941,7 +3942,7 @@ input UserOrderByWithRelationInput {
   bio: SortOrderInput
   comments: CommentOrderByRelationAggregateInput
   createdAt: SortOrder
-  dateOfBirth: SortOrderInput
+  dob: SortOrderInput
   email: SortOrder
   emailVerified: SortOrderInput
   followers: UserOrderByRelationAggregateInput
@@ -3972,7 +3973,7 @@ input UserScalarWhereInput {
   OR: [UserScalarWhereInput!]
   bio: StringFilter
   createdAt: DateTimeFilter
-  dateOfBirth: StringFilter
+  dob: DateTimeFilter
   email: StringFilter
   emailVerified: DateTimeFilter
   hashedPassword: StringFilter
@@ -3988,7 +3989,7 @@ input UserScalarWhereInput {
 input UserUpdateManyMutationInput {
   bio: String
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   hashedPassword: String
@@ -4165,7 +4166,7 @@ input UserUpdateWithoutAuditLogsInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4190,7 +4191,7 @@ input UserUpdateWithoutCommentsInput {
   auditLogs: AuditLogUpdateManyWithoutUserNestedInput
   bio: String
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4216,7 +4217,7 @@ input UserUpdateWithoutFollowersInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   following: UserUpdateManyWithoutFollowersNestedInput
@@ -4241,7 +4242,7 @@ input UserUpdateWithoutFollowingInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4266,7 +4267,7 @@ input UserUpdateWithoutJournalEntriesInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4291,7 +4292,7 @@ input UserUpdateWithoutLikedReviewsInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4316,7 +4317,7 @@ input UserUpdateWithoutReviewsInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4341,7 +4342,7 @@ input UserUpdateWithoutShelvesInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4366,7 +4367,7 @@ input UserUpdateWithoutUserBooksInput {
   bio: String
   comments: CommentUpdateManyWithoutUserNestedInput
   createdAt: Timestamp
-  dateOfBirth: String
+  dob: Timestamp
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
@@ -4448,7 +4449,7 @@ input UserWhereInput {
   bio: StringFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
-  dateOfBirth: StringFilter
+  dob: DateTimeFilter
   email: StringFilter
   emailVerified: DateTimeFilter
   followers: UserListRelationFilter
@@ -4477,7 +4478,7 @@ input UserWhereUniqueInput {
   bio: StringFilter
   comments: CommentListRelationFilter
   createdAt: DateTimeFilter
-  dateOfBirth: StringFilter
+  dob: DateTimeFilter
   email: String
   emailVerified: DateTimeFilter
   followers: UserListRelationFilter

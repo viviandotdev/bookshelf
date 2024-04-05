@@ -16,7 +16,7 @@ interface PersonalInfoState {
   bio: string;
   location: string;
   name: string;
-  dateOfBirth: string;
+  dob: string;
 }
 
 // Define the action types
@@ -37,7 +37,7 @@ const personalInfoReducer = (
     case 'SET_LOCATION':
       return { ...state, location: action.payload };
     case 'SET_DATE_OF_BIRTH':
-      return { ...state, dateOfBirth: action.payload };
+      return { ...state, dob: action.payload };
     case 'SET_NAME':
       return { ...state, name: action.payload };
     default:
@@ -52,7 +52,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
   const [personalInfo, dispatch] = useReducer(personalInfoReducer, {
     bio: user.bio || '',
     location: user.location || '',
-    dateOfBirth: user.dateOfBirth || '',
+    dob: user.dob || '',
     name: user.name || '',
   });
 
@@ -110,10 +110,10 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
               />
               <CollapsibleForm
                 label='Date of Birth'
-                value='January 1, 1990'
+                date={new Date()}
                 openForm={openForm}
-                isOpen={openForm === 'dateOfBirth'}
-                onToggle={() => handleToggle('dateOfBirth')}
+                isOpen={openForm === 'dob'}
+                onToggle={() => handleToggle('dob')}
                 onChange={(newValue) =>
                   dispatch({ type: 'SET_DATE_OF_BIRTH', payload: newValue })
                 }
