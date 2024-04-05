@@ -14,9 +14,7 @@ export default async function SettingsPageLayout({
   return (
     <div className='flex min-h-screen flex-col'>
       <SiteHeader user={user} />
-      <main className='container z-40 mx-auto flex-1 bg-beige-50 px-8 lg:px-16 xl:px-28'>
-        {children}
-      </main>
+      <main className='z-40 flex-1 bg-beige-50'>{children}</main>
       <SiteFooter />
     </div>
   );

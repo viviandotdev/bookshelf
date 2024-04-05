@@ -31,6 +31,7 @@ export class UserResolver {
     @Args('data') data: UpdateUserInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
+    console.log(data);
     const existingUser = await this.userService.findUnique({
       where: {
         id: currentUser.userId,
@@ -71,6 +72,10 @@ export class UserResolver {
         hashedPassword: data.newPassword,
         email: data.email,
         username: data.username,
+        location: data.location,
+        bio: data.bio,
+        name: data.name,
+        dob: data.dob ? new Date(data.dob) : undefined,
       },
     });
   }

@@ -11,6 +11,10 @@ query User($where: UserWhereUniqueInput!) {
     id
     username
     email
+    bio
+    location
+    name
+    dob
     isFollowing
     followerCount
     followingCount

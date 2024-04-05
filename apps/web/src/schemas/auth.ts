@@ -69,36 +69,24 @@ export const NewPasswordSchema = z.object({
   }),
 });
 
-export const SettingsSchema = z
-  .object({
-    username: z.optional(z.string()),
-    email: z.optional(z.string().email()),
-    password: z.optional(z.string().min(4)),
-    newPassword: z.optional(z.string().min(4)),
-  })
-  .refine(
-    (data) => {
-      if (data.password && !data.newPassword) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: 'New password is required!',
-      path: ['newPassword'],
-    }
-  )
-  .refine(
-    (data) => {
-      if (data.newPassword && !data.password) {
-        return false;
-      }
-
-      return true;
-    },
-    {
-      message: 'Password is required!',
-      path: ['password'],
-    }
-  );
+export const SettingsSchema = z.object({
+  username: z.optional(
+    z
+      .string()
+      .min(3, { message: 'Username must be at least 3 characters long' }) // Minimum length
+      .max(20, { message: 'Username must be no longer than 20 characters' }) // Maximum length
+      .regex(/^[a-zA-Z0-9_]+$/, {
+        message:
+          'Username can only contain alphanumeric characters and underscores',
+      })
+  ), // Allowed characters
+  location: z.optional(z.string()),
+  name: z.optional(z.string()),
+  dob: z.optional(z.date()),
+  bio: z.optional(
+    z.string().max(160, {
+      message: 'Bio must not be longer than 160 characters.',
+    })
+  ),
+  email: z.optional(z.string().email()),
+});

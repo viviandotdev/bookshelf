@@ -25,19 +25,24 @@ export const AccountForm: React.FC<AccountFormProps> = ({ user }) => {
   ];
 
   return (
-    <main className='flex-1'>
-      <h1 className='text-2xl font-bold'>Account</h1>
-      <p className='mb-6 mt-1 text-sm text-gray-600'>
-        Manage settings related to signing in to your account, account security,
-        as well as how to recover your data when you’re having trouble signing
-        in.
-      </p>
-      <div className='mx-auto mb-6 '>
-        {accountSecurityConfigs.map((config, index) => (
-          <div key={index}>
-            <AccountCards config={config} />
-          </div>
-        ))}
+    <main className='px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20'>
+      <div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-none'>
+        <div>
+          <h1 className='mb-2 text-2xl font-bold leading-8'>Account</h1>
+          <p className='mt-1 text-sm text-gray-600'>
+            Manage settings related to signing in to your account, account
+            security, as well as how to recover your data when you’re having
+            trouble signing in.
+          </p>
+
+          <dl className='text-sm'>
+            {accountSecurityConfigs.map((config, index) => (
+              <div key={index} className='pt-6'>
+                <AccountCards config={config} />
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </main>
   );

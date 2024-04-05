@@ -1,76 +1,152 @@
-import React from 'react';
+// PersonalForm.tsx
+import React, { useEffect, useReducer, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UploadFileDialog from './upload-file-dialog';
+import CollapsibleForm, { FormNames } from './collapsible-form';
+import { Button } from '@/components/ui/button';
+import { useSession } from 'next-auth/react';
+import { User } from '@/graphql/graphql';
 
-interface PersonalFormProps {}
+interface PersonalFormProps {
+  user: User;
+}
 
-export const PersonalForm: React.FC<PersonalFormProps> = () => {
+// Define the state shape
+interface PersonalInfoState {
+  bio: string;
+  location: string;
+  name: string;
+  dob: string;
+}
+
+// Define the action types
+type PersonalInfoAction =
+  | { type: 'SET_BIO'; payload: string }
+  | { type: 'SET_LOCATION'; payload: string }
+  | { type: 'SET_DATE_OF_BIRTH'; payload: string }
+  | { type: 'SET_NAME'; payload: string };
+
+// Define the reducer function
+const personalInfoReducer = (
+  state: PersonalInfoState,
+  action: PersonalInfoAction
+) => {
+  switch (action.type) {
+    case 'SET_BIO':
+      return { ...state, bio: action.payload };
+    case 'SET_LOCATION':
+      return { ...state, location: action.payload };
+    case 'SET_DATE_OF_BIRTH':
+      return { ...state, dob: action.payload };
+    case 'SET_NAME':
+      return { ...state, name: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
+  const { data: session } = useSession();
+  const [openForm, setOpenForm] = useState<FormNames | ''>('');
+  // Initialize useReducer with the reducer function and initial state
+  const [personalInfo, dispatch] = useReducer(personalInfoReducer, {
+    bio: user.bio || '',
+    location: user.location || '',
+    dob: new Date(user.dob).toISOString() || '',
+    name: user.name || '',
+  });
+
+  useEffect(() => {
+    console.log(personalInfo);
+  }, [openForm]);
+  const handleToggle = (formName: FormNames) => {
+    setOpenForm(openForm === formName ? '' : formName);
+  };
+
   return (
-    <main className='flex-1'>
-      <h1 className='text-2xl font-bold'>Personal Information</h1>
-      <p className='mb-6 mt-1 text-sm text-gray-600'>
-        Manage your personal information, including phone numbers and email
-        addresses where you can be reached.
-      </p>
-      <div className='mx-auto'>
-        <div className='mb-8 rounded-lg bg-beige-50'>
-          <div className='mb-6 flex items-center rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm '>
-            <Avatar className='h-16 w-16'>
-              <AvatarImage
-                alt='User avatar'
-                src='/placeholder.svg?height=96&width=96'
+    <main className='px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20'>
+      <div className='mx-auto max-w-2xl lg:mx-0 lg:max-w-none'>
+        <div>
+          <h1 className='text-2xl font-bold'>Personal Information</h1>
+          <p className='mb-6 mt-1 text-sm text-gray-600'>
+            Manage your personal information, including phone numbers and email
+            addresses where you can be reached.
+          </p>
+        </div>
+
+        <div className='mx-auto'>
+          <div className='mb-8 rounded-lg bg-beige-50'>
+            <div className='mb-6 flex items-center rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm '>
+              <Avatar className='h-16 w-16'>
+                <AvatarImage
+                  alt='User avatar'
+                  src='/placeholder.svg?height=96&width=96'
+                />
+                <AvatarFallback>VL</AvatarFallback>
+              </Avatar>
+              <h2 className='ml-4 text-lg font-medium'>
+                {session?.user.username || user.username}
+              </h2>
+              <UploadFileDialog
+                actionLabel={'Save'}
+                className='ml-auto'
+                buttonLabel={'Change Avatar'}
               />
-              <AvatarFallback>VL</AvatarFallback>
-            </Avatar>
-            <h2 className='ml-4 text-lg font-medium'>vivianlin</h2>
-            <UploadFileDialog
-              actionLabel={'Save'}
-              className='ml-auto'
-              buttonLabel={'Change Avatar'}
-            />
-          </div>
-          <div className='rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm '>
-            <ProfileSection label='Preferred Name' value='Vivian Lin' />
-            <ProfileSection label='Username' value='vivianlin123' />
-            <ProfileSection label='Date of Birth' value='January 1, 1990' />
-            <ProfileSection label='Location' value='' />
-            <ProfileSection
-              label='Bio'
-              value='Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-              isLastSection={true} // Set isLastSection to true for the last section
-            />
+            </div>
+            <div className=' rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
+              <CollapsibleForm
+                label='Name'
+                value={personalInfo.name}
+                openForm={openForm}
+                isOpen={openForm === 'name'}
+                onToggle={() => handleToggle('name')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_NAME', payload: newValue })
+                }
+              />
+              <CollapsibleForm
+                label='Username'
+                value={session?.user.username || user.username}
+                openForm={openForm}
+                isOpen={openForm === 'username'}
+                onToggle={() => handleToggle('username')}
+              />
+              <CollapsibleForm
+                label='Date of Birth'
+                value={personalInfo.dob}
+                openForm={openForm}
+                isOpen={openForm === 'dob'}
+                onToggle={() => handleToggle('dob')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_DATE_OF_BIRTH', payload: newValue })
+                }
+              />
+              <CollapsibleForm
+                label='Location'
+                value={personalInfo.location}
+                openForm={openForm}
+                isOpen={openForm === 'location'}
+                onToggle={() => handleToggle('location')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_LOCATION', payload: newValue })
+                }
+              />
+              <CollapsibleForm
+                label='Bio'
+                value={personalInfo.bio}
+                isLastSection={true}
+                openForm={openForm}
+                isOpen={openForm === 'bio'}
+                onToggle={() => handleToggle('bio')}
+                onChange={(newValue) =>
+                  dispatch({ type: 'SET_BIO', payload: newValue })
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
     </main>
-  );
-};
-
-interface ProfileSectionProps {
-  label: string;
-  value: string | JSX.Element;
-  onAddClick?: () => void; // Optional callback for the Add button click
-  isLastSection?: boolean; // Optional flag to determine if it's the last section
-}
-
-const ProfileSection: React.FC<ProfileSectionProps> = ({
-  label,
-  value,
-  onAddClick,
-  isLastSection,
-}) => {
-  const textColor = value ? 'text-black' : 'text-gray-400';
-
-  return (
-    <div className='cursor-pointer rounded-md hover:bg-gray-100'>
-      <div className={`flex justify-between px-4 py-3 ${textColor}`}>
-        <div className='text-sm font-normal text-gray-400'>{label}</div>
-        <div className={`text-sm ${textColor}`} onClick={onAddClick}>
-          {!value ? '+ Add' : value}
-        </div>
-      </div>
-      {isLastSection ? null : <hr className='mx-2 border-gray-100' />}
-    </div>
   );
 };
 

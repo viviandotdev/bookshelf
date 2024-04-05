@@ -33,7 +33,7 @@ export const AccountCards: React.FC<AccountCardsProps> = ({ config }) => {
   };
 
   return (
-    <div className='mb-4 flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm'>
+    <div className='flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm'>
       <div>
         <div className='flex items-center'>
           <div className='align-middle'>

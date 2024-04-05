@@ -44,6 +44,17 @@ model User {
     hashedPassword String?
 
     /// @Validator.IsString()
+    name String?
+
+    /// @Validator.IsString()
+    location String?
+
+    /// @Validator.IsString()
+    bio String?
+
+    /// @Validator.IsDate()
+    dob                DateTime?
+    /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?
     createdAt          DateTime       @default(now())

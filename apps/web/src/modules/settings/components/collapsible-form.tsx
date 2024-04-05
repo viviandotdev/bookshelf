@@ -1,0 +1,264 @@
+'use client';
+// CollapsibleForm.tsx
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { SettingsSchema } from '@/schemas/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useEffect, useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import {
+  Form,
+  FormField,
+  FormControl,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import { settings } from '../actions/settings';
+import { useSession } from 'next-auth/react';
+import { CalendarIcon } from 'lucide-react';
+import { format, isValid } from 'date-fns';
+import { cn } from '@/lib/utils';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calender';
+// Assuming these are the fields we want to be collapsible
+export type FormNames =
+  | 'username'
+  | 'location'
+  | 'name'
+  | 'bio'
+  | 'email'
+  | 'dob';
+
+interface CollapsibleFormProps {
+  label: string;
+  value: string;
+  isLastSection?: boolean;
+  isOpen: boolean;
+  openForm: FormNames | '';
+  onToggle: () => void;
+  onChange?: (value: string) => void; // Add this prop to handle changes
+}
+
+export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
+  label,
+  value,
+  isLastSection,
+  openForm,
+  isOpen,
+  onToggle,
+  onChange, // Include the onChange handler in the component prop
+}) => {
+  const textColor = value ? 'text-black' : 'text-gray-400';
+  const [isPending, startTransition] = useTransition();
+  const { update } = useSession();
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+
+  const form = useForm<z.infer<typeof SettingsSchema>>({
+    resolver: zodResolver(SettingsSchema),
+    defaultValues: {
+      name: undefined,
+      username: undefined,
+      location: undefined,
+      dob: undefined,
+      bio: undefined,
+    },
+  });
+
+  useEffect(() => {
+    form.reset({
+      name: openForm == 'name' ? value : undefined,
+      username: openForm == 'username' ? value : undefined,
+      location: openForm == 'location' ? value : undefined,
+      bio: openForm == 'bio' ? value : undefined,
+      dob: openForm == 'dob' && value ? new Date(value) : undefined,
+    });
+  }, [openForm]);
+
+  const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+    console.log(values);
+    onToggle();
+    startTransition(() => {
+      settings(values)
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          }
+
+          if (data.success) {
+            update();
+            if (onChange && openForm) {
+              if (openForm == 'dob') {
+                onChange(values[openForm]?.toISOString() || '');
+              } else {
+                onChange(values[openForm] || '');
+              }
+            }
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError('Something went wrong!'));
+    });
+  };
+  function formatDateOrDisplayValue(value: string) {
+    // console.log(value);
+    if (label == 'Date of Birth') {
+      const dateObject = new Date(value);
+      if (dateObject && isValid(dateObject)) {
+        const date = format(dateObject, 'PPP');
+        console.log(date);
+        return date;
+      }
+    }
+    return value || '+ Add';
+  }
+
+  // Extract the form control rendering logic into a function
+  const renderFormControl = (field) => {
+    if (openForm === 'bio') {
+      return (
+        <FormControl>
+          <Textarea
+            {...field}
+            className='resize-none'
+            placeholder='Tell us a little bit about yourself'
+            disabled={isPending}
+          />
+        </FormControl>
+      );
+    } else if (openForm === 'dob') {
+      return (
+        <Popover>
+          <PopoverTrigger asChild>
+            <FormControl>
+              <Button
+                variant={'outline'}
+                className={cn(
+                  'w-[240px] pl-3 text-left font-normal',
+                  !field.value && 'text-muted-foreground'
+                )}
+              >
+                {field.value && isValid(field.value) ? (
+                  format(field.value, 'PPP')
+                ) : (
+                  <span>Pick a date</span>
+                )}
+                <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+              </Button>
+            </FormControl>
+          </PopoverTrigger>
+          <PopoverContent className='w-auto p-0' align='start'>
+            <Calendar
+              mode='single'
+              selected={field.value}
+              onSelect={field.onChange}
+              disabled={(date) =>
+                date > new Date() || date < new Date('1900-01-01')
+              }
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      );
+    } else {
+      return (
+        <FormControl>
+          <Input
+            {...field}
+            disabled={isPending}
+            className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+          />
+        </FormControl>
+      );
+    }
+  };
+
+  return (
+    <div>
+      <div className='justify-between text-base text-beige'>
+        <div
+          onClick={onToggle}
+          className={`transition-all ${
+            isOpen ? 'bg-beige-50' : ''
+          } cursor-pointer items-center justify-between`}
+        >
+          <div className='cursor-pointer rounded-t-md hover:bg-beige-50'>
+            <div className={`flex justify-between px-4 py-3 text-black`}>
+              <div className='min-w-20 text-sm font-normal text-gray-400'>
+                {label}
+              </div>
+              <div
+                className={`transform text-sm duration-150 ${textColor} transition-all ease-in-out ${
+                  isOpen
+                    ? '-translate-x-2 translate-y-2 opacity-0'
+                    : 'translate-x-0 translate-y-0 opacity-100'
+                }`}
+              >
+                {formatDateOrDisplayValue(value)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`transition-max-height overflow-hidden duration-100 ease-in-out ${
+          isOpen ? 'max-h-screen' : 'max-h-0'
+        }`}
+      >
+        <div className='grid gap-1 text-sm'>
+          <div className='cursor-pointer rounded-b bg-beige-50'>
+            <div className='px-4'>
+              {openForm !== '' && (
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className=''>
+                      <FormField
+                        control={form.control}
+                        name={openForm}
+                        render={({ field }) => (
+                          <FormItem className='mt-0'>
+                            <FormControl>
+                              {renderFormControl(field)}
+                            </FormControl>
+                            <FormMessage setError={setError} />
+                            <p className={'pb-1 pt-2 text-sm text-red-400'}>
+                              {error}
+                            </p>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className='flex justify-end gap-2 py-3'>
+                      <Button
+                        onClick={onToggle}
+                        className='border border-beige-100 bg-white text-black hover:bg-white hover:text-black'
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type='submit'
+                        disabled={error ? true : false}
+                        variant={'secondary'}
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      {isLastSection ? null : <hr className='mx-2 border-gray-100' />}
+    </div>
+  );
+};
+
+export default CollapsibleForm;
