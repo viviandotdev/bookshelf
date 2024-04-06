@@ -1,11 +1,8 @@
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
 import React from 'react';
 import { Shelf, UserBook } from '@/graphql/graphql';
 import { BookStatusSection } from '../components/books-status-section';
-import BookCover from '@/components/book-cover';
 import { ReadingSummary } from '../components/readidng-summary';
-import Link from 'next/link';
+import { BestsellerList } from '../components/bestseller-list';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
   shelves: Shelf[];
@@ -40,48 +37,8 @@ export default function HomeTemplate({
               aria-labelledby='popular-books-heading'
               className='space-y-4'
             >
-              <h2
-                className={cn(
-                  dm_sefif_display.className,
-                  'mb-4 text-2xl font-semibold text-beige-700'
-                )}
-              >
-                New York Times Bestsellers Fiction
-              </h2>
-              <div className='grid grid-cols-5 gap-4'>
-                {fiction &&
-                  fiction.slice(0, 5).map((book, idx) => (
-                    <div key={idx} className='flex-row'>
-                      <Link
-                        href={`/book/${book.googleId}`}
-                        className='text-beige hover:text-stone-500'
-                      >
-                        <BookCover src={book.bookImage} />
-                      </Link>
-                    </div>
-                  ))}
-              </div>
-              <h2
-                className={cn(
-                  dm_sefif_display.className,
-                  'mb-4 text-2xl font-semibold text-beige-700'
-                )}
-              >
-                New York Times Bestsellers Non-Fiction
-              </h2>
-              <div className='grid grid-cols-5 gap-4'>
-                {nonfiction &&
-                  nonfiction.slice(0, 5).map((book, idx) => (
-                    <div key={idx} className='flex-row'>
-                      <Link
-                        href={`/book/${book.googleId}`}
-                        className='text-beige hover:text-stone-500'
-                      >
-                        <BookCover src={book.bookImage} />
-                      </Link>
-                    </div>
-                  ))}
-              </div>
+              <BestsellerList books={fiction} genre='Fiction' />
+              <BestsellerList books={nonfiction} genre='Non-Fiction' />
             </section>
             {/* <section aria-labelledby='updates-heading'>
               <h2
