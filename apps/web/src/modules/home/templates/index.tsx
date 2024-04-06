@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shelf, UserBook } from '@/graphql/graphql';
 import { BookStatusSection } from '../components/books-status-section';
-import { ReadingSummary } from '../components/readidng-summary';
+import StatsCard, { ReadingSummary } from '../components/readidng-summary';
 import { BestsellerList } from '../components/bestseller-list';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
@@ -21,7 +21,7 @@ export default function HomeTemplate({
   return (
     <>
       <div className='mx-auto px-0'>
-        <div className='flex'>
+        <div className='flex justify-evenly'>
           <div className='space-y-6 px-10 py-6'>
             {currentlyReading.length > 0 && (
               <BookStatusSection
@@ -52,9 +52,9 @@ export default function HomeTemplate({
               <UpdateCard />
             </section> */}
           </div>
-          <aside className='hidden min-w-96 space-y-6 border-l border-gray-200 py-6 pl-10 xl:flex'>
+          <aside className='hidden space-y-6 border-l border-gray-200 p-10 py-6 xl:flex'>
             {/* <Calendar className="rounded-md border" mode="single" /> */}
-            <div className='space-y-4'>
+            <div className='hidden min-w-[24rem] space-y-4 xl:block'>
               <ReadingSummary />
               {upNext.length > 0 && (
                 <BookStatusSection

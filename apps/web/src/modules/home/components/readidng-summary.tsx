@@ -4,14 +4,83 @@ import { cn } from '@/lib/utils';
 import { dm_sefif_display } from '@/lib/fonts';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Icons } from '@/components/icons';
+import { LucideIcon } from 'lucide-react';
+
+const IconLabel = ({ icon, children }: any) => (
+  <div className='flex items-center space-x-2'>
+    {icon}
+    <span>{children}</span>
+  </div>
+);
+
+const ReadingItem = ({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) => (
+  <div className='flex justify-between py-3'>
+    <IconLabel icon={icon}>{label}</IconLabel>
+    <span className='font-semibold'>{value}</span>
+  </div>
+);
+
+const ReadingSummary = () => {
+  return (
+    <section>
+      <h2
+        className={cn(
+          dm_sefif_display.className,
+          'mb-4 text-2xl font-semibold text-beige-700'
+        )}
+      >
+        Reading Summary
+      </h2>
+      <Card className='overflow-hidden rounded-lg bg-white'>
+        <CardContent className='py-3'>
+          <div className='flex flex-col divide-y divide-gray-200'>
+            <ReadingItem
+              icon={<Icons.bookOpen className='text-beige-600' />}
+              label='You are currently reading'
+              value='4 books'
+            />
+            <ReadingItem
+              icon={<Icons.save className='text-beige-600' />}
+              label='You want to read'
+              value='234 books'
+            />
+            <ReadingItem
+              icon={<Icons.book className='text-beige-600' />}
+              label='You finished'
+              value='100 books'
+            />
+            <ReadingItem
+              icon={<Icons.streak className='text-beige-600' />}
+              label='Your longest streak'
+              value='10 days'
+            />
+          </div>
+        </CardContent>
+      </Card>
+      <ChallengeCard />
+    </section>
+  );
+};
 
 const ChallengeCard = () => {
   return (
-    <Card className='text-beige-799 w-[316px] rounded-lg bg-white'>
+    <Card className='text-beige-799 mt-4 rounded-lg bg-white'>
       <CardContent className='p-4'>
         <div className='mb-2 flex items-center justify-between'>
           {/* target icon */}
-          <span className='text-beige-700'>2024 Reading Goal</span>
+          <div className='flex gap-2 text-beige-700'>
+            <Icons.goal className='text-beige-600' />
+            <span>2024 Reading Goal</span>
+          </div>
           <span className='text-lg font-semibold'>2%</span>
         </div>
         <div className='mb-2 text-2xl font-semibold text-beige-700'>
@@ -25,71 +94,4 @@ const ChallengeCard = () => {
   );
 };
 
-interface StatCardProps {
-  title: string;
-  value: string;
-  icon?: string;
-  unit?: string;
-}
-
-const StatCard: React.FC<StatCardProps> = ({ title, value, icon, unit }) => {
-  return (
-    <Card className='text-beige-799 w-[316px] rounded-lg bg-white'>
-      <CardContent className='p-4'>
-        <div className='flex items-center justify-between text-beige-700'>
-          <div>
-            <span>{title}</span>
-            <h2 className='text-2xl font-semibold'>{value}</h2>
-          </div>
-          <div className='text-sm text-gray-300'>
-            {/* <i className={icon}></i> {unit} */}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-interface ReadingSummaryProps {}
-
-export const ReadingSummary: React.FC<ReadingSummaryProps> = ({}) => {
-  return (
-    <section aria-labelledby='currently-reading-status'>
-      <h2
-        className={cn(
-          dm_sefif_display.className,
-          'mb-4 text-2xl font-semibold text-beige-700'
-        )}
-      >
-        Reading Summary
-      </h2>
-
-      <div className='flex flex-col gap-4'>
-        <ChallengeCard />
-        {/* open book */}
-        <StatCard title='You are currently reading' value='0 books' />
-        {/* bookmark */}
-        <StatCard
-          title='You want to read'
-          value='140 books'
-          icon='fas fa-check'
-          unit='0 books'
-        />
-        {/* Checkmark */}
-        <StatCard
-          title='You finished'
-          value='100 books'
-          icon='fas fa-check'
-          unit='0 books'
-        />
-        {/* Streak */}
-        <StatCard
-          title='Your longest streak'
-          value='100 days'
-          icon='fas fa-check'
-          unit='0 books'
-        />
-      </div>
-    </section>
-  );
-};
+export { ReadingSummary };

@@ -46,6 +46,7 @@ module.exports = {
         72: '18rem',
         92: '23rem',
         96: '24rem',
+        100: '28rem',
       },
       colors: {
         border: 'hsl(var(--border))',
