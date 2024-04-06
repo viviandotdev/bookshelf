@@ -4,8 +4,10 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { UserBookService } from 'libs/user-book/user-book.service';
 import { BookRepository } from './book.repository';
-import { BookData } from 'libs/user-book/types';
 import axiosInstance from 'src/config/axios.config';
+import { format, subDays } from 'date-fns';
+import { ConfigService } from '@nestjs/config';
+import { getGoogleBook } from './api/google.api';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
@@ -14,6 +16,7 @@ export class BookService {
   constructor(
     private readonly prisma: PrismaRepository,
     private readonly userBook: UserBookService,
+    private configService: ConfigService,
     private readonly repository: BookRepository,
   ) {}
 
@@ -72,6 +75,9 @@ export class BookService {
           ...data,
           ...(identifiers && { identifier: { create: identifiers } }),
         },
+        include: {
+          covers: true,
+        },
       };
 
       book = await this.prisma.book.create(createBookArgs);
@@ -82,5 +88,60 @@ export class BookService {
     }
 
     return book;
+  }
+  async getBestsellers(list: string) {
+    // Get the current date
+    const currentDate = new Date();
+
+    // Find the closest Sunday before the current date
+    const closestSunday = subDays(currentDate, currentDate.getDay());
+
+    // Format the closest Sunday date to YYYY-MM-DD
+    const publishedDate = format(closestSunday, 'yyyy-MM-dd');
+
+    // Check if the database includes books on that published date
+    const existingBooks = await this.prisma.bestseller.findMany({
+      where: { publishedDate, listName: list },
+    });
+
+    if (existingBooks.length === 0) {
+      // Delete previous bestsellers
+      await this.prisma.bestseller.deleteMany({
+        where: { publishedDate, listName: list },
+      });
+      // Call the NYT Books API
+      const API_KEY = this.configService.get<string>('nyt.api');
+
+      const url = `https://api.nytimes.com/svc/books/v3/lists/${publishedDate}/${list}.json?api-key=${API_KEY}`;
+      const response = await axiosInstance.get(url);
+      const books = response.data.results.books;
+
+      // Loop through the returned results and add them to the Prisma database
+      for (const book of books) {
+        //   Get google book?
+        const { id } = await getGoogleBook({
+          isbn: book.primary_isbn10,
+          isbn13: book.primary_isbn13,
+          title: book.title,
+          authors: [book.author],
+        });
+        await this.prisma.bestseller.create({
+          data: {
+            title: book.title,
+            author: book.author,
+            bookImage: book.book_image,
+            description: book.description,
+            publishedDate: publishedDate,
+            listName: list,
+            googleId: id,
+          },
+        });
+      }
+    }
+
+    // Return the new bestsellers
+    return this.prisma.bestseller.findMany({
+      where: { publishedDate, listName: list },
+    });
   }
 }

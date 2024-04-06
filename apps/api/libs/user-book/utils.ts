@@ -175,6 +175,7 @@ export function processGoogleBook(
     medium: book.volumeInfo.imageLinks?.small || '',
     large: book.volumeInfo.imageLinks?.medium || '',
   };
+
   const description: string = book.volumeInfo.description || '';
   const allCategories =
     book.volumeInfo.categories?.flatMap((category: string) =>
@@ -192,6 +193,60 @@ export function processGoogleBook(
     language,
     categories,
     imageLinks,
+  };
+  return bookData;
+}
+
+export function processBook(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  book: any,
+): BookData | null {
+  const title: string = book.volumeInfo.title;
+  const authors: string[] = book.volumeInfo.authors;
+  // Skip processing the book if the title and author is already encountered
+  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
+  const publisher: string = book.volumeInfo.publisher || 'N/A';
+  const description: string = book.volumeInfo.description || 'N/A';
+  const pageCount: number = book.volumeInfo.pageCount || 0;
+  const averageRating: number = book.volumeInfo.averageRating || 0;
+  let isbn10: string = 'N/A';
+  let isbn13: string = 'N/A';
+  if (book.volumeInfo.industryIdentifiers) {
+    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
+    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
+
+    if (identifier1) isbn10 = identifier1;
+    if (identifier2) isbn13 = identifier2;
+  }
+  const imageLinks = {
+    small: book.volumeInfo.imageLinks?.thumbnail || '',
+    medium: book.volumeInfo.imageLinks?.small || '',
+    large: book.volumeInfo.imageLinks?.medium || '',
+  };
+  const allCategories =
+    book.volumeInfo.categories?.flatMap((category: string) =>
+      category.split(' / '),
+    ) || [];
+  const categories = allCategories.filter(
+    (value: string, index: number, self: string[]) => {
+      return self.indexOf(value) === index;
+    },
+  );
+  const language = book.volumeInfo.language || '';
+  const bookData: BookData = {
+    id: book.id,
+    title,
+    averageRating,
+    authors,
+    publishedDate,
+    publisher,
+    categories,
+    imageLinks,
+    description,
+    pageCount,
+    isbn10,
+    isbn13,
+    language,
   };
   return bookData;
 }
