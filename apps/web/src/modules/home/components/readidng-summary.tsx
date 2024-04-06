@@ -76,7 +76,6 @@ const ChallengeCard = () => {
     <Card className='text-beige-799 mt-4 rounded-lg bg-white'>
       <CardContent className='p-4'>
         <div className='mb-2 flex items-center justify-between'>
-          {/* target icon */}
           <div className='flex gap-2 text-beige-700'>
             <Icons.goal className='text-beige-600' />
             <span>2024 Reading Goal</span>

@@ -25,7 +25,7 @@ export default async function IndexPage() {
     });
 
     return (
-      <main className='container z-40 mx-auto max-w-[1440px] flex-1 p-0'>
+      <main className='container z-40 mx-auto max-w-4xl flex-1  p-0 px-4 sm:px-6 lg:max-w-6xl xl:max-w-[1440px] xl:px-8'>
         <HomeTemplate
           shelves={shelves}
           currentlyReading={currentlyReading}
