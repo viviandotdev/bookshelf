@@ -21,6 +21,11 @@ const nextConfig = {
         hostname: 'covers.openlibrary.org',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+      },
     ],
   },
 };

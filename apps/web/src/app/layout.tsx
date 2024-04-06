@@ -7,6 +7,13 @@ import { SessionProvider } from 'next-auth/react';
 import { Toaster } from '@/components/ui/toaster';
 import { ModalProvider } from '@/providers/modal-provider';
 import NextTopLoader from 'nextjs-toploader';
+import {
+  HydrationBoundary,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import QueryProvider from '@/providers/query-provider';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -31,9 +38,11 @@ export default function RootLayout({
         />
         <SessionProvider session={session}>
           <ApolloClientProvider>
-            <ModalProvider />
-            <Toaster />
-            {children}
+            <QueryProvider>
+              <ModalProvider />
+              <Toaster />
+              {children}
+            </QueryProvider>
           </ApolloClientProvider>
         </SessionProvider>
       </body>
