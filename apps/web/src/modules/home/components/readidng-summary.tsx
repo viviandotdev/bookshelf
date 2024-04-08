@@ -2,17 +2,9 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { dm_sefif_display } from '@/lib/fonts';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Icons } from '@/components/icons';
-import { LucideIcon } from 'lucide-react';
-
-const IconLabel = ({ icon, children }: any) => (
-  <div className='flex items-center space-x-2'>
-    {icon}
-    <span>{children}</span>
-  </div>
-);
 
 const ReadingItem = ({
   icon,
@@ -23,55 +15,53 @@ const ReadingItem = ({
   label: string;
   value: string;
 }) => (
-  <div className='flex justify-between py-3'>
-    <IconLabel icon={icon}>{label}</IconLabel>
-    <span className='font-semibold'>{value}</span>
+  <div className='flex cursor-pointer justify-between py-3'>
+    <div className='flex items-center space-x-4'>
+      <div className='rounded-md bg-beige-100 p-4 text-beige-600'>{icon}</div>
+      <div className='flex flex-col text-beige-700'>
+        <span className='text-lg font-bold'>{value}</span>
+        <span>{label}</span>
+      </div>
+    </div>
+    <div className='content-center font-semibold text-beige-700'>
+      <span>
+        <Icons.chevronRight className='' />
+      </span>
+    </div>
   </div>
 );
 
 const ReadingSummary = () => {
   return (
-    <section>
-      <h2
-        className={cn(
-          dm_sefif_display.className,
-          'mb-4 text-2xl font-semibold text-beige-700'
-        )}
-      >
+    <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
+      <CardHeader className='p-6 pb-2 text-xl font-bold text-beige-700'>
         Reading Summary
-      </h2>
-      <Card className='overflow-hidden rounded-lg bg-white'>
-        <CardContent className='py-3'>
-          <div className='flex flex-col divide-y divide-gray-200'>
-            <ReadingItem
-              icon={<Icons.bookOpen className='text-beige-600' />}
-              label='You are currently reading'
-              value='4 books'
-            />
-            <ReadingItem
-              icon={<Icons.save className='text-beige-600' />}
-              label='You want to read'
-              value='234 books'
-            />
-            <ReadingItem
-              icon={<Icons.book className='text-beige-600' />}
-              label='You finished'
-              value='100 books'
-            />
-            <ReadingItem
-              icon={<Icons.streak className='text-beige-600' />}
-              label='Your longest streak'
-              value='10 days'
-            />
-          </div>
-        </CardContent>
-      </Card>
-      <ChallengeCard />
-    </section>
+      </CardHeader>
+      <CardContent className=''>
+        <div className='flex flex-col divide-y divide-gray-200'>
+          <ReadingItem
+            icon={<Icons.bookOpen />}
+            label='Currently Reading'
+            value='4 books'
+          />
+          <ReadingItem
+            icon={<Icons.save />}
+            label='Want to Read'
+            value='234 books'
+          />
+          <ReadingItem icon={<Icons.book />} label='Read' value='100 books' />
+          <ReadingItem
+            icon={<Icons.streak />}
+            label='Longest  streak'
+            value='10 days'
+          />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
-const ChallengeCard = () => {
+export const ChallengeCard = () => {
   return (
     <Card className='text-beige-799 mt-4 rounded-lg bg-white'>
       <CardContent className='p-4'>

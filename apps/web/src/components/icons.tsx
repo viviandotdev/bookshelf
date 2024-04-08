@@ -13,6 +13,7 @@ import {
   Dot,
   LayoutGrid,
   LayoutList,
+  Settings,
   PieChart,
   Search,
   Trash,
@@ -58,7 +59,7 @@ const bookShelf = ({ className }: { className: string }) => (
   </svg>
 );
 
-const openBook = ({ className }: { className: string }) => (
+const openBook = ({ className }: { className?: string }) => (
   <svg
     className={className}
     xmlns='http://www.w3.org/2000/svg'
@@ -139,4 +140,5 @@ export const Icons = {
   owned: Backpack,
   streak: Flame,
   goal: Target,
+  customize: Settings,
 };

@@ -18,13 +18,9 @@ import Link from 'next/link';
 
 interface ReadingCardProps {
   userBook: UserBook;
-  status: string;
 }
 
-export const BookCard: React.FC<ReadingCardProps> = ({
-  userBook,
-  status: cardStatus,
-}) => {
+export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
   const journalEntryModal = useJournalEntryModal();
   const { updateBookId, updateStatus, setBook, initShelves } =
@@ -36,13 +32,13 @@ export const BookCard: React.FC<ReadingCardProps> = ({
   if (!userBook) return null;
   const { book, shelves } = userBook;
   return (
-    <Card
+    <div
       className='group/item w-full'
       onMouseLeave={() => {
         setOpenDropdown(false);
       }}
     >
-      <CardContent className='relative p-2.5'>
+      <div className='relative py-3'>
         <div className='flex space-x-4'>
           <Link
             href={`/book/${book?.id}`}
@@ -53,47 +49,23 @@ export const BookCard: React.FC<ReadingCardProps> = ({
 
           <div className='flex w-full flex-col justify-center '>
             <div className='flex flex-col'>
-              <h3 className='line-clamp-2 text-sm font-medium leading-4 text-gray-900'>
+              <h3 className='line-clamp-2 text-lg font-bold leading-6 text-gray-900'>
                 <Link href={`/book/${book?.id}`} className={'hover:underline'}>
                   {book?.title}
                 </Link>
               </h3>
-              <p className='mt-1 text-xs text-gray-600'>
-                {formatAuthors(book!)}
-              </p>
-              <p className='mt-1 flex items-center gap-1.5 '>
-                {/* <Icons.read className='h-4 w-4 text-gray-400' /> */}
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setBook(book!);
-                    updateStatus(status);
-                    updateBookId(book!.id);
-                    journalEntryModal.onOpen();
-                  }}
-                  variant='pill'
-                  size='sm'
-                  className=' h-5 rounded-sm p-2 text-[9px]'
-                >
-                  Update Progress
-                </Button>
-
-                <span className=' text-[10px] text-gray-600'>•</span>
-                <span className=' items-center text-[11px] font-medium'>
-                  75%
-                </span>
-              </p>
+              <p className='text-sm text-gray-600'>by {formatAuthors(book!)}</p>
+              <p className='mt-1 flex items-center gap-1.5 '></p>
               <div
                 className={cn(
                   'hidden rounded-sm px-1 group-hover/item:block hover:bg-gray-200',
                   openDropdown && 'block'
                 )}
               >
-                <div className='absolute right-2 top-2 flex rounded-md shadow-md'>
+                <div className='absolute right-2 top-2 flex rounded-md'>
                   <BookActions
                     book={book!}
                     setOpenAlert={setOpenAlert}
-                    // openAlert={openAlert}
                     openDropdown={openDropdown}
                     setOpenDropdown={setOpenDropdown}
                     status={status}
@@ -118,8 +90,8 @@ export const BookCard: React.FC<ReadingCardProps> = ({
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 export default BookCard;
