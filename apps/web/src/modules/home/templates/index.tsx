@@ -10,10 +10,9 @@ import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { dm_sefif_display } from '@/lib/fonts';
 import BookCover from '@/components/book-cover';
-import { Dot } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { Icons } from '@/components/icons';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import CurrentlyReading from '../components/currently-reading';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
   shelves: Shelf[];
@@ -38,11 +37,11 @@ export default function HomeTemplate({
           <div className='grid grid-cols-1 gap-4 xl:col-span-11'>
             <section aria-labelledby='section-1-title' className='mb-4'>
               <div id='section-1-title'>
-                <div className='overflow-hidden rounded-lg text-beige-700'>
+                <div className='ml-1 overflow-hidden rounded-lg text-beige-700'>
                   <div className='text-4xl font-bold'>
                     Welcome back, Vivian 👋
                   </div>
-                  <span className='font-medium text-gray-500'>
+                  <span className='mt-1 text-xl text-gray-400'>
                     Here's what you've been reading
                   </span>
                 </div>
@@ -58,62 +57,7 @@ export default function HomeTemplate({
               <div className={'flex flex-col gap-2 '}>
                 <div className='divide-y'>
                   {currentlyReading.map((book, idx) => (
-                    <div className='flex justify-between'>
-                      <div className='flex gap-4 border-gray-100 p-2'>
-                        <div className='flex flex-col gap-1'>
-                          <div className='flex gap-4'>
-                            <BookCover
-                              src={getCoverUrl(book.book, Size.Small)}
-                              size={'xxs'}
-                            />
-                            <div className='space-y-1'>
-                              <h2
-                                className={cn(
-                                  dm_sefif_display.className,
-                                  'text-xl leading-5 text-beige'
-                                )}
-                              >
-                                {book.book.title}
-                              </h2>
-                              <div className='flex items-center gap-2'>
-                                <p className='text-sm text-gray-400'>
-                                  by {formatAuthors(book.book!)}
-                                </p>
-                                <div className='flex items-center'></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className='flex items-center font-medium'>
-                            <span className='text-sm text-gray-700'></span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className='flex justify-end gap-4 p-2'>
-                        <div>
-                          <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
-                            <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
-                              <Progress className='items-center' value={23} />
-                              <div className='flex items-center gap-0.5'>
-                                {23}%
-                              </div>
-                            </div>
-                            <div className='flex w-max items-center text-xs font-medium text-gray-500'>
-                              <div>
-                                {100} / {223} pages read
-                              </div>
-                              {/* <Dot className='h-5 w-5' />
-                              <div>
-                                {21} / {233} pages
-                              </div> */}
-                            </div>
-                          </div>
-                        </div>
-                        <div className='flex justify-end'>
-                          <Button>Update Progress</Button>
-                        </div>
-                      </div>
-                    </div>
+                    <CurrentlyReading userBook={book} />
                   ))}
                 </div>
               </div>
