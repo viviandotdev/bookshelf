@@ -1,14 +1,14 @@
 import React from 'react';
 import { Shelf, UserBook } from '@/graphql/graphql';
 import { ReadingSummary } from '../components/readidng-summary';
-import { BestsellerList, MainBookList } from '../components/main-booklist';
+import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import CurrentlyReading from '../components/currently-reading';
 import BookCard from '../components/book-card';
-import { Icons } from '@/components/icons';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
+  mainList: UserBook[];
   shelves: Shelf[];
   username: string;
   upNext: UserBook[];
@@ -17,6 +17,7 @@ interface HomeTemplateProps {
 
 export default function HomeTemplate({
   currentlyReading,
+  mainList,
   username,
   shelves,
   upNext,
@@ -41,7 +42,7 @@ export default function HomeTemplate({
                 </div>
               </div>
             </section>
-            <MainBookList books={books} />
+            <MainBookList books={mainList} />
             <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
               <div className='flex justify-between'>
                 <h2 className={cn('mb-4 text-xl font-semibold text-beige-700')}>

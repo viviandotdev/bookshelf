@@ -12,7 +12,11 @@ export default async function IndexPage() {
 
     const fiction = await bestsellers('hardcover-fiction');
     const nonfiction = await bestsellers('hardcover-nonfiction');
-
+    const wantToRead = await getUserBooks({
+      status: {
+        equals: 'Want to Read',
+      },
+    });
     const currentlyReading = await getUserBooks({
       status: {
         equals: 'Currently Reading',
@@ -29,6 +33,7 @@ export default async function IndexPage() {
         <HomeTemplate
           shelves={shelves}
           username={user.username}
+          mainList={wantToRead}
           currentlyReading={currentlyReading}
           upNext={upNext}
           books={fiction}

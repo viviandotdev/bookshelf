@@ -1,3 +1,4 @@
+import Book from '@/components/book';
 import BookCover from '@/components/book-cover';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ export const MainBookList = ({ books }: { books: UserBook[] }) => (
       {books &&
         books.slice(0, 5).map((book: UserBook, idx: number) => (
           <div key={idx} className={'flex-row'}>
-            {/* <Book /> */}
+            <Book userBook={book} showRemoveBook={true} view='gallery' />
           </div>
         ))}
     </div>
