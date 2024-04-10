@@ -34,8 +34,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
             <div className='space-y-1'>
               <h2
                 className={cn(
-                  dm_sefif_display.className,
-                  'text-xl leading-5 text-beige'
+                  'text-lg  font-semibold leading-4 text-beige-700 '
                 )}
               >
                 {book.title}

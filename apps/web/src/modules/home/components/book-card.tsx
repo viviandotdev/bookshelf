@@ -49,12 +49,14 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
 
           <div className='flex w-full flex-col justify-center '>
             <div className='flex flex-col'>
-              <h3 className='line-clamp-2 text-lg font-bold leading-6 text-gray-900'>
+              <h3 className='line-clamp-2 text-lg font-bold leading-6 text-beige-700'>
                 <Link href={`/book/${book?.id}`} className={'hover:underline'}>
                   {book?.title}
                 </Link>
               </h3>
-              <p className='text-sm text-gray-600'>by {formatAuthors(book!)}</p>
+              <p className='text-sm text-beige-700'>
+                by {formatAuthors(book!)}
+              </p>
               <p className='mt-1 flex items-center gap-1.5 '></p>
               <div
                 className={cn(

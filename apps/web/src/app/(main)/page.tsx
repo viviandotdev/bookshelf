@@ -28,10 +28,11 @@ export default async function IndexPage() {
       <main className='container z-40 mx-auto max-w-4xl flex-1  p-0 px-4 sm:px-6 lg:max-w-6xl xl:max-w-[1440px] xl:px-8'>
         <HomeTemplate
           shelves={shelves}
+          username={user.username}
           currentlyReading={currentlyReading}
           upNext={upNext}
-          fiction={fiction}
-          nonfiction={nonfiction}
+          books={fiction}
+          //   nonfiction={nonfiction}
         />
       </main>
     );
