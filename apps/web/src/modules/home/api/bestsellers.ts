@@ -1,10 +1,6 @@
 'use server';
 
-import {
-  BestsellersDocument,
-  BestsellersMutation,
-  BestsellersQuery,
-} from '@/graphql/graphql';
+import { BestsellersDocument, BestsellersQuery } from '@/graphql/graphql';
 import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 

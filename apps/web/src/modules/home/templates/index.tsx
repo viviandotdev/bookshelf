@@ -1,18 +1,20 @@
 import React from 'react';
-import { Shelf, UserBook } from '@/graphql/graphql';
+import { Bestseller, Shelf, UserBook } from '@/graphql/graphql';
 import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import CurrentlyReading from '../components/currently-reading';
 import BookCard from '../components/book-card';
+import { BestsellerList } from '../components/bestseller-list';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
   mainList: UserBook[];
   shelves: Shelf[];
   username: string;
   upNext: UserBook[];
-  books: UserBook[];
+  fiction: Bestseller[];
+  nonfiction: Bestseller[];
 }
 
 export default function HomeTemplate({
@@ -21,7 +23,8 @@ export default function HomeTemplate({
   username,
   shelves,
   upNext,
-  books,
+  fiction,
+  nonfiction,
 }: HomeTemplateProps) {
   return (
     <>
@@ -42,21 +45,31 @@ export default function HomeTemplate({
                 </div>
               </div>
             </section>
-            <MainBookList books={mainList} />
-            <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
-              <div className='flex justify-between'>
-                <h2 className={cn('mb-4 text-xl font-semibold text-beige-700')}>
-                  Currently Reading
-                </h2>
-              </div>
-              <div className={'flex flex-col gap-2 '}>
-                <div className='divide-y'>
-                  {currentlyReading.map((book, idx) => (
-                    <CurrentlyReading userBook={book} />
-                  ))}
+            {mainList.length > 0 ? (
+              <MainBookList books={mainList} currView={'fiction'} />
+            ) : (
+              <MainBookList books={mainList} currView={'fiction'} />
+            )}
+
+            {/* <Bestseller /> */}
+            {currentlyReading.length > 0 && (
+              <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
+                <div className='flex justify-between'>
+                  <h2
+                    className={cn('mb-4 text-xl font-semibold text-beige-700')}
+                  >
+                    Currently Reading
+                  </h2>
                 </div>
-              </div>
-            </section>
+                <div className={'flex flex-col gap-2 '}>
+                  <div className='divide-y'>
+                    {currentlyReading.map((book, idx) => (
+                      <CurrentlyReading userBook={book} />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
           </div>
           {/* Right column */}
           <div className='grid grid-cols-1 gap-4  xl:col-span-5 '>

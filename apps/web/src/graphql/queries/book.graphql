@@ -36,6 +36,7 @@ query GetGoogleBook($id: String!) {
 
 query Bestsellers($list: String!) {
   bestsellers(list: $list) {
+    id
     title
     author
     description

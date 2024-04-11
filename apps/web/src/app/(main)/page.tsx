@@ -36,8 +36,8 @@ export default async function IndexPage() {
           mainList={wantToRead}
           currentlyReading={currentlyReading}
           upNext={upNext}
-          books={fiction}
-          //   nonfiction={nonfiction}
+          fiction={fiction}
+          nonfiction={nonfiction}
         />
       </main>
     );

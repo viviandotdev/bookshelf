@@ -9,7 +9,6 @@ import {
   ChevronRight,
   ArrowRight,
   Book,
-  BookOpen,
   Dot,
   LayoutGrid,
   LayoutList,

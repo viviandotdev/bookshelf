@@ -5156,7 +5156,7 @@ export type BestsellersQueryVariables = Exact<{
 }>;
 
 
-export type BestsellersQuery = { __typename?: 'Query', bestsellers: Array<{ __typename?: 'Bestseller', title: string, author: string, description: string, bookImage: string, googleId: string, publishedDate: string, listName: string }> };
+export type BestsellersQuery = { __typename?: 'Query', bestsellers: Array<{ __typename?: 'Bestseller', id: string, title: string, author: string, description: string, bookImage: string, googleId: string, publishedDate: string, listName: string }> };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6502,6 +6502,7 @@ export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, Ge
 export const BestsellersDocument = gql`
     query Bestsellers($list: String!) {
   bestsellers(list: $list) {
+    id
     title
     author
     description
