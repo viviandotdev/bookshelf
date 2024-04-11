@@ -170,7 +170,6 @@ export const JournalEntryForm: React.FC = ({}) => {
   });
 
   async function onSubmit(values: DisplayFormValues) {
-    console.log('values', values);
     let currentPage;
     let currentPercent;
     const totalPages = userBook.book && userBook.book.pageCount;

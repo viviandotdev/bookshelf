@@ -37,7 +37,6 @@ export function cleanText(text: string) {
 }
 
 export function getCoverUrl(book: Book, size: string) {
-  console.log(book);
   if (!book || !book.covers || book.covers.length === 0) {
     return DEFAULT_BOOKCOVER_PLACEHOLDER;
   }

@@ -1,6 +1,6 @@
 'use client';
 import { Size, UserBook } from '@/graphql/graphql';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
@@ -10,6 +10,8 @@ import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import useLoadJournalEntry from '@/modules/journal/queries/use-load-entry';
+import { Bokor } from 'next/font/google';
 
 interface CurrentlyReadingProps {
   userBook: UserBook;
@@ -25,6 +27,23 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   if (!userBook) return null;
   const { book, shelves } = userBook;
+  const { setJournalEntry, journalEntry } = useJournalEntryModal();
+  const loadEntry = useLoadJournalEntry(setJournalEntry);
+  const { percent, page } = journalEntry;
+
+  useEffect(() => {
+    // Fetch most recent entry if adding new journal entry
+    const loadData = async () => {
+      await loadEntry({
+        variables: {
+          book: {
+            id: parseInt(book.id),
+          },
+        },
+      });
+    };
+    loadData();
+  }, [loadEntry]);
   return (
     <div className='flex justify-between'>
       <div className='flex gap-4 border-gray-100 p-2'>
@@ -57,12 +76,12 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
         <div>
           <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
             <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
-              <Progress className='items-center' value={23} />
-              <div className='flex items-center gap-0.5'>{23}%</div>
+              <Progress className='items-center' value={percent} />
+              <div className='flex items-center gap-0.5'>{percent}%</div>
             </div>
             <div className='flex w-max items-center text-xs font-medium text-gray-500'>
               <div>
-                {100} / {223} pages read
+                {page} / {book?.pageCount} pages read
               </div>
             </div>
           </div>
