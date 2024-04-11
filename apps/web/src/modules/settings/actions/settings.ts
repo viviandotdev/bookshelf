@@ -18,8 +18,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
 
   if (user.isOAuth) {
     values.email = undefined;
-    values.password = undefined;
-    values.newPassword = undefined;
   }
 
   const { data, errors } = await client.mutate<UpdateUserMutation>({

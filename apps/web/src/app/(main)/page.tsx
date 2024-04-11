@@ -4,14 +4,13 @@ import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import HomeTemplate from '@/modules/home/templates';
 import MarketingTemplate from '@/modules/marketing/templates';
 import { bestsellers } from '@/modules/home/api/bestsellers';
+import { summary } from '@/modules/home/api/summary';
 
 export default async function IndexPage() {
   const user = await getCurrentUser();
   if (user) {
     const { shelves } = await getShelves();
 
-    const fiction = await bestsellers('hardcover-fiction');
-    const nonfiction = await bestsellers('hardcover-nonfiction');
     const wantToRead = await getUserBooks({
       status: {
         equals: 'Want to Read',
@@ -28,16 +27,17 @@ export default async function IndexPage() {
       },
     });
 
+    const summaryData = await summary();
+
     return (
       <main className='container z-40 mx-auto max-w-4xl flex-1  p-0 px-4 sm:px-6 lg:max-w-6xl xl:max-w-[1440px] xl:px-8'>
         <HomeTemplate
           shelves={shelves}
           username={user.username}
-          mainList={wantToRead}
+          wantToRead={wantToRead}
           currentlyReading={currentlyReading}
           upNext={upNext}
-          fiction={fiction}
-          nonfiction={nonfiction}
+          summaryData={summaryData}
         />
       </main>
     );

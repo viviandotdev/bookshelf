@@ -19,7 +19,7 @@ export async function getUserBooks(where: UserBookWhereInput) {
       where,
     },
   });
-
+  
   return data.getUserBooks.userBooks
     ? (data.getUserBooks.userBooks as UserBook[])
     : [];

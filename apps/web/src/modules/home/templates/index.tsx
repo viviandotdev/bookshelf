@@ -1,30 +1,35 @@
 import React from 'react';
-import { Bestseller, Shelf, UserBook } from '@/graphql/graphql';
+import {
+  Bestseller,
+  CountUserBooksQuery,
+  Shelf,
+  UserBook,
+} from '@/graphql/graphql';
 import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import CurrentlyReading from '../components/currently-reading';
 import BookCard from '../components/book-card';
-import { BestsellerList } from '../components/bestseller-list';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
-  mainList: UserBook[];
+  wantToRead: UserBook[];
   shelves: Shelf[];
   username: string;
   upNext: UserBook[];
-  fiction: Bestseller[];
-  nonfiction: Bestseller[];
+  summaryData: {
+    wantToRead: number;
+    currentlyReading: number;
+    read: number;
+  };
 }
 
 export default function HomeTemplate({
   currentlyReading,
-  mainList,
+  wantToRead,
   username,
-  shelves,
+  summaryData,
   upNext,
-  fiction,
-  nonfiction,
 }: HomeTemplateProps) {
   return (
     <>
@@ -45,13 +50,8 @@ export default function HomeTemplate({
                 </div>
               </div>
             </section>
-            {mainList.length > 0 ? (
-              <MainBookList books={mainList} currView={'fiction'} />
-            ) : (
-              <MainBookList books={mainList} currView={'fiction'} />
-            )}
+            <MainBookList books={wantToRead} currView={'want-to-read'} />
 
-            {/* <Bestseller /> */}
             {currentlyReading.length > 0 && (
               <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
                 <div className='flex justify-between'>
@@ -77,7 +77,10 @@ export default function HomeTemplate({
               <div className='overflow-hidden rounded-lg'>
                 <div className='py-4 shadow-md'>
                   <div className='space-y-4'>
-                    <ReadingSummary />
+                    <ReadingSummary
+                      summaryData={summaryData}
+                      username={username}
+                    />
                     {/* <ChallengeCard /> */}
                     <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
                       <CardHeader className='p-6 pb-2 text-xl font-bold text-beige-700'>

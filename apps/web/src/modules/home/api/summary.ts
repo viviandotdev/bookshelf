@@ -1,27 +1,50 @@
 'use server';
 
 import { CountUserBooksDocument, CountUserBooksQuery } from '@/graphql/graphql';
-import { getApolloClient, httpLink } from '@/lib/apollo';
+import { getApolloClient, httpLink, setAuthToken } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
 export async function summary() {
   const user = await getCurrentUser();
   const client = getApolloClient();
-  client.setLink(httpLink);
+  client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
 
   const { data: wantToRead } = await client.query<CountUserBooksQuery>({
     query: CountUserBooksDocument,
     variables: {
-      where: {},
+      where: {
+        status: {
+          equals: 'Want to Read',
+        },
+      },
     },
   });
 
-  const { data } = await client.query<CountUserBooksQuery>({
+  const { data: currentlyReading } = await client.query<CountUserBooksQuery>({
     query: CountUserBooksDocument,
     variables: {
-      where: {},
+      where: {
+        status: {
+          equals: 'Want to Read',
+        },
+      },
     },
   });
 
-  return data.countUserBooks || 0;
+  const { data: read } = await client.query<CountUserBooksQuery>({
+    query: CountUserBooksDocument,
+    variables: {
+      where: {
+        status: {
+          equals: 'Want to Read',
+        },
+      },
+    },
+  });
+
+  return {
+    wantToRead: wantToRead.countUserBooks,
+    currentlyReading: currentlyReading.countUserBooks,
+    read: read.countUserBooks,
+  };
 }
