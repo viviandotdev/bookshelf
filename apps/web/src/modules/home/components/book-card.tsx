@@ -9,21 +9,18 @@ import EditBookCardMenu from './edit-book-card-menu';
 import LogBookButton from '@/modules/layout/components/log-book-button';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { cn, getCoverUrl } from '@/lib/utils';
+import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 
 import BookActions from '@/components/book-actions';
+import Link from 'next/link';
 
 interface ReadingCardProps {
   userBook: UserBook;
-  status: string;
 }
 
-export const BookCard: React.FC<ReadingCardProps> = ({
-  userBook,
-  status: cardStatus,
-}) => {
+export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
   const journalEntryModal = useJournalEntryModal();
   const { updateBookId, updateStatus, setBook, initShelves } =
@@ -35,54 +32,42 @@ export const BookCard: React.FC<ReadingCardProps> = ({
   if (!userBook) return null;
   const { book, shelves } = userBook;
   return (
-    <Card
-      className='group/item w-full cursor-pointer'
+    <div
+      className='group/item w-full'
       onMouseLeave={() => {
         setOpenDropdown(false);
       }}
     >
-      <CardContent className='relative p-2.5'>
+      <div className='relative py-3'>
         <div className='flex space-x-4'>
-          <BookCover src={getCoverUrl(book, Size.Small)} size={'xs'} />
-          <div className='flex flex-col justify-center '>
+          <Link
+            href={`/book/${book?.id}`}
+            className={'text-beige hover:text-stone-500'}
+          >
+            <BookCover src={getCoverUrl(book!, Size.Small)} size={'xs'} />
+          </Link>
+
+          <div className='flex w-full flex-col justify-center '>
             <div className='flex flex-col'>
-              <h3 className='line-clamp-1 text-base font-medium text-gray-900'>
-                {book?.title}
+              <h3 className='line-clamp-2 text-lg font-bold leading-6 text-beige-700'>
+                <Link href={`/book/${book?.id}`} className={'hover:underline'}>
+                  {book?.title}
+                </Link>
               </h3>
-              <p className='text-sm text-gray-600'>
-                {book?.authors && book?.authors[0].name}
+              <p className='text-sm text-beige-700'>
+                by {formatAuthors(book!)}
               </p>
-              <p className='flex items-center gap-1 text-sm text-gray-500'>
-                <Icons.read className='h-4 w-4 text-gray-400' />
-                Finished
-              </p>
+              <p className='mt-1 flex items-center gap-1.5 '></p>
               <div
                 className={cn(
                   'hidden rounded-sm px-1 group-hover/item:block hover:bg-gray-200',
                   openDropdown && 'block'
                 )}
               >
-                <div className='absolute right-2 top-2 flex rounded-md shadow-md'>
-                  {cardStatus == 'Currently Reading' && (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setBook(book!);
-                        updateStatus(status);
-                        updateBookId(book!.id);
-                        journalEntryModal.onOpen();
-                      }}
-                      variant={'card'}
-                      size={'xs'}
-                      className={cn('rounded-l-md px-2')}
-                    >
-                      <Icons.plus className={`h-4 w-4`} />
-                    </Button>
-                  )}
+                <div className='absolute right-2 top-2 flex rounded-md'>
                   <BookActions
                     book={book!}
                     setOpenAlert={setOpenAlert}
-                    // openAlert={openAlert}
                     openDropdown={openDropdown}
                     setOpenDropdown={setOpenDropdown}
                     status={status}
@@ -107,8 +92,8 @@ export const BookCard: React.FC<ReadingCardProps> = ({
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 export default BookCard;

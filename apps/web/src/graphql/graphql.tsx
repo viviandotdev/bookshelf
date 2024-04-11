@@ -573,6 +573,65 @@ export type AuthResponse = {
   verificationToken?: Maybe<Scalars['String']>;
 };
 
+export type Bestseller = {
+  __typename?: 'Bestseller';
+  author: Scalars['String'];
+  bookImage: Scalars['String'];
+  description: Scalars['String'];
+  googleId: Scalars['String'];
+  id: Scalars['ID'];
+  listName: Scalars['String'];
+  publishedDate: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type BestsellerAvgAggregate = {
+  __typename?: 'BestsellerAvgAggregate';
+  id?: Maybe<Scalars['Float']>;
+};
+
+export type BestsellerCountAggregate = {
+  __typename?: 'BestsellerCountAggregate';
+  _all: Scalars['Int'];
+  author: Scalars['Int'];
+  bookImage: Scalars['Int'];
+  description: Scalars['Int'];
+  googleId: Scalars['Int'];
+  id: Scalars['Int'];
+  listName: Scalars['Int'];
+  publishedDate: Scalars['Int'];
+  title: Scalars['Int'];
+};
+
+export type BestsellerMaxAggregate = {
+  __typename?: 'BestsellerMaxAggregate';
+  author?: Maybe<Scalars['String']>;
+  bookImage?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  listName?: Maybe<Scalars['String']>;
+  publishedDate?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type BestsellerMinAggregate = {
+  __typename?: 'BestsellerMinAggregate';
+  author?: Maybe<Scalars['String']>;
+  bookImage?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  googleId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  listName?: Maybe<Scalars['String']>;
+  publishedDate?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type BestsellerSumAggregate = {
+  __typename?: 'BestsellerSumAggregate';
+  id?: Maybe<Scalars['Int']>;
+};
+
 export type Book = {
   __typename?: 'Book';
   _count: BookCount;
@@ -2238,6 +2297,7 @@ export type PasswordResetTokenMinAggregate = {
 export type Query = {
   __typename?: 'Query';
   auditLogs: ActivitiesResponse;
+  bestsellers: Array<Bestseller>;
   book?: Maybe<Book>;
   bookReview: Review;
   bookReviews: Array<Review>;
@@ -2261,6 +2321,11 @@ export type QueryAuditLogsArgs = {
   offset?: Scalars['Int'];
   orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereUniqueInput>;
+};
+
+
+export type QueryBestsellersArgs = {
+  list: Scalars['String'];
 };
 
 
@@ -5086,6 +5151,13 @@ export type GetGoogleBookQueryVariables = Exact<{
 
 export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
 
+export type BestsellersQueryVariables = Exact<{
+  list: Scalars['String']['input'];
+}>;
+
+
+export type BestsellersQuery = { __typename?: 'Query', bestsellers: Array<{ __typename?: 'Bestseller', id: string, title: string, author: string, description: string, bookImage: string, googleId: string, publishedDate: string, listName: string }> };
+
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
   limit?: Scalars['Int']['input'];
@@ -6427,6 +6499,48 @@ export function useGetGoogleBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GetGoogleBookQueryHookResult = ReturnType<typeof useGetGoogleBookQuery>;
 export type GetGoogleBookLazyQueryHookResult = ReturnType<typeof useGetGoogleBookLazyQuery>;
 export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, GetGoogleBookQueryVariables>;
+export const BestsellersDocument = gql`
+    query Bestsellers($list: String!) {
+  bestsellers(list: $list) {
+    id
+    title
+    author
+    description
+    bookImage
+    googleId
+    publishedDate
+    listName
+  }
+}
+    `;
+
+/**
+ * __useBestsellersQuery__
+ *
+ * To run a query within a React component, call `useBestsellersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBestsellersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBestsellersQuery({
+ *   variables: {
+ *      list: // value for 'list'
+ *   },
+ * });
+ */
+export function useBestsellersQuery(baseOptions: Apollo.QueryHookOptions<BestsellersQuery, BestsellersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BestsellersQuery, BestsellersQueryVariables>(BestsellersDocument, options);
+      }
+export function useBestsellersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BestsellersQuery, BestsellersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BestsellersQuery, BestsellersQueryVariables>(BestsellersDocument, options);
+        }
+export type BestsellersQueryHookResult = ReturnType<typeof useBestsellersQuery>;
+export type BestsellersLazyQueryHookResult = ReturnType<typeof useBestsellersLazyQuery>;
+export type BestsellersQueryResult = Apollo.QueryResult<BestsellersQuery, BestsellersQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {

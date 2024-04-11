@@ -1,6 +1,6 @@
 import { BookData } from 'libs/user-book/types';
 import axiosInstance from 'src/config/axios.config';
-import { processGoogleBook } from 'libs/user-book/utils';
+import { processBook, processGoogleBook } from 'libs/user-book/utils';
 export async function getGoogleBook(book) {
   try {
     const googleBook = await findGoogleBookByISBN(book.isbn10);
@@ -50,7 +50,7 @@ export async function findBookByGoogleBookId(bookId: string) {
     // Check if the response status is successful (status code 2xx)
     if (response.status >= 200 && response.status < 300) {
       const book: BookData = response.data; // Assuming response.data contains the book data
-      const processedBook: BookData = processGoogleBook(book) as BookData;
+      const processedBook: BookData = processBook(book) as BookData;
 
       return processedBook;
     } else {

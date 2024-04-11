@@ -1,3 +1,4 @@
+'use server';
 import {
   GetUserBooksDocument,
   GetUserBooksQuery,
@@ -18,7 +19,7 @@ export async function getUserBooks(where: UserBookWhereInput) {
       where,
     },
   });
-
+  
   return data.getUserBooks.userBooks
     ? (data.getUserBooks.userBooks as UserBook[])
     : [];

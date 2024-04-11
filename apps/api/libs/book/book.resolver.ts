@@ -1,6 +1,7 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import {
+  Bestseller,
   Book,
   BookCreateInput,
   BookWhereUniqueInput,
@@ -32,7 +33,11 @@ export class BookResolver {
         google: googleBook.id,
       },
       include: {
-        book: true, // Include related book information if needed
+        book: {
+          include: {
+            covers: true,
+          },
+        }, // Include related book information if needed
       },
     });
 
@@ -103,5 +108,10 @@ export class BookResolver {
       );
     }
     return book;
+  }
+
+  @Query(() => [Bestseller])
+  async bestsellers(@Args('list', { type: () => String }) list: string) {
+    return this.bookService.getBestsellers(list);
   }
 }

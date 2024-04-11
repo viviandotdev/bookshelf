@@ -1,106 +1,108 @@
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
 import React from 'react';
-import { Shelf, UserBook } from '@/graphql/graphql';
-import UpdateCard from '../components/update-card';
-import { BookStatusSection } from '../components/books-status-section';
+import {
+  Bestseller,
+  CountUserBooksQuery,
+  Shelf,
+  UserBook,
+} from '@/graphql/graphql';
+import { ReadingSummary } from '../components/readidng-summary';
+import { MainBookList } from '../components/main-booklist';
+import { cn } from '@/lib/utils';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import CurrentlyReading from '../components/currently-reading';
+import BookCard from '../components/book-card';
 interface HomeTemplateProps {
-    currentlyReading: UserBook[];
-    shelves: Shelf[];
-    upNext: UserBook[];
+  currentlyReading: UserBook[];
+  wantToRead: UserBook[];
+  shelves: Shelf[];
+  username: string;
+  upNext: UserBook[];
+  summaryData: {
+    wantToRead: number;
+    currentlyReading: number;
+    read: number;
+  };
 }
+
 export default function HomeTemplate({
-    currentlyReading,
-    shelves,
-    upNext,
+  currentlyReading,
+  wantToRead,
+  username,
+  summaryData,
+  upNext,
 }: HomeTemplateProps) {
-    return (
-        <>
-            <div className='mx-auto px-0'>
-                <div className='flex'>
-                    <div className='space-y-6 px-10 py-6'>
-                        <BookStatusSection
-                            details={{ progress: 90, date_started: 'Sept 12' }}
-                            status={'Currently Reading'}
-                            layout='row'
-                            booksData={currentlyReading}
-                            shelves={shelves}
-                        />
-                        <section aria-labelledby='popular-books-heading'>
-                            <h2
-                                className={cn(
-                                    dm_sefif_display.className,
-                                    'mb-4 text-2xl font-semibold text-beige-700'
-                                )}
-                            >
-                                Popular Books
-                            </h2>
-                            <div className='grid grid-cols-4 gap-4'>
-                                {Array.from({ length: 4 }, (_, idx) => (
-                                    <div key={idx}>
-                                        <div className={`relative`}>
-                                            <div className={`flex-row`}>
-                                                <div
-                                                    className={`relative flex items-start bg-beige-100`}
-                                                >
-                                                    <div
-                                                        className={`relative flex h-64 items-start bg-beige-100 opacity-30 md:h-44 lg:h-48 xl:h-60 2xl:h-72`}
-                                                    >
-                                                        {/* Adjust height based on screen breakpoints */}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                        <section aria-labelledby='updates-heading'>
-                            <h2
-                                className={cn(
-                                    dm_sefif_display.className,
-                                    'mb-4 text-2xl font-semibold text-beige-700'
-                                )}
-                            >
-                                Updates
-                            </h2>
-                            <UpdateCard />
-                        </section>
-                    </div>
-                    <aside className='hidden min-w-96 space-y-6 border-l border-gray-200 py-6 pl-10 xl:flex'>
-                        {/* <Calendar className="rounded-md border" mode="single" /> */}
-                        <div className='space-y-4'>
-                            {/* <div className="flex justify-between rounded-lg">
-                                <StatsCard title="Today Pages" value={351} />
-                                <StatsCard title="Total Check-Ins" value={167} />
-                            </div>
-                            <div className="flex justify-between rounded-lg">
-                                <StatsCard title="Current Streak" value={351} />
-                                <StatsCard title="Best Streak" value={167} />
-
-                            </div> */}
-                            {/* <div className="bg-white rounded-lg border border-gray-700/10 p-4">
-                                <h3 className="text-sm font-medium text-gray-400 mb-1">2024 READING CHALLENGE PROGRESS</h3>
-                                <p className="text-lg text-beige-600 font-semibold mb-1">{22} / {45} books completed</p>
-                                <p className="text-sm text-gray-400 mb-2">You're 2 books behind schedule</p>
-                                <div className="flex justify-center gap-2 items-center">
-                                    <Progress className="w-full items-center h-3" value={60} />
-                                    <div className="items-center text-xs text-beige-700 font-semibold">60%</div>
-                                </div>
-
-                                <p className="text-sm text-beige-700 mt-2">There are still <span className="font-semibold">{85}</span> days left! You can do it!</p>
-                            </div> */}
-                            <BookStatusSection
-                                details={{ progress: 90, date_started: 'Sept 12' }}
-                                status={'Up Next'}
-                                layout='column'
-                                booksData={upNext}
-                                shelves={shelves}
-                            />
-                        </div>
-                    </aside>
+  return (
+    <>
+      <main className='py-8'>
+        {/* Main 3 column grid */}
+        <div className='grid grid-cols-1 items-start gap-4 xl:grid-cols-16 xl:gap-8'>
+          {/* Left column */}
+          <div className='grid grid-cols-1 gap-4 xl:col-span-11'>
+            <section aria-labelledby='section-1-title' className='mb-4'>
+              <div id='section-1-title'>
+                <div className='ml-1 overflow-hidden rounded-lg text-beige-700'>
+                  <div className='text-4xl font-bold'>
+                    Welcome back, {username} 👋
+                  </div>
+                  <span className='mt-1 text-xl text-gray-400'>
+                    Here's what you've been reading
+                  </span>
                 </div>
-            </div>
-        </>
-    );
+              </div>
+            </section>
+            <MainBookList books={wantToRead} currView={'want-to-read'} />
+
+            {currentlyReading.length > 0 && (
+              <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
+                <div className='flex justify-between'>
+                  <h2
+                    className={cn('mb-4 text-xl font-semibold text-beige-700')}
+                  >
+                    Currently Reading
+                  </h2>
+                </div>
+                <div className={'flex flex-col gap-2 '}>
+                  <div className='divide-y'>
+                    {currentlyReading.map((book, idx) => (
+                      <CurrentlyReading userBook={book} />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+          </div>
+          {/* Right column */}
+          <div className='grid grid-cols-1 gap-4  xl:col-span-5 '>
+            <section aria-labelledby='section-2-title'>
+              <div className='overflow-hidden rounded-lg'>
+                <div className='py-4 shadow-md'>
+                  <div className='space-y-4'>
+                    <ReadingSummary
+                      summaryData={summaryData}
+                      username={username}
+                    />
+                    {/* <ChallengeCard /> */}
+                    <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
+                      <CardHeader className='p-6 pb-2 text-xl font-bold text-beige-700'>
+                        Up Next
+                      </CardHeader>
+                      <CardContent className=''>
+                        {upNext.length > 0 && (
+                          <div className={cn(' divide-y divide-gray-200')}>
+                            {upNext.map((book, idx) => (
+                              <BookCard key={idx} userBook={book} />
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </>
+  );
 }

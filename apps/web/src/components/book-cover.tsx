@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { twMerge } from 'tailwind-merge';
 interface BookCoverProps {
   src: string | null;
-  size?: 'xs' | 'sm' | 'lg' | 'md' | 'dynamic';
+  size?: 'xxs' | 'xs' | 'sm' | 'lg' | 'md' | 'dynamic';
   className?: string;
 }
 
@@ -16,6 +16,9 @@ const BookCover: React.FC<BookCoverProps> = ({
   let width: number = 0;
 
   switch (size) {
+    case 'xxs':
+      width = 32;
+      break;
     case 'xs':
       width = 48;
       break;

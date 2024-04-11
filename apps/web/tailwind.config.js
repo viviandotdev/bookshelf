@@ -12,6 +12,10 @@ module.exports = {
       padding: '2rem',
     },
     extend: {
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        16: 'repeat(16, minmax(0, 1fr))',
+      },
       screens: {
         '2xl': '1400px',
         '3xl': '1656px',
@@ -46,6 +50,7 @@ module.exports = {
         72: '18rem',
         92: '23rem',
         96: '24rem',
+        100: '28rem',
       },
       colors: {
         border: 'hsl(var(--border))',
