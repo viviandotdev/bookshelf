@@ -1,21 +1,13 @@
 'use client';
 import Book from '@/components/book';
 import BookCover from '@/components/book-cover';
-import { Icons } from '@/components/icons';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { useEffect, useState, useTransition } from 'react';
 import { bestsellers } from '@/modules/home/api/bestsellers';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import Link from 'next/link';
 import NoResults from '@/components/no-results';
+import CustomizeDropdown from './customize-dropdown';
 
 export const MainBookList = ({
   books,
@@ -79,83 +71,57 @@ export const MainBookList = ({
         <h2 className={cn('text-xl font-semibold text-beige-700')}>
           {getTitle(view)}
         </h2>
-        <DropdownMenu>
-          <DropdownMenuTrigger className='flex items-center gap-2'>
-            <Icons.customize className='h-4 w-4 items-center' />
-            <span>Customize</span>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align={'start'} sideOffset={8} side={'bottom'}>
-            <DropdownMenuLabel>List Preferences</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className={view == 'want-to-read' ? 'bg-beige-100' : ''}
-              onClick={() => {
-                setView('want-to-read');
-              }}
-            >
-              Want to Read
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className={view == 'fiction' ? 'bg-beige-100' : ''}
-              onClick={() => {
-                setView('fiction');
-              }}
-            >
-              New York Times Bestseller Fiction
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className={view == 'non-fiction' ? 'bg-beige-100' : ''}
-              onClick={() => {
-                setView('non-fiction');
-              }}
-            >
-              New York Times Bestseller Non-Fiction
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <CustomizeDropdown currentView={view} setView={setView} />
       </div>
-
       <div className={'grid grid-cols-5 gap-4'}>
-        {content.length > 0 ? (
-          content.slice(0, 5).map((book: any, idx: number) => (
-            <>
-              {book.userId ? (
-                <>
-                  <div key={idx} className={'flex-row'}>
-                    <Book
-                      userBook={book}
-                      showRemoveBook={false}
-                      view='gallery'
-                    />
-                  </div>
-                </>
-              ) : (
-                <div key={idx} className={'flex-row'}>
-                  <Link
-                    href={`/book/${book.googleId}`}
-                    className={'text-beige hover:text-stone-500'}
-                  >
-                    <BookCover src={book.bookImage} />
-                  </Link>
-                </div>
-              )}
-            </>
-          ))
-        ) : (
-          <div></div>
-        )}
+        {content.length > 0 &&
+          content
+            .slice(0, 5)
+            .map((book: any) => <BookItem key={book.id} book={book} />)}
       </div>
-      {content.length == 0 && (
-        <div>
-          {isPending ? (
-            <div>{/* <NoResults message={'Loading.'} /> */}</div>
-          ) : (
-            <div>
-              <NoResults message={"You don't have any Want to Read books."} />
-            </div>
-          )}
-        </div>
-      )}
+      <ContentMessage isPending={isPending} view={view} content={content} />
     </div>
   );
+};
+
+const BookItem = ({ book }: { book: any }) =>
+  book.userId ? (
+    <div className={'flex-row'}>
+      <Book userBook={book} showRemoveBook={false} view='gallery' />
+    </div>
+  ) : (
+    <div className={'flex-row'}>
+      <Link
+        href={`/book/${book.googleId}`}
+        className={'text-beige hover:text-stone-500'}
+      >
+        <BookCover src={book.bookImage} />
+      </Link>
+    </div>
+  );
+
+// Define the props for the new component
+type ContentMessageProps = {
+  isPending: boolean;
+  view: string;
+  content: any[]; // You should replace 'any' with the actual type of your content items
+};
+
+const ContentMessage: React.FC<ContentMessageProps> = ({
+  isPending,
+  view,
+  content,
+}) => {
+  let message = 'Loading...'; // Default message
+
+  // If content is not loading and the view is 'want-to-read', change the message.
+  if (!isPending && view === 'want-to-read') {
+    message = "You don't have any Want to Read books.";
+  }
+
+  if (content.length === 0) {
+    return <NoResults message={message} />;
+  }
+
+  return null;
 };
