@@ -10,6 +10,7 @@ import { GalleryView } from './gallery-view';
 import { ShelfTitle } from './shelf-title';
 import { STATUS } from '@/lib/constants';
 import { sortingSelects } from '@/config/books';
+import { Button } from '@/components/ui/button';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
@@ -66,6 +67,20 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-4'>
               <ShelfMenu />
               <StatusMenu />
+              <Button
+                className='border-2 border-beige-700 bg-beige-700 text-white hover:bg-beige-700'
+                variant={'pill'}
+                size='sm'
+              >
+                Owned
+              </Button>
+              <Button
+                className='border-2 border-gray-200 bg-white hover:bg-white'
+                variant={'pill'}
+                size='sm'
+              >
+                Favorites
+              </Button>
             </div>
             <div className='flex items-center gap-2 text-sm'>
               {view !== 'board' && (

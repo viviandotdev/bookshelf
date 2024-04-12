@@ -34,12 +34,12 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({}) => {
       <DropdownMenu>
         <DropdownMenuTrigger
           className={cn(
-            buttonVariants({ variant: 'pill', size: 'sm' }),
-            'min-w-20'
+            buttonVariants({ variant: 'secondary', size: 'sm' }),
+            'min-w-20 border-2 border-gray-200 bg-white hover:bg-white'
           )}
-          disabled={isPending}
         >
           {status}
+          <Icons.chevronDown className='ml-2 h-4 w-4 shrink-0 text-beige' />
         </DropdownMenuTrigger>
         <DropdownMenuContent
           avoidCollisions={false}
