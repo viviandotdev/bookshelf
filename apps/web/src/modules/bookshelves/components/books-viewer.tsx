@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import BoardView from './board-view';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
@@ -11,6 +11,7 @@ import { ShelfTitle } from './shelf-title';
 import { STATUS } from '@/lib/constants';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
+import ToggleButton from './toggle-button';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
@@ -49,6 +50,25 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     contentView = <BoardView ref={boardViewRef} />;
   }
 
+  // State to track the button's current status
+  const [status, setStatus] = useState('inactive'); // 'inactive', 'owned', 'not_owned'
+
+  // Function to handle button click and cycle through the statuses
+  const toggleStatus = () => {
+    setStatus((currentStatus) => {
+      switch (currentStatus) {
+        case 'inactive':
+          return 'owned';
+        case 'owned':
+          return 'not_owned';
+        case 'not_owned':
+          return 'inactive';
+        default:
+          return 'inactive';
+      }
+    });
+  };
+
   return (
     <>
       <div
@@ -67,20 +87,8 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-4'>
               <ShelfMenu />
               <StatusMenu />
-              <Button
-                className='border-2 border-beige-700 bg-beige-700 text-white hover:bg-beige-700'
-                variant={'pill'}
-                size='sm'
-              >
-                Owned
-              </Button>
-              <Button
-                className='border-2 border-gray-200 bg-white hover:bg-white'
-                variant={'pill'}
-                size='sm'
-              >
-                Favorites
-              </Button>
+              <ToggleButton type={'owned'} />
+              <ToggleButton type={'favorites'} />
             </div>
             <div className='flex items-center gap-2 text-sm'>
               {view !== 'board' && (
@@ -89,7 +97,6 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             </div>
           </div>
         </nav>
-
         <div className='mx-16 mt-4 overflow-x-auto'>
           <Suspense fallback={<div>Loading...</div>}>{contentView}</Suspense>
         </div>
