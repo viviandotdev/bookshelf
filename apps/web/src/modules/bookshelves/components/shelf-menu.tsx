@@ -36,7 +36,6 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({}) => {
   );
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const { selected } = useShelfStore();
   // Merge shelves and library arrays

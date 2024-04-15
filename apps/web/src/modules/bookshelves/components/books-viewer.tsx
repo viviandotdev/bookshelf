@@ -11,7 +11,12 @@ import { ShelfTitle } from './shelf-title';
 import { STATUS } from '@/lib/constants';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
+import { useTransition } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import useCreateQueryString from '../hooks/use-create-query-string';
 import ToggleButton from './toggle-button';
+import { Icons } from '@/components/icons';
+import useShelfStore from '@/stores/use-shelf-store';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
@@ -20,15 +25,26 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
   const [view, setView] = React.useState<string>('gallery');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
-
+  const router = useRouter();
+  const pathname = usePathname();
   const boardViewRef = useRef(null);
-
+  const [isPending, startTransition] = useTransition();
+  const createQueryString = useCreateQueryString();
   // Call the loadMore function from the parent component
+  const searchParams = useSearchParams();
+  const buttonIsEnabled =
+    searchParams?.get('status') ||
+    searchParams?.get('shelf') ||
+    searchParams?.get('owned') ||
+    searchParams?.get('favorites');
+
   const callLoadMoreFromParent = async (index: number) => {
     if (boardViewRef.current) {
       await boardViewRef.current.loadMore(index);
     }
   };
+
+  //
 
   const handleScroll = async (e: any) => {
     const isAtBottom =
@@ -50,24 +66,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     contentView = <BoardView ref={boardViewRef} />;
   }
 
-  // State to track the button's current status
-  const [status, setStatus] = useState('inactive'); // 'inactive', 'owned', 'not_owned'
-
-  // Function to handle button click and cycle through the statuses
-  const toggleStatus = () => {
-    setStatus((currentStatus) => {
-      switch (currentStatus) {
-        case 'inactive':
-          return 'owned';
-        case 'owned':
-          return 'not_owned';
-        case 'not_owned':
-          return 'inactive';
-        default:
-          return 'inactive';
-      }
-    });
-  };
+  const updateSelected = useShelfStore((state) => state.updateSelected);
 
   return (
     <>
@@ -81,6 +80,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-1'>
               <ShelfTitle />
             </div>
+
             <ViewOptions view={view} setView={setView} />
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
@@ -89,6 +89,28 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
               <StatusMenu />
               <ToggleButton type={'owned'} />
               <ToggleButton type={'favorites'} />
+              <Button
+                onClick={() => {
+                  updateSelected('All Books');
+                  startTransition(() => {
+                    router.push(
+                      `${pathname}?${createQueryString({
+                        shelf: null,
+                        status: null,
+                        owned: null,
+                        favorites: null,
+                      })}`
+                    );
+                  });
+                }}
+                disabled={!buttonIsEnabled}
+                variant={'pill'}
+                size={'sm'}
+                className='bg-beige-50 px-0 text-red-500 hover:bg-beige-50 disabled:text-gray-500'
+              >
+                <Icons.close className='mr-1 h-4 w-4' />
+                Clear Filters
+              </Button>
             </div>
             <div className='flex items-center gap-2 text-sm'>
               {view !== 'board' && (

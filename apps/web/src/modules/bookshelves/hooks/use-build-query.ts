@@ -22,120 +22,43 @@ const useBuildQuery = () => {
   // Build query based on shelf parameter
   const buildQueryByShelf = (
     shelfParam: string,
-    owned: string,
-    favorites: string
+    isOwned: string,
+    isFavorites: string
   ) => {
-    if (shelfParam === 'Unshelved') {
-      return {
-        shelves: {
-          none: {}, // Checks if the shelves array is empty
-        },
-      };
-    } else if (shelfParam === 'All Books') {
-      let someQueryCondition = [];
-      let everyQueryCondition = [];
-      if (owned == 'true') {
-        someQueryCondition.push({ name: { equals: 'Owned' } });
-      } else if (owned == 'false') {
-        everyQueryCondition.push({
-          name: { equals: 'Owned' },
-        });
-      }
+    // Helper function to create query conditions
+    const createCondition = (isOwnedOrFavorites: string, value: string) => {
+      return isOwnedOrFavorites === 'true' //Filter is owned/favorites
+        ? { shelves: { some: { shelf: { is: { name: { equals: value } } } } } }
+        : isOwnedOrFavorites === 'false' //Filter not owned/favorites
+          ? {
+              shelves: { none: { shelf: { is: { name: { equals: value } } } } },
+            }
+          : null;
+    };
 
-      if (favorites == 'true') {
-        someQueryCondition.push({ name: { equals: 'Favorites' } });
-      } else if (favorites == 'false') {
-        everyQueryCondition.push({
-          name: { equals: 'Favorites' },
-        });
-      }
-      if (someQueryCondition.length == 0 && everyQueryCondition.length == 0) {
-        return {};
-      } else {
-        return {
-          AND: [
-            someQueryCondition.length > 0
-              ? {
-                  AND: someQueryCondition.map((query) => ({
-                    shelves: {
-                      some: {
-                        shelf: {
-                          is: query,
-                        },
-                      },
-                    },
-                  })),
-                }
-              : {},
-            everyQueryCondition.length > 0
-              ? {
-                  NOT: everyQueryCondition.map((query) => ({
-                    shelves: {
-                      some: {
-                        shelf: {
-                          is: query,
-                        },
-                      },
-                    },
-                  })),
-                }
-              : {},
-          ],
-        };
-      }
-    } else {
-      let someQueryCondition = [{ name: { equals: shelfParam } }];
-      let everyQueryCondition = [];
-      if (owned == 'true') {
-        someQueryCondition.push({ name: { equals: 'Owned' } });
-      } else if (owned == 'false') {
-        everyQueryCondition.push({
-          name: { equals: 'Owned' },
-        });
-      }
-
-      if (favorites == 'true') {
-        someQueryCondition.push({ name: { equals: 'Favorites' } });
-      } else if (favorites == 'false') {
-        everyQueryCondition.push({
-          name: { equals: 'Favorites' },
-        });
-      }
-      if (someQueryCondition.length == 0 && everyQueryCondition.length == 0) {
-        return {};
-      } else {
-        return {
-          AND: [
-            someQueryCondition.length > 0
-              ? {
-                  AND: someQueryCondition.map((query) => ({
-                    shelves: {
-                      some: {
-                        shelf: {
-                          is: query,
-                        },
-                      },
-                    },
-                  })),
-                }
-              : {},
-            everyQueryCondition.length > 0
-              ? {
-                  NOT: everyQueryCondition.map((query) => ({
-                    shelves: {
-                      some: {
-                        shelf: {
-                          is: query,
-                        },
-                      },
-                    },
-                  })),
-                }
-              : {},
-          ],
-        };
-      }
+    let conditions = [];
+    // Add shelf-specific condition if not 'All Books' or 'Unshelved'
+    if (shelfParam !== 'All Books' && shelfParam !== 'Unshelved') {
+      conditions.push({
+        shelves: { some: { shelf: { is: { name: { equals: shelfParam } } } } },
+      });
     }
+
+    // Special case for 'Unshelved' (no shelves)
+    if (shelfParam === 'Unshelved') {
+      conditions.push({ shelves: { none: {} } });
+    }
+
+    // Add condition for 'Owned'
+    const ownedCondition = createCondition(isOwned, 'Owned');
+    if (ownedCondition) conditions.push(ownedCondition);
+
+    // Add condition for 'Favorites'
+    const favoritesCondition = createCondition(isFavorites, 'Favorites');
+    if (favoritesCondition) conditions.push(favoritesCondition);
+
+    // Return the query object or an empty object if no conditions
+    return conditions.length ? { AND: conditions } : {};
   };
 
   useEffect(() => {

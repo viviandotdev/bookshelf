@@ -14,7 +14,6 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
   // State to track the button's current status
   const searchParams = useSearchParams();
   const currStatus = searchParams?.get(type) ?? '';
-
   const [status, setStatus] = useState(currStatus != '' ? currStatus : 'none'); // 'inactive', 'active', 'not_active'
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -22,8 +21,10 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
 
   const pathname = usePathname();
   useEffect(() => {
-    console.log(status);
-  }, [status]);
+    const currStatus = searchParams?.get(type) ?? '';
+
+    setStatus(currStatus != '' ? currStatus : 'none');
+  }, [searchParams]);
   // Function to handle button click and cycle through the statuses
   const toggleStatus = () => {
     setStatus((currentStatus) => {
