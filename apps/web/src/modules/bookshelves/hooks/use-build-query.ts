@@ -14,11 +14,17 @@ const useBuildQuery = () => {
       status: searchParams?.get('status') ?? 'Any Status',
       sort: searchParams?.get('sort') ?? 'createdAt.desc',
       shelf: searchParams?.get('shelf') ?? 'All Books',
+      owned: searchParams?.get('owned') ?? '',
+      favorites: searchParams?.get('favorites') ?? '',
     };
   };
 
   // Build query based on shelf parameter
-  const buildQueryByShelf = (shelfParam: string) => {
+  const buildQueryByShelf = (
+    shelfParam: string,
+    owned: string,
+    favorites: string
+  ) => {
     if (shelfParam === 'Unshelved') {
       return {
         shelves: {
@@ -26,26 +32,114 @@ const useBuildQuery = () => {
         },
       };
     } else if (shelfParam === 'All Books') {
-      return {};
+      let someQueryCondition = [];
+      let everyQueryCondition = [];
+      if (owned == 'true') {
+        someQueryCondition.push({ name: { equals: 'Owned' } });
+      } else if (owned == 'false') {
+        everyQueryCondition.push({
+          name: { equals: 'Owned' },
+        });
+      }
+
+      if (favorites == 'true') {
+        someQueryCondition.push({ name: { equals: 'Favorites' } });
+      } else if (favorites == 'false') {
+        everyQueryCondition.push({
+          name: { equals: 'Favorites' },
+        });
+      }
+      if (someQueryCondition.length == 0 && everyQueryCondition.length == 0) {
+        return {};
+      } else {
+        return {
+          AND: [
+            someQueryCondition.length > 0
+              ? {
+                  AND: someQueryCondition.map((query) => ({
+                    shelves: {
+                      some: {
+                        shelf: {
+                          is: query,
+                        },
+                      },
+                    },
+                  })),
+                }
+              : {},
+            everyQueryCondition.length > 0
+              ? {
+                  NOT: everyQueryCondition.map((query) => ({
+                    shelves: {
+                      some: {
+                        shelf: {
+                          is: query,
+                        },
+                      },
+                    },
+                  })),
+                }
+              : {},
+          ],
+        };
+      }
     } else {
-      return {
-        shelves: {
-          some: {
-            shelf: {
-              is: {
-                name: {
-                  equals: shelfParam,
-                },
-              },
-            },
-          },
-        },
-      };
+      let someQueryCondition = [{ name: { equals: shelfParam } }];
+      let everyQueryCondition = [];
+      if (owned == 'true') {
+        someQueryCondition.push({ name: { equals: 'Owned' } });
+      } else if (owned == 'false') {
+        everyQueryCondition.push({
+          name: { equals: 'Owned' },
+        });
+      }
+
+      if (favorites == 'true') {
+        someQueryCondition.push({ name: { equals: 'Favorites' } });
+      } else if (favorites == 'false') {
+        everyQueryCondition.push({
+          name: { equals: 'Favorites' },
+        });
+      }
+      if (someQueryCondition.length == 0 && everyQueryCondition.length == 0) {
+        return {};
+      } else {
+        return {
+          AND: [
+            someQueryCondition.length > 0
+              ? {
+                  AND: someQueryCondition.map((query) => ({
+                    shelves: {
+                      some: {
+                        shelf: {
+                          is: query,
+                        },
+                      },
+                    },
+                  })),
+                }
+              : {},
+            everyQueryCondition.length > 0
+              ? {
+                  NOT: everyQueryCondition.map((query) => ({
+                    shelves: {
+                      some: {
+                        shelf: {
+                          is: query,
+                        },
+                      },
+                    },
+                  })),
+                }
+              : {},
+          ],
+        };
+      }
     }
   };
 
   useEffect(() => {
-    const { page, status, sort, shelf } = parseSearchParams();
+    const { page, status, sort, shelf, owned, favorites } = parseSearchParams();
     const pageAsNumber = Number(page) - 1;
     const fallbackPage =
       isNaN(pageAsNumber) || pageAsNumber < 0 ? 0 : pageAsNumber;
@@ -60,7 +154,7 @@ const useBuildQuery = () => {
     const sortQuery = buildSortQuery(sort);
 
     // Build query based on shelf parameter
-    const shelfQuery = buildQueryByShelf(shelf);
+    const shelfQuery = buildQueryByShelf(shelf, owned, favorites);
 
     // Build query based on status parameter
     const statusQuery =
@@ -75,7 +169,7 @@ const useBuildQuery = () => {
         ...statusQuery,
       },
     };
-
+    console.log(finalQuery);
     setQuery(finalQuery);
   }, [searchParams]);
 
