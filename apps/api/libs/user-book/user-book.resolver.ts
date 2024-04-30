@@ -30,6 +30,7 @@ import { render } from '@react-email/components';
 import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
+import { getCovers } from 'libs/book/api/book-cover.api';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -196,8 +197,16 @@ export class UserBookResolver {
 
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
+        // get covere hersers
+
+        // const imageLinks = await getCovers(googleBook);
+        const imageLinks = await getCovers({
+          isbn: goodreadsBook['ISBN13'],
+          title: goodreadsBook['Title'],
+          authors: goodreadsBook['Author'],
+        });
         const coverInput: CoverCreateInput[] =
-          this.coverService.createCoverInput(book.imageLinks);
+          this.coverService.createCoverInput(imageLinks);
 
         const covers = await this.coverService.createCovers(coverInput);
         const bookData: BookCreateInput = {
@@ -246,6 +255,7 @@ export class UserBookResolver {
           },
           isImport: true,
         });
+        console.log(book.title);
       } else {
         // console.log(`${bookInfo.title} ${bookInfo.authors}`);
         failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);

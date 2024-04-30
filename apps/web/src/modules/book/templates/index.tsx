@@ -32,18 +32,18 @@ export default function BookTemplate({
           <Image
             width={184}
             height={277}
-            src={getCoverUrl(book, Size.Small)}
+            src={getCoverUrl(book, Size.Medium)}
             className='w-[fill-available] max-w-none rounded-lg'
-            alt='Picture of the author'
+            alt='book cover'
           />
         </section>
         <section className='hidden p-4 lg:col-span-1 lg:block'>
           <Image
             width={184}
             height={277}
-            src={getCoverUrl(book, Size.Small)}
+            src={getCoverUrl(book, Size.Medium)}
             className='w-[fill-available] max-w-none rounded-lg'
-            alt='Picture of the author'
+            alt='book cover'
           />
           <div className='mt-3 text-xs font-light'>
             <div>{book.pageCount} Pages</div>

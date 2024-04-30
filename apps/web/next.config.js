@@ -26,6 +26,16 @@ const nextConfig = {
         hostname: 'storage.googleapis.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'images-na.ssl-images-amazon.com',
+        port: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.gr-assets.com',
+        port: '',
+      },
     ],
   },
 };
