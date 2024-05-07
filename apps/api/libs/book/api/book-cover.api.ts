@@ -1,4 +1,5 @@
 import axiosInstance from 'src/config/axios.config';
+import { bookcoverIsbn, bookcoverSearch } from './get-cover';
 // go the get cover in parallet
 
 function getSmallImage(url) {
@@ -20,9 +21,8 @@ function getSmallImage(url) {
 
 export async function getCovers({ isbn, title, authors }) {
   if (isbn) {
-    const formattedIsbn =
-      isbn.slice(0, 3) + '-' + isbn.slice(3, 12) + isbn.slice(12);
-    const cover = await getCoverByIsbn(formattedIsbn);
+    const cover = await bookcoverIsbn(isbn);
+
     const imageLinks = {
       small: getSmallImage(cover) || '',
       medium: cover || '',
@@ -32,7 +32,7 @@ export async function getCovers({ isbn, title, authors }) {
     }
   } else {
     if (title && authors.length > 0) {
-      const cover = await getCoverByTitle(title, authors[0]);
+      const cover = await bookcoverSearch(title, authors[0]);
 
       const imageLinks = {
         small: getSmallImage(cover) || '',
