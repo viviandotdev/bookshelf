@@ -1,4 +1,3 @@
-import { SiteFooter } from '@/modules/layout/templates/site-footer';
 import { getCurrentUser } from '@/lib/auth';
 import SiteHeader from '@/modules/layout/templates/site-header';
 
