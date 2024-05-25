@@ -1,9 +1,7 @@
 'use client';
 import Book from '@/components/book';
 import BookCover from '@/components/book-cover';
-import { cn } from '@/lib/utils';
 import { Suspense, useEffect, useState, useTransition } from 'react';
-import { bestsellers } from '@/modules/home/api/bestsellers';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import Link from 'next/link';
 import NoResults from '@/components/no-results';

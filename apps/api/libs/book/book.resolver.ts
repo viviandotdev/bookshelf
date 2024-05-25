@@ -1,7 +1,6 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import {
-  Bestseller,
   Book,
   BookCreateInput,
   BookWhereUniqueInput,
@@ -112,10 +111,5 @@ export class BookResolver {
       );
     }
     return book;
-  }
-
-  @Query(() => [Bestseller])
-  async bestsellers(@Args('list', { type: () => String }) list: string) {
-    return this.bookService.getBestsellers(list);
   }
 }

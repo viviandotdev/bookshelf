@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Bestseller,
-  CountUserBooksQuery,
-  Shelf,
-  UserBook,
-} from '@/graphql/graphql';
+import { Shelf, UserBook } from '@/graphql/graphql';
 import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
