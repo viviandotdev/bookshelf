@@ -1,18 +1,12 @@
 import { BookData } from 'libs/user-book/types';
 import axiosInstance from 'src/config/axios.config';
 import { processBook, processGoogleBook } from 'libs/user-book/utils';
+import { getCovers } from './book-cover.api';
+
 export async function getGoogleBook(book) {
   try {
     const googleBook = await findGoogleBookByISBN(book.isbn10);
     if (googleBook) {
-      //   const openLibraryBook = await getOpenLibraryBook(book);
-      //   if (
-      //     openLibraryBook &&
-      //     openLibraryBook.imageLinks &&
-      //     openLibraryBook.imageLinks.medium
-      //   ) {
-      //     googleBook.imageLinks.medium = openLibraryBook.imageLinks.medium;
-      //   }
       return googleBook;
     }
   } catch (error) {
@@ -51,6 +45,7 @@ export async function findBookByGoogleBookId(bookId: string) {
     if (response.status >= 200 && response.status < 300) {
       const book: BookData = response.data; // Assuming response.data contains the book data
       const processedBook: BookData = processBook(book) as BookData;
+     
 
       return processedBook;
     } else {

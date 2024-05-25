@@ -18,6 +18,8 @@ function containsNonNumeric(str: string) {
 export default async function BookPage({ params }: BookPageProps) {
   let book;
   if (containsNonNumeric(params.bookId)) {
+    // handle this if logic in the backend? oonly return book once NOW
+
     book = await getGoogleBook(params.bookId);
   } else {
     book = await getBook(params.bookId);
@@ -34,7 +36,6 @@ export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
   return (
     <>
-   
       <BookTemplate
         book={book}
         shelves={shelves}

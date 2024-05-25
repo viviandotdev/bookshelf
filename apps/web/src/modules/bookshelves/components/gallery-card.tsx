@@ -63,7 +63,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
         <div>
           <BookCover
             src={
-              getCoverUrl(book, Size.Small) || getCoverUrl(book, Size.Medium)
+              getCoverUrl(book, Size.Medium) || getCoverUrl(book, Size.Small)
             }
             size={'dynamic'}
           />

@@ -49,6 +49,7 @@ export const MainBookList = ({
       case 'fiction':
         startTransition(() => {
           bestsellers('hardcover-fiction').then((data) => {
+            console.log(data);
             setContent(data);
           });
         });
@@ -56,6 +57,7 @@ export const MainBookList = ({
       case 'non-fiction':
         startTransition(() => {
           bestsellers('hardcover-nonfiction').then((data) => {
+            console.log(data);
             setContent(data);
           });
         });
@@ -69,7 +71,7 @@ export const MainBookList = ({
     <div className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
       <div className='mb-4 flex justify-between'>
         <h2 className={cn('text-xl font-semibold text-beige-700')}>
-          {getTitle(view)}
+          {getTitle(view)} {content.length}
         </h2>
         <CustomizeDropdown currentView={view} setView={setView} />
       </div>

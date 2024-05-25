@@ -13,6 +13,7 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { CoverService } from 'libs/cover/cover.service';
 import { findBookByGoogleBookId } from './api/google.api';
+import { getCovers } from './api/book-cover.api';
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -27,7 +28,6 @@ export class BookResolver {
     id: string,
   ) {
     const googleBook = await findBookByGoogleBookId(id);
-    // Search for an Identifier with the matching googleBooksId
     const identifier = await this.bookService.findByIdentifier({
       where: {
         google: googleBook.id,
@@ -42,9 +42,13 @@ export class BookResolver {
     });
 
     if (!identifier) {
-      const coverInput: CoverCreateInput[] = this.coverService.createCoverInput(
-        googleBook.imageLinks,
-      );
+      const imageLinks = await getCovers({
+        isbn: googleBook.isbn13,
+        title: googleBook.title,
+        authors: googleBook.authors,
+      });
+      const coverInput: CoverCreateInput[] =
+        this.coverService.createCoverInput(imageLinks);
 
       const covers = await this.coverService.createCovers(coverInput);
 

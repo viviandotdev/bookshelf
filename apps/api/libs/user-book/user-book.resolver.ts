@@ -30,6 +30,7 @@ import { render } from '@react-email/components';
 import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
+import { getCovers } from 'libs/book/api/book-cover.api';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -191,13 +192,25 @@ export class UserBookResolver {
     for (let i = 1; i < lines.length - 1; i++) {
       const goodreadsBook = processCSVLine(lines[i], mappings);
       const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
-      const book = await buildBook(bookInfo);
+      const [book, imageLinks] = await Promise.all([
+        buildBook(bookInfo),
+        getCovers({
+          isbn: goodreadsBook['ISBN13'],
+          title: goodreadsBook['Title'],
+          authors: goodreadsBook['Author'],
+        }),
+      ]);
       // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
+
         const coverInput: CoverCreateInput[] =
-          this.coverService.createCoverInput(book.imageLinks);
+          this.coverService.createCoverInput({
+            small: (imageLinks && imageLinks.small) || book.imageLinks.small,
+            medium: (imageLinks && imageLinks.medium) || book.imageLinks.medium,
+            large: book.imageLinks.large,
+          });
 
         const covers = await this.coverService.createCovers(coverInput);
         const bookData: BookCreateInput = {
@@ -246,6 +259,7 @@ export class UserBookResolver {
           },
           isImport: true,
         });
+        console.log(book.title);
       } else {
         // console.log(`${bookInfo.title} ${bookInfo.authors}`);
         failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
