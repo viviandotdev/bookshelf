@@ -28,24 +28,6 @@ generator nestgraphql {
     decorate_1_arguments    = "[]"
 }
 
-model Bestseller {
-    id            Int    @id @default(autoincrement())
-    /// @Validator.IsString()
-    title         String
-    /// @Validator.IsString()
-    author        String
-    /// @Validator.IsString()
-    bookImage     String
-    /// @Validator.IsString()
-    description   String
-    /// @Validator.IsString()
-    publishedDate String
-    /// @Validator.IsString()
-    listName      String
-    /// @Validator.IsString()
-    googleId      String
-}
-
 model User {
     id String @id @default(uuid())
 

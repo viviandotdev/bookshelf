@@ -544,17 +544,6 @@ type AuthResponse {
   verificationToken: String
 }
 
-type Bestseller {
-  author: String!
-  bookImage: String!
-  description: String!
-  googleId: String!
-  id: ID!
-  listName: String!
-  publishedDate: String!
-  title: String!
-}
-
 type BestsellerAvgAggregate {
   id: Float
 }
@@ -2076,7 +2065,6 @@ type PasswordResetTokenMinAggregate {
 
 type Query {
   auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, orderBy: AuditLogOrderByWithRelationInput, where: UserBookWhereUniqueInput): ActivitiesResponse!
-  bestsellers(list: String!): [Bestseller!]!
   book(where: BookWhereUniqueInput!): Book
   bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!

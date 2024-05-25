@@ -31,18 +31,6 @@ const CustomizeDropdown = ({
         >
           Want to Read
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className={currentView === 'fiction' ? 'bg-beige-100' : ''}
-          onClick={() => setView('fiction')}
-        >
-          New York Times Bestseller Fiction
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className={currentView === 'non-fiction' ? 'bg-beige-100' : ''}
-          onClick={() => setView('non-fiction')}
-        >
-          New York Times Bestseller Non-Fiction
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
