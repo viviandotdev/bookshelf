@@ -2,32 +2,31 @@
 import Book from '@/components/book';
 import BookCover from '@/components/book-cover';
 import { cn } from '@/lib/utils';
-import { useEffect, useState, useTransition } from 'react';
+import { Suspense, useEffect, useState, useTransition } from 'react';
 import { bestsellers } from '@/modules/home/api/bestsellers';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import Link from 'next/link';
 import NoResults from '@/components/no-results';
 import CustomizeDropdown from './customize-dropdown';
+import DashboardHeader from './dashboard-header';
 
 export const MainBookList = ({
   books,
   currView,
+  username,
 }: {
   books: any;
+  username: string;
   currView: string;
 }) => {
   // fiction, nonfiction, want-to-read
-  const [view, setView] = useState<string>(currView);
+  const [view, setView] = useState<string>('want-to-read');
   const [isPending, startTransition] = useTransition();
   const [content, setContent] = useState(books);
   const getTitle = (view: string) => {
     switch (view) {
       case 'want-to-read':
         return 'Want to Read';
-      case 'fiction':
-        return 'New York Times Bestseller Fiction';
-      case 'non-fiction':
-        return 'New York Times Bestseller Non-Fiction';
       default:
         return ''; // Default title or some other appropriate title
     }
@@ -46,34 +45,21 @@ export const MainBookList = ({
           });
         });
         break;
-      case 'fiction':
-        startTransition(() => {
-          bestsellers('hardcover-fiction').then((data) => {
-            console.log(data);
-            setContent(data);
-          });
-        });
-        break;
-      case 'non-fiction':
-        startTransition(() => {
-          bestsellers('hardcover-nonfiction').then((data) => {
-            console.log(data);
-            setContent(data);
-          });
-        });
-        break;
       default:
         break;
     }
   }, [view]);
 
   return (
-    <div className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
+    <div className='shadow-xs rounded-md border border-gray-200 bg-white p-6'>
       <div className='mb-4 flex justify-between'>
-        <h2 className={cn('text-xl font-semibold text-beige-700')}>
-          {getTitle(view)} {content.length}
-        </h2>
-        <CustomizeDropdown currentView={view} setView={setView} />
+        <DashboardHeader
+          title={getTitle(view)}
+          count={content.length}
+          href={`/${username}/books?status=Want+to+Read`}
+        />
+
+        {/* <CustomizeDropdown currentView={view} setView={setView} /> */}
       </div>
       <div className={'grid grid-cols-5 gap-4'}>
         {content.length > 0 &&

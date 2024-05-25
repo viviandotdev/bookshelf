@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import CurrentlyReading from '../components/currently-reading';
 import BookCard from '../components/book-card';
+import DashboardHeader from '../components/dashboard-header';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
   wantToRead: UserBook[];
@@ -50,16 +51,20 @@ export default function HomeTemplate({
                 </div>
               </div>
             </section>
-            <MainBookList books={wantToRead} currView={'want-to-read'} />
+            <MainBookList
+              username={username}
+              books={wantToRead}
+              currView={'want-to-read'}
+            />
 
             {currentlyReading.length > 0 && (
-              <section className='rounded-md border-2 border-gray-100 bg-white p-6 shadow-sm'>
-                <div className='flex justify-between'>
-                  <h2
-                    className={cn('mb-4 text-xl font-semibold text-beige-700')}
-                  >
-                    Currently Reading
-                  </h2>
+              <section className='rounded-md border border-gray-200 bg-white p-6 shadow-sm'>
+                <div className='mb-4 flex justify-between'>
+                  <DashboardHeader
+                    href={`/${username}/books?status=Currently+Reading`}
+                    title={'Currently Reading'}
+                    count={currentlyReading.length}
+                  />
                 </div>
                 <div className={'flex flex-col gap-2 '}>
                   <div className='divide-y'>
@@ -83,8 +88,14 @@ export default function HomeTemplate({
                     />
                     {/* <ChallengeCard /> */}
                     <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
-                      <CardHeader className='p-6 pb-2 text-xl font-bold text-beige-700'>
-                        Up Next
+                      <CardHeader className='p-6 pb-2 text-beige-700'>
+                        <div className='flex justify-between'>
+                          <DashboardHeader
+                            href={`/${username}/books?status=Up+Next`}
+                            title={'Up Next'}
+                            count={upNext.length}
+                          />
+                        </div>
                       </CardHeader>
                       <CardContent className=''>
                         {upNext.length > 0 && (
