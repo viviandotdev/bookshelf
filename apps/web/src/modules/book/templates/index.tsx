@@ -11,6 +11,7 @@ import BookStatusModal from '@/components/modals/book-status-modal';
 import { BookRating } from '@/components/book-rating';
 import RatingInfo from '../components/rating-info';
 import BookControls from '../components/book-controls';
+import UnderlinedTabs from '@/components/underlined-tabs';
 interface BookTemplateProps {
   book: Book;
   shelves: Shelf[];
@@ -28,9 +29,9 @@ export default function BookTemplate({
     reviews &&
     reviews.filter((review) => review.userBook?.user?.id === user?.id);
   return (
-    <div className='container my-12 lg:px-16 xl:px-32 2xl:px-48'>
+    <div className='container mx-auto my-12  mb-4 lg:px-16 xl:px-32 2xl:px-48'>
       <BookStatusModal />
-      <div className='mx-auto mb-4 mt-14 grid w-full max-w-[1024px] grid-cols-1 grid-rows-[min-content_1fr] items-center gap-x-8 gap-y-8 md:grid-cols-[232px_1fr] md:items-start '>
+      <div className='mt-14 grid w-full max-w-[1024px] grid-cols-1 grid-rows-[min-content_1fr] items-center gap-x-8 gap-y-8 md:grid-cols-[232px_1fr] md:items-start '>
         <section className='mx-auto items-center md:mx-0 md:items-start'>
           <Image
             width={160}
@@ -70,6 +71,30 @@ export default function BookTemplate({
           </div>
         </section>
       </div>
+      <section>
+        {/* <div className='flex h-16 justify-between'>
+          <div className='flex border-b-2 '>
+            <div className='flex flex-shrink-0 items-start'></div>
+            <div className='flex space-x-8 border-gray-100'>
+              <div className='inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900'>
+                Dashboard
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Team
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Projects
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Calendar
+              </div>
+            </div>
+          </div>
+        </div> */}
+        <main className='flex min-h-screen flex-col'>
+          <UnderlinedTabs />
+        </main>
+      </section>
     </div>
   );
 }

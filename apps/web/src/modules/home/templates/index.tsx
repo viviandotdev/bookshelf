@@ -32,7 +32,6 @@ export default function HomeTemplate({
       <main className='py-8'>
         {/* Main 3 column grid */}
         <div className='grid grid-cols-1 items-start gap-4 xl:grid-cols-16 xl:gap-8'>
-          {/* Left column */}
           <div className='grid grid-cols-1 gap-4 xl:col-span-11'>
             <section aria-labelledby='section-1-title' className='mb-4'>
               <div id='section-1-title'>
@@ -51,7 +50,6 @@ export default function HomeTemplate({
               books={wantToRead}
               currView={'want-to-read'}
             />
-
             {currentlyReading.length > 0 && (
               <section className='rounded-md border border-gray-200 bg-white p-6 shadow-sm'>
                 <div className='mb-4 flex justify-between'>
