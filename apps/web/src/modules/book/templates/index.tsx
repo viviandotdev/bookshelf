@@ -10,6 +10,7 @@ import ReviewCard from '../components/review-card';
 import BookStatusModal from '@/components/modals/book-status-modal';
 import { BookRating } from '@/components/book-rating';
 import RatingInfo from '../components/rating-info';
+import BookControls from '../components/book-controls';
 interface BookTemplateProps {
   book: Book;
   shelves: Shelf[];
@@ -38,20 +39,16 @@ export default function BookTemplate({
             className='max-w-none rounded-lg md:w-[fill-available]'
             alt='book cover'
           />
-          {/* <div className='mt-3 text-xs font-light'>
-             <div>{book.pageCount} Pages</div>
-            <div>First published {formatDate(book.publishedDate!)}</div>
-          </div> */}
         </section>
         <section>
           <div className='flex justify-between gap-2 md:items-center'></div>
 
-          <div className='flex justify-between gap-2'>
+          <div className='flex flex-col justify-between gap-4'>
             <section className='flex flex-col gap-2'>
               <h1
                 className={cn(
                   dm_sefif_display.className,
-                  'line-clamp-2 text-center text-4xl/[1.25] text-beige-700 md:text-start'
+                  'line-clamp-2 text-center text-4xl/[1.25] md:text-start'
                 )}
               >
                 {book.title}
@@ -60,8 +57,7 @@ export default function BookTemplate({
               <span className='inline text-center text-base text-gray-400 md:text-start'>
                 by {formatAuthors(book)}
               </span>
-              <div>
-                {/* show the book ratings and google ratings */}
+              <div className='flex justify-center  md:justify-start'>
                 <RatingInfo
                   bookId={book.id}
                   goodReadsRating={3.4}
@@ -70,6 +66,7 @@ export default function BookTemplate({
               </div>
               <BookInfo processedBook={book} />
             </section>
+            <BookControls />
           </div>
         </section>
       </div>
