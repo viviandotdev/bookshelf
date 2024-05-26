@@ -1,7 +1,7 @@
 'use client';
 import { cn, formatAuthors } from '@/lib/utils';
 import React from 'react';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -54,7 +54,7 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
           </span>
         </span>
       </div>
-      <div className='max-h-64 overflow-hidden text-sm'>
+      <div className='max-h-32 overflow-hidden text-sm'>
         <div
           className={`leading-normal `}
           dangerouslySetInnerHTML={{
@@ -66,22 +66,12 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
         {/* <div className="text-sm text-beige">GENRES</div>
                 <hr className="border-t-1 border-beige" /> */}
         <div className='mt-2'>
-          {processedBook &&
-            processedBook.categories &&
-            processedBook.categories.map((category: string, index: number) => {
-              return (
-                <button
-                  key={index}
-                  className={cn(
-                    buttonVariants({ variant: 'pill', size: 'xs' }),
-                    'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
-                  )}
-                  disabled={true}
-                >
-                  {category}
-                </button>
-              );
-            })}
+          <Button variant={'secondary'}>
+            <div>Want to Read</div>
+            <div>
+              <Icons.plus className='h-5 w-5' />
+            </div>
+          </Button>
         </div>
       </div>
     </>
