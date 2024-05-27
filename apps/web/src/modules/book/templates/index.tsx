@@ -37,7 +37,7 @@ export default function BookTemplate({
             width={160}
             height={277}
             src={getCoverUrl(book, Size.Medium)}
-            className='max-w-none rounded-lg md:w-[fill-available]'
+            className='max-w-none rounded-lg md:w-[stretch]'
             alt='book cover'
           />
         </section>

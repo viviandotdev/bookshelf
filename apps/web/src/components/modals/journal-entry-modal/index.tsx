@@ -32,7 +32,7 @@ export const JouranlEntryModal: React.FC = ({}) => {
                 size={'md'}
                 className='items-start'
               />
-              <div className='flex w-[fill-available] flex-col justify-evenly text-sm'>
+              <div className='flex w-[stretch] flex-col justify-evenly text-sm'>
                 <DialogHeader>
                   {journalEntryModal.editId ? (
                     <DialogTitle className='font-light text-gray-500'>
