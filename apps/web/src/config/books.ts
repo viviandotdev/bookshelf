@@ -48,6 +48,7 @@ export const librarySelects = [
   },
 ];
 
+
 export const bookStatuses = [
   {
     name: 'Want to Read',
@@ -62,8 +63,8 @@ export const bookStatuses = [
     icon: Icons.bookOpen,
   },
   {
-    name: 'Read',
-    icon: Icons.book,
+    name: 'Finished',
+    icon: Icons.finished,
   },
   {
     name: 'Did Not Finish',

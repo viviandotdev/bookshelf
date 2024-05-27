@@ -8,6 +8,10 @@ import ActionsPanel from '@/modules/book/components/actions-panel';
 import BookInfo from '@/modules/book/components/book-info';
 import ReviewCard from '../components/review-card';
 import BookStatusModal from '@/components/modals/book-status-modal';
+import { BookRating } from '@/components/book-rating';
+import RatingInfo from '../components/rating-info';
+import BookControls from '../components/book-controls';
+import UnderlinedTabs from '@/components/underlined-tabs';
 interface BookTemplateProps {
   book: Book;
   shelves: Shelf[];
@@ -25,83 +29,72 @@ export default function BookTemplate({
     reviews &&
     reviews.filter((review) => review.userBook?.user?.id === user?.id);
   return (
-    <div className='container my-12 xl:px-32 2xl:px-48'>
+    <div className='container mx-auto my-12  mb-4 lg:px-16 xl:px-32 2xl:px-48'>
       <BookStatusModal />
-      <div className='grid w-full grid-cols-1 gap-2 lg:grid-cols-5 '>
-        <section className='m-auto block min-w-[232px] p-4 lg:col-span-1 lg:hidden'>
+      <div className='mt-14 grid w-full max-w-[1024px] grid-cols-1 grid-rows-[min-content_1fr] items-center gap-x-8 gap-y-8 md:grid-cols-[232px_1fr] md:items-start '>
+        <section className='mx-auto items-center md:mx-0 md:items-start'>
           <Image
-            width={184}
+            width={160}
             height={277}
             src={getCoverUrl(book, Size.Medium)}
-            className='w-[fill-available] max-w-none rounded-lg'
+            className='max-w-none rounded-lg md:w-[stretch]'
             alt='book cover'
           />
         </section>
-        <section className='hidden p-4 lg:col-span-1 lg:block'>
-          <Image
-            width={184}
-            height={277}
-            src={getCoverUrl(book, Size.Medium)}
-            className='w-[fill-available] max-w-none rounded-lg'
-            alt='book cover'
-          />
-          <div className='mt-3 text-xs font-light'>
-            <div>{book.pageCount} Pages</div>
-            <div>First published {formatDate(book.publishedDate!)}</div>
-          </div>
-        </section>
-        <section className=' col-span-5 grid gap-2 p-4 lg:col-span-4'>
-          <div className='grid gap-2'>
-            <div className='flex items-center justify-between gap-2'></div>
+        <section>
+          <div className='flex justify-between gap-2 md:items-center'></div>
 
-            <div className='flex justify-between gap-2'>
-              <section className='flex flex-col gap-2 pr-4'>
-                <h1
-                  className={cn(
-                    dm_sefif_display.className,
-                    'mr-4 line-clamp-2 text-4xl/[1.25]'
-                  )}
-                >
-                  {book.title}
-                </h1>
+          <div className='flex flex-col justify-between gap-4'>
+            <section className='flex flex-col gap-2'>
+              <h1
+                className={cn(
+                  dm_sefif_display.className,
+                  'line-clamp-2 text-center text-4xl/[1.25] md:text-start'
+                )}
+              >
+                {book.title}
+              </h1>
 
-                <span className='inline min-w-72 text-base'>
-                  by {formatAuthors(book)}
-                </span>
-                <BookInfo processedBook={book} />
-              </section>
-              <section className='min-w-72'>
-                <ActionsPanel
-                  book={book}
-                  shelves={shelves}
-                  reviewed={reviews && reviewed.length > 0}
+              <span className='inline text-center text-base text-gray-400 md:text-start'>
+                by {formatAuthors(book)}
+              </span>
+              <div className='flex justify-center  md:justify-start'>
+                <RatingInfo
+                  bookId={book.id}
+                  goodReadsRating={3.4}
+                  googleBooksRating={3.5}
                 />
-              </section>
-            </div>
-            <div className='pt-8'>
-              <div className='flex justify-between'>
-                <div className='text-sm text-beige'>POPULAR REVIEWS</div>
-                <div className='text-sm text-beige'>MORE</div>
               </div>
-              <hr className='border-t-1 border-beige' />
-              {reviews && reviews.length > 0 ? (
-                <div>
-                  {reviews.map((review) => {
-                    return <ReviewCard key={review.id} review={review} />;
-                  })}
-                </div>
-              ) : (
-                <div className='bg-white shadow-sm'>
-                  <div className='mt-4 flex justify-between '></div>
-                  <div className='rounded-md bg-gray-100 p-6 text-center'>
-                    <p>There are no reviews for this book.</p>
-                  </div>
-                </div>
-              )}
-            </div>
+              <BookInfo processedBook={book} />
+            </section>
+            <BookControls />
           </div>
         </section>
       </div>
+      <section>
+        {/* <div className='flex h-16 justify-between'>
+          <div className='flex border-b-2 '>
+            <div className='flex flex-shrink-0 items-start'></div>
+            <div className='flex space-x-8 border-gray-100'>
+              <div className='inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900'>
+                Dashboard
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Team
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Projects
+              </div>
+              <div className='inline-flex items-center border-b-2 border-gray-100 px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700'>
+                Calendar
+              </div>
+            </div>
+          </div>
+        </div> */}
+        <main className='flex min-h-screen flex-col'>
+          <UnderlinedTabs />
+        </main>
+      </section>
     </div>
   );
 }

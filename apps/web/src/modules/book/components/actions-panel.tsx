@@ -224,7 +224,7 @@ export default function ActionsPanel({
       <div className='flex min-w-72 flex-col items-center gap-1 rounded-lg text-sm font-light text-gray-500'>
         {status && (
           <>
-            <div className='grid w-[fill-available] grid-cols-3 items-center rounded-lg bg-beige-100 p-2'>
+            <div className='grid w-[stretch] grid-cols-3 items-center rounded-lg bg-beige-100 p-2'>
               {actionItemToShow}
               <ActionItem
                 icon={<Icons.library className='h-8 w-8 items-center' />}
@@ -242,7 +242,7 @@ export default function ActionsPanel({
                 label={isLiked ? 'Liked' : 'Like'}
               />
             </div>
-            <div className='flex w-[fill-available] cursor-pointer flex-col items-center justify-center rounded-lg bg-beige-100 p-2 text-center'>
+            <div className='flex w-[stretch] cursor-pointer flex-col items-center justify-center rounded-lg bg-beige-100 p-2 text-center'>
               <span>Rating</span>
               <BookRating
                 size={'lg'}
@@ -258,7 +258,7 @@ export default function ActionsPanel({
           <Button
             onClick={() => openUpdateStatusModal()}
             disabled={loading}
-            className='inline-flex w-[fill-available] cursor-pointer items-center justify-center rounded-lg bg-beige-100 p-2 text-center text-sm font-light text-gray-500 hover:bg-beige-100'
+            className='inline-flex w-[stretch] cursor-pointer items-center justify-center rounded-lg bg-beige-100 p-2 text-center text-sm font-light text-gray-500 hover:bg-beige-100'
           >
             <Icons.edit className='mr-2 h-4 w-4 ' />
             {status}
@@ -267,7 +267,7 @@ export default function ActionsPanel({
           <Button
             disabled={loading}
             onClick={() => createBook(book)}
-            className='w-[fill-available] cursor-pointer items-center rounded-lg bg-beige p-2 text-center font-light text-white'
+            className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige p-2 text-center font-light text-white'
           >
             Want to Read
           </Button>
@@ -290,7 +290,7 @@ export default function ActionsPanel({
                   createReviewModal.onEdit(reviewId || '');
                 }
               }}
-              className='w-[fill-available] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
+              className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
             >
               {reviewed
                 ? `${editReview ? 'Edit Review' : 'Review Again'}`
@@ -301,7 +301,7 @@ export default function ActionsPanel({
                 updateBookId(book!.id);
                 addToShelfModal.onOpen();
               }}
-              className='w-[fill-available] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
+              className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
             >
               Add to shelf
             </div>

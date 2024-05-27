@@ -164,6 +164,7 @@ export class AuthService {
       html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
     });
     console.log(res);
+    console.log(email);
   }
 
   async sendVerificationEmailCode(email: string, existingEmail: string) {

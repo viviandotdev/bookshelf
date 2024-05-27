@@ -48,7 +48,7 @@ export const ShelfMenuItem: React.FC<ShelfMenuItemProps> = ({
       } group/item mr-4  flex rounded-lg px-3 text-sm font-medium `}
     >
       <div
-        className={`w-[fill-available] cursor-pointer ${padding}`}
+        className={`w-[stretch] cursor-pointer ${padding}`}
         onClick={handleClick}
       >
         <span className='flex items-center text-gray-400 hover:text-beige-700   '>

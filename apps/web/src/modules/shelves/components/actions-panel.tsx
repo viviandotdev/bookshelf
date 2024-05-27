@@ -25,7 +25,7 @@ export const ActionsPanel: React.FC<ActionsPanelProps> = ({}) => {
         onClick={() => {
           console.log('action');
         }}
-        className='w-[fill-available] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
+        className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
       >
         Add to shelf
       </div>
@@ -33,7 +33,7 @@ export const ActionsPanel: React.FC<ActionsPanelProps> = ({}) => {
         onClick={() => {
           console.log('action');
         }}
-        className='w-[fill-available] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
+        className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
       >
         Edit shelf
       </div>

@@ -23,7 +23,7 @@ export const FieldSelector: React.FC<FieldSelectorProps> = ({
     return (
       <div
         key={title}
-        className={`text-xs ${isSelected ? 'bg-beige-100' : ''} w-[fill-available] cursor-pointer rounded-lg p-2`}
+        className={`text-xs ${isSelected ? 'bg-beige-100' : ''} w-[stretch] cursor-pointer rounded-lg p-2`}
         onClick={() => {
           startTransition(() => {
             router.push(

@@ -31,7 +31,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
             width={184}
             height={277}
             src={getCoverUrl(book, Size.Small)}
-            className='w-[fill-available] max-w-none rounded-lg'
+            className='w-[stretch] max-w-none rounded-lg'
             alt='Picture of the author'
           />
           <div className='mt-3 text-xs font-light'>

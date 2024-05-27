@@ -57,7 +57,7 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         // background: "hsl(var(--background))",
-        background: '#fdfcfb',
+        background: '#ffffff',
         beige: {
           DEFAULT: '#4e3b2c',
           50: '#fdfcfb',

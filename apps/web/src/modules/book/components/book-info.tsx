@@ -1,7 +1,6 @@
 'use client';
-import { cn, formatAuthors } from '@/lib/utils';
+import { formatAuthors } from '@/lib/utils';
 import React from 'react';
-import { buttonVariants } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,13 +11,13 @@ import {
 } from '@/components/ui/dialog';
 import { Icons } from '../../../components/icons';
 import { Book } from '@/graphql/graphql';
+import { IconButton } from '@/modules/bookshelves/components/icon-button';
 
 interface BookInfoProps {
   processedBook: Book;
 }
 
 export default function BookInfo({ processedBook }: BookInfoProps) {
-  //TODO: Add a show more button
   return (
     <>
       <div className=' text-base font-semibold'>
@@ -28,10 +27,12 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
             <Dialog>
               <DialogTrigger asChild>
                 <button
-                  className='flex h-8 w-8 items-center justify-center rounded-full transition duration-300 hover:bg-beige-100'
+                  className='group/item ml-1 flex h-8 w-8 items-center justify-center rounded-full transition duration-300 hover:bg-beige-100'
                   style={{ top: '-5px', left: '-5px' }}
                 >
-                  <Icons.arrowRight className='h-5 w-5 rotate-0 transform text-beige transition duration-300' />
+                  <div className='transition-transform duration-500 group-hover/item:-rotate-45'>
+                    <Icons.arrowRight className='h-5 w-5 rotate-0 transform text-beige transition duration-300' />
+                  </div>
                 </button>
               </DialogTrigger>
               <DialogContent className='max-h-4/6 overflow-scroll sm:max-w-[664px]'>
@@ -54,35 +55,13 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
           </span>
         </span>
       </div>
-      <div className='max-h-64 overflow-hidden text-sm'>
+      <div className='max-h-32 overflow-hidden text-sm'>
         <div
           className={`leading-normal `}
           dangerouslySetInnerHTML={{
             __html: processedBook.description!,
           }}
         ></div>
-      </div>
-      <div>
-        {/* <div className="text-sm text-beige">GENRES</div>
-                <hr className="border-t-1 border-beige" /> */}
-        <div className='mt-2'>
-          {processedBook &&
-            processedBook.categories &&
-            processedBook.categories.map((category: string, index: number) => {
-              return (
-                <button
-                  key={index}
-                  className={cn(
-                    buttonVariants({ variant: 'pill', size: 'xs' }),
-                    'mb-1 mr-1 rounded-md bg-beige-200 text-xs font-normal text-gray-600'
-                  )}
-                  disabled={true}
-                >
-                  {category}
-                </button>
-              );
-            })}
-        </div>
       </div>
     </>
   );
