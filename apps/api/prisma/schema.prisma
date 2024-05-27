@@ -124,9 +124,10 @@ model Book {
     language      String?
     /// @Validator.IsInt()
     pageCount     Int?
-
     /// @Validator.IsString()
-    categories String[]
+    slug          String
+    /// @Validator.IsString()
+    categories    String[]
 
     averageRating Float?
 

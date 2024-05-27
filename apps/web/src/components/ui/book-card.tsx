@@ -112,12 +112,14 @@ interface BookCardProps {
 
 export function BookCard({ content, actions, book }: BookCardProps) {
   const linkRef = useRef<HTMLAnchorElement>(null);
+
   return (
     <BookCardContext.Provider value={{ book }}>
       <div>
         <Card
           onClick={() => {
             if (linkRef.current) {
+                // callGetOrCreateGoogleBook
               linkRef.current.click();
             }
           }}

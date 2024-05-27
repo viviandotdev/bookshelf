@@ -559,6 +559,7 @@ type Book {
   publishedDate: String
   publisher: String
   reviews: [Review!]
+  slug: String!
   title: String!
   userBook: [UserBook!]
 }
@@ -587,6 +588,7 @@ type BookCountAggregate {
   pageCount: Int!
   publishedDate: Int!
   publisher: Int!
+  slug: Int!
   title: Int!
 }
 
@@ -603,6 +605,7 @@ input BookCreateInput {
   publishedDate: String
   publisher: String
   reviews: ReviewCreateNestedManyWithoutBookInput
+  slug: String!
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
 }
@@ -663,6 +666,7 @@ input BookCreateWithoutCoversInput {
   publishedDate: String
   publisher: String
   reviews: ReviewCreateNestedManyWithoutBookInput
+  slug: String!
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
 }
@@ -679,6 +683,7 @@ input BookCreateWithoutLogsInput {
   publishedDate: String
   publisher: String
   reviews: ReviewCreateNestedManyWithoutBookInput
+  slug: String!
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
 }
@@ -695,6 +700,7 @@ input BookCreateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  slug: String!
   title: String!
   userBook: UserBookCreateNestedManyWithoutBookInput
 }
@@ -712,6 +718,7 @@ input BookCreateWithoutUserBookInput {
   publishedDate: String
   publisher: String
   reviews: ReviewCreateNestedManyWithoutBookInput
+  slug: String!
   title: String!
 }
 
@@ -730,6 +737,7 @@ type BookMaxAggregate {
   pageCount: Int
   publishedDate: String
   publisher: String
+  slug: String
   title: String
 }
 
@@ -741,6 +749,7 @@ type BookMinAggregate {
   pageCount: Int
   publishedDate: String
   publisher: String
+  slug: String
   title: String
 }
 
@@ -758,6 +767,7 @@ input BookOrderByWithRelationInput {
   publishedDate: SortOrderInput
   publisher: SortOrderInput
   reviews: ReviewOrderByRelationAggregateInput
+  slug: SortOrder
   title: SortOrder
   userBook: UserBookOrderByRelationAggregateInput
 }
@@ -845,6 +855,7 @@ input BookUpdateWithoutCoversInput {
   publishedDate: String
   publisher: String
   reviews: ReviewUpdateManyWithoutBookNestedInput
+  slug: String
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
 }
@@ -861,6 +872,7 @@ input BookUpdateWithoutLogsInput {
   publishedDate: String
   publisher: String
   reviews: ReviewUpdateManyWithoutBookNestedInput
+  slug: String
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
 }
@@ -877,6 +889,7 @@ input BookUpdateWithoutReviewsInput {
   pageCount: Int
   publishedDate: String
   publisher: String
+  slug: String
   title: String
   userBook: UserBookUpdateManyWithoutBookNestedInput
 }
@@ -894,6 +907,7 @@ input BookUpdateWithoutUserBookInput {
   publishedDate: String
   publisher: String
   reviews: ReviewUpdateManyWithoutBookNestedInput
+  slug: String
   title: String
 }
 
@@ -938,6 +952,7 @@ input BookWhereInput {
   publishedDate: StringFilter
   publisher: StringFilter
   reviews: ReviewListRelationFilter
+  slug: StringFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
 }
@@ -959,6 +974,7 @@ input BookWhereUniqueInput {
   publishedDate: StringFilter
   publisher: StringFilter
   reviews: ReviewListRelationFilter
+  slug: StringFilter
   title: StringFilter
   userBook: UserBookListRelationFilter
 }
@@ -2035,6 +2051,7 @@ type Query {
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: MeResponse!
   shelves: [Shelf!]
+  slug(id: String!): String
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
 }

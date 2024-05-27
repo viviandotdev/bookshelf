@@ -16,6 +16,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
+  generateSlug,
   getGoodreadsBookInfo,
   getUserBookInfo,
   parseLineWithQuotes,
@@ -226,6 +227,7 @@ export class UserBookResolver {
           },
           language: book.language,
           categories: book.categories,
+          slug: generateSlug(book.title + ' ' + book.authors.join(' ')),
         };
 
         const identifiers: IdentifierCreateInput = {

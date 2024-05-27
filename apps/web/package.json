@@ -63,25 +63,26 @@
         "react-paginate": "^8.2.0",
         "react-spinners": "^0.13.8",
         "shadcn-ui": "^0.8.0",
+        "short-uuid": "^5.2.0",
         "tailwind-merge": "^2.3.0",
+        "tailwind-scrollbar": "^3.1.0",
         "tailwindcss": "3.4.3",
         "tailwindcss-animate": "^1.0.7",
         "zod": "^3.23.8",
-        "zustand": "^4.5.2",
-        "tailwind-scrollbar": "^3.1.0"
+        "zustand": "^4.5.2"
     },
     "devDependencies": {
         "@types/node": "20.12.12",
-        "typescript": "5.4.5",
-        "@types/react-dom": "18.3.0",
         "@types/ramda": "^0.30.0",
         "@types/react": "18.3.3",
+        "@types/react-dom": "18.3.0",
+        "autoprefixer": "10.4.19",
+        "eslint": "9.3.0",
+        "eslint-config-next": "14.2.3",
         "eslint-config-prettier": "9.1.0",
         "prettier": "3.2.5",
         "prettier-plugin-tailwindcss": "^0.5.14",
         "prisma": "^5.14.0",
-        "eslint": "9.3.0",
-        "eslint-config-next": "14.2.3",
-        "autoprefixer": "10.4.19"
+        "typescript": "5.4.5"
     }
 }

@@ -13,6 +13,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { CoverService } from 'libs/cover/cover.service';
 import { findBookByGoogleBookId } from './api/google.api';
 import { getCovers } from './api/book-cover.api';
+import { generateSlug } from 'libs/user-book/utils';
 
 @Resolver(() => Book)
 export class BookResolver {
@@ -21,6 +22,55 @@ export class BookResolver {
     private readonly coverService: CoverService,
   ) {}
 
+  @Query(() => String, { nullable: true, name: 'slug' })
+  async getBookSlug(
+    @Args('id')
+    id: string,
+  ) {
+    const googleBook = await findBookByGoogleBookId(id);
+    const identifier = await this.bookService.findByIdentifier({
+      where: {
+        google: googleBook.id,
+      },
+    });
+    // book does not exist
+    if (!identifier) {
+      const imageLinks = await getCovers({
+        isbn: googleBook.isbn13,
+        title: googleBook.title,
+        authors: googleBook.authors,
+      });
+      const coverInput: CoverCreateInput[] =
+        this.coverService.createCoverInput(imageLinks);
+
+      const covers = await this.coverService.createCovers(coverInput);
+
+      const bookData: BookCreateInput = {
+        //   id: bookIdentifier.bookId,
+        title: googleBook.title,
+        pageCount: googleBook.pageCount,
+        authors: googleBook.authors,
+        publisher: googleBook.publisher,
+        publishedDate: googleBook.publishedDate,
+        description: googleBook.description,
+        covers: {
+          connect: covers.map((cover) => ({ id: cover.id })),
+        },
+        categories: googleBook.categories,
+        averageRating: googleBook.averageRating,
+        slug: generateSlug(
+          googleBook.title + ' ' + googleBook.authors.join(' '),
+        ),
+      };
+      const book = await this.bookService.create(bookData, null, {
+        isbn10: googleBook.isbn10,
+        isbn13: googleBook.isbn13,
+        google: googleBook.id,
+      });
+
+      return book;
+    }
+  }
   @Query(() => Book, { nullable: true, name: 'getGoogleBook' })
   async getGoogleBook(
     @Args('id')
@@ -64,6 +114,9 @@ export class BookResolver {
         },
         categories: googleBook.categories,
         averageRating: googleBook.averageRating,
+        slug: generateSlug(
+          googleBook.title + ' ' + googleBook.authors.join(' '),
+        ),
       };
       const book = await this.bookService.create(bookData, null, {
         isbn10: googleBook.isbn10,

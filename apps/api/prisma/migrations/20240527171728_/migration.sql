@@ -62,6 +62,7 @@ CREATE TABLE "Book" (
     "description" TEXT,
     "language" TEXT,
     "pageCount" INTEGER,
+    "slug" TEXT NOT NULL,
     "categories" TEXT[],
     "averageRating" DOUBLE PRECISION,
 
@@ -206,6 +207,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Book_slug_key" ON "Book"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Identifier_bookId_key" ON "Identifier"("bookId");
