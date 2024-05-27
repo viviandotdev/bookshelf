@@ -267,16 +267,12 @@ type AuditLog {
   action: ACTION!
   actionContent: String
   book: Book
-  bookId: Int!
+  bookId: String!
   createdAt: Timestamp!
   id: ID!
   updatedAt: Timestamp!
   user: User
   userId: String!
-}
-
-type AuditLogAvgAggregate {
-  bookId: Float
 }
 
 type AuditLogCountAggregate {
@@ -307,7 +303,7 @@ input AuditLogCreateManyBookInputEnvelope {
 input AuditLogCreateManyUserInput {
   action: ACTION!
   actionContent: String
-  bookId: Int!
+  bookId: String!
   createdAt: Timestamp
   id: String
   updatedAt: Timestamp
@@ -369,7 +365,7 @@ input AuditLogListRelationFilter {
 type AuditLogMaxAggregate {
   action: ACTION
   actionContent: String
-  bookId: Int
+  bookId: String
   createdAt: Timestamp
   id: String
   updatedAt: Timestamp
@@ -379,7 +375,7 @@ type AuditLogMaxAggregate {
 type AuditLogMinAggregate {
   action: ACTION
   actionContent: String
-  bookId: Int
+  bookId: String
   createdAt: Timestamp
   id: String
   updatedAt: Timestamp
@@ -408,15 +404,11 @@ input AuditLogScalarWhereInput {
   OR: [AuditLogScalarWhereInput!]
   action: EnumACTIONFilter
   actionContent: StringFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
   updatedAt: DateTimeFilter
   userId: StringFilter
-}
-
-type AuditLogSumAggregate {
-  bookId: Int
 }
 
 input AuditLogUpdateManyMutationInput {
@@ -512,7 +504,7 @@ input AuditLogWhereInput {
   action: EnumACTIONFilter
   actionContent: StringFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
   updatedAt: DateTimeFilter
@@ -527,7 +519,7 @@ input AuditLogWhereUniqueInput {
   action: EnumACTIONFilter
   actionContent: StringFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: String
   updatedAt: DateTimeFilter
@@ -566,7 +558,6 @@ type Book {
 
 type BookAvgAggregate {
   averageRating: Float
-  id: Float
   pageCount: Float
 }
 
@@ -598,6 +589,7 @@ input BookCreateInput {
   categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
+  id: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
@@ -659,6 +651,7 @@ input BookCreateWithoutCoversInput {
   averageRating: Float
   categories: [String!]
   description: String
+  id: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
@@ -677,6 +670,7 @@ input BookCreateWithoutLogsInput {
   categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
+  id: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
   pageCount: Int
@@ -694,6 +688,7 @@ input BookCreateWithoutReviewsInput {
   categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
+  id: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
@@ -711,6 +706,7 @@ input BookCreateWithoutUserBookInput {
   categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   description: String
+  id: String
   identifier: IdentifierCreateNestedOneWithoutBookInput
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
@@ -723,7 +719,7 @@ input BookCreateWithoutUserBookInput {
 }
 
 input BookItemInput {
-  id: Float!
+  id: String!
   order: Float!
   status: String!
   title: String!
@@ -732,7 +728,7 @@ input BookItemInput {
 type BookMaxAggregate {
   averageRating: Float
   description: String
-  id: Int
+  id: String
   language: String
   pageCount: Int
   publishedDate: String
@@ -744,7 +740,7 @@ type BookMaxAggregate {
 type BookMinAggregate {
   averageRating: Float
   description: String
-  id: Int
+  id: String
   language: String
   pageCount: Int
   publishedDate: String
@@ -779,7 +775,6 @@ input BookRelationFilter {
 
 type BookSumAggregate {
   averageRating: Float
-  id: Int
   pageCount: Int
 }
 
@@ -848,6 +843,7 @@ input BookUpdateWithoutCoversInput {
   averageRating: Float
   categories: [String!]
   description: String
+  id: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
   language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
@@ -866,6 +862,7 @@ input BookUpdateWithoutLogsInput {
   categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
+  id: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
   language: String
   pageCount: Int
@@ -883,6 +880,7 @@ input BookUpdateWithoutReviewsInput {
   categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
+  id: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
   language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
@@ -900,6 +898,7 @@ input BookUpdateWithoutUserBookInput {
   categories: [String!]
   covers: CoverUpdateManyWithoutBookNestedInput
   description: String
+  id: String
   identifier: IdentifierUpdateOneWithoutBookNestedInput
   language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
@@ -944,7 +943,7 @@ input BookWhereInput {
   categories: StringListFilter
   covers: CoverListRelationFilter
   description: StringFilter
-  id: IntFilter
+  id: StringFilter
   identifier: IdentifierRelationFilter
   language: StringFilter
   logs: AuditLogListRelationFilter
@@ -966,7 +965,7 @@ input BookWhereUniqueInput {
   categories: StringListFilter
   covers: CoverListRelationFilter
   description: StringFilter
-  id: Int
+  id: String
   identifier: IdentifierRelationFilter
   language: StringFilter
   logs: AuditLogListRelationFilter
@@ -974,7 +973,7 @@ input BookWhereUniqueInput {
   publishedDate: StringFilter
   publisher: StringFilter
   reviews: ReviewListRelationFilter
-  slug: StringFilter
+  slug: String
   title: StringFilter
   userBook: UserBookListRelationFilter
 }
@@ -1219,15 +1218,11 @@ input CommentWhereUniqueInput {
 type Cover {
   UserBook: UserBook
   book: Book
-  bookId: Int
+  bookId: String
   id: ID!
   size: SIZE!
   url: String!
   userBookId: String
-}
-
-type CoverAvgAggregate {
-  bookId: Float
 }
 
 type CoverCountAggregate {
@@ -1252,7 +1247,7 @@ input CoverCreateManyBookInputEnvelope {
 }
 
 input CoverCreateManyUserBookInput {
-  bookId: Int
+  bookId: String
   id: String
   size: SIZE!
   url: String!
@@ -1308,7 +1303,7 @@ input CoverListRelationFilter {
 }
 
 type CoverMaxAggregate {
-  bookId: Int
+  bookId: String
   id: String
   size: SIZE
   url: String
@@ -1316,7 +1311,7 @@ type CoverMaxAggregate {
 }
 
 type CoverMinAggregate {
-  bookId: Int
+  bookId: String
   id: String
   size: SIZE
   url: String
@@ -1331,15 +1326,11 @@ input CoverScalarWhereInput {
   AND: [CoverScalarWhereInput!]
   NOT: [CoverScalarWhereInput!]
   OR: [CoverScalarWhereInput!]
-  bookId: IntFilter
+  bookId: StringFilter
   id: StringFilter
   size: EnumSIZEFilter
   url: StringFilter
   userBookId: StringFilter
-}
-
-type CoverSumAggregate {
-  bookId: Int
 }
 
 input CoverUpdateManyMutationInput {
@@ -1428,7 +1419,7 @@ input CoverWhereInput {
   OR: [CoverWhereInput!]
   UserBook: UserBookRelationFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   id: StringFilter
   size: EnumSIZEFilter
   url: StringFilter
@@ -1441,7 +1432,7 @@ input CoverWhereUniqueInput {
   OR: [CoverWhereInput!]
   UserBook: UserBookRelationFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   id: String
   size: EnumSIZEFilter
   url: StringFilter
@@ -1487,16 +1478,12 @@ input FloatFilter {
 type Identifier {
   amazon: String
   book: Book
-  bookId: Int!
+  bookId: String!
   goodreads: String
   google: String
   isbn10: String
   isbn13: String
   openLibrary: String
-}
-
-type IdentifierAvgAggregate {
-  bookId: Float
 }
 
 type IdentifierCountAggregate {
@@ -1532,7 +1519,7 @@ input IdentifierCreateWithoutBookInput {
 
 type IdentifierMaxAggregate {
   amazon: String
-  bookId: Int
+  bookId: String
   goodreads: String
   google: String
   isbn10: String
@@ -1542,7 +1529,7 @@ type IdentifierMaxAggregate {
 
 type IdentifierMinAggregate {
   amazon: String
-  bookId: Int
+  bookId: String
   goodreads: String
   google: String
   isbn10: String
@@ -1564,10 +1551,6 @@ input IdentifierOrderByWithRelationInput {
 input IdentifierRelationFilter {
   is: IdentifierWhereInput
   isNot: IdentifierWhereInput
-}
-
-type IdentifierSumAggregate {
-  bookId: Int
 }
 
 input IdentifierUpdateOneWithoutBookNestedInput {
@@ -1606,7 +1589,7 @@ input IdentifierWhereInput {
   OR: [IdentifierWhereInput!]
   amazon: StringFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   goodreads: StringFilter
   google: StringFilter
   isbn10: StringFilter
@@ -1620,7 +1603,7 @@ input IdentifierWhereUniqueInput {
   OR: [IdentifierWhereInput!]
   amazon: StringFilter
   book: BookRelationFilter
-  bookId: Int
+  bookId: String
   goodreads: StringFilter
   google: StringFilter
   isbn10: StringFilter
@@ -1967,7 +1950,7 @@ type MeResponse {
 }
 
 type Mutation {
-  addBookToShelf(bookId: Int!, shelf: String!): UserBook!
+  addBookToShelf(bookId: String!, shelf: String!): UserBook!
   createBook(data: BookCreateInput!): Book!
   createComment(data: CommentCreateInput!, where: ReviewWhereUniqueInput!): Comment!
   createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
@@ -1984,7 +1967,7 @@ type Mutation {
   oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
-  removeBookFromShelf(bookId: Int!, shelf: String!): UserBook!
+  removeBookFromShelf(bookId: String!, shelf: String!): UserBook!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: BookWhereUniqueInput!): UserBook!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
@@ -2081,7 +2064,7 @@ input ResetPasswordInput {
 type Review {
   _count: ReviewCount!
   book: Book
-  bookId: Int
+  bookId: String
   commentCount: Int!
   comments: [Comment!]
   content: String
@@ -2096,7 +2079,6 @@ type Review {
 }
 
 type ReviewAvgAggregate {
-  bookId: Float
   likeCount: Float
 }
 
@@ -2131,7 +2113,7 @@ input ReviewCreateManyBookInputEnvelope {
 }
 
 input ReviewCreateManyUserInput {
-  bookId: Int
+  bookId: String
   content: String
   createdAt: Timestamp
   id: String
@@ -2247,7 +2229,7 @@ input ReviewListRelationFilter {
 }
 
 type ReviewMaxAggregate {
-  bookId: Int
+  bookId: String
   content: String
   createdAt: Timestamp
   id: String
@@ -2257,7 +2239,7 @@ type ReviewMaxAggregate {
 }
 
 type ReviewMinAggregate {
-  bookId: Int
+  bookId: String
   content: String
   createdAt: Timestamp
   id: String
@@ -2279,7 +2261,7 @@ input ReviewScalarWhereInput {
   AND: [ReviewScalarWhereInput!]
   NOT: [ReviewScalarWhereInput!]
   OR: [ReviewScalarWhereInput!]
-  bookId: IntFilter
+  bookId: StringFilter
   content: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
@@ -2289,12 +2271,11 @@ input ReviewScalarWhereInput {
 }
 
 type ReviewSumAggregate {
-  bookId: Int
   likeCount: Int
 }
 
 input ReviewUniqueInput {
-  bookId: Float
+  bookId: String
   id: String
 }
 
@@ -2465,7 +2446,7 @@ input ReviewWhereInput {
   NOT: [ReviewWhereInput!]
   OR: [ReviewWhereInput!]
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   comments: CommentListRelationFilter
   content: StringFilter
   createdAt: DateTimeFilter
@@ -2482,7 +2463,7 @@ input ReviewWhereUniqueInput {
   NOT: [ReviewWhereInput!]
   OR: [ReviewWhereInput!]
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   comments: CommentListRelationFilter
   content: StringFilter
   createdAt: DateTimeFilter
@@ -2812,7 +2793,7 @@ type UserBook {
   _count: UserBookCount!
   authors: String
   book: Book
-  bookId: Int!
+  bookId: String!
   createdAt: Timestamp!
   id: ID!
   journalEntry: [JournalEntry!]
@@ -2827,7 +2808,6 @@ type UserBook {
 }
 
 type UserBookAvgAggregate {
-  bookId: Float
   order: Float
   rating: Float
 }
@@ -2871,7 +2851,7 @@ input UserBookCreateManyBookInputEnvelope {
 
 input UserBookCreateManyUserInput {
   authors: String
-  bookId: Int!
+  bookId: String!
   createdAt: Timestamp
   id: String
   order: Int!
@@ -3019,7 +2999,7 @@ input UserBookCreateWithoutUserInput {
 }
 
 input UserBookIdentifierCompoundUniqueInput {
-  bookId: Int!
+  bookId: String!
   userId: String!
 }
 
@@ -3031,7 +3011,7 @@ input UserBookListRelationFilter {
 
 type UserBookMaxAggregate {
   authors: String
-  bookId: Int
+  bookId: String
   createdAt: Timestamp
   id: String
   order: Int
@@ -3044,7 +3024,7 @@ type UserBookMaxAggregate {
 
 type UserBookMinAggregate {
   authors: String
-  bookId: Int
+  bookId: String
   createdAt: Timestamp
   id: String
   order: Int
@@ -3087,7 +3067,7 @@ input UserBookScalarWhereInput {
   NOT: [UserBookScalarWhereInput!]
   OR: [UserBookScalarWhereInput!]
   authors: StringFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
   order: IntFilter
@@ -3292,7 +3272,6 @@ input UserBookShelvesWhereUniqueInput {
 }
 
 type UserBookSumAggregate {
-  bookId: Int
   order: Int
   rating: Float
 }
@@ -3521,7 +3500,7 @@ input UserBookWhereInput {
   OR: [UserBookWhereInput!]
   authors: StringFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
   journalEntry: JournalEntryListRelationFilter
@@ -3542,7 +3521,7 @@ input UserBookWhereUniqueInput {
   OR: [UserBookWhereInput!]
   authors: StringFilter
   book: BookRelationFilter
-  bookId: IntFilter
+  bookId: StringFilter
   createdAt: DateTimeFilter
   id: String
   identifier: UserBookIdentifierCompoundUniqueInput

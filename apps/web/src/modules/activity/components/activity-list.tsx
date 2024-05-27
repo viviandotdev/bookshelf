@@ -29,10 +29,10 @@ export const ActivityList: React.FC<ActivityListProps> = ({ bookId, initialActiv
         let activityOptions: UserBookWhereInput = {};
 
         // Check if bookId exists and is a valid number after parsing
-        if (bookId && !isNaN(parseInt(bookId))) {
+        if (bookId ) {
             activityOptions = {
                 bookId: {
-                    equals: parseInt(bookId)
+                    equals: bookId
                 }
             };
         }

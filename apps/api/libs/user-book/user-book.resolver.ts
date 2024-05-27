@@ -54,7 +54,7 @@ export class UserBookResolver {
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook, { name: 'addBookToShelf' })
   async addBookToShelf(
-    @Args('bookId', { type: () => Int }) bookId: number,
+    @Args('bookId', { type: () => String }) bookId: string,
     @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
@@ -64,7 +64,7 @@ export class UserBookResolver {
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook, { name: 'removeBookFromShelf' })
   async removeUserBookFromShelf(
-    @Args('bookId', { type: () => Int }) bookId: number,
+    @Args('bookId', { type: () => String }) bookId: string,
     @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
@@ -92,7 +92,7 @@ export class UserBookResolver {
     } else {
       bookId = id;
     }
-    return this.userBookService.create(parseInt(bookId), user.userId);
+    return this.userBookService.create(bookId, user.userId);
   }
 
   @UseGuards(AccessTokenGuard)

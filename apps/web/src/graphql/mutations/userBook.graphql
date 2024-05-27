@@ -43,14 +43,14 @@ mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
   }
 }
 
-mutation AddUserBookToShelf($bookId: Int!, $shelf: String!) {
+mutation AddUserBookToShelf($bookId: String!, $shelf: String!) {
   addBookToShelf(bookId: $bookId, shelf: $shelf) {
     id
     status
   }
 }
 
-mutation RemoveUserBookFromShelf($bookId: Int!, $shelf: String!) {
+mutation RemoveUserBookFromShelf($bookId: String!, $shelf: String!) {
   removeBookFromShelf(bookId: $bookId, shelf: $shelf) {
     id
     status

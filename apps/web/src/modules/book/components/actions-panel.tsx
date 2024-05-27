@@ -107,7 +107,7 @@ export default function ActionsPanel({
   }, [userBookRating]);
   useEffect(() => {
     const loadData = async () => {
-      await loadBook({ variables: { where: { id: parseInt(book.id) } } });
+      await loadBook({ variables: { where: { id: book.id } } });
     };
     loadData();
   }, [loadBook, router]);

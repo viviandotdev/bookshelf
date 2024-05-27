@@ -11,6 +11,6 @@ export class ReviewUniqueInput {
   id?: string;
 
   @IsOptional()
-  @Field(() => Number, { nullable: true })
-  bookId?: number;
+  @Field(() => String, { nullable: true })
+  bookId?: string;
 }

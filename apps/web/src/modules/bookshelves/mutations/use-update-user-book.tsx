@@ -15,7 +15,7 @@ export const useUpdateUserBook = () => {
       variables: {
         data: updateInput,
         where: {
-          id: parseInt(bookId),
+          id: (bookId),
         },
       },
       update: (cache, { data }) => {

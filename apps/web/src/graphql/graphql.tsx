@@ -5,16 +5,18 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
-  Timestamp: any;
+  Timestamp: { input: any; output: any; }
 };
 
 export enum Action {
@@ -29,60 +31,60 @@ export enum Action {
 
 export type Account = {
   __typename?: 'Account';
-  access_token?: Maybe<Scalars['String']>;
-  expires_at?: Maybe<Scalars['Int']>;
-  id: Scalars['ID'];
-  id_token?: Maybe<Scalars['String']>;
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
-  refresh_token?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scalars['String']>;
-  session_state?: Maybe<Scalars['String']>;
-  token_type?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
+  access_token?: Maybe<Scalars['String']['output']>;
+  expires_at?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  id_token?: Maybe<Scalars['String']['output']>;
+  provider: Scalars['String']['output'];
+  providerAccountId: Scalars['String']['output'];
+  refresh_token?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
+  session_state?: Maybe<Scalars['String']['output']>;
+  token_type?: Maybe<Scalars['String']['output']>;
+  type: Scalars['String']['output'];
   user: User;
-  userId: Scalars['String'];
+  userId: Scalars['String']['output'];
 };
 
 export type AccountAvgAggregate = {
   __typename?: 'AccountAvgAggregate';
-  expires_at?: Maybe<Scalars['Float']>;
+  expires_at?: Maybe<Scalars['Float']['output']>;
 };
 
 export type AccountCountAggregate = {
   __typename?: 'AccountCountAggregate';
-  _all: Scalars['Int'];
-  access_token: Scalars['Int'];
-  expires_at: Scalars['Int'];
-  id: Scalars['Int'];
-  id_token: Scalars['Int'];
-  provider: Scalars['Int'];
-  providerAccountId: Scalars['Int'];
-  refresh_token: Scalars['Int'];
-  scope: Scalars['Int'];
-  session_state: Scalars['Int'];
-  token_type: Scalars['Int'];
-  type: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  access_token: Scalars['Int']['output'];
+  expires_at: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  id_token: Scalars['Int']['output'];
+  provider: Scalars['Int']['output'];
+  providerAccountId: Scalars['Int']['output'];
+  refresh_token: Scalars['Int']['output'];
+  scope: Scalars['Int']['output'];
+  session_state: Scalars['Int']['output'];
+  token_type: Scalars['Int']['output'];
+  type: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type AccountCreateManyUserInput = {
-  access_token?: InputMaybe<Scalars['String']>;
-  expires_at?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  id_token?: InputMaybe<Scalars['String']>;
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
-  refresh_token?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<Scalars['String']>;
-  session_state?: InputMaybe<Scalars['String']>;
-  token_type?: InputMaybe<Scalars['String']>;
-  type: Scalars['String'];
+  access_token?: InputMaybe<Scalars['String']['input']>;
+  expires_at?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_token?: InputMaybe<Scalars['String']['input']>;
+  provider: Scalars['String']['input'];
+  providerAccountId: Scalars['String']['input'];
+  refresh_token?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  session_state?: InputMaybe<Scalars['String']['input']>;
+  token_type?: InputMaybe<Scalars['String']['input']>;
+  type: Scalars['String']['input'];
 };
 
 export type AccountCreateManyUserInputEnvelope = {
   data: Array<AccountCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AccountCreateNestedManyWithoutUserInput = {
@@ -98,17 +100,17 @@ export type AccountCreateOrConnectWithoutUserInput = {
 };
 
 export type AccountCreateWithoutUserInput = {
-  access_token?: InputMaybe<Scalars['String']>;
-  expires_at?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  id_token?: InputMaybe<Scalars['String']>;
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
-  refresh_token?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<Scalars['String']>;
-  session_state?: InputMaybe<Scalars['String']>;
-  token_type?: InputMaybe<Scalars['String']>;
-  type: Scalars['String'];
+  access_token?: InputMaybe<Scalars['String']['input']>;
+  expires_at?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_token?: InputMaybe<Scalars['String']['input']>;
+  provider: Scalars['String']['input'];
+  providerAccountId: Scalars['String']['input'];
+  refresh_token?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  session_state?: InputMaybe<Scalars['String']['input']>;
+  token_type?: InputMaybe<Scalars['String']['input']>;
+  type: Scalars['String']['input'];
 };
 
 export type AccountListRelationFilter = {
@@ -119,34 +121,34 @@ export type AccountListRelationFilter = {
 
 export type AccountMaxAggregate = {
   __typename?: 'AccountMaxAggregate';
-  access_token?: Maybe<Scalars['String']>;
-  expires_at?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  id_token?: Maybe<Scalars['String']>;
-  provider?: Maybe<Scalars['String']>;
-  providerAccountId?: Maybe<Scalars['String']>;
-  refresh_token?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scalars['String']>;
-  session_state?: Maybe<Scalars['String']>;
-  token_type?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  access_token?: Maybe<Scalars['String']['output']>;
+  expires_at?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  id_token?: Maybe<Scalars['String']['output']>;
+  provider?: Maybe<Scalars['String']['output']>;
+  providerAccountId?: Maybe<Scalars['String']['output']>;
+  refresh_token?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
+  session_state?: Maybe<Scalars['String']['output']>;
+  token_type?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type AccountMinAggregate = {
   __typename?: 'AccountMinAggregate';
-  access_token?: Maybe<Scalars['String']>;
-  expires_at?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  id_token?: Maybe<Scalars['String']>;
-  provider?: Maybe<Scalars['String']>;
-  providerAccountId?: Maybe<Scalars['String']>;
-  refresh_token?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scalars['String']>;
-  session_state?: Maybe<Scalars['String']>;
-  token_type?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  access_token?: Maybe<Scalars['String']['output']>;
+  expires_at?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  id_token?: Maybe<Scalars['String']['output']>;
+  provider?: Maybe<Scalars['String']['output']>;
+  providerAccountId?: Maybe<Scalars['String']['output']>;
+  refresh_token?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
+  session_state?: Maybe<Scalars['String']['output']>;
+  token_type?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type AccountOrderByRelationAggregateInput = {
@@ -154,8 +156,8 @@ export type AccountOrderByRelationAggregateInput = {
 };
 
 export type AccountProviderProviderAccountIdCompoundUniqueInput = {
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
+  provider: Scalars['String']['input'];
+  providerAccountId: Scalars['String']['input'];
 };
 
 export type AccountScalarWhereInput = {
@@ -178,21 +180,21 @@ export type AccountScalarWhereInput = {
 
 export type AccountSumAggregate = {
   __typename?: 'AccountSumAggregate';
-  expires_at?: Maybe<Scalars['Int']>;
+  expires_at?: Maybe<Scalars['Int']['output']>;
 };
 
 export type AccountUpdateManyMutationInput = {
-  access_token?: InputMaybe<Scalars['String']>;
-  expires_at?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  id_token?: InputMaybe<Scalars['String']>;
-  provider?: InputMaybe<Scalars['String']>;
-  providerAccountId?: InputMaybe<Scalars['String']>;
-  refresh_token?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<Scalars['String']>;
-  session_state?: InputMaybe<Scalars['String']>;
-  token_type?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  access_token?: InputMaybe<Scalars['String']['input']>;
+  expires_at?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_token?: InputMaybe<Scalars['String']['input']>;
+  provider?: InputMaybe<Scalars['String']['input']>;
+  providerAccountId?: InputMaybe<Scalars['String']['input']>;
+  refresh_token?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  session_state?: InputMaybe<Scalars['String']['input']>;
+  token_type?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AccountUpdateManyWithWhereWithoutUserInput = {
@@ -220,17 +222,17 @@ export type AccountUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type AccountUpdateWithoutUserInput = {
-  access_token?: InputMaybe<Scalars['String']>;
-  expires_at?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
-  id_token?: InputMaybe<Scalars['String']>;
-  provider?: InputMaybe<Scalars['String']>;
-  providerAccountId?: InputMaybe<Scalars['String']>;
-  refresh_token?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<Scalars['String']>;
-  session_state?: InputMaybe<Scalars['String']>;
-  token_type?: InputMaybe<Scalars['String']>;
-  type?: InputMaybe<Scalars['String']>;
+  access_token?: InputMaybe<Scalars['String']['input']>;
+  expires_at?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_token?: InputMaybe<Scalars['String']['input']>;
+  provider?: InputMaybe<Scalars['String']['input']>;
+  providerAccountId?: InputMaybe<Scalars['String']['input']>;
+  refresh_token?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  session_state?: InputMaybe<Scalars['String']['input']>;
+  token_type?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type AccountUpsertWithWhereUniqueWithoutUserInput = {
@@ -264,7 +266,7 @@ export type AccountWhereUniqueInput = {
   OR?: InputMaybe<Array<AccountWhereInput>>;
   access_token?: InputMaybe<StringFilter>;
   expires_at?: InputMaybe<IntFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   id_token?: InputMaybe<StringFilter>;
   provider?: InputMaybe<StringFilter>;
   providerAccountId?: InputMaybe<StringFilter>;
@@ -281,66 +283,61 @@ export type AccountWhereUniqueInput = {
 export type ActivitiesResponse = {
   __typename?: 'ActivitiesResponse';
   activities?: Maybe<Array<AuditLog>>;
-  hasMore: Scalars['Boolean'];
-  totalActivities: Scalars['Float'];
+  hasMore: Scalars['Boolean']['output'];
+  totalActivities: Scalars['Float']['output'];
 };
 
 export type AuditLog = {
   __typename?: 'AuditLog';
   action: Action;
-  actionContent?: Maybe<Scalars['String']>;
+  actionContent?: Maybe<Scalars['String']['output']>;
   book?: Maybe<Book>;
-  bookId: Scalars['Int'];
-  createdAt: Scalars['Timestamp'];
-  id: Scalars['ID'];
-  updatedAt: Scalars['Timestamp'];
+  bookId: Scalars['String']['output'];
+  createdAt: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
+  updatedAt: Scalars['Timestamp']['output'];
   user?: Maybe<User>;
-  userId: Scalars['String'];
-};
-
-export type AuditLogAvgAggregate = {
-  __typename?: 'AuditLogAvgAggregate';
-  bookId?: Maybe<Scalars['Float']>;
+  userId: Scalars['String']['output'];
 };
 
 export type AuditLogCountAggregate = {
   __typename?: 'AuditLogCountAggregate';
-  _all: Scalars['Int'];
-  action: Scalars['Int'];
-  actionContent: Scalars['Int'];
-  bookId: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  id: Scalars['Int'];
-  updatedAt: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  action: Scalars['Int']['output'];
+  actionContent: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type AuditLogCreateManyBookInput = {
   action: Action;
-  actionContent?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  userId: Scalars['String'];
+  actionContent?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  userId: Scalars['String']['input'];
 };
 
 export type AuditLogCreateManyBookInputEnvelope = {
   data: Array<AuditLogCreateManyBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AuditLogCreateManyUserInput = {
   action: Action;
-  actionContent?: InputMaybe<Scalars['String']>;
-  bookId: Scalars['Int'];
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
+  bookId: Scalars['String']['input'];
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type AuditLogCreateManyUserInputEnvelope = {
   data: Array<AuditLogCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type AuditLogCreateNestedManyWithoutBookInput = {
@@ -369,20 +366,20 @@ export type AuditLogCreateOrConnectWithoutUserInput = {
 
 export type AuditLogCreateWithoutBookInput = {
   action: Action;
-  actionContent?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutAuditLogsInput>;
 };
 
 export type AuditLogCreateWithoutUserInput = {
   action: Action;
-  actionContent?: InputMaybe<Scalars['String']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookCreateNestedOneWithoutLogsInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type AuditLogListRelationFilter = {
@@ -394,23 +391,23 @@ export type AuditLogListRelationFilter = {
 export type AuditLogMaxAggregate = {
   __typename?: 'AuditLogMaxAggregate';
   action?: Maybe<Action>;
-  actionContent?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  userId?: Maybe<Scalars['String']>;
+  actionContent?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type AuditLogMinAggregate = {
   __typename?: 'AuditLogMinAggregate';
   action?: Maybe<Action>;
-  actionContent?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  userId?: Maybe<Scalars['String']>;
+  actionContent?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type AuditLogOrderByRelationAggregateInput = {
@@ -435,24 +432,19 @@ export type AuditLogScalarWhereInput = {
   OR?: InputMaybe<Array<AuditLogScalarWhereInput>>;
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
-export type AuditLogSumAggregate = {
-  __typename?: 'AuditLogSumAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-};
-
 export type AuditLogUpdateManyMutationInput = {
   action?: InputMaybe<Action>;
-  actionContent?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type AuditLogUpdateManyWithWhereWithoutBookInput = {
@@ -505,20 +497,20 @@ export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
 
 export type AuditLogUpdateWithoutBookInput = {
   action?: InputMaybe<Action>;
-  actionContent?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutAuditLogsNestedInput>;
 };
 
 export type AuditLogUpdateWithoutUserInput = {
   action?: InputMaybe<Action>;
-  actionContent?: InputMaybe<Scalars['String']>;
+  actionContent?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookUpdateOneWithoutLogsNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type AuditLogUpsertWithWhereUniqueWithoutBookInput = {
@@ -540,7 +532,7 @@ export type AuditLogWhereInput = {
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -555,9 +547,9 @@ export type AuditLogWhereUniqueInput = {
   action?: InputMaybe<EnumActionFilter>;
   actionContent?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -565,137 +557,81 @@ export type AuditLogWhereUniqueInput = {
 
 export type AuthResponse = {
   __typename?: 'AuthResponse';
-  accessToken?: Maybe<Scalars['String']>;
-  expiresIn?: Maybe<Scalars['Float']>;
-  isNewUser?: Maybe<Scalars['Boolean']>;
-  refreshToken?: Maybe<Scalars['String']>;
+  accessToken?: Maybe<Scalars['String']['output']>;
+  expiresIn?: Maybe<Scalars['Float']['output']>;
+  isNewUser?: Maybe<Scalars['Boolean']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
   user: User;
-  verificationToken?: Maybe<Scalars['String']>;
-};
-
-export type Bestseller = {
-  __typename?: 'Bestseller';
-  author: Scalars['String'];
-  bookImage: Scalars['String'];
-  description: Scalars['String'];
-  googleId: Scalars['String'];
-  id: Scalars['ID'];
-  listName: Scalars['String'];
-  publishedDate: Scalars['String'];
-  title: Scalars['String'];
-};
-
-export type BestsellerAvgAggregate = {
-  __typename?: 'BestsellerAvgAggregate';
-  id?: Maybe<Scalars['Float']>;
-};
-
-export type BestsellerCountAggregate = {
-  __typename?: 'BestsellerCountAggregate';
-  _all: Scalars['Int'];
-  author: Scalars['Int'];
-  bookImage: Scalars['Int'];
-  description: Scalars['Int'];
-  googleId: Scalars['Int'];
-  id: Scalars['Int'];
-  listName: Scalars['Int'];
-  publishedDate: Scalars['Int'];
-  title: Scalars['Int'];
-};
-
-export type BestsellerMaxAggregate = {
-  __typename?: 'BestsellerMaxAggregate';
-  author?: Maybe<Scalars['String']>;
-  bookImage?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  googleId?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  listName?: Maybe<Scalars['String']>;
-  publishedDate?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type BestsellerMinAggregate = {
-  __typename?: 'BestsellerMinAggregate';
-  author?: Maybe<Scalars['String']>;
-  bookImage?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  googleId?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  listName?: Maybe<Scalars['String']>;
-  publishedDate?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-};
-
-export type BestsellerSumAggregate = {
-  __typename?: 'BestsellerSumAggregate';
-  id?: Maybe<Scalars['Int']>;
+  verificationToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type Book = {
   __typename?: 'Book';
   _count: BookCount;
-  authors?: Maybe<Array<Scalars['String']>>;
-  averageRating?: Maybe<Scalars['Float']>;
-  categories?: Maybe<Array<Scalars['String']>>;
+  authors?: Maybe<Array<Scalars['String']['output']>>;
+  averageRating?: Maybe<Scalars['Float']['output']>;
+  categories?: Maybe<Array<Scalars['String']['output']>>;
   covers?: Maybe<Array<Cover>>;
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   identifier?: Maybe<Identifier>;
-  language?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']['output']>;
   logs?: Maybe<Array<AuditLog>>;
-  pageCount?: Maybe<Scalars['Int']>;
-  publishedDate?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
+  publishedDate?: Maybe<Scalars['String']['output']>;
+  publisher?: Maybe<Scalars['String']['output']>;
   reviews?: Maybe<Array<Review>>;
-  title: Scalars['String'];
+  slug: Scalars['String']['output'];
+  title: Scalars['String']['output'];
   userBook?: Maybe<Array<UserBook>>;
 };
 
 export type BookAvgAggregate = {
   __typename?: 'BookAvgAggregate';
-  averageRating?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  pageCount?: Maybe<Scalars['Float']>;
+  averageRating?: Maybe<Scalars['Float']['output']>;
+  pageCount?: Maybe<Scalars['Float']['output']>;
 };
 
 export type BookCount = {
   __typename?: 'BookCount';
-  covers: Scalars['Int'];
-  logs: Scalars['Int'];
-  reviews: Scalars['Int'];
-  userBook: Scalars['Int'];
+  covers: Scalars['Int']['output'];
+  logs: Scalars['Int']['output'];
+  reviews: Scalars['Int']['output'];
+  userBook: Scalars['Int']['output'];
 };
 
 export type BookCountAggregate = {
   __typename?: 'BookCountAggregate';
-  _all: Scalars['Int'];
-  authors: Scalars['Int'];
-  averageRating: Scalars['Int'];
-  categories: Scalars['Int'];
-  description: Scalars['Int'];
-  id: Scalars['Int'];
-  language: Scalars['Int'];
-  pageCount: Scalars['Int'];
-  publishedDate: Scalars['Int'];
-  publisher: Scalars['Int'];
-  title: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  authors: Scalars['Int']['output'];
+  averageRating: Scalars['Int']['output'];
+  categories: Scalars['Int']['output'];
+  description: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  language: Scalars['Int']['output'];
+  pageCount: Scalars['Int']['output'];
+  publishedDate: Scalars['Int']['output'];
+  publisher: Scalars['Int']['output'];
+  slug: Scalars['Int']['output'];
+  title: Scalars['Int']['output'];
 };
 
 export type BookCreateInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
-  title: Scalars['String'];
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
 
@@ -744,98 +680,108 @@ export type BookCreateOrConnectWithoutUserBookInput = {
 };
 
 export type BookCreateWithoutCoversInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
-  description?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
-  title: Scalars['String'];
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
 
 export type BookCreateWithoutLogsInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
-  language?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
-  title: Scalars['String'];
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
 
 export type BookCreateWithoutReviewsInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
 };
 
 export type BookCreateWithoutUserBookInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
-  title: Scalars['String'];
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type BookItemInput = {
-  id: Scalars['Float'];
-  order: Scalars['Float'];
-  status: Scalars['String'];
-  title: Scalars['String'];
+  id: Scalars['String']['input'];
+  order: Scalars['Float']['input'];
+  status: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
-  averageRating?: Maybe<Scalars['Float']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  language?: Maybe<Scalars['String']>;
-  pageCount?: Maybe<Scalars['Int']>;
-  publishedDate?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  averageRating?: Maybe<Scalars['Float']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
+  publishedDate?: Maybe<Scalars['String']['output']>;
+  publisher?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type BookMinAggregate = {
   __typename?: 'BookMinAggregate';
-  averageRating?: Maybe<Scalars['Float']>;
-  description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  language?: Maybe<Scalars['String']>;
-  pageCount?: Maybe<Scalars['Int']>;
-  publishedDate?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  averageRating?: Maybe<Scalars['Float']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
+  publishedDate?: Maybe<Scalars['String']['output']>;
+  publisher?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
 };
 
 export type BookOrderByWithRelationInput = {
@@ -852,6 +798,7 @@ export type BookOrderByWithRelationInput = {
   publishedDate?: InputMaybe<SortOrderInput>;
   publisher?: InputMaybe<SortOrderInput>;
   reviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
+  slug?: InputMaybe<SortOrder>;
   title?: InputMaybe<SortOrder>;
   userBook?: InputMaybe<UserBookOrderByRelationAggregateInput>;
 };
@@ -863,9 +810,8 @@ export type BookRelationFilter = {
 
 export type BookSumAggregate = {
   __typename?: 'BookSumAggregate';
-  averageRating?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Int']>;
-  pageCount?: Maybe<Scalars['Int']>;
+  averageRating?: Maybe<Scalars['Float']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type BookUpdateOneWithoutCoversNestedInput = {
@@ -929,67 +875,75 @@ export type BookUpdateToOneWithWhereWithoutUserBookInput = {
 };
 
 export type BookUpdateWithoutCoversInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
-  description?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
-  title?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
 };
 
 export type BookUpdateWithoutLogsInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
-  language?: InputMaybe<Scalars['String']>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
-  title?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
 };
 
 export type BookUpdateWithoutReviewsInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
   userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
 };
 
 export type BookUpdateWithoutUserBookInput = {
-  authors?: InputMaybe<Array<Scalars['String']>>;
-  averageRating?: InputMaybe<Scalars['Float']>;
-  categories?: InputMaybe<Array<Scalars['String']>>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
-  description?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
-  language?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
-  pageCount?: InputMaybe<Scalars['Int']>;
-  publishedDate?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
-  title?: InputMaybe<Scalars['String']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type BookUpsertWithoutCoversInput = {
@@ -1025,7 +979,7 @@ export type BookWhereInput = {
   categories?: InputMaybe<StringListFilter>;
   covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
-  id?: InputMaybe<IntFilter>;
+  id?: InputMaybe<StringFilter>;
   identifier?: InputMaybe<IdentifierRelationFilter>;
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
@@ -1033,6 +987,7 @@ export type BookWhereInput = {
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
+  slug?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
 };
@@ -1046,7 +1001,7 @@ export type BookWhereUniqueInput = {
   categories?: InputMaybe<StringListFilter>;
   covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
-  id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<IdentifierRelationFilter>;
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
@@ -1054,66 +1009,67 @@ export type BookWhereUniqueInput = {
   publishedDate?: InputMaybe<StringFilter>;
   publisher?: InputMaybe<StringFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookListRelationFilter>;
 };
 
 export type BoolFilter = {
-  equals?: InputMaybe<Scalars['Boolean']>;
+  equals?: InputMaybe<Scalars['Boolean']['input']>;
   not?: InputMaybe<BoolFilter>;
 };
 
 export type Comment = {
   __typename?: 'Comment';
-  content?: Maybe<Scalars['String']>;
-  createdAt: Scalars['Timestamp'];
-  id: Scalars['ID'];
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
   review?: Maybe<Review>;
-  reviewId?: Maybe<Scalars['String']>;
+  reviewId?: Maybe<Scalars['String']['output']>;
   user?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CommentCountAggregate = {
   __typename?: 'CommentCountAggregate';
-  _all: Scalars['Int'];
-  content: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  id: Scalars['Int'];
-  reviewId: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  content: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  reviewId: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type CommentCreateInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   review?: InputMaybe<ReviewCreateNestedOneWithoutCommentsInput>;
   user?: InputMaybe<UserCreateNestedOneWithoutCommentsInput>;
 };
 
 export type CommentCreateManyReviewInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CommentCreateManyReviewInputEnvelope = {
   data: Array<CommentCreateManyReviewInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CommentCreateManyUserInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  reviewId?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  reviewId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CommentCreateManyUserInputEnvelope = {
   data: Array<CommentCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CommentCreateNestedManyWithoutReviewInput = {
@@ -1141,16 +1097,16 @@ export type CommentCreateOrConnectWithoutUserInput = {
 };
 
 export type CommentCreateWithoutReviewInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutCommentsInput>;
 };
 
 export type CommentCreateWithoutUserInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   review?: InputMaybe<ReviewCreateNestedOneWithoutCommentsInput>;
 };
 
@@ -1162,20 +1118,20 @@ export type CommentListRelationFilter = {
 
 export type CommentMaxAggregate = {
   __typename?: 'CommentMaxAggregate';
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  reviewId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  reviewId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CommentMinAggregate = {
   __typename?: 'CommentMinAggregate';
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  reviewId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  reviewId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CommentOrderByRelationAggregateInput = {
@@ -1194,9 +1150,9 @@ export type CommentScalarWhereInput = {
 };
 
 export type CommentUpdateManyMutationInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CommentUpdateManyWithWhereWithoutReviewInput = {
@@ -1248,16 +1204,16 @@ export type CommentUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type CommentUpdateWithoutReviewInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutCommentsNestedInput>;
 };
 
 export type CommentUpdateWithoutUserInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   review?: InputMaybe<ReviewUpdateOneWithoutCommentsNestedInput>;
 };
 
@@ -1292,7 +1248,7 @@ export type CommentWhereUniqueInput = {
   OR?: InputMaybe<Array<CommentWhereInput>>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   review?: InputMaybe<ReviewRelationFilter>;
   reviewId?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -1303,50 +1259,45 @@ export type Cover = {
   __typename?: 'Cover';
   UserBook?: Maybe<UserBook>;
   book?: Maybe<Book>;
-  bookId?: Maybe<Scalars['Int']>;
-  id: Scalars['ID'];
+  bookId?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   size: Size;
-  url: Scalars['String'];
-  userBookId?: Maybe<Scalars['String']>;
-};
-
-export type CoverAvgAggregate = {
-  __typename?: 'CoverAvgAggregate';
-  bookId?: Maybe<Scalars['Float']>;
+  url: Scalars['String']['output'];
+  userBookId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoverCountAggregate = {
   __typename?: 'CoverCountAggregate';
-  _all: Scalars['Int'];
-  bookId: Scalars['Int'];
-  id: Scalars['Int'];
-  size: Scalars['Int'];
-  url: Scalars['Int'];
-  userBookId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  size: Scalars['Int']['output'];
+  url: Scalars['Int']['output'];
+  userBookId: Scalars['Int']['output'];
 };
 
 export type CoverCreateManyBookInput = {
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
-  url: Scalars['String'];
-  userBookId?: InputMaybe<Scalars['String']>;
+  url: Scalars['String']['input'];
+  userBookId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CoverCreateManyBookInputEnvelope = {
   data: Array<CoverCreateManyBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CoverCreateManyUserBookInput = {
-  bookId?: InputMaybe<Scalars['Int']>;
-  id?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
 };
 
 export type CoverCreateManyUserBookInputEnvelope = {
   data: Array<CoverCreateManyUserBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CoverCreateNestedManyWithoutBookInput = {
@@ -1375,16 +1326,16 @@ export type CoverCreateOrConnectWithoutUserBookInput = {
 
 export type CoverCreateWithoutBookInput = {
   UserBook?: InputMaybe<UserBookCreateNestedOneWithoutCoverInput>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
 };
 
 export type CoverCreateWithoutUserBookInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutCoversInput>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
-  url: Scalars['String'];
+  url: Scalars['String']['input'];
 };
 
 export type CoverListRelationFilter = {
@@ -1395,20 +1346,20 @@ export type CoverListRelationFilter = {
 
 export type CoverMaxAggregate = {
   __typename?: 'CoverMaxAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   size?: Maybe<Size>;
-  url?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoverMinAggregate = {
   __typename?: 'CoverMinAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
   size?: Maybe<Size>;
-  url?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
 };
 
 export type CoverOrderByRelationAggregateInput = {
@@ -1419,22 +1370,17 @@ export type CoverScalarWhereInput = {
   AND?: InputMaybe<Array<CoverScalarWhereInput>>;
   NOT?: InputMaybe<Array<CoverScalarWhereInput>>;
   OR?: InputMaybe<Array<CoverScalarWhereInput>>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
   url?: InputMaybe<StringFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
-export type CoverSumAggregate = {
-  __typename?: 'CoverSumAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-};
-
 export type CoverUpdateManyMutationInput = {
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
-  url?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CoverUpdateManyWithWhereWithoutBookInput = {
@@ -1487,16 +1433,16 @@ export type CoverUpdateWithWhereUniqueWithoutUserBookInput = {
 
 export type CoverUpdateWithoutBookInput = {
   UserBook?: InputMaybe<UserBookUpdateOneWithoutCoverNestedInput>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
-  url?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CoverUpdateWithoutUserBookInput = {
   book?: InputMaybe<BookUpdateOneWithoutCoversNestedInput>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
-  url?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CoverUpsertWithWhereUniqueWithoutBookInput = {
@@ -1517,7 +1463,7 @@ export type CoverWhereInput = {
   OR?: InputMaybe<Array<CoverWhereInput>>;
   UserBook?: InputMaybe<UserBookRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
   url?: InputMaybe<StringFilter>;
@@ -1530,22 +1476,22 @@ export type CoverWhereUniqueInput = {
   OR?: InputMaybe<Array<CoverWhereInput>>;
   UserBook?: InputMaybe<UserBookRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<EnumSizeFilter>;
   url?: InputMaybe<StringFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
 export type DateTimeFilter = {
-  equals?: InputMaybe<Scalars['Timestamp']>;
-  gt?: InputMaybe<Scalars['Timestamp']>;
-  gte?: InputMaybe<Scalars['Timestamp']>;
-  in?: InputMaybe<Array<Scalars['Timestamp']>>;
-  lt?: InputMaybe<Scalars['Timestamp']>;
-  lte?: InputMaybe<Scalars['Timestamp']>;
+  equals?: InputMaybe<Scalars['Timestamp']['input']>;
+  gt?: InputMaybe<Scalars['Timestamp']['input']>;
+  gte?: InputMaybe<Scalars['Timestamp']['input']>;
+  in?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
+  lt?: InputMaybe<Scalars['Timestamp']['input']>;
+  lte?: InputMaybe<Scalars['Timestamp']['input']>;
   not?: InputMaybe<DateTimeFilter>;
-  notIn?: InputMaybe<Array<Scalars['Timestamp']>>;
+  notIn?: InputMaybe<Array<Scalars['Timestamp']['input']>>;
 };
 
 export type EnumActionFilter = {
@@ -1563,43 +1509,38 @@ export type EnumSizeFilter = {
 };
 
 export type FloatFilter = {
-  equals?: InputMaybe<Scalars['Float']>;
-  gt?: InputMaybe<Scalars['Float']>;
-  gte?: InputMaybe<Scalars['Float']>;
-  in?: InputMaybe<Array<Scalars['Float']>>;
-  lt?: InputMaybe<Scalars['Float']>;
-  lte?: InputMaybe<Scalars['Float']>;
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  in?: InputMaybe<Array<Scalars['Float']['input']>>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
   not?: InputMaybe<FloatFilter>;
-  notIn?: InputMaybe<Array<Scalars['Float']>>;
+  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 export type Identifier = {
   __typename?: 'Identifier';
-  amazon?: Maybe<Scalars['String']>;
+  amazon?: Maybe<Scalars['String']['output']>;
   book?: Maybe<Book>;
-  bookId: Scalars['Int'];
-  goodreads?: Maybe<Scalars['String']>;
-  google?: Maybe<Scalars['String']>;
-  isbn10?: Maybe<Scalars['String']>;
-  isbn13?: Maybe<Scalars['String']>;
-  openLibrary?: Maybe<Scalars['String']>;
-};
-
-export type IdentifierAvgAggregate = {
-  __typename?: 'IdentifierAvgAggregate';
-  bookId?: Maybe<Scalars['Float']>;
+  bookId: Scalars['String']['output'];
+  goodreads?: Maybe<Scalars['String']['output']>;
+  google?: Maybe<Scalars['String']['output']>;
+  isbn10?: Maybe<Scalars['String']['output']>;
+  isbn13?: Maybe<Scalars['String']['output']>;
+  openLibrary?: Maybe<Scalars['String']['output']>;
 };
 
 export type IdentifierCountAggregate = {
   __typename?: 'IdentifierCountAggregate';
-  _all: Scalars['Int'];
-  amazon: Scalars['Int'];
-  bookId: Scalars['Int'];
-  goodreads: Scalars['Int'];
-  google: Scalars['Int'];
-  isbn10: Scalars['Int'];
-  isbn13: Scalars['Int'];
-  openLibrary: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  amazon: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  goodreads: Scalars['Int']['output'];
+  google: Scalars['Int']['output'];
+  isbn10: Scalars['Int']['output'];
+  isbn13: Scalars['Int']['output'];
+  openLibrary: Scalars['Int']['output'];
 };
 
 export type IdentifierCreateNestedOneWithoutBookInput = {
@@ -1614,34 +1555,34 @@ export type IdentifierCreateOrConnectWithoutBookInput = {
 };
 
 export type IdentifierCreateWithoutBookInput = {
-  amazon?: InputMaybe<Scalars['String']>;
-  goodreads?: InputMaybe<Scalars['String']>;
-  google?: InputMaybe<Scalars['String']>;
-  isbn10?: InputMaybe<Scalars['String']>;
-  isbn13?: InputMaybe<Scalars['String']>;
-  openLibrary?: InputMaybe<Scalars['String']>;
+  amazon?: InputMaybe<Scalars['String']['input']>;
+  goodreads?: InputMaybe<Scalars['String']['input']>;
+  google?: InputMaybe<Scalars['String']['input']>;
+  isbn10?: InputMaybe<Scalars['String']['input']>;
+  isbn13?: InputMaybe<Scalars['String']['input']>;
+  openLibrary?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type IdentifierMaxAggregate = {
   __typename?: 'IdentifierMaxAggregate';
-  amazon?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  goodreads?: Maybe<Scalars['String']>;
-  google?: Maybe<Scalars['String']>;
-  isbn10?: Maybe<Scalars['String']>;
-  isbn13?: Maybe<Scalars['String']>;
-  openLibrary?: Maybe<Scalars['String']>;
+  amazon?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  goodreads?: Maybe<Scalars['String']['output']>;
+  google?: Maybe<Scalars['String']['output']>;
+  isbn10?: Maybe<Scalars['String']['output']>;
+  isbn13?: Maybe<Scalars['String']['output']>;
+  openLibrary?: Maybe<Scalars['String']['output']>;
 };
 
 export type IdentifierMinAggregate = {
   __typename?: 'IdentifierMinAggregate';
-  amazon?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  goodreads?: Maybe<Scalars['String']>;
-  google?: Maybe<Scalars['String']>;
-  isbn10?: Maybe<Scalars['String']>;
-  isbn13?: Maybe<Scalars['String']>;
-  openLibrary?: Maybe<Scalars['String']>;
+  amazon?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  goodreads?: Maybe<Scalars['String']['output']>;
+  google?: Maybe<Scalars['String']['output']>;
+  isbn10?: Maybe<Scalars['String']['output']>;
+  isbn13?: Maybe<Scalars['String']['output']>;
+  openLibrary?: Maybe<Scalars['String']['output']>;
 };
 
 export type IdentifierOrderByWithRelationInput = {
@@ -1660,11 +1601,6 @@ export type IdentifierRelationFilter = {
   isNot?: InputMaybe<IdentifierWhereInput>;
 };
 
-export type IdentifierSumAggregate = {
-  __typename?: 'IdentifierSumAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-};
-
 export type IdentifierUpdateOneWithoutBookNestedInput = {
   connect?: InputMaybe<IdentifierWhereUniqueInput>;
   connectOrCreate?: InputMaybe<IdentifierCreateOrConnectWithoutBookInput>;
@@ -1681,12 +1617,12 @@ export type IdentifierUpdateToOneWithWhereWithoutBookInput = {
 };
 
 export type IdentifierUpdateWithoutBookInput = {
-  amazon?: InputMaybe<Scalars['String']>;
-  goodreads?: InputMaybe<Scalars['String']>;
-  google?: InputMaybe<Scalars['String']>;
-  isbn10?: InputMaybe<Scalars['String']>;
-  isbn13?: InputMaybe<Scalars['String']>;
-  openLibrary?: InputMaybe<Scalars['String']>;
+  amazon?: InputMaybe<Scalars['String']['input']>;
+  goodreads?: InputMaybe<Scalars['String']['input']>;
+  google?: InputMaybe<Scalars['String']['input']>;
+  isbn10?: InputMaybe<Scalars['String']['input']>;
+  isbn13?: InputMaybe<Scalars['String']['input']>;
+  openLibrary?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type IdentifierUpsertWithoutBookInput = {
@@ -1701,7 +1637,7 @@ export type IdentifierWhereInput = {
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
   amazon?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   goodreads?: InputMaybe<StringFilter>;
   google?: InputMaybe<StringFilter>;
   isbn10?: InputMaybe<StringFilter>;
@@ -1715,7 +1651,7 @@ export type IdentifierWhereUniqueInput = {
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
   amazon?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<Scalars['Int']>;
+  bookId?: InputMaybe<Scalars['String']['input']>;
   goodreads?: InputMaybe<StringFilter>;
   google?: InputMaybe<StringFilter>;
   isbn10?: InputMaybe<StringFilter>;
@@ -1724,94 +1660,94 @@ export type IdentifierWhereUniqueInput = {
 };
 
 export type IntFilter = {
-  equals?: InputMaybe<Scalars['Int']>;
-  gt?: InputMaybe<Scalars['Int']>;
-  gte?: InputMaybe<Scalars['Int']>;
-  in?: InputMaybe<Array<Scalars['Int']>>;
-  lt?: InputMaybe<Scalars['Int']>;
-  lte?: InputMaybe<Scalars['Int']>;
+  equals?: InputMaybe<Scalars['Int']['input']>;
+  gt?: InputMaybe<Scalars['Int']['input']>;
+  gte?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<Scalars['Int']['input']>>;
+  lt?: InputMaybe<Scalars['Int']['input']>;
+  lte?: InputMaybe<Scalars['Int']['input']>;
   not?: InputMaybe<IntFilter>;
-  notIn?: InputMaybe<Array<Scalars['Int']>>;
+  notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
 export type JournalEntry = {
   __typename?: 'JournalEntry';
-  createdAt: Scalars['Timestamp'];
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead: Scalars['Timestamp'];
-  id: Scalars['ID'];
-  pagesRead: Scalars['Int'];
-  readingNotes?: Maybe<Scalars['String']>;
+  createdAt: Scalars['Timestamp']['output'];
+  currentPage: Scalars['Int']['output'];
+  currentPercent: Scalars['Int']['output'];
+  dateRead: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
+  pagesRead: Scalars['Int']['output'];
+  readingNotes?: Maybe<Scalars['String']['output']>;
   user?: Maybe<User>;
   userBook?: Maybe<UserBook>;
-  userBookId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type JournalEntryAvgAggregate = {
   __typename?: 'JournalEntryAvgAggregate';
-  currentPage?: Maybe<Scalars['Float']>;
-  currentPercent?: Maybe<Scalars['Float']>;
-  pagesRead?: Maybe<Scalars['Float']>;
+  currentPage?: Maybe<Scalars['Float']['output']>;
+  currentPercent?: Maybe<Scalars['Float']['output']>;
+  pagesRead?: Maybe<Scalars['Float']['output']>;
 };
 
 export type JournalEntryCountAggregate = {
   __typename?: 'JournalEntryCountAggregate';
-  _all: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead: Scalars['Int'];
-  id: Scalars['Int'];
-  pagesRead: Scalars['Int'];
-  readingNotes: Scalars['Int'];
-  userBookId: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  currentPage: Scalars['Int']['output'];
+  currentPercent: Scalars['Int']['output'];
+  dateRead: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  pagesRead: Scalars['Int']['output'];
+  readingNotes: Scalars['Int']['output'];
+  userBookId: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type JournalEntryCreateInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead: Scalars['Int'];
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage: Scalars['Int']['input'];
+  currentPercent: Scalars['Int']['input'];
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutJournalEntriesInput>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
 };
 
 export type JournalEntryCreateManyUserBookInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead: Scalars['Int'];
-  readingNotes?: InputMaybe<Scalars['String']>;
-  userId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage: Scalars['Int']['input'];
+  currentPercent: Scalars['Int']['input'];
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type JournalEntryCreateManyUserBookInputEnvelope = {
   data: Array<JournalEntryCreateManyUserBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type JournalEntryCreateManyUserInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead: Scalars['Int'];
-  readingNotes?: InputMaybe<Scalars['String']>;
-  userBookId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage: Scalars['Int']['input'];
+  currentPercent: Scalars['Int']['input'];
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
+  userBookId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type JournalEntryCreateManyUserInputEnvelope = {
   data: Array<JournalEntryCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type JournalEntryCreateNestedManyWithoutUserBookInput = {
@@ -1839,24 +1775,24 @@ export type JournalEntryCreateOrConnectWithoutUserInput = {
 };
 
 export type JournalEntryCreateWithoutUserBookInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead: Scalars['Int'];
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage: Scalars['Int']['input'];
+  currentPercent: Scalars['Int']['input'];
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutJournalEntriesInput>;
 };
 
 export type JournalEntryCreateWithoutUserInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage: Scalars['Int'];
-  currentPercent: Scalars['Int'];
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead: Scalars['Int'];
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage: Scalars['Int']['input'];
+  currentPercent: Scalars['Int']['input'];
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   userBook?: InputMaybe<UserBookCreateNestedOneWithoutJournalEntryInput>;
 };
 
@@ -1868,28 +1804,28 @@ export type JournalEntryListRelationFilter = {
 
 export type JournalEntryMaxAggregate = {
   __typename?: 'JournalEntryMaxAggregate';
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  currentPage?: Maybe<Scalars['Int']>;
-  currentPercent?: Maybe<Scalars['Int']>;
-  dateRead?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  pagesRead?: Maybe<Scalars['Int']>;
-  readingNotes?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  currentPage?: Maybe<Scalars['Int']['output']>;
+  currentPercent?: Maybe<Scalars['Int']['output']>;
+  dateRead?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
+  readingNotes?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type JournalEntryMinAggregate = {
   __typename?: 'JournalEntryMinAggregate';
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  currentPage?: Maybe<Scalars['Int']>;
-  currentPercent?: Maybe<Scalars['Int']>;
-  dateRead?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  pagesRead?: Maybe<Scalars['Int']>;
-  readingNotes?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  currentPage?: Maybe<Scalars['Int']['output']>;
+  currentPercent?: Maybe<Scalars['Int']['output']>;
+  dateRead?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
+  readingNotes?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type JournalEntryOrderByRelationAggregateInput = {
@@ -1913,31 +1849,31 @@ export type JournalEntryScalarWhereInput = {
 
 export type JournalEntrySumAggregate = {
   __typename?: 'JournalEntrySumAggregate';
-  currentPage?: Maybe<Scalars['Int']>;
-  currentPercent?: Maybe<Scalars['Int']>;
-  pagesRead?: Maybe<Scalars['Int']>;
+  currentPage?: Maybe<Scalars['Int']['output']>;
+  currentPercent?: Maybe<Scalars['Int']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
 };
 
 export type JournalEntryUpdateInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage?: InputMaybe<Scalars['Int']>;
-  currentPercent?: InputMaybe<Scalars['Int']>;
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead?: InputMaybe<Scalars['Int']>;
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage?: InputMaybe<Scalars['Int']['input']>;
+  currentPercent?: InputMaybe<Scalars['Int']['input']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutJournalEntriesNestedInput>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutJournalEntryNestedInput>;
 };
 
 export type JournalEntryUpdateManyMutationInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage?: InputMaybe<Scalars['Int']>;
-  currentPercent?: InputMaybe<Scalars['Int']>;
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead?: InputMaybe<Scalars['Int']>;
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage?: InputMaybe<Scalars['Int']['input']>;
+  currentPercent?: InputMaybe<Scalars['Int']['input']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type JournalEntryUpdateManyWithWhereWithoutUserBookInput = {
@@ -1989,24 +1925,24 @@ export type JournalEntryUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type JournalEntryUpdateWithoutUserBookInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage?: InputMaybe<Scalars['Int']>;
-  currentPercent?: InputMaybe<Scalars['Int']>;
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead?: InputMaybe<Scalars['Int']>;
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage?: InputMaybe<Scalars['Int']['input']>;
+  currentPercent?: InputMaybe<Scalars['Int']['input']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutJournalEntriesNestedInput>;
 };
 
 export type JournalEntryUpdateWithoutUserInput = {
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  currentPage?: InputMaybe<Scalars['Int']>;
-  currentPercent?: InputMaybe<Scalars['Int']>;
-  dateRead?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  pagesRead?: InputMaybe<Scalars['Int']>;
-  readingNotes?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  currentPage?: InputMaybe<Scalars['Int']['input']>;
+  currentPercent?: InputMaybe<Scalars['Int']['input']>;
+  dateRead?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
+  readingNotes?: InputMaybe<Scalars['String']['input']>;
   userBook?: InputMaybe<UserBookUpdateOneWithoutJournalEntryNestedInput>;
 };
 
@@ -2047,7 +1983,7 @@ export type JournalEntryWhereUniqueInput = {
   currentPage?: InputMaybe<IntFilter>;
   currentPercent?: InputMaybe<IntFilter>;
   dateRead?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   pagesRead?: InputMaybe<IntFilter>;
   readingNotes?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -2057,15 +1993,15 @@ export type JournalEntryWhereUniqueInput = {
 };
 
 export type LogInInput = {
-  email: Scalars['String'];
-  password?: InputMaybe<Scalars['String']>;
+  email: Scalars['String']['input'];
+  password?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MeResponse = {
   __typename?: 'MeResponse';
-  email?: Maybe<Scalars['String']>;
-  isOAuth?: Maybe<Scalars['Boolean']>;
-  username?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  isOAuth?: Maybe<Scalars['Boolean']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -2079,18 +2015,18 @@ export type Mutation = {
   createUserBook?: Maybe<UserBook>;
   deleteShelf: Shelf;
   follow: User;
-  forgotPassword: Scalars['Boolean'];
-  importUserBooks: Scalars['Boolean'];
+  forgotPassword: Scalars['Boolean']['output'];
+  importUserBooks: Scalars['Boolean']['output'];
   likeReview: Review;
   login: AuthResponse;
-  logout: Scalars['Boolean'];
+  logout: Scalars['Boolean']['output'];
   oAuth: AuthResponse;
   refreshAuth: RefreshResponse;
   register: User;
   removeBookFromShelf: UserBook;
   removeJournalEntry: JournalEntry;
   removeUserBook: UserBook;
-  resetPassword: Scalars['Boolean'];
+  resetPassword: Scalars['Boolean']['output'];
   updateEmail: User;
   updateJournalEntry: JournalEntry;
   updateReview: Review;
@@ -2103,8 +2039,8 @@ export type Mutation = {
 
 
 export type MutationAddBookToShelfArgs = {
-  bookId: Scalars['Int'];
-  shelf: Scalars['String'];
+  bookId: Scalars['String']['input'];
+  shelf: Scalars['String']['input'];
 };
 
 
@@ -2137,7 +2073,7 @@ export type MutationCreateShelfArgs = {
 
 
 export type MutationCreateUserBookArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -2147,23 +2083,23 @@ export type MutationDeleteShelfArgs = {
 
 
 export type MutationFollowArgs = {
-  value: Scalars['Boolean'];
+  value: Scalars['Boolean']['input'];
   where: UserWhereUniqueInput;
 };
 
 
 export type MutationForgotPasswordArgs = {
-  email: Scalars['String'];
+  email: Scalars['String']['input'];
 };
 
 
 export type MutationImportUserBooksArgs = {
-  content: Scalars['String'];
+  content: Scalars['String']['input'];
 };
 
 
 export type MutationLikeReviewArgs = {
-  value: Scalars['Boolean'];
+  value: Scalars['Boolean']['input'];
   where: ReviewWhereUniqueInput;
 };
 
@@ -2174,7 +2110,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationLogoutArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -2189,8 +2125,8 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRemoveBookFromShelfArgs = {
-  bookId: Scalars['Int'];
-  shelf: Scalars['String'];
+  bookId: Scalars['String']['input'];
+  shelf: Scalars['String']['input'];
 };
 
 
@@ -2249,7 +2185,7 @@ export type MutationUpdateUserBookOrderArgs = {
 
 
 export type MutationVerifyTokenArgs = {
-  token: Scalars['String'];
+  token: Scalars['String']['input'];
 };
 
 export enum NullsOrder {
@@ -2258,58 +2194,58 @@ export enum NullsOrder {
 }
 
 export type OAuthInput = {
-  access_token: Scalars['String'];
-  email: Scalars['String'];
-  image: Scalars['String'];
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
-  scope: Scalars['String'];
-  token_type: Scalars['String'];
-  type: Scalars['String'];
-  username: Scalars['String'];
+  access_token: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  image: Scalars['String']['input'];
+  provider: Scalars['String']['input'];
+  providerAccountId: Scalars['String']['input'];
+  scope: Scalars['String']['input'];
+  token_type: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type PasswordResetTokenCountAggregate = {
   __typename?: 'PasswordResetTokenCountAggregate';
-  _all: Scalars['Int'];
-  email: Scalars['Int'];
-  expires: Scalars['Int'];
-  id: Scalars['Int'];
-  token: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  email: Scalars['Int']['output'];
+  expires: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  token: Scalars['Int']['output'];
 };
 
 export type PasswordResetTokenMaxAggregate = {
   __typename?: 'PasswordResetTokenMaxAggregate';
-  email?: Maybe<Scalars['String']>;
-  expires?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  expires?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type PasswordResetTokenMinAggregate = {
   __typename?: 'PasswordResetTokenMinAggregate';
-  email?: Maybe<Scalars['String']>;
-  expires?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  expires?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   auditLogs: ActivitiesResponse;
-  bestsellers: Array<Bestseller>;
   book?: Maybe<Book>;
   bookReview: Review;
   bookReviews: Array<Review>;
   comments: Array<Comment>;
-  countJournalEntries: Scalars['Int'];
-  countUserBooks: Scalars['Int'];
+  countJournalEntries: Scalars['Int']['output'];
+  countUserBooks: Scalars['Int']['output'];
   getGoogleBook?: Maybe<Book>;
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
   getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
   me: MeResponse;
   shelves?: Maybe<Array<Shelf>>;
+  slug?: Maybe<Scalars['String']['output']>;
   user: User;
   userBook?: Maybe<UserBook>;
 };
@@ -2317,15 +2253,10 @@ export type Query = {
 
 export type QueryAuditLogsArgs = {
   action?: InputMaybe<Action>;
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereUniqueInput>;
-};
-
-
-export type QueryBestsellersArgs = {
-  list: Scalars['String'];
 };
 
 
@@ -2340,15 +2271,15 @@ export type QueryBookReviewArgs = {
 
 
 export type QueryBookReviewsArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
   where: BookWhereUniqueInput;
 };
 
 
 export type QueryCommentsArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
   where: ReviewWhereUniqueInput;
 };
 
@@ -2364,7 +2295,7 @@ export type QueryCountUserBooksArgs = {
 
 
 export type QueryGetGoogleBookArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -2374,8 +2305,8 @@ export type QueryGetMostRecentJournalEntryArgs = {
 
 
 export type QueryGetUserBooksArgs = {
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereInput>;
 };
@@ -2383,8 +2314,13 @@ export type QueryGetUserBooksArgs = {
 
 export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
-  limit?: Scalars['Int'];
-  offset?: Scalars['Int'];
+  limit?: Scalars['Int']['input'];
+  offset?: Scalars['Int']['input'];
+};
+
+
+export type QuerySlugArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -2404,90 +2340,89 @@ export enum QueryMode {
 
 export type RefreshResponse = {
   __typename?: 'RefreshResponse';
-  accessToken: Scalars['String'];
-  expiresIn: Scalars['Float'];
-  refreshToken: Scalars['String'];
+  accessToken: Scalars['String']['output'];
+  expiresIn: Scalars['Float']['output'];
+  refreshToken: Scalars['String']['output'];
 };
 
 export type RegisterInput = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-  username: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type ResetPasswordInput = {
-  password: Scalars['String'];
-  token: Scalars['String'];
+  password: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 export type Review = {
   __typename?: 'Review';
   _count: ReviewCount;
   book?: Maybe<Book>;
-  bookId?: Maybe<Scalars['Int']>;
-  commentCount: Scalars['Int'];
+  bookId?: Maybe<Scalars['String']['output']>;
+  commentCount: Scalars['Int']['output'];
   comments?: Maybe<Array<Comment>>;
-  content?: Maybe<Scalars['String']>;
-  createdAt: Scalars['Timestamp'];
-  id: Scalars['ID'];
-  likeCount: Scalars['Int'];
-  liked: Scalars['Boolean'];
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
+  likeCount: Scalars['Int']['output'];
+  liked: Scalars['Boolean']['output'];
   likedBy?: Maybe<Array<User>>;
-  spoilers: Scalars['Boolean'];
+  spoilers: Scalars['Boolean']['output'];
   user?: Maybe<User>;
-  userId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ReviewAvgAggregate = {
   __typename?: 'ReviewAvgAggregate';
-  bookId?: Maybe<Scalars['Float']>;
-  likeCount?: Maybe<Scalars['Float']>;
+  likeCount?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ReviewCount = {
   __typename?: 'ReviewCount';
-  comments: Scalars['Int'];
-  likedBy: Scalars['Int'];
+  comments: Scalars['Int']['output'];
+  likedBy: Scalars['Int']['output'];
 };
 
 export type ReviewCountAggregate = {
   __typename?: 'ReviewCountAggregate';
-  _all: Scalars['Int'];
-  bookId: Scalars['Int'];
-  content: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  id: Scalars['Int'];
-  likeCount: Scalars['Int'];
-  spoilers: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  content: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  likeCount: Scalars['Int']['output'];
+  spoilers: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type ReviewCreateManyBookInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
-  userId?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ReviewCreateManyBookInputEnvelope = {
   data: Array<ReviewCreateManyBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewCreateManyUserInput = {
-  bookId?: InputMaybe<Scalars['Int']>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  bookId?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewCreateManyUserInputEnvelope = {
   data: Array<ReviewCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewCreateNestedManyWithoutBookInput = {
@@ -2538,52 +2473,52 @@ export type ReviewCreateOrConnectWithoutUserInput = {
 
 export type ReviewCreateWithoutBookInput = {
   comments?: InputMaybe<CommentCreateNestedManyWithoutReviewInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
 };
 
 export type ReviewCreateWithoutCommentsInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutReviewsInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
 };
 
 export type ReviewCreateWithoutLikedByInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutReviewsInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutReviewInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutReviewsInput>;
 };
 
 export type ReviewCreateWithoutUserInput = {
   book?: InputMaybe<BookCreateNestedOneWithoutReviewsInput>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutReviewInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserCreateNestedManyWithoutLikedReviewsInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewDataInput = {
-  content?: InputMaybe<Scalars['String']>;
-  rating?: InputMaybe<Scalars['Float']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewListRelationFilter = {
@@ -2594,24 +2529,24 @@ export type ReviewListRelationFilter = {
 
 export type ReviewMaxAggregate = {
   __typename?: 'ReviewMaxAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  likeCount?: Maybe<Scalars['Int']>;
-  spoilers?: Maybe<Scalars['Boolean']>;
-  userId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  likeCount?: Maybe<Scalars['Int']['output']>;
+  spoilers?: Maybe<Scalars['Boolean']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ReviewMinAggregate = {
   __typename?: 'ReviewMinAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  content?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  likeCount?: Maybe<Scalars['Int']>;
-  spoilers?: Maybe<Scalars['Boolean']>;
-  userId?: Maybe<Scalars['String']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  content?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  likeCount?: Maybe<Scalars['Int']['output']>;
+  spoilers?: Maybe<Scalars['Boolean']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ReviewOrderByRelationAggregateInput = {
@@ -2627,7 +2562,7 @@ export type ReviewScalarWhereInput = {
   AND?: InputMaybe<Array<ReviewScalarWhereInput>>;
   NOT?: InputMaybe<Array<ReviewScalarWhereInput>>;
   OR?: InputMaybe<Array<ReviewScalarWhereInput>>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
@@ -2638,21 +2573,20 @@ export type ReviewScalarWhereInput = {
 
 export type ReviewSumAggregate = {
   __typename?: 'ReviewSumAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  likeCount?: Maybe<Scalars['Int']>;
+  likeCount?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ReviewUniqueInput = {
-  bookId?: InputMaybe<Scalars['Float']>;
-  id?: InputMaybe<Scalars['String']>;
+  bookId?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ReviewUpdateManyMutationInput = {
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewUpdateManyWithWhereWithoutBookInput = {
@@ -2743,46 +2677,46 @@ export type ReviewUpdateWithWhereUniqueWithoutUserInput = {
 
 export type ReviewUpdateWithoutBookInput = {
   comments?: InputMaybe<CommentUpdateManyWithoutReviewNestedInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
 };
 
 export type ReviewUpdateWithoutCommentsInput = {
   book?: InputMaybe<BookUpdateOneWithoutReviewsNestedInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
 };
 
 export type ReviewUpdateWithoutLikedByInput = {
   book?: InputMaybe<BookUpdateOneWithoutReviewsNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutReviewNestedInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutReviewsNestedInput>;
 };
 
 export type ReviewUpdateWithoutUserInput = {
   book?: InputMaybe<BookUpdateOneWithoutReviewsNestedInput>;
   comments?: InputMaybe<CommentUpdateManyWithoutReviewNestedInput>;
-  content?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  likeCount?: InputMaybe<Scalars['Int']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  likeCount?: InputMaybe<Scalars['Int']['input']>;
   likedBy?: InputMaybe<UserUpdateManyWithoutLikedReviewsNestedInput>;
-  spoilers?: InputMaybe<Scalars['Boolean']>;
+  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ReviewUpsertWithWhereUniqueWithoutBookInput = {
@@ -2814,7 +2748,7 @@ export type ReviewWhereInput = {
   NOT?: InputMaybe<Array<ReviewWhereInput>>;
   OR?: InputMaybe<Array<ReviewWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -2831,11 +2765,11 @@ export type ReviewWhereUniqueInput = {
   NOT?: InputMaybe<Array<ReviewWhereInput>>;
   OR?: InputMaybe<Array<ReviewWhereInput>>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   content?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   likeCount?: InputMaybe<IntFilter>;
   likedBy?: InputMaybe<UserListRelationFilter>;
   spoilers?: InputMaybe<BoolFilter>;
@@ -2852,45 +2786,45 @@ export enum Size {
 export type Shelf = {
   __typename?: 'Shelf';
   _count: ShelfCount;
-  dateTime?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  dateTime?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   user?: Maybe<User>;
   userBooks?: Maybe<Array<UserBookShelves>>;
-  userId?: Maybe<Scalars['String']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ShelfCount = {
   __typename?: 'ShelfCount';
-  userBooks: Scalars['Int'];
+  userBooks: Scalars['Int']['output'];
 };
 
 export type ShelfCountAggregate = {
   __typename?: 'ShelfCountAggregate';
-  _all: Scalars['Int'];
-  dateTime: Scalars['Int'];
-  id: Scalars['Int'];
-  name: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  dateTime: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  name: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type ShelfCreateInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
   user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
   userBooks?: InputMaybe<UserBookShelvesCreateNestedManyWithoutShelfInput>;
 };
 
 export type ShelfCreateManyUserInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
 };
 
 export type ShelfCreateManyUserInputEnvelope = {
   data: Array<ShelfCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ShelfCreateNestedManyWithoutUserInput = {
@@ -2917,22 +2851,22 @@ export type ShelfCreateOrConnectWithoutUserInput = {
 };
 
 export type ShelfCreateWithoutUserBooksInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
   user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
 };
 
 export type ShelfCreateWithoutUserInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
   userBooks?: InputMaybe<UserBookShelvesCreateNestedManyWithoutShelfInput>;
 };
 
 export type ShelfIdentifierCompoundUniqueInput = {
-  name: Scalars['String'];
-  userId: Scalars['String'];
+  name: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 export type ShelfListRelationFilter = {
@@ -2943,18 +2877,18 @@ export type ShelfListRelationFilter = {
 
 export type ShelfMaxAggregate = {
   __typename?: 'ShelfMaxAggregate';
-  dateTime?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  dateTime?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ShelfMinAggregate = {
   __typename?: 'ShelfMinAggregate';
-  dateTime?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  dateTime?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ShelfOrderByRelationAggregateInput = {
@@ -2977,17 +2911,17 @@ export type ShelfScalarWhereInput = {
 };
 
 export type ShelfUpdateInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
   userBooks?: InputMaybe<UserBookShelvesUpdateManyWithoutShelfNestedInput>;
 };
 
 export type ShelfUpdateManyMutationInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ShelfUpdateManyWithWhereWithoutUserInput = {
@@ -3028,16 +2962,16 @@ export type ShelfUpdateWithWhereUniqueWithoutUserInput = {
 };
 
 export type ShelfUpdateWithoutUserBooksInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
 };
 
 export type ShelfUpdateWithoutUserInput = {
-  dateTime?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  dateTime?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   userBooks?: InputMaybe<UserBookShelvesUpdateManyWithoutShelfNestedInput>;
 };
 
@@ -3070,7 +3004,7 @@ export type ShelfWhereUniqueInput = {
   NOT?: InputMaybe<Array<ShelfWhereInput>>;
   OR?: InputMaybe<Array<ShelfWhereInput>>;
   dateTime?: InputMaybe<StringFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<ShelfIdentifierCompoundUniqueInput>;
   name?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -3089,43 +3023,43 @@ export type SortOrderInput = {
 };
 
 export type StringFilter = {
-  contains?: InputMaybe<Scalars['String']>;
-  endsWith?: InputMaybe<Scalars['String']>;
-  equals?: InputMaybe<Scalars['String']>;
-  gt?: InputMaybe<Scalars['String']>;
-  gte?: InputMaybe<Scalars['String']>;
-  in?: InputMaybe<Array<Scalars['String']>>;
-  lt?: InputMaybe<Scalars['String']>;
-  lte?: InputMaybe<Scalars['String']>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  endsWith?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
+  gt?: InputMaybe<Scalars['String']['input']>;
+  gte?: InputMaybe<Scalars['String']['input']>;
+  in?: InputMaybe<Array<Scalars['String']['input']>>;
+  lt?: InputMaybe<Scalars['String']['input']>;
+  lte?: InputMaybe<Scalars['String']['input']>;
   mode?: InputMaybe<QueryMode>;
   not?: InputMaybe<StringFilter>;
-  notIn?: InputMaybe<Array<Scalars['String']>>;
-  startsWith?: InputMaybe<Scalars['String']>;
+  notIn?: InputMaybe<Array<Scalars['String']['input']>>;
+  startsWith?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StringListFilter = {
-  equals?: InputMaybe<Array<Scalars['String']>>;
-  has?: InputMaybe<Scalars['String']>;
-  hasEvery?: InputMaybe<Array<Scalars['String']>>;
-  hasSome?: InputMaybe<Array<Scalars['String']>>;
-  isEmpty?: InputMaybe<Scalars['Boolean']>;
+  equals?: InputMaybe<Array<Scalars['String']['input']>>;
+  has?: InputMaybe<Scalars['String']['input']>;
+  hasEvery?: InputMaybe<Array<Scalars['String']['input']>>;
+  hasSome?: InputMaybe<Array<Scalars['String']['input']>>;
+  isEmpty?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UpdateEmailInput = {
-  code: Scalars['String'];
-  email: Scalars['String'];
-  token: Scalars['String'];
+  code: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {
-  bio?: InputMaybe<Scalars['String']>;
-  dob?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  newPassword?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
-  username?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  dob?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  newPassword?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
@@ -3133,111 +3067,110 @@ export type User = {
   _count: UserCount;
   accounts?: Maybe<Array<Account>>;
   auditLogs?: Maybe<Array<AuditLog>>;
-  bio?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']['output']>;
   comments?: Maybe<Array<Comment>>;
-  createdAt: Scalars['Timestamp'];
-  dob?: Maybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: Maybe<Scalars['Timestamp']>;
-  followerCount: Scalars['Float'];
+  createdAt: Scalars['Timestamp']['output'];
+  dob?: Maybe<Scalars['Timestamp']['output']>;
+  email: Scalars['String']['output'];
+  emailVerified?: Maybe<Scalars['Timestamp']['output']>;
+  followerCount: Scalars['Float']['output'];
   followers?: Maybe<Array<User>>;
   following?: Maybe<Array<User>>;
-  followingCount: Scalars['Float'];
-  id: Scalars['ID'];
-  image?: Maybe<Scalars['String']>;
-  isFollowing: Scalars['Boolean'];
+  followingCount: Scalars['Float']['output'];
+  id: Scalars['ID']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  isFollowing: Scalars['Boolean']['output'];
   journalEntries?: Maybe<Array<JournalEntry>>;
   likedReviews?: Maybe<Array<Review>>;
-  location?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  location?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   reviews?: Maybe<Array<Review>>;
   shelves?: Maybe<Array<Shelf>>;
-  updatedAt: Scalars['Timestamp'];
+  updatedAt: Scalars['Timestamp']['output'];
   userBooks?: Maybe<Array<UserBook>>;
-  username?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserBook = {
   __typename?: 'UserBook';
   Cover?: Maybe<Array<Cover>>;
   _count: UserBookCount;
-  authors?: Maybe<Scalars['String']>;
+  authors?: Maybe<Scalars['String']['output']>;
   book?: Maybe<Book>;
-  bookId: Scalars['Int'];
-  createdAt: Scalars['Timestamp'];
-  id: Scalars['ID'];
+  bookId: Scalars['String']['output'];
+  createdAt: Scalars['Timestamp']['output'];
+  id: Scalars['ID']['output'];
   journalEntry?: Maybe<Array<JournalEntry>>;
-  order: Scalars['Int'];
-  rating?: Maybe<Scalars['Float']>;
+  order: Scalars['Int']['output'];
+  rating?: Maybe<Scalars['Float']['output']>;
   shelves?: Maybe<Array<UserBookShelves>>;
-  status: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
-  updatedAt: Scalars['Timestamp'];
+  status: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Timestamp']['output'];
   user?: Maybe<User>;
-  userId: Scalars['String'];
+  userId: Scalars['String']['output'];
 };
 
 export type UserBookAvgAggregate = {
   __typename?: 'UserBookAvgAggregate';
-  bookId?: Maybe<Scalars['Float']>;
-  order?: Maybe<Scalars['Float']>;
-  rating?: Maybe<Scalars['Float']>;
+  order?: Maybe<Scalars['Float']['output']>;
+  rating?: Maybe<Scalars['Float']['output']>;
 };
 
 export type UserBookCount = {
   __typename?: 'UserBookCount';
-  Cover: Scalars['Int'];
-  journalEntry: Scalars['Int'];
-  shelves: Scalars['Int'];
+  Cover: Scalars['Int']['output'];
+  journalEntry: Scalars['Int']['output'];
+  shelves: Scalars['Int']['output'];
 };
 
 export type UserBookCountAggregate = {
   __typename?: 'UserBookCountAggregate';
-  _all: Scalars['Int'];
-  authors: Scalars['Int'];
-  bookId: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  id: Scalars['Int'];
-  order: Scalars['Int'];
-  rating: Scalars['Int'];
-  status: Scalars['Int'];
-  title: Scalars['Int'];
-  updatedAt: Scalars['Int'];
-  userId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  authors: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  order: Scalars['Int']['output'];
+  rating: Scalars['Int']['output'];
+  status: Scalars['Int']['output'];
+  title: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+  userId: Scalars['Int']['output'];
 };
 
 export type UserBookCreateManyBookInput = {
-  authors?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  userId: Scalars['String'];
+  authors?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  userId: Scalars['String']['input'];
 };
 
 export type UserBookCreateManyBookInputEnvelope = {
   data: Array<UserBookCreateManyBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UserBookCreateManyUserInput = {
-  authors?: InputMaybe<Scalars['String']>;
-  bookId: Scalars['Int'];
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
+  bookId: Scalars['String']['input'];
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UserBookCreateManyUserInputEnvelope = {
   data: Array<UserBookCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UserBookCreateNestedManyWithoutBookInput = {
@@ -3299,82 +3232,82 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 
 export type UserBookCreateWithoutBookInput = {
   Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutCoverInput = {
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutJournalEntryInput = {
   Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutShelvesInput = {
   Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutUserInput = {
   Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int'];
-  rating?: InputMaybe<Scalars['Float']>;
+  order: Scalars['Int']['input'];
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
-  status: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UserBookIdentifierCompoundUniqueInput = {
-  bookId: Scalars['Int'];
-  userId: Scalars['String'];
+  bookId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 export type UserBookListRelationFilter = {
@@ -3385,30 +3318,30 @@ export type UserBookListRelationFilter = {
 
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
-  authors?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  userId?: Maybe<Scalars['String']>;
+  authors?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  rating?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
-  authors?: Maybe<Scalars['String']>;
-  bookId?: Maybe<Scalars['Int']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Float']>;
-  status?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  userId?: Maybe<Scalars['String']>;
+  authors?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  rating?: Maybe<Scalars['Float']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  userId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserBookOrderByRelationAggregateInput = {
@@ -3443,7 +3376,7 @@ export type UserBookScalarWhereInput = {
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
   authors?: InputMaybe<StringFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   order?: InputMaybe<IntFilter>;
@@ -3457,34 +3390,34 @@ export type UserBookScalarWhereInput = {
 export type UserBookShelves = {
   __typename?: 'UserBookShelves';
   shelf: Shelf;
-  shelfId: Scalars['String'];
+  shelfId: Scalars['String']['output'];
   userBook: UserBook;
-  userBookId: Scalars['String'];
+  userBookId: Scalars['String']['output'];
 };
 
 export type UserBookShelvesCountAggregate = {
   __typename?: 'UserBookShelvesCountAggregate';
-  _all: Scalars['Int'];
-  shelfId: Scalars['Int'];
-  userBookId: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  shelfId: Scalars['Int']['output'];
+  userBookId: Scalars['Int']['output'];
 };
 
 export type UserBookShelvesCreateManyShelfInput = {
-  userBookId: Scalars['String'];
+  userBookId: Scalars['String']['input'];
 };
 
 export type UserBookShelvesCreateManyShelfInputEnvelope = {
   data: Array<UserBookShelvesCreateManyShelfInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UserBookShelvesCreateManyUserBookInput = {
-  shelfId: Scalars['String'];
+  shelfId: Scalars['String']['input'];
 };
 
 export type UserBookShelvesCreateManyUserBookInputEnvelope = {
   data: Array<UserBookShelvesCreateManyUserBookInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type UserBookShelvesCreateNestedManyWithoutShelfInput = {
@@ -3527,14 +3460,14 @@ export type UserBookShelvesListRelationFilter = {
 
 export type UserBookShelvesMaxAggregate = {
   __typename?: 'UserBookShelvesMaxAggregate';
-  shelfId?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
+  shelfId?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserBookShelvesMinAggregate = {
   __typename?: 'UserBookShelvesMinAggregate';
-  shelfId?: Maybe<Scalars['String']>;
-  userBookId?: Maybe<Scalars['String']>;
+  shelfId?: Maybe<Scalars['String']['output']>;
+  userBookId?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserBookShelvesOrderByRelationAggregateInput = {
@@ -3550,11 +3483,11 @@ export type UserBookShelvesScalarWhereInput = {
 };
 
 export type UserBookShelvesUncheckedUpdateManyWithoutShelfInput = {
-  userBookId?: InputMaybe<Scalars['String']>;
+  userBookId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserBookShelvesUncheckedUpdateManyWithoutUserBookInput = {
-  shelfId?: InputMaybe<Scalars['String']>;
+  shelfId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserBookShelvesUpdateManyWithWhereWithoutShelfInput = {
@@ -3626,8 +3559,8 @@ export type UserBookShelvesUpsertWithWhereUniqueWithoutUserBookInput = {
 };
 
 export type UserBookShelvesUserBookIdShelfIdCompoundUniqueInput = {
-  shelfId: Scalars['String'];
-  userBookId: Scalars['String'];
+  shelfId: Scalars['String']['input'];
+  userBookId: Scalars['String']['input'];
 };
 
 export type UserBookShelvesWhereInput = {
@@ -3653,26 +3586,25 @@ export type UserBookShelvesWhereUniqueInput = {
 
 export type UserBookSumAggregate = {
   __typename?: 'UserBookSumAggregate';
-  bookId?: Maybe<Scalars['Int']>;
-  order?: Maybe<Scalars['Int']>;
-  rating?: Maybe<Scalars['Float']>;
+  order?: Maybe<Scalars['Int']['output']>;
+  rating?: Maybe<Scalars['Float']['output']>;
 };
 
 export type UserBookUpdateInput = {
-  rating?: InputMaybe<Scalars['Float']>;
-  shelves?: InputMaybe<Array<Scalars['String']>>;
-  status?: InputMaybe<Scalars['String']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  shelves?: InputMaybe<Array<Scalars['String']['input']>>;
+  status?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserBookUpdateManyMutationInput = {
-  authors?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UserBookUpdateManyWithWhereWithoutBookInput = {
@@ -3772,77 +3704,77 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
 
 export type UserBookUpdateWithoutBookInput = {
   Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutCoverInput = {
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutJournalEntryInput = {
   Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutShelvesInput = {
   Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutUserInput = {
   Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']>;
+  authors?: InputMaybe<Scalars['String']['input']>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  id?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
-  order?: InputMaybe<Scalars['Int']>;
-  rating?: InputMaybe<Scalars['Float']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
-  status?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UserBookUpsertWithWhereUniqueWithoutBookInput = {
@@ -3882,7 +3814,7 @@ export type UserBookWhereInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   authors?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
@@ -3903,9 +3835,9 @@ export type UserBookWhereUniqueInput = {
   OR?: InputMaybe<Array<UserBookWhereInput>>;
   authors?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<IntFilter>;
+  bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   order?: InputMaybe<IntFilter>;
@@ -3920,39 +3852,39 @@ export type UserBookWhereUniqueInput = {
 
 export type UserBooksResponse = {
   __typename?: 'UserBooksResponse';
-  hasMore: Scalars['Boolean'];
-  totalBooks: Scalars['Float'];
+  hasMore: Scalars['Boolean']['output'];
+  totalBooks: Scalars['Float']['output'];
   userBooks?: Maybe<Array<UserBook>>;
 };
 
 export type UserCount = {
   __typename?: 'UserCount';
-  accounts: Scalars['Int'];
-  auditLogs: Scalars['Int'];
-  comments: Scalars['Int'];
-  followers: Scalars['Int'];
-  following: Scalars['Int'];
-  journalEntries: Scalars['Int'];
-  likedReviews: Scalars['Int'];
-  reviews: Scalars['Int'];
-  shelves: Scalars['Int'];
-  userBooks: Scalars['Int'];
+  accounts: Scalars['Int']['output'];
+  auditLogs: Scalars['Int']['output'];
+  comments: Scalars['Int']['output'];
+  followers: Scalars['Int']['output'];
+  following: Scalars['Int']['output'];
+  journalEntries: Scalars['Int']['output'];
+  likedReviews: Scalars['Int']['output'];
+  reviews: Scalars['Int']['output'];
+  shelves: Scalars['Int']['output'];
+  userBooks: Scalars['Int']['output'];
 };
 
 export type UserCountAggregate = {
   __typename?: 'UserCountAggregate';
-  _all: Scalars['Int'];
-  bio: Scalars['Int'];
-  createdAt: Scalars['Int'];
-  dob: Scalars['Int'];
-  email: Scalars['Int'];
-  emailVerified: Scalars['Int'];
-  id: Scalars['Int'];
-  image: Scalars['Int'];
-  location: Scalars['Int'];
-  name: Scalars['Int'];
-  updatedAt: Scalars['Int'];
-  username: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  bio: Scalars['Int']['output'];
+  createdAt: Scalars['Int']['output'];
+  dob: Scalars['Int']['output'];
+  email: Scalars['Int']['output'];
+  emailVerified: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  image: Scalars['Int']['output'];
+  location: Scalars['Int']['output'];
+  name: Scalars['Int']['output'];
+  updatedAt: Scalars['Int']['output'];
+  username: Scalars['Int']['output'];
 };
 
 export type UserCreateNestedManyWithoutFollowersInput = {
@@ -4056,227 +3988,227 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
 
 export type UserCreateWithoutAuditLogsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutCommentsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutFollowersInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutFollowingInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutJournalEntriesInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutLikedReviewsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutReviewsInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutShelvesInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutUserBooksInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   auditLogs?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email: Scalars['String'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email: Scalars['String']['input'];
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
   following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryCreateNestedManyWithoutUserInput>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  username?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserListRelationFilter = {
@@ -4287,32 +4219,32 @@ export type UserListRelationFilter = {
 
 export type UserMaxAggregate = {
   __typename?: 'UserMaxAggregate';
-  bio?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  dob?: Maybe<Scalars['Timestamp']>;
-  email?: Maybe<Scalars['String']>;
-  emailVerified?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  username?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  dob?: Maybe<Scalars['Timestamp']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  emailVerified?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserMinAggregate = {
   __typename?: 'UserMinAggregate';
-  bio?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Timestamp']>;
-  dob?: Maybe<Scalars['Timestamp']>;
-  email?: Maybe<Scalars['String']>;
-  emailVerified?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  image?: Maybe<Scalars['String']>;
-  location?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['Timestamp']>;
-  username?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  dob?: Maybe<Scalars['Timestamp']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  emailVerified?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Timestamp']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserOrderByRelationAggregateInput = {
@@ -4370,19 +4302,19 @@ export type UserScalarWhereInput = {
 };
 
 export type UserUpdateManyMutationInput = {
-  bio?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  username?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateManyWithWhereWithoutFollowersInput = {
@@ -4546,227 +4478,227 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 
 export type UserUpdateWithoutAuditLogsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutCommentsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutFollowersInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutFollowingInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutJournalEntriesInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutLikedReviewsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutReviewsInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutShelvesInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutUserBooksInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   auditLogs?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
-  bio?: InputMaybe<Scalars['String']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
-  createdAt?: InputMaybe<Scalars['Timestamp']>;
-  dob?: InputMaybe<Scalars['Timestamp']>;
-  email?: InputMaybe<Scalars['String']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dob?: InputMaybe<Scalars['Timestamp']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
   followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
   following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['String']>;
+  hashedPassword?: InputMaybe<Scalars['String']['input']>;
+  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   journalEntries?: InputMaybe<JournalEntryUpdateManyWithoutUserNestedInput>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
-  location?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']>;
-  username?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpsertWithWhereUniqueWithoutFollowersInput = {
@@ -4862,13 +4794,13 @@ export type UserWhereUniqueInput = {
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   dob?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<DateTimeFilter>;
   followers?: InputMaybe<UserListRelationFilter>;
   following?: InputMaybe<UserListRelationFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
-  id?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<StringFilter>;
   journalEntries?: InputMaybe<JournalEntryListRelationFilter>;
   likedReviews?: InputMaybe<ReviewListRelationFilter>;
@@ -4878,35 +4810,35 @@ export type UserWhereUniqueInput = {
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userBooks?: InputMaybe<UserBookListRelationFilter>;
-  username?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type VerificationTokenCountAggregate = {
   __typename?: 'VerificationTokenCountAggregate';
-  _all: Scalars['Int'];
-  email: Scalars['Int'];
-  existingEmail: Scalars['Int'];
-  expires: Scalars['Int'];
-  id: Scalars['Int'];
-  token: Scalars['Int'];
+  _all: Scalars['Int']['output'];
+  email: Scalars['Int']['output'];
+  existingEmail: Scalars['Int']['output'];
+  expires: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  token: Scalars['Int']['output'];
 };
 
 export type VerificationTokenMaxAggregate = {
   __typename?: 'VerificationTokenMaxAggregate';
-  email?: Maybe<Scalars['String']>;
-  existingEmail?: Maybe<Scalars['String']>;
-  expires?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  existingEmail?: Maybe<Scalars['String']['output']>;
+  expires?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type VerificationTokenMinAggregate = {
   __typename?: 'VerificationTokenMinAggregate';
-  email?: Maybe<Scalars['String']>;
-  existingEmail?: Maybe<Scalars['String']>;
-  expires?: Maybe<Scalars['Timestamp']>;
-  id?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  existingEmail?: Maybe<Scalars['String']['output']>;
+  expires?: Maybe<Scalars['Timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -5106,7 +5038,7 @@ export type UpdateUserBookOrderMutationVariables = Exact<{
 export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
 export type AddUserBookToShelfMutationVariables = Exact<{
-  bookId: Scalars['Int']['input'];
+  bookId: Scalars['String']['input'];
   shelf: Scalars['String']['input'];
 }>;
 
@@ -5114,7 +5046,7 @@ export type AddUserBookToShelfMutationVariables = Exact<{
 export type AddUserBookToShelfMutation = { __typename?: 'Mutation', addBookToShelf: { __typename?: 'UserBook', id: string, status: string } };
 
 export type RemoveUserBookFromShelfMutationVariables = Exact<{
-  bookId: Scalars['Int']['input'];
+  bookId: Scalars['String']['input'];
   shelf: Scalars['String']['input'];
 }>;
 
@@ -5150,13 +5082,6 @@ export type GetGoogleBookQueryVariables = Exact<{
 
 
 export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
-
-export type BestsellersQueryVariables = Exact<{
-  list: Scalars['String']['input'];
-}>;
-
-
-export type BestsellersQuery = { __typename?: 'Query', bestsellers: Array<{ __typename?: 'Bestseller', id: string, title: string, author: string, description: string, bookImage: string, googleId: string, publishedDate: string, listName: string }> };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -5223,7 +5148,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: number, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5233,7 +5158,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: number, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -6232,7 +6157,7 @@ export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateU
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const AddUserBookToShelfDocument = gql`
-    mutation AddUserBookToShelf($bookId: Int!, $shelf: String!) {
+    mutation AddUserBookToShelf($bookId: String!, $shelf: String!) {
   addBookToShelf(bookId: $bookId, shelf: $shelf) {
     id
     status
@@ -6267,7 +6192,7 @@ export type AddUserBookToShelfMutationHookResult = ReturnType<typeof useAddUserB
 export type AddUserBookToShelfMutationResult = Apollo.MutationResult<AddUserBookToShelfMutation>;
 export type AddUserBookToShelfMutationOptions = Apollo.BaseMutationOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
 export const RemoveUserBookFromShelfDocument = gql`
-    mutation RemoveUserBookFromShelf($bookId: Int!, $shelf: String!) {
+    mutation RemoveUserBookFromShelf($bookId: String!, $shelf: String!) {
   removeBookFromShelf(bookId: $bookId, shelf: $shelf) {
     id
     status
@@ -6366,8 +6291,13 @@ export function useGetAuditLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
         }
+export function useGetAuditLogsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
+        }
 export type GetAuditLogsQueryHookResult = ReturnType<typeof useGetAuditLogsQuery>;
 export type GetAuditLogsLazyQueryHookResult = ReturnType<typeof useGetAuditLogsLazyQuery>;
+export type GetAuditLogsSuspenseQueryHookResult = ReturnType<typeof useGetAuditLogsSuspenseQuery>;
 export type GetAuditLogsQueryResult = Apollo.QueryResult<GetAuditLogsQuery, GetAuditLogsQueryVariables>;
 export const MeDocument = gql`
     query Me {
@@ -6402,8 +6332,13 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
+export function useMeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const BookDocument = gql`
     query Book($where: BookWhereUniqueInput!) {
@@ -6441,7 +6376,7 @@ export const BookDocument = gql`
  *   },
  * });
  */
-export function useBookQuery(baseOptions: Apollo.QueryHookOptions<BookQuery, BookQueryVariables>) {
+export function useBookQuery(baseOptions: Apollo.QueryHookOptions<BookQuery, BookQueryVariables> & ({ variables: BookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BookQuery, BookQueryVariables>(BookDocument, options);
       }
@@ -6449,8 +6384,13 @@ export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BookQuery, BookQueryVariables>(BookDocument, options);
         }
+export function useBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookQuery, BookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+        }
 export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
+export type BookSuspenseQueryHookResult = ReturnType<typeof useBookSuspenseQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
 export const GetGoogleBookDocument = gql`
     query GetGoogleBook($id: String!) {
@@ -6488,7 +6428,7 @@ export const GetGoogleBookDocument = gql`
  *   },
  * });
  */
-export function useGetGoogleBookQuery(baseOptions: Apollo.QueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+export function useGetGoogleBookQuery(baseOptions: Apollo.QueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables> & ({ variables: GetGoogleBookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
       }
@@ -6496,51 +6436,14 @@ export function useGetGoogleBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
         }
+export function useGetGoogleBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
+        }
 export type GetGoogleBookQueryHookResult = ReturnType<typeof useGetGoogleBookQuery>;
 export type GetGoogleBookLazyQueryHookResult = ReturnType<typeof useGetGoogleBookLazyQuery>;
+export type GetGoogleBookSuspenseQueryHookResult = ReturnType<typeof useGetGoogleBookSuspenseQuery>;
 export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, GetGoogleBookQueryVariables>;
-export const BestsellersDocument = gql`
-    query Bestsellers($list: String!) {
-  bestsellers(list: $list) {
-    id
-    title
-    author
-    description
-    bookImage
-    googleId
-    publishedDate
-    listName
-  }
-}
-    `;
-
-/**
- * __useBestsellersQuery__
- *
- * To run a query within a React component, call `useBestsellersQuery` and pass it any options that fit your needs.
- * When your component renders, `useBestsellersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBestsellersQuery({
- *   variables: {
- *      list: // value for 'list'
- *   },
- * });
- */
-export function useBestsellersQuery(baseOptions: Apollo.QueryHookOptions<BestsellersQuery, BestsellersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BestsellersQuery, BestsellersQueryVariables>(BestsellersDocument, options);
-      }
-export function useBestsellersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BestsellersQuery, BestsellersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BestsellersQuery, BestsellersQueryVariables>(BestsellersDocument, options);
-        }
-export type BestsellersQueryHookResult = ReturnType<typeof useBestsellersQuery>;
-export type BestsellersLazyQueryHookResult = ReturnType<typeof useBestsellersLazyQuery>;
-export type BestsellersQueryResult = Apollo.QueryResult<BestsellersQuery, BestsellersQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {
@@ -6573,7 +6476,7 @@ export const CommentsDocument = gql`
  *   },
  * });
  */
-export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables> & ({ variables: CommentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
       }
@@ -6581,8 +6484,13 @@ export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<C
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
         }
+export function useCommentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
+        }
 export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
 export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
+export type CommentsSuspenseQueryHookResult = ReturnType<typeof useCommentsSuspenseQuery>;
 export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const CountJournalEntriesDocument = gql`
     query countJournalEntries($book: BookWhereUniqueInput!) {
@@ -6606,7 +6514,7 @@ export const CountJournalEntriesDocument = gql`
  *   },
  * });
  */
-export function useCountJournalEntriesQuery(baseOptions: Apollo.QueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+export function useCountJournalEntriesQuery(baseOptions: Apollo.QueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables> & ({ variables: CountJournalEntriesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
       }
@@ -6614,8 +6522,13 @@ export function useCountJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
         }
+export function useCountJournalEntriesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>(CountJournalEntriesDocument, options);
+        }
 export type CountJournalEntriesQueryHookResult = ReturnType<typeof useCountJournalEntriesQuery>;
 export type CountJournalEntriesLazyQueryHookResult = ReturnType<typeof useCountJournalEntriesLazyQuery>;
+export type CountJournalEntriesSuspenseQueryHookResult = ReturnType<typeof useCountJournalEntriesSuspenseQuery>;
 export type CountJournalEntriesQueryResult = Apollo.QueryResult<CountJournalEntriesQuery, CountJournalEntriesQueryVariables>;
 export const GetMostRecentJournalEntryDocument = gql`
     query getMostRecentJournalEntry($book: BookWhereUniqueInput!) {
@@ -6645,7 +6558,7 @@ export const GetMostRecentJournalEntryDocument = gql`
  *   },
  * });
  */
-export function useGetMostRecentJournalEntryQuery(baseOptions: Apollo.QueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+export function useGetMostRecentJournalEntryQuery(baseOptions: Apollo.QueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables> & ({ variables: GetMostRecentJournalEntryQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
       }
@@ -6653,8 +6566,13 @@ export function useGetMostRecentJournalEntryLazyQuery(baseOptions?: Apollo.LazyQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
         }
+export function useGetMostRecentJournalEntrySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>(GetMostRecentJournalEntryDocument, options);
+        }
 export type GetMostRecentJournalEntryQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryQuery>;
 export type GetMostRecentJournalEntryLazyQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntryLazyQuery>;
+export type GetMostRecentJournalEntrySuspenseQueryHookResult = ReturnType<typeof useGetMostRecentJournalEntrySuspenseQuery>;
 export type GetMostRecentJournalEntryQueryResult = Apollo.QueryResult<GetMostRecentJournalEntryQuery, GetMostRecentJournalEntryQueryVariables>;
 export const JournalEntriesDocument = gql`
     query JournalEntries($book: BookWhereUniqueInput, $limit: Int! = 20, $offset: Int! = 0) {
@@ -6714,8 +6632,13 @@ export function useJournalEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
         }
+export function useJournalEntriesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<JournalEntriesQuery, JournalEntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<JournalEntriesQuery, JournalEntriesQueryVariables>(JournalEntriesDocument, options);
+        }
 export type JournalEntriesQueryHookResult = ReturnType<typeof useJournalEntriesQuery>;
 export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntriesLazyQuery>;
+export type JournalEntriesSuspenseQueryHookResult = ReturnType<typeof useJournalEntriesSuspenseQuery>;
 export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
 export const BookReviewsDocument = gql`
     query BookReviews($where: BookWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
@@ -6753,7 +6676,7 @@ export const BookReviewsDocument = gql`
  *   },
  * });
  */
-export function useBookReviewsQuery(baseOptions: Apollo.QueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
+export function useBookReviewsQuery(baseOptions: Apollo.QueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables> & ({ variables: BookReviewsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
       }
@@ -6761,8 +6684,13 @@ export function useBookReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
         }
+export function useBookReviewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
+        }
 export type BookReviewsQueryHookResult = ReturnType<typeof useBookReviewsQuery>;
 export type BookReviewsLazyQueryHookResult = ReturnType<typeof useBookReviewsLazyQuery>;
+export type BookReviewsSuspenseQueryHookResult = ReturnType<typeof useBookReviewsSuspenseQuery>;
 export type BookReviewsQueryResult = Apollo.QueryResult<BookReviewsQuery, BookReviewsQueryVariables>;
 export const BookReviewDocument = gql`
     query BookReview($where: ReviewUniqueInput!) {
@@ -6808,7 +6736,7 @@ export const BookReviewDocument = gql`
  *   },
  * });
  */
-export function useBookReviewQuery(baseOptions: Apollo.QueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
+export function useBookReviewQuery(baseOptions: Apollo.QueryHookOptions<BookReviewQuery, BookReviewQueryVariables> & ({ variables: BookReviewQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
       }
@@ -6816,8 +6744,13 @@ export function useBookReviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
         }
+export function useBookReviewSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
+        }
 export type BookReviewQueryHookResult = ReturnType<typeof useBookReviewQuery>;
 export type BookReviewLazyQueryHookResult = ReturnType<typeof useBookReviewLazyQuery>;
+export type BookReviewSuspenseQueryHookResult = ReturnType<typeof useBookReviewSuspenseQuery>;
 export type BookReviewQueryResult = Apollo.QueryResult<BookReviewQuery, BookReviewQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
@@ -6855,8 +6788,13 @@ export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sh
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
         }
+export function useShelvesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
+        }
 export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
+export type ShelvesSuspenseQueryHookResult = ReturnType<typeof useShelvesSuspenseQuery>;
 export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
 export const UserDocument = gql`
     query User($where: UserWhereUniqueInput!) {
@@ -6891,7 +6829,7 @@ export const UserDocument = gql`
  *   },
  * });
  */
-export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables> & ({ variables: UserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
       }
@@ -6899,8 +6837,13 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
         }
+export function useUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+        }
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserSuspenseQueryHookResult = ReturnType<typeof useUserSuspenseQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UserBookDocument = gql`
     query UserBook($where: BookWhereUniqueInput!) {
@@ -6945,7 +6888,7 @@ export const UserBookDocument = gql`
  *   },
  * });
  */
-export function useUserBookQuery(baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
+export function useUserBookQuery(baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables> & ({ variables: UserBookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
       }
@@ -6953,8 +6896,13 @@ export function useUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<U
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
         }
+export function useUserBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
+        }
 export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
+export type UserBookSuspenseQueryHookResult = ReturnType<typeof useUserBookSuspenseQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
 export const GetUserBooksDocument = gql`
     query GetUserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
@@ -7033,8 +6981,13 @@ export function useGetUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
         }
+export function useGetUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
+        }
 export type GetUserBooksQueryHookResult = ReturnType<typeof useGetUserBooksQuery>;
 export type GetUserBooksLazyQueryHookResult = ReturnType<typeof useGetUserBooksLazyQuery>;
+export type GetUserBooksSuspenseQueryHookResult = ReturnType<typeof useGetUserBooksSuspenseQuery>;
 export type GetUserBooksQueryResult = Apollo.QueryResult<GetUserBooksQuery, GetUserBooksQueryVariables>;
 export const CountUserBooksDocument = gql`
     query CountUserBooks($where: UserBookWhereInput) {
@@ -7066,6 +7019,11 @@ export function useCountUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
         }
+export function useCountUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
+        }
 export type CountUserBooksQueryHookResult = ReturnType<typeof useCountUserBooksQuery>;
 export type CountUserBooksLazyQueryHookResult = ReturnType<typeof useCountUserBooksLazyQuery>;
+export type CountUserBooksSuspenseQueryHookResult = ReturnType<typeof useCountUserBooksSuspenseQuery>;
 export type CountUserBooksQueryResult = Apollo.QueryResult<CountUserBooksQuery, CountUserBooksQueryVariables>;

@@ -44,9 +44,7 @@ export class BookResolver {
         this.coverService.createCoverInput(imageLinks);
 
       const covers = await this.coverService.createCovers(coverInput);
-
       const bookData: BookCreateInput = {
-        //   id: bookIdentifier.bookId,
         title: googleBook.title,
         pageCount: googleBook.pageCount,
         authors: googleBook.authors,
@@ -58,6 +56,7 @@ export class BookResolver {
         },
         categories: googleBook.categories,
         averageRating: googleBook.averageRating,
+
         slug: generateSlug(
           googleBook.title + ' ' + googleBook.authors.join(' '),
         ),

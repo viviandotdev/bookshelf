@@ -37,7 +37,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
       await loadEntry({
         variables: {
           book: {
-            id: parseInt(book.id),
+            id: book && book.id,
           },
         },
       });

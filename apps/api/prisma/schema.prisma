@@ -101,15 +101,17 @@ model Cover {
     url  String
     size SIZE
 
-    bookId     Int?
+    bookId     String?
     book       Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
     UserBook   UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
     userBookId String?
 }
 
 model Book {
-    /// @Validator.IsInt()
-    id            Int      @id @default(autoincrement())
+    /// @Validator.IsString()
+    id            String   @id @default(uuid())
+    /// @Validator.IsString()
+    slug          String   @unique
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
@@ -124,8 +126,6 @@ model Book {
     language      String?
     /// @Validator.IsInt()
     pageCount     Int?
-    /// @Validator.IsString()
-    slug          String
     /// @Validator.IsString()
     categories    String[]
 
@@ -149,7 +149,7 @@ enum SIZE {
 }
 
 model Identifier {
-    bookId      Int     @unique
+    bookId      String  @unique
     book        Book?   @relation(fields: [bookId], references: [id])
     isbn10      String?
     isbn13      String?
@@ -170,7 +170,7 @@ model Review {
     user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String?
     book      Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
-    bookId    Int?
+    bookId    String?
 }
 
 model Comment {
@@ -191,8 +191,8 @@ model UserBook {
 
     /// @Validator.IsString()
     userId    String
-    /// @Validator.IsInt()
-    bookId    Int
+    /// @Validator.IsString()
+    bookId    String
     /// @Validator.IsString()
     status    String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
@@ -291,7 +291,7 @@ model AuditLog {
 
     action ACTION
     // BOOK the action was performed on
-    bookId Int
+    bookId String
     book   Book?  @relation(fields: [bookId], references: [id])
 
     // ACTION content
