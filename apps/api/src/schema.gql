@@ -544,48 +544,6 @@ type AuthResponse {
   verificationToken: String
 }
 
-type BestsellerAvgAggregate {
-  id: Float
-}
-
-type BestsellerCountAggregate {
-  _all: Int!
-  author: Int!
-  bookImage: Int!
-  description: Int!
-  googleId: Int!
-  id: Int!
-  listName: Int!
-  publishedDate: Int!
-  title: Int!
-}
-
-type BestsellerMaxAggregate {
-  author: String
-  bookImage: String
-  description: String
-  googleId: String
-  id: Int
-  listName: String
-  publishedDate: String
-  title: String
-}
-
-type BestsellerMinAggregate {
-  author: String
-  bookImage: String
-  description: String
-  googleId: String
-  id: Int
-  listName: String
-  publishedDate: String
-  title: String
-}
-
-type BestsellerSumAggregate {
-  id: Int
-}
-
 type Book {
   _count: BookCount!
   authors: [String!]

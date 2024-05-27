@@ -1,8 +1,8 @@
 -- CreateEnum
-CREATE TYPE "ACTION" AS ENUM ('CREATE', 'UPDATE', 'LIKE', 'RATE', 'LOG');
+CREATE TYPE "SIZE" AS ENUM ('SMALL', 'MEDIUM', 'LARGE');
 
 -- CreateEnum
-CREATE TYPE "ENTITY_TYPE" AS ENUM ('USERBOOK', 'REVIEW', 'JOURNALENTRY');
+CREATE TYPE "ACTION" AS ENUM ('REVIEW', 'COMMENT', 'STATUS_UPDATE', 'LIKE', 'RATE', 'LOG', 'SHELVE');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -10,27 +10,73 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "username" TEXT,
     "hashedPassword" TEXT,
+    "name" TEXT,
+    "location" TEXT,
+    "bio" TEXT,
+    "dob" TIMESTAMP(3),
     "hashedRefreshToken" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "image" TEXT,
+    "emailVerified" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Book" (
+CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
+    "providerAccountId" TEXT NOT NULL,
+    "refresh_token" TEXT,
+    "access_token" TEXT,
+    "expires_at" INTEGER,
+    "token_type" TEXT,
+    "scope" TEXT,
+    "id_token" TEXT,
+    "session_state" TEXT,
+
+    CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Cover" (
+    "id" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "size" "SIZE" NOT NULL,
+    "bookId" INTEGER,
+    "userBookId" TEXT,
+
+    CONSTRAINT "Cover_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Book" (
+    "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "author" TEXT,
+    "authors" TEXT[],
     "publishedDate" TEXT,
     "publisher" TEXT,
-    "coverImage" TEXT,
     "description" TEXT,
+    "language" TEXT,
     "pageCount" INTEGER,
-    "categories" TEXT,
-    "mainCategory" TEXT,
+    "categories" TEXT[],
+    "averageRating" DOUBLE PRECISION,
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Identifier" (
+    "bookId" INTEGER NOT NULL,
+    "isbn10" TEXT,
+    "isbn13" TEXT,
+    "google" TEXT,
+    "openLibrary" TEXT,
+    "goodreads" TEXT,
+    "amazon" TEXT
 );
 
 -- CreateTable
@@ -38,11 +84,10 @@ CREATE TABLE "Review" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "content" TEXT,
-    "userBookId" TEXT,
     "likeCount" INTEGER NOT NULL DEFAULT 0,
     "spoilers" BOOLEAN NOT NULL DEFAULT false,
     "userId" TEXT,
-    "bookId" TEXT,
+    "bookId" INTEGER,
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
@@ -62,12 +107,14 @@ CREATE TABLE "Comment" (
 CREATE TABLE "UserBook" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "bookId" TEXT NOT NULL,
+    "bookId" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
-    "rating" INTEGER DEFAULT 0,
+    "rating" DOUBLE PRECISION DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "order" INTEGER NOT NULL,
+    "title" TEXT,
+    "authors" TEXT,
 
     CONSTRAINT "UserBook_pkey" PRIMARY KEY ("id")
 );
@@ -106,19 +153,37 @@ CREATE TABLE "JournalEntry" (
 );
 
 -- CreateTable
-CREATE TABLE "AudtiLog" (
+CREATE TABLE "AuditLog" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "username" TEXT NOT NULL,
     "action" "ACTION" NOT NULL,
-    "entityType" "ENTITY_TYPE" NOT NULL,
-    "entityId" TEXT NOT NULL,
-    "entityTitle" TEXT NOT NULL,
-    "entryData" TEXT,
+    "bookId" INTEGER NOT NULL,
+    "actionContent" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "AudtiLog_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "AuditLog_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VerificationToken" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "existingEmail" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "VerificationToken_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PasswordResetToken" (
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
+    "expires" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "PasswordResetToken_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -140,13 +205,31 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Book_id_key" ON "Book"("id");
+CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Identifier_bookId_key" ON "Identifier"("bookId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserBook_userId_bookId_key" ON "UserBook"("userId", "bookId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Shelf_userId_name_key" ON "Shelf"("userId", "name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "AuditLog_id_key" ON "AuditLog"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VerificationToken_email_token_key" ON "VerificationToken"("email", "token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PasswordResetToken_token_key" ON "PasswordResetToken"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "PasswordResetToken_email_token_key" ON "PasswordResetToken"("email", "token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_UserFollows_AB_unique" ON "_UserFollows"("A", "B");
@@ -161,13 +244,22 @@ CREATE UNIQUE INDEX "_LikedReviews_AB_unique" ON "_LikedReviews"("A", "B");
 CREATE INDEX "_LikedReviews_B_index" ON "_LikedReviews"("B");
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_userBookId_fkey" FOREIGN KEY ("userBookId") REFERENCES "UserBook"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Cover" ADD CONSTRAINT "Cover_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Cover" ADD CONSTRAINT "Cover_userBookId_fkey" FOREIGN KEY ("userBookId") REFERENCES "UserBook"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Identifier" ADD CONSTRAINT "Identifier_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -195,6 +287,12 @@ ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_userId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "JournalEntry" ADD CONSTRAINT "JournalEntry_userBookId_fkey" FOREIGN KEY ("userBookId") REFERENCES "UserBook"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "AuditLog" ADD CONSTRAINT "AuditLog_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_UserFollows" ADD CONSTRAINT "_UserFollows_A_fkey" FOREIGN KEY ("A") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

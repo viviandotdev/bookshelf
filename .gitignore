@@ -38,3 +38,6 @@ lerna-debug.log*
 .env.prod
 .build/
 .serverless/
+
+.nx/cache
+.nx/cache/lockfile.hash
