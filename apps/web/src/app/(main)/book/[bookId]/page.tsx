@@ -19,7 +19,7 @@ export default async function BookPage({ params }: BookPageProps) {
   let book;
   if (containsNonNumeric(params.bookId)) {
     // handle this if logic in the backend? oonly return book once NOW
-
+    console.log("make api call")
     book = await getGoogleBook(params.bookId);
   } else {
     book = await getBook(params.bookId);
@@ -29,10 +29,13 @@ export default async function BookPage({ params }: BookPageProps) {
     notFound();
   }
 
-  const { shelves } = await getShelves();
-  const { reviews } = await getReviews(book.id);
+  const shelvesData = getShelves();
+  const reviewsData  = getReviews(book.id);
 
-  // console.log(reviews)
+  const [{shelves}, {reviews}] = await Promise.all([shelvesData, reviewsData])
+
+
+
   const user = await getCurrentUser();
   return (
     <>

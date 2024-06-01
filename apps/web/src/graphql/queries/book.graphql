@@ -33,16 +33,3 @@ query GetGoogleBook($id: String!) {
     averageRating
   }
 }
-
-query Bestsellers($list: String!) {
-  bestsellers(list: $list) {
-    id
-    title
-    author
-    description
-    bookImage
-    googleId
-    publishedDate
-    listName
-  }
-}

@@ -14,7 +14,7 @@ export async function addBookToShelf(bookId: string, shelf: string) {
   const { data } = await client.mutate<AddUserBookToShelfMutation>({
     mutation: AddUserBookToShelfDocument,
     variables: {
-      bookId: parseInt(bookId),
+      bookId: bookId,
       shelf: shelf,
     },
   });

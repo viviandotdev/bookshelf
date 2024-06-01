@@ -25,28 +25,28 @@ const Hit = ({ hit }: HitProps) => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const router = useRouter();
   const { createUserBook } = useCreateUserBook();
-  const [loadBook] = useUserBookLazyQuery({
-    fetchPolicy: 'cache-and-network',
-    nextFetchPolicy: 'cache-first',
-    notifyOnNetworkStatusChange: true,
-    onError: (error) => {
-      toast({
-        title: error.message,
-        variant: 'destructive',
-      });
-    },
-    onCompleted: (data) => {
-      setStatus(data.userBook?.status as string);
-      setRating(data.userBook?.rating as number);
-    },
-    errorPolicy: 'all',
-  });
-  useEffect(() => {
-    const loadData = async () => {
-      await loadBook({ variables: { where: { id: hit.id } } });
-    };
-    loadData();
-  }, []);
+//   const [loadBook] = useUserBookLazyQuery({
+//     fetchPolicy: 'cache-and-network',
+//     nextFetchPolicy: 'cache-first',
+//     notifyOnNetworkStatusChange: true,
+//     onError: (error) => {
+//       toast({
+//         title: error.message,
+//         variant: 'destructive',
+//       });
+//     },
+//     onCompleted: (data) => {
+//       setStatus(data.userBook?.status as string);
+//       setRating(data.userBook?.rating as number);
+//     },
+//     errorPolicy: 'all',
+//   });
+//   useEffect(() => {
+//     const loadData = async () => {
+//       await loadBook({ variables: { where: { id: hit.id } } });
+//     };
+//     loadData();
+//   }, []);
   return (
     <BookCard
       book={hit}
@@ -56,62 +56,7 @@ const Hit = ({ hit }: HitProps) => {
           info={<BookInfo />}
         />
       }
-      // actions={
-      //     status ?
-      //         < BookCard.BookActions
-      //             buttons={[
-      //                 <BookActions
-      //                     openDropdown={openDropdown}
-      //                     setOpenDropdown={setOpenDropdown}
-      //                     setOpenModal={setOpenModal}
-      //                     setOpenAlert={setOpenAlert}
-      //                     status={status}
-      //                     setStatus={setStatus}
-      //                     book={hit}
-      //                     setRating={setRating}
-      //                     rating={rating}
-      //                     // shelves={hit.userBook?.shelves!}
-      //                     // loadEntry={loadEntry}
-      //                     type="button"
-      //                     showRemoveBook={false}
-      //                 />
-      //             ]}
-      //             rating={
-      //                 <div className="flex gap-2 text-sm font-medium pb-2">
-      //                     My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.id} />
-      //                 </div>
-      //             }
-      //         />
-      //         : <>
-      //             < BookCard.BookActions
-      //                 buttons={[
-      //                     <Button
-      //                         onClick={async (e) => {
-      //                             e.stopPropagation();
-      //                             setIsLoading(true)
-      //                             await createUserBook(hit);
-      //                             setIsLoading(false)
-      //                             setStatus("Want to Read")
-      //                         }}
-      //                         disabled={isLoading}
-      //                         className="bg-beige text-white"
-      //                         variant={"tag"}
-      //                         size={"xs"}
-      //                     >
-      //                         Want to Read
-      //                     </Button>,
-      //                     ,
-      //                 ]}
-      //                 rating={
-      //                     <div className="flex gap-2 text-sm font-medium pb-2">
-      //                         My Rating:  <BookRating rating={rating} setRating={setRating} bookId={hit.id} />
-      //                     </div>
-      //                 }
-      //             />
-      //         </>
-
-      // }
-    />
+      />
   );
 };
 

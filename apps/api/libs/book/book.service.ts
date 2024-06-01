@@ -8,6 +8,7 @@ import axiosInstance from 'src/config/axios.config';
 import { format, subDays } from 'date-fns';
 import { ConfigService } from '@nestjs/config';
 import { getGoogleBook } from './api/google.api';
+import { generateSlug } from 'libs/user-book/utils';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;

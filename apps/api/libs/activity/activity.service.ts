@@ -6,7 +6,7 @@ import { ACTION, Prisma } from '@prisma/client';
 export class ActivityService {
   constructor(private readonly repository: ActivityRepository) {}
   //   findMany = this.repository.findMany;
-  async create(data: AuditLogCreateInput, userId: string, bookId: number) {
+  async create(data: AuditLogCreateInput, userId: string, bookId: string) {
     return this.repository.create({
       data: {
         ...data,

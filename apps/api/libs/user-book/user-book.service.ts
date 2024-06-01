@@ -13,7 +13,7 @@ export class UserBookService {
     private readonly activityService: ActivityService,
     private readonly prisma: PrismaRepository,
   ) {}
-  async removeBookFromShelf(bookId: number, userId: string, shelf: string) {
+  async removeBookFromShelf(bookId: string, userId: string, shelf: string) {
     // Retrieve the userBook to see if it exists and to get the current shelves
     const userBook = await this.repository.findUnique({
       where: {
@@ -69,7 +69,7 @@ export class UserBookService {
       throw new Error('Book not found on user shelf.');
     }
   }
-  async addBookToShelf(bookId: number, userId: string, shelf: string) {
+  async addBookToShelf(bookId: string, userId: string, shelf: string) {
     // Check if the book is already associated with the user
     const userBook = await this.repository.findUnique({
       where: {
@@ -97,7 +97,7 @@ export class UserBookService {
     }
   }
 
-  async create(bookId: number, userId: string, status?: string) {
+  async create(bookId: string, userId: string, status?: string) {
     const lastUserBook = await this.repository.findFirst({
       where: { status: status || 'Want to Read', userId: userId },
       orderBy: { order: 'desc' },

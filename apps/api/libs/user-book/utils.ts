@@ -7,6 +7,31 @@ import {
 } from './types';
 import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
+import ShortUniqueId from 'short-uuid';
+
+function generateShortUUID(length: number): string {
+  const translator = ShortUniqueId();
+  const uuid = translator.new().substring(0, length);
+  return uuid;
+}
+
+export function generateSlug(name: string): string {
+  // Step 1: Convert the name to lowercase
+  let slug = name.toLowerCase();
+
+  // Step 2: Replace spaces and non-alphanumeric characters with hyphens
+  slug = slug.replace(/[^a-z0-9]+/g, '-');
+
+  // Step 3: Remove leading and trailing hyphens
+  slug = slug.replace(/^-+|-+$/g, '');
+
+  // Step 4: Append the unique identifier
+  const id = generateShortUUID(6);
+  slug = `${slug}-${id}`;
+
+  return slug;
+}
+
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   let shelves: string[] = []; // get shelves
   if (objectFromCSV['Bookshelves']) {

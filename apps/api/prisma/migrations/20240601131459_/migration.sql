@@ -46,7 +46,7 @@ CREATE TABLE "Cover" (
     "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "size" "SIZE" NOT NULL,
-    "bookId" INTEGER,
+    "bookId" TEXT,
     "userBookId" TEXT,
 
     CONSTRAINT "Cover_pkey" PRIMARY KEY ("id")
@@ -54,7 +54,8 @@ CREATE TABLE "Cover" (
 
 -- CreateTable
 CREATE TABLE "Book" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "authors" TEXT[],
     "publishedDate" TEXT,
@@ -70,7 +71,7 @@ CREATE TABLE "Book" (
 
 -- CreateTable
 CREATE TABLE "Identifier" (
-    "bookId" INTEGER NOT NULL,
+    "bookId" TEXT NOT NULL,
     "isbn10" TEXT,
     "isbn13" TEXT,
     "google" TEXT,
@@ -87,7 +88,7 @@ CREATE TABLE "Review" (
     "likeCount" INTEGER NOT NULL DEFAULT 0,
     "spoilers" BOOLEAN NOT NULL DEFAULT false,
     "userId" TEXT,
-    "bookId" INTEGER,
+    "bookId" TEXT,
 
     CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
@@ -107,7 +108,7 @@ CREATE TABLE "Comment" (
 CREATE TABLE "UserBook" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "bookId" INTEGER NOT NULL,
+    "bookId" TEXT NOT NULL,
     "status" TEXT NOT NULL,
     "rating" DOUBLE PRECISION DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -157,7 +158,7 @@ CREATE TABLE "AuditLog" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "action" "ACTION" NOT NULL,
-    "bookId" INTEGER NOT NULL,
+    "bookId" TEXT NOT NULL,
     "actionContent" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -206,6 +207,9 @@ CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Book_slug_key" ON "Book"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Identifier_bookId_key" ON "Identifier"("bookId");

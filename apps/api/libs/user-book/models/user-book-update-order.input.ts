@@ -3,9 +3,9 @@ import { IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 @InputType() // Assuming this class represents an object type
 export class BookItemInput {
-  @IsInt()
+  @IsString()
   @Field()
-  id: number;
+  id: string;
   @IsString()
   @Field()
   status: string;
