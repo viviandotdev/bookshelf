@@ -122,7 +122,6 @@ export class UserBookService {
         status: status || 'Want to Read',
       },
     };
-    //create books with order
 
     return this.repository.create(createUserBookArgs);
   }

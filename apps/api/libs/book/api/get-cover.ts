@@ -23,44 +23,32 @@ function getUrl(data, startPattern, endPattern) {
 }
 
 export async function bookcoverIsbn(isbn) {
-  //   const bookTitle = '21 Lessons for the 21st Century';
-  //   const authorName = 'Yuval Noah Harari';
   const searchUrl = `https://www.goodreads.com/search?utf8=✓&query=${isbn}`;
 
   try {
     const goodreadResponse = await axiosInstance.get(searchUrl);
-    // console.log(goodreadResponse);
     const imageUrl = getUrl(
       goodreadResponse.data,
       START_PATTERN_GOODREADS_IMAGE_SEARCH,
       END_PATTERN_IMAGE_SEARCH,
     );
-    console.log(imageUrl);
     return imageUrl;
-    // res.status(200).send(buildSuccessResponse(imageUrl));
   } catch (error) {
-    // const ex = new HttpException(500, error.message);
-    console.log(error + ' ' + isbn);
     return null;
-    // res.status(ex.statusCode).send(buildErrorResponse(ex));
   }
 }
 
 export async function bookcoverSearch(bookTitle, authorName) {
-  //   const bookTitle = '21 Lessons for the 21st Century';
-  //   const authorName = 'Yuval Noah Harari';
-
   if (!bookTitle || !authorName) {
-    // const ex = new HttpException(400, 'Mandatory parameters missing');
-    // console.log(ex);
     return null;
   }
 
   const encodedBookTitle = encodeURIComponent(bookTitle);
   const encodedAuthorName = encodeURIComponent(authorName);
+
   const query = `${encodedBookTitle}+${encodedAuthorName}+site:goodreads.com/book/show`;
   const searchUrl = `https://www.google.com/search?q=${query}&sourceid=chrome&ie=UTF-8`;
-
+  // The Black Swan: The Impact of the Highly Improbable Nassim Nicholas Taleb
   try {
     const searchResponse = await axiosInstance.get(searchUrl);
 
@@ -78,13 +66,8 @@ export async function bookcoverSearch(bookTitle, authorName) {
       END_PATTERN_IMAGE_SEARCH,
     );
     return imageUrl;
-    // res.status(200).send(buildSuccessResponse(imageUrl));
   } catch (error) {
-    // const ex = new HttpException(500, error.message);
-    console.log('ERROR' + bookTitle + ' ' + authorName);
+    console.log(error);
     return null;
-    // res.status(ex.statusCode).send(buildErrorResponse(ex));
   }
-
-  //   http://bookcover.longitood.com/bookcover/978-0593135204
 }

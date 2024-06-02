@@ -4,7 +4,9 @@ import {
   BookCreateInput,
   BookWhereUniqueInput,
   CoverCreateInput,
+  CreateOneIdentifierArgs,
   IdentifierCreateInput,
+  SOURCE,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -17,7 +19,6 @@ import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
   generateSlug,
-  getGoodreadsBookInfo,
   getUserBookInfo,
   parseLineWithQuotes,
   processCSVLine,
@@ -32,6 +33,7 @@ import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
 import { getCovers } from 'libs/book/api/book-cover.api';
+import { IdentifierService } from 'libs/identifier/identifier.service';
 
 @Resolver(() => UserBook)
 export class UserBookResolver {
@@ -39,12 +41,13 @@ export class UserBookResolver {
     this.configService.get<string>('resend.api'),
   );
   private readonly domain = this.configService.get<string>('web.url');
+
   constructor(
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
     private readonly coverService: CoverService,
     private configService: ConfigService,
-    private readonly prisma: PrismaRepository,
+    private readonly identifiersService: IdentifierService,
   ) {}
 
   containsNonNumeric(str: string) {
@@ -80,9 +83,10 @@ export class UserBookResolver {
   ) {
     let bookId;
     if (this.containsNonNumeric(id)) {
-      const identifier = await this.bookService.findByIdentifier({
+      const identifier = await this.identifiersService.findFirst({
         where: {
-          google: id,
+          source: 'GOOGLE',
+          sourceId: id,
         },
         include: {
           book: true, // Include related book information if needed
@@ -192,60 +196,49 @@ export class UserBookResolver {
     const totalBooks = lines.length - 2;
     for (let i = 1; i < lines.length - 1; i++) {
       const goodreadsBook = processCSVLine(lines[i], mappings);
-      const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
       const [book, imageLinks] = await Promise.all([
-        buildBook(bookInfo),
+        buildBook(goodreadsBook), //Get google or open library book
         getCovers({
           isbn: goodreadsBook['ISBN13'],
           title: goodreadsBook['Title'],
-          authors: goodreadsBook['Author'],
+          author: goodreadsBook['Author'],
         }),
       ]);
-      // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
 
       if (book) {
         const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
-
         const coverInput: CoverCreateInput[] =
           this.coverService.createCoverInput({
             small: (imageLinks && imageLinks.small) || book.imageLinks.small,
-            medium: (imageLinks && imageLinks.medium) || book.imageLinks.medium,
-            large: book.imageLinks.large,
+            large: (imageLinks && imageLinks.large) || book.imageLinks.medium,
           });
 
-        const covers = await this.coverService.createCovers(coverInput);
-        const bookData: BookCreateInput = {
-          title: book.title,
-          pageCount: book.pageCount,
-          authors: book.authors,
-          publisher: book.publisher,
-          publishedDate: book.publishedDate,
-          averageRating: book.averageRating,
-          description: book.description,
-          covers: {
-            connect: covers.map((cover) => ({ id: cover.id })),
+        const identifiersInput: IdentifierCreateInput[] = [
+          {
+            source: SOURCE.GOODREADS,
+            sourceId: goodreadsBook['Book Id'],
           },
-          language: book.language,
-          categories: book.categories,
-          slug: generateSlug(book.title + ' ' + book.authors.join(' ')),
-        };
+          {
+            source: book.source as SOURCE,
+            sourceId: book.id,
+          },
+          ...(book.isbn10
+            ? [{ source: SOURCE.ISBN_10, sourceId: book.isbn10 }]
+            : []),
+          ...(book.isbn13
+            ? [{ source: SOURCE.ISBN_13, sourceId: book.isbn13 }]
+            : []),
+        ];
 
-        const identifiers: IdentifierCreateInput = {
-          isbn10: book.isbn10,
-          isbn13: book.isbn13,
-        };
-
-        if (book.type === 'GOOGLE') {
-          identifiers.google = book.id;
-        } else if (book.type === 'OPENLIBRARY') {
-          identifiers.openLibrary = book.id;
-        }
-
+        const bookInput =
+          await this.bookService.createBookInputFromBookData(book);
         const currentBook = await this.bookService.create(
-          bookData,
-          user.userId,
-          identifiers,
+          bookInput,
+          identifiersInput,
+          coverInput,
         );
+
+        await this.userBookService.create(currentBook.id, user.userId);
 
         const userBookData: UserBookUpdateInput = {
           status,
@@ -261,13 +254,11 @@ export class UserBookResolver {
           },
           isImport: true,
         });
-        console.log(book.title);
       } else {
-        // console.log(`${bookInfo.title} ${bookInfo.authors}`);
-        failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
+        failedBooks.push(`${goodreadsBook.Title} ${goodreadsBook.Author}`);
       }
     }
-    console.log(failedBooks);
+    // if successful send email
     await this.resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: user.email,
@@ -285,7 +276,6 @@ export class UserBookResolver {
     });
 
     return true;
-    // email user once import is done
   }
 
   @UseGuards(AccessTokenGuard)

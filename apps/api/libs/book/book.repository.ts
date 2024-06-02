@@ -13,7 +13,7 @@ export class BookRepository {
   count = this.prisma.book.count;
   delete = this.prisma.book.delete;
   findFirst = this.prisma.book.findFirst;
-  findByIdentifier = this.prisma.identifier.findFirst;
+
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

@@ -10,6 +10,7 @@ import { ActivityService } from 'libs/activity/activity.service';
 import { ActivityRepository } from 'libs/activity/activity.respository';
 import { CoverService } from 'libs/cover/cover.service';
 import { CoverRepository } from 'libs/cover/cover.repository';
+import { IdentifierService } from 'libs/identifier/identifier.service';
 
 @Module({
   providers: [
@@ -22,6 +23,7 @@ import { CoverRepository } from 'libs/cover/cover.repository';
     ActivityService,
     CoverService,
     CoverRepository,
+    IdentifierService,
   ],
   imports: [PrismaModule, HttpModule],
   exports: [UserBookService],

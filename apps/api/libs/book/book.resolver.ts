@@ -5,6 +5,8 @@ import {
   BookCreateInput,
   BookWhereUniqueInput,
   CoverCreateInput,
+  IdentifierCreateInput,
+  SOURCE,
 } from 'src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { NotFoundException, UseGuards } from '@nestjs/common';
@@ -14,12 +16,16 @@ import { CoverService } from 'libs/cover/cover.service';
 import { findBookByGoogleBookId } from './api/google.api';
 import { getCovers } from './api/book-cover.api';
 import { generateSlug } from 'libs/user-book/utils';
+import { IdentifierService } from 'libs/identifier/identifier.service';
+import { UserBookService } from 'libs/user-book/user-book.service';
 
 @Resolver(() => Book)
 export class BookResolver {
   constructor(
     private readonly bookService: BookService,
     private readonly coverService: CoverService,
+    private readonly userBookService: UserBookService,
+    private readonly identifierService: IdentifierService,
   ) {}
 
   @Query(() => String, { nullable: true, name: 'slug' })
@@ -28,44 +34,43 @@ export class BookResolver {
     id: string,
   ) {
     const googleBook = await findBookByGoogleBookId(id);
-    const identifier = await this.bookService.findByIdentifier({
+    const identifier = await this.identifierService.findFirst({
       where: {
-        google: googleBook.id,
+        source: SOURCE.GOOGLE,
+        sourceId: googleBook.id,
       },
     });
-    // book does not exist
+
     if (!identifier) {
       const imageLinks = await getCovers({
         isbn: googleBook.isbn13,
         title: googleBook.title,
-        authors: googleBook.authors,
+        author: googleBook.authors[0],
       });
-      const coverInput: CoverCreateInput[] =
+      const coversInput: CoverCreateInput[] =
         this.coverService.createCoverInput(imageLinks);
 
-      const covers = await this.coverService.createCovers(coverInput);
-      const bookData: BookCreateInput = {
-        title: googleBook.title,
-        pageCount: googleBook.pageCount,
-        authors: googleBook.authors,
-        publisher: googleBook.publisher,
-        publishedDate: googleBook.publishedDate,
-        description: googleBook.description,
-        covers: {
-          connect: covers.map((cover) => ({ id: cover.id })),
+      const identifiersInput: IdentifierCreateInput[] = [
+        {
+          source: SOURCE.GOOGLE,
+          sourceId: googleBook.id,
         },
-        categories: googleBook.categories,
-        averageRating: googleBook.averageRating,
+        ...(googleBook.isbn10
+          ? [{ source: SOURCE.ISBN_10, sourceId: googleBook.isbn10 }]
+          : []),
+        ...(googleBook.isbn13
+          ? [{ source: SOURCE.ISBN_13, sourceId: googleBook.isbn13 }]
+          : []),
+      ];
 
-        slug: generateSlug(
-          googleBook.title + ' ' + googleBook.authors.join(' '),
-        ),
-      };
-      const book = await this.bookService.create(bookData, null, {
-        isbn10: googleBook.isbn10,
-        isbn13: googleBook.isbn13,
-        google: googleBook.id,
-      });
+      const bookInput =
+        await this.bookService.createBookInputFromBookData(googleBook);
+
+      const book = await this.bookService.create(
+        bookInput,
+        identifiersInput,
+        coversInput,
+      );
 
       return book;
     }
@@ -76,9 +81,10 @@ export class BookResolver {
     id: string,
   ) {
     const googleBook = await findBookByGoogleBookId(id);
-    const identifier = await this.bookService.findByIdentifier({
+    const identifier = await this.identifierService.findFirst({
       where: {
-        google: googleBook.id,
+        source: 'GOOGLE',
+        sourceId: googleBook.id,
       },
       include: {
         book: {
@@ -93,35 +99,31 @@ export class BookResolver {
       const imageLinks = await getCovers({
         isbn: googleBook.isbn13,
         title: googleBook.title,
-        authors: googleBook.authors,
+        author: googleBook.authors[0],
       });
-      const coverInput: CoverCreateInput[] =
+      const coversInput: CoverCreateInput[] =
         this.coverService.createCoverInput(imageLinks);
 
-      const covers = await this.coverService.createCovers(coverInput);
-
-      const bookData: BookCreateInput = {
-        //   id: bookIdentifier.bookId,
-        title: googleBook.title,
-        pageCount: googleBook.pageCount,
-        authors: googleBook.authors,
-        publisher: googleBook.publisher,
-        publishedDate: googleBook.publishedDate,
-        description: googleBook.description,
-        covers: {
-          connect: covers.map((cover) => ({ id: cover.id })),
+      const bookInput: BookCreateInput =
+        await this.bookService.createBookInputFromBookData(googleBook);
+      //Create identifiers
+      const identifiersInput: IdentifierCreateInput[] = [
+        {
+          source: SOURCE.GOOGLE,
+          sourceId: googleBook.id,
         },
-        categories: googleBook.categories,
-        averageRating: googleBook.averageRating,
-        slug: generateSlug(
-          googleBook.title + ' ' + googleBook.authors.join(' '),
-        ),
-      };
-      const book = await this.bookService.create(bookData, null, {
-        isbn10: googleBook.isbn10,
-        isbn13: googleBook.isbn13,
-        google: googleBook.id,
-      });
+        ...(googleBook.isbn10
+          ? [{ source: SOURCE.ISBN_10, sourceId: googleBook.isbn10 }]
+          : []),
+        ...(googleBook.isbn13
+          ? [{ source: SOURCE.ISBN_13, sourceId: googleBook.isbn13 }]
+          : []),
+      ];
+      const book = await this.bookService.create(
+        bookInput,
+        identifiersInput,
+        coversInput,
+      );
 
       return book;
     }
@@ -136,11 +138,13 @@ export class BookResolver {
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Book)
-  createBook(
+  async createBook(
     @Args('data') data: BookCreateInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    return this.bookService.create(data, currentUser.userId);
+    const book = await this.bookService.create(data);
+    await this.userBookService.create(book.id, currentUser.userId);
+    return book;
   }
 
   @Query(() => Book, { nullable: true, name: 'book' })

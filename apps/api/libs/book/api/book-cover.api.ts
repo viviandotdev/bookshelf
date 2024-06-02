@@ -9,7 +9,7 @@ function getSmallImage(url) {
       'https://i.gr-assets.com/images/',
     );
 
-    // Insert "._SY180_" before the file extension
+    // Insert "._SY180_" before the file extension to get a smaller image
     const lastDotIndex = url.lastIndexOf('.');
     if (lastDotIndex !== -1) {
       url = url.slice(0, lastDotIndex) + '._SY180_' + url.slice(lastDotIndex);
@@ -19,24 +19,24 @@ function getSmallImage(url) {
   return url;
 }
 
-export async function getCovers({ isbn, title, authors }) {
+export async function getCovers({ isbn, title, author }) {
   if (isbn) {
     const cover = await bookcoverIsbn(isbn);
 
     const imageLinks = {
       small: getSmallImage(cover) || '',
-      medium: cover || '',
+      large: cover || '',
     };
     if (cover) {
       return imageLinks;
     }
   } else {
-    if (title && authors.length > 0) {
-      const cover = await bookcoverSearch(title, authors[0]);
+    if (title && author) {
+      const cover = await bookcoverSearch(title, author);
 
       const imageLinks = {
         small: getSmallImage(cover) || '',
-        medium: cover || '',
+        large: cover || '',
       };
       if (cover) {
         return imageLinks;

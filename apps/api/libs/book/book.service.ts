@@ -1,93 +1,85 @@
 import { Injectable } from '@nestjs/common';
-import { BookCreateInput } from 'src/generated-db-types';
+import {
+  BookCreateInput,
+  CoverCreateInput,
+  IdentifierCreateInput,
+} from 'src/generated-db-types';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
-import { UserBookService } from 'libs/user-book/user-book.service';
 import { BookRepository } from './book.repository';
-import axiosInstance from 'src/config/axios.config';
-import { format, subDays } from 'date-fns';
-import { ConfigService } from '@nestjs/config';
-import { getGoogleBook } from './api/google.api';
+import { IdentifierService } from 'libs/identifier/identifier.service';
+import { BookData } from 'libs/user-book/types';
 import { generateSlug } from 'libs/user-book/utils';
+import { CoverService } from 'libs/cover/cover.service';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
-  findByIdentifier = this.repository.findByIdentifier;
+
   findFirst = this.repository.findFirst;
+
   constructor(
     private readonly prisma: PrismaRepository,
-    private readonly userBook: UserBookService,
-    private configService: ConfigService,
+    private readonly coverService: CoverService,
+    private readonly identifierService: IdentifierService,
     private readonly repository: BookRepository,
   ) {}
 
-  async findBookByIdentifiers(identifiers) {
-    // Check if 'identifiers' is defined and has properties
-    if (!identifiers) {
-      return null;
-    }
-
-    let searchConditions = [
-      { isbn10: identifiers.isbn10 },
-      { isbn13: identifiers.isbn13 },
-      { google: identifiers.google },
-      { openLibrary: identifiers.openLibrary },
-      { goodreads: identifiers.goodreads },
-      { amazon: identifiers.amazon },
-      { bookId: identifiers.bookId },
-    ];
-
-    // Filter out any conditions with undefined or empty string values
-    searchConditions = searchConditions.filter((identifier) => {
-      const value = identifier[Object.keys(identifier)[0]];
-      return value !== undefined && value !== '';
-    });
-
-    // If no valid identifiers are provided, return null or handle as required
-    if (searchConditions.length === 0) {
-      console.log('No valid identifiers provided.');
-      return null;
-    }
-
-    // Use the filtered search conditions in the query
-    const book = await this.prisma.book.findFirst({
-      where: {
-        identifier: {
-          OR: searchConditions,
-        },
-      },
-    });
-
-    return book;
+  async createBookInputFromBookData(book: BookData) {
+    const bookInput: BookCreateInput = {
+      title: book.title,
+      pageCount: book.pageCount,
+      authors: book.authors ?? [],
+      publisher: book.publisher,
+      publishedDate: book.publishedDate,
+      averageRating: book.averageRating,
+      description: book.description,
+      language: book.language,
+      categories: book.categories,
+      slug: generateSlug(book.title + ' ' + book.authors.join(' ')),
+    };
+    return bookInput;
   }
-
   async create(
-    data: BookCreateInput,
-    userId?: string,
-    identifiers?: any,
-    status?: string,
+    bookInput: BookCreateInput,
+    identifiersInput?: IdentifierCreateInput[],
+    coversInput?: CoverCreateInput[],
   ) {
-    // check if any of of the identifiers are already in the database
-    let book = await this.findBookByIdentifiers(identifiers);
+    let existingBook =
+      await this.identifierService.findBookByIdentifiers(identifiersInput);
+    if (!existingBook) {
+      // Prepare the identifiers connection
+      const identifiers = await this.identifierService.createMany(
+        identifiersInput ?? [],
+      );
+      // Prepare the covers connection if covers exist
+      const covers = await this.coverService.createMany(coversInput ?? []);
+      // Create the book with conditional covers connection
 
-    if (!book) {
       const createBookArgs: Prisma.BookCreateArgs = {
         data: {
-          ...data,
-          ...(identifiers && { identifier: { create: identifiers } }),
+          ...bookInput,
+          covers: {
+            connect: covers?.length
+              ? covers.map((cover) => ({ url: cover.url }))
+              : undefined,
+          },
+          identifiers: {
+            connect: identifiers?.length
+              ? identifiers.map((identifier) => ({
+                  id: {
+                    source: identifier.source,
+                    sourceId: identifier.sourceId,
+                  },
+                }))
+              : undefined,
+          },
         },
         include: {
           covers: true,
         },
       };
-
-      book = await this.prisma.book.create(createBookArgs);
+      return await this.prisma.book.create(createBookArgs);
     }
-
-    if (userId) {
-      await this.userBook.create(book.id, userId, status);
-    }
-
-    return book;
+    return existingBook;
   }
 }
