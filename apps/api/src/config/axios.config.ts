@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 
 const axiosInstance: AxiosInstance = axios.create({
   // Your Axios configuration options
-  timeout: 5000, // Set the timeout to 5 seconds (5000 milliseconds)
+  timeout: 5000, // Set the timeout to 10 seconds (10000 milliseconds)
 });
 
 axiosInstance.interceptors.response.use(undefined, (error: AxiosError) => {
@@ -16,8 +16,10 @@ axiosInstance.interceptors.response.use(undefined, (error: AxiosError) => {
 
   // If request failed due to timeout
   if (error.code === 'ECONNABORTED') {
-    console.error('Request timed out:', error);
-    return Promise.reject(error);
+    console.error('Request timed out retry');
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(axiosInstance(config)), retryConfig.retryDelay);
+    });
   }
 
   // If request failed and is eligible for retry

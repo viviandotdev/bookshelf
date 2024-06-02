@@ -34,7 +34,7 @@ import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
 import { getCovers } from 'libs/book/api/book-cover.api';
 import { IdentifierService } from 'libs/identifier/identifier.service';
-
+import { goodreadCover } from 'libs/book/api/get-cover';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
@@ -194,70 +194,50 @@ export class UserBookResolver {
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
     const totalBooks = lines.length - 2;
-    for (let i = 1; i < lines.length - 1; i++) {
-      const goodreadsBook = processCSVLine(lines[i], mappings);
+    async function limitConcurrency(tasks, concurrencyLimit) {
+      const results = [];
+      let currentIndex = 0;
+
+      async function nextBatch() {
+        const batchTasks = tasks.slice(
+          currentIndex,
+          currentIndex + concurrencyLimit,
+        );
+        currentIndex += concurrencyLimit;
+        await Promise.all(batchTasks.map((task) => task()));
+        results.push(...(await Promise.all(batchTasks)));
+      }
+
+      while (currentIndex < tasks.length) {
+        await nextBatch();
+      }
+
+      return results;
+    }
+
+    const importTasks = lines.slice(1, -1).map((line) => async () => {
+      const goodreadsBook = processCSVLine(line, mappings);
       const [book, imageLinks] = await Promise.all([
         buildBook(goodreadsBook), //Get google or open library book
-        getCovers({
-          isbn: goodreadsBook['ISBN13'],
-          title: goodreadsBook['Title'],
-          author: goodreadsBook['Author'],
-        }),
+        goodreadCover(goodreadsBook['Book Id']),
       ]);
 
-      if (book) {
-        const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
-        const coverInput: CoverCreateInput[] =
-          this.coverService.createCoverInput({
-            small: (imageLinks && imageLinks.small) || book.imageLinks.small,
-            large: (imageLinks && imageLinks.large) || book.imageLinks.medium,
-          });
+      await this.userBookService.createImportedBook(
+        goodreadsBook,
+        book,
+        imageLinks,
+        user,
+      );
+      console.log('Imported book', goodreadsBook['Title']);
+    });
 
-        const identifiersInput: IdentifierCreateInput[] = [
-          {
-            source: SOURCE.GOODREADS,
-            sourceId: goodreadsBook['Book Id'],
-          },
-          {
-            source: book.source as SOURCE,
-            sourceId: book.id,
-          },
-          ...(book.isbn10
-            ? [{ source: SOURCE.ISBN_10, sourceId: book.isbn10 }]
-            : []),
-          ...(book.isbn13
-            ? [{ source: SOURCE.ISBN_13, sourceId: book.isbn13 }]
-            : []),
-        ];
+    const startTime = performance.now(); // Start measuring time
+    await limitConcurrency(importTasks, 30);
+    const endTime = performance.now(); // End measuring time
+    const duration = endTime - startTime; // Calculate the duration in milliseconds
 
-        const bookInput =
-          await this.bookService.createBookInputFromBookData(book);
-        const currentBook = await this.bookService.create(
-          bookInput,
-          identifiersInput,
-          coverInput,
-        );
+    console.log(`Import process took ${duration} milliseconds`);
 
-        await this.userBookService.create(currentBook.id, user.userId);
-
-        const userBookData: UserBookUpdateInput = {
-          status,
-          rating: Number(rating),
-          shelves,
-        };
-
-        await this.userBookService.update({
-          data: userBookData,
-          where: {
-            userId: user.userId,
-            bookId: currentBook.id,
-          },
-          isImport: true,
-        });
-      } else {
-        failedBooks.push(`${goodreadsBook.Title} ${goodreadsBook.Author}`);
-      }
-    }
     // if successful send email
     await this.resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',

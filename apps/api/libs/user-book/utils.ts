@@ -5,6 +5,34 @@ import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 import ShortUniqueId from 'short-uuid';
 import { SOURCE } from '@bookcue/api/generated-db-types';
 
+export function getColumnData(csvContent, mappings) {
+  // Split the CSV content into lines
+  const lines = csvContent.split('\n');
+
+  // Extract the data from the specified column
+  const columnData = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    console.log(line);
+    const parsedData = parseLineWithQuotes(line);
+    const shelves = [];
+    mappings.forEach((key: GoodreadsBookKeys, index) => {
+      if (key === 'Bookshelves') {
+        shelves.push(parsedData[index].split(',').map((shelf) => shelf.trim()));
+      }
+    });
+
+
+    // if (line) {
+    //   // Ignore empty lines
+    //   const cells = line.split(',');
+    //   columnData.push(cells[columnIndex]);
+    // }
+  }
+
+  return 
+}
+
 function generateShortUUID(length: number): string {
   const translator = ShortUniqueId();
   const uuid = translator.new().substring(0, length);
@@ -82,17 +110,27 @@ export const buildBook = async (
   baseBook: GoodreadsBook,
 ): Promise<BookData | null> => {
   //   const googleBook = await getGoogleBook(baseBook);
-  const openLibraryBook = await getOpenLibraryBook(baseBook);
 
   //   if (googleBook) {
   //     return mergeBookData(baseBook, googleBook, SOURCE.GOOGLE);
   //   }
 
-  if (openLibraryBook) {
-    return mergeBookData(baseBook, openLibraryBook, SOURCE.OPEN_LIBRARY);
-  }
-
-  return null;
+  return {
+    title: baseBook.Title ?? '',
+    subtitle: '',
+    authors: [baseBook.Author],
+    averageRating: parseFloat(baseBook['Average Rating'] ?? '0'),
+    publishedDate: baseBook['Original Publication Year'] ?? '',
+    publisher: baseBook.Publisher ?? '',
+    pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),
+    isbn10: baseBook.ISBN ?? '',
+    isbn13: baseBook.ISBN13 ?? '',
+    id: '',
+    description: '',
+    language: '',
+    categories: [],
+    imageLinks: null,
+  };
 };
 
 const mergeBookData = (
@@ -134,4 +172,3 @@ export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
 
   return objectFromCSV as GoodreadsBook;
 };
-

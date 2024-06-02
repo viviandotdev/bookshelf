@@ -38,6 +38,38 @@ export async function bookcoverIsbn(isbn) {
   }
 }
 
+function getSmallImage(url) {
+  if (url) {
+    url = url.replace(
+      'https://images-na.ssl-images-amazon.com/images/',
+      'https://i.gr-assets.com/images/',
+    );
+
+    // Insert "._SY180_" before the file extension to get a smaller image
+    const lastDotIndex = url.lastIndexOf('.');
+    if (lastDotIndex !== -1) {
+      url = url.slice(0, lastDotIndex) + '._SY180_' + url.slice(lastDotIndex);
+    }
+  }
+
+  return url;
+}
+
+export async function goodreadCover(id) {
+  const goodreadUrl = `https://www.goodreads.com/book/show/${id}`;
+  const goodreadResponse = await axiosInstance.get(goodreadUrl);
+
+  const imageUrl = getUrl(
+    goodreadResponse.data,
+    START_PATTERN_GOODREADS_IMAGE_SEARCH,
+    END_PATTERN_IMAGE_SEARCH,
+  );
+  return {
+    small: getSmallImage(imageUrl),
+    large: imageUrl,
+  };
+}
+
 export async function bookcoverSearch(bookTitle, authorName) {
   if (!bookTitle || !authorName) {
     return null;
@@ -48,7 +80,6 @@ export async function bookcoverSearch(bookTitle, authorName) {
 
   const query = `${encodedBookTitle}+${encodedAuthorName}+site:goodreads.com/book/show`;
   const searchUrl = `https://www.google.com/search?q=${query}&sourceid=chrome&ie=UTF-8`;
-  // The Black Swan: The Impact of the Highly Improbable Nassim Nicholas Taleb
   try {
     const searchResponse = await axiosInstance.get(searchUrl);
 
