@@ -128,10 +128,13 @@ export const buildBook = (baseBook: GoodreadsBook): GoodreadsBookData => {
   const trimmedSubtitle = subtitle ?? undefined;
   let authors = [baseBook.Author];
   // Split the additional authors and concatenate them to the authors array
-  authors = [
-    ...authors,
-    ...baseBook['Additional Authors'].split(',').map((author) => author.trim()),
-  ];
+  const additionalAuthors = baseBook['Additional Authors']
+    .split(',')
+    .map((author) => author.trim())
+    .filter((author) => author !== '');
+
+  // Concatenate the filtered additional authors to the authors array
+  authors = [...authors, ...additionalAuthors];
 
   return {
     id: baseBook['Book Id'],
