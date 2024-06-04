@@ -1,10 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
 import {
-  BookCreateInput,
   BookWhereUniqueInput,
-  CoverCreateInput,
-  IdentifierCreateInput,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -16,8 +13,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
-  generateSlug,
-  getGoodreadsBookInfo,
+  getShelves,
   getUserBookInfo,
   parseLineWithQuotes,
   processCSVLine,
@@ -31,20 +27,21 @@ import { render } from '@react-email/components';
 import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
-import { getCovers } from 'libs/book/api/book-cover.api';
-
+import { IdentifierService } from 'libs/identifier/identifier.service';
+import { GoodreadsBookData } from './types';
+import { getGoodreadsCover } from 'libs/book/api/book-cover.api';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
     this.configService.get<string>('resend.api'),
   );
   private readonly domain = this.configService.get<string>('web.url');
+
   constructor(
     private readonly userBookService: UserBookService,
-    private readonly bookService: BookService,
-    private readonly coverService: CoverService,
-    private configService: ConfigService,
     private readonly prisma: PrismaRepository,
+    private configService: ConfigService,
+    private readonly identifiersService: IdentifierService,
   ) {}
 
   containsNonNumeric(str: string) {
@@ -80,9 +77,10 @@ export class UserBookResolver {
   ) {
     let bookId;
     if (this.containsNonNumeric(id)) {
-      const identifier = await this.bookService.findByIdentifier({
+      const identifier = await this.identifiersService.findFirst({
         where: {
-          google: id,
+          source: 'GOOGLE',
+          sourceId: id,
         },
         include: {
           book: true, // Include related book information if needed
@@ -190,84 +188,71 @@ export class UserBookResolver {
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
     const totalBooks = lines.length - 2;
-    for (let i = 1; i < lines.length - 1; i++) {
-      const goodreadsBook = processCSVLine(lines[i], mappings);
-      const bookInfo = getGoodreadsBookInfo(goodreadsBook); //getGoodreads bookInfo
-      const [book, imageLinks] = await Promise.all([
-        buildBook(bookInfo),
-        getCovers({
-          isbn: goodreadsBook['ISBN13'],
-          title: goodreadsBook['Title'],
-          authors: goodreadsBook['Author'],
-        }),
-      ]);
-      // https://developers.google.com/analytics/devguides/config/mgmt/v3/limits-quotas
+    async function limitConcurrency(tasks, concurrencyLimit) {
+      const results = [];
+      let currentIndex = 0;
 
-      if (book) {
-        const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
-
-        const coverInput: CoverCreateInput[] =
-          this.coverService.createCoverInput({
-            small: (imageLinks && imageLinks.small) || book.imageLinks.small,
-            medium: (imageLinks && imageLinks.medium) || book.imageLinks.medium,
-            large: book.imageLinks.large,
-          });
-
-        const covers = await this.coverService.createCovers(coverInput);
-        const bookData: BookCreateInput = {
-          title: book.title,
-          pageCount: book.pageCount,
-          authors: book.authors,
-          publisher: book.publisher,
-          publishedDate: book.publishedDate,
-          averageRating: book.averageRating,
-          description: book.description,
-          covers: {
-            connect: covers.map((cover) => ({ id: cover.id })),
-          },
-          language: book.language,
-          categories: book.categories,
-          slug: generateSlug(book.title + ' ' + book.authors.join(' ')),
-        };
-
-        const identifiers: IdentifierCreateInput = {
-          isbn10: book.isbn10,
-          isbn13: book.isbn13,
-        };
-
-        if (book.type === 'GOOGLE') {
-          identifiers.google = book.id;
-        } else if (book.type === 'OPENLIBRARY') {
-          identifiers.openLibrary = book.id;
-        }
-
-        const currentBook = await this.bookService.create(
-          bookData,
-          user.userId,
-          identifiers,
+      async function nextBatch() {
+        const batchTasks = tasks.slice(
+          currentIndex,
+          currentIndex + concurrencyLimit,
         );
-
-        const userBookData: UserBookUpdateInput = {
-          status,
-          rating: Number(rating),
-          shelves,
-        };
-
-        await this.userBookService.update({
-          data: userBookData,
-          where: {
-            userId: user.userId,
-            bookId: currentBook.id,
-          },
-          isImport: true,
-        });
-        console.log(book.title);
-      } else {
-        // console.log(`${bookInfo.title} ${bookInfo.authors}`);
-        failedBooks.push(`${bookInfo.title} ${bookInfo.authors}`);
+        currentIndex += concurrencyLimit;
+        await Promise.all(batchTasks.map((task) => task()));
+        results.push(...(await Promise.all(batchTasks)));
       }
+
+      while (currentIndex < tasks.length) {
+        await nextBatch();
+      }
+
+      return results;
     }
-    console.log(failedBooks);
+    const allShelves = new Set();
+    for (let i = 1; i < lines.length - 1; i++) {
+      const line = lines[i];
+      const goodreadsBook = processCSVLine(line, mappings);
+      const shelves = getShelves(goodreadsBook);
+      shelves.forEach((shelf) => allShelves.add(shelf));
+      console.log('Create user shelves');
+    }
+
+    // Prepare data for Prisma's createMany
+    const shelvesData = Array.from(allShelves).map((shelf: string) => ({
+      userId: user.userId,
+      name: shelf,
+    }));
+
+    // Use Prisma's createMany to insert the shelves
+    await this.prisma.shelf.createMany({
+      data: shelvesData,
+      skipDuplicates: true, // This option skips inserting duplicates if any
+    });
+
+    // Example usage
+    const importTasks = lines.slice(1, -1).map((line) => async () => {
+      const goodreadsBook = processCSVLine(line, mappings);
+      const book: GoodreadsBookData = buildBook(goodreadsBook);
+      const imageLinks = await getGoodreadsCover(goodreadsBook['Book Id']);
+      // on the client get all the covers,  then send list of covers to the server to add in one go
+      const userInfo = getUserBookInfo(goodreadsBook);
+      await this.userBookService.createImportedBook(
+        userInfo,
+        book,
+        imageLinks,
+        user,
+      );
+      console.log('Imported book', goodreadsBook['Title']);
+    });
+
+    const startTime = performance.now(); // Start measuring time
+    await limitConcurrency(importTasks, 30);
+    const endTime = performance.now(); // End measuring time
+    const duration = endTime - startTime; // Calculate the duration in milliseconds
+
+    console.log(`Import process took ${duration} milliseconds`);
+
+    // if successful send email
     await this.resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
       to: user.email,
@@ -285,7 +270,6 @@ export class UserBookResolver {
     });
 
     return true;
-    // email user once import is done
   }
 
   @UseGuards(AccessTokenGuard)

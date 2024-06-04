@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CoverCreateInput } from '../../src/generated-db-types';
+import { Cover, CoverCreateInput, SIZE } from '../../src/generated-db-types';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
+import { ImageLinks } from 'libs/user-book/types';
 
 @Injectable()
 export class CoverService {
@@ -26,32 +27,57 @@ export class CoverService {
     return cover;
   }
 
-  async createCovers(data: CoverCreateInput[]) {
-    const covers = await Promise.all(data.map((cover) => this.create(cover)));
+  async createMany(data: CoverCreateInput[]): Promise<Cover[]> {
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    try {
+      // Step 1: Create covers using createMany
+      await this.prisma.cover.createMany({
+        data: data.map((cover) => ({
+          url: cover.url,
+          size: cover.size,
+        })),
+        skipDuplicates: true,
+      });
+    } catch (error) {
+      console.error('Error during createMany covers');
+    }
+
+    // Step 2: Query the data after the create
+    const covers = await this.prisma.cover.findMany({
+      where: {
+        OR: data.map((cover) => ({
+          url: cover.url,
+        })),
+      },
+    });
+
     return covers;
   }
 
-  createCoverInput(imageLinks: any) {
+  createCoverInput(imageLinks: ImageLinks) {
     const coverInput: CoverCreateInput[] = [];
 
     if (imageLinks.small) {
       coverInput.push({
         url: imageLinks.small,
-        size: 'SMALL',
+        size: SIZE.SMALL,
       });
     }
 
     if (imageLinks.medium) {
       coverInput.push({
         url: imageLinks.medium,
-        size: 'MEDIUM',
+        size: SIZE.MEDIUM,
       });
     }
 
     if (imageLinks.large) {
       coverInput.push({
         url: imageLinks.large,
-        size: 'LARGE',
+        size: SIZE.LARGE,
       });
     }
 

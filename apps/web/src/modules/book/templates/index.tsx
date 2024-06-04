@@ -36,7 +36,7 @@ export default function BookTemplate({
           <Image
             width={160}
             height={277}
-            src={getCoverUrl(book, Size.Medium)}
+            src={getCoverUrl(book, Size.Large)}
             className='max-w-none rounded-lg md:w-[stretch]'
             alt='book cover'
           />

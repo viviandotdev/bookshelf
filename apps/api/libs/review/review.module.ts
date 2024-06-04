@@ -9,6 +9,9 @@ import { BookRepository } from 'libs/book/book.repository';
 import { UserBookRepository } from 'libs/user-book/user-book.repository';
 import { ActivityService } from 'libs/activity/activity.service';
 import { ActivityRepository } from 'libs/activity/activity.respository';
+import { Identifier } from '@bookcue/api/generated-db-types';
+import { IdentifierService } from 'libs/identifier/identifier.service';
+import { CoverService } from 'libs/cover/cover.service';
 
 @Module({
   providers: [
@@ -21,6 +24,8 @@ import { ActivityRepository } from 'libs/activity/activity.respository';
     BookService,
     ActivityRepository,
     ActivityService,
+    IdentifierService,
+    CoverService,
   ],
   imports: [PrismaModule],
   exports: [ReviewService],

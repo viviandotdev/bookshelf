@@ -3,11 +3,39 @@ import {
   GoodreadsBookKeys,
   GoodreadsBook,
   BookData,
-  AdditionalBookData,
+  GoodreadsBookData,
 } from './types';
 import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 import ShortUniqueId from 'short-uuid';
+import { SOURCE } from '@bookcue/api/generated-db-types';
+
+export function getColumnData(csvContent, mappings) {
+  // Split the CSV content into lines
+  const lines = csvContent.split('\n');
+
+  // Extract the data from the specified column
+  const columnData = [];
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    console.log(line);
+    const parsedData = parseLineWithQuotes(line);
+    const shelves = [];
+    mappings.forEach((key: GoodreadsBookKeys, index) => {
+      if (key === 'Bookshelves') {
+        shelves.push(parsedData[index].split(',').map((shelf) => shelf.trim()));
+      }
+    });
+
+    // if (line) {
+    //   // Ignore empty lines
+    //   const cells = line.split(',');
+    //   columnData.push(cells[columnIndex]);
+    // }
+  }
+
+  return;
+}
 
 function generateShortUUID(length: number): string {
   const translator = ShortUniqueId();
@@ -32,6 +60,17 @@ export function generateSlug(name: string): string {
   return slug;
 }
 
+export function getShelves(objectFromCSV: GoodreadsBook) {
+  let shelves: string[] = []; // get shelves
+  if (objectFromCSV['Bookshelves']) {
+    const cleanShelves = objectFromCSV['Bookshelves']
+      .split(',')
+      .map((shelf) => shelf.trim());
+    const excludedShelves = ['to-read', 'currently-reading', 'read'];
+    shelves = cleanShelves.filter((shelf) => !excludedShelves.includes(shelf));
+  }
+  return shelves;
+}
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   let shelves: string[] = []; // get shelves
   if (objectFromCSV['Bookshelves']) {
@@ -43,7 +82,6 @@ export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   }
   let status;
   if (objectFromCSV['Exclusive Shelf']) {
-    // get status
     if (objectFromCSV['Exclusive Shelf'] == 'to-read') {
       status = 'Want to Read';
     } else if (objectFromCSV['Exclusive Shelf'] == 'currently-reading') {
@@ -83,195 +121,42 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
-export const buildBook = async (book: BookData) => {
-  // try to find book by google
-  const googleBook = await getGoogleBook(book);
+export const buildBook = (baseBook: GoodreadsBook): GoodreadsBookData => {
+  const [title, subtitle] = baseBook['Title'].split(':');
 
-  if (googleBook) {
-    book.description = googleBook.description;
-    book.language = googleBook.language;
-    book.categories = googleBook.categories;
-    book.imageLinks = googleBook.imageLinks;
-    book.id = googleBook.id;
-    book.type = 'GOOGLE';
-    return book;
-  }
+  const trimmedTitle = title;
+  const trimmedSubtitle = subtitle ?? undefined;
+  let authors = [baseBook.Author];
+  // Split the additional authors and concatenate them to the authors array
+  const additionalAuthors = baseBook['Additional Authors']
+    .split(',')
+    .map((author) => author.trim())
+    .filter((author) => author !== '');
 
-  const openLibraryBook = await getOpenLibraryBook(book);
+  // Concatenate the filtered additional authors to the authors array
+  authors = [...authors, ...additionalAuthors];
 
-  if (openLibraryBook) {
-    book.description = openLibraryBook.description;
-    book.language = openLibraryBook.language;
-    book.categories = openLibraryBook.categories;
-
-    book.imageLinks = openLibraryBook.imageLinks;
-    book.id = openLibraryBook.id;
-    book.type = 'OPENLIBRARY';
-    return book;
-  }
-  return null;
-};
-// Function to map GoodreadsBook to BookData
-export const getGoodreadsBookInfo = (
-  goodreadsBook: GoodreadsBook,
-): BookData => {
   return {
-    id: goodreadsBook['Book Id'] ?? '',
-    title: goodreadsBook.Title ?? '',
-    authors: goodreadsBook.Author ? [goodreadsBook.Author] : [],
-    averageRating: parseFloat(goodreadsBook['Average Rating'] ?? '0'),
-    publishedDate: goodreadsBook['Original Publication Year'] ?? '',
-    publisher: goodreadsBook.Publisher ?? '',
-    pageCount: parseInt(goodreadsBook['Number of Pages'] ?? '0', 10),
-    isbn10: goodreadsBook.ISBN ?? '',
-    isbn13: goodreadsBook.ISBN13 ?? '',
-    imageLinks: {
-      small: '',
-      medium: '',
-      large: '',
-    }, // Populate with appropriate data
-    language: '', // Populate with appropriate data
-    description: '', // Populate with appropriate data
-    categories: [], // Populate with appropriate data if available
+    id: baseBook['Book Id'],
+    title: trimmedTitle,
+    subtitle: trimmedSubtitle ?? undefined,
+    authors: authors,
+    pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),
+    isbn10: baseBook.ISBN ?? undefined,
+    isbn13: baseBook.ISBN13 ?? undefined,
   };
 };
 
 export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
   const parsedData = parseLineWithQuotes(line);
-  const objectFromCSV = {};
-  //
+  const goodreadsData = {};
   mappings.forEach((key: GoodreadsBookKeys, index) => {
     if (key === 'ISBN' || key === 'ISBN13') {
-      objectFromCSV[key] = cleanText(parsedData[index]);
+      goodreadsData[key] = cleanText(parsedData[index]);
     } else {
-      objectFromCSV[key] = parsedData[index];
+      goodreadsData[key] = parsedData[index];
     }
   });
 
-  return objectFromCSV as GoodreadsBook;
+  return goodreadsData as GoodreadsBook;
 };
-
-export function processOpenLibraryBook(
-  book: any,
-  work: any,
-): AdditionalBookData | null {
-  if (!book || !work) return null;
-  const imageLinks = {
-    small: book.covers
-      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-M.jpg`
-      : '',
-    medium: book.covers
-      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
-      : '',
-    large: book.covers
-      ? `http://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`
-      : '',
-  };
-  const description: string = work.description
-    ? typeof work.description === 'string'
-      ? work.description
-      : work.description.value
-    : '';
-  const categories: string[] = work.subjects
-    ? work.subjects.map((subject: any) => subject)
-    : [];
-  const language: string = book.languages
-    ? book.languages[0].key.replace('/languages/', '')
-    : '';
-  const id = book.key.replace('/languages/', '');
-
-  const bookData: AdditionalBookData = {
-    id,
-    description,
-    language,
-    categories,
-    imageLinks,
-  };
-
-  return bookData;
-}
-
-export function processGoogleBook(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  book: any,
-): AdditionalBookData | null {
-  const imageLinks = {
-    small: book.volumeInfo.imageLinks?.thumbnail || '',
-    medium: book.volumeInfo.imageLinks?.small || '',
-    large: book.volumeInfo.imageLinks?.medium || '',
-  };
-
-  const description: string = book.volumeInfo.description || '';
-  const allCategories =
-    book.volumeInfo.categories?.flatMap((category: string) =>
-      category.split(' / '),
-    ) || [];
-  const categories = allCategories.filter(
-    (value: string, index: number, self: string[]) => {
-      return self.indexOf(value) === index;
-    },
-  );
-  const language = book.volumeInfo.language || '';
-  const bookData: AdditionalBookData = {
-    id: book.id,
-    description,
-    language,
-    categories,
-    imageLinks,
-  };
-  return bookData;
-}
-
-export function processBook(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  book: any,
-): BookData | null {
-  const title: string = book.volumeInfo.title;
-  const authors: string[] = book.volumeInfo.authors;
-  // Skip processing the book if the title and author is already encountered
-  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
-  const publisher: string = book.volumeInfo.publisher || 'N/A';
-  const description: string = book.volumeInfo.description || 'N/A';
-  const pageCount: number = book.volumeInfo.pageCount || 0;
-  const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn10: string = 'N/A';
-  let isbn13: string = 'N/A';
-  if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
-
-    if (identifier1) isbn10 = identifier1;
-    if (identifier2) isbn13 = identifier2;
-  }
-  const imageLinks = {
-    small: book.volumeInfo.imageLinks?.thumbnail || '',
-    medium: book.volumeInfo.imageLinks?.small || '',
-    large: book.volumeInfo.imageLinks?.medium || '',
-  };
-  const allCategories =
-    book.volumeInfo.categories?.flatMap((category: string) =>
-      category.split(' / '),
-    ) || [];
-  const categories = allCategories.filter(
-    (value: string, index: number, self: string[]) => {
-      return self.indexOf(value) === index;
-    },
-  );
-  const language = book.volumeInfo.language || '';
-  const bookData: BookData = {
-    id: book.id,
-    title,
-    averageRating,
-    authors,
-    publishedDate,
-    publisher,
-    categories,
-    imageLinks,
-    description,
-    pageCount,
-    isbn10,
-    isbn13,
-    language,
-  };
-  return bookData;
-}

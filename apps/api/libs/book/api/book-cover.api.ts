@@ -1,6 +1,23 @@
 import axiosInstance from 'src/config/axios.config';
-import { bookcoverIsbn, bookcoverSearch } from './get-cover';
-// go the get cover in parallet
+
+const START_PATTERN_GOODREADS_IMAGE_SEARCH =
+  'https://images-na.ssl-images-amazon.com/images';
+const END_PATTERN_IMAGE_SEARCH = '"';
+
+function getUrl(data, startPattern, endPattern) {
+  const startIndex = data.indexOf(startPattern);
+  if (startIndex === -1) {
+    throw new Error('Initial pattern not found');
+  }
+  ('');
+
+  const endIndex = data.indexOf(endPattern, startIndex);
+  if (endIndex === -1) {
+    throw new Error('End pattern not found');
+  }
+  ('');
+  return data.slice(startIndex, endIndex);
+}
 
 function getSmallImage(url) {
   if (url) {
@@ -9,7 +26,7 @@ function getSmallImage(url) {
       'https://i.gr-assets.com/images/',
     );
 
-    // Insert "._SY180_" before the file extension
+    // Insert "._SY180_" before the file extension to get a smaller image
     const lastDotIndex = url.lastIndexOf('.');
     if (lastDotIndex !== -1) {
       url = url.slice(0, lastDotIndex) + '._SY180_' + url.slice(lastDotIndex);
@@ -19,62 +36,16 @@ function getSmallImage(url) {
   return url;
 }
 
-export async function getCovers({ isbn, title, authors }) {
-  if (isbn) {
-    const cover = await bookcoverIsbn(isbn);
-
-    const imageLinks = {
-      small: getSmallImage(cover) || '',
-      medium: cover || '',
-    };
-    if (cover) {
-      return imageLinks;
-    }
-  } else {
-    if (title && authors.length > 0) {
-      const cover = await bookcoverSearch(title, authors[0]);
-
-      const imageLinks = {
-        small: getSmallImage(cover) || '',
-        medium: cover || '',
-      };
-      if (cover) {
-        return imageLinks;
-      }
-    }
-  }
-}
-export async function getCoverByTitle(title, author) {
-  try {
-    const url = `http://bookcover.longitood.com/bookcover?book_title=${title}&author_name=${author}`;
-    const response = await axiosInstance.get(url);
-    if (response.status >= 200 && response.status < 300) {
-      const url = response.data.url;
-
-      return url;
-    }
-    // Handle non-successful response status codes (4xx, 5xx, etc.) if needed
-    return null;
-  } catch (error) {
-    // Handle Axios errors here
-    console.error('Error fetching cover image:', error);
-    return null;
-  }
-}
-// getCover
-export async function getCoverByIsbn(isbn) {
-  try {
-    const url = `http://bookcover.longitood.com/bookcover/${isbn}`;
-    const response = await axiosInstance.get(url);
-    if (response.status >= 200 && response.status < 300) {
-      const url = response.data.url;
-      return url;
-    }
-    // Handle non-successful response status codes (4xx, 5xx, etc.) if needed
-    return null;
-  } catch (error) {
-    // Handle Axios errors here
-    console.error('Error fetching cover image:', error);
-    return null;
-  }
+export async function getGoodreadsCover(id) {
+  const goodreadUrl = `https://www.goodreads.com/book/show/${id}`;
+  const goodreadResponse = await axiosInstance.get(goodreadUrl);
+  const imageUrl = getUrl(
+    goodreadResponse.data,
+    START_PATTERN_GOODREADS_IMAGE_SEARCH,
+    END_PATTERN_IMAGE_SEARCH,
+  );
+  return {
+    small: getSmallImage(imageUrl),
+    large: imageUrl,
+  };
 }

@@ -1,35 +1,38 @@
 export interface BookData {
   id: string;
-  type?: string;
   title: string;
-  authors: string[];
+  subtitle?: string;
+  authors?: string[];
   averageRating: number;
   publishedDate: string;
   publisher: string;
+  source?: string;
+  isbn13: string;
   imageLinks: {
-    small: string;
-    medium: string;
-    large: string;
+    small?: string;
+    medium?: string;
+    large?: string;
   };
   language: string;
   description: string;
   pageCount: number;
   isbn10: string;
-  categories: string[];
-  isbn13: string;
+  categories?: string[];
 }
 
-export interface AdditionalBookData {
-  categories: string[];
-  imageLinks: {
-    small: string;
-    medium: string;
-    large: string;
-  };
-  language: string;
-  description: string;
+export interface GoodreadsBookData {
   id: string;
+  title: string;
+  subtitle: string;
+  authors: string[];
+  //   publishedDate: string;
+  //   publisher: string;
+  pageCount: number;
+  isbn10: string;
+  isbn13: string;
 }
+// Extracting the type of imageLinks from BookData
+export type ImageLinks = BookData['imageLinks'];
 
 export interface GoodreadsBook {
   'Additional Authors': string;

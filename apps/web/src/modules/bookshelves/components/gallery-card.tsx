@@ -62,9 +62,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
       <div className={`cursor-pointer flex-row `}>
         <div>
           <BookCover
-            src={
-              getCoverUrl(book, Size.Medium) || getCoverUrl(book, Size.Small)
-            }
+            src={getCoverUrl(book, Size.Large) || getCoverUrl(book, Size.Small)}
             size={'dynamic'}
           />
           <div className='absolute top-0'></div>
