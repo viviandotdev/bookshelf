@@ -1,12 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
 import {
-  BookCreateInput,
   BookWhereUniqueInput,
-  CoverCreateInput,
-  CreateOneIdentifierArgs,
-  IdentifierCreateInput,
-  SOURCE,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -18,8 +13,6 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
-  generateSlug,
-  getColumnData,
   getShelves,
   getUserBookInfo,
   parseLineWithQuotes,
@@ -34,10 +27,9 @@ import { render } from '@react-email/components';
 import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
-import { getCovers } from 'libs/book/api/book-cover.api';
 import { IdentifierService } from 'libs/identifier/identifier.service';
-import { goodreadCover } from 'libs/book/api/get-cover';
 import { GoodreadsBookData } from './types';
+import { getGoodreadsCover } from 'libs/book/api/book-cover.api';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
@@ -47,9 +39,7 @@ export class UserBookResolver {
 
   constructor(
     private readonly userBookService: UserBookService,
-    private readonly bookService: BookService,
     private readonly prisma: PrismaRepository,
-    private readonly coverService: CoverService,
     private configService: ConfigService,
     private readonly identifiersService: IdentifierService,
   ) {}
@@ -243,7 +233,7 @@ export class UserBookResolver {
     const importTasks = lines.slice(1, -1).map((line) => async () => {
       const goodreadsBook = processCSVLine(line, mappings);
       const book: GoodreadsBookData = buildBook(goodreadsBook);
-      const imageLinks = await goodreadCover(goodreadsBook['Book Id']);
+      const imageLinks = await getGoodreadsCover(goodreadsBook['Book Id']);
       // on the client get all the covers,  then send list of covers to the server to add in one go
       const userInfo = getUserBookInfo(goodreadsBook);
       await this.userBookService.createImportedBook(

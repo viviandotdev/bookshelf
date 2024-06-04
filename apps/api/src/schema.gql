@@ -2191,13 +2191,11 @@ type Query {
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
-  getGoogleBook(id: String!): Book
   getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: MeResponse!
   shelves: [Shelf!]
-  slug(id: String!): String
   user(where: UserWhereUniqueInput!): User!
   userBook(where: BookWhereUniqueInput!): UserBook
 }
