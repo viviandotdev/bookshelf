@@ -58,7 +58,6 @@ function getSmallImage(url) {
 export async function goodreadCover(id) {
   const goodreadUrl = `https://www.goodreads.com/book/show/${id}`;
   const goodreadResponse = await axiosInstance.get(goodreadUrl);
-
   const imageUrl = getUrl(
     goodreadResponse.data,
     START_PATTERN_GOODREADS_IMAGE_SEARCH,

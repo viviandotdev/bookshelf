@@ -31,14 +31,19 @@ export class CoverService {
     if (!data || data.length === 0) {
       return [];
     }
-    // Step 1: Create covers using createMany
-    await this.prisma.cover.createMany({
-      data: data.map((cover) => ({
-        url: cover.url,
-        size: cover.size,
-      })),
-      skipDuplicates: true,
-    });
+
+    try {
+      // Step 1: Create covers using createMany
+      await this.prisma.cover.createMany({
+        data: data.map((cover) => ({
+          url: cover.url,
+          size: cover.size,
+        })),
+        skipDuplicates: true,
+      });
+    } catch (error) {
+      console.error('Error during createMany covers');
+    }
 
     // Step 2: Query the data after the create
     const covers = await this.prisma.cover.findMany({

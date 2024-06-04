@@ -1,5 +1,10 @@
 import { getGoogleBook } from 'libs/book/api/google.api';
-import { GoodreadsBookKeys, GoodreadsBook, BookData } from './types';
+import {
+  GoodreadsBookKeys,
+  GoodreadsBook,
+  BookData,
+  GoodreadsBookData,
+} from './types';
 import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 import ShortUniqueId from 'short-uuid';
@@ -22,7 +27,6 @@ export function getColumnData(csvContent, mappings) {
       }
     });
 
-
     // if (line) {
     //   // Ignore empty lines
     //   const cells = line.split(',');
@@ -30,7 +34,7 @@ export function getColumnData(csvContent, mappings) {
     // }
   }
 
-  return 
+  return;
 }
 
 function generateShortUUID(length: number): string {
@@ -56,6 +60,17 @@ export function generateSlug(name: string): string {
   return slug;
 }
 
+export function getShelves(objectFromCSV: GoodreadsBook) {
+  let shelves: string[] = []; // get shelves
+  if (objectFromCSV['Bookshelves']) {
+    const cleanShelves = objectFromCSV['Bookshelves']
+      .split(',')
+      .map((shelf) => shelf.trim());
+    const excludedShelves = ['to-read', 'currently-reading', 'read'];
+    shelves = cleanShelves.filter((shelf) => !excludedShelves.includes(shelf));
+  }
+  return shelves;
+}
 export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
   let shelves: string[] = []; // get shelves
   if (objectFromCSV['Bookshelves']) {
@@ -106,69 +121,39 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
-export const buildBook = async (
-  baseBook: GoodreadsBook,
-): Promise<BookData | null> => {
-  //   const googleBook = await getGoogleBook(baseBook);
+export const buildBook = (baseBook: GoodreadsBook): GoodreadsBookData => {
+  const [title, subtitle] = baseBook['Title'].split(':');
 
-  //   if (googleBook) {
-  //     return mergeBookData(baseBook, googleBook, SOURCE.GOOGLE);
-  //   }
+  const trimmedTitle = title;
+  const trimmedSubtitle = subtitle ?? undefined;
+  let authors = [baseBook.Author];
+  // Split the additional authors and concatenate them to the authors array
+  authors = [
+    ...authors,
+    ...baseBook['Additional Authors'].split(',').map((author) => author.trim()),
+  ];
 
   return {
-    title: baseBook.Title ?? '',
-    subtitle: '',
-    authors: [baseBook.Author],
-    averageRating: parseFloat(baseBook['Average Rating'] ?? '0'),
-    publishedDate: baseBook['Original Publication Year'] ?? '',
-    publisher: baseBook.Publisher ?? '',
+    id: baseBook['Book Id'],
+    title: trimmedTitle,
+    subtitle: trimmedSubtitle ?? undefined,
+    authors: authors,
     pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),
-    isbn10: baseBook.ISBN ?? '',
-    isbn13: baseBook.ISBN13 ?? '',
-    id: '',
-    description: '',
-    language: '',
-    categories: [],
-    imageLinks: null,
+    isbn10: baseBook.ISBN ?? undefined,
+    isbn13: baseBook.ISBN13 ?? undefined,
   };
 };
 
-const mergeBookData = (
-  baseBook: GoodreadsBook,
-  additionalData: Partial<BookData>,
-  source: SOURCE,
-): BookData => {
-  return {
-    title: additionalData.title ?? baseBook.Title ?? '',
-    subtitle: additionalData.subtitle ?? '',
-    authors:
-      additionalData.authors && additionalData.authors.length > 0
-        ? additionalData.authors
-        : [baseBook.Author],
-    averageRating: parseFloat(baseBook['Average Rating'] ?? '0'),
-    publishedDate: baseBook['Original Publication Year'] ?? '',
-    publisher: baseBook.Publisher ?? '',
-    pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),
-    isbn10: baseBook.ISBN ?? additionalData.isbn10 ?? '',
-    isbn13: baseBook.ISBN13 ?? additionalData.isbn13 ?? '',
-    id: additionalData.id,
-    description: additionalData.description ?? '',
-    language: additionalData.language ?? '',
-    categories: additionalData.categories ?? [],
-    imageLinks: additionalData.imageLinks,
-    source,
-  };
-};
 export const processCSVLine = (line: string, mappings: GoodreadsBookKeys[]) => {
   const parsedData = parseLineWithQuotes(line);
-  const objectFromCSV = {};
+  const goodreadsData = {};
   mappings.forEach((key: GoodreadsBookKeys, index) => {
     if (key === 'ISBN' || key === 'ISBN13') {
-      objectFromCSV[key] = cleanText(parsedData[index]);
+      goodreadsData[key] = cleanText(parsedData[index]);
     } else {
-      objectFromCSV[key] = parsedData[index];
+      goodreadsData[key] = parsedData[index];
     }
   });
 
-  return objectFromCSV as GoodreadsBook;
+  return goodreadsData as GoodreadsBook;
 };

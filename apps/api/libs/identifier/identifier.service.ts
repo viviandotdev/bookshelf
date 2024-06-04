@@ -15,14 +15,19 @@ export class IdentifierService {
     if (!data || data.length === 0) {
       return [];
     }
-    // Step 1: Create identifiers using createMany
-    await this.prisma.identifier.createMany({
-      data: data.map((identifier) => ({
-        source: identifier.source,
-        sourceId: identifier.sourceId,
-      })),
-      skipDuplicates: true, // This will skip duplicates if any
-    });
+
+    try {
+      // Step 1: Create identifiers using createMany with skipDuplicates
+      await this.prisma.identifier.createMany({
+        data: data.map((identifier) => ({
+          source: identifier.source,
+          sourceId: identifier.sourceId,
+        })),
+        skipDuplicates: true, // This will skip duplicates if any
+      });
+    } catch (error) {
+      console.error('Error during createMany');
+    }
 
     // Step 2: Query the data after the create
     const identifiers = await this.prisma.identifier.findMany({

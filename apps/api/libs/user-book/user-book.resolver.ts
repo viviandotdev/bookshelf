@@ -19,6 +19,8 @@ import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
   generateSlug,
+  getColumnData,
+  getShelves,
   getUserBookInfo,
   parseLineWithQuotes,
   processCSVLine,
@@ -35,6 +37,7 @@ import { ConfigService } from '@nestjs/config';
 import { getCovers } from 'libs/book/api/book-cover.api';
 import { IdentifierService } from 'libs/identifier/identifier.service';
 import { goodreadCover } from 'libs/book/api/get-cover';
+import { GoodreadsBookData } from './types';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
@@ -45,6 +48,7 @@ export class UserBookResolver {
   constructor(
     private readonly userBookService: UserBookService,
     private readonly bookService: BookService,
+    private readonly prisma: PrismaRepository,
     private readonly coverService: CoverService,
     private configService: ConfigService,
     private readonly identifiersService: IdentifierService,
@@ -214,16 +218,36 @@ export class UserBookResolver {
 
       return results;
     }
+    const allShelves = new Set();
+    for (let i = 1; i < lines.length - 1; i++) {
+      const line = lines[i];
+      const goodreadsBook = processCSVLine(line, mappings);
+      const shelves = getShelves(goodreadsBook);
+      shelves.forEach((shelf) => allShelves.add(shelf));
+      console.log('Create user shelves');
+    }
 
+    // Prepare data for Prisma's createMany
+    const shelvesData = Array.from(allShelves).map((shelf: string) => ({
+      userId: user.userId,
+      name: shelf,
+    }));
+
+    // Use Prisma's createMany to insert the shelves
+    await this.prisma.shelf.createMany({
+      data: shelvesData,
+      skipDuplicates: true, // This option skips inserting duplicates if any
+    });
+
+    // Example usage
     const importTasks = lines.slice(1, -1).map((line) => async () => {
       const goodreadsBook = processCSVLine(line, mappings);
-      const [book, imageLinks] = await Promise.all([
-        buildBook(goodreadsBook), //Get google or open library book
-        goodreadCover(goodreadsBook['Book Id']),
-      ]);
-
+      const book: GoodreadsBookData = buildBook(goodreadsBook);
+      const imageLinks = await goodreadCover(goodreadsBook['Book Id']);
+      // on the client get all the covers,  then send list of covers to the server to add in one go
+      const userInfo = getUserBookInfo(goodreadsBook);
       await this.userBookService.createImportedBook(
-        goodreadsBook,
+        userInfo,
         book,
         imageLinks,
         user,

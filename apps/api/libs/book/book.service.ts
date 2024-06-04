@@ -39,47 +39,71 @@ export class BookService {
     };
     return bookInput;
   }
+
   async create(
     bookInput: BookCreateInput,
     identifiersInput?: IdentifierCreateInput[],
     coversInput?: CoverCreateInput[],
   ) {
-    let existingBook =
-      await this.identifierService.findBookByIdentifiers(identifiersInput);
-    if (!existingBook) {
-      // Prepare the identifiers connection
-      const identifiers = await this.identifierService.createMany(
-        identifiersInput ?? [],
-      );
-      // Prepare the covers connection if covers exist
-      const covers = await this.coverService.createMany(coversInput ?? []);
-      // Create the book with conditional covers connection
+    const maxRetries = 3;
+    let attempt = 0;
 
-      const createBookArgs: Prisma.BookCreateArgs = {
-        data: {
-          ...bookInput,
-          covers: {
-            connect: covers?.length
-              ? covers.map((cover) => ({ url: cover.url }))
-              : undefined,
-          },
-          identifiers: {
-            connect: identifiers?.length
-              ? identifiers.map((identifier) => ({
-                  id: {
-                    source: identifier.source,
-                    sourceId: identifier.sourceId,
-                  },
-                }))
-              : undefined,
-          },
-        },
-        include: {
-          covers: true,
-        },
-      };
-      return await this.prisma.book.create(createBookArgs);
+    while (attempt < maxRetries) {
+      try {
+        return await this.prisma.$transaction(async (prisma) => {
+          let existingBook =
+            await this.identifierService.findBookByIdentifiers(
+              identifiersInput,
+            );
+
+          if (!existingBook) {
+            // Prepare the identifiers connection
+            const identifiers = await this.identifierService.createMany(
+              identifiersInput ?? [],
+            );
+            // Prepare the covers connection if covers exist
+            const covers = await this.coverService.createMany(
+              coversInput ?? [],
+            );
+
+            // Create the book with conditional covers connection
+            const createBookArgs: Prisma.BookCreateArgs = {
+              data: {
+                ...bookInput,
+                covers: {
+                  connect: covers?.length
+                    ? covers.map((cover) => ({ url: cover.url }))
+                    : undefined,
+                },
+                identifiers: {
+                  connect: identifiers?.length
+                    ? identifiers.map((identifier) => ({
+                        id: identifier.id,
+                      }))
+                    : undefined,
+                },
+              },
+              include: {
+                covers: true,
+              },
+            };
+
+            return await prisma.book.create(createBookArgs);
+          }
+
+          return existingBook;
+        });
+      } catch (error) {
+        if (error.code === 'P2002' || error.code === 'P2034') {
+          // Prisma unique constraint violation or deadlock error codes
+          attempt++;
+          if (attempt >= maxRetries) {
+            throw new Error('Failed to create book after multiple attempts');
+          }
+        } else {
+          throw error;
+        }
+      }
     }
-    return existingBook;
   }
 }

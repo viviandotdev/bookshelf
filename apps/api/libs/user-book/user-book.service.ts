@@ -13,6 +13,7 @@ import { ActivityService } from 'libs/activity/activity.service';
 import { getUserBookInfo } from './utils';
 import { CoverService } from 'libs/cover/cover.service';
 import { BookService } from 'libs/book/book.service';
+import { IdentifierService } from 'libs/identifier/identifier.service';
 @Injectable()
 export class UserBookService {
   constructor(
@@ -20,6 +21,7 @@ export class UserBookService {
     private readonly activityService: ActivityService,
     private readonly bookService: BookService,
     private readonly coverService: CoverService,
+    private readonly identifierService: IdentifierService,
     private readonly prisma: PrismaRepository,
   ) {}
   async removeBookFromShelf(bookId: string, userId: string, shelf: string) {
@@ -127,7 +129,8 @@ export class UserBookService {
             id: bookId,
           },
         },
-        order: newOrder,
+
+        title: '',
         status: status || 'Want to Read',
       },
     };
@@ -397,18 +400,19 @@ export class UserBookService {
     });
     return userBook;
   }
-  async createImportedBook(goodreadsBook, book, imageLinks, user) {
-    const { shelves, status, rating } = getUserBookInfo(goodreadsBook);
+  async createImportedBook(userInfo, book, imageLinks, user) {
+    const { shelves, status, rating } = userInfo;
+    const { userId } = user;
     const coverInput: CoverCreateInput[] = this.coverService.createCoverInput({
-      small: (imageLinks && imageLinks.small) || book.imageLinks.small,
-      large: (imageLinks && imageLinks.large) || book.imageLinks.medium,
+      small: imageLinks && imageLinks.small,
+      large: imageLinks && imageLinks.large,
     });
+
     const identifiersInput: IdentifierCreateInput[] = [
       {
         source: SOURCE.GOODREADS,
-        sourceId: goodreadsBook['Book Id'],
+        sourceId: book.id,
       },
-      ...(book.source ? [{ source: book.source, sourceId: book.id }] : []),
       ...(book.isbn10
         ? [{ source: SOURCE.ISBN_10, sourceId: book.isbn10 }]
         : []),
@@ -417,27 +421,54 @@ export class UserBookService {
         : []),
     ];
 
-    const bookInput = await this.bookService.createBookInputFromBookData(book);
-    const currentBook = await this.bookService.create(
-      bookInput,
-      identifiersInput,
-      coverInput,
+    // Prepare the identifiers connection
+    const identifiers = await this.identifierService.createMany(
+      identifiersInput ?? [],
     );
+    // Prepare the covers connection if covers exist
+    const covers = await this.coverService.createMany(coverInput ?? []);
 
-    await this.create(currentBook.id, user.userId);
-    const userBookData: UserBookUpdateInput = {
-      status,
-      rating: Number(rating),
-      shelves,
+    // Create the book with conditional covers connection
+    const createUserBookArgs: Prisma.UserBookCreateArgs = {
+      data: {
+        title: book.title,
+        subtitle: book.subtitle,
+        authors: book.authors,
+        pageCount: book.pageCount,
+        covers: {
+          connect: covers?.length
+            ? covers.map((cover) => ({ url: cover.url }))
+            : undefined,
+        },
+        identifiers: {
+          connect: identifiers?.length
+            ? identifiers.map((identifier) => ({
+                id: identifier.id,
+              }))
+            : undefined,
+        },
+        shelves: shelves
+          ? {
+              create: shelves.map((name: string) => ({
+                shelf: {
+                  connectOrCreate: {
+                    where: { identifier: { userId, name } },
+                    create: { userId, name },
+                  },
+                },
+              })),
+            }
+          : undefined,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        status: status || 'Want to Read',
+        rating: Number(rating),
+      },
     };
 
-    await this.update({
-      data: userBookData,
-      where: {
-        userId: user.userId,
-        bookId: currentBook.id,
-      },
-      isImport: true,
-    });
+    return await this.prisma.userBook.create(createUserBookArgs);
   }
 }

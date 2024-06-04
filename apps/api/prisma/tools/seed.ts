@@ -12,6 +12,7 @@ async function main() {
   await prisma.userBookShelves.deleteMany();
   await prisma.userBook.deleteMany();
   await prisma.shelf.deleteMany();
+  await prisma.cover.deleteMany();
   await prisma.identifier.deleteMany();
   await prisma.book.deleteMany();
   await prisma.verificationToken.deleteMany();

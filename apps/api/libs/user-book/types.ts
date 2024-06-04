@@ -7,6 +7,7 @@ export interface BookData {
   publishedDate: string;
   publisher: string;
   source?: string;
+  isbn13: string;
   imageLinks: {
     small?: string;
     medium?: string;
@@ -17,9 +18,19 @@ export interface BookData {
   pageCount: number;
   isbn10: string;
   categories?: string[];
-  isbn13: string;
 }
 
+export interface GoodreadsBookData {
+  id: string;
+  title: string;
+  subtitle: string;
+  authors: string[];
+  //   publishedDate: string;
+  //   publisher: string;
+  pageCount: number;
+  isbn10: string;
+  isbn13: string;
+}
 // Extracting the type of imageLinks from BookData
 export type ImageLinks = BookData['imageLinks'];
 
