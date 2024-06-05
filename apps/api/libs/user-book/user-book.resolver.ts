@@ -18,11 +18,9 @@ import {
   parseLineWithQuotes,
   processCSVLine,
 } from './utils';
-import { BookService } from 'libs/book/book.service';
 import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { PrismaRepository } from 'prisma/prisma.repository';
-import { CoverService } from 'libs/cover/cover.service';
 import { render } from '@react-email/components';
 import ImportSummaryEmail from '../../email/import-result';
 import { Resend } from 'resend';

@@ -28,12 +28,11 @@ export const Book: React.FC<BookProps> = ({
 }) => {
   const [openAlert, setOpenAlert] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
-  const { book, shelves } = userBook;
+  const { shelves, title, authors, pageCount, covers } = userBook;
+  const book = { title, authors, pageCount, covers };
   const [isLoading, setIsLoading] = useState(false);
-
   const { removeUserBook } = useRemoveUserBook();
   const { decrementLibraryCount, decrementShelfCount } = useShelfStore();
-  const { book: myBook } = useUserBookStore();
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
   const [percent, setPercent] = useState(0);
@@ -45,13 +44,6 @@ export const Book: React.FC<BookProps> = ({
       setPercent(userBook.journalEntry[0].currentPercent || 0);
     }
   }, [userBook]);
-
-  useEffect(() => {
-    // update percent detail
-    if (myBook && myBook.id === userBook.book?.id) {
-      setPercent(journalEntry.percent);
-    }
-  }, [journalEntry]);
 
   const onDelete = async () => {
     setIsLoading(true);

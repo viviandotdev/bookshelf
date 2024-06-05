@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
 import { Book, Cover, Size } from '@/graphql/graphql';
 import { split } from 'rambda';
+import { BookParts } from '@/modules/bookshelves/types';
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
@@ -36,7 +37,7 @@ export function cleanText(text: string) {
   return cleanText;
 }
 
-export function getCoverUrl(book: Book, size: string) {
+export function getCoverUrl(book: BookParts, size: string) {
   if (!book || !book.covers || book.covers.length === 0) {
     return DEFAULT_BOOKCOVER_PLACEHOLDER;
   }

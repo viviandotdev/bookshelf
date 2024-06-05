@@ -166,7 +166,6 @@ export class UserBookService {
     orderBy?: Prisma.UserBookOrderByWithRelationInput;
   }) {
     const { userId } = args;
-
     const userBooks = await this.repository.findMany({
       where: {
         ...args.where,
@@ -179,20 +178,21 @@ export class UserBookService {
             journalEntry: true,
           },
         },
-        book: {
-          include: {
-            covers: { select: { size: true, url: true } },
-            _count: {
-              select: {
-                userBook: true,
-                reviews: true,
-              },
-            },
+        covers: {
+          select: {
+            url: true,
+            size: true,
           },
         },
         shelves: {
           include: {
             shelf: true,
+          },
+        },
+        identifiers: {
+          select: {
+            source: true,
+            sourceId: true,
           },
         },
         journalEntry: {
@@ -237,21 +237,22 @@ export class UserBookService {
     let updatedCards = [];
 
     try {
-      const transaction = items.map((book) =>
-        this.repository.update({
-          where: {
-            identifier: {
-              userId,
-              bookId: book.id,
-            },
-          },
-          data: {
-            order: book.order,
-            status: book.status,
-          },
-        }),
-      );
-      updatedCards = await this.prisma.$transaction(transaction);
+      //   const transaction = items.map((book) =>
+      //     this.repository.update({
+      //       where: {
+      //         id: 'FIX_ME_ID',
+      //         // identifier: {
+      //         //   userId,
+      //         //   bookId: book.id,
+      //         // },
+      //       },
+      //       data: {
+      //         order: book.order,
+      //         status: book.status,
+      //       },
+      //     }),
+      //   );
+      //   updatedCards = await this.prisma.$transaction(transaction);
     } catch (error) {
       console.log(error);
       throw new Error('Error updating order');
@@ -420,6 +421,25 @@ export class UserBookService {
         ? [{ source: SOURCE.ISBN_13, sourceId: book.isbn13 }]
         : []),
     ];
+    // Check if there already exists a userbook with the same identifiers, return existing userBook
+    if (identifiersInput.length > 0) {
+      const existingUserBook = await this.repository.findFirst({
+        where: {
+          userId,
+          identifiers: {
+            some: {
+              OR: identifiersInput.map(({ source, sourceId }) => ({
+                source,
+                sourceId,
+              })),
+            },
+          },
+        },
+      });
+      if (existingUserBook) {
+        return existingUserBook;
+      }
+    }
 
     // Prepare the identifiers connection
     const identifiers = await this.identifierService.createMany(

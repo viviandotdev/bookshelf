@@ -229,12 +229,10 @@ model UserBook {
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
-    order        Int               @default(autoincrement())
     identifiers  Identifier[]
+    order        Int               @default(autoincrement())
 
-    /// @Validator.IsString()
-    /// @Validator.ValidateNested()
-    @@unique(fields: [userId, bookId], name: "identifier")
+    @@unique([userId, bookId], name: "identifier")
 }
 
 model UserBookShelves {

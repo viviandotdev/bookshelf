@@ -6,10 +6,12 @@ import AlertModal from '@/components/modals/alert-modal';
 import BookActions from '@/components/book-actions';
 import Link from 'next/link';
 import { getCoverUrl } from '@/lib/utils';
+import { SIZE } from '@prisma/client';
+import { BookParts } from '../types';
 
 interface GalleryCardProps {
   responsive?: boolean;
-  book: Book;
+  book: BookParts;
   details?: {
     progress: number;
     date_started: string;
@@ -62,7 +64,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
       <div className={`cursor-pointer flex-row `}>
         <div>
           <BookCover
-            src={getCoverUrl(book, Size.Large) || getCoverUrl(book, Size.Small)}
+            src={getCoverUrl(book, SIZE.LARGE) || getCoverUrl(book, SIZE.SMALL)}
             size={'dynamic'}
           />
           <div className='absolute top-0'></div>
@@ -88,9 +90,9 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
         <div
           className={`${details ? 'mb-10' : 'mb-2'}   ${isHovered || openMenu ? 'block' : 'hidden'} absolute inset-2 flex items-end justify-center opacity-90`}
           onClick={() => {
-            if (linkRef.current) {
-              linkRef.current.click();
-            }
+            // if (linkRef.current) {
+            //   linkRef.current.click();
+            // }
           }}
         >
           <div
@@ -136,11 +138,11 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
             </div>
           </div>
         </div>
-        <Link
+        {/* <Link
           ref={linkRef}
           href={`/book/${book?.id}`}
           className='hidden'
-        ></Link>
+        ></Link> */}
       </>
     </div>
   );

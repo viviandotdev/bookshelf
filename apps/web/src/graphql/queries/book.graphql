@@ -15,21 +15,3 @@ query Book($where: BookWhereUniqueInput!) {
     averageRating
   }
 }
-
-query GetGoogleBook($id: String!) {
-  getGoogleBook(id: $id) {
-    id
-    title
-    authors
-    covers {
-      url
-      size
-    }
-    description
-    publishedDate
-    publisher
-    pageCount
-    categories
-    averageRating
-  }
-}

@@ -1,4 +1,4 @@
-import { UserBook } from '@/graphql/graphql';
+import { Size, UserBook } from '@/graphql/graphql';
 
 export interface BookItem {
   id: string;
@@ -15,3 +15,9 @@ export type ColumnWithBooks = {
   hasMore: boolean;
   totalBooks: number;
 };
+
+// Define the BookParts subtype by picking specific properties from UserBook
+export type BookParts = Pick<
+  UserBook,
+  'title' | 'subtitle' | 'covers' | 'identifiers' | 'pageCount' | 'authors'
+>;

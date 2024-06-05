@@ -574,7 +574,7 @@ export type Book = {
   covers?: Maybe<Array<Cover>>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  identifier?: Maybe<Identifier>;
+  identifiers?: Maybe<Array<Identifier>>;
   language?: Maybe<Scalars['String']['output']>;
   logs?: Maybe<Array<AuditLog>>;
   pageCount?: Maybe<Scalars['Int']['output']>;
@@ -595,6 +595,7 @@ export type BookAvgAggregate = {
 export type BookCount = {
   __typename?: 'BookCount';
   covers: Scalars['Int']['output'];
+  identifiers: Scalars['Int']['output'];
   logs: Scalars['Int']['output'];
   reviews: Scalars['Int']['output'];
   userBook: Scalars['Int']['output'];
@@ -623,7 +624,7 @@ export type BookCreateInput = {
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -639,6 +640,12 @@ export type BookCreateNestedOneWithoutCoversInput = {
   connect?: InputMaybe<BookWhereUniqueInput>;
   connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutCoversInput>;
   create?: InputMaybe<BookCreateWithoutCoversInput>;
+};
+
+export type BookCreateNestedOneWithoutIdentifiersInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutIdentifiersInput>;
+  create?: InputMaybe<BookCreateWithoutIdentifiersInput>;
 };
 
 export type BookCreateNestedOneWithoutLogsInput = {
@@ -664,6 +671,11 @@ export type BookCreateOrConnectWithoutCoversInput = {
   where: BookWhereUniqueInput;
 };
 
+export type BookCreateOrConnectWithoutIdentifiersInput = {
+  create: BookCreateWithoutIdentifiersInput;
+  where: BookWhereUniqueInput;
+};
+
 export type BookCreateOrConnectWithoutLogsInput = {
   create: BookCreateWithoutLogsInput;
   where: BookWhereUniqueInput;
@@ -685,7 +697,25 @@ export type BookCreateWithoutCoversInput = {
   categories?: InputMaybe<Array<Scalars['String']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
+  slug: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutBookInput>;
+};
+
+export type BookCreateWithoutIdentifiersInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -704,7 +734,7 @@ export type BookCreateWithoutLogsInput = {
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
   publishedDate?: InputMaybe<Scalars['String']['input']>;
@@ -722,7 +752,7 @@ export type BookCreateWithoutReviewsInput = {
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -740,7 +770,7 @@ export type BookCreateWithoutUserBookInput = {
   covers?: InputMaybe<CoverCreateNestedManyWithoutBookInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierCreateNestedOneWithoutBookInput>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -791,7 +821,7 @@ export type BookOrderByWithRelationInput = {
   covers?: InputMaybe<CoverOrderByRelationAggregateInput>;
   description?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
-  identifier?: InputMaybe<IdentifierOrderByWithRelationInput>;
+  identifiers?: InputMaybe<IdentifierOrderByRelationAggregateInput>;
   language?: InputMaybe<SortOrderInput>;
   logs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   pageCount?: InputMaybe<SortOrderInput>;
@@ -822,6 +852,16 @@ export type BookUpdateOneWithoutCoversNestedInput = {
   disconnect?: InputMaybe<BookWhereInput>;
   update?: InputMaybe<BookUpdateToOneWithWhereWithoutCoversInput>;
   upsert?: InputMaybe<BookUpsertWithoutCoversInput>;
+};
+
+export type BookUpdateOneWithoutIdentifiersNestedInput = {
+  connect?: InputMaybe<BookWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<BookCreateOrConnectWithoutIdentifiersInput>;
+  create?: InputMaybe<BookCreateWithoutIdentifiersInput>;
+  delete?: InputMaybe<BookWhereInput>;
+  disconnect?: InputMaybe<BookWhereInput>;
+  update?: InputMaybe<BookUpdateToOneWithWhereWithoutIdentifiersInput>;
+  upsert?: InputMaybe<BookUpsertWithoutIdentifiersInput>;
 };
 
 export type BookUpdateOneWithoutLogsNestedInput = {
@@ -859,6 +899,11 @@ export type BookUpdateToOneWithWhereWithoutCoversInput = {
   where?: InputMaybe<BookWhereInput>;
 };
 
+export type BookUpdateToOneWithWhereWithoutIdentifiersInput = {
+  data: BookUpdateWithoutIdentifiersInput;
+  where?: InputMaybe<BookWhereInput>;
+};
+
 export type BookUpdateToOneWithWhereWithoutLogsInput = {
   data: BookUpdateWithoutLogsInput;
   where?: InputMaybe<BookWhereInput>;
@@ -880,7 +925,25 @@ export type BookUpdateWithoutCoversInput = {
   categories?: InputMaybe<Array<Scalars['String']['input']>>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutBookNestedInput>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  publishedDate?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutBookNestedInput>;
+};
+
+export type BookUpdateWithoutIdentifiersInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  categories?: InputMaybe<Array<Scalars['String']['input']>>;
+  covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -899,7 +962,7 @@ export type BookUpdateWithoutLogsInput = {
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
   publishedDate?: InputMaybe<Scalars['String']['input']>;
@@ -917,7 +980,7 @@ export type BookUpdateWithoutReviewsInput = {
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -935,7 +998,7 @@ export type BookUpdateWithoutUserBookInput = {
   covers?: InputMaybe<CoverUpdateManyWithoutBookNestedInput>;
   description?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierUpdateOneWithoutBookNestedInput>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
@@ -949,6 +1012,12 @@ export type BookUpdateWithoutUserBookInput = {
 export type BookUpsertWithoutCoversInput = {
   create: BookCreateWithoutCoversInput;
   update: BookUpdateWithoutCoversInput;
+  where?: InputMaybe<BookWhereInput>;
+};
+
+export type BookUpsertWithoutIdentifiersInput = {
+  create: BookCreateWithoutIdentifiersInput;
+  update: BookUpdateWithoutIdentifiersInput;
   where?: InputMaybe<BookWhereInput>;
 };
 
@@ -980,7 +1049,7 @@ export type BookWhereInput = {
   covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  identifier?: InputMaybe<IdentifierRelationFilter>;
+  identifiers?: InputMaybe<IdentifierListRelationFilter>;
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
   pageCount?: InputMaybe<IntFilter>;
@@ -1002,7 +1071,7 @@ export type BookWhereUniqueInput = {
   covers?: InputMaybe<CoverListRelationFilter>;
   description?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  identifier?: InputMaybe<IdentifierRelationFilter>;
+  identifiers?: InputMaybe<IdentifierListRelationFilter>;
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
   pageCount?: InputMaybe<IntFilter>;
@@ -1257,12 +1326,12 @@ export type CommentWhereUniqueInput = {
 
 export type Cover = {
   __typename?: 'Cover';
-  UserBook?: Maybe<UserBook>;
   book?: Maybe<Book>;
   bookId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   size: Size;
   url: Scalars['String']['output'];
+  userBook?: Maybe<UserBook>;
   userBookId?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1325,10 +1394,10 @@ export type CoverCreateOrConnectWithoutUserBookInput = {
 };
 
 export type CoverCreateWithoutBookInput = {
-  UserBook?: InputMaybe<UserBookCreateNestedOneWithoutCoverInput>;
   id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
   url: Scalars['String']['input'];
+  userBook?: InputMaybe<UserBookCreateNestedOneWithoutCoversInput>;
 };
 
 export type CoverCreateWithoutUserBookInput = {
@@ -1432,10 +1501,10 @@ export type CoverUpdateWithWhereUniqueWithoutUserBookInput = {
 };
 
 export type CoverUpdateWithoutBookInput = {
-  UserBook?: InputMaybe<UserBookUpdateOneWithoutCoverNestedInput>;
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
   url?: InputMaybe<Scalars['String']['input']>;
+  userBook?: InputMaybe<UserBookUpdateOneWithoutCoversNestedInput>;
 };
 
 export type CoverUpdateWithoutUserBookInput = {
@@ -1461,12 +1530,12 @@ export type CoverWhereInput = {
   AND?: InputMaybe<Array<CoverWhereInput>>;
   NOT?: InputMaybe<Array<CoverWhereInput>>;
   OR?: InputMaybe<Array<CoverWhereInput>>;
-  UserBook?: InputMaybe<UserBookRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
   url?: InputMaybe<StringFilter>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
@@ -1474,12 +1543,12 @@ export type CoverWhereUniqueInput = {
   AND?: InputMaybe<Array<CoverWhereInput>>;
   NOT?: InputMaybe<Array<CoverWhereInput>>;
   OR?: InputMaybe<Array<CoverWhereInput>>;
-  UserBook?: InputMaybe<UserBookRelationFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<EnumSizeFilter>;
-  url?: InputMaybe<StringFilter>;
+  url?: InputMaybe<Scalars['String']['input']>;
+  userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
@@ -1508,6 +1577,13 @@ export type EnumSizeFilter = {
   notIn?: InputMaybe<Array<Size>>;
 };
 
+export type EnumSourceFilter = {
+  equals?: InputMaybe<Source>;
+  in?: InputMaybe<Array<Source>>;
+  not?: InputMaybe<EnumSourceFilter>;
+  notIn?: InputMaybe<Array<Source>>;
+};
+
 export type FloatFilter = {
   equals?: InputMaybe<Scalars['Float']['input']>;
   gt?: InputMaybe<Scalars['Float']['input']>;
@@ -1521,32 +1597,59 @@ export type FloatFilter = {
 
 export type Identifier = {
   __typename?: 'Identifier';
-  amazon?: Maybe<Scalars['String']['output']>;
+  _count: IdentifierCount;
   book?: Maybe<Book>;
-  bookId: Scalars['String']['output'];
-  goodreads?: Maybe<Scalars['String']['output']>;
-  google?: Maybe<Scalars['String']['output']>;
-  isbn10?: Maybe<Scalars['String']['output']>;
-  isbn13?: Maybe<Scalars['String']['output']>;
-  openLibrary?: Maybe<Scalars['String']['output']>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  source: Source;
+  sourceId: Scalars['String']['output'];
+  userBook?: Maybe<Array<UserBook>>;
+};
+
+export type IdentifierCount = {
+  __typename?: 'IdentifierCount';
+  userBook: Scalars['Int']['output'];
 };
 
 export type IdentifierCountAggregate = {
   __typename?: 'IdentifierCountAggregate';
   _all: Scalars['Int']['output'];
-  amazon: Scalars['Int']['output'];
   bookId: Scalars['Int']['output'];
-  goodreads: Scalars['Int']['output'];
-  google: Scalars['Int']['output'];
-  isbn10: Scalars['Int']['output'];
-  isbn13: Scalars['Int']['output'];
-  openLibrary: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  source: Scalars['Int']['output'];
+  sourceId: Scalars['Int']['output'];
 };
 
-export type IdentifierCreateNestedOneWithoutBookInput = {
-  connect?: InputMaybe<IdentifierWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<IdentifierCreateOrConnectWithoutBookInput>;
-  create?: InputMaybe<IdentifierCreateWithoutBookInput>;
+export type IdentifierCreateInput = {
+  book?: InputMaybe<BookCreateNestedOneWithoutIdentifiersInput>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source: Source;
+  sourceId: Scalars['String']['input'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutIdentifiersInput>;
+};
+
+export type IdentifierCreateManyBookInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  source: Source;
+  sourceId: Scalars['String']['input'];
+};
+
+export type IdentifierCreateManyBookInputEnvelope = {
+  data: Array<IdentifierCreateManyBookInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type IdentifierCreateNestedManyWithoutBookInput = {
+  connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<IdentifierCreateWithoutBookInput>>;
+  createMany?: InputMaybe<IdentifierCreateManyBookInputEnvelope>;
+};
+
+export type IdentifierCreateNestedManyWithoutUserBookInput = {
+  connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutUserBookInput>>;
+  create?: InputMaybe<Array<IdentifierCreateWithoutUserBookInput>>;
 };
 
 export type IdentifierCreateOrConnectWithoutBookInput = {
@@ -1554,109 +1657,168 @@ export type IdentifierCreateOrConnectWithoutBookInput = {
   where: IdentifierWhereUniqueInput;
 };
 
+export type IdentifierCreateOrConnectWithoutUserBookInput = {
+  create: IdentifierCreateWithoutUserBookInput;
+  where: IdentifierWhereUniqueInput;
+};
+
 export type IdentifierCreateWithoutBookInput = {
-  amazon?: InputMaybe<Scalars['String']['input']>;
-  goodreads?: InputMaybe<Scalars['String']['input']>;
-  google?: InputMaybe<Scalars['String']['input']>;
-  isbn10?: InputMaybe<Scalars['String']['input']>;
-  isbn13?: InputMaybe<Scalars['String']['input']>;
-  openLibrary?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source: Source;
+  sourceId: Scalars['String']['input'];
+  userBook?: InputMaybe<UserBookCreateNestedManyWithoutIdentifiersInput>;
+};
+
+export type IdentifierCreateWithoutUserBookInput = {
+  book?: InputMaybe<BookCreateNestedOneWithoutIdentifiersInput>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source: Source;
+  sourceId: Scalars['String']['input'];
+};
+
+export type IdentifierListRelationFilter = {
+  every?: InputMaybe<IdentifierWhereInput>;
+  none?: InputMaybe<IdentifierWhereInput>;
+  some?: InputMaybe<IdentifierWhereInput>;
 };
 
 export type IdentifierMaxAggregate = {
   __typename?: 'IdentifierMaxAggregate';
-  amazon?: Maybe<Scalars['String']['output']>;
   bookId?: Maybe<Scalars['String']['output']>;
-  goodreads?: Maybe<Scalars['String']['output']>;
-  google?: Maybe<Scalars['String']['output']>;
-  isbn10?: Maybe<Scalars['String']['output']>;
-  isbn13?: Maybe<Scalars['String']['output']>;
-  openLibrary?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  source?: Maybe<Source>;
+  sourceId?: Maybe<Scalars['String']['output']>;
 };
 
 export type IdentifierMinAggregate = {
   __typename?: 'IdentifierMinAggregate';
-  amazon?: Maybe<Scalars['String']['output']>;
   bookId?: Maybe<Scalars['String']['output']>;
-  goodreads?: Maybe<Scalars['String']['output']>;
-  google?: Maybe<Scalars['String']['output']>;
-  isbn10?: Maybe<Scalars['String']['output']>;
-  isbn13?: Maybe<Scalars['String']['output']>;
-  openLibrary?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  source?: Maybe<Source>;
+  sourceId?: Maybe<Scalars['String']['output']>;
 };
 
-export type IdentifierOrderByWithRelationInput = {
-  amazon?: InputMaybe<SortOrderInput>;
-  book?: InputMaybe<BookOrderByWithRelationInput>;
-  bookId?: InputMaybe<SortOrder>;
-  goodreads?: InputMaybe<SortOrderInput>;
-  google?: InputMaybe<SortOrderInput>;
-  isbn10?: InputMaybe<SortOrderInput>;
-  isbn13?: InputMaybe<SortOrderInput>;
-  openLibrary?: InputMaybe<SortOrderInput>;
+export type IdentifierOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
 };
 
-export type IdentifierRelationFilter = {
-  is?: InputMaybe<IdentifierWhereInput>;
-  isNot?: InputMaybe<IdentifierWhereInput>;
+export type IdentifierScalarWhereInput = {
+  AND?: InputMaybe<Array<IdentifierScalarWhereInput>>;
+  NOT?: InputMaybe<Array<IdentifierScalarWhereInput>>;
+  OR?: InputMaybe<Array<IdentifierScalarWhereInput>>;
+  bookId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
+  sourceId?: InputMaybe<StringFilter>;
 };
 
-export type IdentifierUpdateOneWithoutBookNestedInput = {
-  connect?: InputMaybe<IdentifierWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<IdentifierCreateOrConnectWithoutBookInput>;
-  create?: InputMaybe<IdentifierCreateWithoutBookInput>;
-  delete?: InputMaybe<IdentifierWhereInput>;
-  disconnect?: InputMaybe<IdentifierWhereInput>;
-  update?: InputMaybe<IdentifierUpdateToOneWithWhereWithoutBookInput>;
-  upsert?: InputMaybe<IdentifierUpsertWithoutBookInput>;
+export type IdentifierSourceSourceIdCompoundUniqueInput = {
+  source: Source;
+  sourceId: Scalars['String']['input'];
 };
 
-export type IdentifierUpdateToOneWithWhereWithoutBookInput = {
+export type IdentifierUpdateManyMutationInput = {
+  id?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Source>;
+  sourceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type IdentifierUpdateManyWithWhereWithoutBookInput = {
+  data: IdentifierUpdateManyMutationInput;
+  where: IdentifierScalarWhereInput;
+};
+
+export type IdentifierUpdateManyWithWhereWithoutUserBookInput = {
+  data: IdentifierUpdateManyMutationInput;
+  where: IdentifierScalarWhereInput;
+};
+
+export type IdentifierUpdateManyWithoutBookNestedInput = {
+  connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<IdentifierCreateWithoutBookInput>>;
+  createMany?: InputMaybe<IdentifierCreateManyBookInputEnvelope>;
+  delete?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<IdentifierScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  set?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  update?: InputMaybe<Array<IdentifierUpdateWithWhereUniqueWithoutBookInput>>;
+  updateMany?: InputMaybe<Array<IdentifierUpdateManyWithWhereWithoutBookInput>>;
+  upsert?: InputMaybe<Array<IdentifierUpsertWithWhereUniqueWithoutBookInput>>;
+};
+
+export type IdentifierUpdateManyWithoutUserBookNestedInput = {
+  connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutUserBookInput>>;
+  create?: InputMaybe<Array<IdentifierCreateWithoutUserBookInput>>;
+  delete?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<IdentifierScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  set?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
+  update?: InputMaybe<Array<IdentifierUpdateWithWhereUniqueWithoutUserBookInput>>;
+  updateMany?: InputMaybe<Array<IdentifierUpdateManyWithWhereWithoutUserBookInput>>;
+  upsert?: InputMaybe<Array<IdentifierUpsertWithWhereUniqueWithoutUserBookInput>>;
+};
+
+export type IdentifierUpdateWithWhereUniqueWithoutBookInput = {
   data: IdentifierUpdateWithoutBookInput;
-  where?: InputMaybe<IdentifierWhereInput>;
+  where: IdentifierWhereUniqueInput;
+};
+
+export type IdentifierUpdateWithWhereUniqueWithoutUserBookInput = {
+  data: IdentifierUpdateWithoutUserBookInput;
+  where: IdentifierWhereUniqueInput;
 };
 
 export type IdentifierUpdateWithoutBookInput = {
-  amazon?: InputMaybe<Scalars['String']['input']>;
-  goodreads?: InputMaybe<Scalars['String']['input']>;
-  google?: InputMaybe<Scalars['String']['input']>;
-  isbn10?: InputMaybe<Scalars['String']['input']>;
-  isbn13?: InputMaybe<Scalars['String']['input']>;
-  openLibrary?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Source>;
+  sourceId?: InputMaybe<Scalars['String']['input']>;
+  userBook?: InputMaybe<UserBookUpdateManyWithoutIdentifiersNestedInput>;
 };
 
-export type IdentifierUpsertWithoutBookInput = {
+export type IdentifierUpdateWithoutUserBookInput = {
+  book?: InputMaybe<BookUpdateOneWithoutIdentifiersNestedInput>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Source>;
+  sourceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type IdentifierUpsertWithWhereUniqueWithoutBookInput = {
   create: IdentifierCreateWithoutBookInput;
   update: IdentifierUpdateWithoutBookInput;
-  where?: InputMaybe<IdentifierWhereInput>;
+  where: IdentifierWhereUniqueInput;
+};
+
+export type IdentifierUpsertWithWhereUniqueWithoutUserBookInput = {
+  create: IdentifierCreateWithoutUserBookInput;
+  update: IdentifierUpdateWithoutUserBookInput;
+  where: IdentifierWhereUniqueInput;
 };
 
 export type IdentifierWhereInput = {
   AND?: InputMaybe<Array<IdentifierWhereInput>>;
   NOT?: InputMaybe<Array<IdentifierWhereInput>>;
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
-  amazon?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
-  goodreads?: InputMaybe<StringFilter>;
-  google?: InputMaybe<StringFilter>;
-  isbn10?: InputMaybe<StringFilter>;
-  isbn13?: InputMaybe<StringFilter>;
-  openLibrary?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
+  sourceId?: InputMaybe<StringFilter>;
+  userBook?: InputMaybe<UserBookListRelationFilter>;
 };
 
 export type IdentifierWhereUniqueInput = {
   AND?: InputMaybe<Array<IdentifierWhereInput>>;
   NOT?: InputMaybe<Array<IdentifierWhereInput>>;
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
-  amazon?: InputMaybe<StringFilter>;
   book?: InputMaybe<BookRelationFilter>;
-  bookId?: InputMaybe<Scalars['String']['input']>;
-  goodreads?: InputMaybe<StringFilter>;
-  google?: InputMaybe<StringFilter>;
-  isbn10?: InputMaybe<StringFilter>;
-  isbn13?: InputMaybe<StringFilter>;
-  openLibrary?: InputMaybe<StringFilter>;
+  bookId?: InputMaybe<StringFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<EnumSourceFilter>;
+  sourceId?: InputMaybe<StringFilter>;
+  source_sourceId?: InputMaybe<IdentifierSourceSourceIdCompoundUniqueInput>;
+  userBook?: InputMaybe<UserBookListRelationFilter>;
 };
 
 export type IntFilter = {
@@ -2009,6 +2171,7 @@ export type Mutation = {
   addBookToShelf: UserBook;
   createBook: Book;
   createComment: Comment;
+  createIdentifiers: Array<Identifier>;
   createJournalEntry: JournalEntry;
   createReview: Review;
   createShelf: Shelf;
@@ -2052,6 +2215,11 @@ export type MutationCreateBookArgs = {
 export type MutationCreateCommentArgs = {
   data: CommentCreateInput;
   where: ReviewWhereUniqueInput;
+};
+
+
+export type MutationCreateIdentifiersArgs = {
+  identifiers: Array<IdentifierCreateInput>;
 };
 
 
@@ -2239,13 +2407,12 @@ export type Query = {
   comments: Array<Comment>;
   countJournalEntries: Scalars['Int']['output'];
   countUserBooks: Scalars['Int']['output'];
-  getGoogleBook?: Maybe<Book>;
+  getBookByIdentifiers: Array<Identifier>;
   getMostRecentJournalEntry?: Maybe<JournalEntry>;
   getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
   me: MeResponse;
   shelves?: Maybe<Array<Shelf>>;
-  slug?: Maybe<Scalars['String']['output']>;
   user: User;
   userBook?: Maybe<UserBook>;
 };
@@ -2294,8 +2461,8 @@ export type QueryCountUserBooksArgs = {
 };
 
 
-export type QueryGetGoogleBookArgs = {
-  id: Scalars['String']['input'];
+export type QueryGetBookByIdentifiersArgs = {
+  identifiers: Array<IdentifierCreateInput>;
 };
 
 
@@ -2316,11 +2483,6 @@ export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
-};
-
-
-export type QuerySlugArgs = {
-  id: Scalars['String']['input'];
 };
 
 
@@ -2783,6 +2945,15 @@ export enum Size {
   Small = 'SMALL'
 }
 
+export enum Source {
+  Amazon = 'AMAZON',
+  Goodreads = 'GOODREADS',
+  Google = 'GOOGLE',
+  Isbn_10 = 'ISBN_10',
+  Isbn_13 = 'ISBN_13',
+  OpenLibrary = 'OPEN_LIBRARY'
+}
+
 export type Shelf = {
   __typename?: 'Shelf';
   _count: ShelfCount;
@@ -3093,19 +3264,22 @@ export type User = {
 
 export type UserBook = {
   __typename?: 'UserBook';
-  Cover?: Maybe<Array<Cover>>;
   _count: UserBookCount;
-  authors?: Maybe<Scalars['String']['output']>;
+  authors?: Maybe<Array<Scalars['String']['output']>>;
   book?: Maybe<Book>;
-  bookId: Scalars['String']['output'];
+  bookId?: Maybe<Scalars['String']['output']>;
+  covers?: Maybe<Array<Cover>>;
   createdAt: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
+  identifiers?: Maybe<Array<Identifier>>;
   journalEntry?: Maybe<Array<JournalEntry>>;
   order: Scalars['Int']['output'];
+  pageCount?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
   shelves?: Maybe<Array<UserBookShelves>>;
   status: Scalars['String']['output'];
-  title?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
   updatedAt: Scalars['Timestamp']['output'];
   user?: Maybe<User>;
   userId: Scalars['String']['output'];
@@ -3114,12 +3288,14 @@ export type UserBook = {
 export type UserBookAvgAggregate = {
   __typename?: 'UserBookAvgAggregate';
   order?: Maybe<Scalars['Float']['output']>;
+  pageCount?: Maybe<Scalars['Float']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
 };
 
 export type UserBookCount = {
   __typename?: 'UserBookCount';
-  Cover: Scalars['Int']['output'];
+  covers: Scalars['Int']['output'];
+  identifiers: Scalars['Int']['output'];
   journalEntry: Scalars['Int']['output'];
   shelves: Scalars['Int']['output'];
 };
@@ -3132,21 +3308,25 @@ export type UserBookCountAggregate = {
   createdAt: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   order: Scalars['Int']['output'];
+  pageCount: Scalars['Int']['output'];
   rating: Scalars['Int']['output'];
   status: Scalars['Int']['output'];
+  subtitle: Scalars['Int']['output'];
   title: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
   userId: Scalars['Int']['output'];
 };
 
 export type UserBookCreateManyBookInput = {
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userId: Scalars['String']['input'];
 };
@@ -3157,14 +3337,16 @@ export type UserBookCreateManyBookInputEnvelope = {
 };
 
 export type UserBookCreateManyUserInput = {
-  authors?: InputMaybe<Scalars['String']['input']>;
-  bookId: Scalars['String']['input'];
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  bookId?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
@@ -3180,6 +3362,12 @@ export type UserBookCreateNestedManyWithoutBookInput = {
   createMany?: InputMaybe<UserBookCreateManyBookInputEnvelope>;
 };
 
+export type UserBookCreateNestedManyWithoutIdentifiersInput = {
+  connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutIdentifiersInput>>;
+  create?: InputMaybe<Array<UserBookCreateWithoutIdentifiersInput>>;
+};
+
 export type UserBookCreateNestedManyWithoutUserInput = {
   connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
   connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutUserInput>>;
@@ -3187,10 +3375,10 @@ export type UserBookCreateNestedManyWithoutUserInput = {
   createMany?: InputMaybe<UserBookCreateManyUserInputEnvelope>;
 };
 
-export type UserBookCreateNestedOneWithoutCoverInput = {
+export type UserBookCreateNestedOneWithoutCoversInput = {
   connect?: InputMaybe<UserBookWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutCoverInput>;
-  create?: InputMaybe<UserBookCreateWithoutCoverInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<UserBookCreateWithoutCoversInput>;
 };
 
 export type UserBookCreateNestedOneWithoutJournalEntryInput = {
@@ -3210,8 +3398,13 @@ export type UserBookCreateOrConnectWithoutBookInput = {
   where: UserBookWhereUniqueInput;
 };
 
-export type UserBookCreateOrConnectWithoutCoverInput = {
-  create: UserBookCreateWithoutCoverInput;
+export type UserBookCreateOrConnectWithoutCoversInput = {
+  create: UserBookCreateWithoutCoversInput;
+  where: UserBookWhereUniqueInput;
+};
+
+export type UserBookCreateOrConnectWithoutIdentifiersInput = {
+  create: UserBookCreateWithoutIdentifiersInput;
   where: UserBookWhereUniqueInput;
 };
 
@@ -3231,77 +3424,110 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 };
 
 export type UserBookCreateWithoutBookInput = {
-  Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutUserBookInput>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
-export type UserBookCreateWithoutCoverInput = {
-  authors?: InputMaybe<Scalars['String']['input']>;
+export type UserBookCreateWithoutCoversInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutUserBookInput>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
+};
+
+export type UserBookCreateWithoutIdentifiersInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
+  status: Scalars['String']['input'];
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutJournalEntryInput = {
-  Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  order: Scalars['Int']['input'];
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutUserBookInput>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutShelvesInput = {
-  Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutUserBookInput>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserCreateNestedOneWithoutUserBooksInput>;
 };
 
 export type UserBookCreateWithoutUserInput = {
-  Cover?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookCreateNestedOneWithoutUserBookInput>;
+  covers?: InputMaybe<CoverCreateNestedManyWithoutUserBookInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutUserBookInput>;
   journalEntry?: InputMaybe<JournalEntryCreateNestedManyWithoutUserBookInput>;
-  order: Scalars['Int']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesCreateNestedManyWithoutUserBookInput>;
   status: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
@@ -3318,13 +3544,14 @@ export type UserBookListRelationFilter = {
 
 export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
-  authors?: Maybe<Scalars['String']['output']>;
   bookId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   order?: Maybe<Scalars['Int']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
   status?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
@@ -3332,13 +3559,14 @@ export type UserBookMaxAggregate = {
 
 export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
-  authors?: Maybe<Scalars['String']['output']>;
   bookId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   order?: Maybe<Scalars['Int']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
   status?: Maybe<Scalars['String']['output']>;
+  subtitle?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
@@ -3349,18 +3577,21 @@ export type UserBookOrderByRelationAggregateInput = {
 };
 
 export type UserBookOrderByWithRelationInput = {
-  Cover?: InputMaybe<CoverOrderByRelationAggregateInput>;
-  authors?: InputMaybe<SortOrderInput>;
+  authors?: InputMaybe<SortOrder>;
   book?: InputMaybe<BookOrderByWithRelationInput>;
-  bookId?: InputMaybe<SortOrder>;
+  bookId?: InputMaybe<SortOrderInput>;
+  covers?: InputMaybe<CoverOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  identifiers?: InputMaybe<IdentifierOrderByRelationAggregateInput>;
   journalEntry?: InputMaybe<JournalEntryOrderByRelationAggregateInput>;
   order?: InputMaybe<SortOrder>;
+  pageCount?: InputMaybe<SortOrderInput>;
   rating?: InputMaybe<SortOrderInput>;
   shelves?: InputMaybe<UserBookShelvesOrderByRelationAggregateInput>;
   status?: InputMaybe<SortOrder>;
-  title?: InputMaybe<SortOrderInput>;
+  subtitle?: InputMaybe<SortOrderInput>;
+  title?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
   user?: InputMaybe<UserOrderByWithRelationInput>;
   userId?: InputMaybe<SortOrder>;
@@ -3375,13 +3606,15 @@ export type UserBookScalarWhereInput = {
   AND?: InputMaybe<Array<UserBookScalarWhereInput>>;
   NOT?: InputMaybe<Array<UserBookScalarWhereInput>>;
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
-  authors?: InputMaybe<StringFilter>;
+  authors?: InputMaybe<StringListFilter>;
   bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   order?: InputMaybe<IntFilter>;
+  pageCount?: InputMaybe<IntFilter>;
   rating?: InputMaybe<FloatFilter>;
   status?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -3587,6 +3820,7 @@ export type UserBookShelvesWhereUniqueInput = {
 export type UserBookSumAggregate = {
   __typename?: 'UserBookSumAggregate';
   order?: Maybe<Scalars['Int']['output']>;
+  pageCount?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -3597,17 +3831,24 @@ export type UserBookUpdateInput = {
 };
 
 export type UserBookUpdateManyMutationInput = {
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
 export type UserBookUpdateManyWithWhereWithoutBookInput = {
+  data: UserBookUpdateManyMutationInput;
+  where: UserBookScalarWhereInput;
+};
+
+export type UserBookUpdateManyWithWhereWithoutIdentifiersInput = {
   data: UserBookUpdateManyMutationInput;
   where: UserBookScalarWhereInput;
 };
@@ -3629,6 +3870,19 @@ export type UserBookUpdateManyWithoutBookNestedInput = {
   update?: InputMaybe<Array<UserBookUpdateWithWhereUniqueWithoutBookInput>>;
   updateMany?: InputMaybe<Array<UserBookUpdateManyWithWhereWithoutBookInput>>;
   upsert?: InputMaybe<Array<UserBookUpsertWithWhereUniqueWithoutBookInput>>;
+};
+
+export type UserBookUpdateManyWithoutIdentifiersNestedInput = {
+  connect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookCreateOrConnectWithoutIdentifiersInput>>;
+  create?: InputMaybe<Array<UserBookCreateWithoutIdentifiersInput>>;
+  delete?: InputMaybe<Array<UserBookWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<UserBookScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<UserBookWhereUniqueInput>>;
+  set?: InputMaybe<Array<UserBookWhereUniqueInput>>;
+  update?: InputMaybe<Array<UserBookUpdateWithWhereUniqueWithoutIdentifiersInput>>;
+  updateMany?: InputMaybe<Array<UserBookUpdateManyWithWhereWithoutIdentifiersInput>>;
+  upsert?: InputMaybe<Array<UserBookUpsertWithWhereUniqueWithoutIdentifiersInput>>;
 };
 
 export type UserBookUpdateManyWithoutUserNestedInput = {
@@ -3653,14 +3907,14 @@ export type UserBookUpdateOneRequiredWithoutShelvesNestedInput = {
   upsert?: InputMaybe<UserBookUpsertWithoutShelvesInput>;
 };
 
-export type UserBookUpdateOneWithoutCoverNestedInput = {
+export type UserBookUpdateOneWithoutCoversNestedInput = {
   connect?: InputMaybe<UserBookWhereUniqueInput>;
-  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutCoverInput>;
-  create?: InputMaybe<UserBookCreateWithoutCoverInput>;
+  connectOrCreate?: InputMaybe<UserBookCreateOrConnectWithoutCoversInput>;
+  create?: InputMaybe<UserBookCreateWithoutCoversInput>;
   delete?: InputMaybe<UserBookWhereInput>;
   disconnect?: InputMaybe<UserBookWhereInput>;
-  update?: InputMaybe<UserBookUpdateToOneWithWhereWithoutCoverInput>;
-  upsert?: InputMaybe<UserBookUpsertWithoutCoverInput>;
+  update?: InputMaybe<UserBookUpdateToOneWithWhereWithoutCoversInput>;
+  upsert?: InputMaybe<UserBookUpsertWithoutCoversInput>;
 };
 
 export type UserBookUpdateOneWithoutJournalEntryNestedInput = {
@@ -3677,8 +3931,8 @@ export type UserBookUpdateOrderInput = {
   items?: InputMaybe<Array<BookItemInput>>;
 };
 
-export type UserBookUpdateToOneWithWhereWithoutCoverInput = {
-  data: UserBookUpdateWithoutCoverInput;
+export type UserBookUpdateToOneWithWhereWithoutCoversInput = {
+  data: UserBookUpdateWithoutCoversInput;
   where?: InputMaybe<UserBookWhereInput>;
 };
 
@@ -3697,82 +3951,120 @@ export type UserBookUpdateWithWhereUniqueWithoutBookInput = {
   where: UserBookWhereUniqueInput;
 };
 
+export type UserBookUpdateWithWhereUniqueWithoutIdentifiersInput = {
+  data: UserBookUpdateWithoutIdentifiersInput;
+  where: UserBookWhereUniqueInput;
+};
+
 export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
   data: UserBookUpdateWithoutUserInput;
   where: UserBookWhereUniqueInput;
 };
 
 export type UserBookUpdateWithoutBookInput = {
-  Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutUserBookNestedInput>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
-export type UserBookUpdateWithoutCoverInput = {
-  authors?: InputMaybe<Scalars['String']['input']>;
+export type UserBookUpdateWithoutCoversInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutUserBookNestedInput>;
+  journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
+  rating?: InputMaybe<Scalars['Float']['input']>;
+  shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
+};
+
+export type UserBookUpdateWithoutIdentifiersInput = {
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
+  book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutJournalEntryInput = {
-  Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutShelvesInput = {
-  Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutUserBookNestedInput>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutUserBooksNestedInput>;
 };
 
 export type UserBookUpdateWithoutUserInput = {
-  Cover?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
-  authors?: InputMaybe<Scalars['String']['input']>;
+  authors?: InputMaybe<Array<Scalars['String']['input']>>;
   book?: InputMaybe<BookUpdateOneWithoutUserBookNestedInput>;
+  covers?: InputMaybe<CoverUpdateManyWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  identifiers?: InputMaybe<IdentifierUpdateManyWithoutUserBookNestedInput>;
   journalEntry?: InputMaybe<JournalEntryUpdateManyWithoutUserBookNestedInput>;
   order?: InputMaybe<Scalars['Int']['input']>;
+  pageCount?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
   shelves?: InputMaybe<UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
 };
@@ -3783,15 +4075,21 @@ export type UserBookUpsertWithWhereUniqueWithoutBookInput = {
   where: UserBookWhereUniqueInput;
 };
 
+export type UserBookUpsertWithWhereUniqueWithoutIdentifiersInput = {
+  create: UserBookCreateWithoutIdentifiersInput;
+  update: UserBookUpdateWithoutIdentifiersInput;
+  where: UserBookWhereUniqueInput;
+};
+
 export type UserBookUpsertWithWhereUniqueWithoutUserInput = {
   create: UserBookCreateWithoutUserInput;
   update: UserBookUpdateWithoutUserInput;
   where: UserBookWhereUniqueInput;
 };
 
-export type UserBookUpsertWithoutCoverInput = {
-  create: UserBookCreateWithoutCoverInput;
-  update: UserBookUpdateWithoutCoverInput;
+export type UserBookUpsertWithoutCoversInput = {
+  create: UserBookCreateWithoutCoversInput;
+  update: UserBookUpdateWithoutCoversInput;
   where?: InputMaybe<UserBookWhereInput>;
 };
 
@@ -3809,19 +4107,22 @@ export type UserBookUpsertWithoutShelvesInput = {
 
 export type UserBookWhereInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
-  Cover?: InputMaybe<CoverListRelationFilter>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  authors?: InputMaybe<StringFilter>;
+  authors?: InputMaybe<StringListFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  identifiers?: InputMaybe<IdentifierListRelationFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   order?: InputMaybe<IntFilter>;
+  pageCount?: InputMaybe<IntFilter>;
   rating?: InputMaybe<FloatFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -3830,20 +4131,23 @@ export type UserBookWhereInput = {
 
 export type UserBookWhereUniqueInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
-  Cover?: InputMaybe<CoverListRelationFilter>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  authors?: InputMaybe<StringFilter>;
+  authors?: InputMaybe<StringListFilter>;
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
+  covers?: InputMaybe<CoverListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
+  identifiers?: InputMaybe<IdentifierListRelationFilter>;
   journalEntry?: InputMaybe<JournalEntryListRelationFilter>;
   order?: InputMaybe<IntFilter>;
+  pageCount?: InputMaybe<IntFilter>;
   rating?: InputMaybe<FloatFilter>;
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<StringFilter>;
+  subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   user?: InputMaybe<UserRelationFilter>;
@@ -5076,13 +5380,6 @@ export type BookQueryVariables = Exact<{
 
 export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
 
-export type GetGoogleBookQueryVariables = Exact<{
-  id: Scalars['String']['input'];
-}>;
-
-
-export type GetGoogleBookQuery = { __typename?: 'Query', getGoogleBook?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, description?: string | null, publishedDate?: string | null, publisher?: string | null, pageCount?: number | null, categories?: Array<string> | null, averageRating?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null };
-
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
   limit?: Scalars['Int']['input'];
@@ -5148,7 +5445,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, bookId: string, status: string, rating?: number | null, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', title: string, authors?: Array<string> | null, pageCount?: number | null, userId: string, status: string, rating?: number | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -5158,7 +5455,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, bookId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, _count: { __typename?: 'BookCount', userBook: number, reviews: number } } | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userId: string, status: string, rating?: number | null, createdAt: any, updatedAt: any, order: number, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, _count: { __typename?: 'UserBookCount', shelves: number, journalEntry: number }, journalEntry?: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, currentPercent: number }> | null }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -6392,58 +6689,6 @@ export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
 export type BookSuspenseQueryHookResult = ReturnType<typeof useBookSuspenseQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
-export const GetGoogleBookDocument = gql`
-    query GetGoogleBook($id: String!) {
-  getGoogleBook(id: $id) {
-    id
-    title
-    authors
-    covers {
-      url
-      size
-    }
-    description
-    publishedDate
-    publisher
-    pageCount
-    categories
-    averageRating
-  }
-}
-    `;
-
-/**
- * __useGetGoogleBookQuery__
- *
- * To run a query within a React component, call `useGetGoogleBookQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetGoogleBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetGoogleBookQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetGoogleBookQuery(baseOptions: Apollo.QueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables> & ({ variables: GetGoogleBookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
-      }
-export function useGetGoogleBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
-        }
-export function useGetGoogleBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGoogleBookQuery, GetGoogleBookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetGoogleBookQuery, GetGoogleBookQueryVariables>(GetGoogleBookDocument, options);
-        }
-export type GetGoogleBookQueryHookResult = ReturnType<typeof useGetGoogleBookQuery>;
-export type GetGoogleBookLazyQueryHookResult = ReturnType<typeof useGetGoogleBookLazyQuery>;
-export type GetGoogleBookSuspenseQueryHookResult = ReturnType<typeof useGetGoogleBookSuspenseQuery>;
-export type GetGoogleBookQueryResult = Apollo.QueryResult<GetGoogleBookQuery, GetGoogleBookQueryVariables>;
 export const CommentsDocument = gql`
     query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
   comments(where: $where, offset: $offset, limit: $limit) {
@@ -6848,19 +7093,19 @@ export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UserBookDocument = gql`
     query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
+    title
+    authors
+    pageCount
     userId
-    bookId
     status
     rating
-    book {
-      id
-      title
-      authors
-      pageCount
-      covers {
-        url
-        size
-      }
+    identifiers {
+      source
+      sourceId
+    }
+    covers {
+      url
+      size
     }
     shelves {
       shelf {
@@ -6909,32 +7154,28 @@ export const GetUserBooksDocument = gql`
   getUserBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
     userBooks {
       id
+      title
+      authors
+      pageCount
+      identifiers {
+        source
+        sourceId
+      }
       userId
-      bookId
       status
       rating
       createdAt
       updatedAt
       order
-      book {
-        id
-        title
-        authors
-        pageCount
-        covers {
-          url
-          size
-        }
-        _count {
-          userBook
-          reviews
-        }
-      }
       shelves {
         shelf {
           id
           name
         }
+      }
+      covers {
+        url
+        size
       }
       _count {
         shelves
