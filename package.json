@@ -44,8 +44,5 @@
         "@graphql-codegen/typescript-operations": "^4.2.1",
         "@parcel/watcher": "^2.4.1",
         "typescript": "5.4.5"
-    },
-    "engines": {
-        "node": "18"
     }
 }

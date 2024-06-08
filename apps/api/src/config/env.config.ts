@@ -18,7 +18,4 @@ export default () => ({
   resend: {
     api: process.env.RESEND_API_KEY,
   },
-  nyt: {
-    api: process.env.NYT_API_KEY,
-  },
 });
