@@ -66,7 +66,7 @@ export const formatAuthors = (book: Book) => {
     .join(', ');
 
   // Add the last author with ' and '
-  const lastAuthor = authors[authors.length - 1].name;
+  const lastAuthor = authors[authors.length - 1];
 
   return `${allButLast} and ${lastAuthor}`;
 };

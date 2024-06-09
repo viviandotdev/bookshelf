@@ -16,7 +16,7 @@ function containsNonNumeric(str: string) {
 }
 
 export default async function BookPage({ params }: BookPageProps) {
-  let book;
+let book;
   if (containsNonNumeric(params.bookId)) {
     // handle this if logic in the backend? oonly return book once NOW
     console.log("make api call")

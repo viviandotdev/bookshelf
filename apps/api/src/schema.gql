@@ -2183,6 +2183,7 @@ type PasswordResetTokenMinAggregate {
 }
 
 type Query {
+  ShelvesForBook(ShelvesForBookRequest: IdentifierWhereInput!): [Shelf!]
   auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, orderBy: AuditLogOrderByWithRelationInput, where: UserBookWhereUniqueInput): ActivitiesResponse!
   book(where: BookWhereUniqueInput!): Book
   bookReview(where: ReviewUniqueInput!): Review!

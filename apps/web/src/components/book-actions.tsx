@@ -114,7 +114,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                         <div className='flex gap-2'>
                             My Rating:
                             <BookRating
-                                bookId={book!.id}
+                                // bookId={book!.id}
                                 rating={rating}
                                 setRating={setRating}
                             />

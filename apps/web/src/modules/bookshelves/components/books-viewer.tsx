@@ -22,7 +22,7 @@ interface BooksViewerProps {
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  const [view, setView] = React.useState<string>('gallery');
+  const [view, setView] = React.useState<string>('list');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();

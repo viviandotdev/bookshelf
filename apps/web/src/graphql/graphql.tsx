@@ -2400,6 +2400,7 @@ export type PasswordResetTokenMinAggregate = {
 
 export type Query = {
   __typename?: 'Query';
+  ShelvesForBook?: Maybe<Array<Shelf>>;
   auditLogs: ActivitiesResponse;
   book?: Maybe<Book>;
   bookReview: Review;
@@ -2415,6 +2416,11 @@ export type Query = {
   shelves?: Maybe<Array<Shelf>>;
   user: User;
   userBook?: Maybe<UserBook>;
+};
+
+
+export type QueryShelvesForBookArgs = {
+  ShelvesForBookRequest: IdentifierWhereInput;
 };
 
 

@@ -1,3 +1,4 @@
+import { BookParts } from '@/modules/bookshelves/types';
 import { Book, UserBookShelves } from '../graphql/graphql';
 import { create } from 'zustand';
 
@@ -6,7 +7,7 @@ type State = {
   bookId: string;
   status: string;
   rating: number;
-  book: Book;
+  book: BookParts;
   shelves: UserBookShelves[];
 };
 
@@ -25,20 +26,12 @@ const useUserBookStore = create<State & Action>((set) => ({
   bookId: '',
   rating: 0,
   book: {
-    id: '',
     title: '',
-    description: '',
-    author: '',
-    categories: '',
-    coverImage: '',
+    subtitle: '',
+    authors: [],
+    identifiers: [],
+    covers: [],
     pageCount: 0,
-    publishedDate: '',
-    publisher: '',
-    _count: {
-      __typename: undefined,
-      reviews: 0,
-      userBook: 0,
-    },
   },
   shelves: [],
 
@@ -48,7 +41,7 @@ const useUserBookStore = create<State & Action>((set) => ({
   updateUserId: (userId: string) => set(() => ({ userId: userId })),
   initShelves: (shelves: UserBookShelves[]) =>
     set(() => ({ shelves: shelves })),
-  setBook: (book: Book) => set(() => ({ book: book })),
+  setBook: (book: BookParts) => set(() => ({ book: book })),
 }));
 
 export default useUserBookStore;

@@ -14,7 +14,7 @@ import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/us
 import useUserBookStore from '@/stores/use-user-book-store';
 import useCreateReviewModal from '@/components/modals/create-review-modal/use-create-review.modal';
 import { getReview } from '@/modules/review/queries/getReview';
-import { ColumnWithBooks } from '../types';
+import { BookParts, ColumnWithBooks } from '../types';
 interface CardItemProps {
   data: UserBook;
   index: number;
@@ -42,7 +42,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
   const [openAlert, setOpenAlert] = useState(false); // Initial value
   const [percent, setPercent] = useState(0);
-  const { book: myBook } = useUserBookStore();
+  //   const { book: myBook } = useUserBookStore();
   const { journalEntry } = useJournalEntryModal();
   const createReviewModal = useCreateReviewModal();
   useEffect(() => {
@@ -53,15 +53,16 @@ export const CardItem: React.FC<CardItemProps> = ({
     }
   }, [data]);
 
-  useEffect(() => {
-    // update percent detail
-    if (myBook && myBook.id === data.book?.id) {
-      setPercent(journalEntry.percent);
-    }
-  }, [journalEntry]);
+  //   useEffect(() => {
+  //     // update percent detail
+  //     if (myBook && myBook.id === data.book?.id) {
+  //       setPercent(journalEntry.percent);
+  //     }
+  //   }, [journalEntry]);
 
   if (!data) return null;
-  const { book, shelves } = data;
+  const { title, authors, pageCount, covers, shelves } = data;
+  const book: BookParts = { title, authors, pageCount, covers };
   const moveCard = (status: string) => {
     if (status === cardStatus) return;
 

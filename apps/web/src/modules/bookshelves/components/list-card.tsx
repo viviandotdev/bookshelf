@@ -1,7 +1,7 @@
 'use client';
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
-import { Book, Size, UserBook } from '@/graphql/graphql';
+import { Book, Shelf, Size, UserBook } from '@/graphql/graphql';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
@@ -44,7 +44,7 @@ export const ListCard: React.FC<ListCardProps> = ({
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [openDropdown, setOpenDropdown] = useState(false);
-
+  console.log(shelves);
   return (
     <div
       className='flex cursor-pointer items-start justify-between rounded-lg border border-gray-100 bg-white/90 p-4 shadow-sm hover:bg-beige-50'
@@ -59,26 +59,43 @@ export const ListCard: React.FC<ListCardProps> = ({
           <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
         </div>
         <div className='flex flex-col gap-1.5'>
-          <h2 className={cn(dm_sefif_display.className, 'text-2xl text-beige')}>
-            {book.title}
-          </h2>
-          <div className='flex items-center gap-2'>
-            <p className='text-base text-gray-400'>by {formatAuthors(book!)}</p>
+          <div className='mt-1 flex items-center gap-2'>
+            <h2 className={'text-xl font-semibold leading-none text-beige'}>
+              {book.title}
+            </h2>
+          </div>
+          <p className='text-xs font-normal text-beige'>
+            by {formatAuthors(book!)}
+          </p>
+          <div className='flex items-center gap-1'>
             <div className='flex items-center'>
-              <StarIcon className='h-5 w-5 text-yellow-400' />
-              <StarIcon className='h-5 w-5 text-yellow-400' />
-              <StarIcon className='h-5 w-5 text-yellow-400' />
-              <StarIcon className='h-5 w-5 text-yellow-400' />
-              <StarIcon className='h-5 w-5 text-yellow-400' />
+              <StarIcon className='h-3 w-3 text-yellow-400' />
+              <StarIcon className='h-3 w-3 text-yellow-400' />
+              <StarIcon className='h-3 w-3 text-yellow-400' />
+              <StarIcon className='h-3 w-3 text-yellow-400' />
+              <StarIcon className='h-3 w-3 text-yellow-400' />
+              <span className='mx-1 text-[6px] font-normal text-beige'>•</span>
+              <span className='text-xs font-normal text-beige'>
+                20 April 2024
+              </span>
             </div>
           </div>
+
           <div className='flex items-center font-medium'>
-            {/* <BookIcon className="h-6 w-6 text-gray-700" /> */}
-            <span className='text-sm text-gray-700'>{status}</span>
-            <span className='mx-2 text-sm text-gray-700'>•</span>
-            <span className='text-sm text-gray-700'>
-              Finished in April 20, 2023
-            </span>
+            <div className='inline-flex w-96 items-start justify-start'>
+              {shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
+                <div
+                  key={index}
+                  className='mt-1 inline-flex h-9 flex-col items-start justify-start pr-2'
+                >
+                  <div className='flex h-7 flex-col items-center justify-center self-stretch rounded-lg bg-beige-100 px-3'>
+                    <div className='text-xs font-normal leading-loose text-beige'>
+                      {shelf.name}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -126,7 +143,7 @@ function StarIcon(props) {
       width='24'
       height='24'
       viewBox='0 0 24 24'
-      fill='none'
+      fill='currentColor'
       stroke='currentColor'
       strokeWidth='2'
       strokeLinecap='round'
