@@ -24,22 +24,6 @@ export class BookService {
     private readonly repository: BookRepository,
   ) {}
 
-  async createBookInputFromBookData(book: BookData) {
-    const bookInput: BookCreateInput = {
-      title: book.title,
-      pageCount: book.pageCount,
-      authors: book.authors ?? [],
-      publisher: book.publisher,
-      publishedDate: book.publishedDate,
-      averageRating: book.averageRating,
-      description: book.description,
-      language: book.language,
-      categories: book.categories,
-      slug: generateSlug(book.title + ' ' + book.authors.join(' ')),
-    };
-    return bookInput;
-  }
-
   async create(
     bookInput: BookCreateInput,
     identifiersInput?: IdentifierCreateInput[],

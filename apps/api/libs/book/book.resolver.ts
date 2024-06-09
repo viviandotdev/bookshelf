@@ -34,7 +34,7 @@ export class BookResolver {
     @CurrentUser() currentUser: JwtPayload,
   ) {
     const book = await this.bookService.create(data);
-    await this.userBookService.create(book.id, currentUser.userId);
+    // await this.userBookService.create(book.id, currentUser.userId);
     return book;
   }
 

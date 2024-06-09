@@ -1,3 +1,4 @@
+import { READING_STATUS } from '@bookcue/api/generated-db-types';
 import { Field, InputType } from '@nestjs/graphql';
 import {
   ArrayUnique,
@@ -18,8 +19,8 @@ import {
 export class UserBookUpdateInput {
   @IsOptional()
   @IsNotEmpty()
-  @Field(() => String, { nullable: true })
-  status?: string;
+  @Field(() => READING_STATUS, { nullable: true })
+  status?: READING_STATUS;
 
   @IsOptional()
   @Min(0)

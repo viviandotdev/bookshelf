@@ -40,7 +40,7 @@ export class ActivityResolver {
         bookId: where.bookId,
       },
       action: action,
-      orderBy: orderBy,
+      //   orderBy: orderBy,
       skip: offset,
       take: limit,
     });

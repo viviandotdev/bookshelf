@@ -42,7 +42,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
   const [openAlert, setOpenAlert] = useState(false); // Initial value
   const [percent, setPercent] = useState(0);
-  //   const { book: myBook } = useUserBookStore();
+  const { book: myBook } = useUserBookStore();
   const { journalEntry } = useJournalEntryModal();
   const createReviewModal = useCreateReviewModal();
   useEffect(() => {
@@ -61,8 +61,9 @@ export const CardItem: React.FC<CardItemProps> = ({
   //   }, [journalEntry]);
 
   if (!data) return null;
-  const { title, authors, pageCount, covers, shelves } = data;
-  const book: BookParts = { title, authors, pageCount, covers };
+
+  const { book, shelves } = data;
+
   const moveCard = (status: string) => {
     if (status === cardStatus) return;
 

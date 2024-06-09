@@ -4,6 +4,7 @@ import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import HomeTemplate from '@/modules/home/templates';
 import MarketingTemplate from '@/modules/marketing/templates';
 import { summary } from '@/modules/home/api/summary';
+import { Reading_Status } from '@/graphql/graphql';
 
 export default async function IndexPage() {
   const user = await getCurrentUser();
@@ -12,17 +13,17 @@ export default async function IndexPage() {
 
     const wantToRead = await getUserBooks({
       status: {
-        equals: 'Want to Read',
+        equals: Reading_Status.WantToRead,
       },
     });
     const currentlyReading = await getUserBooks({
       status: {
-        equals: 'Currently Reading',
+        equals: Reading_Status.Reading,
       },
     });
     const upNext = await getUserBooks({
       status: {
-        equals: 'Up Next',
+        equals: Reading_Status.UpNext,
       },
     });
 

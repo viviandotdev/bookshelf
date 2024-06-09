@@ -8,7 +8,7 @@ import {
 import { getOpenLibraryBook } from 'libs/book/api/open-library.api';
 
 import ShortUniqueId from 'short-uuid';
-import { SOURCE } from '@bookcue/api/generated-db-types';
+import { READING_STATUS, SOURCE } from '@bookcue/api/generated-db-types';
 
 export function getColumnData(csvContent, mappings) {
   // Split the CSV content into lines
@@ -80,14 +80,14 @@ export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
     const excludedShelves = ['to-read', 'currently-reading', 'read'];
     shelves = cleanShelves.filter((shelf) => !excludedShelves.includes(shelf));
   }
-  let status;
+  let status: READING_STATUS;
   if (objectFromCSV['Exclusive Shelf']) {
     if (objectFromCSV['Exclusive Shelf'] == 'to-read') {
-      status = 'Want to Read';
+      status = READING_STATUS.WANT_TO_READ;
     } else if (objectFromCSV['Exclusive Shelf'] == 'currently-reading') {
-      status = 'Currently Reading';
+      status = READING_STATUS.READING;
     } else if (objectFromCSV['Exclusive Shelf'] == 'read') {
-      status = 'Read';
+      status = READING_STATUS.FINISHED;
     }
   }
 

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import {
   CoverCreateInput,
   IdentifierCreateInput,
+  IdentifierWhereInput,
+  READING_STATUS,
   UserBookIdentifierCompoundUniqueInput,
 } from '../../src/generated-db-types';
 import { Prisma, SOURCE } from '@prisma/client';
@@ -108,9 +110,9 @@ export class UserBookService {
     }
   }
 
-  async create(bookId: string, userId: string, status?: string) {
+  async create(bookId: string, userId: string, status?: READING_STATUS) {
     const lastUserBook = await this.repository.findFirst({
-      where: { status: status || 'Want to Read', userId: userId },
+      where: { status: status || READING_STATUS.WANT_TO_READ, userId: userId },
       orderBy: { order: 'desc' },
       select: { order: true },
     });
@@ -129,9 +131,7 @@ export class UserBookService {
             id: bookId,
           },
         },
-
-        title: '',
-        status: status || 'Want to Read',
+        status: status || READING_STATUS.WANT_TO_READ,
       },
     };
 
@@ -178,21 +178,9 @@ export class UserBookService {
             journalEntry: true,
           },
         },
-        covers: {
-          select: {
-            url: true,
-            size: true,
-          },
-        },
         shelves: {
           include: {
             shelf: true,
-          },
-        },
-        identifiers: {
-          select: {
-            source: true,
-            sourceId: true,
           },
         },
         journalEntry: {
@@ -200,6 +188,12 @@ export class UserBookService {
             dateRead: 'desc', // Order by dateRead in descending order
           },
           take: 1, // Take only the last element
+        },
+        book: {
+          include: {
+            covers: true,
+            identifiers: true,
+          },
         },
       },
       orderBy: args.orderBy,
@@ -237,27 +231,58 @@ export class UserBookService {
     let updatedCards = [];
 
     try {
-      //   const transaction = items.map((book) =>
-      //     this.repository.update({
-      //       where: {
-      //         id: 'FIX_ME_ID',
-      //         // identifier: {
-      //         //   userId,
-      //         //   bookId: book.id,
-      //         // },
-      //       },
-      //       data: {
-      //         order: book.order,
-      //         status: book.status,
-      //       },
-      //     }),
-      //   );
-      //   updatedCards = await this.prisma.$transaction(transaction);
+      const transaction = items.map((book) =>
+        this.repository.update({
+          where: {
+            identifier: {
+              userId,
+              bookId: book.id,
+            },
+          },
+          data: {
+            order: book.order,
+            status: book.status,
+          },
+        }),
+      );
+      updatedCards = await this.prisma.$transaction(transaction);
     } catch (error) {
       console.log(error);
       throw new Error('Error updating order');
     }
     return updatedCards;
+  }
+  async updateStatus(args: {
+    data: UserBookUpdateInput;
+    bookId: string;
+    userId: string;
+  }) {
+    const userBook = await this.repository.findFirst({
+      where: {
+        userId: args.userId,
+        bookId: args.bookId,
+        // identifiers: {
+        //   some: {
+        //     source: args.where.source,
+        //     sourceId: args.where.sourceId,
+        //   },
+        // },
+      },
+    });
+
+    if (!userBook) {
+      throw new Error('UserBook not found');
+    }
+    console.log(userBook);
+
+    return this.repository.update({
+      data: {
+        status: args.data.status,
+      },
+      where: {
+        id: userBook.id,
+      },
+    });
   }
 
   async update(args: {
@@ -421,22 +446,27 @@ export class UserBookService {
         ? [{ source: SOURCE.ISBN_13, sourceId: book.isbn13 }]
         : []),
     ];
-    // Check if there already exists a userbook with the same identifiers, return existing userBook
+
+    // Check if there already exists a userBook with these identifiers, in the userbook
     if (identifiersInput.length > 0) {
-      const existingUserBook = await this.repository.findFirst({
+      const existingUserBook = await this.prisma.userBook.findFirst({
         where: {
-          userId,
-          identifiers: {
-            some: {
-              OR: identifiersInput.map(({ source, sourceId }) => ({
-                source,
-                sourceId,
-              })),
+          userId: userId,
+          book: {
+            identifiers: {
+              some: {
+                OR: identifiersInput.map(({ source, sourceId }) => ({
+                  source,
+                  sourceId,
+                })),
+              },
             },
           },
         },
       });
+
       if (existingUserBook) {
+        // update the existing user book with new rating, status, shelves
         return existingUserBook;
       }
     }
@@ -448,11 +478,10 @@ export class UserBookService {
     // Prepare the covers connection if covers exist
     const covers = await this.coverService.createMany(coverInput ?? []);
 
-    // Create the book with conditional covers connection
-    const createUserBookArgs: Prisma.UserBookCreateArgs = {
+    const createBookArgs: Prisma.BookCreateArgs = {
       data: {
         title: book.title,
-        subtitle: book.subtitle,
+        subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,
         covers: {
@@ -466,6 +495,18 @@ export class UserBookService {
                 id: identifier.id,
               }))
             : undefined,
+        },
+      },
+    };
+    // Create the book
+    const newBook = await this.prisma.book.create(createBookArgs);
+
+    const createUserBookArgs: Prisma.UserBookCreateArgs = {
+      data: {
+        book: {
+          connect: {
+            id: newBook.id,
+          },
         },
         shelves: shelves
           ? {
@@ -484,7 +525,7 @@ export class UserBookService {
             id: userId,
           },
         },
-        status: status || 'Want to Read',
+        status: status || READING_STATUS.WANT_TO_READ,
         rating: Number(rating),
       },
     };

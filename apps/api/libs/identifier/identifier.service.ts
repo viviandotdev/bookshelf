@@ -43,9 +43,7 @@ export class IdentifierService {
   }
 
   // Use source and sourceId to find the identifier
-  async findBookByIdentifiers(
-    identifiers: IdentifierCreateInput[],
-  ): Promise<Book | null> {
+  async findBookByIdentifiers(identifiers: IdentifierCreateInput[]) {
     if (!identifiers || identifiers.length === 0) {
       return null;
     }

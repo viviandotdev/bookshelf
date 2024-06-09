@@ -1,4 +1,5 @@
 import { Icons } from '@/components/icons';
+import { Reading_Status } from '@/graphql/graphql';
 
 export const sortingSelects = [
   { label: 'Date: Old to new', value: 'createdAt.asc' },
@@ -48,26 +49,30 @@ export const librarySelects = [
   },
 ];
 
-
 export const bookStatuses = [
   {
+    id: Reading_Status.WantToRead,
     name: 'Want to Read',
     icon: Icons.save,
   },
   {
+    id: Reading_Status.UpNext,
     name: 'Up Next',
     icon: Icons.upNext,
   },
   {
+    id: Reading_Status.Reading,
     name: 'Currently Reading',
     icon: Icons.bookOpen,
   },
   {
+    id: Reading_Status.Finished,
     name: 'Finished',
     icon: Icons.finished,
   },
   {
-    name: 'Did Not Finish',
+    id: Reading_Status.DidNotFinish,
+    name: 'Did not Finish',
     icon: Icons.dnf,
   },
 ];

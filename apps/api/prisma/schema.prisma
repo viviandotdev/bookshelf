@@ -101,47 +101,8 @@ model Cover {
     url  String @unique
     size SIZE
 
-    bookId     String?
-    book       Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
-    userBook   UserBook? @relation(fields: [userBookId], references: [id])
-    userBookId String?
-}
-
-model Book {
-    /// @Validator.IsString()
-    id            String   @id @default(uuid())
-    /// @Validator.IsString()
-    slug          String   @unique
-    /// @Validator.IsString()
-    title         String
-    /// @Validator.IsString()
-    authors       String[]
-    /// @Validator.IsString()
-    publishedDate String?
-    /// @Validator.IsString()
-    publisher     String?
-    /// @Validator.IsString()
-    description   String?
-    /// @Validator.IsString()
-    language      String?
-    /// @Validator.IsInt()
-    pageCount     Int?
-    /// @Validator.IsString()
-    categories    String[]
-
-    averageRating Float?
-    /// @Validator.ValidateNested()
-    // ratings       Rating[]
-
-    /// @Validator.IsString()
-    identifiers Identifier[]
-    // One to Many: multiple users can own the same book
-    /// @Validator.ValidateNested()
-    userBook    UserBook[]
-    reviews     Review[]
-    logs        AuditLog[]
-
-    covers Cover[]
+    bookId String?
+    book   Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
 
 enum SIZE {
@@ -160,15 +121,13 @@ enum SOURCE {
 }
 
 model Identifier {
-    id       String     @id @default(uuid())
+    id       String @id @default(uuid())
     /// @Validator.IsString()
     source   SOURCE //'GOODREADS' | 'GOOGLE' | 'AMAZON' | 'OPEN_LIBRARY' | 'ISBN_10' | 'ISBN_13'
     /// @Validator.IsString()
     sourceId String
     /// @Validator.IsString()
-    bookId   String?
-    book     Book?      @relation(fields: [bookId], references: [id])
-    userBook UserBook[]
+    book     Book[]
 
     @@unique(fields: [source, sourceId])
 }
@@ -199,40 +158,68 @@ model Comment {
 
 // Table stores all user books
 //BookshelvesBook
+
+enum READING_STATUS {
+    WANT_TO_READ
+    FINISHED
+    READING
+    DID_NOT_FINISH
+    UP_NEXT
+}
+
 model UserBook {
     /// @Validator.IsString()
     id           String            @id @default(uuid())
     /// @Validator.IsString()
-    title        String
-    /// @Validator.IsString()
-    subtitle     String?
-    authors      String[]
-    pageCount    Int?
-    /// @Validator.IsString()
     userId       String
     /// @Validator.IsString()
-    bookId       String?
+    bookId       String            @unique
     /// @Validator.IsString()
-    status       String //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
+    status       READING_STATUS //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
     /// @Validator.Max(5)
     /// @Validator.IsNumber()
     rating       Float?            @default(0)
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
-    user         User?             @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book?             @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    book         Book              @relation(fields: [bookId], references: [id])
     /// @Validator.ValidateNested()
     createdAt    DateTime          @default(now())
     updatedAt    DateTime          @updatedAt
-    covers       Cover[]
     shelves      UserBookShelves[]
     // One to Many: one user book has many journal entries
     journalEntry JournalEntry[]
-    identifiers  Identifier[]
     order        Int               @default(autoincrement())
 
     @@unique([userId, bookId], name: "identifier")
+}
+
+model Book {
+    /// @Validator.IsString()
+    id         String   @id @default(uuid())
+    /// @Validator.IsString()
+    title      String
+    /// @Validator.IsString()
+    subtitle   String?
+    /// @Validator.IsString()
+    authors    String[]
+    /// @Validator.IsString()
+    language   String?
+    /// @Validator.IsInt()
+    pageCount  Int?
+    /// @Validator.IsString()
+    categories String[]
+
+    identifiers Identifier[]
+
+    /// @Validator.ValidateNested()
+    userBook   UserBook?
+    userBookId String?    @unique
+    reviews    Review[]
+    logs       AuditLog[]
+
+    covers Cover[]
 }
 
 model UserBookShelves {

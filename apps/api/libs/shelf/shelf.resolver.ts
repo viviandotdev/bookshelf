@@ -42,45 +42,6 @@ export class ShelfResolver {
     }
     return this.service.create(data, currentUser.userId);
   }
-
-  @UseGuards(AccessTokenGuard)
-  @Query(() => [Shelf], { nullable: true })
-  async ShelvesForBook(
-    @Args('ShelvesForBookRequest') where: IdentifierWhereInput,
-  ) {
-    // get all the shelves for a given book
-    // some: Matches if at least one related record meets the condition.
-    //  •every: Matches only if all related records meet the condition.
-    // shelf matches if at least one userBook matches the condition
-    return this.service.findMany({
-      where: {
-        userBooks: {
-          some: {
-            userBook: {
-              identifiers: {
-                some: {
-                  source: where.source,
-                  sourceId: where.sourceId,
-                },
-              },
-            },
-          },
-        },
-      },
-      include: {
-        userBooks: {
-          include: {
-            userBook: {
-              include: {
-                identifiers: true,
-              },
-            },
-          },
-        },
-      },
-    });
-  }
-
   @UseGuards(AccessTokenGuard)
   @Query(() => [Shelf], { nullable: true })
   async shelves(@CurrentUser() currentUser: JwtPayload) {

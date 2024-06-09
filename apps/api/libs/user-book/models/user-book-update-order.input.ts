@@ -1,6 +1,7 @@
+import { READING_STATUS } from '@bookcue/api/generated-db-types';
 import { Field, InputType } from '@nestjs/graphql';
 import { IsInt, IsOptional, IsString, ValidateNested } from 'class-validator';
-
+// requests no inputs
 @InputType() // Assuming this class represents an object type
 export class BookItemInput {
   @IsString()
@@ -8,7 +9,7 @@ export class BookItemInput {
   id: string;
   @IsString()
   @Field()
-  status: string;
+  status: READING_STATUS;
   @IsString()
   @Field()
   title: string;

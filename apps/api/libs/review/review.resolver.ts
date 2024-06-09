@@ -11,6 +11,7 @@ import { ReviewService } from './review.service';
 import {
   BookCreateInput,
   BookWhereUniqueInput,
+  READING_STATUS,
   Review,
   ReviewWhereUniqueInput,
   UserBookIdentifierCompoundUniqueInput,
@@ -245,7 +246,7 @@ export class ReviewResolver {
 
     const userBookData: UserBookUpdateInput = {
       rating: Number(data.rating),
-      status: 'Read',
+      status: READING_STATUS.FINISHED,
     };
     // Update userbook status and rating
     await this.userBookService.update({

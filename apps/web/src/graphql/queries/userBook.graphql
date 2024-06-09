@@ -1,19 +1,22 @@
 query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
-    title
-    authors
-    pageCount
+    book {
+      id
+      title
+      authors
+      pageCount
+      identifiers {
+        source
+        sourceId
+      }
+      covers {
+        url
+        size
+      }
+    }
     userId
     status
     rating
-    identifiers {
-      source
-      sourceId
-    }
-    covers {
-      url
-      size
-    }
     shelves {
       shelf {
         id
@@ -37,12 +40,19 @@ query GetUserBooks(
   ) {
     userBooks {
       id
-      title
-      authors
-      pageCount
-      identifiers {
-        source
-        sourceId
+      book {
+        id
+        title
+        authors
+        pageCount
+        identifiers {
+          source
+          sourceId
+        }
+        covers {
+          url
+          size
+        }
       }
       userId
       status
@@ -55,10 +65,6 @@ query GetUserBooks(
           id
           name
         }
-      }
-      covers {
-        url
-        size
       }
       _count {
         shelves

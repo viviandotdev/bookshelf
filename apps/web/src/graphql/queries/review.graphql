@@ -35,7 +35,6 @@ query BookReview($where: ReviewUniqueInput!) {
         url
         size
       }
-      publishedDate
     }
     user {
       id

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import NoResults from '@/components/no-results';
 import CustomizeDropdown from './customize-dropdown';
 import DashboardHeader from './dashboard-header';
+import { Reading_Status } from '@/graphql/graphql';
 
 export const MainBookList = ({
   books,
@@ -36,7 +37,7 @@ export const MainBookList = ({
         startTransition(() => {
           getUserBooks({
             status: {
-              equals: 'Want to Read',
+              equals: Reading_Status.WantToRead,
             },
           }).then((data) => {
             setContent(data);

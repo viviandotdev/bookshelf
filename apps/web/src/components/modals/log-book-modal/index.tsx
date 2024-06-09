@@ -6,6 +6,7 @@ import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import LogBookCard from './log-book-card';
 import { NetworkStatus } from '@apollo/client';
 import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
+import { Reading_Status } from '@/graphql/graphql';
 interface LogBookModalProps {}
 
 export const LogBookModal: React.FC<LogBookModalProps> = ({}) => {
@@ -19,7 +20,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({}) => {
           limit: BOOKS_PAGE_SIZE,
           where: {
             status: {
-              equals: 'Currently Reading',
+              equals: Reading_Status.Reading,
             },
           },
         },

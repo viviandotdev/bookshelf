@@ -4,6 +4,7 @@ import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import { getUser } from '@/modules/profile/queries/getUser';
 import ProfileTemplate from '@/modules/profile/templates';
 import { notFound } from 'next/navigation';
+import { Reading_Status } from '@/graphql/graphql';
 
 interface ProfilePageProps {
   params: { user: string };
@@ -21,7 +22,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   const currentlyReading = await getUserBooks({
     status: {
-      equals: 'Currently Reading',
+      equals: Reading_Status.Reading,
     },
   });
 

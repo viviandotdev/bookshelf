@@ -2,6 +2,9 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UserBookService } from './user-book.service';
 import {
   BookWhereUniqueInput,
+  IdentifierWhereInput,
+  READING_STATUS,
+  User,
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
@@ -42,8 +45,22 @@ export class UserBookResolver {
     private readonly identifiersService: IdentifierService,
   ) {}
 
-  containsNonNumeric(str: string) {
-    return /\D/.test(str);
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => UserBook)
+  async updateReadingStatus(
+    @Args('bookId', { type: () => String })
+    bookId: string,
+    @Args('readingStatus', { type: () => READING_STATUS })
+    readingStatus: READING_STATUS,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.userBookService.updateStatus({
+      data: {
+        status: readingStatus,
+      },
+      userId: user.userId,
+      bookId: bookId,
+    });
   }
 
   @UseGuards(AccessTokenGuard)
@@ -74,20 +91,16 @@ export class UserBookResolver {
     @CurrentUser() user: JwtPayload,
   ) {
     let bookId;
-    if (this.containsNonNumeric(id)) {
-      const identifier = await this.identifiersService.findFirst({
-        where: {
-          source: 'GOOGLE',
-          sourceId: id,
-        },
-        include: {
-          book: true, // Include related book information if needed
-        },
-      });
-      bookId = identifier.bookId;
-    } else {
-      bookId = id;
-    }
+    const identifier = await this.identifiersService.findFirst({
+      where: {
+        source: 'GOOGLE',
+        sourceId: id,
+      },
+      include: {
+        book: true, // Include related book information if needed
+      },
+    });
+    // bookId = identifier.bookId;
     return this.userBookService.create(bookId, user.userId);
   }
 
