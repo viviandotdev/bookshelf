@@ -10,7 +10,7 @@ import {
 import { cn } from '@/lib/utils';
 import React, { useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { bookStatuses } from '@/config/books';
+import { readingStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
 interface StatusMenuProps {}
 
@@ -22,7 +22,7 @@ export const StatusMenu: React.FC<StatusMenuProps> = ({}) => {
       name: 'Any Status',
       icon: null,
     },
-    ...bookStatuses,
+    // ...readingStatuses,
   ];
   const [_, setOpen] = React.useState(false);
   const router = useRouter();

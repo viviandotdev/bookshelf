@@ -1,6 +1,6 @@
 'use server';
 
-import { CountUserBooksDocument, CountUserBooksQuery } from '@/graphql/graphql';
+import { CountUserBooksDocument, CountUserBooksQuery, Reading_Status } from '@/graphql/graphql';
 import { getApolloClient, httpLink, setAuthToken } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
@@ -14,7 +14,7 @@ export async function summary() {
     variables: {
       where: {
         status: {
-          equals: 'Want to Read',
+          equals: Reading_Status.WantToRead,
         },
       },
     },
@@ -25,7 +25,7 @@ export async function summary() {
     variables: {
       where: {
         status: {
-          equals: 'Want to Read',
+          equals: Reading_Status.WantToRead,
         },
       },
     },
@@ -36,7 +36,7 @@ export async function summary() {
     variables: {
       where: {
         status: {
-          equals: 'Want to Read',
+          equals: Reading_Status.WantToRead,
         },
       },
     },

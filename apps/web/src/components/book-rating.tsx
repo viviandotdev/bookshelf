@@ -24,7 +24,7 @@ export function BookRating({
   // get the userbook context
   const { updateUserBook } = useUpdateUserBook();
   async function updateRating(selectedValue: number) {
-    const updatedBook = await updateUserBook(parseInt(bookId), {
+    const updatedBook = await updateUserBook(bookId, {
       rating: selectedValue,
     });
     if (updatedBook) {

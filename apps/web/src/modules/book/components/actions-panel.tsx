@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState, useTransition } from 'react';
-import { Book, Review, Shelf, useUserBookLazyQuery } from '@/graphql/graphql';
+import { Book, Reading_Status, Review, Shelf, useUserBookLazyQuery } from '@/graphql/graphql';
 import { useSession } from 'next-auth/react';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { Icons } from '../../../components/icons';
@@ -117,7 +117,7 @@ export default function ActionsPanel({
   async function createBook(book: BookData) {
     setLoading(true);
     await createUserBook(book);
-    setStatus('Want to Read');
+    setStatus(Reading_Status.WantToRead);
     setLoading(false);
   }
 
@@ -191,7 +191,7 @@ export default function ActionsPanel({
         />
       );
       break;
-    case 'Want to Read':
+    case Reading_Status.WantToRead:
       actionItemToShow = (
         <ActionItem
           onClick={() => openUpdateStatusModal()}

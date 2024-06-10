@@ -17,12 +17,13 @@ import {
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { BookRating } from './book-rating';
-import { bookStatuses } from '@/config/books';
+import { readingStatuses } from '@/config/books';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { UserBook } from '@prisma/client';
 interface BookActionsProps {
   book: Book | undefined;
   shelves: UserBookShelves[] | undefined;
@@ -60,29 +61,21 @@ const BookActions: React.FC<BookActionsProps> = ({
   const { updateBookId, updateStatus, setBook, initShelves } =
     useUserBookStore();
   const setShelves = useAddToShelfModal((state) => state.setShelves);
-
-  const [updateReadingStatus] = useUpdateReadingStatusMutation({
-    onCompleted: () => {
+  const { updateUserBook } = useUpdateUserBook({
+    onCompleted: (data: UserBook) => {
       toast({
-        title: 'Book status updated',
+        title: `Book status updated to ${data.status} `,
         variant: 'success',
       });
     },
     onError: (error) => {
-      toast({
-        title: error.message,
-        variant: 'destructive',
-      });
+      toast({ title: error.message, variant: 'destructive' });
     },
   });
-
   const journalEntryModal = useJournalEntryModal();
-  const onUpdate = async (status: Reading_Status) => {
+  const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
-    // update in the database
-    await updateReadingStatus({
-      variables: { bookId: book!.id, readingStatus: status },
-    });
+    await updateUserBook(book!.id, { status: status });
   };
   const linkRef = useRef<HTMLAnchorElement>(null);
   return (
@@ -107,37 +100,44 @@ const BookActions: React.FC<BookActionsProps> = ({
           side={side}
           className='w-56'
         >
-          {bookStatuses.map((item) => (
-            <DropdownMenuItem
-              key={item.id}
-              className={`${status === item.id && 'bg-beige-400 text-beige'}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onUpdate(item.id);
-                if (moveCard) {
-                  moveCard(item.id);
-                  setOpenDropdown(false);
-                }
-              }}
-            >
-              {item.icon && (
-                <item.icon
-                  className={cn(
-                    'mr-2 h-4 w-4',
-                    item.id === status ? 'opacity-100' : 'opacity-60'
+          <>
+            {Object.keys(readingStatuses).map((key) => {
+              const item = readingStatuses[key as Reading_Status] as {
+                name: string;
+                icon?: any;
+              };
+              return (
+                <DropdownMenuItem
+                  key={key}
+                  className={`${status === key && 'bg-beige-400 text-beige'}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onUpdateStatus(key as Reading_Status);
+                    if (moveCard) {
+                      moveCard(key as Reading_Status);
+                      setOpenDropdown(false);
+                    }
+                  }}
+                >
+                  {item.icon && (
+                    <item.icon
+                      className={cn(
+                        'mr-2 h-4 w-4',
+                        key === status ? 'opacity-100' : 'opacity-60'
+                      )}
+                    />
                   )}
-                />
-              )}
-
-              {item.name}
-            </DropdownMenuItem>
-          ))}
+                  {item.name}
+                </DropdownMenuItem>
+              );
+            })}
+          </>
           <DropdownMenuSeparator></DropdownMenuSeparator>
           <DropdownMenuItem>
             <div className='flex gap-2'>
               My Rating:
               <BookRating
-                // bookId={book!.id}
+                bookId={book!.id}
                 rating={rating}
                 setRating={setRating}
               />

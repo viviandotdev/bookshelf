@@ -2,24 +2,38 @@ import {
   useUpdateUserBookMutation,
   UserBookUpdateInput,
 } from '@/graphql/graphql';
-import { toast } from '@/hooks/use-toast';
 import { gql } from '@apollo/client';
+import { UserBook } from '@prisma/client';
 
-export const useUpdateUserBook = () => {
-  const [UpdateUserBook] = useUpdateUserBookMutation();
+interface UseUpdateUserBookOptions {
+  onCompleted?: (data: UserBook) => void;
+  onError?: (error: any) => void;
+}
+
+export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
+  const { onCompleted, onError } = options;
+
+  const [UpdateUserBook] = useUpdateUserBookMutation({
+    onCompleted: (data) => {
+      onCompleted?.(data.updateUserBook);
+    },
+    onError: (error) => {
+      onError?.(error);
+    },
+  });
+
   const updateUserBook = async (
     bookId: string,
     updateInput: UserBookUpdateInput
   ) => {
-    const { data, errors } = await UpdateUserBook({
+    await UpdateUserBook({
       variables: {
         data: updateInput,
         where: {
-          id: (bookId),
+          id: bookId,
         },
       },
       update: (cache, { data }) => {
-        // update the status of the book
         cache.writeFragment({
           id: `UserBook:${data?.updateUserBook.id}`,
           fragment: gql`
@@ -32,22 +46,7 @@ export const useUpdateUserBook = () => {
           },
         });
       },
-
-      errorPolicy: 'all',
     });
-
-    if (errors) {
-      console.log(errors);
-      toast({
-        title: 'Error updating book',
-        variant: 'destructive',
-      });
-    }
-
-    if (data && !errors) {
-      return data.updateUserBook;
-    }
-    return null;
   };
 
   return {

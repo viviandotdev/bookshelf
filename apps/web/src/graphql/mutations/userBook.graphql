@@ -16,8 +16,9 @@ mutation UpdateUserBook(
     status
     id
     book {
-      title
+      __typename
     }
+    __typename
   }
 }
 

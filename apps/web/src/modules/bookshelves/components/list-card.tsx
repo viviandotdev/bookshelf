@@ -1,14 +1,14 @@
 'use client';
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
-import { Book, Shelf, Size, UserBook } from '@/graphql/graphql';
+import { Book, Reading_Status, Shelf, Size, UserBook } from '@/graphql/graphql';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
-import { bookStatuses } from '@/config/books';
+import { readingStatuses } from '@/config/books';
 interface ListCardProps {
   book: Book;
   openAlert: boolean;
@@ -21,14 +21,6 @@ interface ListCardProps {
   rating: number;
   shelves: any; // Adjust the type according to your requirement
 }
-
-export const getBookStatusIcon = (statusName: string) => {
-  // Find the status object in the bookStatuses array
-  const status = bookStatuses.find((status) => status.name === statusName);
-
-  // If status is found, return its icon; otherwise, return a default icon or null
-  return status && <status.icon className='h-5 w-5 ' />;
-};
 
 export const ListCard: React.FC<ListCardProps> = ({
   book,
@@ -45,6 +37,7 @@ export const ListCard: React.FC<ListCardProps> = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [openDropdown, setOpenDropdown] = useState(false);
   console.log(shelves);
+  //   const currentStatus = getBookStatusIcon(status);
   return (
     <div
       className='flex cursor-pointer items-start justify-between rounded-lg border border-gray-100 bg-white/90 p-4 shadow-sm hover:bg-beige-50'
@@ -105,7 +98,7 @@ export const ListCard: React.FC<ListCardProps> = ({
           setOpenAlert={setOpenAlert}
           openDropdown={openDropdown}
           setOpenDropdown={setOpenDropdown}
-          status={status}
+          status={status as Reading_Status}
           setStatus={setStatus}
           setRating={setRating}
           rating={rating}
@@ -115,8 +108,7 @@ export const ListCard: React.FC<ListCardProps> = ({
           trigger={
             <Button variant={'secondary'} className='h-8 px-3 shadow-sm'>
               <div className='flex items-center gap-1.5'>
-                {getBookStatusIcon(status)}
-                {status}
+                {readingStatuses[status as Reading_Status].name}
                 <Icons.chevronDown className='h-5 w-5 text-beige-700' />
               </div>
             </Button>

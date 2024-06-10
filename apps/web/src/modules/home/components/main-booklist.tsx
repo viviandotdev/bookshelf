@@ -25,7 +25,7 @@ export const MainBookList = ({
   const getTitle = (view: string) => {
     switch (view) {
       case 'want-to-read':
-        return 'Want to Read';
+        return Reading_Status.WantToRead;
       default:
         return ''; // Default title or some other appropriate title
     }

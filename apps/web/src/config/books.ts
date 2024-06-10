@@ -49,30 +49,25 @@ export const librarySelects = [
   },
 ];
 
-export const bookStatuses = [
-  {
-    id: Reading_Status.WantToRead,
+export const readingStatuses = {
+  [Reading_Status.WantToRead]: {
     name: 'Want to Read',
     icon: Icons.save,
   },
-  {
-    id: Reading_Status.UpNext,
+  [Reading_Status.UpNext]: {
     name: 'Up Next',
     icon: Icons.upNext,
   },
-  {
-    id: Reading_Status.Reading,
+  [Reading_Status.Reading]: {
     name: 'Currently Reading',
     icon: Icons.bookOpen,
   },
-  {
-    id: Reading_Status.Finished,
+  [Reading_Status.Finished]: {
     name: 'Finished',
     icon: Icons.finished,
   },
-  {
-    id: Reading_Status.DidNotFinish,
+  [Reading_Status.DidNotFinish]: {
     name: 'Did not Finish',
     icon: Icons.dnf,
   },
-];
+};

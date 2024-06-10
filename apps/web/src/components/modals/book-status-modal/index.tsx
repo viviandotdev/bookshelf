@@ -9,6 +9,7 @@ import AlertModal from '../alert-modal';
 import { useRemoveUserBook } from '@/modules/bookshelves/mutations/use-remove-user-book';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
+import { Reading_Status } from '@/graphql/graphql';
 
 interface BookStatusModalProps {}
 
@@ -24,7 +25,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const { removeUserBook } = useRemoveUserBook();
   const status = [
     'Currently Reading',
-    'Want to Read',
+    Reading_Status.WantToRead,
     'Read',
     'Did Not Finish',
   ];
