@@ -12,6 +12,7 @@ import React, { useTransition } from 'react';
 import useShelfStore from '@/stores/use-shelf-store';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useCreateQueryString from '../hooks/use-create-query-string';
+import FilterMenu from './filter-menu';
 interface ShelfMenuProps {}
 
 export const renderIcon = (s: string, size: string) => {
@@ -38,47 +39,34 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({}) => {
   const pathname = usePathname();
   const router = useRouter();
   const { selected } = useShelfStore();
-  // Merge shelves and library arrays
   const allShelves = [...shelves, ...library];
-
   const selectedShelf = allShelves.find((s) => s.name === selected?.name);
-
   const updateSelected = useShelfStore((state) => state.updateSelected);
   const createQueryString = useCreateQueryString();
   const [_, setOpen] = React.useState(false);
+  const handleSelect = (val: string) => {
+    updateSelected(val);
+    startTransition(() => {
+      router.push(
+        `${pathname}?${createQueryString({
+          shelf: val,
+          page: 1,
+          status: 'Any Status',
+        })}`
+      );
+    });
+    setOpen(false);
+  };
 
   return (
-    <div className=' flex items-center gap-2 space-x-4 text-sm'>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={cn(
-            buttonVariants({ variant: 'secondary', size: 'sm' }),
-            'min-w-20 border-2 border-gray-200 bg-white hover:bg-white'
-          )}
-        >
-          {selectedShelf?.name}
-          <Icons.chevronDown className='ml-2 h-4 w-4 shrink-0 text-beige' />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          avoidCollisions={false}
-          align={'start'}
-          side={'bottom'}
-        >
+    <FilterMenu
+      selections={
+        <>
           {selections.map((s, i) => (
             <DropdownMenuItem
               key={i}
               onSelect={() => {
-                updateSelected(s.name);
-                startTransition(() => {
-                  router.push(
-                    `${pathname}?${createQueryString({
-                      shelf: s.name,
-                      page: 1,
-                      status: 'Any Status',
-                    })}`
-                  );
-                });
-                setOpen(false);
+                handleSelect(s.name);
               }}
               className={`${
                 s.name === shelf ? 'bg-beige-100' : 'hover:bg-opacity-70'
@@ -88,9 +76,11 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({}) => {
               <span>{s.name}</span>
             </DropdownMenuItem>
           ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        </>
+      }
+      isActive={!selectedShelf?.name || selectedShelf?.name === 'All Books'}
+      selectedValue={selectedShelf?.name || 'All Books'}
+    />
   );
 };
 export default ShelfMenu;

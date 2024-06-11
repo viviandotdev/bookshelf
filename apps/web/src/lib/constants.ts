@@ -1,3 +1,6 @@
+import { readingStatuses } from '@/config/books';
+import { Reading_Status } from '@/graphql/graphql';
+
 export const DEFAULT_BOOKCOVER_PLACEHOLDER =
   'https://m.media-amazon.com/images/I/118BLwxozkL.jpg';
 
@@ -29,8 +32,8 @@ export const MONTH = [
 ];
 
 export const STATUS = {
-  WantToRead: 'Want to Read',
-  UpNext: 'Up Next',
-  CurrentlyReading: 'Currently Reading',
-  Read: 'Read',
+  WantToRead: Reading_Status.WantToRead,
+  UpNext: Reading_Status.UpNext,
+  CurrentlyReading: Reading_Status.Reading,
+  Finished: Reading_Status.Finished,
 };

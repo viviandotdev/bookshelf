@@ -11,7 +11,9 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
   title,
   totalBooks,
 }) => {
-  const item = readingStatuses.find((item) => item.name === title);
+  const item = Object.values(readingStatuses).find(
+    (item) => item.name === title
+  );
   return (
     <div className='flex items-center justify-between gap-x-2 px-2 pt-2 text-sm font-semibold text-beige-700'>
       <div

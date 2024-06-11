@@ -87,6 +87,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-4'>
               <ShelfMenu />
               <StatusMenu />
+
               <ToggleButton type={'owned'} />
               <ToggleButton type={'favorites'} />
               <Button
@@ -106,7 +107,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
                 disabled={!buttonIsEnabled}
                 variant={'pill'}
                 size={'sm'}
-                className='bg-beige-50 px-0 text-red-500 hover:bg-beige-50 disabled:text-gray-500'
+                className='bg-beige-50 px-0 font-normal text-red-500 hover:bg-beige-50 disabled:text-gray-500'
               >
                 <Icons.close className='mr-1 h-4 w-4' />
                 Clear Filters

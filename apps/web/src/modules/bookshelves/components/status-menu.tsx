@@ -1,4 +1,6 @@
 'use client';
+import React, { useState, useTransition } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -8,73 +10,77 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import React, { useTransition } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { readingStatuses } from '@/config/books';
 import useCreateQueryString from '../hooks/use-create-query-string';
+import { Reading_Status } from '@/graphql/graphql';
+import FilterMenu from './filter-menu';
+
 interface StatusMenuProps {}
 
-export const StatusMenu: React.FC<StatusMenuProps> = ({}) => {
+const StatusMenu: React.FC<StatusMenuProps> = () => {
   const searchParams = useSearchParams();
   const status = searchParams?.get('status') ?? 'Any Status';
   const statuses = [
     {
+      id: 'Any Status',
       name: 'Any Status',
       icon: null,
     },
-    // ...readingStatuses,
+    ...Object.entries(readingStatuses).map(([key, value]) => ({
+      id: key,
+      ...value,
+    })),
   ];
-  const [_, setOpen] = React.useState(false);
+
+  const [_, setOpen] = useState(false);
   const router = useRouter();
   const createQueryString = useCreateQueryString();
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
+
+  const handleSelect = (id: string) => {
+    startTransition(() => {
+      router.push(`${pathname}?${createQueryString({ status: id })}`);
+    });
+    setOpen(false);
+  };
+  const getBackgroundClass = () => {
+    if (readingStatuses[status as Reading_Status]?.name) {
+      return 'min-w-20 border-2 border-beige-400 bg-beige-100 font-medium text-beige-700';
+    } else {
+      return 'min-w-20 border-2 bg-white border-dashed border-gray-400 text-gray-400 font-medium ';
+    }
+  };
+
   return (
-    <div className=' flex items-center gap-2 space-x-4 text-sm'>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={cn(
-            buttonVariants({ variant: 'secondary', size: 'sm' }),
-            'min-w-20 border-2 border-gray-200 bg-white hover:bg-white'
-          )}
-        >
-          {status}
-          <Icons.chevronDown className='ml-2 h-4 w-4 shrink-0 text-beige' />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          avoidCollisions={false}
-          align={'start'}
-          side={'bottom'}
-        >
+    <FilterMenu
+      selections={
+        <>
           {statuses.map((s) => (
             <DropdownMenuItem
-              key={s.name}
-              onSelect={() => {
-                startTransition(() => {
-                  router.push(
-                    `${pathname}?${createQueryString({
-                      status: s.name,
-                    })}`
-                  );
-                });
-                setOpen(false);
-              }}
-              className={cn(s.name === status && 'bg-beige-100')}
+              key={s.id}
+              onSelect={() => handleSelect(s.id)}
+              className={cn(s.id === status && 'bg-beige-100')}
             >
               {s.icon && (
                 <s.icon
                   className={cn(
                     'mr-2 h-4 w-4',
-                    s.name === status ? 'opacity-100' : 'opacity-40'
+                    s.id === status ? 'opacity-100' : 'opacity-40'
                   )}
                 />
               )}
               <span>{s.name}</span>
             </DropdownMenuItem>
           ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        </>
+      }
+      isActive={!readingStatuses[status as Reading_Status]?.name}
+      selectedValue={
+        readingStatuses[status as Reading_Status]?.name || 'Any Status'
+      }
+    />
   );
 };
+
 export default StatusMenu;

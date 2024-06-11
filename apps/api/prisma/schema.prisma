@@ -156,9 +156,6 @@ model Comment {
     reviewId  String?
 }
 
-// Table stores all user books
-//BookshelvesBook
-
 enum READING_STATUS {
     WANT_TO_READ
     FINISHED

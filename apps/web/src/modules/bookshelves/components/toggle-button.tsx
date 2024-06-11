@@ -73,13 +73,13 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
   // Determine button styling based on the current status
   const getBackgroundClass = () => {
     if (status === 'none') {
-      return 'bg-white border-gray-200 text-beige-700 hover:bg-white';
+      return 'hover:bg-white border-2 bg-white font-normal border-gray-200 text-gray-900 ';
     } else {
-      return 'bg-beige-700 hover:bg-beige-700';
+      return 'bg-beige-100 text-beige-700 font-normal';
     }
   };
 
-  const buttonClass = `border-2 border-beige-700 text-white ${getBackgroundClass()}`;
+  const buttonClass = `border-2 border-beige-700 ${getBackgroundClass()}`;
 
   return (
     <Button
