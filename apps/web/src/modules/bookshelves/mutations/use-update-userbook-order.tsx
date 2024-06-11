@@ -11,7 +11,7 @@ import { z } from 'zod';
 export const UpdateUserBookOrderInput = z.object({
   items: z.array(
     z.object({
-      id: z.number(),
+      id: z.string(),
       title: z.string(),
       order: z.number(),
       status: z.string(),

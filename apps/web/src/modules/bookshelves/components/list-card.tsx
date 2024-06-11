@@ -1,14 +1,14 @@
 'use client';
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
-import { Book, Reading_Status, Shelf, Size, UserBook } from '@/graphql/graphql';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
+import { Book, Reading_Status, Shelf, Size } from '@/graphql/graphql';
+import { formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
 import { readingStatuses } from '@/config/books';
+import Rating from '@/components/rating';
 interface ListCardProps {
   book: Book;
   openAlert: boolean;
@@ -62,14 +62,18 @@ export const ListCard: React.FC<ListCardProps> = ({
           </p>
           <div className='flex items-center gap-1'>
             <div className='flex items-center'>
-              <StarIcon className='h-3 w-3 text-yellow-400' />
-              <StarIcon className='h-3 w-3 text-yellow-400' />
-              <StarIcon className='h-3 w-3 text-yellow-400' />
-              <StarIcon className='h-3 w-3 text-yellow-400' />
-              <StarIcon className='h-3 w-3 text-yellow-400' />
-              <span className='mx-1 text-[6px] font-normal text-beige'>•</span>
+              {rating ? (
+                <>
+                  <Rating value={rating} />
+                  <span className='mx-1 text-[6px] font-normal text-beige'>
+                    •
+                  </span>
+                </>
+              ) : (
+                <div></div>
+              )}
               <span className='text-xs font-normal text-beige'>
-                20 April 2024
+                Finished 20 April 2024
               </span>
             </div>
           </div>
