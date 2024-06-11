@@ -40,7 +40,7 @@ export const ListCard: React.FC<ListCardProps> = ({
   //   const currentStatus = getBookStatusIcon(status);
   return (
     <div
-      className='flex cursor-pointer items-start justify-between rounded-lg border border-gray-100 bg-white/90 p-4 shadow-sm hover:bg-beige-50'
+      className='flex cursor-pointer items-start justify-between rounded-lg border-2 border-gray-100 bg-white/90 p-4 shadow-sm transition-all duration-300 ease-in-out hover:shadow-md'
       onClick={() => {
         if (linkRef.current) {
           linkRef.current.click();
