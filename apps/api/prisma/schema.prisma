@@ -96,10 +96,21 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+model Rating {
+    id       String  @id @default(uuid())
+    count    Int?
+    source   SOURCE
+    maxScore Float
+    score    Float
+    bookId   String?
+    book     Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+}
+
 model Cover {
     id     String  @id @default(uuid())
     url    String  @unique
     size   SIZE
+    source SOURCE
     bookId String?
     book   Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
@@ -217,7 +228,8 @@ model Book {
     reviews    Review[]
     logs       AuditLog[]
 
-    covers Cover[]
+    covers  Cover[]
+    ratings Rating[]
 }
 
 model UserBookShelves {

@@ -15,6 +15,8 @@ export class BookResolver {
       },
       include: {
         identifiers: true,
+        covers: true,
+        ratings: true,
       },
     });
     return book;

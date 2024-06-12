@@ -59,7 +59,7 @@ export const ListCard: React.FC<ListCardProps> = ({
             </h2>
           </div>
           <p className='text-xs font-normal text-beige'>
-            by {formatAuthors(book!)}
+            by {formatAuthors(book.authors!)}
           </p>
           <div className='flex items-center gap-1'>
             <div className='flex items-center'>

@@ -1,5 +1,6 @@
 query Book($where: BookWhereUniqueInput!) {
   book(where: $where) {
+    id
     slug
     title
     authors
@@ -7,6 +8,14 @@ query Book($where: BookWhereUniqueInput!) {
     identifiers {
       source
       sourceId
+    }
+    covers {
+      url
+      size
+    }
+    ratings {
+      source
+      score
     }
   }
 }

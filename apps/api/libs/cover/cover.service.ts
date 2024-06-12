@@ -43,6 +43,7 @@ export class CoverService {
         data: data.map((cover) => ({
           url: cover.url,
           size: cover.size,
+          source: cover.source,
         })),
         skipDuplicates: true,
       });
@@ -67,6 +68,7 @@ export class CoverService {
 
     if (imageLinks.small) {
       coverInput.push({
+        source: SOURCE.GOODREADS,
         url: imageLinks.small,
         size: SIZE.SMALL,
       });
@@ -74,6 +76,7 @@ export class CoverService {
 
     if (imageLinks.medium) {
       coverInput.push({
+        source: SOURCE.GOODREADS,
         url: imageLinks.medium,
         size: SIZE.MEDIUM,
       });
@@ -81,6 +84,7 @@ export class CoverService {
 
     if (imageLinks.large) {
       coverInput.push({
+        source: SOURCE.GOODREADS,
         url: imageLinks.large,
         size: SIZE.LARGE,
       });

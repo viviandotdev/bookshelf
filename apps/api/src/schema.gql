@@ -546,6 +546,7 @@ type Book {
   language: String
   logs: [AuditLog!]
   pageCount: Int
+  ratings: [Rating!]
   reviews: [Review!]
   slug: String!
   subtitle: String
@@ -562,6 +563,7 @@ type BookCount {
   covers: Int!
   identifiers: Int!
   logs: Int!
+  ratings: Int!
   reviews: Int!
 }
 
@@ -630,6 +632,7 @@ input BookCreateWithoutIdentifiersInput {
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
+  ratings: RatingCreateNestedManyWithoutBookInput
   reviews: ReviewCreateNestedManyWithoutBookInput
   slug: String!
   subtitle: String
@@ -646,6 +649,7 @@ input BookCreateWithoutLogsInput {
   identifiers: IdentifierCreateNestedManyWithoutBookInput
   language: String
   pageCount: Int
+  ratings: RatingCreateNestedManyWithoutBookInput
   reviews: ReviewCreateNestedManyWithoutBookInput
   slug: String!
   subtitle: String
@@ -663,6 +667,7 @@ input BookCreateWithoutReviewsInput {
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
+  ratings: RatingCreateNestedManyWithoutBookInput
   slug: String!
   subtitle: String
   title: String!
@@ -679,6 +684,7 @@ input BookCreateWithoutUserBookInput {
   language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
+  ratings: RatingCreateNestedManyWithoutBookInput
   reviews: ReviewCreateNestedManyWithoutBookInput
   slug: String!
   subtitle: String
@@ -722,6 +728,7 @@ input BookOrderByWithRelationInput {
   language: SortOrderInput
   logs: AuditLogOrderByRelationAggregateInput
   pageCount: SortOrderInput
+  ratings: RatingOrderByRelationAggregateInput
   reviews: ReviewOrderByRelationAggregateInput
   slug: SortOrder
   subtitle: SortOrderInput
@@ -790,6 +797,7 @@ input BookUpdateWithoutLogsInput {
   identifiers: IdentifierUpdateManyWithoutBookNestedInput
   language: String
   pageCount: Int
+  ratings: RatingUpdateManyWithoutBookNestedInput
   reviews: ReviewUpdateManyWithoutBookNestedInput
   slug: String
   subtitle: String
@@ -807,6 +815,7 @@ input BookUpdateWithoutReviewsInput {
   language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
   pageCount: Int
+  ratings: RatingUpdateManyWithoutBookNestedInput
   slug: String
   subtitle: String
   title: String
@@ -823,6 +832,7 @@ input BookUpdateWithoutUserBookInput {
   language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
   pageCount: Int
+  ratings: RatingUpdateManyWithoutBookNestedInput
   reviews: ReviewUpdateManyWithoutBookNestedInput
   slug: String
   subtitle: String
@@ -860,6 +870,7 @@ input BookWhereInput {
   language: StringFilter
   logs: AuditLogListRelationFilter
   pageCount: IntFilter
+  ratings: RatingListRelationFilter
   reviews: ReviewListRelationFilter
   slug: StringFilter
   subtitle: StringFilter
@@ -880,6 +891,7 @@ input BookWhereUniqueInput {
   language: StringFilter
   logs: AuditLogListRelationFilter
   pageCount: IntFilter
+  ratings: RatingListRelationFilter
   reviews: ReviewListRelationFilter
   slug: String
   subtitle: StringFilter
@@ -1130,6 +1142,7 @@ type Cover {
   bookId: String
   id: ID!
   size: SIZE!
+  source: SOURCE!
   url: String!
 }
 
@@ -1138,12 +1151,14 @@ type CoverCountAggregate {
   bookId: Int!
   id: Int!
   size: Int!
+  source: Int!
   url: Int!
 }
 
 input CoverCreateManyBookInput {
   id: String
   size: SIZE!
+  source: SOURCE!
   url: String!
 }
 
@@ -1167,6 +1182,7 @@ input CoverCreateOrConnectWithoutBookInput {
 input CoverCreateWithoutBookInput {
   id: String
   size: SIZE!
+  source: SOURCE!
   url: String!
 }
 
@@ -1180,6 +1196,7 @@ type CoverMaxAggregate {
   bookId: String
   id: String
   size: SIZE
+  source: SOURCE
   url: String
 }
 
@@ -1187,6 +1204,7 @@ type CoverMinAggregate {
   bookId: String
   id: String
   size: SIZE
+  source: SOURCE
   url: String
 }
 
@@ -1201,12 +1219,14 @@ input CoverScalarWhereInput {
   bookId: StringFilter
   id: StringFilter
   size: EnumSIZEFilter
+  source: EnumSOURCEFilter
   url: StringFilter
 }
 
 input CoverUpdateManyMutationInput {
   id: String
   size: SIZE
+  source: SOURCE
   url: String
 }
 
@@ -1237,6 +1257,7 @@ input CoverUpdateWithWhereUniqueWithoutBookInput {
 input CoverUpdateWithoutBookInput {
   id: String
   size: SIZE
+  source: SOURCE
   url: String
 }
 
@@ -1254,6 +1275,7 @@ input CoverWhereInput {
   bookId: StringFilter
   id: StringFilter
   size: EnumSIZEFilter
+  source: EnumSOURCEFilter
   url: StringFilter
 }
 
@@ -1265,6 +1287,7 @@ input CoverWhereUniqueInput {
   bookId: StringFilter
   id: String
   size: EnumSIZEFilter
+  source: EnumSOURCEFilter
   url: String
 }
 
@@ -1913,6 +1936,183 @@ enum READING_STATUS {
   READING
   UP_NEXT
   WANT_TO_READ
+}
+
+type Rating {
+  book: Book
+  bookId: String
+  count: Int
+  id: ID!
+  maxScore: Float!
+  score: Float!
+  source: SOURCE!
+}
+
+type RatingAvgAggregate {
+  count: Float
+  maxScore: Float
+  score: Float
+}
+
+type RatingCountAggregate {
+  _all: Int!
+  bookId: Int!
+  count: Int!
+  id: Int!
+  maxScore: Int!
+  score: Int!
+  source: Int!
+}
+
+input RatingCreateManyBookInput {
+  count: Int
+  id: String
+  maxScore: Float!
+  score: Float!
+  source: SOURCE!
+}
+
+input RatingCreateManyBookInputEnvelope {
+  data: [RatingCreateManyBookInput!]!
+  skipDuplicates: Boolean
+}
+
+input RatingCreateNestedManyWithoutBookInput {
+  connect: [RatingWhereUniqueInput!]
+  connectOrCreate: [RatingCreateOrConnectWithoutBookInput!]
+  create: [RatingCreateWithoutBookInput!]
+  createMany: RatingCreateManyBookInputEnvelope
+}
+
+input RatingCreateOrConnectWithoutBookInput {
+  create: RatingCreateWithoutBookInput!
+  where: RatingWhereUniqueInput!
+}
+
+input RatingCreateWithoutBookInput {
+  count: Int
+  id: String
+  maxScore: Float!
+  score: Float!
+  source: SOURCE!
+}
+
+input RatingListRelationFilter {
+  every: RatingWhereInput
+  none: RatingWhereInput
+  some: RatingWhereInput
+}
+
+type RatingMaxAggregate {
+  bookId: String
+  count: Int
+  id: String
+  maxScore: Float
+  score: Float
+  source: SOURCE
+}
+
+type RatingMinAggregate {
+  bookId: String
+  count: Int
+  id: String
+  maxScore: Float
+  score: Float
+  source: SOURCE
+}
+
+input RatingOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input RatingScalarWhereInput {
+  AND: [RatingScalarWhereInput!]
+  NOT: [RatingScalarWhereInput!]
+  OR: [RatingScalarWhereInput!]
+  bookId: StringFilter
+  count: IntFilter
+  id: StringFilter
+  maxScore: FloatFilter
+  score: FloatFilter
+  source: EnumSOURCEFilter
+}
+
+type RatingSumAggregate {
+  count: Int
+  maxScore: Float
+  score: Float
+}
+
+input RatingUpdateManyMutationInput {
+  count: Int
+  id: String
+  maxScore: Float
+  score: Float
+  source: SOURCE
+}
+
+input RatingUpdateManyWithWhereWithoutBookInput {
+  data: RatingUpdateManyMutationInput!
+  where: RatingScalarWhereInput!
+}
+
+input RatingUpdateManyWithoutBookNestedInput {
+  connect: [RatingWhereUniqueInput!]
+  connectOrCreate: [RatingCreateOrConnectWithoutBookInput!]
+  create: [RatingCreateWithoutBookInput!]
+  createMany: RatingCreateManyBookInputEnvelope
+  delete: [RatingWhereUniqueInput!]
+  deleteMany: [RatingScalarWhereInput!]
+  disconnect: [RatingWhereUniqueInput!]
+  set: [RatingWhereUniqueInput!]
+  update: [RatingUpdateWithWhereUniqueWithoutBookInput!]
+  updateMany: [RatingUpdateManyWithWhereWithoutBookInput!]
+  upsert: [RatingUpsertWithWhereUniqueWithoutBookInput!]
+}
+
+input RatingUpdateWithWhereUniqueWithoutBookInput {
+  data: RatingUpdateWithoutBookInput!
+  where: RatingWhereUniqueInput!
+}
+
+input RatingUpdateWithoutBookInput {
+  count: Int
+  id: String
+  maxScore: Float
+  score: Float
+  source: SOURCE
+}
+
+input RatingUpsertWithWhereUniqueWithoutBookInput {
+  create: RatingCreateWithoutBookInput!
+  update: RatingUpdateWithoutBookInput!
+  where: RatingWhereUniqueInput!
+}
+
+input RatingWhereInput {
+  AND: [RatingWhereInput!]
+  NOT: [RatingWhereInput!]
+  OR: [RatingWhereInput!]
+  book: BookRelationFilter
+  bookId: StringFilter
+  count: IntFilter
+  id: StringFilter
+  maxScore: FloatFilter
+  score: FloatFilter
+  source: EnumSOURCEFilter
+}
+
+input RatingWhereUniqueInput {
+  AND: [RatingWhereInput!]
+  NOT: [RatingWhereInput!]
+  OR: [RatingWhereInput!]
+  book: BookRelationFilter
+  bookId: StringFilter
+  count: IntFilter
+  id: String
+  maxScore: FloatFilter
+  score: FloatFilter
+  source: EnumSOURCEFilter
 }
 
 type RefreshResponse {

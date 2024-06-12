@@ -26,7 +26,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calender';
-// Assuming these are the fields we want to be collapsible
+
 export type FormNames =
   | 'username'
   | 'location'
@@ -42,7 +42,7 @@ interface CollapsibleFormProps {
   isOpen: boolean;
   openForm: FormNames | '';
   onToggle: () => void;
-  onChange?: (value: string) => void; // Add this prop to handle changes
+  onChange?: (value: string) => void;
 }
 
 export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
@@ -52,7 +52,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   openForm,
   isOpen,
   onToggle,
-  onChange, // Include the onChange handler in the component prop
+  onChange,
 }) => {
   const textColor = value ? 'text-black' : 'text-gray-400';
   const [isPending, startTransition] = useTransition();
@@ -73,16 +73,15 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   useEffect(() => {
     form.reset({
-      name: openForm == 'name' ? value : undefined,
-      username: openForm == 'username' ? value : undefined,
-      location: openForm == 'location' ? value : undefined,
-      bio: openForm == 'bio' ? value : undefined,
-      dob: openForm == 'dob' && value ? new Date(value) : undefined,
+      name: openForm === 'name' ? value : undefined,
+      username: openForm === 'username' ? value : undefined,
+      location: openForm === 'location' ? value : undefined,
+      bio: openForm === 'bio' ? value : undefined,
+      dob: openForm === 'dob' && value ? new Date(value) : undefined,
     });
   }, [openForm]);
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-    console.log(values);
     onToggle();
     startTransition(() => {
       settings(values)
@@ -94,7 +93,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
           if (data.success) {
             update();
             if (onChange && openForm) {
-              if (openForm == 'dob') {
+              if (openForm === 'dob') {
                 onChange(values[openForm]?.toISOString() || '');
               } else {
                 onChange(values[openForm] || '');
@@ -106,20 +105,17 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         .catch(() => setError('Something went wrong!'));
     });
   };
+
   function formatDateOrDisplayValue(value: string) {
-    // console.log(value);
-    if (label == 'Date of Birth') {
+    if (label === 'Date of Birth') {
       const dateObject = new Date(value);
       if (dateObject && isValid(dateObject)) {
-        const date = format(dateObject, 'PPP');
-        console.log(date);
-        return date;
+        return format(dateObject, 'PPP');
       }
     }
     return value || '+ Add';
   }
 
-  // Extract the form control rendering logic into a function
   const renderFormControl = (field) => {
     if (openForm === 'bio') {
       return (
@@ -194,7 +190,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                 {label}
               </div>
               <div
-                className={`transform text-sm duration-150 ${textColor} transition-all ease-in-out ${
+                className={`transition-max-height transform text-sm duration-500 ${textColor} transition-all ease-in-out ${
                   isOpen
                     ? '-translate-x-2 translate-y-2 opacity-0'
                     : 'translate-x-0 translate-y-0 opacity-100'
@@ -207,7 +203,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         </div>
       </div>
       <div
-        className={`transition-max-height overflow-hidden duration-100 ease-in-out ${
+        className={`transition-max-height overflow-hidden transition-all duration-500 ease-in-out ${
           isOpen ? 'max-h-screen' : 'max-h-0'
         }`}
       >
@@ -223,9 +219,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                         name={openForm}
                         render={({ field }) => (
                           <FormItem className='mt-0'>
-                            <FormControl>
-                              {renderFormControl(field)}
-                            </FormControl>
+                            {renderFormControl(field)}
                             <FormMessage setError={setError} />
                             <p className={'pb-1 pt-2 text-sm text-red-400'}>
                               {error}

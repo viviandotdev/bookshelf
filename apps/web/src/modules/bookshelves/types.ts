@@ -1,4 +1,5 @@
 import { Size, UserBook } from '@/graphql/graphql';
+import { inter } from '@/lib/fonts';
 
 export interface BookItem {
   id: string;
@@ -16,8 +17,24 @@ export type ColumnWithBooks = {
   totalBooks: number;
 };
 
-// Define the BookParts subtype by picking specific properties from UserBook
-export type BookParts = Pick<
-  UserBook,
-  'title' | 'subtitle' | 'covers' | 'identifiers' | 'pageCount' | 'authors'
->;
+export interface BookData {
+  id?: string;
+  urls: {
+    goodreads?: string;
+    google?: string;
+  };
+  isbn?: string;
+  title: string;
+  subtitle?: string;
+  authors: string[];
+  coverImage: string;
+  publishedDate?: string;
+  publisher?: string;
+  description?: string;
+  language?: string;
+  pageCount: number;
+  ratings: {
+    goodreads?: number;
+    google?: number;
+  };
+}

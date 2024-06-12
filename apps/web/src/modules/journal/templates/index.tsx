@@ -52,7 +52,7 @@ export const JournalTemplate: React.FC<JournalTemplateProps> = ({
       },
       entry: {
         id: entry.id,
-        authors: entry.userBook && formatAuthors(entry.userBook.book),
+        authors: entry.userBook && formatAuthors(entry.userBook.book.authors),
         title:
           (entry.userBook &&
             entry.userBook.book &&

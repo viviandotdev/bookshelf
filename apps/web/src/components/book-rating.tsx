@@ -8,7 +8,7 @@ export const myStyles = {
 };
 
 interface BookRatingProps {
-  size?: 'lg' | 'sm';
+  size?: 'lg' | 'sm' | 'md';
   bookId: string;
   rating: number;
   setRating: (rating: number) => void;
@@ -32,7 +32,7 @@ export function BookRating({
     }
   }
 
-  const width = size == 'lg' ? 200 : 100;
+  const width = size === 'lg' ? 200 : size === 'md' ? 150 : 100;
   return (
     <div className='flex items-center justify-end gap-2'>
       <Rating

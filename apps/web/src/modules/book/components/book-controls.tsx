@@ -9,7 +9,7 @@ export const BookControls: React.FC<BookControlsProps> = ({}) => {
   return (
     <div className='flex items-start gap-5'>
       <Button variant={'secondary'} className='gap-2 rounded-lg font-normal'>
-        <Icons.save className='h-5 w-5' />
+        {/* <Icons.save className='h-5 w-5' /> */}
         <div>Want to Read</div>
       </Button>
       <IconButton className='h-10 w-10'>

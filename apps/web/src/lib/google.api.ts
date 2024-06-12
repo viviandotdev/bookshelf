@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { processGoogleBook } from './utils';
 
 export async function findGoogleBookByISBN(isbn: string) {
   if (isbn == '') {
@@ -60,7 +61,7 @@ export async function findBookByGoogleBookId(bookId: string) {
     // Check if the response status is successful (status code 2xx)
     if (response.status >= 200 && response.status < 300) {
       const book = response.data; // Assuming response.data contains the book data
-      const processedBook = processGoogleBook(book) as BookData;
+      const processedBook = processGoogleBook(book);
 
       return processedBook;
     } else {
@@ -72,40 +73,4 @@ export async function findBookByGoogleBookId(bookId: string) {
     console.error('Error fetching book:', error);
     return null;
   }
-}
-
-export function processGoogleBook(book: any): BookData | null {
-  const title: string = book.volumeInfo.title;
-  const authors: string[] = book.volumeInfo.authors;
-  // Skip processing the book if the title and author is already encountered
-  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
-  const publisher: string = book.volumeInfo.publisher || 'N/A';
-  const pageCount: number = book.volumeInfo.pageCount || 0;
-  const rating: number = book.volumeInfo.averageRating || 0;
-  let isbn10: string = 'N/A';
-  let isbn13: string = 'N/A';
-  if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
-
-    if (identifier1) isbn10 = identifier1;
-    if (identifier2) isbn13 = identifier2;
-  }
-
-  const description: string = book.volumeInfo.description || '';
-  const language = book.volumeInfo.language || '';
-  const bookData: BookData = {
-    id: book.id,
-    title,
-    authors,
-    publishedDate,
-    publisher,
-    description,
-    language,
-    pageCount,
-    isbn10,
-    isbn13,
-    rating,
-  };
-  return bookData;
 }

@@ -576,6 +576,7 @@ export type Book = {
   language?: Maybe<Scalars['String']['output']>;
   logs?: Maybe<Array<AuditLog>>;
   pageCount?: Maybe<Scalars['Int']['output']>;
+  ratings?: Maybe<Array<Rating>>;
   reviews?: Maybe<Array<Review>>;
   slug: Scalars['String']['output'];
   subtitle?: Maybe<Scalars['String']['output']>;
@@ -594,6 +595,7 @@ export type BookCount = {
   covers: Scalars['Int']['output'];
   identifiers: Scalars['Int']['output'];
   logs: Scalars['Int']['output'];
+  ratings: Scalars['Int']['output'];
   reviews: Scalars['Int']['output'];
 };
 
@@ -663,6 +665,7 @@ export type BookCreateWithoutIdentifiersInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingCreateNestedManyWithoutBookInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -679,6 +682,7 @@ export type BookCreateWithoutLogsInput = {
   identifiers?: InputMaybe<IdentifierCreateNestedManyWithoutBookInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingCreateNestedManyWithoutBookInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -696,6 +700,7 @@ export type BookCreateWithoutReviewsInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingCreateNestedManyWithoutBookInput>;
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
@@ -712,6 +717,7 @@ export type BookCreateWithoutUserBookInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogCreateNestedManyWithoutBookInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingCreateNestedManyWithoutBookInput>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutBookInput>;
   slug: Scalars['String']['input'];
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -757,6 +763,7 @@ export type BookOrderByWithRelationInput = {
   language?: InputMaybe<SortOrderInput>;
   logs?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   pageCount?: InputMaybe<SortOrderInput>;
+  ratings?: InputMaybe<RatingOrderByRelationAggregateInput>;
   reviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   slug?: InputMaybe<SortOrder>;
   subtitle?: InputMaybe<SortOrderInput>;
@@ -826,6 +833,7 @@ export type BookUpdateWithoutLogsInput = {
   identifiers?: InputMaybe<IdentifierUpdateManyWithoutBookNestedInput>;
   language?: InputMaybe<Scalars['String']['input']>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingUpdateManyWithoutBookNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -843,6 +851,7 @@ export type BookUpdateWithoutReviewsInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingUpdateManyWithoutBookNestedInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -859,6 +868,7 @@ export type BookUpdateWithoutUserBookInput = {
   language?: InputMaybe<Scalars['String']['input']>;
   logs?: InputMaybe<AuditLogUpdateManyWithoutBookNestedInput>;
   pageCount?: InputMaybe<Scalars['Int']['input']>;
+  ratings?: InputMaybe<RatingUpdateManyWithoutBookNestedInput>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutBookNestedInput>;
   slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<Scalars['String']['input']>;
@@ -896,6 +906,7 @@ export type BookWhereInput = {
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
   pageCount?: InputMaybe<IntFilter>;
+  ratings?: InputMaybe<RatingListRelationFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   slug?: InputMaybe<StringFilter>;
   subtitle?: InputMaybe<StringFilter>;
@@ -916,6 +927,7 @@ export type BookWhereUniqueInput = {
   language?: InputMaybe<StringFilter>;
   logs?: InputMaybe<AuditLogListRelationFilter>;
   pageCount?: InputMaybe<IntFilter>;
+  ratings?: InputMaybe<RatingListRelationFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
   slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<StringFilter>;
@@ -1171,6 +1183,7 @@ export type Cover = {
   bookId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   size: Size;
+  source: Source;
   url: Scalars['String']['output'];
 };
 
@@ -1180,12 +1193,14 @@ export type CoverCountAggregate = {
   bookId: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   size: Scalars['Int']['output'];
+  source: Scalars['Int']['output'];
   url: Scalars['Int']['output'];
 };
 
 export type CoverCreateManyBookInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
+  source: Source;
   url: Scalars['String']['input'];
 };
 
@@ -1209,6 +1224,7 @@ export type CoverCreateOrConnectWithoutBookInput = {
 export type CoverCreateWithoutBookInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   size: Size;
+  source: Source;
   url: Scalars['String']['input'];
 };
 
@@ -1223,6 +1239,7 @@ export type CoverMaxAggregate = {
   bookId?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   size?: Maybe<Size>;
+  source?: Maybe<Source>;
   url?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1231,6 +1248,7 @@ export type CoverMinAggregate = {
   bookId?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   size?: Maybe<Size>;
+  source?: Maybe<Source>;
   url?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1245,12 +1263,14 @@ export type CoverScalarWhereInput = {
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
   url?: InputMaybe<StringFilter>;
 };
 
 export type CoverUpdateManyMutationInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
+  source?: InputMaybe<Source>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1281,6 +1301,7 @@ export type CoverUpdateWithWhereUniqueWithoutBookInput = {
 export type CoverUpdateWithoutBookInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<Size>;
+  source?: InputMaybe<Source>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1298,6 +1319,7 @@ export type CoverWhereInput = {
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
   url?: InputMaybe<StringFilter>;
 };
 
@@ -1309,6 +1331,7 @@ export type CoverWhereUniqueInput = {
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<EnumSizeFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
   url?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2209,6 +2232,189 @@ export enum Reading_Status {
   UpNext = 'UP_NEXT',
   WantToRead = 'WANT_TO_READ'
 }
+
+export type Rating = {
+  __typename?: 'Rating';
+  book?: Maybe<Book>;
+  bookId?: Maybe<Scalars['String']['output']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['ID']['output'];
+  maxScore: Scalars['Float']['output'];
+  score: Scalars['Float']['output'];
+  source: Source;
+};
+
+export type RatingAvgAggregate = {
+  __typename?: 'RatingAvgAggregate';
+  count?: Maybe<Scalars['Float']['output']>;
+  maxScore?: Maybe<Scalars['Float']['output']>;
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+export type RatingCountAggregate = {
+  __typename?: 'RatingCountAggregate';
+  _all: Scalars['Int']['output'];
+  bookId: Scalars['Int']['output'];
+  count: Scalars['Int']['output'];
+  id: Scalars['Int']['output'];
+  maxScore: Scalars['Int']['output'];
+  score: Scalars['Int']['output'];
+  source: Scalars['Int']['output'];
+};
+
+export type RatingCreateManyBookInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  maxScore: Scalars['Float']['input'];
+  score: Scalars['Float']['input'];
+  source: Source;
+};
+
+export type RatingCreateManyBookInputEnvelope = {
+  data: Array<RatingCreateManyBookInput>;
+  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type RatingCreateNestedManyWithoutBookInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<RatingCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<RatingCreateWithoutBookInput>>;
+  createMany?: InputMaybe<RatingCreateManyBookInputEnvelope>;
+};
+
+export type RatingCreateOrConnectWithoutBookInput = {
+  create: RatingCreateWithoutBookInput;
+  where: RatingWhereUniqueInput;
+};
+
+export type RatingCreateWithoutBookInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  maxScore: Scalars['Float']['input'];
+  score: Scalars['Float']['input'];
+  source: Source;
+};
+
+export type RatingListRelationFilter = {
+  every?: InputMaybe<RatingWhereInput>;
+  none?: InputMaybe<RatingWhereInput>;
+  some?: InputMaybe<RatingWhereInput>;
+};
+
+export type RatingMaxAggregate = {
+  __typename?: 'RatingMaxAggregate';
+  bookId?: Maybe<Scalars['String']['output']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  maxScore?: Maybe<Scalars['Float']['output']>;
+  score?: Maybe<Scalars['Float']['output']>;
+  source?: Maybe<Source>;
+};
+
+export type RatingMinAggregate = {
+  __typename?: 'RatingMinAggregate';
+  bookId?: Maybe<Scalars['String']['output']>;
+  count?: Maybe<Scalars['Int']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  maxScore?: Maybe<Scalars['Float']['output']>;
+  score?: Maybe<Scalars['Float']['output']>;
+  source?: Maybe<Source>;
+};
+
+export type RatingOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type RatingScalarWhereInput = {
+  AND?: InputMaybe<Array<RatingScalarWhereInput>>;
+  NOT?: InputMaybe<Array<RatingScalarWhereInput>>;
+  OR?: InputMaybe<Array<RatingScalarWhereInput>>;
+  bookId?: InputMaybe<StringFilter>;
+  count?: InputMaybe<IntFilter>;
+  id?: InputMaybe<StringFilter>;
+  maxScore?: InputMaybe<FloatFilter>;
+  score?: InputMaybe<FloatFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
+};
+
+export type RatingSumAggregate = {
+  __typename?: 'RatingSumAggregate';
+  count?: Maybe<Scalars['Int']['output']>;
+  maxScore?: Maybe<Scalars['Float']['output']>;
+  score?: Maybe<Scalars['Float']['output']>;
+};
+
+export type RatingUpdateManyMutationInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  maxScore?: InputMaybe<Scalars['Float']['input']>;
+  score?: InputMaybe<Scalars['Float']['input']>;
+  source?: InputMaybe<Source>;
+};
+
+export type RatingUpdateManyWithWhereWithoutBookInput = {
+  data: RatingUpdateManyMutationInput;
+  where: RatingScalarWhereInput;
+};
+
+export type RatingUpdateManyWithoutBookNestedInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  connectOrCreate?: InputMaybe<Array<RatingCreateOrConnectWithoutBookInput>>;
+  create?: InputMaybe<Array<RatingCreateWithoutBookInput>>;
+  createMany?: InputMaybe<RatingCreateManyBookInputEnvelope>;
+  delete?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  deleteMany?: InputMaybe<Array<RatingScalarWhereInput>>;
+  disconnect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  set?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  update?: InputMaybe<Array<RatingUpdateWithWhereUniqueWithoutBookInput>>;
+  updateMany?: InputMaybe<Array<RatingUpdateManyWithWhereWithoutBookInput>>;
+  upsert?: InputMaybe<Array<RatingUpsertWithWhereUniqueWithoutBookInput>>;
+};
+
+export type RatingUpdateWithWhereUniqueWithoutBookInput = {
+  data: RatingUpdateWithoutBookInput;
+  where: RatingWhereUniqueInput;
+};
+
+export type RatingUpdateWithoutBookInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  maxScore?: InputMaybe<Scalars['Float']['input']>;
+  score?: InputMaybe<Scalars['Float']['input']>;
+  source?: InputMaybe<Source>;
+};
+
+export type RatingUpsertWithWhereUniqueWithoutBookInput = {
+  create: RatingCreateWithoutBookInput;
+  update: RatingUpdateWithoutBookInput;
+  where: RatingWhereUniqueInput;
+};
+
+export type RatingWhereInput = {
+  AND?: InputMaybe<Array<RatingWhereInput>>;
+  NOT?: InputMaybe<Array<RatingWhereInput>>;
+  OR?: InputMaybe<Array<RatingWhereInput>>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<StringFilter>;
+  count?: InputMaybe<IntFilter>;
+  id?: InputMaybe<StringFilter>;
+  maxScore?: InputMaybe<FloatFilter>;
+  score?: InputMaybe<FloatFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
+};
+
+export type RatingWhereUniqueInput = {
+  AND?: InputMaybe<Array<RatingWhereInput>>;
+  NOT?: InputMaybe<Array<RatingWhereInput>>;
+  OR?: InputMaybe<Array<RatingWhereInput>>;
+  book?: InputMaybe<BookRelationFilter>;
+  bookId?: InputMaybe<StringFilter>;
+  count?: InputMaybe<IntFilter>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  maxScore?: InputMaybe<FloatFilter>;
+  score?: InputMaybe<FloatFilter>;
+  source?: InputMaybe<EnumSourceFilter>;
+};
 
 export type RefreshResponse = {
   __typename?: 'RefreshResponse';
@@ -4816,7 +5022,7 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book: { __typename?: 'Book', slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null } };
+export type BookQuery = { __typename?: 'Query', book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } };
 
 export type CommentsQueryVariables = Exact<{
   where: ReviewWhereUniqueInput;
@@ -6081,6 +6287,7 @@ export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const BookDocument = gql`
     query Book($where: BookWhereUniqueInput!) {
   book(where: $where) {
+    id
     slug
     title
     authors
@@ -6088,6 +6295,14 @@ export const BookDocument = gql`
     identifiers {
       source
       sourceId
+    }
+    covers {
+      url
+      size
+    }
+    ratings {
+      source
+      score
     }
   }
 }

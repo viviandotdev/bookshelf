@@ -51,7 +51,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
                 {book.title}
               </h1>
               <span className='inline text-base'>
-                by {formatAuthors(book!)}
+                by {formatAuthors(book.authors!)}
               </span>
             </div>
             <div className='grid grid-cols-6 gap-2'>

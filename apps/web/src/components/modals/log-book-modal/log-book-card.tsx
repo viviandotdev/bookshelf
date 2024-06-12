@@ -35,7 +35,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
           {userBook.book?.title}
         </div>
         <CardDescription className='line-clamp-1 text-sm'>
-          by {formatAuthors(userBook.book!)}
+          by {formatAuthors(userBook.book.authors!)}
         </CardDescription>
       </div>
     </div>

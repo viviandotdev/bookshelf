@@ -60,7 +60,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
               </h2>
               <div className='flex items-center gap-2'>
                 <p className='text-sm text-gray-400'>
-                  by {formatAuthors(book!)}
+                  by {formatAuthors(book.authors!)}
                 </p>
                 <div className='flex items-center'></div>
               </div>

@@ -1,9 +1,10 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { DEFAULT_BOOKCOVER_PLACEHOLDER } from './constants';
+import { DEFAULT_BOOKCOVER_PLACEHOLDER, GOODREADS_BASE_URL } from './constants';
 import { Book, Cover, Size } from '@/graphql/graphql';
-import { split } from 'rambda';
-import { BookParts } from '@/modules/bookshelves/types';
+import { add, split } from 'rambda';
+import { BookData, BookParts } from '@/modules/bookshelves/types';
+import { SIZE, SOURCE } from '@prisma/client';
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
@@ -50,15 +51,14 @@ export function getCoverUrl(book: BookParts, size: string) {
   }
 }
 
-export const formatAuthors = (book: Book) => {
-  if (!book || !book.authors || book.authors.length === 0) {
+export const formatAuthors = (authors: string[]) => {
+  if (!authors || authors.length === 0) {
     return '';
   }
-  const authors = book.authors;
   if (authors.length === 1) {
     return authors[0];
   }
-
+  console.log(authors);
   // Join all authors except the last with ', '
   const allButLast = authors
     .slice(0, -1)
@@ -71,52 +71,78 @@ export const formatAuthors = (book: Book) => {
   return `${allButLast} and ${lastAuthor}`;
 };
 
-export function processGoogleBook(book: any): BookData | null {
-  const title: string = book.volumeInfo.title;
-  const authors: string[] = book.volumeInfo.authors;
-  // Skip processing the book if the title and author is already encountered
-  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
-  const publisher: string = book.volumeInfo.publisher || 'N/A';
-  const pageCount: number = book.volumeInfo.pageCount || 0;
-  const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn10: string = 'N/A';
-  let isbn13: string = 'N/A';
-  if (book.volumeInfo.industryIdentifiers) {
-    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
-    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
+export const mergeBookData = (
+  baseBook: Book,
+  additionalData: Partial<BookData>
+): BookData => {
+  return {
+    id: baseBook.id,
+    title: baseBook.title,
+    subtitle: baseBook.subtitle ?? additionalData.subtitle ?? '',
+    authors:
+      additionalData.authors && additionalData.authors.length > 0
+        ? additionalData.authors
+        : baseBook.authors || [],
+    ratings: {
+      goodreads:
+        baseBook.ratings?.find((rating) => rating.source === SOURCE.GOODREADS)
+          ?.score || undefined,
+      google: additionalData.ratings?.google,
+    },
+    urls: {
+      goodreads:
+        GOODREADS_BASE_URL +
+        baseBook.identifiers?.find((id) => id.source === SOURCE.GOODREADS)
+          ?.sourceId,
 
-    if (identifier1) isbn10 = identifier1;
-    if (identifier2) isbn13 = identifier2;
-  }
-  const description: string = book.volumeInfo.description || '';
-  const language = book.volumeInfo.language || '';
+      google: additionalData.urls?.google,
+    },
+    pageCount: baseBook.pageCount ?? additionalData.pageCount ?? 0,
+    publishedDate:
+      additionalData.publishedDate?.length === 10
+        ? additionalData.publishedDate?.slice(0, 4)
+        : additionalData.publishedDate,
+    publisher: additionalData.publisher ?? '',
+    coverImage:
+      baseBook.covers?.find((cover) => cover.size == SIZE.LARGE)?.url ||
+      additionalData.coverImage ||
+      DEFAULT_BOOKCOVER_PLACEHOLDER,
+    description: additionalData.description ?? '',
+    language: additionalData.language ?? '',
+    isbn:
+      additionalData.isbn ||
+      baseBook.identifiers?.find(
+        (id) => id.source === SOURCE.ISBN_13 || id.source === SOURCE.ISBN_10
+      )?.sourceId,
+  };
+};
+
+export function processGoogleBook(book: any): BookData | null {
+  const isbn =
+    book.volumeInfo.industryIdentifiers[0]?.identifier ||
+    book.volumeInfo.industryIdentifiers[1]?.identifier;
   const bookData: BookData = {
-    id: book.id,
-    title,
-    authors,
-    publishedDate,
-    publisher,
-    description,
-    language,
-    pageCount,
-    isbn10,
-    isbn13,
-    averageRating,
+    title: book.volumeInfo.title,
+    subtitle: book.volumeInfo.subtitle,
+    authors: book.volumeInfo.authors,
+    publishedDate: book.volumeInfo.publishedDate || undefined,
+    publisher: book.volumeInfo.publisher || undefined,
+    description: book.volumeInfo.description || undefined,
+    language: book.volumeInfo.language || undefined,
+    pageCount: book.volumeInfo.pageCount || 0,
+    coverImage:
+      book.volumeInfo.imageLinks?.small ||
+      book.volumeInfo.imageLinks?.large ||
+      DEFAULT_BOOKCOVER_PLACEHOLDER,
+    ratings: {
+      google: book.volumeInfo.averageRating,
+    },
+    isbn: isbn,
+    urls: {
+      google: book.volumeInfo.previewLink,
+    },
   };
   return bookData;
-}
-
-export function processBookData(bookInfo: any[]): BookData[] {
-  const processedData: BookData[] = [];
-  const uniqueBooks = new Set<string>();
-
-  bookInfo.forEach((book) => {
-    const bookData = processBook(book, uniqueBooks);
-    if (bookData != null) {
-      processedData.push(bookData);
-    }
-  });
-  return processedData;
 }
 
 export function formatDate(dateString: string): string {

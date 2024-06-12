@@ -13,62 +13,39 @@ import {
   findGoogleBookByISBN,
 } from '@/lib/google.api';
 import { SOURCE } from '@prisma/client';
-import { getCovers, getGoodreadsCover } from '@/lib/cover.api';
+import { mergeBookData } from '@/lib/utils';
 
 interface BookPageProps {
   params: { slug: string };
 }
 
 export default async function BookPage({ params }: BookPageProps) {
+  const user = await getCurrentUser();
   const myBook = await getBook(params.slug);
-  const isbn13 = myBook?.identifiers?.find(
-    (id) => id.source === SOURCE.ISBN_13
+  const isbn = myBook?.identifiers?.find(
+    (id) => id.source === SOURCE.ISBN_13 || id.source === SOURCE.ISBN_10
   )?.sourceId;
-  const isbn10 = myBook?.identifiers?.find(
-    (id) => id.source === SOURCE.ISBN_10
-  )?.sourceId;
-
-  let book;
-  let covers;
 
   if (myBook) {
-    const isbn = isbn13 || isbn10;
-    let bookPromise = isbn ? await findGoogleBookByISBN(isbn) : null;
+    let googleBook = isbn ? await findGoogleBookByISBN(isbn) : null;
 
-    if (!isbn) {
+    if (!googleBook) {
       const query = `${myBook.title} ${myBook.authors?.join(' ')}`;
-      bookPromise = await findBookByGoogleQuery(query);
+      googleBook = await findBookByGoogleQuery(query);
     }
 
-    const goodreadsId = myBook.identifiers?.find(
-      (id) => id.source === SOURCE.GOODREADS
-    )?.sourceId;
-    const coversPromise = await getGoodreadsCover(goodreadsId!);
-    [book, covers] = await Promise.all([bookPromise, coversPromise]);
-  } else {
-    const googleBookId = params.slug.split('-')[-1];
-    const bookPromise = await findBookByGoogleBookId(googleBookId);
-    const coversPromise = await getCovers({
-      isbn: isbn13 || isbn10 || '',
-      title: (myBook && myBook.title) || '',
-      authors: (myBook && myBook.authors) || [],
-    });
+    const book = mergeBookData(myBook, googleBook);
 
-    [book, covers] = await Promise.all([bookPromise, coversPromise]);
+
+    return <BookTemplate book={book} user={user} />;
   }
+  //basically google book api wrapper
+  const googleBookId = params.slug.split('-')[-1];
+  let googleBook = await findBookByGoogleBookId(googleBookId);
 
-
-  if (!book) {
+  if (!googleBook) {
     return notFound();
   }
 
-  console.log(book);
-  console.log(covers);
-
-  const user = await getCurrentUser();
-  return (
-    <>
-      <BookTemplate book={book} user={user} cover={covers?.large} />
-    </>
-  );
+  return <>{/* <BookTemplate book={book} user={user} /> */}</>;
 }

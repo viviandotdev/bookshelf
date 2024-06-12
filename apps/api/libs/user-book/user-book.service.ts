@@ -475,10 +475,7 @@ export class UserBookService {
     const identifiers = await this.identifierService.createMany(
       identifiersInput ?? [],
     );
-    // create a table for ratings?
-    // or just store it as is?
-    //
-    // Prepare the covers connection if covers exist
+
     const covers = await this.coverService.createMany(coverInput ?? []);
 
     const createBookArgs: Prisma.BookCreateArgs = {
@@ -488,6 +485,13 @@ export class UserBookService {
         subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,
+        ratings: {
+          create: {
+            score: Number(book.rating),
+            maxScore: 5,
+            source: SOURCE.GOODREADS,
+          },
+        },
         covers: {
           connect: covers?.length
             ? covers.map((cover) => ({ url: cover.url }))

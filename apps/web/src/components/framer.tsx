@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import { Tab } from '@/hooks/use-tabs';
 import classNames from 'classnames';
 import { cn } from '../lib/utils';
+
 const transition = {
   type: 'tween',
   ease: 'easeOut',
@@ -61,9 +62,7 @@ export const Tabs = ({
                 {i === hoveredTab ? (
                   <motion.div
                     className='absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-beige-100'
-                    initial={{
-                      opacity: 0,
-                    }}
+                    initial={false}
                     animate={{
                       opacity: 1,
                     }}
@@ -113,7 +112,7 @@ const Content = ({
           }),
         }}
         transition={{ duration: 0.25 }}
-        initial={'enter'}
+        initial={false}
         animate={'center'}
         exit={'exit'}
         custom={direction}

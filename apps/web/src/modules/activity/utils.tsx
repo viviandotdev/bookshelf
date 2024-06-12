@@ -40,7 +40,9 @@ const LogMessage = ({ log }: { log: AuditLog }) => {
               <div>You reviewed</div>
               <div className='flex flex-col'>
                 <div className='text-base font-semibold'>{titleLink}</div>
-                <div className='text-beige'>by {formatAuthors(book!)}</div>
+                <div className='text-beige'>
+                  by {formatAuthors(book?.authors!)}
+                </div>
               </div>
               <div className='text-sm'>{actionContent}</div>
             </div>

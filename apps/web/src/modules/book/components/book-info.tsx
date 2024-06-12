@@ -1,68 +1,54 @@
-'use client';
 import { formatAuthors } from '@/lib/utils';
 import React from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Icons } from '../../../components/icons';
 import { Book } from '@/graphql/graphql';
-import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import { BookData } from '@/modules/bookshelves/types';
 
 interface BookInfoProps {
-  processedBook: Book;
+  processedBook: BookData;
 }
+
+const DetailItem = ({ label, value }) => (
+  <div className='flex items-end justify-start gap-4 pb-px text-base'>
+    <div className='flex w-32 items-center justify-start pr-5'>
+      <div className='font-normal leading-none text-zinc-500'>{label}</div>
+    </div>
+    <div className='flex items-center justify-center'>
+      <div className='font-normal leading-snug'>{value}</div>
+    </div>
+  </div>
+);
+
+const BookDetails = ({ book }: { book: BookData }) => (
+  <section className='grid grid-cols-2 items-start justify-between rounded-t-lg border border-b-0 border-gray-300 p-6'>
+    <div className='flex flex-col items-start justify-start gap-2'>
+      <DetailItem label='Page count:' value={book.pageCount || '-'} />
+      <DetailItem label='ISBN' value={book.isbn || '-'} />
+      <DetailItem label='Language:' value={book.language} />
+    </div>
+    <div className='flex flex-col items-start justify-start gap-2'>
+      <DetailItem label='Published:' value={book.publishedDate} />
+      <DetailItem label='Publisher:' value={book.publisher} />
+      <DetailItem label='Author:' value={book.authors[0]} />
+    </div>
+  </section>
+);
 
 export default function BookInfo({ processedBook }: BookInfoProps) {
   return (
-    <>
-      <div className=' text-base font-semibold'>
-        <span className='flex items-center'>
-          <span className='mr-2'>About this Book</span>
-          <span className='relative'>
-            <Dialog>
-              <DialogTrigger asChild>
-                <button
-                  className='group/item ml-1 flex h-8 w-8 items-center justify-center rounded-full transition duration-300 hover:bg-beige-100'
-                  style={{ top: '-5px', left: '-5px' }}
-                >
-                  <div className='transition-transform duration-500 group-hover/item:-rotate-45'>
-                    <Icons.arrowRight className='h-5 w-5 rotate-0 transform text-beige transition duration-300' />
-                  </div>
-                </button>
-              </DialogTrigger>
-              <DialogContent className='max-h-4/6 overflow-scroll sm:max-w-[664px]'>
-                <DialogHeader>
-                  <DialogTitle>{processedBook.title}</DialogTitle>
-                  <DialogDescription className='inline text-sm leading-normal'>
-                    by {formatAuthors(processedBook)}
-                  </DialogDescription>
-                </DialogHeader>
-                <DialogDescription>
-                  <div
-                    className={`leading-normal `}
-                    dangerouslySetInnerHTML={{
-                      __html: processedBook.description!,
-                    }}
-                  ></div>
-                </DialogDescription>
-              </DialogContent>
-            </Dialog>
-          </span>
-        </span>
-      </div>
-      <div className='max-h-32 overflow-hidden text-sm'>
-        <div
-          className={`leading-normal `}
-          dangerouslySetInnerHTML={{
-            __html: processedBook.description!,
-          }}
-        ></div>
-      </div>
-    </>
+    <div className='flex flex-col gap-4'>
+      <section className='flex flex-col'>
+        <BookDetails book={processedBook} />
+        <section className='border-t-1 items-start justify-between rounded-b-lg border border-gray-300 p-6'>
+          <div className='overflow-hidden text-lg'>
+            <div
+              className='leading-8'
+              dangerouslySetInnerHTML={{
+                __html: processedBook.description!,
+              }}
+            ></div>
+          </div>
+        </section>
+      </section>
+    </div>
   );
 }

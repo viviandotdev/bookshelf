@@ -55,7 +55,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
                 </Link>
               </h3>
               <p className='text-sm text-beige-700'>
-                by {formatAuthors(book!)}
+                by {formatAuthors(book.authors!)}
               </p>
               <p className='mt-1 flex items-center gap-1.5 '></p>
               <div

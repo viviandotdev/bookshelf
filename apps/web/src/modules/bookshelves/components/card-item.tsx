@@ -126,7 +126,9 @@ export const CardItem: React.FC<CardItemProps> = ({
                 <div className='line-clamp-2 text-base font-medium text-beige-700'>
                   {book?.title}
                 </div>
-                <div className='text-gray-400'> {formatAuthors(book!)}</div>
+                <div className='text-gray-400'>
+                  {formatAuthors(book.authors!)}
+                </div>
               </div>
               <div className='text-xs text-gray-400'>
                 Completed On Jul 23, 2022
@@ -139,9 +141,6 @@ export const CardItem: React.FC<CardItemProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 if (cardStatus === 'Read') {
-                  //    get review
-                  // fetch a review
-
                   startTransition(() => {
                     getReview('', book!.id).then((data: any) => {
                       updateBookId(book!.id);
@@ -235,7 +234,7 @@ export const CardItem: React.FC<CardItemProps> = ({
 
           <Link
             ref={linkRef}
-            href={`/book/${data?.book?.id}`}
+            href={`/book/${data?.book?.slug}`}
             className='hidden'
           ></Link>
         </div>
