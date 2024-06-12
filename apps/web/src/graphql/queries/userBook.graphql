@@ -1,6 +1,7 @@
 query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
     book {
+      slug
       id
       title
       authors
@@ -42,6 +43,7 @@ query GetUserBooks(
       id
       book {
         id
+        slug
         title
         authors
         pageCount

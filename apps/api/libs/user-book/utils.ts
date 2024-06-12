@@ -43,9 +43,9 @@ function generateShortUUID(length: number): string {
   return uuid;
 }
 
-export function generateSlug(name: string): string {
-  // Step 1: Convert the name to lowercase
-  let slug = name.toLowerCase();
+export function generateSlug(title: string): string {
+  // Step 1: Convert the title to lowercase
+  let slug = title.toLowerCase();
 
   // Step 2: Replace spaces and non-alphanumeric characters with hyphens
   slug = slug.replace(/[^a-z0-9]+/g, '-');
@@ -140,6 +140,7 @@ export const buildBook = (baseBook: GoodreadsBook): GoodreadsBookData => {
     id: baseBook['Book Id'],
     title: trimmedTitle,
     subtitle: trimmedSubtitle ?? undefined,
+    rating: parseFloat(baseBook['Average Rating'] ?? '0'),
     authors: authors,
     pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),
     isbn10: baseBook.ISBN ?? undefined,

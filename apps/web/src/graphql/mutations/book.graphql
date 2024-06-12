@@ -1,5 +1,5 @@
-mutation CreateBook($data: BookCreateInput!) {
-  createBook(data: $data) {
-    id
-  }
-}
+# mutation CreateBook($data: BookCreateInput!) {
+#   createBook(data: $data) {
+#     id
+#   }
+# }

@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Cover, CoverCreateInput, SIZE } from '../../src/generated-db-types';
+import {
+  Cover,
+  CoverCreateInput,
+  SIZE,
+  SOURCE,
+} from '../../src/generated-db-types';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { ImageLinks } from 'libs/user-book/types';

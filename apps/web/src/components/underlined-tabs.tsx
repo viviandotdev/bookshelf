@@ -7,8 +7,8 @@ export default function App() {
   const [hookProps] = useState({
     tabs: [
       {
-        label: 'Reviews',
-        children: <div>Reviews</div>,
+        label: 'Book info',
+        children: <div>Book Info</div>,
         id: 'Circle',
       },
       {

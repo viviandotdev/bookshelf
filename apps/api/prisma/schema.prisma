@@ -97,10 +97,9 @@ model Account {
 }
 
 model Cover {
-    id   String @id @default(uuid())
-    url  String @unique
-    size SIZE
-
+    id     String  @id @default(uuid())
+    url    String  @unique
+    size   SIZE
     bookId String?
     book   Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
@@ -121,13 +120,13 @@ enum SOURCE {
 }
 
 model Identifier {
-    id       String @id @default(uuid())
+    id       String  @id @default(uuid())
     /// @Validator.IsString()
     source   SOURCE //'GOODREADS' | 'GOOGLE' | 'AMAZON' | 'OPEN_LIBRARY' | 'ISBN_10' | 'ISBN_13'
     /// @Validator.IsString()
     sourceId String
-    /// @Validator.IsString()
-    book     Book[]
+    book     Book?   @relation(fields: [bookId], references: [id])
+    bookId   String?
 
     @@unique(fields: [source, sourceId])
 }
@@ -194,20 +193,22 @@ model UserBook {
 
 model Book {
     /// @Validator.IsString()
-    id         String   @id @default(uuid())
+    id       String   @id @default(uuid())
     /// @Validator.IsString()
-    title      String
+    slug     String   @unique
     /// @Validator.IsString()
-    subtitle   String?
+    title    String
     /// @Validator.IsString()
-    authors    String[]
+    subtitle String?
     /// @Validator.IsString()
-    language   String?
-    /// @Validator.IsInt()
-    pageCount  Int?
+    authors  String[]
     /// @Validator.IsString()
-    categories String[]
+    language String?
 
+    /// @Validator.IsInt()
+    pageCount   Int?
+    /// @Validator.IsString()
+    categories  String[]
     identifiers Identifier[]
 
     /// @Validator.ValidateNested()

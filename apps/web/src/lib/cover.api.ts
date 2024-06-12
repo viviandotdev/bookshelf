@@ -1,4 +1,4 @@
-import axiosInstance from 'src/config/axios.config';
+import axios from 'axios';
 
 const START_PATTERN_GOODREADS_IMAGE_SEARCH =
   'https://images-na.ssl-images-amazon.com/images';
@@ -6,6 +6,8 @@ const START_PATTERN_GOODREADS_GOOGLE_SEARCH =
   'https://www.goodreads.com/book/show/';
 const END_PATTERN_GOODREADS_GOOGLE_SEARCH = '&';
 const END_PATTERN_IMAGE_SEARCH = '"';
+const START_PATTERN_GOODREADS_RATING = '"';
+const END_PATTERN_GOODREADS_RATING = '&';
 
 function getUrl(data, startPattern, endPattern) {
   const startIndex = data.indexOf(startPattern);
@@ -26,7 +28,7 @@ function getSmallImage(url) {
   if (url) {
     url = url.replace(
       'https://images-na.ssl-images-amazon.com/images/',
-      'https://i.gr-assets.com/images/',
+      'https://i.gr-assets.com/images/'
     );
 
     // Insert "._SY180_" before the file extension to get a smaller image
@@ -39,13 +41,13 @@ function getSmallImage(url) {
   return url;
 }
 
-export async function getGoodreadsCover(id) {
+export async function getGoodreadsCover(id: string) {
   const goodreadUrl = `https://www.goodreads.com/book/show/${id}`;
-  const goodreadResponse = await axiosInstance.get(goodreadUrl);
+  const goodreadResponse = await axios.get(goodreadUrl);
   const imageUrl = getUrl(
     goodreadResponse.data,
     START_PATTERN_GOODREADS_IMAGE_SEARCH,
-    END_PATTERN_IMAGE_SEARCH,
+    END_PATTERN_IMAGE_SEARCH
   );
   return {
     small: getSmallImage(imageUrl),
@@ -53,13 +55,21 @@ export async function getGoodreadsCover(id) {
   };
 }
 
-export async function getCovers({ isbn, title, authors }) {
+export async function getCovers({
+  isbn,
+  title,
+  authors,
+}: {
+  isbn: string;
+  title: string;
+  authors: string[];
+}) {
   if (isbn) {
     const cover = await bookcoverIsbn(isbn);
 
     const imageLinks = {
       small: getSmallImage(cover) || '',
-      medium: cover || '',
+      large: cover || '',
     };
     if (cover) {
       return imageLinks;
@@ -70,7 +80,7 @@ export async function getCovers({ isbn, title, authors }) {
 
       const imageLinks = {
         small: getSmallImage(cover) || '',
-        medium: cover || '',
+        large: cover || '',
       };
       if (cover) {
         return imageLinks;
@@ -79,18 +89,16 @@ export async function getCovers({ isbn, title, authors }) {
   }
 }
 
-export async function bookcoverIsbn(isbn) {
-  //   const bookTitle = '21 Lessons for the 21st Century';
-  //   const authorName = 'Yuval Noah Harari';
+export async function bookcoverIsbn(isbn: string) {
   const searchUrl = `https://www.goodreads.com/search?utf8=✓&query=${isbn}`;
 
   try {
-    const goodreadResponse = await axiosInstance.get(searchUrl);
+    const goodreadResponse = await axios.get(searchUrl);
     // console.log(goodreadResponse);
     const imageUrl = getUrl(
       goodreadResponse.data,
       START_PATTERN_GOODREADS_IMAGE_SEARCH,
-      END_PATTERN_IMAGE_SEARCH,
+      END_PATTERN_IMAGE_SEARCH
     );
     console.log(imageUrl);
     return imageUrl;
@@ -119,20 +127,20 @@ export async function bookcoverSearch(bookTitle, authorName) {
   const searchUrl = `https://www.google.com/search?q=${query}&sourceid=chrome&ie=UTF-8`;
 
   try {
-    const searchResponse = await axiosInstance.get(searchUrl);
+    const searchResponse = await axios.get(searchUrl);
 
     const goodreadUrl = getUrl(
       searchResponse.data,
       START_PATTERN_GOODREADS_GOOGLE_SEARCH,
-      END_PATTERN_GOODREADS_GOOGLE_SEARCH,
+      END_PATTERN_GOODREADS_GOOGLE_SEARCH
     );
     console.log(searchUrl);
-    const goodreadResponse = await axiosInstance.get(goodreadUrl);
+    const goodreadResponse = await axios.get(goodreadUrl);
 
     const imageUrl = getUrl(
       goodreadResponse.data,
       START_PATTERN_GOODREADS_IMAGE_SEARCH,
-      END_PATTERN_IMAGE_SEARCH,
+      END_PATTERN_IMAGE_SEARCH
     );
     return imageUrl;
     // res.status(200).send(buildSuccessResponse(imageUrl));

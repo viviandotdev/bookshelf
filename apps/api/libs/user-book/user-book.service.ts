@@ -12,7 +12,7 @@ import { UserBookUpdateInput } from './models/user-book-update.input';
 import { BookItemInput } from './models/user-book-update-order.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { ActivityService } from 'libs/activity/activity.service';
-import { getUserBookInfo } from './utils';
+import { generateSlug, getUserBookInfo } from './utils';
 import { CoverService } from 'libs/cover/cover.service';
 import { BookService } from 'libs/book/book.service';
 import { IdentifierService } from 'libs/identifier/identifier.service';
@@ -475,12 +475,16 @@ export class UserBookService {
     const identifiers = await this.identifierService.createMany(
       identifiersInput ?? [],
     );
+    // create a table for ratings?
+    // or just store it as is?
+    //
     // Prepare the covers connection if covers exist
     const covers = await this.coverService.createMany(coverInput ?? []);
 
     const createBookArgs: Prisma.BookCreateArgs = {
       data: {
         title: book.title,
+        slug: generateSlug(book.title),
         subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,

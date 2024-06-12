@@ -1,17 +1,12 @@
-# query Book($where: BookWhereUniqueInput!) {
-#   book(where: $where) {
-#     id
-#     title
-#     authors
-#     covers {
-#       url
-#       size
-#     }
-#     description
-#     publishedDate
-#     publisher
-#     pageCount
-#     categories
-#     averageRating
-#   }
-# }
+query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    slug
+    title
+    authors
+    pageCount
+    identifiers {
+      source
+      sourceId
+    }
+  }
+}

@@ -71,63 +71,38 @@ export const formatAuthors = (book: Book) => {
   return `${allButLast} and ${lastAuthor}`;
 };
 
-export function processBook(
-  book: any,
-  uniqueBooks?: Set<String>
-): BookData | null {
-  const id: string = book.id;
+export function processGoogleBook(book: any): BookData | null {
   const title: string = book.volumeInfo.title;
-  const author: string = book.volumeInfo.authors?.join(', ') || 'N/A';
-  const titleAndAuthor = `${title} ${author}`;
+  const authors: string[] = book.volumeInfo.authors;
   // Skip processing the book if the title and author is already encountered
-  if (uniqueBooks && uniqueBooks.has(titleAndAuthor)) return null;
-  if (uniqueBooks) uniqueBooks.add(titleAndAuthor);
   const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
   const publisher: string = book.volumeInfo.publisher || 'N/A';
-  const coverImage: string =
-    book.volumeInfo.imageLinks?.thumbnail || DEFAULT_BOOKCOVER_PLACEHOLDER;
-  const description: string = book.volumeInfo.description || 'N/A';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
-  let isbn: string = 'N/A';
+  let isbn10: string = 'N/A';
   let isbn13: string = 'N/A';
   if (book.volumeInfo.industryIdentifiers) {
-    let isbn10;
-    let isbn13;
-    book.volumeInfo.industryIdentifiers.forEach((identifier: any) => {
-      if (identifier.type === 'ISBN_10') {
-        isbn10 = identifier.identifier;
-      } else if (identifier.type === 'ISBN_13') {
-        isbn13 = identifier.identifier;
-      }
-    });
+    const identifier1 = book.volumeInfo.industryIdentifiers[0]?.identifier;
+    const identifier2 = book.volumeInfo.industryIdentifiers[1]?.identifier;
+
+    if (identifier1) isbn10 = identifier1;
+    if (identifier2) isbn13 = identifier2;
   }
-  const ratingsCount = book.volumeInfo.ratingsCount || 0;
-  const allCategories =
-    book.volumeInfo.categories?.flatMap((category: string) =>
-      category.split(' / ')
-    ) || [];
-  const categories = allCategories.filter(
-    (value: string, index: number, self: string[]) => {
-      return self.indexOf(value) === index;
-    }
-  );
+  const description: string = book.volumeInfo.description || '';
+  const language = book.volumeInfo.language || '';
   const bookData: BookData = {
-    id,
+    id: book.id,
     title,
-    averageRating,
-    ratingsCount,
-    author,
+    authors,
     publishedDate,
     publisher,
-    categories,
-    coverImage,
     description,
+    language,
     pageCount,
-    isbn,
+    isbn10,
     isbn13,
+    averageRating,
   };
-
   return bookData;
 }
 

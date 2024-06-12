@@ -2,7 +2,7 @@ import { BookDocument, BookQuery } from '@/graphql/graphql';
 import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function getBook(bookId: string) {
+export async function getBook(slug: string) {
   const user = await getCurrentUser();
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
@@ -10,7 +10,7 @@ export async function getBook(bookId: string) {
     query: BookDocument,
     variables: {
       where: {
-        id: bookId,
+        slug: slug,
       },
     },
   });

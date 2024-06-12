@@ -25,6 +25,7 @@ export interface GoodreadsBookData {
   title: string;
   subtitle: string;
   authors: string[];
+  rating: number;
   //   publishedDate: string;
   //   publisher: string;
   pageCount: number;
