@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toast } from '@/hooks/use-toast';
 import { BookData } from '@/types/interfaces';
-import { getBooks } from '../api/getBooks';
+import { getBooks } from '../api/searchBooks';
 
 const useBooksSearch = (search: string) => {
   const [isLoading, setIsLoading] = useState(false);

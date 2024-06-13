@@ -98,10 +98,7 @@ export const mergeBookData = (
       google: additionalData.urls?.google,
     },
     pageCount: baseBook.pageCount ?? additionalData.pageCount ?? 0,
-    publishedDate:
-      additionalData.publishedDate?.length === 10
-        ? additionalData.publishedDate?.slice(0, 4)
-        : additionalData.publishedDate,
+    publishedDate: additionalData.publishedDate,
     publisher: additionalData.publisher ?? '',
     coverImage:
       baseBook.covers?.find((cover) => cover.size == SIZE.LARGE)?.url ||
@@ -118,22 +115,24 @@ export const mergeBookData = (
 };
 
 export function processGoogleBook(book: any): BookData | null {
+  const industryIdentifiers = book.volumeInfo.industryIdentifiers || [];
   const isbn =
-    book.volumeInfo.industryIdentifiers[0]?.identifier ||
-    book.volumeInfo.industryIdentifiers[1]?.identifier;
+    industryIdentifiers[0]?.identifier || industryIdentifiers[1]?.identifier;
   const bookData: BookData = {
+    id: book.id,
     title: book.volumeInfo.title,
     subtitle: book.volumeInfo.subtitle,
     authors: book.volumeInfo.authors,
-    publishedDate: book.volumeInfo.publishedDate || undefined,
+    publishedDate:
+      book.volumeInfo.publishedDate?.length === 10
+        ? book.volumeInfo.publishedDate?.slice(0, 4)
+        : book.volumeInfo.publishedDate,
     publisher: book.volumeInfo.publisher || undefined,
     description: book.volumeInfo.description || undefined,
     language: book.volumeInfo.language || undefined,
     pageCount: book.volumeInfo.pageCount || 0,
     coverImage:
-      book.volumeInfo.imageLinks?.small ||
-      book.volumeInfo.imageLinks?.large ||
-      DEFAULT_BOOKCOVER_PLACEHOLDER,
+      book.volumeInfo.imageLinks?.thumbnail || DEFAULT_BOOKCOVER_PLACEHOLDER,
     ratings: {
       google: book.volumeInfo.averageRating,
     },

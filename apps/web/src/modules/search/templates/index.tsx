@@ -1,9 +1,7 @@
-import Hit from '../components/hit';
-import { BookData } from '@/types/interfaces';
-import { UserBook } from '@/graphql/graphql';
-import { Pagination } from '@/components/pagination';
 import { RESULTS_PAGE_SIZE } from '@/lib/constants';
-import FieldSelector from '../components/field-selector';
+import SearchResults from '../components/search-results';
+import UnderlinedTabs from '@/components/underlined-tabs';
+import { BookData } from '@/modules/bookshelves/types';
 
 interface SeachTemplateProps {
   hits: BookData[];
@@ -22,10 +20,27 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({
 }) => {
   const currentPage = query.page ? Number(query.page) : 1;
   const pageCount = Math.ceil(count / RESULTS_PAGE_SIZE);
+  const tabs = [
+    {
+      label: 'Books',
+      children: <SearchResults hits={hits} />,
+      id: 'bookInfo',
+    },
+    {
+      label: 'Authors',
+      children: <div>Authors</div>,
+      id: 'authorInfo',
+    },
+  ];
 
   return (
-    <div className='container bg-beige-50'>
-      <div className='flex-col justify-center'>
+    <div className='flex justify-center'>
+      <section className='w-[1220px]'>
+        <main className='mt-8 flex min-h-screen flex-col'>
+          <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
+        </main>
+      </section>
+      {/* <div className='flex-col justify-center'>
         <div className='grid w-full grid-cols-4 gap-4 '>
           <div className='col-span-4 mt-8 xl:col-span-3 '>
             <div className='items-start font-semibold leading-7 text-beige '>
@@ -45,7 +60,7 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({
           <FieldSelector selectedField={query.field ? query.field : 'title'} />
         </div>
         <Pagination page={currentPage} totalPages={pageCount} />
-      </div>
+      </div> */}
     </div>
   );
 };

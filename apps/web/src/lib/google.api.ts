@@ -61,6 +61,7 @@ export async function findBookByGoogleBookId(bookId: string) {
     // Check if the response status is successful (status code 2xx)
     if (response.status >= 200 && response.status < 300) {
       const book = response.data; // Assuming response.data contains the book data
+
       const processedBook = processGoogleBook(book);
 
       return processedBook;

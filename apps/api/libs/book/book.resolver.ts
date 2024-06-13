@@ -6,7 +6,7 @@ import { BookService } from './book.service';
 export class BookResolver {
   constructor(private readonly bookService: BookService) {}
 
-  @Query(() => Book, { name: 'book' })
+  @Query(() => Book, { nullable: true, name: 'book' })
   async book(@Args('where') where: BookWhereUniqueInput) {
     const book = await this.bookService.findUnique({
       where: {

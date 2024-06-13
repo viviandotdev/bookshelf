@@ -17,6 +17,14 @@ interface BookTemplateProps {
 }
 
 export default function BookTemplate({ book, user }: BookTemplateProps) {
+  const tabs = [
+    {
+      label: 'Book Info',
+      children: <BookInfo processedBook={book} />,
+      id: 'bookInfo',
+    },
+  ];
+
   return (
     <div className='flex justify-center'>
       <BookStatusModal />
@@ -69,7 +77,7 @@ export default function BookTemplate({ book, user }: BookTemplateProps) {
         </div>
         <section className='max-w-[1064px]'>
           <main className='flex min-h-screen flex-col'>
-            <UnderlinedTabs processedBook={book} />
+            <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
           </main>
         </section>
       </div>

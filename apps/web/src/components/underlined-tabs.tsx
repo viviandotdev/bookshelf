@@ -4,22 +4,28 @@ import { useTabs } from '@/hooks/use-tabs';
 import { FramerLayout } from './framer';
 import BookInfo from '@/modules/book/components/book-info';
 import { Book } from '@/graphql/graphql';
-interface BookInfoProps {
-  processedBook: Book;
+
+interface Tab {
+  label: string;
+  children: React.ReactNode;
+  id: string;
 }
 
-export default function UnderlinedTabs({ processedBook }: BookInfoProps) {
+interface UnderlinedTabsProps {
+  tabs: Tab[];
+  initialTabId: string;
+}
+
+export default function UnderlinedTabs({
+  tabs,
+  initialTabId,
+}: UnderlinedTabsProps) {
   const [hookProps] = useState({
-    tabs: [
-      {
-        label: 'Book info',
-        children: <BookInfo processedBook={processedBook} />,
-        id: 'Circle',
-      },
-    ],
-    initialTabId: 'Circle',
+    tabs: tabs,
+    initialTabId: initialTabId,
   });
   const framer = useTabs(hookProps);
+
   return (
     <div className='flex w-full flex-col justify-center space-y-24'>
       <div className=''>
