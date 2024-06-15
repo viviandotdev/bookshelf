@@ -63,7 +63,11 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
   ];
   return (
     <div className='mx-auto max-w-7xl overflow-x-auto px-8'>
-      <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
+      <ProfileSummary
+        profileUser={profileUser}
+        currentUser={currentUser}
+        bookCounts={bookCounts}
+      />
       <section className='max-w-[1220px]'>
         <main className='flex min-h-screen flex-col'>
           <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
