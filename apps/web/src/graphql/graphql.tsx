@@ -5091,6 +5091,11 @@ export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
 
+export type ShelvesWithBookCoversQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ShelvesWithBookCoversQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
@@ -6712,6 +6717,62 @@ export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
 export type ShelvesSuspenseQueryHookResult = ReturnType<typeof useShelvesSuspenseQuery>;
 export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
+export const ShelvesWithBookCoversDocument = gql`
+    query ShelvesWithBookCovers {
+  shelves {
+    id
+    name
+    userBooks {
+      userBook {
+        id
+        book {
+          id
+          covers {
+            url
+            size
+          }
+        }
+      }
+    }
+    _count {
+      userBooks
+    }
+    userId
+  }
+}
+    `;
+
+/**
+ * __useShelvesWithBookCoversQuery__
+ *
+ * To run a query within a React component, call `useShelvesWithBookCoversQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShelvesWithBookCoversQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShelvesWithBookCoversQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useShelvesWithBookCoversQuery(baseOptions?: Apollo.QueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
+      }
+export function useShelvesWithBookCoversLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
+        }
+export function useShelvesWithBookCoversSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
+        }
+export type ShelvesWithBookCoversQueryHookResult = ReturnType<typeof useShelvesWithBookCoversQuery>;
+export type ShelvesWithBookCoversLazyQueryHookResult = ReturnType<typeof useShelvesWithBookCoversLazyQuery>;
+export type ShelvesWithBookCoversSuspenseQueryHookResult = ReturnType<typeof useShelvesWithBookCoversSuspenseQuery>;
+export type ShelvesWithBookCoversQueryResult = Apollo.QueryResult<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>;
 export const UserDocument = gql`
     query User($where: UserWhereUniqueInput!) {
   user(where: $where) {

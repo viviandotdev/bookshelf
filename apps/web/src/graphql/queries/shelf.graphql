@@ -8,3 +8,26 @@ query Shelves {
     userId
   }
 }
+
+query ShelvesWithBookCovers {
+  shelves {
+    id
+    name
+    userBooks {
+      userBook {
+        id
+        book {
+          id
+          covers {
+            url
+            size
+          }
+        }
+      }
+    }
+    _count {
+      userBooks
+    }
+    userId
+  }
+}

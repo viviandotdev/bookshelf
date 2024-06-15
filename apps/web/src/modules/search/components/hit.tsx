@@ -1,17 +1,10 @@
 'use client';
-import { Book, Cover, Size, Source, UserBook } from '@/graphql/graphql';
-import {
-  DEFAULT_BOOKCOVER_PLACEHOLDER,
-  GOODREADS_BASE_URL,
-  GOOGLE_BASE_URL,
-} from '@/lib/constants';
-import { convertTitleToUnderscore } from '@/lib/utils';
+import { Size } from '@/graphql/graphql';
+import { DEFAULT_BOOKCOVER_PLACEHOLDER } from '@/lib/constants';
 import RatingInfo from '@/modules/book/components/rating-info';
 import { BookData } from '@/modules/bookshelves/types';
 import Image from 'next/image';
 import Link from 'next/link';
-
-// Extended BookData type with additional optional values
 
 export type HitProps = {
   hit: BookData;

@@ -13,6 +13,7 @@ import NavLink from '../components/nav-link';
 import ProfileNav from '../components/profile-nav';
 import UnderlinedTabs from '@/components/underlined-tabs';
 import Library from '../components/library';
+import MyShelves from '../components/my-shelves';
 
 interface ProfileTemplateProps {
   currentlyReading: UserBook[];
@@ -52,7 +53,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     },
     {
       label: 'Shelves',
-      children: <div>Sheleves</div>,
+      children: <MyShelves shelves={shelves} />,
       id: 'shelves',
     },
     {
@@ -70,7 +71,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
       />
       <section className='max-w-[1220px]'>
         <main className='flex min-h-screen flex-col'>
-          <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
+          <UnderlinedTabs tabs={tabs} initialTabId='shelves' />
         </main>
       </section>
     </div>

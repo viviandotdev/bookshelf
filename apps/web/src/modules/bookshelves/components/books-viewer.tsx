@@ -22,7 +22,7 @@ interface BooksViewerProps {
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  const [view, setView] = React.useState<string>('board');
+  const [view, setView] = React.useState<string>('gallery');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
@@ -80,7 +80,6 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-1'>
               <ShelfTitle />
             </div>
-
             <ViewOptions view={view} setView={setView} />
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>

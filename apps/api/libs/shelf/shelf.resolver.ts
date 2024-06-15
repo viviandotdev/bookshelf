@@ -53,6 +53,22 @@ export class ShelfResolver {
       select: {
         id: true,
         name: true,
+        userBooks: {
+          take: 3, // Limit to 3 books
+          select: {
+            userBook: {
+              select: {
+                id: true,
+                book: {
+                  select: {
+                    id: true,
+                    covers: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         _count: {
           select: {
             userBooks: true,
@@ -69,6 +85,22 @@ export class ShelfResolver {
       select: {
         id: true,
         name: true,
+        userBooks: {
+          take: 3, // Limit to 3 books
+          select: {
+            userBook: {
+              select: {
+                id: true,
+                book: {
+                  select: {
+                    id: true,
+                    covers: true,
+                  },
+                },
+              },
+            },
+          },
+        },
         _count: {
           select: {
             userBooks: true,

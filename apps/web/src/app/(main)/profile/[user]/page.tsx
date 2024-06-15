@@ -6,6 +6,7 @@ import ProfileTemplate from '@/modules/profile/templates';
 import { notFound } from 'next/navigation';
 import { Reading_Status } from '@/graphql/graphql';
 import { bookCountsByUserId } from '@/modules/profile/actions/bookCountsByUserId';
+import { getShelvesWithBookCovers } from '@/modules/shelf/queries/getShelvesWithBookCovers';
 
 interface ProfilePageProps {
   params: { user: string };
@@ -14,7 +15,7 @@ interface ProfilePageProps {
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const currentUser = await getCurrentUser();
 
-  const { shelves } = await getShelves();
+  const { shelves } = await getShelvesWithBookCovers();
   const profileUser = await getUser({ username: params.user });
 
   if (!profileUser || !profileUser.username) {
