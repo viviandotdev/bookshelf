@@ -140,6 +140,7 @@ export const buildBook = (baseBook: GoodreadsBook): GoodreadsBookData => {
     id: baseBook['Book Id'],
     title: trimmedTitle,
     subtitle: trimmedSubtitle ?? undefined,
+    yearPublished: baseBook['Year Published'] ?? undefined,
     rating: parseFloat(baseBook['Average Rating'] ?? '0'),
     authors: authors,
     pageCount: parseInt(baseBook['Number of Pages'] ?? '0', 10),

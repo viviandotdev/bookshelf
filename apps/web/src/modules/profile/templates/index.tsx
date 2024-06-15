@@ -3,7 +3,7 @@ import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import { Section } from '../components/section';
-import { Shelf, User, UserBook } from '@/graphql/graphql';
+import { BookCountsResponse, Shelf, User, UserBook } from '@/graphql/graphql';
 import ReadingChallenge from '../components/reading-challenge';
 import ShelvesSection from '../components/shelves-section';
 import ProfileSummary from '../components/profile-summary';
@@ -11,63 +11,66 @@ import { Tabs } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import NavLink from '../components/nav-link';
 import ProfileNav from '../components/profile-nav';
+import UnderlinedTabs from '@/components/underlined-tabs';
+import Library from '../components/library';
 
 interface ProfileTemplateProps {
-    currentlyReading: UserBook[];
-    shelves: Shelf[];
-    profileUser: User;
-    currentUser: User;
+  currentlyReading: UserBook[];
+  wantToRead: UserBook[];
+  upNext: UserBook[];
+  finished: UserBook[];
+  shelves: Shelf[];
+  profileUser: User;
+  currentUser: User;
+  bookCounts: BookCountsResponse;
 }
 
 const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
-    currentlyReading,
-    shelves,
-    profileUser,
-    currentUser,
+  currentlyReading,
+  shelves,
+  bookCounts,
+  wantToRead,
+  upNext,
+  finished,
+  profileUser,
+  currentUser,
 }) => {
-    const selectedTab = 'Profile';
-    return (
-        <div className='mx-auto px-8 max-w-7xl overflow-x-auto'>
-            <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
-            <ProfileNav currentUser={currentUser} />
-            <div className='flex flex-col lg:grid lg:grid-cols-3 gap-2 pt-12'>
-                <div className='lg:col-span-2'>
-                    <Section books={currentlyReading} title={'Favorite Books '} />
-                    <Section books={currentlyReading} title={'Currently Reading'} />
-                    {/* Activity section */}
-                </div>
-                <div className='lg:col-span-1 flex flex-col gap-4 lg:pl-10 px-0 lg:px-4'>
-                    <ProfileSection title='Goals'>
-                        <ReadingChallenge />
-                        {/* Show ratings chart */}
-                    </ProfileSection>
-                    <ProfileSection title='Ratings'>
-                        {/* Show ratings chart */}
-                    </ProfileSection>
-                    <ProfileSection title='Diary'>{/* Show diary */}</ProfileSection>
-                    <ProfileSection title='Shelves'>
-                        {/* Show shelves */}
-                        <div className='mt-2'>
-                            <ShelvesSection shelves={shelves} />
-                           
-                        </div>
-                    </ProfileSection>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const ProfileSection: React.FC<{
-    title: string;
-    children?: React.ReactNode;
-}> = ({ title, children }) => {
-    return (
-        <div>
-            <div className='text-lg font-semibold text-beige'>{title}</div>
-            {children}
-        </div>
-    );
+  const tabs = [
+    {
+      label: 'Library',
+      children: (
+        <Library
+          bookCounts={bookCounts}
+          username={profileUser.username || ''}
+          currentlyReading={currentlyReading}
+          wantToRead={wantToRead}
+          upNext={upNext}
+          finished={finished}
+        />
+      ),
+      id: 'bookInfo',
+    },
+    {
+      label: 'Shelves',
+      children: <div>Sheleves</div>,
+      id: 'shelves',
+    },
+    {
+      label: 'Goals',
+      children: <div>Goals</div>,
+      id: 'goals',
+    },
+  ];
+  return (
+    <div className='mx-auto max-w-7xl overflow-x-auto px-8'>
+      <ProfileSummary profileUser={profileUser} currentUser={currentUser} />
+      <section className='max-w-[1220px]'>
+        <main className='flex min-h-screen flex-col'>
+          <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
+        </main>
+      </section>
+    </div>
+  );
 };
 
 export default ProfileTemplate;

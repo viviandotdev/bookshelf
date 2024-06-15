@@ -7,7 +7,7 @@ interface BookControlsProps {}
 
 export const BookControls: React.FC<BookControlsProps> = ({}) => {
   return (
-    <div className='flex items-start gap-5'>
+    <div className='mb-10 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
       <Button variant={'secondary'} className='gap-2 rounded-lg font-normal'>
         {/* <Icons.save className='h-5 w-5' /> */}
         <div>Want to Read</div>

@@ -8,26 +8,24 @@ interface BookInfoProps {
 }
 
 const DetailItem = ({ label, value }) => (
-  <div className='flex items-end justify-start gap-4 pb-px text-base'>
+  <div className='flex items-end justify-start gap-4 pb-px text-base font-normal leading-snug'>
     <div className='flex w-32 items-center justify-start pr-5'>
-      <div className='font-normal leading-none text-zinc-500'>{label}</div>
+      <div className='text-zinc-500'>{label}</div>
     </div>
-    <div className='flex items-center justify-center'>
-      <div className='font-normal leading-snug'>{value}</div>
-    </div>
+    <div>{value}</div>
   </div>
 );
 
 const BookDetails = ({ book }: { book: BookData }) => (
-  <section className='grid grid-cols-2 items-start justify-between rounded-t-lg border border-b-0 border-gray-300 p-6'>
+  <section className='grid grid-cols-1 items-start justify-between gap-2 rounded-t-lg border border-b-0 border-gray-300 p-6 md:grid-cols-2'>
     <div className='flex flex-col items-start justify-start gap-2'>
       <DetailItem label='Page count:' value={book.pageCount || '-'} />
       <DetailItem label='ISBN' value={book.isbn || '-'} />
       <DetailItem label='Language:' value={book.language} />
     </div>
     <div className='flex flex-col items-start justify-start gap-2'>
-      <DetailItem label='Published:' value={book.publishedDate} />
-      <DetailItem label='Publisher:' value={book.publisher} />
+      <DetailItem label='Published:' value={book.yearPublished || '-'} />
+      <DetailItem label='Publisher:' value={book.publisher || '-'} />
       <DetailItem label='Author:' value={book.authors[0]} />
     </div>
   </section>

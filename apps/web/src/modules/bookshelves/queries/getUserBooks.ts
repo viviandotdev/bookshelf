@@ -8,7 +8,7 @@ import {
 import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function getUserBooks(where: UserBookWhereInput) {
+export async function getUserBooks(where: UserBookWhereInput, limit?: number) {
   const user = await getCurrentUser();
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
@@ -17,9 +17,10 @@ export async function getUserBooks(where: UserBookWhereInput) {
     query: GetUserBooksDocument,
     variables: {
       where,
+      limit,
     },
   });
-  
+
   return data.getUserBooks.userBooks
     ? (data.getUserBooks.userBooks as UserBook[])
     : [];

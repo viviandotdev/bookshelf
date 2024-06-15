@@ -543,7 +543,6 @@ type Book {
   covers: [Cover!]
   id: ID!
   identifiers: [Identifier!]
-  language: String
   logs: [AuditLog!]
   pageCount: Int
   ratings: [Rating!]
@@ -553,6 +552,7 @@ type Book {
   title: String!
   userBook: UserBook
   userBookId: String
+  yearPublished: String
 }
 
 type BookAvgAggregate {
@@ -572,12 +572,19 @@ type BookCountAggregate {
   authors: Int!
   categories: Int!
   id: Int!
-  language: Int!
   pageCount: Int!
   slug: Int!
   subtitle: Int!
   title: Int!
   userBookId: Int!
+  yearPublished: Int!
+}
+
+type BookCountsResponse {
+  finishedCount: Float!
+  readingCount: Float!
+  upNextCount: Float!
+  wantsToReadCount: Float!
 }
 
 input BookCreateNestedOneWithoutIdentifiersInput {
@@ -629,7 +636,6 @@ input BookCreateWithoutIdentifiersInput {
   categories: [String!]
   covers: CoverCreateNestedManyWithoutBookInput
   id: String
-  language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
   ratings: RatingCreateNestedManyWithoutBookInput
@@ -639,6 +645,7 @@ input BookCreateWithoutIdentifiersInput {
   title: String!
   userBook: UserBookCreateNestedOneWithoutBookInput
   userBookId: String
+  yearPublished: String
 }
 
 input BookCreateWithoutLogsInput {
@@ -647,7 +654,6 @@ input BookCreateWithoutLogsInput {
   covers: CoverCreateNestedManyWithoutBookInput
   id: String
   identifiers: IdentifierCreateNestedManyWithoutBookInput
-  language: String
   pageCount: Int
   ratings: RatingCreateNestedManyWithoutBookInput
   reviews: ReviewCreateNestedManyWithoutBookInput
@@ -656,6 +662,7 @@ input BookCreateWithoutLogsInput {
   title: String!
   userBook: UserBookCreateNestedOneWithoutBookInput
   userBookId: String
+  yearPublished: String
 }
 
 input BookCreateWithoutReviewsInput {
@@ -664,7 +671,6 @@ input BookCreateWithoutReviewsInput {
   covers: CoverCreateNestedManyWithoutBookInput
   id: String
   identifiers: IdentifierCreateNestedManyWithoutBookInput
-  language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
   ratings: RatingCreateNestedManyWithoutBookInput
@@ -673,6 +679,7 @@ input BookCreateWithoutReviewsInput {
   title: String!
   userBook: UserBookCreateNestedOneWithoutBookInput
   userBookId: String
+  yearPublished: String
 }
 
 input BookCreateWithoutUserBookInput {
@@ -681,7 +688,6 @@ input BookCreateWithoutUserBookInput {
   covers: CoverCreateNestedManyWithoutBookInput
   id: String
   identifiers: IdentifierCreateNestedManyWithoutBookInput
-  language: String
   logs: AuditLogCreateNestedManyWithoutBookInput
   pageCount: Int
   ratings: RatingCreateNestedManyWithoutBookInput
@@ -690,6 +696,7 @@ input BookCreateWithoutUserBookInput {
   subtitle: String
   title: String!
   userBookId: String
+  yearPublished: String
 }
 
 input BookItemInput {
@@ -701,22 +708,22 @@ input BookItemInput {
 
 type BookMaxAggregate {
   id: String
-  language: String
   pageCount: Int
   slug: String
   subtitle: String
   title: String
   userBookId: String
+  yearPublished: String
 }
 
 type BookMinAggregate {
   id: String
-  language: String
   pageCount: Int
   slug: String
   subtitle: String
   title: String
   userBookId: String
+  yearPublished: String
 }
 
 input BookOrderByWithRelationInput {
@@ -725,7 +732,6 @@ input BookOrderByWithRelationInput {
   covers: CoverOrderByRelationAggregateInput
   id: SortOrder
   identifiers: IdentifierOrderByRelationAggregateInput
-  language: SortOrderInput
   logs: AuditLogOrderByRelationAggregateInput
   pageCount: SortOrderInput
   ratings: RatingOrderByRelationAggregateInput
@@ -735,6 +741,7 @@ input BookOrderByWithRelationInput {
   title: SortOrder
   userBook: UserBookOrderByWithRelationInput
   userBookId: SortOrderInput
+  yearPublished: SortOrderInput
 }
 
 input BookRelationFilter {
@@ -795,7 +802,6 @@ input BookUpdateWithoutLogsInput {
   covers: CoverUpdateManyWithoutBookNestedInput
   id: String
   identifiers: IdentifierUpdateManyWithoutBookNestedInput
-  language: String
   pageCount: Int
   ratings: RatingUpdateManyWithoutBookNestedInput
   reviews: ReviewUpdateManyWithoutBookNestedInput
@@ -804,6 +810,7 @@ input BookUpdateWithoutLogsInput {
   title: String
   userBook: UserBookUpdateOneWithoutBookNestedInput
   userBookId: String
+  yearPublished: String
 }
 
 input BookUpdateWithoutReviewsInput {
@@ -812,7 +819,6 @@ input BookUpdateWithoutReviewsInput {
   covers: CoverUpdateManyWithoutBookNestedInput
   id: String
   identifiers: IdentifierUpdateManyWithoutBookNestedInput
-  language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
   pageCount: Int
   ratings: RatingUpdateManyWithoutBookNestedInput
@@ -821,6 +827,7 @@ input BookUpdateWithoutReviewsInput {
   title: String
   userBook: UserBookUpdateOneWithoutBookNestedInput
   userBookId: String
+  yearPublished: String
 }
 
 input BookUpdateWithoutUserBookInput {
@@ -829,7 +836,6 @@ input BookUpdateWithoutUserBookInput {
   covers: CoverUpdateManyWithoutBookNestedInput
   id: String
   identifiers: IdentifierUpdateManyWithoutBookNestedInput
-  language: String
   logs: AuditLogUpdateManyWithoutBookNestedInput
   pageCount: Int
   ratings: RatingUpdateManyWithoutBookNestedInput
@@ -838,6 +844,7 @@ input BookUpdateWithoutUserBookInput {
   subtitle: String
   title: String
   userBookId: String
+  yearPublished: String
 }
 
 input BookUpsertWithoutLogsInput {
@@ -867,7 +874,6 @@ input BookWhereInput {
   covers: CoverListRelationFilter
   id: StringFilter
   identifiers: IdentifierListRelationFilter
-  language: StringFilter
   logs: AuditLogListRelationFilter
   pageCount: IntFilter
   ratings: RatingListRelationFilter
@@ -877,6 +883,7 @@ input BookWhereInput {
   title: StringFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
+  yearPublished: StringFilter
 }
 
 input BookWhereUniqueInput {
@@ -888,7 +895,6 @@ input BookWhereUniqueInput {
   covers: CoverListRelationFilter
   id: String
   identifiers: IdentifierListRelationFilter
-  language: StringFilter
   logs: AuditLogListRelationFilter
   pageCount: IntFilter
   ratings: RatingListRelationFilter
@@ -898,6 +904,7 @@ input BookWhereUniqueInput {
   title: StringFilter
   userBook: UserBookRelationFilter
   userBookId: String
+  yearPublished: StringFilter
 }
 
 input BoolFilter {
@@ -1910,6 +1917,7 @@ type PasswordResetTokenMinAggregate {
 type Query {
   auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, orderBy: AuditLogOrderByWithRelationInput, where: UserBookWhereUniqueInput): ActivitiesResponse!
   book(where: BookWhereUniqueInput!): Book
+  bookCountsByUserId(userId: String!): BookCountsResponse!
   bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!

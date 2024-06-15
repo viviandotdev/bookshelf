@@ -1,20 +1,18 @@
 'use client';
 import { BookRating } from '@/components/book-rating';
 import { Icons } from '@/components/icons';
+import { Rating, Source } from '@/graphql/graphql';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 interface RatingInfoProps {
-  ratings: {
-    goodreads?: number;
-    google?: number;
-  };
+  ratings: Rating[];
   urls?: {
     goodreads?: string;
     google?: string;
   };
   bookId?: string;
-  size: 'sm' | 'lg';
+  size?: 'sm' | 'lg';
 }
 
 const sizeClasses = {
@@ -42,7 +40,12 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
 }) => {
   const [rating, setRating] = useState(0);
   const classes = sizeClasses[size];
-
+  const goodreadsRating = ratings?.find(
+    (rating) => rating.source === Source.Goodreads
+  );
+  const googleRating = ratings?.find(
+    (rating) => rating.source === Source.Google
+  );
   return (
     <div className={`flex ${classes.gap}`}>
       {bookId && (
@@ -53,24 +56,28 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
           bookId={bookId}
         />
       )}
-      {ratings.goodreads && (
-        <RatingIconWrapper
-          href={urls?.goodreads}
-          rating={ratings.goodreads}
-          size={size}
-        >
-          <Icons.goodReads className={classes.iconSize} />
-        </RatingIconWrapper>
-      )}
-      {ratings.google && (
-        <RatingIconWrapper
-          rating={ratings.google}
-          href={urls?.google}
-          size={size}
-        >
-          <Icons.googleBooks className={classes.iconSize} />
-        </RatingIconWrapper>
-      )}
+      {goodreadsRating &&
+        goodreadsRating.score !== 0 &&
+        goodreadsRating.score !== undefined && (
+          <RatingIconWrapper
+            href={urls?.goodreads}
+            rating={goodreadsRating.score}
+            size={size}
+          >
+            <Icons.goodReads className={classes.iconSize} />
+          </RatingIconWrapper>
+        )}
+      {googleRating &&
+        googleRating.score !== 0 &&
+        googleRating.score !== undefined && (
+          <RatingIconWrapper
+            rating={googleRating.score}
+            href={urls?.google}
+            size={size}
+          >
+            <Icons.googleBooks className={classes.iconSize} />
+          </RatingIconWrapper>
+        )}
     </div>
   );
 };

@@ -4,6 +4,8 @@ import { Reading_Status } from '@/graphql/graphql';
 export const DEFAULT_BOOKCOVER_PLACEHOLDER =
   'https://m.media-amazon.com/images/I/118BLwxozkL.jpg';
 
+export const GOOGLE_BASE_URL = 'https://www.google.com/books/edition/';
+
 export const BASE_URL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'

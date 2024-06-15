@@ -181,7 +181,7 @@ export enum BookScalarFieldEnum {
     title = "title",
     subtitle = "subtitle",
     authors = "authors",
-    language = "language",
+    yearPublished = "yearPublished",
     pageCount = "pageCount",
     categories = "categories",
     userBookId = "userBookId"
@@ -2825,7 +2825,7 @@ export class BookCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     authors?: true;
     @Field(() => Boolean, {nullable:true})
-    language?: true;
+    yearPublished?: true;
     @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
@@ -2849,7 +2849,7 @@ export class BookCountAggregate {
     @Field(() => Int, {nullable:false})
     authors!: number;
     @Field(() => Int, {nullable:false})
-    language!: number;
+    yearPublished!: number;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
     pageCount!: number;
@@ -2874,7 +2874,7 @@ export class BookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     authors?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    language?: keyof typeof SortOrder;
+    yearPublished?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -2916,7 +2916,7 @@ export class BookCreateManyInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3084,7 +3084,7 @@ export class BookCreateWithoutCoversInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3124,7 +3124,7 @@ export class BookCreateWithoutIdentifiersInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3164,7 +3164,7 @@ export class BookCreateWithoutLogsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3204,7 +3204,7 @@ export class BookCreateWithoutRatingsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3244,7 +3244,7 @@ export class BookCreateWithoutReviewsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3284,7 +3284,7 @@ export class BookCreateWithoutUserBookInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3324,7 +3324,7 @@ export class BookCreateInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3406,7 +3406,7 @@ export class BookGroupBy {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3438,7 +3438,7 @@ export class BookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     subtitle?: true;
     @Field(() => Boolean, {nullable:true})
-    language?: true;
+    yearPublished?: true;
     @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
@@ -3461,7 +3461,7 @@ export class BookMaxAggregate {
     subtitle?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3480,7 +3480,7 @@ export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     subtitle?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    language?: keyof typeof SortOrder;
+    yearPublished?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3498,7 +3498,7 @@ export class BookMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     subtitle?: true;
     @Field(() => Boolean, {nullable:true})
-    language?: true;
+    yearPublished?: true;
     @Field(() => Boolean, {nullable:true})
     pageCount?: true;
     @Field(() => Boolean, {nullable:true})
@@ -3521,7 +3521,7 @@ export class BookMinAggregate {
     subtitle?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3540,7 +3540,7 @@ export class BookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     subtitle?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    language?: keyof typeof SortOrder;
+    yearPublished?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     pageCount?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -3560,7 +3560,7 @@ export class BookOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     authors?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    language?: InstanceType<typeof SortOrderInput>;
+    yearPublished?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     pageCount?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
@@ -3592,7 +3592,7 @@ export class BookOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     authors?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    language?: InstanceType<typeof SortOrderInput>;
+    yearPublished?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     pageCount?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
@@ -3640,7 +3640,7 @@ export class BookScalarWhereWithAggregatesInput {
     @Field(() => StringListFilter, {nullable:true})
     authors?: InstanceType<typeof StringListFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    language?: InstanceType<typeof StringWithAggregatesFilter>;
+    yearPublished?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => StringListFilter, {nullable:true})
@@ -3687,7 +3687,7 @@ export class BookUncheckedCreateWithoutCoversInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3727,7 +3727,7 @@ export class BookUncheckedCreateWithoutIdentifiersInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3767,7 +3767,7 @@ export class BookUncheckedCreateWithoutLogsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3807,7 +3807,7 @@ export class BookUncheckedCreateWithoutRatingsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3847,7 +3847,7 @@ export class BookUncheckedCreateWithoutReviewsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3887,7 +3887,7 @@ export class BookUncheckedCreateWithoutUserBookInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3927,7 +3927,7 @@ export class BookUncheckedCreateInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3969,7 +3969,7 @@ export class BookUncheckedUpdateManyInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -3999,7 +3999,7 @@ export class BookUncheckedUpdateWithoutCoversInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4039,7 +4039,7 @@ export class BookUncheckedUpdateWithoutIdentifiersInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4079,7 +4079,7 @@ export class BookUncheckedUpdateWithoutLogsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4119,7 +4119,7 @@ export class BookUncheckedUpdateWithoutRatingsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4159,7 +4159,7 @@ export class BookUncheckedUpdateWithoutReviewsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4199,7 +4199,7 @@ export class BookUncheckedUpdateWithoutUserBookInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4239,7 +4239,7 @@ export class BookUncheckedUpdateInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4281,7 +4281,7 @@ export class BookUpdateManyMutationInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4515,7 +4515,7 @@ export class BookUpdateWithoutCoversInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4555,7 +4555,7 @@ export class BookUpdateWithoutIdentifiersInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4595,7 +4595,7 @@ export class BookUpdateWithoutLogsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4635,7 +4635,7 @@ export class BookUpdateWithoutRatingsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4675,7 +4675,7 @@ export class BookUpdateWithoutReviewsInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4715,7 +4715,7 @@ export class BookUpdateWithoutUserBookInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4755,7 +4755,7 @@ export class BookUpdateInput {
     authors?: Array<string>;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
-    language?: string;
+    yearPublished?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
     pageCount?: number;
@@ -4895,7 +4895,7 @@ export class BookWhereUniqueInput {
     @Field(() => StringListFilter, {nullable:true})
     authors?: InstanceType<typeof StringListFilter>;
     @Field(() => StringFilter, {nullable:true})
-    language?: InstanceType<typeof StringFilter>;
+    yearPublished?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => StringListFilter, {nullable:true})
@@ -4933,7 +4933,7 @@ export class BookWhereInput {
     @Field(() => StringListFilter, {nullable:true})
     authors?: InstanceType<typeof StringListFilter>;
     @Field(() => StringFilter, {nullable:true})
-    language?: InstanceType<typeof StringFilter>;
+    yearPublished?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => StringListFilter, {nullable:true})
@@ -4967,7 +4967,7 @@ export class Book {
     @Field(() => [String], {nullable:true})
     authors!: Array<string>;
     @Field(() => String, {nullable:true})
-    language!: string | null;
+    yearPublished!: string | null;
     @Field(() => Int, {nullable:true})
     pageCount!: number | null;
     @Field(() => [String], {nullable:true})

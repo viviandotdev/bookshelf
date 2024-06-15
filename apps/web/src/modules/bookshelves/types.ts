@@ -1,4 +1,4 @@
-import { Size, UserBook } from '@/graphql/graphql';
+import { Cover, Identifier, Rating, Size, UserBook } from '@/graphql/graphql';
 import { inter } from '@/lib/fonts';
 
 export interface BookItem {
@@ -19,22 +19,25 @@ export type ColumnWithBooks = {
 
 export interface BookData {
   id?: string;
+  slug?: string;
   urls: {
     goodreads?: string;
     google?: string;
   };
+  identifiers: Identifier[];
+  //   ratings: {
+  //     goodreads?: number;
+  //     google?: number;
+  //   };
   isbn?: string;
   title: string;
   subtitle?: string;
   authors: string[];
-  coverImage: string;
-  publishedDate?: string;
+  ratings: Rating[];
+  covers: Cover[];
+  yearPublished?: string;
   publisher?: string;
   description?: string;
   language?: string;
   pageCount: number;
-  ratings: {
-    goodreads?: number;
-    google?: number;
-  };
 }

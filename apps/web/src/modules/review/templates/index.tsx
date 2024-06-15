@@ -36,7 +36,7 @@ export const ReviewTemplate: React.FC<ReviewTemplateProps> = ({
           />
           <div className='mt-3 text-xs font-light'>
             <div>{book.pageCount} Pages</div>
-            <div>First published {formatDate(book.publishedDate!) || ''}</div>
+            <div>First published {formatDate(book.yearPublished!) || ''}</div>
           </div>
         </section>
         <section className=' col-span-5 grid gap-2 p-4 xl:col-span-4'>

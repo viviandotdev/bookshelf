@@ -147,7 +147,7 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
   const title = book.title ?? '';
   const subtitle = book.subtitle ?? '';
   const averageRating = book.averageRating ?? 0;
-  const publishedDate = book.publish_date ?? '';
+  const yearPublished = book.publish_date ?? '';
   const publisher = book.publishers ? book.publishers[0] : '';
   const pageCount = book.number_of_pages ?? 0;
   const isbn10 = book.isbn_10 ?? '';
@@ -183,7 +183,7 @@ export function processOpenLibraryBook(book: any, work: any): BookData | null {
     title,
     subtitle,
     averageRating,
-    publishedDate,
+    yearPublished,
     publisher,
     source,
     imageLinks,

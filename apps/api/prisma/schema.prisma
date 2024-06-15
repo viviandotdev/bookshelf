@@ -204,23 +204,22 @@ model UserBook {
 
 model Book {
     /// @Validator.IsString()
-    id       String   @id @default(uuid())
+    id            String       @id @default(uuid())
     /// @Validator.IsString()
-    slug     String   @unique
+    slug          String       @unique
     /// @Validator.IsString()
-    title    String
+    title         String
     /// @Validator.IsString()
-    subtitle String?
+    subtitle      String?
     /// @Validator.IsString()
-    authors  String[]
+    authors       String[]
     /// @Validator.IsString()
-    language String?
-
+    yearPublished String?
     /// @Validator.IsInt()
-    pageCount   Int?
+    pageCount     Int?
     /// @Validator.IsString()
-    categories  String[]
-    identifiers Identifier[]
+    categories    String[]
+    identifiers   Identifier[]
 
     /// @Validator.ValidateNested()
     userBook   UserBook?

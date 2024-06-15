@@ -6,6 +6,7 @@ query UserBook($where: BookWhereUniqueInput!) {
       title
       authors
       pageCount
+      yearPublished
       identifiers {
         source
         sourceId
@@ -13,6 +14,10 @@ query UserBook($where: BookWhereUniqueInput!) {
       covers {
         url
         size
+      }
+      ratings {
+        score
+        source
       }
     }
     userId
@@ -47,6 +52,7 @@ query GetUserBooks(
         title
         authors
         pageCount
+        yearPublished
         identifiers {
           source
           sourceId
@@ -54,6 +60,10 @@ query GetUserBooks(
         covers {
           url
           size
+        }
+        ratings {
+          score
+          source
         }
       }
       userId
@@ -87,4 +97,13 @@ query GetUserBooks(
 
 query CountUserBooks($where: UserBookWhereInput) {
   countUserBooks(where: $where)
+}
+
+query BookCountsByUserId($userId: String!) {
+  bookCountsByUserId(userId: $userId) {
+    wantsToReadCount
+    readingCount
+    finishedCount
+    upNextCount
+  }
 }

@@ -34,10 +34,10 @@ export const SeachTemplate: React.FC<SeachTemplateProps> = ({
   ];
 
   return (
-    <div className='flex justify-center'>
-      <section className='w-[1220px]'>
-        <main className='mt-8 flex min-h-screen flex-col'>
-          <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
+    <div className="flex justify-center">
+      <section className="w-[1220px]">
+        <main className="mt-8 flex min-h-screen flex-col">
+          <UnderlinedTabs tabs={tabs} initialTabId="bookInfo" />
         </main>
       </section>
       {/* <div className='flex-col justify-center'>

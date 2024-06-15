@@ -1,12 +1,19 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER, GOODREADS_BASE_URL } from './constants';
-import { Book, Cover, Size } from '@/graphql/graphql';
-import { add, split } from 'rambda';
-import { BookData, BookParts } from '@/modules/bookshelves/types';
-import { SIZE, SOURCE } from '@prisma/client';
+import { Book, Cover, Size, Source } from '@/graphql/graphql';
+import { split } from 'rambda';
+import { BookData } from '@/modules/bookshelves/types';
+import { SOURCE } from '@prisma/client';
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
+};
+
+export const convertTitleToUnderscore = (title: string) => {
+  return title
+    .trim()
+    .replace(/[^\w\s]/g, '')
+    .replace(/\s+/g, '_');
 };
 
 export const buildSortQuery = (sortParam: string) => {
@@ -58,7 +65,6 @@ export const formatAuthors = (authors: string[]) => {
   if (authors.length === 1) {
     return authors[0];
   }
-  console.log(authors);
   // Join all authors except the last with ', '
   const allButLast = authors
     .slice(0, -1)
@@ -78,17 +84,12 @@ export const mergeBookData = (
   return {
     id: baseBook.id,
     title: baseBook.title,
+    slug: additionalData.id,
     subtitle: baseBook.subtitle ?? additionalData.subtitle ?? '',
     authors:
       additionalData.authors && additionalData.authors.length > 0
         ? additionalData.authors
         : baseBook.authors || [],
-    ratings: {
-      goodreads:
-        baseBook.ratings?.find((rating) => rating.source === SOURCE.GOODREADS)
-          ?.score || undefined,
-      google: additionalData.ratings?.google,
-    },
     urls: {
       goodreads:
         GOODREADS_BASE_URL +
@@ -97,13 +98,15 @@ export const mergeBookData = (
 
       google: additionalData.urls?.google,
     },
+    identifiers: [
+      ...(baseBook.identifiers ?? []),
+      ...(additionalData.identifiers ?? []),
+    ],
     pageCount: baseBook.pageCount ?? additionalData.pageCount ?? 0,
-    publishedDate: additionalData.publishedDate,
+    yearPublished: additionalData.yearPublished,
     publisher: additionalData.publisher ?? '',
-    coverImage:
-      baseBook.covers?.find((cover) => cover.size == SIZE.LARGE)?.url ||
-      additionalData.coverImage ||
-      DEFAULT_BOOKCOVER_PLACEHOLDER,
+    covers: [...(baseBook.covers ?? []), ...(additionalData.covers ?? [])],
+    ratings: [...(baseBook.ratings ?? []), ...(additionalData.ratings ?? [])],
     description: additionalData.description ?? '',
     language: additionalData.language ?? '',
     isbn:
@@ -119,11 +122,11 @@ export function processGoogleBook(book: any): BookData | null {
   const isbn =
     industryIdentifiers[0]?.identifier || industryIdentifiers[1]?.identifier;
   const bookData: BookData = {
-    id: book.id,
+    slug: book.id,
     title: book.volumeInfo.title,
     subtitle: book.volumeInfo.subtitle,
     authors: book.volumeInfo.authors,
-    publishedDate:
+    yearPublished:
       book.volumeInfo.publishedDate?.length === 10
         ? book.volumeInfo.publishedDate?.slice(0, 4)
         : book.volumeInfo.publishedDate,
@@ -131,11 +134,35 @@ export function processGoogleBook(book: any): BookData | null {
     description: book.volumeInfo.description || undefined,
     language: book.volumeInfo.language || undefined,
     pageCount: book.volumeInfo.pageCount || 0,
-    coverImage:
-      book.volumeInfo.imageLinks?.thumbnail || DEFAULT_BOOKCOVER_PLACEHOLDER,
-    ratings: {
-      google: book.volumeInfo.averageRating,
-    },
+    covers: [
+      {
+        id: '_',
+        source: Source.Google,
+        size: Size.Small,
+        url: book.volumeInfo.imageLinks?.thumbnail,
+      },
+      {
+        id: '_',
+        source: Source.Google,
+        size: Size.Large,
+        url: book.volumeInfo.imageLinks?.large,
+      },
+    ],
+    ratings: [
+      {
+        id: '_',
+        maxScore: 5,
+        source: Source.Google,
+        score: book.volumeInfo.averageRating,
+      },
+    ],
+    identifiers: [
+      {
+        id: '_',
+        source: Source.Google,
+        sourceId: book.id,
+      },
+    ],
     isbn: isbn,
     urls: {
       google: book.volumeInfo.previewLink,

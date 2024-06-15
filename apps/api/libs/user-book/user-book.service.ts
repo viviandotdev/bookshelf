@@ -193,6 +193,7 @@ export class UserBookService {
           include: {
             covers: true,
             identifiers: true,
+            ratings: true,
           },
         },
       },
@@ -485,6 +486,7 @@ export class UserBookService {
         subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,
+        yearPublished: book.yearPublished,
         ratings: {
           create: {
             score: Number(book.rating),

@@ -116,7 +116,7 @@ export function processGoogleBook(book: any): BookData | null {
   const title: string = book.volumeInfo.title;
   const authors: string[] = book.volumeInfo.authors;
   // Skip processing the book if the title and author is already encountered
-  const publishedDate: string = book.volumeInfo.publishedDate || 'N/A';
+  const yearPublished: string = book.volumeInfo.publishedDate || 'N/A';
   const publisher: string = book.volumeInfo.publisher || 'N/A';
   const pageCount: number = book.volumeInfo.pageCount || 0;
   const averageRating: number = book.volumeInfo.averageRating || 0;
@@ -151,7 +151,7 @@ export function processGoogleBook(book: any): BookData | null {
     title,
     source,
     authors,
-    publishedDate,
+    yearPublished,
     publisher,
     description,
     language,

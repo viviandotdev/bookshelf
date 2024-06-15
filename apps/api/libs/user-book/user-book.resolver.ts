@@ -31,6 +31,7 @@ import { ConfigService } from '@nestjs/config';
 import { IdentifierService } from 'libs/identifier/identifier.service';
 import { GoodreadsBookData } from './types';
 import { getGoodreadsCover } from 'libs/book/api/book-cover.api';
+import { BookCountsResponse } from './models/book-counts.response';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
@@ -303,5 +304,42 @@ export class UserBookResolver {
       userId: user.userId,
       bookId: where.id,
     });
+  }
+
+  @Query(() => BookCountsResponse)
+  async bookCountsByUserId(
+    @Args('userId', { type: () => String }) userId: string,
+  ) {
+    const wantsToReadCount = await this.userBookService.count({
+      where: {
+        status: READING_STATUS.WANT_TO_READ,
+      },
+      userId: userId,
+    });
+    const readingCount = await this.userBookService.count({
+      where: {
+        status: READING_STATUS.READING,
+      },
+      userId: userId,
+    });
+
+    const finishedCount = await this.userBookService.count({
+      where: {
+        status: READING_STATUS.FINISHED,
+      },
+      userId: userId,
+    });
+    const upNextCount = await this.userBookService.count({
+      where: {
+        status: READING_STATUS.UP_NEXT,
+      },
+      userId: userId,
+    });
+    return {
+      wantsToReadCount,
+      readingCount,
+      finishedCount,
+      upNextCount,
+    };
   }
 }

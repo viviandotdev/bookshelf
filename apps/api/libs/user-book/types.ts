@@ -4,7 +4,7 @@ export interface BookData {
   subtitle?: string;
   authors?: string[];
   averageRating: number;
-  publishedDate: string;
+  yearPublished: string;
   publisher: string;
   source?: string;
   isbn13: string;
@@ -26,8 +26,7 @@ export interface GoodreadsBookData {
   subtitle: string;
   authors: string[];
   rating: number;
-  //   publishedDate: string;
-  //   publisher: string;
+  yearPublished: string;
   pageCount: number;
   isbn10: string;
   isbn13: string;
