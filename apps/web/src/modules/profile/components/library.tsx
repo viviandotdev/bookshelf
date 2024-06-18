@@ -35,7 +35,7 @@ const Section: React.FC<{
           </div>
           <div className='flex gap-2'>
             <Link
-              href={`/${username}/books?status=${status}`}
+              href={`/${username}/${status}`}
               className='group/item flex items-center gap-2'
             >
               <span>See more</span>

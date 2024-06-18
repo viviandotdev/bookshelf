@@ -1,6 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ShelfService } from './shelf.service';
 import {
+  Book,
   IdentifierWhereInput,
   Shelf,
   ShelfCreateInput,
@@ -53,6 +54,7 @@ export class ShelfResolver {
       select: {
         id: true,
         name: true,
+        slug: true,
         userBooks: {
           take: 3, // Limit to 3 books
           select: {
@@ -85,6 +87,7 @@ export class ShelfResolver {
       select: {
         id: true,
         name: true,
+        slug: true,
         userBooks: {
           take: 3, // Limit to 3 books
           select: {
@@ -109,6 +112,62 @@ export class ShelfResolver {
       },
     });
     return [...faves, ...allShelves];
+  }
+
+  @Query(() => Shelf, { nullable: true })
+  async booksByShelf(
+    @Args('slug') slug: string,
+    @Args('username') username: string,
+  ) {
+    const shelf = await this.service.findUnique({
+      where: {
+        slug: slug,
+        user: {
+          username,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        _count: {
+          select: {
+            userBooks: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        userBooks: {
+          select: {
+            userBook: {
+              select: {
+                book: {
+                  select: {
+                    id: true,
+                    slug: true,
+                    title: true,
+                    authors: true,
+                    covers: true,
+                    ratings: true,
+                    identifiers: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!shelf) {
+      throw new NotFoundException(`Shelf with slug ${slug} not found`);
+    }
+    //  shelf.userBooks.map((userBook) => userBook.userBook.book);
+    return shelf;
   }
 
   @Mutation(() => Shelf)

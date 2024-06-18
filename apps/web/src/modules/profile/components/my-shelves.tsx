@@ -8,13 +8,14 @@ import { Card, CardContent } from '@/components/ui/card';
 
 interface MyShelvesProps {
   shelves: Shelf[];
+  username: string | undefined | null;
 }
 
-export const MyShelves: React.FC<MyShelvesProps> = ({ shelves }) => {
+export const MyShelves: React.FC<MyShelvesProps> = ({ shelves, username }) => {
   return (
     <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'>
       {shelves.map((shelf, index) => (
-        <Link href={'/'}>
+        <Link href={`/${username}/shelf/${shelf.slug}`}>
           <Card
             key={index}
             className='flex max-h-44 flex-col justify-between rounded-lg bg-white px-3 pt-3 transition-all duration-300 hover:border hover:border-beige-700 hover:shadow-lg'

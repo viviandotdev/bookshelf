@@ -20,6 +20,7 @@ import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
 import { MeResponse } from './dto/me.response';
 import { ShelfService } from 'libs/shelf/shelf.service';
+import { generateSlug } from 'libs/user-book/utils';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -38,8 +39,14 @@ export class AuthResolver {
       hashedPassword,
     });
     // Create default shelves
-    this.shelfService.create({ name: 'Favorites' }, user.id);
-    this.shelfService.create({ name: 'Owned' }, user.id);
+    this.shelfService.create(
+      { name: 'Favorites', slug: generateSlug('Favorites') },
+      user.id,
+    );
+    this.shelfService.create(
+      { name: 'Owned', slug: generateSlug('Owned') },
+      user.id,
+    );
 
     await this.authService.sendVerificationEmail(user.email, user.email);
 

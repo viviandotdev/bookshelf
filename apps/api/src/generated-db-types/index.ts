@@ -54,6 +54,7 @@ export enum UserScalarFieldEnum {
 
 export enum ShelfScalarFieldEnum {
     id = "id",
+    slug = "slug",
     name = "name",
     userId = "userId",
     dateTime = "dateTime"
@@ -13057,7 +13058,7 @@ export class DeleteOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
 }
 
 @ArgsType()
@@ -13069,7 +13070,7 @@ export class FindFirstShelfOrThrowArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -13087,7 +13088,7 @@ export class FindFirstShelfArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -13105,7 +13106,7 @@ export class FindManyShelfArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -13119,7 +13120,7 @@ export class FindUniqueShelfOrThrowArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
 }
 
 @ArgsType()
@@ -13127,7 +13128,7 @@ export class FindUniqueShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
 }
 
 @ArgsType()
@@ -13139,7 +13140,7 @@ export class ShelfAggregateArgs {
     @Field(() => [ShelfOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithRelationInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    cursor?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -13157,6 +13158,8 @@ export class ShelfCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
+    slug?: true;
+    @Field(() => Boolean, {nullable:true})
     name?: true;
     @Field(() => Boolean, {nullable:true})
     userId?: true;
@@ -13171,6 +13174,8 @@ export class ShelfCountAggregate {
     @Field(() => Int, {nullable:false})
     id!: number;
     @Field(() => Int, {nullable:false})
+    slug!: number;
+    @Field(() => Int, {nullable:false})
     name!: number;
     @Field(() => Int, {nullable:false})
     userId!: number;
@@ -13184,6 +13189,8 @@ export class ShelfCountAggregate {
 export class ShelfCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    slug?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -13214,6 +13221,9 @@ export class ShelfCreateManyUserInput {
     id?: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
+    slug!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
     name!: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13224,6 +13234,9 @@ export class ShelfCreateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    slug!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
@@ -13247,7 +13260,7 @@ export class ShelfCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
 }
 
 @InputType()
@@ -13260,14 +13273,14 @@ export class ShelfCreateNestedOneWithoutUserBooksInput {
     connectOrCreate?: InstanceType<typeof ShelfCreateOrConnectWithoutUserBooksInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
 }
 
 @InputType()
 export class ShelfCreateOrConnectWithoutUserBooksInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfCreateWithoutUserBooksInput, {nullable:false})
     @Type(() => ShelfCreateWithoutUserBooksInput)
     create!: InstanceType<typeof ShelfCreateWithoutUserBooksInput>;
@@ -13277,7 +13290,7 @@ export class ShelfCreateOrConnectWithoutUserBooksInput {
 export class ShelfCreateOrConnectWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfCreateWithoutUserInput, {nullable:false})
     @Type(() => ShelfCreateWithoutUserInput)
     create!: InstanceType<typeof ShelfCreateWithoutUserInput>;
@@ -13288,6 +13301,9 @@ export class ShelfCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    slug!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
@@ -13304,6 +13320,9 @@ export class ShelfCreateWithoutUserInput {
     id?: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
+    slug!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
     name!: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13316,6 +13335,9 @@ export class ShelfCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    slug!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
@@ -13358,6 +13380,9 @@ export class ShelfGroupBy {
     id!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
+    slug!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
     name!: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -13397,6 +13422,8 @@ export class ShelfMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
+    slug?: true;
+    @Field(() => Boolean, {nullable:true})
     name?: true;
     @Field(() => Boolean, {nullable:true})
     userId?: true;
@@ -13409,6 +13436,9 @@ export class ShelfMaxAggregate {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13424,6 +13454,8 @@ export class ShelfMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    slug?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userId?: keyof typeof SortOrder;
@@ -13435,6 +13467,8 @@ export class ShelfMaxOrderByAggregateInput {
 export class ShelfMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
+    @Field(() => Boolean, {nullable:true})
+    slug?: true;
     @Field(() => Boolean, {nullable:true})
     name?: true;
     @Field(() => Boolean, {nullable:true})
@@ -13450,6 +13484,9 @@ export class ShelfMinAggregate {
     id?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
+    slug?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
     name?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -13462,6 +13499,8 @@ export class ShelfMinAggregate {
 export class ShelfMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    slug?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
@@ -13481,6 +13520,8 @@ export class ShelfOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    slug?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     userId?: InstanceType<typeof SortOrderInput>;
@@ -13498,6 +13539,8 @@ export class ShelfOrderByWithAggregationInput {
 export class ShelfOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    slug?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     name?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
@@ -13529,6 +13572,8 @@ export class ShelfScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     id?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
+    slug?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
     name?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userId?: InstanceType<typeof StringWithAggregatesFilter>;
@@ -13546,6 +13591,8 @@ export class ShelfScalarWhereInput {
     NOT?: Array<ShelfScalarWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    slug?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     name?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -13567,7 +13614,7 @@ export class ShelfUncheckedCreateNestedManyWithoutUserInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
 }
 
 @InputType()
@@ -13575,6 +13622,9 @@ export class ShelfUncheckedCreateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    slug!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
@@ -13592,6 +13642,9 @@ export class ShelfUncheckedCreateWithoutUserInput {
     id?: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
+    slug!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
     name!: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13604,6 +13657,9 @@ export class ShelfUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    slug!: string;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     name!: string;
@@ -13632,16 +13688,16 @@ export class ShelfUncheckedUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ShelfUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ShelfUpdateWithWhereUniqueWithoutUserInput>;
@@ -13660,6 +13716,9 @@ export class ShelfUncheckedUpdateManyWithoutUserInput {
     id?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
+    slug?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
     name?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13670,6 +13729,9 @@ export class ShelfUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13687,6 +13749,9 @@ export class ShelfUncheckedUpdateWithoutUserBooksInput {
     id?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
+    slug?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
     name?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
@@ -13702,6 +13767,9 @@ export class ShelfUncheckedUpdateWithoutUserInput {
     id?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
+    slug?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
     name?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13714,6 +13782,9 @@ export class ShelfUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13731,6 +13802,9 @@ export class ShelfUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13764,16 +13838,16 @@ export class ShelfUpdateManyWithoutUserNestedInput {
     createMany?: InstanceType<typeof ShelfCreateManyUserInputEnvelope>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    set?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    disconnect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    delete?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfWhereUniqueInput], {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>>;
+    connect?: Array<Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>>;
     @Field(() => [ShelfUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
     @Type(() => ShelfUpdateWithWhereUniqueWithoutUserInput)
     update?: Array<ShelfUpdateWithWhereUniqueWithoutUserInput>;
@@ -13798,7 +13872,7 @@ export class ShelfUpdateOneRequiredWithoutUserBooksNestedInput {
     upsert?: InstanceType<typeof ShelfUpsertWithoutUserBooksInput>;
     @Field(() => ShelfWhereUniqueInput, {nullable:true})
     @Type(() => ShelfWhereUniqueInput)
-    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    connect?: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfUpdateToOneWithWhereWithoutUserBooksInput, {nullable:true})
     @Type(() => ShelfUpdateToOneWithWhereWithoutUserBooksInput)
     update?: InstanceType<typeof ShelfUpdateToOneWithWhereWithoutUserBooksInput>;
@@ -13818,7 +13892,7 @@ export class ShelfUpdateToOneWithWhereWithoutUserBooksInput {
 export class ShelfUpdateWithWhereUniqueWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfUpdateWithoutUserInput, {nullable:false})
     @Type(() => ShelfUpdateWithoutUserInput)
     data!: InstanceType<typeof ShelfUpdateWithoutUserInput>;
@@ -13829,6 +13903,9 @@ export class ShelfUpdateWithoutUserBooksInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13845,6 +13922,9 @@ export class ShelfUpdateWithoutUserInput {
     id?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
+    slug?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
     name?: string;
     @Field(() => String, {nullable:true})
     dateTime?: string;
@@ -13857,6 +13937,9 @@ export class ShelfUpdateInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     name?: string;
@@ -13872,7 +13955,7 @@ export class ShelfUpdateInput {
 export class ShelfUpsertWithWhereUniqueWithoutUserInput {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfUpdateWithoutUserInput, {nullable:false})
     @Type(() => ShelfUpdateWithoutUserInput)
     update!: InstanceType<typeof ShelfUpdateWithoutUserInput>;
@@ -13899,6 +13982,9 @@ export class ShelfWhereUniqueInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => ShelfIdentifierCompoundUniqueInput, {nullable:true})
     identifier?: InstanceType<typeof ShelfIdentifierCompoundUniqueInput>;
     @Field(() => [ShelfWhereInput], {nullable:true})
@@ -13930,6 +14016,8 @@ export class ShelfWhereInput {
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
+    slug?: InstanceType<typeof StringFilter>;
+    @Field(() => StringFilter, {nullable:true})
     name?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     userId?: InstanceType<typeof StringFilter>;
@@ -13945,6 +14033,8 @@ export class ShelfWhereInput {
 export class Shelf {
     @Field(() => ID, {nullable:false})
     id!: string;
+    @Field(() => String, {nullable:false})
+    slug!: string;
     @Field(() => String, {nullable:false})
     name!: string;
     @Field(() => String, {nullable:true})
@@ -13980,7 +14070,7 @@ export class UpdateOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
 }
 
 @ArgsType()
@@ -13988,7 +14078,7 @@ export class UpsertOneShelfArgs {
     @Field(() => ShelfWhereUniqueInput, {nullable:false})
     @Type(() => ShelfWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'identifier'>;
+    where!: Prisma.AtLeast<ShelfWhereUniqueInput, 'id' | 'slug' | 'identifier'>;
     @Field(() => ShelfCreateInput, {nullable:false})
     @Type(() => ShelfCreateInput)
     create!: InstanceType<typeof ShelfCreateInput>;

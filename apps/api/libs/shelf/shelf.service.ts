@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ShelfCreateInput } from '../../src/generated-db-types';
 import { Prisma } from '@prisma/client';
 import { ShelfRepository } from './shelf.repository';
+import { generateSlug } from 'libs/user-book/utils';
 
 @Injectable()
 export class ShelfService {
@@ -13,6 +14,7 @@ export class ShelfService {
     const shelfCreateArgs: Prisma.ShelfCreateArgs = {
       data: {
         name: input.name,
+        slug: generateSlug(input.name),
         user: {
           connect: {
             id: userId,

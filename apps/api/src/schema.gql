@@ -1920,6 +1920,7 @@ type Query {
   bookCountsByUserId(userId: String!): BookCountsResponse!
   bookReview(where: ReviewUniqueInput!): Review!
   bookReviews(limit: Int! = 20, offset: Int! = 0, where: BookWhereUniqueInput!): [Review!]!
+  booksByShelf(slug: String!, username: String!): Shelf
   comments(limit: Int! = 20, offset: Int! = 0, where: ReviewWhereUniqueInput!): [Comment!]!
   countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
@@ -2574,6 +2575,7 @@ type Shelf {
   dateTime: String
   id: ID!
   name: String!
+  slug: String!
   user: User
   userBooks: [UserBookShelves!]
   userId: String
@@ -2588,6 +2590,7 @@ type ShelfCountAggregate {
   dateTime: Int!
   id: Int!
   name: Int!
+  slug: Int!
   userId: Int!
 }
 
@@ -2595,6 +2598,7 @@ input ShelfCreateInput {
   dateTime: String
   id: String
   name: String!
+  slug: String!
   user: UserCreateNestedOneWithoutShelvesInput
   userBooks: UserBookShelvesCreateNestedManyWithoutShelfInput
 }
@@ -2603,6 +2607,7 @@ input ShelfCreateManyUserInput {
   dateTime: String
   id: String
   name: String!
+  slug: String!
 }
 
 input ShelfCreateManyUserInputEnvelope {
@@ -2637,6 +2642,7 @@ input ShelfCreateWithoutUserBooksInput {
   dateTime: String
   id: String
   name: String!
+  slug: String!
   user: UserCreateNestedOneWithoutShelvesInput
 }
 
@@ -2644,6 +2650,7 @@ input ShelfCreateWithoutUserInput {
   dateTime: String
   id: String
   name: String!
+  slug: String!
   userBooks: UserBookShelvesCreateNestedManyWithoutShelfInput
 }
 
@@ -2662,6 +2669,7 @@ type ShelfMaxAggregate {
   dateTime: String
   id: String
   name: String
+  slug: String
   userId: String
 }
 
@@ -2669,6 +2677,7 @@ type ShelfMinAggregate {
   dateTime: String
   id: String
   name: String
+  slug: String
   userId: String
 }
 
@@ -2688,6 +2697,7 @@ input ShelfScalarWhereInput {
   dateTime: StringFilter
   id: StringFilter
   name: StringFilter
+  slug: StringFilter
   userId: StringFilter
 }
 
@@ -2695,6 +2705,7 @@ input ShelfUpdateInput {
   dateTime: String
   id: String
   name: String
+  slug: String
   user: UserUpdateOneWithoutShelvesNestedInput
   userBooks: UserBookShelvesUpdateManyWithoutShelfNestedInput
 }
@@ -2703,6 +2714,7 @@ input ShelfUpdateManyMutationInput {
   dateTime: String
   id: String
   name: String
+  slug: String
 }
 
 input ShelfUpdateManyWithWhereWithoutUserInput {
@@ -2746,6 +2758,7 @@ input ShelfUpdateWithoutUserBooksInput {
   dateTime: String
   id: String
   name: String
+  slug: String
   user: UserUpdateOneWithoutShelvesNestedInput
 }
 
@@ -2753,6 +2766,7 @@ input ShelfUpdateWithoutUserInput {
   dateTime: String
   id: String
   name: String
+  slug: String
   userBooks: UserBookShelvesUpdateManyWithoutShelfNestedInput
 }
 
@@ -2775,6 +2789,7 @@ input ShelfWhereInput {
   dateTime: StringFilter
   id: StringFilter
   name: StringFilter
+  slug: StringFilter
   user: UserRelationFilter
   userBooks: UserBookShelvesListRelationFilter
   userId: StringFilter
@@ -2788,6 +2803,7 @@ input ShelfWhereUniqueInput {
   id: String
   identifier: ShelfIdentifierCompoundUniqueInput
   name: StringFilter
+  slug: String
   user: UserRelationFilter
   userBooks: UserBookShelvesListRelationFilter
   userId: StringFilter

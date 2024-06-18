@@ -53,7 +53,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     },
     {
       label: 'Shelves',
-      children: <MyShelves shelves={shelves} />,
+      children: <MyShelves username={profileUser.username} shelves={shelves} />,
       id: 'shelves',
     },
     {

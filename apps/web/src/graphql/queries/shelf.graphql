@@ -2,6 +2,7 @@ query Shelves {
   shelves {
     id
     name
+    slug
     _count {
       userBooks
     }
@@ -9,10 +10,48 @@ query Shelves {
   }
 }
 
+query BooksByShelf($slug: String!, $username: String!) {
+  booksByShelf(slug: $slug, username: $username) {
+    id
+    name
+    slug
+    user {
+      id
+      username
+    }
+    userBooks {
+      userBook {
+        book {
+          id
+          slug
+          authors
+          title
+          identifiers {
+            source
+            sourceId
+          }
+          covers {
+            url
+            size
+          }
+          ratings {
+            source
+            score
+          }
+        }
+      }
+    }
+    _count {
+      userBooks
+    }
+  }
+}
+
 query ShelvesWithBookCovers {
   shelves {
     id
     name
+    slug
     userBooks {
       userBook {
         id

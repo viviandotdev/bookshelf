@@ -244,6 +244,8 @@ model Shelf {
     /// @Validator.IsString()
     id        String            @id @default(uuid())
     /// @Validator.IsString()
+    slug      String            @unique
+    /// @Validator.IsString()
     name      String
     /// @Validator.IsString()
     userId    String?

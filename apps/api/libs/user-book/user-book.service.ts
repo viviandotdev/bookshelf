@@ -63,7 +63,11 @@ export class UserBookService {
                 shelf: {
                   connectOrCreate: {
                     where: { identifier: { userId, name: shelfObj.name } },
-                    create: { userId, name: shelfObj.name },
+                    create: {
+                      userId,
+                      name: shelfObj.name,
+                      slug: generateSlug(shelfObj.name),
+                    },
                   },
                 },
               })),
@@ -387,7 +391,7 @@ export class UserBookService {
                   shelf: {
                     connectOrCreate: {
                       where: { identifier: { userId, name } },
-                      create: { userId, name },
+                      create: { userId, name, slug: generateSlug(name) },
                     },
                   },
                 })),
@@ -524,7 +528,7 @@ export class UserBookService {
                 shelf: {
                   connectOrCreate: {
                     where: { identifier: { userId, name } },
-                    create: { userId, name },
+                    create: { userId, name, slug: generateSlug(name) },
                   },
                 },
               })),

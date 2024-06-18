@@ -1,6 +1,11 @@
 import { Book, BookWhereUniqueInput } from '@bookcue/api/generated-db-types';
 import { Resolver, Args, Query } from '@nestjs/graphql';
 import { BookService } from './book.service';
+import { ShelfService } from 'libs/shelf/shelf.service';
+import { UseGuards } from '@nestjs/common';
+import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
+import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
+import { JwtPayload } from 'libs/auth/types';
 
 @Resolver(() => Book)
 export class BookResolver {

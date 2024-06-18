@@ -2138,6 +2138,7 @@ export type Query = {
   bookCountsByUserId: BookCountsResponse;
   bookReview: Review;
   bookReviews: Array<Review>;
+  booksByShelf?: Maybe<Shelf>;
   comments: Array<Comment>;
   countJournalEntries: Scalars['Int']['output'];
   countUserBooks: Scalars['Int']['output'];
@@ -2180,6 +2181,12 @@ export type QueryBookReviewsArgs = {
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
   where: BookWhereUniqueInput;
+};
+
+
+export type QueryBooksByShelfArgs = {
+  slug: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 
@@ -2890,6 +2897,7 @@ export type Shelf = {
   dateTime?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
   user?: Maybe<User>;
   userBooks?: Maybe<Array<UserBookShelves>>;
   userId?: Maybe<Scalars['String']['output']>;
@@ -2906,6 +2914,7 @@ export type ShelfCountAggregate = {
   dateTime: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   name: Scalars['Int']['output'];
+  slug: Scalars['Int']['output'];
   userId: Scalars['Int']['output'];
 };
 
@@ -2913,6 +2922,7 @@ export type ShelfCreateInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
   user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
   userBooks?: InputMaybe<UserBookShelvesCreateNestedManyWithoutShelfInput>;
 };
@@ -2921,6 +2931,7 @@ export type ShelfCreateManyUserInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
 };
 
 export type ShelfCreateManyUserInputEnvelope = {
@@ -2955,6 +2966,7 @@ export type ShelfCreateWithoutUserBooksInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
   user?: InputMaybe<UserCreateNestedOneWithoutShelvesInput>;
 };
 
@@ -2962,6 +2974,7 @@ export type ShelfCreateWithoutUserInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
   userBooks?: InputMaybe<UserBookShelvesCreateNestedManyWithoutShelfInput>;
 };
 
@@ -2981,6 +2994,7 @@ export type ShelfMaxAggregate = {
   dateTime?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2989,6 +3003,7 @@ export type ShelfMinAggregate = {
   dateTime?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  slug?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Scalars['String']['output']>;
 };
 
@@ -3008,6 +3023,7 @@ export type ShelfScalarWhereInput = {
   dateTime?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<StringFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -3015,6 +3031,7 @@ export type ShelfUpdateInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
   userBooks?: InputMaybe<UserBookShelvesUpdateManyWithoutShelfNestedInput>;
 };
@@ -3023,6 +3040,7 @@ export type ShelfUpdateManyMutationInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ShelfUpdateManyWithWhereWithoutUserInput = {
@@ -3066,6 +3084,7 @@ export type ShelfUpdateWithoutUserBooksInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserUpdateOneWithoutShelvesNestedInput>;
 };
 
@@ -3073,6 +3092,7 @@ export type ShelfUpdateWithoutUserInput = {
   dateTime?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   userBooks?: InputMaybe<UserBookShelvesUpdateManyWithoutShelfNestedInput>;
 };
 
@@ -3095,6 +3115,7 @@ export type ShelfWhereInput = {
   dateTime?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<StringFilter>;
   user?: InputMaybe<UserRelationFilter>;
   userBooks?: InputMaybe<UserBookShelvesListRelationFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -3108,6 +3129,7 @@ export type ShelfWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<ShelfIdentifierCompoundUniqueInput>;
   name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   user?: InputMaybe<UserRelationFilter>;
   userBooks?: InputMaybe<UserBookShelvesListRelationFilter>;
   userId?: InputMaybe<StringFilter>;
@@ -5089,12 +5111,20 @@ export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?:
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, slug: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+
+export type BooksByShelfQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+}>;
+
+
+export type BooksByShelfQuery = { __typename?: 'Query', booksByShelf?: { __typename?: 'Shelf', id: string, name: string, slug: string, user?: { __typename?: 'User', id: string, username?: string | null } | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', book: { __typename?: 'Book', id: string, slug: string, authors?: Array<string> | null, title: string, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } } | null };
 
 export type ShelvesWithBookCoversQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ShelvesWithBookCoversQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, userId?: string | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+export type ShelvesWithBookCoversQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, slug: string, userId?: string | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
@@ -6678,6 +6708,7 @@ export const ShelvesDocument = gql`
   shelves {
     id
     name
+    slug
     _count {
       userBooks
     }
@@ -6717,11 +6748,84 @@ export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
 export type ShelvesSuspenseQueryHookResult = ReturnType<typeof useShelvesSuspenseQuery>;
 export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
+export const BooksByShelfDocument = gql`
+    query BooksByShelf($slug: String!, $username: String!) {
+  booksByShelf(slug: $slug, username: $username) {
+    id
+    name
+    slug
+    user {
+      id
+      username
+    }
+    userBooks {
+      userBook {
+        book {
+          id
+          slug
+          authors
+          title
+          identifiers {
+            source
+            sourceId
+          }
+          covers {
+            url
+            size
+          }
+          ratings {
+            source
+            score
+          }
+        }
+      }
+    }
+    _count {
+      userBooks
+    }
+  }
+}
+    `;
+
+/**
+ * __useBooksByShelfQuery__
+ *
+ * To run a query within a React component, call `useBooksByShelfQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBooksByShelfQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBooksByShelfQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useBooksByShelfQuery(baseOptions: Apollo.QueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables> & ({ variables: BooksByShelfQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
+      }
+export function useBooksByShelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
+        }
+export function useBooksByShelfSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
+        }
+export type BooksByShelfQueryHookResult = ReturnType<typeof useBooksByShelfQuery>;
+export type BooksByShelfLazyQueryHookResult = ReturnType<typeof useBooksByShelfLazyQuery>;
+export type BooksByShelfSuspenseQueryHookResult = ReturnType<typeof useBooksByShelfSuspenseQuery>;
+export type BooksByShelfQueryResult = Apollo.QueryResult<BooksByShelfQuery, BooksByShelfQueryVariables>;
 export const ShelvesWithBookCoversDocument = gql`
     query ShelvesWithBookCovers {
   shelves {
     id
     name
+    slug
     userBooks {
       userBook {
         id

@@ -17,10 +17,10 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
     hit.covers.filter((cover) => cover.size === Size.Small)[0].url;
   return (
     <Link href={`/book/${hit!.slug}`} className='flex cursor-pointer flex-col'>
-      <div className='border-grey-200 flex max-h-36 cursor-pointer  flex-row gap-4 rounded-md border bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md'>
+      <div className='border-grey-200 flex cursor-pointer flex-row gap-4 rounded-md border bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md'>
         <div className='w-20 flex-shrink-0 overflow-hidden rounded-md shadow-sm'>
           <Image
-            className='w-full rounded object-cover'
+            className='max-h-[114px] w-full rounded object-cover'
             src={coverUrl || DEFAULT_BOOKCOVER_PLACEHOLDER}
             width={width}
             height={width * 1.5}

@@ -16,6 +16,7 @@ import { JwtPayload } from 'libs/auth/types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import {
   buildBook,
+  generateSlug,
   getShelves,
   getUserBookInfo,
   parseLineWithQuotes,
@@ -233,6 +234,7 @@ export class UserBookResolver {
     const shelvesData = Array.from(allShelves).map((shelf: string) => ({
       userId: user.userId,
       name: shelf,
+      slug: generateSlug(shelf),
     }));
 
     // Use Prisma's createMany to insert the shelves
