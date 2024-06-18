@@ -24,7 +24,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   const apolloClient = useApolloClient();
 
   const menuItems = [
-    { label: 'Your Profile', href: `/profile/${user.username}` },
+    { label: 'Your Profile', href: `/${user.username}` },
     { label: 'Settings', href: '/settings/account' },
     { label: 'Import Books', href: '/settings/import' },
   ];
@@ -41,7 +41,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
       <DropdownMenuContent align='end'>
         <Link
           className='flex items-center justify-start gap-2 p-2'
-          href={`/profile/${user.username}`}
+          href={`/${user.username}`}
         >
           <div className='flex flex-col space-y-1 leading-none'>
             {user.username && <p className='font-medium'>{user.username}</p>}

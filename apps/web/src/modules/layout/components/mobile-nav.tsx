@@ -22,7 +22,7 @@ export function MobileNav({ user }: MobileNavProps) {
     segments.shift();
   }
   const menuItems = [
-    { label: 'Your Profile', href: `/profile/${user.username}` },
+    { label: 'Your Profile', href: `/${user.username}` },
     { label: 'Settings', href: '/settings/account' },
     { label: 'Import Books', href: '/settings/import' },
     { label: 'Log Book', href: '' },

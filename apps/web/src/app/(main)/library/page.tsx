@@ -1,13 +1,19 @@
-import { getShelves } from '@/modules/shelf/queries/getShelves';
-import React from 'react';
-import Sidebar from '@/modules/shelf/components/shelf-sidebar';
+import { getCurrentUser } from '@/lib/auth';
 import BookshelvesTemplate from '@/modules/bookshelves/templates';
+import Sidebar from '@/modules/shelf/components/shelf-sidebar';
+import { getShelves } from '@/modules/shelf/queries/getShelves';
+import { notFound } from 'next/navigation';
+import React from 'react';
 
-export default async function BooksPage({
+export default async function LibraryPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const user = await getCurrentUser();
+  if (!user) {
+    notFound();
+  }
   const { library, shelves } = await getShelves();
   return (
     <>

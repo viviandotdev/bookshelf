@@ -7,10 +7,10 @@ interface ProfileNavProps {
 
 export const ProfileNav: React.FC<ProfileNavProps> = ({ currentUser }) => {
   const tabs = [
-    { title: 'Profile', href: `/profile/${currentUser.username}` },
+    { title: 'Profile', href: `/${currentUser.username}` },
     {
       title: 'My Library',
-      href: `/${currentUser.username}/books`,
+      href: `/library`,
       type: 'user',
     },
     {
