@@ -11,7 +11,7 @@ interface RatingInfoProps {
     goodreads?: string;
     google?: string;
   };
-  bookId?: string;
+  userBookId?: string;
   size?: 'sm' | 'lg';
 }
 
@@ -35,7 +35,7 @@ const sizeClasses = {
 export const RatingInfo: React.FC<RatingInfoProps> = ({
   ratings,
   urls,
-  bookId,
+  userBookId,
   size = 'lg',
 }) => {
   const [rating, setRating] = useState(0);
@@ -46,14 +46,15 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   const googleRating = ratings?.find(
     (rating) => rating.source === Source.Google
   );
+  console.log(userBookId);
   return (
     <div className={`flex ${classes.gap}`}>
-      {bookId && (
+      {userBookId && (
         <BookRating
           size={size}
           rating={rating}
           setRating={setRating}
-          bookId={bookId}
+          userBookId={userBookId}
         />
       )}
       {goodreadsRating &&

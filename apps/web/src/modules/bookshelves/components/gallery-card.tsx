@@ -7,10 +7,10 @@ import BookActions from '@/components/book-actions';
 import Link from 'next/link';
 import { getCoverUrl } from '@/lib/utils';
 import { SIZE } from '@prisma/client';
-import { BookParts } from '../types';
 
 interface GalleryCardProps {
   responsive?: boolean;
+  userBookId: string;
   book: BookParts;
   details?: {
     progress: number;
@@ -30,6 +30,7 @@ interface GalleryCardProps {
 
 export const GalleryCard: React.FC<GalleryCardProps> = ({
   responsive,
+  userBookId,
   book,
   details,
   openAlert,
@@ -121,6 +122,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
                 }}
               />
               <BookActions
+                userBookId={userBookId}
                 openDropdown={openDropdown}
                 setOpenDropdown={setOpenDropdown}
                 setOpenAlert={setOpenAlert}

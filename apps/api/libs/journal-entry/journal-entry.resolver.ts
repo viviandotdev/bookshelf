@@ -34,8 +34,11 @@ export class JournalEntryResolver {
       bookId: book.id,
       userId: currentUser.userId,
     };
-
-    const userBookExists = await this.userBookService.findUnique(userBook);
+    const userBookExists = await this.userBookService.findUnique({
+      where: {
+        identifier: userBook,
+      },
+    });
     if (!userBookExists) {
       throw new Error('UserBook does not exist');
     }
@@ -63,8 +66,11 @@ export class JournalEntryResolver {
       bookId: book.id,
       userId: currentUser.userId,
     };
-
-    const userBookExists = await this.userBookService.findUnique(userBook);
+    const userBookExists = await this.userBookService.findUnique({
+      where: {
+        identifier: userBook,
+      },
+    });
     if (!userBookExists) {
       throw new Error('UserBook does not exist');
     }
@@ -109,7 +115,11 @@ export class JournalEntryResolver {
         bookId: book.id,
         userId: currentUser.userId,
       };
-      const userBookExists = await this.userBookService.findUnique(userBook);
+      const userBookExists = await this.userBookService.findUnique({
+        where: {
+          identifier: userBook,
+        },
+      });
       if (!userBookExists) {
         throw new Error('UserBook does not exist');
       }

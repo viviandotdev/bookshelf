@@ -5,16 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Size, UserBook } from '@/graphql/graphql';
+import { Reading_Status, Size, UserBook } from '@/graphql/graphql';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
-import rating from '@/components/rating';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
-import useCreateReviewModal from '@/components/modals/create-review-modal/use-create-review.modal';
-import { getReview } from '@/modules/review/queries/getReview';
-import { BookParts, ColumnWithBooks } from '../types';
+import { ColumnWithBooks } from '../types';
 interface CardItemProps {
   data: UserBook;
   index: number;
@@ -44,7 +41,6 @@ export const CardItem: React.FC<CardItemProps> = ({
   const [percent, setPercent] = useState(0);
   const { book: myBook } = useUserBookStore();
   const { journalEntry } = useJournalEntryModal();
-  const createReviewModal = useCreateReviewModal();
   useEffect(() => {
     setStatus(data.status ? data.status : '');
     setRating(data.rating ? data.rating : 0);
@@ -141,23 +137,6 @@ export const CardItem: React.FC<CardItemProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 if (cardStatus === 'Read') {
-                  startTransition(() => {
-                    getReview('', book!.id).then((data: any) => {
-                      updateBookId(book!.id);
-                      setBook(book!);
-                      // updateRating(data.userBook.rating || 0)
-
-                      if (data) {
-                        createReviewModal.setReview({
-                          spoilers: data.spoilers || false,
-                          content: data.content || '',
-                        });
-                        createReviewModal.onEdit(data.id || '');
-                      } else {
-                        createReviewModal.onOpen();
-                      }
-                    });
-                  });
                 } else {
                   startTransition(() => {
                     router.push(`/book/${book?.id}/activity`);
@@ -193,7 +172,7 @@ export const CardItem: React.FC<CardItemProps> = ({
                   onClick={(e) => {
                     e.stopPropagation();
                     setBook(book!);
-                    updateStatus(status);
+                    updateStatus(status as Reading_Status);
                     updateBookId(book!.id);
                     journalEntryModal.onOpen();
                   }}
@@ -205,12 +184,13 @@ export const CardItem: React.FC<CardItemProps> = ({
                 </Button>
               )}
               <BookActions
+                userBookId={data.id}
                 book={book!}
                 setOpenAlert={setOpenAlert}
                 // openAlert={openAlert}
                 openDropdown={openDropdown}
                 setOpenDropdown={setOpenDropdown}
-                status={status}
+                status={status as Reading_Status}
                 moveCard={moveCard}
                 setStatus={setStatus}
                 setRating={setRating}

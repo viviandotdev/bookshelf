@@ -15,14 +15,19 @@ import {
 } from '@/lib/constants';
 import { BookData } from '@/modules/bookshelves/types';
 import { Button } from '@/components/ui/button';
-import { Size, Source } from '@/graphql/graphql';
+import { Size, Source, UserBook } from '@/graphql/graphql';
 
 interface BookTemplateProps {
   book: BookData;
   user: User;
+  userBook?: UserBook;
 }
 
-export default function BookTemplate({ book, user }: BookTemplateProps) {
+export default function BookTemplate({
+  book,
+  user,
+  userBook,
+}: BookTemplateProps) {
   const tabs = [
     {
       label: 'Book Info',
@@ -80,11 +85,13 @@ export default function BookTemplate({ book, user }: BookTemplateProps) {
                   by {formatAuthors(book.authors)} - {book.yearPublished}
                 </span>
                 <div className='flex justify-center md:justify-start'>
-                  <RatingInfo
-                    bookId={book?.id}
-                    ratings={book?.ratings}
-                    urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
-                  />
+                  {userBook && (
+                    <RatingInfo
+                      userBookId={userBook.id}
+                      ratings={book?.ratings}
+                      urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
+                    />
+                  )}
                 </div>
                 <BookControls />
               </section>

@@ -23,14 +23,14 @@ export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
   });
 
   const updateUserBook = async (
-    bookId: string,
+    userBookId: string,
     updateInput: UserBookUpdateInput
   ) => {
     await UpdateUserBook({
       variables: {
         data: updateInput,
         where: {
-          id: bookId,
+          id: userBookId,
         },
       },
       update: (cache, { data }) => {

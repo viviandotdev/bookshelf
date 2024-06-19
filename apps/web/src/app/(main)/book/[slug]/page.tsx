@@ -21,20 +21,20 @@ interface BookPageProps {
 
 export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
-  const myBook = await getBook(params.slug);
-  const isbn = myBook?.identifiers?.find(
+  const userBook = await getBook(params.slug);
+  const isbn = userBook?.identifiers?.find(
     (id) => id.source === SOURCE.ISBN_13 || id.source === SOURCE.ISBN_10
   )?.sourceId;
 
-  if (myBook) {
+  if (userBook) {
     let googleBook = isbn ? await findGoogleBookByISBN(isbn) : null;
 
     if (!googleBook) {
-      const query = `${myBook.title} ${myBook.authors?.join(' ')}`;
+      const query = `${userBook.title} ${userBook.authors?.join(' ')}`;
       googleBook = await findBookByGoogleQuery(query);
     }
 
-    const book = mergeBookData(myBook, googleBook);
+    const book = mergeBookData(userBook, googleBook);
 
     return <BookTemplate book={book} user={user} />;
   }
@@ -46,5 +46,7 @@ export default async function BookPage({ params }: BookPageProps) {
     return notFound();
   }
 
-  return <>{<BookTemplate book={googleBook} user={user} />}</>;
+  return (
+    <>{<BookTemplate userBook={userBook} book={googleBook} user={user} />}</>
+  );
 }

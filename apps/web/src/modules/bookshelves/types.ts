@@ -25,10 +25,6 @@ export interface BookData {
     google?: string;
   };
   identifiers: Identifier[];
-  //   ratings: {
-  //     goodreads?: number;
-  //     google?: number;
-  //   };
   isbn?: string;
   title: string;
   subtitle?: string;

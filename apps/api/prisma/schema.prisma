@@ -176,7 +176,7 @@ enum READING_STATUS {
 
 model UserBook {
     /// @Validator.IsString()
-    id           String            @id @default(uuid())
+    id           String            @id @unique @default(uuid())
     /// @Validator.IsString()
     userId       String
     /// @Validator.IsString()

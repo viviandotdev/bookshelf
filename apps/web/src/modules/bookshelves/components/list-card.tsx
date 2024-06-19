@@ -20,10 +20,12 @@ interface ListCardProps {
   setRating: React.Dispatch<React.SetStateAction<number>>;
   rating: number;
   shelves: any; // Adjust the type according to your requirement
+  userBookId: string;
 }
 
 export const ListCard: React.FC<ListCardProps> = ({
   book,
+  userBookId,
   openAlert,
   isLoading,
   onDelete,
@@ -100,6 +102,7 @@ export const ListCard: React.FC<ListCardProps> = ({
       <div className='flex items-center space-x-2'>
         <BookActions
           book={book!}
+          userBookId={userBookId}
           setOpenAlert={setOpenAlert}
           openDropdown={openDropdown}
           setOpenDropdown={setOpenDropdown}
@@ -119,14 +122,7 @@ export const ListCard: React.FC<ListCardProps> = ({
             </Button>
           }
         />
-
-        {/* <Button onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenAlert(true);
-                }}
-                    variant="secondary" className="shadow-sm h-8 px-3"><TrashIcon className="h-5 w-5 text-gray-700" /></Button> */}
       </div>
-      {/*  */}
       <Link ref={linkRef} href={`/book/${book.slug}`} className='hidden'></Link>
     </div>
   );

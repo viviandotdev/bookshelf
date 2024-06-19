@@ -41,7 +41,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
 
   const onDelete = async () => {
     setIsLoading(true);
-    const isRemoved = await removeUserBook(userBook.bookId);
+    // const isRemoved = await removeUserBook(userBook.);
     if (isRemoved) {
       updateUserId('');
       updateStatus('');

@@ -8,6 +8,7 @@ import {
   UserBook,
   UserBookOrderByWithRelationInput,
   UserBookWhereInput,
+  UserBookWhereUniqueInput,
 } from '../../src/generated-db-types';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { NotFoundException, UseGuards } from '@nestjs/common';
@@ -48,41 +49,27 @@ export class UserBookResolver {
   ) {}
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook)
-  async updateReadingStatus(
-    @Args('bookId', { type: () => String })
-    bookId: string,
-    @Args('readingStatus', { type: () => READING_STATUS })
-    readingStatus: READING_STATUS,
-    @CurrentUser() user: JwtPayload,
-  ) {
-    return this.userBookService.updateStatus({
-      data: {
-        status: readingStatus,
-      },
-      userId: user.userId,
-      bookId: bookId,
-    });
-  }
-
-  @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook, { name: 'addBookToShelf' })
   async addBookToShelf(
-    @Args('bookId', { type: () => String }) bookId: string,
+    @Args('where') where: UserBookWhereUniqueInput,
     @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.userBookService.addBookToShelf(bookId, user.userId, shelf);
+    return this.userBookService.addBookToShelf(where.id, user.userId, shelf);
   }
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook, { name: 'removeBookFromShelf' })
   async removeUserBookFromShelf(
-    @Args('bookId', { type: () => String }) bookId: string,
+    @Args('where') where: UserBookWhereUniqueInput,
     @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.userBookService.removeBookFromShelf(bookId, user.userId, shelf);
+    return this.userBookService.removeBookFromShelf(
+      where.id,
+      user.userId,
+      shelf,
+    );
   }
 
   @UseGuards(AccessTokenGuard)
@@ -114,8 +101,12 @@ export class UserBookResolver {
     @CurrentUser() user: JwtPayload,
   ) {
     return this.userBookService.findUnique({
-      userId: user.userId,
-      bookId: where.id,
+      where: {
+        identifier: {
+          userId: user.userId,
+          bookId: where.id,
+        },
+      },
     });
   }
 
@@ -154,28 +145,29 @@ export class UserBookResolver {
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook)
-  updateUserBook(
+  async updateUserBook(
     @Args('data')
     data: UserBookUpdateInput,
-    @Args('where') where: BookWhereUniqueInput,
+    @Args('where') where: UserBookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    const userBook = this.userBookService.findUnique({
-      userId: user.userId,
-      bookId: where.id,
+    const userBook = await this.userBookService.findUnique({
+      where: {
+        id: where.id,
+      },
     });
     if (!userBook) {
       throw new NotFoundException(
-        `User book ${JSON.stringify(where)} does not exist`,
+        `User book ${JSON.stringify(where.id)} does not exist`,
       );
     }
     //  move recently updated to the top
     return this.userBookService.update({
       data,
       where: {
-        userId: user.userId,
-        bookId: where.id,
+        id: where.id,
       },
+      userId: user.userId,
     });
   }
 
@@ -288,14 +280,14 @@ export class UserBookResolver {
 
   @UseGuards(AccessTokenGuard)
   @Mutation(() => UserBook)
-  removeUserBook(
-    @Args('where')
-    where: BookWhereUniqueInput,
+  async removeUserBook(
+    @Args('where') where: UserBookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    const userBook = this.userBookService.findUnique({
-      userId: user.userId,
-      bookId: where.id,
+    const userBook = await this.userBookService.findUnique({
+      where: {
+        id: where.id,
+      },
     });
     if (!userBook) {
       throw new NotFoundException(
@@ -304,7 +296,7 @@ export class UserBookResolver {
     }
     return this.userBookService.remove({
       userId: user.userId,
-      bookId: where.id,
+      bookId: userBook.bookId,
     });
   }
 

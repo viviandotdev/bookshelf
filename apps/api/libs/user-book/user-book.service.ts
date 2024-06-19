@@ -5,6 +5,7 @@ import {
   IdentifierWhereInput,
   READING_STATUS,
   UserBookIdentifierCompoundUniqueInput,
+  UserBookWhereUniqueInput,
 } from '../../src/generated-db-types';
 import { Prisma, SOURCE } from '@prisma/client';
 import { UserBookRepository } from './user-book.repository';
@@ -18,6 +19,7 @@ import { BookService } from 'libs/book/book.service';
 import { IdentifierService } from 'libs/identifier/identifier.service';
 @Injectable()
 export class UserBookService {
+  findUnique = this.repository.findUnique;
   constructor(
     private readonly repository: UserBookRepository,
     private readonly activityService: ActivityService,
@@ -26,14 +28,11 @@ export class UserBookService {
     private readonly identifierService: IdentifierService,
     private readonly prisma: PrismaRepository,
   ) {}
-  async removeBookFromShelf(bookId: string, userId: string, shelf: string) {
+  async removeBookFromShelf(id: string, userId: string, shelf: string) {
     // Retrieve the userBook to see if it exists and to get the current shelves
     const userBook = await this.repository.findUnique({
       where: {
-        identifier: {
-          userId,
-          bookId,
-        },
+        id: id,
       },
       include: {
         shelves: {
@@ -74,10 +73,7 @@ export class UserBookService {
             },
           },
           where: {
-            identifier: {
-              userId,
-              bookId,
-            },
+            id,
           },
         });
       }
@@ -86,14 +82,11 @@ export class UserBookService {
       throw new Error('Book not found on user shelf.');
     }
   }
-  async addBookToShelf(bookId: string, userId: string, shelf: string) {
+  async addBookToShelf(id: string, userId: string, shelf: string) {
     // Check if the book is already associated with the user
     const userBook = await this.repository.findUnique({
       where: {
-        identifier: {
-          userId,
-          bookId,
-        },
+        id,
       },
       include: {
         shelves: {
@@ -109,7 +102,8 @@ export class UserBookService {
     if (userBook) {
       return this.update({
         data: { shelves: [...shelfList, shelf] }, // Assuming shelves is an array of shelf names
-        where: { userId, bookId },
+        where: { id },
+        userId,
       });
     }
   }
@@ -140,26 +134,6 @@ export class UserBookService {
     };
 
     return this.repository.create(createUserBookArgs);
-  }
-
-  async findUnique(where: UserBookIdentifierCompoundUniqueInput) {
-    const { userId, bookId } = where;
-    const userBook = await this.repository.findUnique({
-      where: {
-        identifier: {
-          userId,
-          bookId,
-        },
-      },
-      include: {
-        shelves: {
-          include: {
-            shelf: true,
-          },
-        },
-      },
-    });
-    return userBook;
   }
 
   async findMany(args: {
@@ -292,17 +266,16 @@ export class UserBookService {
 
   async update(args: {
     data: UserBookUpdateInput;
-    where: UserBookIdentifierCompoundUniqueInput;
+    where: UserBookWhereUniqueInput;
+    userId: string;
     isImport?: boolean;
   }) {
-    const { userId, bookId } = args.where;
+    const userBookId = args.where.id;
+    const userId = args.userId;
 
     const origin = await this.repository.findUnique({
       where: {
-        identifier: {
-          userId,
-          bookId,
-        },
+        id: args.where.id,
       },
       include: {
         shelves: {
@@ -375,10 +348,7 @@ export class UserBookService {
       // Update the UserBook record within the transaction
       const updateUserBook = await prisma.userBook.update({
         where: {
-          identifier: {
-            userId,
-            bookId,
-          },
+          id: userBookId,
         },
         data: {
           order: newOrder,

@@ -970,14 +970,6 @@ export type CommentCountAggregate = {
   userId: Scalars['Int']['output'];
 };
 
-export type CommentCreateInput = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  review?: InputMaybe<ReviewCreateNestedOneWithoutCommentsInput>;
-  user?: InputMaybe<UserCreateNestedOneWithoutCommentsInput>;
-};
-
 export type CommentCreateManyReviewInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -1901,17 +1893,14 @@ export type MeResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   addBookToShelf: UserBook;
-  createComment: Comment;
   createIdentifiers: Array<Identifier>;
   createJournalEntry: JournalEntry;
-  createReview: Review;
   createShelf: Shelf;
   createUserBook?: Maybe<UserBook>;
   deleteShelf: Shelf;
   follow: User;
   forgotPassword: Scalars['Boolean']['output'];
   importUserBooks: Scalars['Boolean']['output'];
-  likeReview: Review;
   login: AuthResponse;
   logout: Scalars['Boolean']['output'];
   oAuth: AuthResponse;
@@ -1923,8 +1912,6 @@ export type Mutation = {
   resetPassword: Scalars['Boolean']['output'];
   updateEmail: User;
   updateJournalEntry: JournalEntry;
-  updateReadingStatus: UserBook;
-  updateReview: Review;
   updateShelf: Shelf;
   updateUser: User;
   updateUserBook: UserBook;
@@ -1934,14 +1921,8 @@ export type Mutation = {
 
 
 export type MutationAddBookToShelfArgs = {
-  bookId: Scalars['String']['input'];
   shelf: Scalars['String']['input'];
-};
-
-
-export type MutationCreateCommentArgs = {
-  data: CommentCreateInput;
-  where: ReviewWhereUniqueInput;
+  where: UserBookWhereUniqueInput;
 };
 
 
@@ -1953,12 +1934,6 @@ export type MutationCreateIdentifiersArgs = {
 export type MutationCreateJournalEntryArgs = {
   book: BookWhereUniqueInput;
   data: JournalEntryCreateInput;
-};
-
-
-export type MutationCreateReviewArgs = {
-  data: ReviewDataInput;
-  where: BookWhereUniqueInput;
 };
 
 
@@ -1993,12 +1968,6 @@ export type MutationImportUserBooksArgs = {
 };
 
 
-export type MutationLikeReviewArgs = {
-  value: Scalars['Boolean']['input'];
-  where: ReviewWhereUniqueInput;
-};
-
-
 export type MutationLoginArgs = {
   logInInput: LogInInput;
 };
@@ -2020,8 +1989,8 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRemoveBookFromShelfArgs = {
-  bookId: Scalars['String']['input'];
   shelf: Scalars['String']['input'];
+  where: UserBookWhereUniqueInput;
 };
 
 
@@ -2031,7 +2000,7 @@ export type MutationRemoveJournalEntryArgs = {
 
 
 export type MutationRemoveUserBookArgs = {
-  where: BookWhereUniqueInput;
+  where: UserBookWhereUniqueInput;
 };
 
 
@@ -2051,18 +2020,6 @@ export type MutationUpdateJournalEntryArgs = {
 };
 
 
-export type MutationUpdateReadingStatusArgs = {
-  bookId: Scalars['String']['input'];
-  readingStatus: Reading_Status;
-};
-
-
-export type MutationUpdateReviewArgs = {
-  data: ReviewDataInput;
-  where: ReviewWhereUniqueInput;
-};
-
-
 export type MutationUpdateShelfArgs = {
   data: ShelfUpdateInput;
   where: ShelfWhereUniqueInput;
@@ -2076,7 +2033,7 @@ export type MutationUpdateUserArgs = {
 
 export type MutationUpdateUserBookArgs = {
   data: UserBookUpdateInput;
-  where: BookWhereUniqueInput;
+  where: UserBookWhereUniqueInput;
 };
 
 
@@ -2136,10 +2093,7 @@ export type Query = {
   auditLogs: ActivitiesResponse;
   book?: Maybe<Book>;
   bookCountsByUserId: BookCountsResponse;
-  bookReview: Review;
-  bookReviews: Array<Review>;
   booksByShelf?: Maybe<Shelf>;
-  comments: Array<Comment>;
   countJournalEntries: Scalars['Int']['output'];
   countUserBooks: Scalars['Int']['output'];
   getBookByIdentifiers: Array<Identifier>;
@@ -2172,28 +2126,9 @@ export type QueryBookCountsByUserIdArgs = {
 };
 
 
-export type QueryBookReviewArgs = {
-  where: ReviewUniqueInput;
-};
-
-
-export type QueryBookReviewsArgs = {
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
-  where: BookWhereUniqueInput;
-};
-
-
 export type QueryBooksByShelfArgs = {
   slug: Scalars['String']['input'];
   username: Scalars['String']['input'];
-};
-
-
-export type QueryCommentsArgs = {
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
-  where: ReviewWhereUniqueInput;
 };
 
 
@@ -2460,13 +2395,11 @@ export type Review = {
   _count: ReviewCount;
   book?: Maybe<Book>;
   bookId?: Maybe<Scalars['String']['output']>;
-  commentCount: Scalars['Int']['output'];
   comments?: Maybe<Array<Comment>>;
   content?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
   likeCount: Scalars['Int']['output'];
-  liked: Scalars['Boolean']['output'];
   likedBy?: Maybe<Array<User>>;
   spoilers: Scalars['Boolean']['output'];
   user?: Maybe<User>;
@@ -2614,12 +2547,6 @@ export type ReviewCreateWithoutUserInput = {
   spoilers?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type ReviewDataInput = {
-  content?: InputMaybe<Scalars['String']['input']>;
-  rating?: InputMaybe<Scalars['Float']['input']>;
-  spoilers?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
 export type ReviewListRelationFilter = {
   every?: InputMaybe<ReviewWhereInput>;
   none?: InputMaybe<ReviewWhereInput>;
@@ -2673,11 +2600,6 @@ export type ReviewScalarWhereInput = {
 export type ReviewSumAggregate = {
   __typename?: 'ReviewSumAggregate';
   likeCount?: Maybe<Scalars['Int']['output']>;
-};
-
-export type ReviewUniqueInput = {
-  bookId?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ReviewUpdateManyMutationInput = {
@@ -4878,14 +4800,6 @@ export type LogoutMutationVariables = Exact<{
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
-export type CreateCommentMutationVariables = Exact<{
-  data: CommentCreateInput;
-  where: ReviewWhereUniqueInput;
-}>;
-
-
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null } };
-
 export type CreateJournalEntryMutationVariables = Exact<{
   data: JournalEntryCreateInput;
   book: BookWhereUniqueInput;
@@ -4908,30 +4822,6 @@ export type UpdateJournalEntryMutationVariables = Exact<{
 
 
 export type UpdateJournalEntryMutation = { __typename?: 'Mutation', updateJournalEntry: { __typename?: 'JournalEntry', id: string, readingNotes?: string | null, pagesRead: number, dateRead: any, currentPage: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: Reading_Status, book: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null } };
-
-export type CreateReviewMutationVariables = Exact<{
-  data: ReviewDataInput;
-  where: BookWhereUniqueInput;
-}>;
-
-
-export type CreateReviewMutation = { __typename?: 'Mutation', createReview: { __typename?: 'Review', id: string, content?: string | null } };
-
-export type UpdateReviewMutationVariables = Exact<{
-  where: ReviewWhereUniqueInput;
-  data: ReviewDataInput;
-}>;
-
-
-export type UpdateReviewMutation = { __typename?: 'Mutation', updateReview: { __typename?: 'Review', id: string, content?: string | null, spoilers: boolean } };
-
-export type LikeReviewMutationVariables = Exact<{
-  where: ReviewWhereUniqueInput;
-  value: Scalars['Boolean']['input'];
-}>;
-
-
-export type LikeReviewMutation = { __typename?: 'Mutation', likeReview: { __typename?: 'Review', id: string, likeCount: number } };
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
@@ -4986,14 +4876,14 @@ export type CreateUserBookMutation = { __typename?: 'Mutation', createUserBook?:
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
-  where: BookWhereUniqueInput;
+  where: UserBookWhereUniqueInput;
 }>;
 
 
 export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book' } } };
 
 export type RemoveUserBookMutationVariables = Exact<{
-  where: BookWhereUniqueInput;
+  where: UserBookWhereUniqueInput;
 }>;
 
 
@@ -5014,7 +4904,7 @@ export type UpdateUserBookOrderMutationVariables = Exact<{
 export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
 export type AddUserBookToShelfMutationVariables = Exact<{
-  bookId: Scalars['String']['input'];
+  where: UserBookWhereUniqueInput;
   shelf: Scalars['String']['input'];
 }>;
 
@@ -5022,20 +4912,12 @@ export type AddUserBookToShelfMutationVariables = Exact<{
 export type AddUserBookToShelfMutation = { __typename?: 'Mutation', addBookToShelf: { __typename?: 'UserBook', id: string, status: Reading_Status } };
 
 export type RemoveUserBookFromShelfMutationVariables = Exact<{
-  bookId: Scalars['String']['input'];
+  where: UserBookWhereUniqueInput;
   shelf: Scalars['String']['input'];
 }>;
 
 
 export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeBookFromShelf: { __typename?: 'UserBook', id: string, status: Reading_Status } };
-
-export type UpdateReadingStatusMutationVariables = Exact<{
-  bookId: Scalars['String']['input'];
-  readingStatus: Reading_Status;
-}>;
-
-
-export type UpdateReadingStatusMutation = { __typename?: 'Mutation', updateReadingStatus: { __typename?: 'UserBook', id: string, status: Reading_Status } };
 
 export type GetAuditLogsQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereUniqueInput>;
@@ -5060,15 +4942,6 @@ export type BookQueryVariables = Exact<{
 
 export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
 
-export type CommentsQueryVariables = Exact<{
-  where: ReviewWhereUniqueInput;
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
-}>;
-
-
-export type CommentsQuery = { __typename?: 'Query', comments: Array<{ __typename?: 'Comment', id: string, content?: string | null, createdAt: any, user?: { __typename?: 'User', id: string, username?: string | null } | null }> };
-
 export type CountJournalEntriesQueryVariables = Exact<{
   book: BookWhereUniqueInput;
 }>;
@@ -5091,22 +4964,6 @@ export type JournalEntriesQueryVariables = Exact<{
 
 
 export type JournalEntriesQuery = { __typename?: 'Query', journalEntries: Array<{ __typename?: 'JournalEntry', id: string, readingNotes?: string | null, dateRead: any, currentPage: number, pagesRead: number, currentPercent: number, userBook?: { __typename?: 'UserBook', status: Reading_Status, book: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null }> };
-
-export type BookReviewsQueryVariables = Exact<{
-  where: BookWhereUniqueInput;
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
-}>;
-
-
-export type BookReviewsQuery = { __typename?: 'Query', bookReviews: Array<{ __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, commentCount: number, user?: { __typename?: 'User', id: string, username?: string | null } | null }> };
-
-export type BookReviewQueryVariables = Exact<{
-  where: ReviewUniqueInput;
-}>;
-
-
-export type BookReviewQuery = { __typename?: 'Query', bookReview: { __typename?: 'Review', id: string, content?: string | null, createdAt: any, spoilers: boolean, likeCount: number, liked: boolean, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5451,46 +5308,6 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const CreateCommentDocument = gql`
-    mutation CreateComment($data: CommentCreateInput!, $where: ReviewWhereUniqueInput!) {
-  createComment(data: $data, where: $where) {
-    id
-    content
-    createdAt
-    user {
-      id
-      username
-    }
-  }
-}
-    `;
-export type CreateCommentMutationFn = Apollo.MutationFunction<CreateCommentMutation, CreateCommentMutationVariables>;
-
-/**
- * __useCreateCommentMutation__
- *
- * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
- *   variables: {
- *      data: // value for 'data'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useCreateCommentMutation(baseOptions?: Apollo.MutationHookOptions<CreateCommentMutation, CreateCommentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateCommentMutation, CreateCommentMutationVariables>(CreateCommentDocument, options);
-      }
-export type CreateCommentMutationHookResult = ReturnType<typeof useCreateCommentMutation>;
-export type CreateCommentMutationResult = Apollo.MutationResult<CreateCommentMutation>;
-export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<CreateCommentMutation, CreateCommentMutationVariables>;
 export const CreateJournalEntryDocument = gql`
     mutation CreateJournalEntry($data: JournalEntryCreateInput!, $book: BookWhereUniqueInput!) {
   createJournalEntry(data: $data, book: $book) {
@@ -5621,112 +5438,6 @@ export function useUpdateJournalEntryMutation(baseOptions?: Apollo.MutationHookO
 export type UpdateJournalEntryMutationHookResult = ReturnType<typeof useUpdateJournalEntryMutation>;
 export type UpdateJournalEntryMutationResult = Apollo.MutationResult<UpdateJournalEntryMutation>;
 export type UpdateJournalEntryMutationOptions = Apollo.BaseMutationOptions<UpdateJournalEntryMutation, UpdateJournalEntryMutationVariables>;
-export const CreateReviewDocument = gql`
-    mutation CreateReview($data: ReviewDataInput!, $where: BookWhereUniqueInput!) {
-  createReview(data: $data, where: $where) {
-    id
-    content
-  }
-}
-    `;
-export type CreateReviewMutationFn = Apollo.MutationFunction<CreateReviewMutation, CreateReviewMutationVariables>;
-
-/**
- * __useCreateReviewMutation__
- *
- * To run a mutation, you first call `useCreateReviewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateReviewMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createReviewMutation, { data, loading, error }] = useCreateReviewMutation({
- *   variables: {
- *      data: // value for 'data'
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useCreateReviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateReviewMutation, CreateReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateReviewMutation, CreateReviewMutationVariables>(CreateReviewDocument, options);
-      }
-export type CreateReviewMutationHookResult = ReturnType<typeof useCreateReviewMutation>;
-export type CreateReviewMutationResult = Apollo.MutationResult<CreateReviewMutation>;
-export type CreateReviewMutationOptions = Apollo.BaseMutationOptions<CreateReviewMutation, CreateReviewMutationVariables>;
-export const UpdateReviewDocument = gql`
-    mutation UpdateReview($where: ReviewWhereUniqueInput!, $data: ReviewDataInput!) {
-  updateReview(where: $where, data: $data) {
-    id
-    content
-    spoilers
-  }
-}
-    `;
-export type UpdateReviewMutationFn = Apollo.MutationFunction<UpdateReviewMutation, UpdateReviewMutationVariables>;
-
-/**
- * __useUpdateReviewMutation__
- *
- * To run a mutation, you first call `useUpdateReviewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateReviewMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateReviewMutation, { data, loading, error }] = useUpdateReviewMutation({
- *   variables: {
- *      where: // value for 'where'
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateReviewMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReviewMutation, UpdateReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateReviewMutation, UpdateReviewMutationVariables>(UpdateReviewDocument, options);
-      }
-export type UpdateReviewMutationHookResult = ReturnType<typeof useUpdateReviewMutation>;
-export type UpdateReviewMutationResult = Apollo.MutationResult<UpdateReviewMutation>;
-export type UpdateReviewMutationOptions = Apollo.BaseMutationOptions<UpdateReviewMutation, UpdateReviewMutationVariables>;
-export const LikeReviewDocument = gql`
-    mutation LikeReview($where: ReviewWhereUniqueInput!, $value: Boolean!) {
-  likeReview(where: $where, value: $value) {
-    id
-    likeCount
-  }
-}
-    `;
-export type LikeReviewMutationFn = Apollo.MutationFunction<LikeReviewMutation, LikeReviewMutationVariables>;
-
-/**
- * __useLikeReviewMutation__
- *
- * To run a mutation, you first call `useLikeReviewMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useLikeReviewMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [likeReviewMutation, { data, loading, error }] = useLikeReviewMutation({
- *   variables: {
- *      where: // value for 'where'
- *      value: // value for 'value'
- *   },
- * });
- */
-export function useLikeReviewMutation(baseOptions?: Apollo.MutationHookOptions<LikeReviewMutation, LikeReviewMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LikeReviewMutation, LikeReviewMutationVariables>(LikeReviewDocument, options);
-      }
-export type LikeReviewMutationHookResult = ReturnType<typeof useLikeReviewMutation>;
-export type LikeReviewMutationResult = Apollo.MutationResult<LikeReviewMutation>;
-export type LikeReviewMutationOptions = Apollo.BaseMutationOptions<LikeReviewMutation, LikeReviewMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
@@ -5980,7 +5691,7 @@ export type CreateUserBookMutationHookResult = ReturnType<typeof useCreateUserBo
 export type CreateUserBookMutationResult = Apollo.MutationResult<CreateUserBookMutation>;
 export type CreateUserBookMutationOptions = Apollo.BaseMutationOptions<CreateUserBookMutation, CreateUserBookMutationVariables>;
 export const UpdateUserBookDocument = gql`
-    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: BookWhereUniqueInput!) {
+    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: UserBookWhereUniqueInput!) {
   updateUserBook(data: $data, where: $where) {
     status
     id
@@ -6019,7 +5730,7 @@ export type UpdateUserBookMutationHookResult = ReturnType<typeof useUpdateUserBo
 export type UpdateUserBookMutationResult = Apollo.MutationResult<UpdateUserBookMutation>;
 export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
 export const RemoveUserBookDocument = gql`
-    mutation RemoveUserBook($where: BookWhereUniqueInput!) {
+    mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
   removeUserBook(where: $where) {
     id
     shelves {
@@ -6122,8 +5833,8 @@ export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateU
 export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
 export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const AddUserBookToShelfDocument = gql`
-    mutation AddUserBookToShelf($bookId: String!, $shelf: String!) {
-  addBookToShelf(bookId: $bookId, shelf: $shelf) {
+    mutation AddUserBookToShelf($where: UserBookWhereUniqueInput!, $shelf: String!) {
+  addBookToShelf(where: $where, shelf: $shelf) {
     id
     status
   }
@@ -6144,7 +5855,7 @@ export type AddUserBookToShelfMutationFn = Apollo.MutationFunction<AddUserBookTo
  * @example
  * const [addUserBookToShelfMutation, { data, loading, error }] = useAddUserBookToShelfMutation({
  *   variables: {
- *      bookId: // value for 'bookId'
+ *      where: // value for 'where'
  *      shelf: // value for 'shelf'
  *   },
  * });
@@ -6157,8 +5868,8 @@ export type AddUserBookToShelfMutationHookResult = ReturnType<typeof useAddUserB
 export type AddUserBookToShelfMutationResult = Apollo.MutationResult<AddUserBookToShelfMutation>;
 export type AddUserBookToShelfMutationOptions = Apollo.BaseMutationOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
 export const RemoveUserBookFromShelfDocument = gql`
-    mutation RemoveUserBookFromShelf($bookId: String!, $shelf: String!) {
-  removeBookFromShelf(bookId: $bookId, shelf: $shelf) {
+    mutation RemoveUserBookFromShelf($where: UserBookWhereUniqueInput!, $shelf: String!) {
+  removeBookFromShelf(where: $where, shelf: $shelf) {
     id
     status
   }
@@ -6179,7 +5890,7 @@ export type RemoveUserBookFromShelfMutationFn = Apollo.MutationFunction<RemoveUs
  * @example
  * const [removeUserBookFromShelfMutation, { data, loading, error }] = useRemoveUserBookFromShelfMutation({
  *   variables: {
- *      bookId: // value for 'bookId'
+ *      where: // value for 'where'
  *      shelf: // value for 'shelf'
  *   },
  * });
@@ -6191,41 +5902,6 @@ export function useRemoveUserBookFromShelfMutation(baseOptions?: Apollo.Mutation
 export type RemoveUserBookFromShelfMutationHookResult = ReturnType<typeof useRemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationResult = Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
-export const UpdateReadingStatusDocument = gql`
-    mutation updateReadingStatus($bookId: String!, $readingStatus: READING_STATUS!) {
-  updateReadingStatus(bookId: $bookId, readingStatus: $readingStatus) {
-    id
-    status
-  }
-}
-    `;
-export type UpdateReadingStatusMutationFn = Apollo.MutationFunction<UpdateReadingStatusMutation, UpdateReadingStatusMutationVariables>;
-
-/**
- * __useUpdateReadingStatusMutation__
- *
- * To run a mutation, you first call `useUpdateReadingStatusMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateReadingStatusMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateReadingStatusMutation, { data, loading, error }] = useUpdateReadingStatusMutation({
- *   variables: {
- *      bookId: // value for 'bookId'
- *      readingStatus: // value for 'readingStatus'
- *   },
- * });
- */
-export function useUpdateReadingStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReadingStatusMutation, UpdateReadingStatusMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateReadingStatusMutation, UpdateReadingStatusMutationVariables>(UpdateReadingStatusDocument, options);
-      }
-export type UpdateReadingStatusMutationHookResult = ReturnType<typeof useUpdateReadingStatusMutation>;
-export type UpdateReadingStatusMutationResult = Apollo.MutationResult<UpdateReadingStatusMutation>;
-export type UpdateReadingStatusMutationOptions = Apollo.BaseMutationOptions<UpdateReadingStatusMutation, UpdateReadingStatusMutationVariables>;
 export const GetAuditLogsDocument = gql`
     query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int, $orderBy: AuditLogOrderByWithRelationInput) {
   auditLogs(
@@ -6396,54 +6072,6 @@ export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
 export type BookSuspenseQueryHookResult = ReturnType<typeof useBookSuspenseQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
-export const CommentsDocument = gql`
-    query Comments($where: ReviewWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
-  comments(where: $where, offset: $offset, limit: $limit) {
-    id
-    content
-    createdAt
-    user {
-      id
-      username
-    }
-  }
-}
-    `;
-
-/**
- * __useCommentsQuery__
- *
- * To run a query within a React component, call `useCommentsQuery` and pass it any options that fit your needs.
- * When your component renders, `useCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCommentsQuery({
- *   variables: {
- *      where: // value for 'where'
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useCommentsQuery(baseOptions: Apollo.QueryHookOptions<CommentsQuery, CommentsQueryVariables> & ({ variables: CommentsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
-      }
-export function useCommentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
-        }
-export function useCommentsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CommentsQuery, CommentsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<CommentsQuery, CommentsQueryVariables>(CommentsDocument, options);
-        }
-export type CommentsQueryHookResult = ReturnType<typeof useCommentsQuery>;
-export type CommentsLazyQueryHookResult = ReturnType<typeof useCommentsLazyQuery>;
-export type CommentsSuspenseQueryHookResult = ReturnType<typeof useCommentsSuspenseQuery>;
-export type CommentsQueryResult = Apollo.QueryResult<CommentsQuery, CommentsQueryVariables>;
 export const CountJournalEntriesDocument = gql`
     query countJournalEntries($book: BookWhereUniqueInput!) {
   countJournalEntries(book: $book)
@@ -6592,117 +6220,6 @@ export type JournalEntriesQueryHookResult = ReturnType<typeof useJournalEntriesQ
 export type JournalEntriesLazyQueryHookResult = ReturnType<typeof useJournalEntriesLazyQuery>;
 export type JournalEntriesSuspenseQueryHookResult = ReturnType<typeof useJournalEntriesSuspenseQuery>;
 export type JournalEntriesQueryResult = Apollo.QueryResult<JournalEntriesQuery, JournalEntriesQueryVariables>;
-export const BookReviewsDocument = gql`
-    query BookReviews($where: BookWhereUniqueInput!, $limit: Int! = 20, $offset: Int! = 0) {
-  bookReviews(where: $where, offset: $offset, limit: $limit) {
-    id
-    content
-    createdAt
-    spoilers
-    likeCount
-    liked
-    user {
-      id
-      username
-    }
-    commentCount
-  }
-}
-    `;
-
-/**
- * __useBookReviewsQuery__
- *
- * To run a query within a React component, call `useBookReviewsQuery` and pass it any options that fit your needs.
- * When your component renders, `useBookReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBookReviewsQuery({
- *   variables: {
- *      where: // value for 'where'
- *      limit: // value for 'limit'
- *      offset: // value for 'offset'
- *   },
- * });
- */
-export function useBookReviewsQuery(baseOptions: Apollo.QueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables> & ({ variables: BookReviewsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
-      }
-export function useBookReviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
-        }
-export function useBookReviewsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookReviewsQuery, BookReviewsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<BookReviewsQuery, BookReviewsQueryVariables>(BookReviewsDocument, options);
-        }
-export type BookReviewsQueryHookResult = ReturnType<typeof useBookReviewsQuery>;
-export type BookReviewsLazyQueryHookResult = ReturnType<typeof useBookReviewsLazyQuery>;
-export type BookReviewsSuspenseQueryHookResult = ReturnType<typeof useBookReviewsSuspenseQuery>;
-export type BookReviewsQueryResult = Apollo.QueryResult<BookReviewsQuery, BookReviewsQueryVariables>;
-export const BookReviewDocument = gql`
-    query BookReview($where: ReviewUniqueInput!) {
-  bookReview(where: $where) {
-    id
-    content
-    createdAt
-    spoilers
-    likeCount
-    liked
-    book {
-      id
-      title
-      authors
-      pageCount
-      covers {
-        url
-        size
-      }
-    }
-    user {
-      id
-      username
-    }
-  }
-}
-    `;
-
-/**
- * __useBookReviewQuery__
- *
- * To run a query within a React component, call `useBookReviewQuery` and pass it any options that fit your needs.
- * When your component renders, `useBookReviewQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useBookReviewQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useBookReviewQuery(baseOptions: Apollo.QueryHookOptions<BookReviewQuery, BookReviewQueryVariables> & ({ variables: BookReviewQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
-      }
-export function useBookReviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
-        }
-export function useBookReviewSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookReviewQuery, BookReviewQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<BookReviewQuery, BookReviewQueryVariables>(BookReviewDocument, options);
-        }
-export type BookReviewQueryHookResult = ReturnType<typeof useBookReviewQuery>;
-export type BookReviewLazyQueryHookResult = ReturnType<typeof useBookReviewLazyQuery>;
-export type BookReviewSuspenseQueryHookResult = ReturnType<typeof useBookReviewSuspenseQuery>;
-export type BookReviewQueryResult = Apollo.QueryResult<BookReviewQuery, BookReviewQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
   shelves {

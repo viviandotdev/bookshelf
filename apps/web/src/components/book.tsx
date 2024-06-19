@@ -46,7 +46,7 @@ export const Book: React.FC<BookProps> = ({
 
   const onDelete = async () => {
     setIsLoading(true);
-    const deletedBook = await removeUserBook(book!.id);
+    const deletedBook = await removeUserBook(userBook.id);
     if (deletedBook && deletedBook.shelves && deletedBook.shelves.length > 0) {
       // delete from all shelves
       deletedBook.shelves.map((item) => {
@@ -63,6 +63,7 @@ export const Book: React.FC<BookProps> = ({
     <div>
       {view == 'gallery' && (
         <GalleryCard
+          userBookId={userBook.id}
           responsive={responsive}
           book={book!}
           details={details}
@@ -80,6 +81,7 @@ export const Book: React.FC<BookProps> = ({
       )}
       {view == 'list' && (
         <ListCard
+          userBookId={userBook.id}
           book={book!}
           status={status}
           rating={rating}

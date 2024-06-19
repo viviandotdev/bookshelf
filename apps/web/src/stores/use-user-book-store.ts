@@ -5,6 +5,7 @@ import { create } from 'zustand';
 type State = {
   userId: string;
   bookId: string;
+  userBookId: string;
   status: Reading_Status;
   rating: number;
   book: BookParts;
@@ -13,6 +14,7 @@ type State = {
 
 type Action = {
   updateBookId: (bookId: State['bookId']) => void;
+  updateUserBookId: (userBookId: State['userBookId']) => void;
   updateUserId: (userId: State['userId']) => void;
   updateStatus: (status: State['status']) => void;
   updateRating: (rating: State['rating']) => void;
@@ -21,8 +23,10 @@ type Action = {
 };
 
 const useUserBookStore = create<State & Action>((set) => ({
+  id: '',
   status: Reading_Status.WantToRead,
   userId: '',
+  userBookId: '',
   bookId: '',
   rating: 0,
   book: {
@@ -36,6 +40,8 @@ const useUserBookStore = create<State & Action>((set) => ({
   shelves: [],
 
   updateStatus: (status: Reading_Status) => set(() => ({ status: status })),
+  updateUserBookId: (userBookId: string) =>
+    set(() => ({ userBookId: userBookId })),
   updateRating: (rating: number) => set(() => ({ rating: rating })),
   updateBookId: (bookId: string) => set(() => ({ bookId: bookId })),
   updateUserId: (userId: string) => set(() => ({ userId: userId })),

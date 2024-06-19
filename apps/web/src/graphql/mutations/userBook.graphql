@@ -10,7 +10,7 @@ mutation createUserBook($id: String!) {
 
 mutation UpdateUserBook(
   $data: UserBookUpdateInput!
-  $where: BookWhereUniqueInput!
+  $where: UserBookWhereUniqueInput!
 ) {
   updateUserBook(data: $data, where: $where) {
     status
@@ -22,7 +22,7 @@ mutation UpdateUserBook(
   }
 }
 
-mutation RemoveUserBook($where: BookWhereUniqueInput!) {
+mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
   removeUserBook(where: $where) {
     id
     shelves {
@@ -44,15 +44,21 @@ mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
   }
 }
 
-mutation AddUserBookToShelf($bookId: String!, $shelf: String!) {
-  addBookToShelf(bookId: $bookId, shelf: $shelf) {
+mutation AddUserBookToShelf(
+  $where: UserBookWhereUniqueInput!
+  $shelf: String!
+) {
+  addBookToShelf(where: $where, shelf: $shelf) {
     id
     status
   }
 }
 
-mutation RemoveUserBookFromShelf($bookId: String!, $shelf: String!) {
-  removeBookFromShelf(bookId: $bookId, shelf: $shelf) {
+mutation RemoveUserBookFromShelf(
+  $where: UserBookWhereUniqueInput!
+  $shelf: String!
+) {
+  removeBookFromShelf(where: $where, shelf: $shelf) {
     id
     status
   }

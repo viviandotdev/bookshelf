@@ -4,7 +4,7 @@ import ColumnHeader from './column-header';
 import { cn } from '@/lib/utils';
 import CardItem from './card-item';
 import { Droppable } from '@hello-pangea/dnd';
-import { BookItem, ColumnWithBooks } from '../types';
+import { ColumnWithBooks } from '../types';
 import useBuildQuery from '../hooks/use-build-query';
 import { Reading_Status, UserBook } from '@/graphql/graphql';
 import { readingStatuses } from '@/config/books';

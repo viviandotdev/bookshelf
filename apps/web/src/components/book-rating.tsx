@@ -1,4 +1,6 @@
+import { toast } from '@/hooks/use-toast';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
+import { UserBook } from '@prisma/client';
 import { Rating, Star } from '@smastrom/react-rating';
 
 export const myStyles = {
@@ -9,27 +11,35 @@ export const myStyles = {
 
 interface BookRatingProps {
   size?: 'lg' | 'sm' | 'md';
-  bookId: string;
+  userBookId: string;
   rating: number;
   setRating: (rating: number) => void;
 }
 
 // Book Rating Component
 export function BookRating({
+  userBookId,
   size = 'sm',
   rating,
   setRating,
-  bookId,
 }: BookRatingProps) {
-  // get the userbook context
-  const { updateUserBook } = useUpdateUserBook();
+  const { updateUserBook } = useUpdateUserBook({
+    onCompleted: (_) => {
+      toast({
+        title: `Book rating updated `,
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({ title: error.message, variant: 'destructive' });
+    },
+  });
   async function updateRating(selectedValue: number) {
-    const updatedBook = await updateUserBook(bookId, {
+    console.log(userBookId);
+    await updateUserBook(userBookId, {
       rating: selectedValue,
     });
-    if (updatedBook) {
-      setRating(selectedValue);
-    }
+    setRating(selectedValue);
   }
 
   const width = size === 'lg' ? 200 : size === 'md' ? 150 : 100;

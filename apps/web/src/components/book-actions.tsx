@@ -8,12 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {
-  Book,
-  Reading_Status,
-  UserBookShelves,
-  useUpdateReadingStatusMutation,
-} from '../graphql/graphql';
+import { Book, Reading_Status, UserBookShelves } from '../graphql/graphql';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { BookRating } from './book-rating';
@@ -39,9 +34,11 @@ interface BookActionsProps {
   trigger: React.ReactNode;
   side?: 'top' | 'bottom';
   align?: 'start' | 'end';
+  userBookId: string;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
+  userBookId,
   book,
   rating,
   status,
@@ -58,7 +55,7 @@ const BookActions: React.FC<BookActionsProps> = ({
   align = 'start',
 }) => {
   const addToShelfModal = useAddToShelfModal();
-  const { updateBookId, updateStatus, setBook, initShelves } =
+  const { updateUserBookId, updateStatus, setBook, initShelves } =
     useUserBookStore();
   const setShelves = useAddToShelfModal((state) => state.setShelves);
   const { updateUserBook } = useUpdateUserBook({
@@ -75,7 +72,8 @@ const BookActions: React.FC<BookActionsProps> = ({
   const journalEntryModal = useJournalEntryModal();
   const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
-    await updateUserBook(book!.id, { status: status });
+    console.log(userBookId);
+    await updateUserBook(userBookId, { status: status });
   };
   const linkRef = useRef<HTMLAnchorElement>(null);
   return (
@@ -137,7 +135,7 @@ const BookActions: React.FC<BookActionsProps> = ({
             <div className='flex gap-2'>
               My Rating:
               <BookRating
-                bookId={book!.id}
+                userBookId={userBookId}
                 rating={rating}
                 setRating={setRating}
               />
@@ -149,7 +147,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               // Shelves this part is part of
               initShelves(shelves!);
               setShelves(shelves!);
-              updateBookId(book!.id);
+              updateUserBookId(userBookId);
               addToShelfModal.onOpen();
             }}
           >
@@ -162,8 +160,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                 e.stopPropagation();
                 setBook(book!);
                 updateStatus(status);
-                updateBookId(book!.id);
-                journalEntryModal.onOpen();
+                updateUserBookId(userBookId);
               }}
             >
               <Icons.plus className='mr-2 h-5 w-5' />

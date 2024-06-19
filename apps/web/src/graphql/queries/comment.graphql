@@ -1,15 +1,15 @@
-query Comments(
-  $where: ReviewWhereUniqueInput!
-  $limit: Int! = 20
-  $offset: Int! = 0
-) {
-  comments(where: $where, offset: $offset, limit: $limit) {
-    id
-    content
-    createdAt
-    user {
-      id
-      username
-    }
-  }
-}
+# query Comments(
+#   $where: ReviewWhereUniqueInput!
+#   $limit: Int! = 20
+#   $offset: Int! = 0
+# ) {
+#   comments(where: $where, offset: $offset, limit: $limit) {
+#     id
+#     content
+#     createdAt
+#     user {
+#       id
+#       username
+#     }
+#   }
+# }
