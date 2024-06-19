@@ -43,7 +43,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({}) => {
       {!books || loading ? (
         <SkeletonGalleryView />
       ) : (
-        <div className='grid grid-cols-3 justify-center gap-4 overflow-hidden pb-10 pt-2 md:grid-cols-6'>
+        <div className='grid grid-cols-6 justify-center gap-4 overflow-hidden pb-10 pt-2 xl:grid-cols-8'>
           {books?.map((book, idx) => (
             <div key={idx}>
               <Book userBook={book} showRemoveBook={true} view='gallery' />

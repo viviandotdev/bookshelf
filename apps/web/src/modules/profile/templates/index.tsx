@@ -63,7 +63,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     },
   ];
   return (
-    <div className='mx-auto max-w-7xl overflow-x-auto px-8'>
+    <div className='mx-auto max-w-7xl overflow-x-auto px-12'>
       <ProfileSummary
         profileUser={profileUser}
         currentUser={currentUser}

@@ -46,7 +46,7 @@ const Section: React.FC<{
           </div>
         </div>
 
-        <ul className='grid w-full grid-cols-1 gap-4 md:grid-cols-1 xl:grid-cols-3'>
+        <ul className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
           {books.slice(0, 6).map((hit, index) => (
             <Hit key={index} hit={hit.book} />
           ))}

@@ -4,6 +4,7 @@ import Sidebar from '@/modules/shelf/components/shelf-sidebar';
 import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import { MainSidebar } from '../main-sidebar';
 
 export default async function LibraryPage({
   searchParams,
@@ -17,10 +18,10 @@ export default async function LibraryPage({
   const { library, shelves } = await getShelves();
   return (
     <>
-      <div className='flex flex-1' style={{ height: 'calc(100vh - 96px)' }}>
+      <div className='flex'>
         <div
-          className='py4 flex h-[80vh] overflow-y-auto bg-beige-50'
-          style={{ height: 'calc(100vh - 96px)' }}
+          className='flex h-[80vh] overflow-y-auto'
+          style={{ height: 'calc(100vh - 64px)' }}
         >
           <Sidebar librarySelections={library} shelfSelections={shelves} />
         </div>

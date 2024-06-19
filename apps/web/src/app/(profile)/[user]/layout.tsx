@@ -1,3 +1,4 @@
+import { MainSidebar } from '@/app/(main)/main-sidebar';
 import { getCurrentUser } from '@/lib/auth';
 import SiteHeader from '@/modules/layout/templates/site-header';
 
@@ -6,12 +7,16 @@ interface PageLayoutProps {
 }
 
 export default async function PageLayout({ children }: PageLayoutProps) {
-const user = await getCurrentUser();
+  const user = await getCurrentUser();
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
-      <SiteHeader user={user}></SiteHeader>
-      <main className='flex flex-col '>{children}</main>
-      {/* <SiteFooter /> */}
+    <div className='bg-muted/40 w-full '>
+      <div className='flex flex-col bg-background'>
+        <SiteHeader user={user} />
+        <MainSidebar />
+        <div className='ml-14'>{children}</div>
+
+        {/* <SiteFooter /> */}
+      </div>
     </div>
   );
 }

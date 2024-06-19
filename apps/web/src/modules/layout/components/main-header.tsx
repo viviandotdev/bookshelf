@@ -80,17 +80,14 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
         </div>
         <div className='relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0'>
           <div className='w-full sm:max-w-md'>
-            <MainNav items={items} />
+            {/* <MainNav items={items} /> */}
+            <SearchInput />
           </div>
         </div>
-        <div className='relative z-10 flex items-center nav-lg:hidden'>
+
+        <div className='relative z-10 flex items-center gap-4 nav-lg:hidden'>
           {/* Mobile menu button */}
-          <div className='flex cursor-pointer items-center px-4'>
-            <Icons.search
-              className='h-5 w-5 text-beige-700'
-              aria-hidden='true'
-            />
-          </div>
+          <LogBookButton />
           <Button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
             className='inline-flex items-center justify-center rounded-md bg-beige-100 p-2 text-beige-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
@@ -104,8 +101,6 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
           </Button>
         </div>
         <div className='hidden nav-lg:relative nav-lg:z-10 nav-lg:ml-4 nav-lg:flex nav-lg:items-center'>
-          <SearchInput />
-          {/* Profile dropdown */}
           {user ? (
             <div className='relative ml-4 mr-4 flex flex-shrink-0 gap-4'>
               <LogBookButton />

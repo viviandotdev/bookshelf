@@ -34,8 +34,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }, []);
 
   return (
-    <div className='mt-5 hidden w-72 gap-10 overflow-y-auto lg:flex'>
-      <div className='ml-4 flex w-72 flex-col pb-6'>
+    <div
+      className='mt-5 hidden w-72 gap-10 overflow-y-auto lg:flex'
+      //   style={{ height: 'calc(100vh - 64px)' }}
+    >
+      <div className='ml-4 flex w-72 flex-col'>
         {/* <Button className='py- mb-2 mr-6 mt-6 flex items-center   justify-start gap-2 rounded-lg px-3 text-white transition-all hover:text-white '>
                     <Icons.plus className='h-5 w-5' />
                     Add a Book

@@ -97,25 +97,25 @@ const Content = ({
     <AnimatePresence mode='wait' custom={direction}>
       <motion.div
         key={selectedTabIndex}
-        variants={{
-          enter: (direction) => ({
-            opacity: 0,
-            x: direction > 0 ? 100 : -100,
-            scale: 0.8,
-          }),
-          center: { opacity: 1, x: 0, scale: 1, rotate: 0 },
-          exit: (direction) => ({
-            opacity: 0,
-            x: direction > 0 ? -100 : 100,
-            scale: 0.8,
-            position: 'absolute',
-          }),
-        }}
-        transition={{ duration: 0.25 }}
+        // variants={{
+        //   enter: (direction) => ({
+        //     opacity: 0,
+        //     x: direction > 0 ? 100 : -100,
+        //     scale: 0.8,
+        //   }),
+        //   center: { opacity: 1, x: 0, scale: 1, rotate: 0 },
+        //   exit: (direction) => ({
+        //     opacity: 0,
+        //     x: direction > 0 ? -100 : 100,
+        //     scale: 0.8,
+        //     position: 'absolute',
+        //   }),
+        // }}
+        // transition={{ duration: 0.25 }}
         initial={false}
-        animate={'center'}
-        exit={'exit'}
-        custom={direction}
+        // animate={'center'}
+        // exit={'exit'}
+        // custom={direction}
         className={className}
       >
         {children}

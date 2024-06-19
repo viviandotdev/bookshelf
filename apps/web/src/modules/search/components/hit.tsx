@@ -16,7 +16,10 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
     hit.covers &&
     hit.covers.filter((cover) => cover.size === Size.Small)[0].url;
   return (
-    <Link href={`/book/${hit!.slug}`} className='flex cursor-pointer flex-col'>
+    <Link
+      href={`/book/${hit!.slug}`}
+      className='flex max-w-[370px] cursor-pointer flex-col'
+    >
       <div className='border-grey-200 flex cursor-pointer flex-row gap-4 rounded-md border bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md'>
         <div className='w-20 flex-shrink-0 overflow-hidden rounded-md shadow-sm'>
           <Image

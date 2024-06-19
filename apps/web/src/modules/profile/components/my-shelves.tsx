@@ -1,10 +1,9 @@
 import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
 import { Shelf } from '@/graphql/graphql';
 import Link from 'next/link';
 import React from 'react';
 import ShelfCoverGrid from './shelf-images';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 
 interface MyShelvesProps {
   shelves: Shelf[];
@@ -13,12 +12,12 @@ interface MyShelvesProps {
 
 export const MyShelves: React.FC<MyShelvesProps> = ({ shelves, username }) => {
   return (
-    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'>
+    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
       {shelves.map((shelf, index) => (
         <Link href={`/${username}/shelf/${shelf.slug}`}>
           <Card
             key={index}
-            className='flex max-h-44 flex-col justify-between rounded-lg bg-white px-3 pt-3 transition-all duration-300 hover:border hover:border-beige-700 hover:shadow-lg'
+            className='flex max-h-44 flex-col justify-between rounded-lg bg-white px-4 pt-3 transition-all duration-300 hover:border hover:border-beige-700 hover:shadow-lg'
           >
             <div className='flex w-full flex-col items-start gap-2'>
               <div className='ml-1 text-base font-normal leading-tight text-black'>
