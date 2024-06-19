@@ -69,7 +69,6 @@ const BookActions: React.FC<BookActionsProps> = ({
       toast({ title: error.message, variant: 'destructive' });
     },
   });
-  const journalEntryModal = useJournalEntryModal();
   const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
     console.log(userBookId);

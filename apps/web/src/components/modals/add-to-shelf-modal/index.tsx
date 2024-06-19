@@ -15,6 +15,7 @@ import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-us
 import useShelfStore from '@/stores/use-shelf-store';
 import { ShelfList } from './shelf-list';
 import { UserBook } from '@prisma/client';
+import MultipleSelector, { FancyMultiSelect } from '@/components/multi-select';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -89,17 +90,30 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     });
     addToShelfModal.onClose();
   }
+  const OPTIONS: Option[] = [
+    { label: 'nextjs', value: 'nextjs' },
+    { label: 'React', value: 'react' },
+    { label: 'Remix', value: 'remix' },
+    { label: 'Vite', value: 'vite' },
+    { label: 'Nuxt', value: 'nuxt' },
+    { label: 'Vue', value: 'vue' },
+    { label: 'Svelte', value: 'svelte' },
+    { label: 'Angular', value: 'angular' },
+    { label: 'Ember', value: 'ember', disable: true },
+    { label: 'Gatsby', value: 'gatsby', disable: true },
+    { label: 'Astro', value: 'astro' },
+  ];
 
   return (
     <Modal
       title={'Add book to shelves'}
       description='Add a new shelf to organize your books.'
-      isOpen={addToShelfModal.isOpen}
+      isOpen={true}
       onClose={addToShelfModal.onClose}
     >
       <Form {...form}>
         <form
-          className='w-full max-w-96 space-y-8 '
+          className='w-full space-y-8 '
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
@@ -107,11 +121,21 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
             name='shelves'
             render={() => (
               <FormItem>
-                <ShelfList
+                <FancyMultiSelect />
+                {/* <MultipleSelector
+                  defaultOptions={OPTIONS}
+                  placeholder='Select frameworks you like...'
+                  emptyIndicator={
+                    <p className='text-center text-lg leading-10 text-gray-600 dark:text-gray-400'>
+                      no results found.
+                    </p>
+                  }
+                /> */}
+                {/* <ShelfList
                   options={shelves}
                   focus={form.setFocus}
                   control={form.control}
-                />
+                /> */}
                 <FormMessage />
               </FormItem>
             )}
