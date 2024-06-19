@@ -55,7 +55,7 @@ const BookActions: React.FC<BookActionsProps> = ({
   align = 'start',
 }) => {
   const addToShelfModal = useAddToShelfModal();
-  const { updateUserBookId, updateStatus, setBook, initShelves } =
+  const { updateBookId, updateUserBookId, updateStatus, setBook, initShelves } =
     useUserBookStore();
   const setShelves = useAddToShelfModal((state) => state.setShelves);
   const { updateUserBook } = useUpdateUserBook({
@@ -69,7 +69,6 @@ const BookActions: React.FC<BookActionsProps> = ({
       toast({ title: error.message, variant: 'destructive' });
     },
   });
-  const journalEntryModal = useJournalEntryModal();
   const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
     console.log(userBookId);
@@ -147,6 +146,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               // Shelves this part is part of
               initShelves(shelves!);
               setShelves(shelves!);
+              updateBookId(book!.id);
               updateUserBookId(userBookId);
               addToShelfModal.onOpen();
             }}
@@ -160,6 +160,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                 e.stopPropagation();
                 setBook(book!);
                 updateStatus(status);
+                updateBookId(book!.id);
                 updateUserBookId(userBookId);
               }}
             >
