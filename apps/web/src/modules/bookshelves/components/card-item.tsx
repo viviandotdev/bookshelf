@@ -123,32 +123,30 @@ export const CardItem: React.FC<CardItemProps> = ({
                   {book?.title}
                 </div>
                 <div className='text-gray-400'>
-                  {formatAuthors(book.authors!)}
+                  {book.authors && book?.authors[0]}
                 </div>
-              </div>
-              <div className='text-xs text-gray-400'>
-                Completed On Jul 23, 2022
               </div>
             </div>
           </div>
 
           {cardStatus !== 'Currently Reading' ? (
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (cardStatus === 'Read') {
-                } else {
-                  startTransition(() => {
-                    router.push(`/book/${book?.id}/activity`);
-                  });
-                }
-              }}
-              variant={'secondary'}
-              size={'sm'}
-              className='mb-1 mt-4 h-9 w-full border border-beige-500/50'
-            >
-              {buttonText}
-            </Button>
+            // <Button
+            //   onClick={(e) => {
+            //     e.stopPropagation();
+            //     if (cardStatus === 'Read') {
+            //     } else {
+            //       startTransition(() => {
+            //         router.push(`/book/${book?.id}/activity`);
+            //       });
+            //     }
+            //   }}
+            //   variant={'secondary'}
+            //   size={'sm'}
+            //   className='mb-1 mt-4 h-9 w-full border border-beige-500/50'
+            // >
+            //   {buttonText}
+            // </Button>
+            <></>
           ) : (
             <div className=' mb-1 mt-4 flex w-full items-center justify-center gap-2'>
               <Progress className='h-2.5 w-full items-center' value={percent} />

@@ -346,6 +346,7 @@ export class UserBookService {
       }
 
       // Update the UserBook record within the transaction
+      console.log(shelfList);
       const updateUserBook = await prisma.userBook.update({
         where: {
           id: userBookId,

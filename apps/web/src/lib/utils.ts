@@ -5,9 +5,33 @@ import { Book, Cover, Size, Source } from '@/graphql/graphql';
 import { split } from 'rambda';
 import { BookData } from '@/modules/bookshelves/types';
 import { SOURCE } from '@prisma/client';
+import ShortUniqueId from 'short-uuid';
+
 export const repeat = (times: number) => {
   return Array.from(Array(times).keys());
 };
+function generateShortUUID(length: number): string {
+  const translator = ShortUniqueId();
+  const uuid = translator.new().substring(0, length);
+  return uuid;
+}
+
+export function generateSlug(title: string): string {
+  // Step 1: Convert the title to lowercase
+  let slug = title.toLowerCase();
+
+  // Step 2: Replace spaces and non-alphanumeric characters with hyphens
+  slug = slug.replace(/[^a-z0-9]+/g, '-');
+
+  // Step 3: Remove leading and trailing hyphens
+  slug = slug.replace(/^-+|-+$/g, '');
+
+  // Step 4: Append the unique identifier
+  const id = generateShortUUID(6);
+  slug = `${slug}-${id}`;
+
+  return slug;
+}
 
 export const convertTitleToUnderscore = (title: string) => {
   return title

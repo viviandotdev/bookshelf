@@ -16,6 +16,9 @@ import {
 import { BookData } from '@/modules/bookshelves/types';
 import { Button } from '@/components/ui/button';
 import { Size, Source, UserBook } from '@/graphql/graphql';
+import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
+import shelves from '@/modules/profile/components/shelves';
+import useUserBookStore from '@/stores/use-user-book-store';
 
 interface BookTemplateProps {
   book: BookData;
@@ -46,7 +49,9 @@ export default function BookTemplate({
     convertTitleToUnderscore(book.title) +
     '/' +
     book.identifiers?.find((id) => id.source === Source.Google)?.sourceId;
-
+  const addToShelfModal = useAddToShelfModal();
+  const { updateBookId, updateUserBookId, updateStatus, setBook, initShelves } =
+    useUserBookStore();
   return (
     <div className='flex justify-center'>
       <BookStatusModal />
@@ -57,6 +62,15 @@ export default function BookTemplate({
               <section className='flex flex-col gap-3'>
                 <div className='text-center md:text-start'>
                   <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      // Shelves this part is part of
+                      initShelves(shelves!);
+                      setShelves(shelves!);
+                      updateBookId(book!.id);
+                      updateUserBookId(userBookId);
+                      addToShelfModal.onOpen();
+                    }}
                     variant='pill'
                     className='h-10 rounded-full border text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100'
                   >

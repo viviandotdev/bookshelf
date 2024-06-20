@@ -5,6 +5,7 @@ import {
   UseActionOptions,
   createSafeAction,
 } from '@/lib/create-safe-action';
+import { generateSlug } from '@/lib/utils';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -27,6 +28,7 @@ export const useCreateShelf = (options: UseActionOptions = {}) => {
         variables: {
           data: {
             name: input.name,
+            slug: generateSlug(input.name),
           },
         },
       });

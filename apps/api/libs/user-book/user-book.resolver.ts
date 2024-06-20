@@ -151,6 +151,7 @@ export class UserBookResolver {
     @Args('where') where: UserBookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
+    console.log(data);
     const userBook = await this.userBookService.findUnique({
       where: {
         id: where.id,

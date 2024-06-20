@@ -20,7 +20,7 @@ import { useApolloClient } from '@apollo/client';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useShelfStore from '@/stores/use-shelf-store';
 import { UserBook } from '@prisma/client';
-import MultipleSelector from '@/components/multi-select';
+import { ShelfSelector } from '@/components/shelf-selector';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -77,7 +77,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   async function onSubmit({ shelves: formShelves }: DisplayFormValues) {
     setLoading(true);
     const shelves = formShelves.map((item) => item.value);
-    console.log(formShelves);
     await updateUserBook(userBook.userBookId, { shelves });
     if (userBook.shelves.length == 0) {
       decrementLibraryCount('Unshelved');
@@ -110,9 +109,10 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
 
   return (
     <Modal
-      title={'Add book to shelves'}
+      title={'Add ${bok.ane} to shelves'}
       description='Add a new shelf to organize your books.'
       isOpen={addToShelfModal.isOpen}
+      //   isOpen={true}
       onClose={addToShelfModal.onClose}
     >
       <Form {...form}>
@@ -126,37 +126,45 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
             render={(field) => (
               <FormItem>
                 <FormControl>
-                  <MultipleSelector
-                    {...field}
-                    control={form.control}
-                    options={shelves.map((item) => {
+                  <ShelfSelector
+                    defaultOptions={shelves.map((item) => {
                       return { label: item.name, value: item.name };
                     })}
-                    creatable={true}
-                    badgeClassName='bg-beige-100 font-medium rounded-full'
-                    placeholder='Select shelves...'
-                    emptyIndicator={
-                      <>
-                        <div>No results...</div>
-                      </>
+                    control={form.control}
+                    footer={
+                      <div className='mr-2 gap-2'>
+                        <Button
+                          type='submit'
+                          disabled={loading}
+                          variant='default'
+                          className='h-8'
+                        >
+                          Done
+                        </Button>
+                      </div>
                     }
                   />
                 </FormControl>
+                {/* <MultipleSelector
+                  {...field}
+                  control={form.control}
+                  options={shelves.map((item) => {
+                    return { label: item.name, value: item.name };
+                  })}
+                  creatable={true}
+                  badgeClassName='bg-beige-100 font-medium rounded-full'
+                  placeholder='Select shelves...'
+                  emptyIndicator={
+                    <>
+                      <div>No results...</div>
+                    </>
+                  }
+                /> */}
+
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className='flex w-full items-center justify-end space-x-2'>
-            <Button
-              label='Cancel'
-              //   disabled={loading}
-              variant='outline'
-              onClick={addToShelfModal.onClose}
-            ></Button>
-            <Button type='submit' disabled={loading} variant='default'>
-              Done
-            </Button>
-          </div>
         </form>
       </Form>
     </Modal>
