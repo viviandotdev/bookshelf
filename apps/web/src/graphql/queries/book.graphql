@@ -1,6 +1,9 @@
 query Book($where: BookWhereUniqueInput!) {
   book(where: $where) {
     id
+    userBook {
+      id
+    }
     slug
     title
     authors

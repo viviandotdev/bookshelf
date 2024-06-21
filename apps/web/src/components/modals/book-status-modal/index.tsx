@@ -10,7 +10,7 @@ import { useRemoveUserBook } from '@/modules/bookshelves/mutations/use-remove-us
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
 import { Reading_Status } from '@/graphql/graphql';
-
+// open to update the status
 interface BookStatusModalProps {}
 
 const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {

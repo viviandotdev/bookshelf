@@ -8,7 +8,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Book, Reading_Status, UserBookShelves } from '../graphql/graphql';
+import {
+  Book,
+  Reading_Status,
+  UserBookShelves,
+  useGetMyBookShelvesLazyQuery,
+  useShelvesLazyQuery,
+} from '../graphql/graphql';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { BookRating } from './book-rating';
@@ -19,6 +25,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { UserBook } from '@prisma/client';
+import useShelfStore from '@/stores/use-shelf-store';
+import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
 interface BookActionsProps {
   book: Book | undefined;
   shelves: UserBookShelves[] | undefined;
@@ -54,10 +62,7 @@ const BookActions: React.FC<BookActionsProps> = ({
   side = 'top',
   align = 'start',
 }) => {
-  const addToShelfModal = useAddToShelfModal();
-  const { updateBookId, updateUserBookId, updateStatus, setBook, initShelves } =
-    useUserBookStore();
-  const setShelves = useAddToShelfModal((state) => state.setShelves);
+  const { updateUserBookId, updateStatus, setBook } = useUserBookStore();
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
       toast({
@@ -75,6 +80,7 @@ const BookActions: React.FC<BookActionsProps> = ({
     await updateUserBook(userBookId, { status: status });
   };
   const linkRef = useRef<HTMLAnchorElement>(null);
+
   return (
     <>
       <DropdownMenu open={openDropdown} modal={false}>
@@ -140,27 +146,28 @@ const BookActions: React.FC<BookActionsProps> = ({
               />
             </div>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(e) => {
-              e.stopPropagation();
-              // Shelves this part is part of
-              initShelves(shelves!);
-              setShelves(shelves!);
-              updateBookId(book!.id);
-              updateUserBookId(userBookId);
-              addToShelfModal.onOpen();
-            }}
+          <AddToShelfHandler
+            userBookId={userBookId}
+            bookTitle={book?.title || ''}
           >
-            <Icons.shelf className='mr-2 h-5 w-5' />
-            Add to shelf
-          </DropdownMenuItem>
+            {(handleAddToShelf) => (
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleAddToShelf();
+                }}
+              >
+                <Icons.shelf className='mr-2 h-5 w-5' />
+                Add to shelf
+              </DropdownMenuItem>
+            )}
+          </AddToShelfHandler>
           {status == Reading_Status.Reading && (
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
                 setBook(book!);
                 updateStatus(status);
-                updateBookId(book!.id);
                 updateUserBookId(userBookId);
               }}
             >

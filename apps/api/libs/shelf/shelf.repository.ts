@@ -12,6 +12,7 @@ export class ShelfRepository {
   create = this.prisma.shelf.create;
   count = this.prisma.shelf.count;
   delete = this.prisma.shelf.delete;
+  userBookShelvesFindMany = this.prisma.userBookShelves.findMany;
 
   constructor(private readonly prisma: PrismaRepository) {}
 }

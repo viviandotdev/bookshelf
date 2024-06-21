@@ -19,17 +19,18 @@ import { Size, Source, UserBook } from '@/graphql/graphql';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import shelves from '@/modules/profile/components/shelves';
 import useUserBookStore from '@/stores/use-user-book-store';
+import AddToShelfButton from '../components/add-to-shelf-button';
 
 interface BookTemplateProps {
   book: BookData;
   user: User;
-  userBook?: UserBook;
+  userBookId?: string | null;
 }
 
 export default function BookTemplate({
   book,
   user,
-  userBook,
+  userBookId,
 }: BookTemplateProps) {
   const tabs = [
     {
@@ -49,9 +50,7 @@ export default function BookTemplate({
     convertTitleToUnderscore(book.title) +
     '/' +
     book.identifiers?.find((id) => id.source === Source.Google)?.sourceId;
-  const addToShelfModal = useAddToShelfModal();
-  const { updateBookId, updateUserBookId, updateStatus, setBook, initShelves } =
-    useUserBookStore();
+
   return (
     <div className='flex justify-center'>
       <BookStatusModal />
@@ -61,21 +60,12 @@ export default function BookTemplate({
             <div className='flex flex-col gap-4'>
               <section className='flex flex-col gap-3'>
                 <div className='text-center md:text-start'>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // Shelves this part is part of
-                      initShelves(shelves!);
-                      setShelves(shelves!);
-                      updateBookId(book!.id);
-                      updateUserBookId(userBookId);
-                      addToShelfModal.onOpen();
-                    }}
-                    variant='pill'
-                    className='h-10 rounded-full border text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100'
-                  >
-                    + Add to collection
-                  </Button>
+                  {userBookId && (
+                    <AddToShelfButton
+                      bookTitle={book.title}
+                      userBookId={userBookId}
+                    />
+                  )}
                 </div>
                 <section className='mx-auto block md:mx-0 md:hidden'>
                   <Image
@@ -99,15 +89,15 @@ export default function BookTemplate({
                   by {formatAuthors(book.authors)} - {book.yearPublished}
                 </span>
                 <div className='flex justify-center md:justify-start'>
-                  {userBook && (
+                  {userBookId && (
                     <RatingInfo
-                      userBookId={userBook.id}
+                      userBookId={userBookId}
                       ratings={book?.ratings}
                       urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                     />
                   )}
                 </div>
-                <BookControls />
+                <BookControls userBookId={userBookId} book={book} />
               </section>
             </div>
           </section>

@@ -222,10 +222,9 @@ model Book {
     identifiers   Identifier[]
 
     /// @Validator.ValidateNested()
-    userBook   UserBook?
-    userBookId String?    @unique
-    reviews    Review[]
-    logs       AuditLog[]
+    userBook UserBook?
+    reviews  Review[]
+    logs     AuditLog[]
 
     covers  Cover[]
     ratings Rating[]

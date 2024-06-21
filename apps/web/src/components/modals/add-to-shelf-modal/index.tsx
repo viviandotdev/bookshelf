@@ -16,11 +16,16 @@ import { toast } from '@/hooks/use-toast';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import { Button } from '../../ui/button';
 import useUserBookStore from '@/stores/use-user-book-store';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, useQuery } from '@apollo/client';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useShelfStore from '@/stores/use-shelf-store';
-import { UserBook } from '@prisma/client';
+import { Shelf, UserBook } from '@prisma/client';
 import { ShelfSelector } from '@/components/shelf-selector';
+import {
+  GetMyBookShelvesDocument,
+  useGetMyBookShelvesLazyQuery,
+  useGetMyBookShelvesQuery,
+} from '@/graphql/graphql';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -33,7 +38,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     incrementShelfCount,
   } = useShelfStore();
   const userBook = useUserBookStore();
-  const client = useApolloClient();
   const [loading, setLoading] = useState(false);
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {},
@@ -109,7 +113,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
 
   return (
     <Modal
-      title={'Add ${bok.ane} to shelves'}
+      title={`Add
+        '${userBook.book.title}' to shelves`}
       description='Add a new shelf to organize your books.'
       isOpen={addToShelfModal.isOpen}
       //   isOpen={true}

@@ -19,6 +19,11 @@ export class BookResolver {
         id: where.id,
       },
       include: {
+        userBook: {
+          select: {
+            id: true,
+          },
+        },
         identifiers: true,
         covers: true,
         ratings: true,

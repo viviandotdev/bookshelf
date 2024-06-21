@@ -9,6 +9,7 @@ export class ShelfService {
   findUnique = this.repository.findUnique;
   findMany = this.repository.findMany;
   delete = this.repository.delete;
+  userBookShelvesFindMany = this.repository.userBookShelvesFindMany;
   constructor(private readonly repository: ShelfRepository) {}
   async create(input: ShelfCreateInput, userId: string) {
     const shelfCreateArgs: Prisma.ShelfCreateArgs = {

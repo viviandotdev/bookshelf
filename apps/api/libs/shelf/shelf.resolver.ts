@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ShelfService } from './shelf.service';
 import {
   Book,
@@ -7,6 +7,8 @@ import {
   ShelfCreateInput,
   ShelfUpdateInput,
   ShelfWhereUniqueInput,
+  UserBookShelves,
+  UserBookWhereUniqueInput,
 } from '../../src/generated-db-types';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
@@ -113,7 +115,6 @@ export class ShelfResolver {
     });
     return [...faves, ...allShelves];
   }
-
   @Query(() => Shelf, { nullable: true })
   async booksByShelf(
     @Args('slug') slug: string,
@@ -217,5 +218,34 @@ export class ShelfResolver {
       where: { id: where.id },
       data,
     });
+  }
+  @Query(() => [UserBookShelves], { nullable: true })
+  @UseGuards(AccessTokenGuard)
+  async getMyBookShelves(
+    @Args('where', { nullable: true })
+    where: UserBookWhereUniqueInput,
+  ) {
+    // Fetch collections that contain the book
+    const shelves = await this.service.userBookShelvesFindMany({
+      where: {
+        userBookId: where.id,
+      },
+      select: {
+        userBook: {
+          select: {
+            id: true,
+          },
+        },
+        shelf: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+      },
+    });
+
+    return shelves;
   }
 }
