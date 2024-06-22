@@ -3,7 +3,6 @@ import { toast } from '@/hooks/use-toast';
 import { useSession } from 'next-auth/react';
 
 const useLoadBooks = () => {
-  // const session = await useSession();
   const [loadBooks, { data: booksData, networkStatus }] =
     useGetUserBooksLazyQuery({
       fetchPolicy: 'cache-and-network',
@@ -12,10 +11,10 @@ const useLoadBooks = () => {
       nextFetchPolicy: 'cache-only',
       notifyOnNetworkStatusChange: true,
       onError: (error) => {
-        toast({
-          title: error.message,
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: error.message,
+        //   variant: 'destructive',
+        // });
       },
       onCompleted: (data) => {
         if (

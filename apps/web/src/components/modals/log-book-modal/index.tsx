@@ -2,64 +2,47 @@
 import React, { useEffect, useReducer } from 'react';
 import { Modal } from '@/components/ui/modal';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
-import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import LogBookCard from './log-book-card';
-import { NetworkStatus } from '@apollo/client';
-import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
-import { Reading_Status } from '@/graphql/graphql';
+
 interface LogBookModalProps {}
 
 export const LogBookModal: React.FC<LogBookModalProps> = ({}) => {
-  const logBookModal = useLogBookModal();
-  const { loadBooks, booksData, networkStatus } = useLoadBooks();
-  useEffect(() => {
-    const loadData = async () => {
-      const { data } = await loadBooks({
-        variables: {
-          offset: 0,
-          limit: BOOKS_PAGE_SIZE,
-          where: {
-            status: {
-              equals: Reading_Status.Reading,
-            },
-          },
-        },
-      });
-      console.log(data);
-    };
+  const { userBooks, isOpen, onClose, isLoading } = useLogBookModal();
 
-    loadData();
-  }, [loadBooks, logBookModal.isOpen]);
-  const userBooks = booksData && booksData?.getUserBooks?.userBooks;
-  const loading = networkStatus === NetworkStatus.loading;
+  let content;
+  if (isLoading) {
+    content = <div>Loading...</div>;
+  } else if (userBooks.length === 0) {
+    content = <div>No books are currently being read.</div>;
+  } else {
+    content = (
+      <div className='mt-2'>
+        {userBooks.map((userBook, i) => (
+          <div
+            key={i}
+            className={`flex cursor-pointer gap-2 py-2 ${
+              i !== userBooks.length - 1 ? 'border-b' : ''
+            }`}
+          >
+            <LogBookCard userBook={userBook} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>
       <Modal
-        isOpen={logBookModal.isOpen}
-        onClose={logBookModal.onClose}
+        isOpen={isOpen}
+        onClose={onClose}
         title={'Log a Book'}
         description={'Currently Reading Books'}
       >
-        {/* Display books in a list */}
-        <div className='mt-2'>
-          {userBooks && userBooks.length > 0 ? (
-            userBooks.map((userBook, i) => (
-              <div
-                key={i}
-                className={`flex cursor-pointer gap-2 py-2 ${
-                  i !== userBooks.length - 1 ? 'border-b' : ''
-                }`}
-              >
-                <LogBookCard userBook={userBook} />
-              </div>
-            ))
-          ) : (
-            <p>No books are currently being read.</p>
-          )}
-        </div>
+        {content}
       </Modal>
     </>
   );
 };
+
 export default LogBookModal;
