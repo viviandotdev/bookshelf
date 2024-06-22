@@ -2088,6 +2088,7 @@ export type Query = {
   getUserBooks: UserBooksResponse;
   journalEntries: Array<JournalEntry>;
   me: MeResponse;
+  readingStatusByUserBook?: Maybe<UserBook>;
   shelves?: Maybe<Array<Shelf>>;
   user: User;
   userBook?: Maybe<UserBook>;
@@ -2156,6 +2157,11 @@ export type QueryJournalEntriesArgs = {
   book?: InputMaybe<BookWhereUniqueInput>;
   limit?: Scalars['Int']['input'];
   offset?: Scalars['Int']['input'];
+};
+
+
+export type QueryReadingStatusByUserBookArgs = {
+  where: UserBookWhereUniqueInput;
 };
 
 
@@ -4932,7 +4938,7 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
 
 export type CountJournalEntriesQueryVariables = Exact<{
   book: BookWhereUniqueInput;
@@ -4995,6 +5001,13 @@ export type UserBookQueryVariables = Exact<{
 
 
 export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, status: Reading_Status, rating?: number | null, book: { __typename?: 'Book', slug: string, id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+
+export type ReadingStatusByUserBookQueryVariables = Exact<{
+  where: UserBookWhereUniqueInput;
+}>;
+
+
+export type ReadingStatusByUserBookQuery = { __typename?: 'Query', readingStatusByUserBook?: { __typename?: 'UserBook', id: string, status: Reading_Status } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -6018,6 +6031,7 @@ export const BookDocument = gql`
     id
     userBook {
       id
+      status
       shelves {
         shelf {
           id
@@ -6564,6 +6578,47 @@ export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
 export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
 export type UserBookSuspenseQueryHookResult = ReturnType<typeof useUserBookSuspenseQuery>;
 export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
+export const ReadingStatusByUserBookDocument = gql`
+    query ReadingStatusByUserBook($where: UserBookWhereUniqueInput!) {
+  readingStatusByUserBook(where: $where) {
+    id
+    status
+  }
+}
+    `;
+
+/**
+ * __useReadingStatusByUserBookQuery__
+ *
+ * To run a query within a React component, call `useReadingStatusByUserBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadingStatusByUserBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReadingStatusByUserBookQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useReadingStatusByUserBookQuery(baseOptions: Apollo.QueryHookOptions<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables> & ({ variables: ReadingStatusByUserBookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>(ReadingStatusByUserBookDocument, options);
+      }
+export function useReadingStatusByUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>(ReadingStatusByUserBookDocument, options);
+        }
+export function useReadingStatusByUserBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>(ReadingStatusByUserBookDocument, options);
+        }
+export type ReadingStatusByUserBookQueryHookResult = ReturnType<typeof useReadingStatusByUserBookQuery>;
+export type ReadingStatusByUserBookLazyQueryHookResult = ReturnType<typeof useReadingStatusByUserBookLazyQuery>;
+export type ReadingStatusByUserBookSuspenseQueryHookResult = ReturnType<typeof useReadingStatusByUserBookSuspenseQuery>;
+export type ReadingStatusByUserBookQueryResult = Apollo.QueryResult<ReadingStatusByUserBookQuery, ReadingStatusByUserBookQueryVariables>;
 export const GetUserBooksDocument = gql`
     query GetUserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
   getUserBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {

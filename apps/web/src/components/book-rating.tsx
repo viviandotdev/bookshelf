@@ -35,7 +35,6 @@ export function BookRating({
     },
   });
   async function updateRating(selectedValue: number) {
-    console.log(userBookId);
     await updateUserBook(userBookId, {
       rating: selectedValue,
     });

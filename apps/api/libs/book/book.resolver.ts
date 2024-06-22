@@ -17,6 +17,7 @@ export class BookResolver {
         userBook: {
           select: {
             id: true,
+            status: true,
             shelves: {
               select: {
                 shelf: {

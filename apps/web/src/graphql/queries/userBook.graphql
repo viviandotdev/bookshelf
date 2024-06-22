@@ -31,7 +31,6 @@ query UserBook($where: BookWhereUniqueInput!) {
     }
   }
 }
-
 query GetUserBooks(
   $where: UserBookWhereInput
   $limit: Int! = 100

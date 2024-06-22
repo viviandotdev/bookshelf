@@ -6,9 +6,7 @@ import { Reading_Status, useGetUserBooksLazyQuery } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import useLoadBooks from '@/modules/bookshelves/queries/use-load-books';
-import { NetworkStatus } from '@apollo/client';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 interface LogBookButtonProps {}
 

@@ -49,7 +49,14 @@ export const librarySelects = [
   },
 ];
 
-export const readingStatuses = {
+type ReadingStatuses = {
+  [key in Reading_Status]: {
+    name: string;
+    icon: React.ComponentType;
+  };
+};
+
+export const readingStatuses: ReadingStatuses = {
   [Reading_Status.WantToRead]: {
     name: 'Want to Read',
     icon: Icons.save,

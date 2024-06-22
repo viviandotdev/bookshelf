@@ -10,74 +10,91 @@ import { useRemoveUserBook } from '@/modules/bookshelves/mutations/use-remove-us
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
 import { Reading_Status } from '@/graphql/graphql';
-// open to update the status
+import { toast } from '@/hooks/use-toast';
+import { readingStatuses } from '@/config/books';
+
 interface BookStatusModalProps {}
 
 const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const statusModal = useBookStatusModal();
-  const userBook = useUserBookStore();
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const updateUserId = useUserBookStore((state) => state.updateUserId);
-  const updateStatus = useUserBookStore((state) => state.updateStatus);
-  const updateBookId = useUserBookStore((state) => state.updateBookId);
-  const { updateUserBook } = useUpdateUserBook();
+  const { updateUserId, updateStatus, updateBookId, userBookId, status } =
+    useUserBookStore();
   const { removeUserBook } = useRemoveUserBook();
-  const status = [
-    'Currently Reading',
-    Reading_Status.WantToRead,
-    'Read',
-    'Did Not Finish',
-  ];
-  const handleStatusClick = async (newStatus: string) => {
-    const updatedBook = await updateUserBook(userBook.bookId, {
+  const { updateUserBook } = useUpdateUserBook({
+    onCompleted: (data) => {
+      toast({
+        title: `Book status updated `,
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({ title: error.message, variant: 'destructive' });
+    },
+  });
+
+  const statuses = Object.keys(readingStatuses);
+  const handleStatusClick = async (newStatus: Reading_Status) => {
+    await updateUserBook(userBookId, {
       status: newStatus,
     });
-    if (updatedBook) {
-      updateStatus(newStatus);
-    }
-    statusModal.onClose();
+    updateStatus(newStatus); // Update the status in the store
+    statusModal.onClose(); // Close the modal
   };
 
   const onDelete = async () => {
     setIsLoading(true);
     // const isRemoved = await removeUserBook(userBook.);
-    if (isRemoved) {
-      updateUserId('');
-      updateStatus('');
-      updateBookId('');
-      setIsLoading(false);
-      setOpen(false);
-    }
+    // if (isRemoved) {
+    //   updateUserId('');
+    //   updateStatus('');
+    //   updateBookId('');
+    //   setIsLoading(false);
+    //   setOpen(false);
+    // }
   };
 
   const bodyContent = (
-    <div className='flex flex-col gap-2'>
-      {status.map((s: string, index: number) => (
-        <Button
-          key={index}
-          variant={'outline'}
-          size={'lg'}
-          className='rounded-xl text-base hover:bg-beige hover:text-white'
-          label={s}
-          onClick={() => handleStatusClick(s)}
-          icon={
-            userBook.status == s && (
-              <Icons.check className='m-2 h-4 w-4 stroke-[4px]' />
-            )
-          }
-        />
-      ))}
+    <div className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-3'>
+        {statuses.map((key, index) => (
+          <Button
+            key={index}
+            onClick={() => handleStatusClick(key as Reading_Status)}
+            variant={'outline'}
+            className='h-full w-full items-start justify-start rounded-xl px-6 py-6'
+          >
+            <div className='flex w-full justify-between'>
+              <div className='flex flex-col gap-2'>
+                <div className='text-base font-normal leading-tight text-black'>
+                  {readingStatuses[key as Reading_Status].name}
+                </div>
+                <div className='flex'>
+                  <div className='items-start text-xs font-normal uppercase leading-3 text-zinc-700'>
+                    1 BOOK
+                  </div>
+                </div>
+              </div>
+              <div>
+                {status == key && (
+                  <Icons.check className='m-2 h-4 w-4 stroke-[4px]' />
+                )}
+              </div>
+            </div>
+          </Button>
+        ))}
+      </div>
       <Button
         className={cn(
-          buttonVariants({ variant: 'outline', size: 'lg' }),
-          'rounded-xl border-none text-base hover:bg-white'
+          buttonVariants({ size: 'lg' }),
+          'rounded-xl border-none bg-white text-base text-red-500 hover:bg-white'
         )}
         onClick={() => {
           statusModal.onClose();
           setOpen(true);
         }}
-        label={'Remove from my shelf'}
+        label={'Remove from my library'}
         icon={<Icons.delete className='m-2 h-4 w-4 stroke-[4px]' />}
       />
     </div>
@@ -98,7 +115,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
       <Modal
         isOpen={statusModal.isOpen}
         onClose={statusModal.onClose}
-        title={`Choose a shelf for this book`}
+        title={`Select book status `}
       >
         {bodyContent}
       </Modal>

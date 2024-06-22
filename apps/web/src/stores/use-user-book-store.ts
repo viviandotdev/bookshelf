@@ -6,7 +6,7 @@ type State = {
   userId: string;
   bookId: string;
   userBookId: string;
-  status: Reading_Status;
+  status: string;
   rating: number;
   book: BookParts;
   shelves: UserBookShelves[];
@@ -24,7 +24,7 @@ type Action = {
 
 const useUserBookStore = create<State & Action>((set) => ({
   id: '',
-  status: Reading_Status.WantToRead,
+  status: '',
   userId: '',
   userBookId: '',
   bookId: '',
@@ -39,7 +39,7 @@ const useUserBookStore = create<State & Action>((set) => ({
   },
   shelves: [],
 
-  updateStatus: (status: Reading_Status) => set(() => ({ status: status })),
+  updateStatus: (status: string) => set(() => ({ status: status })),
   updateUserBookId: (userBookId: string) =>
     set(() => ({ userBookId: userBookId })),
   updateRating: (rating: number) => set(() => ({ rating: rating })),

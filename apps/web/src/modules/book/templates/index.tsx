@@ -97,7 +97,7 @@ export default function BookTemplate({
                     />
                   )}
                 </div>
-                {userBook && <BookControls userBook={userBook} book={book} />}
+                {<BookControls userBook={userBook} book={book} />}
               </section>
             </div>
           </section>
