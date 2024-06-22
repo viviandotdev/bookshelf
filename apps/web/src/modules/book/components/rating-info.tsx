@@ -46,7 +46,6 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   const googleRating = ratings?.find(
     (rating) => rating.source === Source.Google
   );
-  console.log(userBookId);
   return (
     <div className={`flex ${classes.gap}`}>
       {userBookId && (

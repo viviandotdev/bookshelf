@@ -1,12 +1,8 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import BookTemplate from '@/modules/book/templates';
-import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { getCurrentUser } from '@/lib/auth';
-import { getReviews } from '@/modules/book/queries/getReviews';
 import { getBook } from '@/modules/book/queries/getBook';
-import { getGoogleBook } from '@/modules/book/queries/getGoogleBook';
-import axios from 'axios';
 import {
   findBookByGoogleQuery,
   findBookByGoogleBookId,
