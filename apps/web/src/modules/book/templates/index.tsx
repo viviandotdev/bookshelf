@@ -89,13 +89,11 @@ export default function BookTemplate({
                   by {formatAuthors(book.authors)} - {book.yearPublished}
                 </span>
                 <div className='flex justify-center md:justify-start'>
-                  {userBook && (
-                    <RatingInfo
-                      userBookId={userBook.id}
-                      ratings={book?.ratings}
-                      urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
-                    />
-                  )}
+                  <RatingInfo
+                    userBook={userBook}
+                    ratings={book?.ratings}
+                    urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
+                  />
                 </div>
                 {<BookControls userBook={userBook} book={book} />}
               </section>

@@ -12,6 +12,7 @@ import useBookStatusModal from '@/components/modals/book-status-modal/use-book-s
 import { Reading_Status } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { readingStatuses } from '@/config/books';
+import { read } from 'fs';
 
 interface BookStatusModalProps {}
 
@@ -34,7 +35,32 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     },
   });
 
-  const statuses = Object.keys(readingStatuses);
+  //   const readingStatusesWithCounts =
+
+  const readingStatusesWithCounts = Object.keys(readingStatuses).map(
+    (key, index) => {
+      let count = 0;
+      console.log(key);
+      if (key === Reading_Status.WantToRead) {
+        count = statusModal.bookCounts?.wantsToReadCount || 0;
+      } else if (key === Reading_Status.Reading) {
+        count = statusModal.bookCounts?.readingCount || 0;
+      } else if (key === Reading_Status.UpNext) {
+        count = statusModal.bookCounts?.upNextCount || 0;
+      } else if (key === Reading_Status.Finished) {
+        count = statusModal.bookCounts?.finishedCount || 0;
+      } else if (key === 'DidNotFinish') {
+        // count = statusModal.bookCounts?.didNotFinishCount || 0;
+      }
+
+      return {
+        key,
+        name: readingStatuses[key as Reading_Status].name,
+        count,
+      };
+    }
+  );
+  console.log(readingStatusesWithCounts);
   const handleStatusClick = async (newStatus: Reading_Status) => {
     await updateUserBook(userBookId, {
       status: newStatus,
@@ -58,26 +84,27 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-3'>
-        {statuses.map((key, index) => (
+        {readingStatusesWithCounts.map((bookStatus, index) => (
           <Button
             key={index}
-            onClick={() => handleStatusClick(key as Reading_Status)}
+            onClick={() => handleStatusClick(bookStatus.key as Reading_Status)}
             variant={'outline'}
             className='h-full w-full items-start justify-start rounded-xl px-6 py-6'
           >
             <div className='flex w-full justify-between'>
               <div className='flex flex-col gap-2'>
                 <div className='text-base font-normal leading-tight text-black'>
-                  {readingStatuses[key as Reading_Status].name}
+                  {bookStatus.name}
                 </div>
                 <div className='flex'>
-                  <div className='items-start text-xs font-normal uppercase leading-3 text-zinc-700'>
-                    1 BOOK
+                  <div className='items-start text-xs font-normal uppercase leading-3 text-gray-400 '>
+                    {bookStatus.count}
+                    {bookStatus.count == 1 ? ' BOOK' : ' BOOKS'}
                   </div>
                 </div>
               </div>
               <div>
-                {status == key && (
+                {status == bookStatus.key && (
                   <Icons.check className='m-2 h-4 w-4 stroke-[4px]' />
                 )}
               </div>

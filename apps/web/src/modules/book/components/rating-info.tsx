@@ -1,7 +1,7 @@
 'use client';
 import { BookRating } from '@/components/book-rating';
 import { Icons } from '@/components/icons';
-import { Rating, Source } from '@/graphql/graphql';
+import { Rating, Source, UserBook } from '@/graphql/graphql';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -11,7 +11,7 @@ interface RatingInfoProps {
     goodreads?: string;
     google?: string;
   };
-  userBookId?: string;
+  userBook?: UserBook;
   size?: 'sm' | 'lg';
 }
 
@@ -35,7 +35,7 @@ const sizeClasses = {
 export const RatingInfo: React.FC<RatingInfoProps> = ({
   ratings,
   urls,
-  userBookId,
+  userBook,
   size = 'lg',
 }) => {
   const [rating, setRating] = useState(0);
@@ -48,14 +48,15 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   );
   return (
     <div className={`flex ${classes.gap}`}>
-      {userBookId && (
+      {userBook && (
         <BookRating
           size={size}
           rating={rating}
           setRating={setRating}
-          userBookId={userBookId}
+          userBookId={userBook?.id}
         />
       )}
+
       {goodreadsRating &&
         goodreadsRating.score !== 0 &&
         goodreadsRating.score !== undefined && (

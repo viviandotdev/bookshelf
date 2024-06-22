@@ -1,6 +1,6 @@
+'use client';
 import { toast } from '@/hooks/use-toast';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
-import { UserBook } from '@prisma/client';
 import { Rating, Star } from '@smastrom/react-rating';
 
 export const myStyles = {

@@ -66,7 +66,7 @@ export const readingStatuses: ReadingStatuses = {
     icon: Icons.upNext,
   },
   [Reading_Status.Reading]: {
-    name: 'Currently Reading',
+    name: 'Reading',
     icon: Icons.bookOpen,
   },
   [Reading_Status.Finished]: {
