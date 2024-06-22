@@ -35,9 +35,7 @@ export default async function BookPage({ params }: BookPageProps) {
     }
 
     const book = mergeBookData(myBook, googleBook);
-    return (
-      <BookTemplate userBookId={myBook.userBook?.id} book={book} user={user} />
-    );
+    return <BookTemplate userBook={myBook.userBook} book={book} user={user} />;
   }
   //basically google book api wrapper
   const googleBookId = params.slug;

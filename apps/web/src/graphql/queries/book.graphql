@@ -3,6 +3,13 @@ query Book($where: BookWhereUniqueInput!) {
     id
     userBook {
       id
+      shelves {
+        shelf {
+          id
+          name
+          slug
+        }
+      }
     }
     slug
     title

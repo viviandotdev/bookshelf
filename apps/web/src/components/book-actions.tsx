@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Icons } from './icons';
 import {
   DropdownMenu,
@@ -8,24 +8,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {
-  Book,
-  Reading_Status,
-  UserBookShelves,
-  useGetMyBookShelvesLazyQuery,
-  useShelvesLazyQuery,
-} from '../graphql/graphql';
-import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
+import { Book, Reading_Status, UserBookShelves } from '../graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { BookRating } from './book-rating';
 import { readingStatuses } from '@/config/books';
-import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { UserBook } from '@prisma/client';
-import useShelfStore from '@/stores/use-shelf-store';
 import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
 interface BookActionsProps {
   book: Book | undefined;

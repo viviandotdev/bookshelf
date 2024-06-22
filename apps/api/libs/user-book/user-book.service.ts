@@ -78,6 +78,7 @@ export class UserBookService {
         });
       }
     } else {
+      console.log('Book not found on user shelf.');
       // If the userBook does not exist, throw an error or handle accordingly
       throw new Error('Book not found on user shelf.');
     }

@@ -24,13 +24,13 @@ import AddToShelfButton from '../components/add-to-shelf-button';
 interface BookTemplateProps {
   book: BookData;
   user: User;
-  userBookId?: string | null;
+  userBook?: UserBook;
 }
 
 export default function BookTemplate({
   book,
   user,
-  userBookId,
+  userBook,
 }: BookTemplateProps) {
   const tabs = [
     {
@@ -60,10 +60,10 @@ export default function BookTemplate({
             <div className='flex flex-col gap-4'>
               <section className='flex flex-col gap-3'>
                 <div className='text-center md:text-start'>
-                  {userBookId && (
+                  {userBook && (
                     <AddToShelfButton
                       bookTitle={book.title}
-                      userBookId={userBookId}
+                      userBookId={userBook.id}
                     />
                   )}
                 </div>
@@ -89,15 +89,15 @@ export default function BookTemplate({
                   by {formatAuthors(book.authors)} - {book.yearPublished}
                 </span>
                 <div className='flex justify-center md:justify-start'>
-                  {userBookId && (
+                  {userBook && (
                     <RatingInfo
-                      userBookId={userBookId}
+                      userBookId={userBook.id}
                       ratings={book?.ratings}
                       urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                     />
                   )}
                 </div>
-                <BookControls userBookId={userBookId} book={book} />
+                {userBook && <BookControls userBook={userBook} book={book} />}
               </section>
             </div>
           </section>

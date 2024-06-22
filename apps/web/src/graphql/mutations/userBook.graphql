@@ -58,8 +58,10 @@ mutation RemoveUserBookFromShelf(
   $where: UserBookWhereUniqueInput!
   $shelf: String!
 ) {
-  removeBookFromShelf(where: $where, shelf: $shelf) {
-    id
-    status
-  }
+  removeBookFromShelf(where: $where, shelf: $shelf)
+  #    {
+
+  #     id
+  #     status
+  #   }
 }

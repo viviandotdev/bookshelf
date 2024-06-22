@@ -59,17 +59,19 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook, { name: 'removeBookFromShelf' })
+  @Mutation(() => Boolean, { name: 'removeBookFromShelf' })
   async removeUserBookFromShelf(
     @Args('where') where: UserBookWhereUniqueInput,
     @Args('shelf', { type: () => String }) shelf: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.userBookService.removeBookFromShelf(
+    const userBook = await this.userBookService.removeBookFromShelf(
       where.id,
       user.userId,
       shelf,
     );
+    console.log(userBook);
+    return true;
   }
 
   @UseGuards(AccessTokenGuard)
@@ -95,12 +97,12 @@ export class UserBookResolver {
 
   @UseGuards(AccessTokenGuard)
   @Query(() => UserBook, { nullable: true, name: 'userBook' })
-  userBook(
+  async userBook(
     @Args('where')
     where: BookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.userBookService.findUnique({
+    const userBook = await this.userBookService.findUnique({
       where: {
         identifier: {
           userId: user.userId,
@@ -108,6 +110,8 @@ export class UserBookResolver {
         },
       },
     });
+
+    return userBook;
   }
 
   @UseGuards(AccessTokenGuard)

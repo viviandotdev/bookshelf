@@ -1835,7 +1835,7 @@ type Mutation {
   oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
-  removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): UserBook!
+  removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): Boolean!
   removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: UserBookWhereUniqueInput!): UserBook!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
