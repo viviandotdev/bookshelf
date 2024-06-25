@@ -48,40 +48,7 @@ export class ShelfResolver {
   @UseGuards(AccessTokenGuard)
   @Query(() => [Shelf], { nullable: true })
   async shelves(@CurrentUser() currentUser: JwtPayload) {
-    const faves = await this.service.findMany({
-      where: {
-        userId: currentUser.userId,
-        OR: [{ name: 'Favorites' }, { name: 'Owned' }],
-      },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        userBooks: {
-          take: 3, // Limit to 3 books
-          select: {
-            userBook: {
-              select: {
-                id: true,
-                book: {
-                  select: {
-                    id: true,
-                    covers: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            userBooks: true,
-          },
-        },
-      },
-    });
-
-    const allShelves = await this.service.findMany({
+    const shelves = await this.service.findMany({
       where: {
         userId: currentUser.userId,
         NOT: [{ name: 'Favorites' }, { name: 'Owned' }],
@@ -113,7 +80,7 @@ export class ShelfResolver {
         },
       },
     });
-    return [...faves, ...allShelves];
+    return shelves;
   }
   @Query(() => Shelf, { nullable: true })
   async booksByShelf(
@@ -246,6 +213,11 @@ export class ShelfResolver {
       },
     });
 
-    return shelves;
+    // Filter owned and favorites
+    const filteredShelves = shelves.filter((shelf) => {
+      return shelf.shelf.name !== 'Owned' && shelf.shelf.name !== 'Favorites';
+    });
+
+    return filteredShelves;
   }
 }
