@@ -50,7 +50,7 @@ export default function BookTemplate({
     convertTitleToUnderscore(book.title) +
     '/' +
     book.identifiers?.find((id) => id.source === Source.Google)?.sourceId;
-
+  console.log(userBook);
   return (
     <div className='flex justify-center'>
       <BookStatusModal />

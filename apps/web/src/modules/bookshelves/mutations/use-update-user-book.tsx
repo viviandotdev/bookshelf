@@ -4,6 +4,8 @@ import {
 } from '@/graphql/graphql';
 import { gql } from '@apollo/client';
 import { UserBook } from '@prisma/client';
+import { Rating } from '@smastrom/react-rating';
+import { update } from 'rambda';
 
 interface UseUpdateUserBookOptions {
   onCompleted?: (data: UserBook) => void;
@@ -43,6 +45,7 @@ export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
           `,
           data: {
             status: data?.updateUserBook.status,
+            // rating: data?.updateUserBook.rating,
           },
         });
       },

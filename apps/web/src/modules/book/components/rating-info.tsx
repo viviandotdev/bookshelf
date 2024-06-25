@@ -38,7 +38,7 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   userBook,
   size = 'lg',
 }) => {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(userBook?.rating || 0);
   const classes = sizeClasses[size];
   const goodreadsRating = ratings?.find(
     (rating) => rating.source === Source.Goodreads

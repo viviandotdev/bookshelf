@@ -18,6 +18,7 @@ export class BookResolver {
           select: {
             id: true,
             status: true,
+            rating: true,
             shelves: {
               select: {
                 shelf: {
