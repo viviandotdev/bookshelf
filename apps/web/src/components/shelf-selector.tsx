@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Check, X } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import {
   Command,
@@ -23,12 +22,6 @@ export interface Option {
   /** Group the options by providing key. */
   [key: string]: string | boolean | undefined;
 }
-
-const badgeStyle = (color: string) => ({
-  borderColor: `${color}20`,
-  backgroundColor: `${color}30`,
-  color,
-});
 
 interface FancyBoxProps {
   defaultOptions?: Option[];
@@ -98,6 +91,18 @@ export function ShelfSelector({
     list.onChange(newOptions);
   };
 
+  function removePickedOption(options: Option[], picked: Option[]) {
+    const unpickedOptions = options.filter(
+      (val) => !picked.find((p) => p.value === val.value)
+    );
+    return unpickedOptions;
+  }
+
+  const selectables = React.useMemo<Option[]>(
+    () => removePickedOption(frameworks, selectedValues),
+    [frameworks, selectedValues]
+  );
+
   return (
     <div className=''>
       <Command
@@ -147,7 +152,7 @@ export function ShelfSelector({
         <div className='mt-4 border '>
           <CommandList>
             <CommandGroup className='h-[145px] overflow-auto rounded-none'>
-              {frameworks.map((framework) => {
+              {selectables.map((framework) => {
                 const isActive = selectedValues.some(
                   (selected) => selected.value === framework.value
                 );

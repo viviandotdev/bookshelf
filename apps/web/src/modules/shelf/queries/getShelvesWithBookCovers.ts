@@ -1,4 +1,3 @@
-import { librarySelects } from '@/config/books';
 import {
   Shelf,
   ShelvesWithBookCoversDocument,

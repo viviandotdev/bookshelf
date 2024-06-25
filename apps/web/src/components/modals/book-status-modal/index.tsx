@@ -17,12 +17,12 @@ import { read } from 'fs';
 interface BookStatusModalProps {}
 
 const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
-  const statusModal = useBookStatusModal();
-  const [open, setOpen] = useState(false);
+  const { isOpen, onClose, bookCounts } = useBookStatusModal();
+  const [openAlert, setOpenAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateUserId, updateStatus, updateBookId, userBookId, status } =
+  const { updateStatus, updateUserBookId, userBookId, status } =
     useUserBookStore();
-  const { removeUserBook } = useRemoveUserBook();
+//   const { removeUserBook } = useRemoveUserBook({});
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data) => {
       toast({
@@ -35,21 +35,19 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     },
   });
 
-  //   const readingStatusesWithCounts =
-
   const readingStatusesWithCounts = Object.keys(readingStatuses).map(
     (key, index) => {
       let count = 0;
       console.log(key);
       if (key === Reading_Status.WantToRead) {
-        count = statusModal.bookCounts?.wantsToReadCount || 0;
+        count = bookCounts?.wantsToReadCount || 0;
       } else if (key === Reading_Status.Reading) {
-        count = statusModal.bookCounts?.readingCount || 0;
+        count = bookCounts?.readingCount || 0;
       } else if (key === Reading_Status.UpNext) {
-        count = statusModal.bookCounts?.upNextCount || 0;
+        count = bookCounts?.upNextCount || 0;
       } else if (key === Reading_Status.Finished) {
-        count = statusModal.bookCounts?.finishedCount || 0;
-      } else if (key === 'DidNotFinish') {
+        count = bookCounts?.finishedCount || 0;
+      } else if (key === Reading_Status.DidNotFinish) {
         // count = statusModal.bookCounts?.didNotFinishCount || 0;
       }
 
@@ -66,18 +64,17 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
       status: newStatus,
     });
     updateStatus(newStatus); // Update the status in the store
-    statusModal.onClose(); // Close the modal
+    onClose(); // Close the modal
   };
 
   const onDelete = async () => {
     setIsLoading(true);
     // const isRemoved = await removeUserBook(userBook.);
     // if (isRemoved) {
-    //   updateUserId('');
-    //   updateStatus('');
-    //   updateBookId('');
-    //   setIsLoading(false);
-    //   setOpen(false);
+    updateStatus('');
+    updateUserBookId('');
+    setIsLoading(false);
+    setOpenAlert(false);
     // }
   };
 
@@ -118,8 +115,8 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
           'rounded-xl border-none bg-white text-base text-red-500 hover:bg-white'
         )}
         onClick={() => {
-          statusModal.onClose();
-          setOpen(true);
+          onClose();
+          setOpenAlert(true);
         }}
         label={'Remove from my library'}
         icon={<Icons.delete className='m-2 h-4 w-4 stroke-[4px]' />}
@@ -134,16 +131,12 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
         description={
           'Removing this book will clear associated ratings, reviews and reading activity'
         }
-        isOpen={open}
-        onClose={() => setOpen(false)}
+        isOpen={openAlert}
+        onClose={() => setOpenAlert(false)}
         onConfirm={onDelete}
         loading={isLoading}
       />
-      <Modal
-        isOpen={statusModal.isOpen}
-        onClose={statusModal.onClose}
-        title={`Select book status `}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} title={`Select book status `}>
         {bodyContent}
       </Modal>
     </>
