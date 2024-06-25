@@ -51,9 +51,11 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
   const handleAddToShelf = async () => {
     updateUserBookId(userBookId);
     setBook({ title: bookTitle });
+    addToShelfModal.onOpen();
+    addToShelfModal.setIsLoading(true);
     await loadShelves();
     await loadBookShelves();
-    addToShelfModal.onOpen();
+    addToShelfModal.setIsLoading(false);
   };
 
   return <>{children(handleAddToShelf)}</>;

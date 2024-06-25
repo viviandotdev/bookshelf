@@ -13,6 +13,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
   userBookId,
   bookTitle,
 }) => {
+  //   console.log();
   return (
     <AddToShelfHandler userBookId={userBookId} bookTitle={bookTitle}>
       {(handleAddToShelf) => (
@@ -22,7 +23,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
             handleAddToShelf();
           }}
           variant='pill'
-          className='h-10 rounded-full border text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100'
+          className='h-10 rounded-full text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
         >
           + Add to collection
         </Button>

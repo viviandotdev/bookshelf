@@ -16,16 +16,10 @@ import { toast } from '@/hooks/use-toast';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import { Button } from '../../ui/button';
 import useUserBookStore from '@/stores/use-user-book-store';
-import { useApolloClient, useQuery } from '@apollo/client';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useShelfStore from '@/stores/use-shelf-store';
-import { Shelf, UserBook } from '@prisma/client';
+import { UserBook } from '@prisma/client';
 import { ShelfSelector } from '@/components/shelf-selector';
-import {
-  GetMyBookShelvesDocument,
-  useGetMyBookShelvesLazyQuery,
-  useGetMyBookShelvesQuery,
-} from '@/graphql/graphql';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -75,7 +69,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         return { label: item.shelf.name, value: item.shelf.name };
       }),
     });
-    console.log('userBook.shelves', userBook.shelves);
   }, [userBook.shelves]);
 
   async function onSubmit({ shelves: formShelves }: DisplayFormValues) {
@@ -111,15 +104,11 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     addToShelfModal.onClose();
   }
 
-  return (
-    <Modal
-      title={`Add
-        '${userBook.book.title}' to shelves`}
-      description='Add a new shelf to organize your books.'
-      isOpen={addToShelfModal.isOpen}
-      //   isOpen={true}
-      onClose={addToShelfModal.onClose}
-    >
+  let content;
+  if (addToShelfModal.isLoading) {
+    content = <div className='h-[286px]'>Loading...</div>;
+  } else {
+    content = (
       <Form {...form}>
         <form
           className='w-full space-y-8 '
@@ -150,21 +139,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
                     }
                   />
                 </FormControl>
-                {/* <MultipleSelector
-                  {...field}
-                  control={form.control}
-                  options={shelves.map((item) => {
-                    return { label: item.name, value: item.name };
-                  })}
-                  creatable={true}
-                  badgeClassName='bg-beige-100 font-medium rounded-full'
-                  placeholder='Select shelves...'
-                  emptyIndicator={
-                    <>
-                      <div>No results...</div>
-                    </>
-                  }
-                /> */}
 
                 <FormMessage />
               </FormItem>
@@ -172,6 +146,18 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
           />
         </form>
       </Form>
+    );
+  }
+
+  return (
+    <Modal
+      title={`Add
+        '${userBook.book.title}' to shelves`}
+      description='Add a new shelf to organize your books.'
+      isOpen={addToShelfModal.isOpen}
+      onClose={addToShelfModal.onClose}
+    >
+      {content}
     </Modal>
   );
 };

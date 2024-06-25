@@ -67,7 +67,6 @@ const BookActions: React.FC<BookActionsProps> = ({
   });
   const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
-    console.log(userBookId);
     await updateUserBook(userBookId, { status: status });
   };
   const linkRef = useRef<HTMLAnchorElement>(null);

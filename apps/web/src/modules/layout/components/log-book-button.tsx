@@ -25,7 +25,6 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
     onCompleted: (data) => {
       if (data && data.getUserBooks.userBooks) {
         logBookModal.setUserBooks(data.getUserBooks?.userBooks);
-        logBookModal.setIsLoading(false);
       }
     },
 
@@ -50,6 +49,7 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
               },
             },
           });
+          logBookModal.setIsLoading(false);
         }}
         className={cn(
           buttonVariants({ variant: 'pill', size: 'xs' }),

@@ -35,10 +35,12 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
   const handleExistingUserBookClick = async () => {
     if (userBook) {
       updateUserBookId(userBook.id);
+      statusModal.onOpen();
+      statusModal.setIsLoading(true);
       await bookCountsByUserId({
         variables: { userId: data?.user.id },
       });
-      statusModal.onOpen();
+      statusModal.setIsLoading(false);
     }
   };
 
@@ -54,7 +56,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
             <Button
               onClick={handleExistingUserBookClick}
               variant='secondary'
-              className='w-[160px] gap-2 rounded-lg font-normal'
+              className='w-[160px] gap-2 rounded-lg font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
             >
               <Icons.save className='h-5 w-5' />
               <div>{readingStatuses[status as Reading_Status]?.name}</div>
