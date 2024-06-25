@@ -17,12 +17,17 @@ import { read } from 'fs';
 interface BookStatusModalProps {}
 
 const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
-  const { isOpen, onClose, bookCounts } = useBookStatusModal();
+  const {
+    isOpen,
+    onClose,
+    bookCounts,
+    isLoading: loadingBookCounts,
+  } = useBookStatusModal();
   const [openAlert, setOpenAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { updateStatus, updateUserBookId, userBookId, status } =
     useUserBookStore();
-//   const { removeUserBook } = useRemoveUserBook({});
+  //   const { removeUserBook } = useRemoveUserBook({});
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data) => {
       toast({
@@ -94,10 +99,14 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
                   {bookStatus.name}
                 </div>
                 <div className='flex'>
-                  <div className='items-start text-xs font-normal uppercase leading-3 text-gray-400 '>
-                    {bookStatus.count}
-                    {bookStatus.count == 1 ? ' BOOK' : ' BOOKS'}
-                  </div>
+                  {loadingBookCounts ? (
+                    <div className='h-4 w-12 animate-pulse rounded-md bg-gray-200'></div>
+                  ) : (
+                    <div className='items-start text-xs font-normal uppercase leading-3 text-gray-400 '>
+                      {bookStatus.count}
+                      {bookStatus.count == 1 ? ' BOOK' : ' BOOKS'}
+                    </div>
+                  )}
                 </div>
               </div>
               <div>

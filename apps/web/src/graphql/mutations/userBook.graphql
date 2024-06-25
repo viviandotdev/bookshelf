@@ -18,6 +18,13 @@ mutation UpdateUserBook(
     book {
       __typename
     }
+    shelves {
+      shelf {
+        id
+        name
+        slug
+      }
+    }
     __typename
   }
 }

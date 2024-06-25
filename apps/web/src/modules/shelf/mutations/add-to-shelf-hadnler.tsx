@@ -1,4 +1,3 @@
-// AddToShelfHandler.tsx
 'use client';
 import React from 'react';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
@@ -7,7 +6,6 @@ import {
   useShelvesLazyQuery,
 } from '@/graphql/graphql';
 import useShelfStore from '@/stores/use-shelf-store';
-import useUserBookStore from '@/stores/use-user-book-store';
 
 interface AddToShelfHandlerProps {
   userBookId: string;
@@ -20,12 +18,9 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
   bookTitle,
   children,
 }) => {
-  const addToShelfModal = useAddToShelfModal();
-  const {
-    updateUserBookId,
-    setBook,
-    initShelves: initBookShelves,
-  } = useUserBookStore();
+  const { setShelves, setBookTitle, setUserBookId, onOpen, setIsLoading } =
+    useAddToShelfModal();
+
   const { initShelves: initAllShelves } = useShelfStore();
 
   const [loadBookShelves] = useGetMyBookShelvesLazyQuery({
@@ -33,7 +28,7 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data.getMyBookShelves) {
-        initBookShelves(data.getMyBookShelves);
+        setShelves(data.getMyBookShelves);
       }
     },
   });
@@ -49,13 +44,13 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
   });
 
   const handleAddToShelf = async () => {
-    updateUserBookId(userBookId);
-    setBook({ title: bookTitle });
-    addToShelfModal.onOpen();
-    addToShelfModal.setIsLoading(true);
+    setUserBookId(userBookId);
+    setBookTitle(bookTitle);
+    onOpen();
+    setIsLoading(true);
     await loadShelves();
     await loadBookShelves();
-    addToShelfModal.setIsLoading(false);
+    setIsLoading(false);
   };
 
   return <>{children(handleAddToShelf)}</>;

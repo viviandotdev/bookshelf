@@ -18,6 +18,8 @@ export const BookControls: React.FC<BookControlsProps> = ({
   book,
   userBook,
 }) => {
+  console.log(userBook);
+
   return (
     <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
       <StatusButton userBook={userBook} />
@@ -31,10 +33,11 @@ export const BookControls: React.FC<BookControlsProps> = ({
               className='h-10 w-10'
               onClick={(e) => {
                 e.stopPropagation();
+                console.log('test');
                 handleAddToShelf();
               }}
             >
-              <span className='sr-only'>Add to Collection</span>
+              <span className='sr-only'>Add to Shelf</span>
               <Icons.plus className='h-4 w-4 text-black' />
             </IconButton>
           )}

@@ -64,6 +64,7 @@ export default function BookTemplate({
                     <AddToShelfButton
                       bookTitle={book.title}
                       userBookId={userBook.id}
+                      shelves={userBook?.shelves || []}
                     />
                   )}
                 </div>

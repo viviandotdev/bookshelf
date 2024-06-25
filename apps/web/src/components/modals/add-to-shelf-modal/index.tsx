@@ -15,7 +15,6 @@ import {
 import { toast } from '@/hooks/use-toast';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import { Button } from '../../ui/button';
-import useUserBookStore from '@/stores/use-user-book-store';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useShelfStore from '@/stores/use-shelf-store';
 import { UserBook } from '@prisma/client';
@@ -31,10 +30,17 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     incrementLibraryCount,
     incrementShelfCount,
   } = useShelfStore();
-  const userBook = useUserBookStore();
+  const {
+    setShelves,
+    shelves: userBookShelves,
+    bookTitle,
+    userBookId,
+  } = useAddToShelfModal();
   const [loading, setLoading] = useState(false);
   const { updateUserBook } = useUpdateUserBook({
-    onCompleted: (data: UserBook) => {},
+    onCompleted: (data: UserBook) => {
+      setShelves(data.shelves);
+    },
     onError: (error) => {
       toast({ title: error.message, variant: 'destructive' });
     },
@@ -56,37 +62,38 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     resolver: zodResolver(displayFormSchema),
     defaultValues: useMemo(() => {
       return {
-        shelves: userBook.shelves.map((item) => {
+        shelves: userBookShelves.map((item) => {
+          console.log(item);
           return { label: item.shelf.name, value: item.shelf.name };
         }),
       };
-    }, [userBook.shelves]),
+    }, [userBookShelves]),
   });
 
   useEffect(() => {
     form.reset({
-      shelves: userBook.shelves.map((item) => {
+      shelves: userBookShelves.map((item) => {
         return { label: item.shelf.name, value: item.shelf.name };
       }),
     });
-  }, [userBook.shelves]);
+  }, [userBookShelves]);
 
   async function onSubmit({ shelves: formShelves }: DisplayFormValues) {
     setLoading(true);
     const shelves = formShelves.map((item) => item.value);
-    await updateUserBook(userBook.userBookId, { shelves });
-    if (userBook.shelves.length == 0) {
+    await updateUserBook(userBookId, { shelves });
+    if (userBookShelves.length == 0) {
       decrementLibraryCount('Unshelved');
     }
 
     // should only increment shelves that are new
     shelves.map((item) => {
-      if (!userBook.shelves.map((item) => item.shelf.name).includes(item)) {
+      if (!userBookShelves.map((item) => item.shelf.name).includes(item)) {
         incrementShelfCount(item);
       }
     });
     // should decrement unselected shelves
-    userBook.shelves.map((item) => {
+    userBookShelves.map((item) => {
       if (!shelves.includes(item.shelf.name)) {
         decrementShelfCount(item.shelf.name);
       }
@@ -100,6 +107,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     toast({
       title: `Sucessfully shelved book`,
     });
+    // set the state of the shelves
     setLoading(false);
     addToShelfModal.onClose();
   }
@@ -152,7 +160,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   return (
     <Modal
       title={`Add
-        '${userBook.book.title}' to shelves`}
+        '${bookTitle}' to shelves`}
       description='Add a new shelf to organize your books.'
       isOpen={addToShelfModal.isOpen}
       onClose={addToShelfModal.onClose}
