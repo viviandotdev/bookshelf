@@ -39,18 +39,16 @@ export function ShelfSelector({
     name: 'shelves',
   });
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [frameworks, setFrameworks] = React.useState<Option[]>(
-    defaultOptions || []
-  );
+  const [options, setOptions] = React.useState<Option[]>(defaultOptions || []);
   const [inputValue, setInputValue] = React.useState<string>('');
   const [selectedValues, setSelectedValues] = React.useState<Option[]>(
     list.value || []
   );
 
-  const toggleFramework = (framework: Option) => {
-    const newOptions = !selectedValues.includes(framework)
-      ? [...selectedValues, framework]
-      : selectedValues.filter((l) => l.value !== framework.value);
+  const toggleOption = (option: Option) => {
+    const newOptions = !selectedValues.includes(option)
+      ? [...selectedValues, option]
+      : selectedValues.filter((l) => l.value !== option.value);
     setSelectedValues(newOptions);
     list.onChange(newOptions);
     inputRef?.current?.focus();
@@ -65,7 +63,7 @@ export function ShelfSelector({
             const lastSelectOption = selectedValues[selectedValues.length - 1];
             // If last item is fixed, we should not remove it.
             if (!lastSelectOption.fixed) {
-              toggleFramework(selectedValues[selectedValues.length - 1]);
+              toggleOption(selectedValues[selectedValues.length - 1]);
             }
           }
         }
@@ -75,18 +73,18 @@ export function ShelfSelector({
         }
       }
     },
-    [toggleFramework, selectedValues]
+    [toggleOption, selectedValues]
   );
 
-  const createFramework = (name: string) => {
-    const newFramework = {
+  const createOption = (name: string) => {
+    const newOption = {
       value: name.toLowerCase(),
       label: name,
       color: '#ffffff',
     };
     setInputValue('');
-    setFrameworks([...frameworks, newFramework]);
-    const newOptions = [...selectedValues, newFramework];
+    setOptions([...options, newOption]);
+    const newOptions = [...selectedValues, newOption];
     setSelectedValues(newOptions);
     list.onChange(newOptions);
   };
@@ -99,8 +97,8 @@ export function ShelfSelector({
   }
 
   const selectables = React.useMemo<Option[]>(
-    () => removePickedOption(frameworks, selectedValues),
-    [frameworks, selectedValues]
+    () => removePickedOption(options, selectedValues),
+    [options, selectedValues]
   );
 
   return (
@@ -125,14 +123,14 @@ export function ShelfSelector({
                     className={cn('ml-1 rounded-full outline-none')}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
-                        toggleFramework(option);
+                        toggleOption(option);
                       }
                     }}
                     onMouseDown={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
-                    onClick={() => toggleFramework(option)}
+                    onClick={() => toggleOption(option)}
                   >
                     <X className='text-muted-foreground hover:text-foreground h-3 w-3' />
                   </button>
@@ -152,15 +150,15 @@ export function ShelfSelector({
         <div className='mt-4 border '>
           <CommandList>
             <CommandGroup className='h-[145px] overflow-auto rounded-none'>
-              {selectables.map((framework) => {
+              {selectables.map((option) => {
                 const isActive = selectedValues.some(
-                  (selected) => selected.value === framework.value
+                  (selected) => selected.value === option.value
                 );
                 return (
                   <CommandItem
-                    key={framework.value}
-                    value={framework.value}
-                    onSelect={() => toggleFramework(framework)}
+                    key={option.value}
+                    value={option.value}
+                    onSelect={() => toggleOption(option)}
                   >
                     <Check
                       className={cn(
@@ -168,13 +166,13 @@ export function ShelfSelector({
                         isActive ? 'opacity-100' : 'opacity-0'
                       )}
                     />
-                    <div className='flex-1'>{framework.label}</div>
+                    <div className='flex-1'>{option.label}</div>
                   </CommandItem>
                 );
               })}
               <CommandItemCreate
-                onSelect={() => createFramework(inputValue)}
-                {...{ inputValue, frameworks }}
+                onSelect={() => createOption(inputValue)}
+                {...{ inputValue, options }}
               />
             </CommandGroup>
           </CommandList>
@@ -198,18 +196,18 @@ export function ShelfSelector({
 
 const CommandItemCreate = ({
   inputValue,
-  frameworks,
+  options,
   onSelect,
 }: {
   inputValue: string;
-  frameworks: Option[];
+  options: Option[];
   onSelect: () => void;
 }) => {
-  const hasNoFramework = !frameworks
+  const hasNoOption = !options
     .map(({ value }) => value)
     .includes(`${inputValue.toLowerCase()}`);
 
-  const render = inputValue !== '' && hasNoFramework;
+  const render = inputValue !== '' && hasNoOption;
 
   if (!render) return null;
 
