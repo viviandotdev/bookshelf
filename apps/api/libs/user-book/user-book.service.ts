@@ -20,6 +20,7 @@ import { IdentifierService } from 'libs/identifier/identifier.service';
 @Injectable()
 export class UserBookService {
   findUnique = this.repository.findUnique;
+  delete = this.repository.delete;
   constructor(
     private readonly repository: UserBookRepository,
     private readonly activityService: ActivityService,
@@ -384,25 +385,6 @@ export class UserBookService {
     });
   }
 
-  async remove(where: UserBookIdentifierCompoundUniqueInput) {
-    const { userId, bookId } = where;
-    const userBook = await this.repository.delete({
-      where: {
-        identifier: {
-          userId,
-          bookId,
-        },
-      },
-      include: {
-        shelves: {
-          include: {
-            shelf: true,
-          },
-        },
-      },
-    });
-    return userBook;
-  }
   async createImportedBook(userInfo, book, imageLinks, user) {
     const { shelves, status, rating } = userInfo;
     const { userId } = user;

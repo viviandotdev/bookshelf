@@ -6,13 +6,11 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import useUserBookStore from '@/stores/use-user-book-store';
 import AlertModal from '../alert-modal';
-import { useRemoveUserBook } from '@/modules/bookshelves/mutations/use-remove-user-book';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
-import { Reading_Status } from '@/graphql/graphql';
+import { Reading_Status, useRemoveUserBookMutation } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { readingStatuses } from '@/config/books';
-import { read } from 'fs';
 
 interface BookStatusModalProps {}
 
@@ -25,9 +23,21 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   } = useBookStatusModal();
   const [openAlert, setOpenAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateStatus, updateUserBookId, userBookId, status } =
-    useUserBookStore();
-  //   const { removeUserBook } = useRemoveUserBook({});
+  const { updateStatus, userBookId, status, resetStore } = useUserBookStore();
+
+  const [removeUserBook] = useRemoveUserBookMutation({
+    onCompleted: (data) => {
+      resetStore(); //empty the userBook store
+      toast({
+        title: `Book removed from your shelf`,
+        variant: 'success',
+      });
+    },
+    onError: (error) => {
+      toast({ title: error.message, variant: 'destructive' });
+    },
+  });
+
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data) => {
       toast({
@@ -68,19 +78,17 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     await updateUserBook(userBookId, {
       status: newStatus,
     });
-    updateStatus(newStatus); // Update the status in the store
-    onClose(); // Close the modal
+    updateStatus(newStatus);
+    onClose();
   };
 
   const onDelete = async () => {
     setIsLoading(true);
-    // const isRemoved = await removeUserBook(userBook.);
-    // if (isRemoved) {
-    updateStatus('');
-    updateUserBookId('');
+    await removeUserBook({
+      variables: { where: { id: userBookId } },
+    });
     setIsLoading(false);
     setOpenAlert(false);
-    // }
   };
 
   const bodyContent = (

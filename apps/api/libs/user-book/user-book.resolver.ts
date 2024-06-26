@@ -299,9 +299,10 @@ export class UserBookResolver {
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
-    return this.userBookService.remove({
-      userId: user.userId,
-      bookId: userBook.bookId,
+    return this.userBookService.delete({
+      where: {
+        id: where.id,
+      },
     });
   }
 

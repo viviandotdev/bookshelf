@@ -2,6 +2,7 @@
 import { BookRating } from '@/components/book-rating';
 import { Icons } from '@/components/icons';
 import { Rating, Source, UserBook } from '@/graphql/graphql';
+import useUserBookStore from '@/stores/use-user-book-store';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -39,6 +40,7 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   size = 'lg',
 }) => {
   const [rating, setRating] = useState(userBook?.rating || 0);
+  const { userBookId, isInLibrary } = useUserBookStore();
   const classes = sizeClasses[size];
   const goodreadsRating = ratings?.find(
     (rating) => rating.source === Source.Goodreads
@@ -48,7 +50,7 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   );
   return (
     <div className={`flex ${classes.gap}`}>
-      {userBook && (
+      {userBook && isInLibrary && (
         <BookRating
           size={size}
           rating={rating}

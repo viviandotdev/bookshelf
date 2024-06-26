@@ -190,7 +190,7 @@ model UserBook {
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
     user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book              @relation(fields: [bookId], references: [id])
+    book         Book              @relation(fields: [bookId], references: [id], onDelete: Cascade)
     /// @Validator.ValidateNested()
     createdAt    DateTime          @default(now())
     updatedAt    DateTime          @updatedAt
@@ -218,7 +218,6 @@ model Book {
     /// @Validator.IsInt()
     pageCount     Int?
     /// @Validator.IsString()
-    categories    String[]
     identifiers   Identifier[]
 
     /// @Validator.ValidateNested()

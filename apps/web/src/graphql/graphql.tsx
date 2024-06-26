@@ -4879,7 +4879,7 @@ export type RemoveUserBookMutationVariables = Exact<{
 }>;
 
 
-export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', id: string, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', name: string } }> | null } };
+export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: { __typename?: 'UserBook', id: string } };
 
 export type ImportUserBooksMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -5739,11 +5739,6 @@ export const RemoveUserBookDocument = gql`
     mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
   removeUserBook(where: $where) {
     id
-    shelves {
-      shelf {
-        name
-      }
-    }
   }
 }
     `;

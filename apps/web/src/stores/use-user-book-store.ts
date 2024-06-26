@@ -10,6 +10,7 @@ type State = {
   rating: number;
   book: BookParts;
   shelves: UserBookShelves[];
+  isInLibrary: boolean;
 };
 
 type Action = {
@@ -20,15 +21,19 @@ type Action = {
   updateRating: (rating: State['rating']) => void;
   initShelves: (shelves: UserBookShelves[]) => void;
   setBook: (book: State['book']) => void;
+  setIsInLibrary: (isInLibrary: State['isInLibrary']) => void;
+  resetStore: () => void; // Action to reset the store
+  initializeStore: (initialState: Partial<State>) => void; // Action to initialize the store
 };
 
-const useUserBookStore = create<State & Action>((set) => ({
-  id: '',
-  status: '',
+// Initial state
+const initialState: State = {
   userId: '',
-  userBookId: '',
   bookId: '',
+  userBookId: '',
+  status: '',
   rating: 0,
+  isInLibrary: false,
   book: {
     title: '',
     subtitle: '',
@@ -38,8 +43,13 @@ const useUserBookStore = create<State & Action>((set) => ({
     pageCount: 0,
   },
   shelves: [],
+};
+
+const useUserBookStore = create<State & Action>((set) => ({
+  ...initialState,
 
   updateStatus: (status: string) => set(() => ({ status: status })),
+  setIsInLibrary: (isInLibrary: boolean) => set(() => ({ isInLibrary })),
   updateUserBookId: (userBookId: string) =>
     set(() => ({ userBookId: userBookId })),
   updateRating: (rating: number) => set(() => ({ rating: rating })),
@@ -48,6 +58,8 @@ const useUserBookStore = create<State & Action>((set) => ({
   initShelves: (shelves: UserBookShelves[]) =>
     set(() => ({ shelves: shelves })),
   setBook: (book: BookParts) => set(() => ({ book: book })),
+  resetStore: () => set(() => ({ ...initialState })), // Reset the store to initial state
+  initializeStore: (state: Partial<State>) => set(() => ({ ...state })), // Initialize the store with specific values
 }));
 
 export default useUserBookStore;

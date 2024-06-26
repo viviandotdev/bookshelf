@@ -9,7 +9,7 @@ import {
   useBookCountsByUserIdLazyQuery,
 } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import ContentLoader from 'react-content-loader';
 interface StatusButtonProps {
@@ -19,14 +19,16 @@ interface StatusButtonProps {
 export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
   const statusModal = useBookStatusModal();
   const { data } = useSession();
-  const { updateUserBookId, updateStatus, status } = useUserBookStore();
+  const { updateUserBookId, updateStatus, status, userBookId, isInLibrary } =
+    useUserBookStore();
 
   const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
     onCompleted: (data) => {
       statusModal.setBookCounts(data.bookCountsByUserId);
     },
   });
-  useMemo(() => {
+
+  useEffect(() => {
     if (userBook) {
       updateStatus(userBook.status);
     }
@@ -34,7 +36,6 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
 
   const handleExistingUserBookClick = async () => {
     if (userBook) {
-      updateUserBookId(userBook.id);
       statusModal.onOpen();
       statusModal.setIsLoading(true);
       await bookCountsByUserId({
@@ -46,11 +47,12 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
 
   const handleNewUserBookClick = () => {
     console.log('Adding new book to "Want to Read"');
+    // create a userbook with status "Want to Read"
   };
 
   return (
     <>
-      {userBook ? (
+      {userBook && isInLibrary ? (
         <>
           {status ? (
             <Button

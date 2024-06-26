@@ -27,11 +27,7 @@ interface BookTemplateProps {
   userBook?: UserBook;
 }
 
-export default function BookTemplate({
-  book,
-  user,
-  userBook,
-}: BookTemplateProps) {
+export default function BookTemplate({ book, userBook }: BookTemplateProps) {
   const tabs = [
     {
       label: 'Book Info',
@@ -50,7 +46,6 @@ export default function BookTemplate({
     convertTitleToUnderscore(book.title) +
     '/' +
     book.identifiers?.find((id) => id.source === Source.Google)?.sourceId;
-  console.log(userBook);
   return (
     <div className='flex justify-center'>
       <BookStatusModal />
@@ -63,8 +58,7 @@ export default function BookTemplate({
                   {userBook && (
                     <AddToShelfButton
                       bookTitle={book.title}
-                      userBookId={userBook.id}
-                      shelves={userBook?.shelves || []}
+                      userBook={userBook}
                     />
                   )}
                 </div>
@@ -96,7 +90,7 @@ export default function BookTemplate({
                     urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                   />
                 </div>
-                {<BookControls userBook={userBook} book={book} />}
+                {<BookControls userBook={userBook} bookTitle={book.title} />}
               </section>
             </div>
           </section>

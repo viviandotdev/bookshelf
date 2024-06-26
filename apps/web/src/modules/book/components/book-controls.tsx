@@ -1,50 +1,48 @@
 'use client';
-import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
 import { UserBook } from '@/graphql/graphql';
-import { IconButton } from '@/modules/bookshelves/components/icon-button';
-import { BookData } from '@/modules/bookshelves/types';
-import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import LikeButton from './like-button';
 import OwnedButton from './owned-button';
 import StatusButton from './status-button';
+import useUserBookStore from '@/stores/use-user-book-store';
+import AddToShelfButton from './add-to-shelf-button';
+import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
+import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import { Icons } from '@/components/icons';
 interface BookControlsProps {
-  book: BookData;
   userBook?: UserBook;
+  bookTitle: string;
 }
 
 export const BookControls: React.FC<BookControlsProps> = ({
-  book,
   userBook,
+  bookTitle,
 }) => {
-  console.log(userBook);
+  const { resetStore, initializeStore, isInLibrary } = useUserBookStore();
+  useEffect(() => {
+    if (userBook) {
+      initializeStore({
+        userBookId: userBook.id,
+        isInLibrary: true,
+      });
+    }
+    return () => {
+      resetStore();
+    };
+  }, [userBook]);
 
   return (
     <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
       <StatusButton userBook={userBook} />
-      {userBook && (
-        <AddToShelfHandler
-          userBookId={userBook.id!}
-          bookTitle={book?.title || ''}
-        >
-          {(handleAddToShelf) => (
-            <IconButton
-              className='h-10 w-10'
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log('test');
-                handleAddToShelf();
-              }}
-            >
-              <span className='sr-only'>Add to Shelf</span>
-              <Icons.plus className='h-4 w-4 text-black' />
-            </IconButton>
-          )}
-        </AddToShelfHandler>
+      {userBook && isInLibrary && (
+        <AddToShelfButton
+          variant='icon'
+          userBook={userBook}
+          bookTitle={bookTitle || ''}
+        />
       )}
 
-      {userBook && (
+      {userBook && isInLibrary && (
         <>
           <div className='h-10 w-px bg-gray-100' />
           <div className='flex flex-col items-start justify-center'>
