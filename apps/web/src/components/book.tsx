@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { UserBook, useRemoveUserBookMutation } from '@/graphql/graphql';
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
-import useUserBookStore from '@/stores/use-user-book-store';
 import useShelfStore from '@/stores/use-shelf-store';
 import GalleryCard from '@/modules/bookshelves/components/gallery-card';
 import ListCard from '@/modules/bookshelves/components/list-card';

@@ -6,17 +6,15 @@ import OwnedButton from './owned-button';
 import StatusButton from './status-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import AddToShelfButton from './add-to-shelf-button';
-import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
-import { IconButton } from '@/modules/bookshelves/components/icon-button';
-import { Icons } from '@/components/icons';
+import { BookData } from '@/modules/bookshelves/types';
 interface BookControlsProps {
   userBook?: UserBook;
-  bookTitle: string;
+  book: BookData;
 }
 
 export const BookControls: React.FC<BookControlsProps> = ({
+  book,
   userBook,
-  bookTitle,
 }) => {
   const { resetStore, initializeStore, isInLibrary } = useUserBookStore();
   useEffect(() => {
@@ -33,12 +31,12 @@ export const BookControls: React.FC<BookControlsProps> = ({
 
   return (
     <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
-      <StatusButton userBook={userBook} />
+      <StatusButton userBook={userBook} book={book} />
       {userBook && isInLibrary && (
         <AddToShelfButton
           variant='icon'
           userBook={userBook}
-          bookTitle={bookTitle || ''}
+          bookTitle={book.title || ''}
         />
       )}
 

@@ -14,7 +14,7 @@ import { CoverService } from 'libs/cover/cover.service';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
-
+  delete = this.repository.delete;
   findFirst = this.repository.findFirst;
 
   constructor(

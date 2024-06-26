@@ -17,6 +17,7 @@ import { generateSlug, getUserBookInfo } from './utils';
 import { CoverService } from 'libs/cover/cover.service';
 import { BookService } from 'libs/book/book.service';
 import { IdentifierService } from 'libs/identifier/identifier.service';
+import { BookDataInput } from 'libs/book/dto/book-data.input';
 @Injectable()
 export class UserBookService {
   findUnique = this.repository.findUnique;
@@ -385,6 +386,52 @@ export class UserBookService {
     });
   }
 
+  async createBook(book) {
+    const identifiers = await this.identifierService.createMany(
+      book.identifiers ?? [],
+    );
+
+    const covers = await this.coverService.createMany(book.covers ?? []);
+
+    const createBookArgs: Prisma.BookCreateArgs = {
+      data: {
+        title: book.title,
+        slug: generateSlug(book.title),
+        subtitle: book.subtitle || undefined,
+        authors: book.authors,
+        pageCount: book.pageCount,
+        yearPublished: book.yearPublished,
+        ratings: {
+          create: book.ratings.map((rating) => ({
+            score: rating.score,
+            maxScore: rating.maxScore,
+            source: rating.source,
+          })),
+        },
+        // ratings: {
+        //   create: {
+        //     score: Number(book.rating),
+        //     maxScore: 5,
+        //     source: SOURCE.GOODREADS,
+        //   },
+        // },
+        covers: {
+          connect: covers?.length
+            ? covers.map((cover) => ({ url: cover.url }))
+            : undefined,
+        },
+        identifiers: {
+          connect: identifiers?.length
+            ? identifiers.map((identifier) => ({
+                id: identifier.id,
+              }))
+            : undefined,
+        },
+      },
+    };
+
+    return this.prisma.book.create(createBookArgs);
+  }
   async createImportedBook(userInfo, book, imageLinks, user) {
     const { shelves, status, rating } = userInfo;
     const { userId } = user;
@@ -430,44 +477,18 @@ export class UserBookService {
       }
     }
 
-    // Prepare the identifiers connection
-    const identifiers = await this.identifierService.createMany(
-      identifiersInput ?? [],
-    );
-
-    const covers = await this.coverService.createMany(coverInput ?? []);
-
-    const createBookArgs: Prisma.BookCreateArgs = {
-      data: {
-        title: book.title,
-        slug: generateSlug(book.title),
-        subtitle: book.subtitle || undefined,
-        authors: book.authors,
-        pageCount: book.pageCount,
-        yearPublished: book.yearPublished,
-        ratings: {
-          create: {
-            score: Number(book.rating),
-            maxScore: 5,
-            source: SOURCE.GOODREADS,
-          },
+    const newBook = await this.createBook({
+      ...book,
+      identifiers: identifiersInput,
+      covers: coverInput,
+      ratings: [
+        {
+          score: Number(book.rating),
+          maxScore: 5,
+          source: SOURCE.GOODREADS,
         },
-        covers: {
-          connect: covers?.length
-            ? covers.map((cover) => ({ url: cover.url }))
-            : undefined,
-        },
-        identifiers: {
-          connect: identifiers?.length
-            ? identifiers.map((identifier) => ({
-                id: identifier.id,
-              }))
-            : undefined,
-        },
-      },
-    };
-    // Create the book
-    const newBook = await this.prisma.book.create(createBookArgs);
+      ],
+    });
 
     const createUserBookArgs: Prisma.UserBookCreateArgs = {
       data: {

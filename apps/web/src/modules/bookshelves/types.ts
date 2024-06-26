@@ -1,5 +1,11 @@
-import { Cover, Identifier, Rating, Size, UserBook } from '@/graphql/graphql';
-import { inter } from '@/lib/fonts';
+import {
+  Cover,
+  CoverCreateInput,
+  Identifier,
+  IdentifierCreateInput,
+  Rating,
+  RatingCreateInput,
+} from '@/graphql/graphql';
 
 export interface BookItem {
   id: string;
@@ -24,13 +30,13 @@ export interface BookData {
     goodreads?: string;
     google?: string;
   };
-  identifiers: Identifier[];
+  identifiers: IdentifierCreateInput[];
   isbn?: string;
   title: string;
   subtitle?: string;
   authors: string[];
-  ratings: Rating[];
-  covers: Cover[];
+  ratings: RatingCreateInput[];
+  covers: CoverCreateInput[];
   yearPublished?: string;
   publisher?: string;
   description?: string;

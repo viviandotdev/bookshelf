@@ -133,7 +133,7 @@ enum SOURCE {
 model Identifier {
     id       String  @id @default(uuid())
     /// @Validator.IsString()
-    source   SOURCE //'GOODREADS' | 'GOOGLE' | 'AMAZON' | 'OPEN_LIBRARY' | 'ISBN_10' | 'ISBN_13'
+    source   SOURCE
     /// @Validator.IsString()
     sourceId String
     book     Book?   @relation(fields: [bookId], references: [id])

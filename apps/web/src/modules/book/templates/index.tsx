@@ -90,7 +90,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                     urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                   />
                 </div>
-                {<BookControls userBook={userBook} bookTitle={book.title} />}
+                {<BookControls userBook={userBook} book={book} />}
               </section>
             </div>
           </section>

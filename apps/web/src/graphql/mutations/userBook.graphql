@@ -1,5 +1,5 @@
-mutation createUserBook($id: String!) {
-  createUserBook(id: $id) {
+mutation CreateUserBook($data: BookDataInput!) {
+  createUserBook(data: $data) {
     status
     id
     book {
@@ -30,9 +30,7 @@ mutation UpdateUserBook(
 }
 
 mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
-  removeUserBook(where: $where) {
-    id
-  }
+  removeUserBook(where: $where)
 }
 
 mutation ImportUserBooks($content: String!) {

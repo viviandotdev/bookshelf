@@ -4,27 +4,44 @@ import useBookStatusModal from '@/components/modals/book-status-modal/use-book-s
 import { Button } from '@/components/ui/button';
 import { readingStatuses } from '@/config/books';
 import {
+  BookDataInput,
   Reading_Status,
   UserBook,
   useBookCountsByUserIdLazyQuery,
+  useCreateUserBookMutation,
 } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import ContentLoader from 'react-content-loader';
+import { BookData } from '@/modules/bookshelves/types';
 interface StatusButtonProps {
+  book: BookData;
   userBook?: UserBook;
 }
 
-export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
+export const StatusButton: React.FC<StatusButtonProps> = ({
+  userBook,
+  book,
+}) => {
   const statusModal = useBookStatusModal();
   const { data } = useSession();
-  const { updateUserBookId, updateStatus, status, userBookId, isInLibrary } =
+  const { updateStatus, status, initializeStore, isInLibrary } =
     useUserBookStore();
 
   const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
     onCompleted: (data) => {
       statusModal.setBookCounts(data.bookCountsByUserId);
+    },
+  });
+
+  const [createUserBook] = useCreateUserBookMutation({
+    onCompleted: (data) => {
+      initializeStore({
+        userBookId: data.createUserBook.id,
+        isInLibrary: true,
+      });
+      console.log('UserBook created', data);
     },
   });
 
@@ -45,8 +62,24 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ userBook }) => {
     }
   };
 
-  const handleNewUserBookClick = () => {
+  const handleNewUserBookClick = async () => {
     console.log('Adding new book to "Want to Read"');
+
+    // Filter the book object to only include properties defined in BookDataInput
+    await createUserBook({
+      variables: {
+        data: {
+          title: book.title,
+          subtitle: book.subtitle,
+          authors: book.authors,
+          pageCount: book.pageCount,
+          yearPublished: book.yearPublished,
+          ratings: book.ratings,
+          covers: book.covers,
+          identifiers: book.identifiers,
+        },
+      },
+    });
     // create a userbook with status "Want to Read"
   };
 

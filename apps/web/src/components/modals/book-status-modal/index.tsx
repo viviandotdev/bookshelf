@@ -26,7 +26,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const { updateStatus, userBookId, status, resetStore } = useUserBookStore();
 
   const [removeUserBook] = useRemoveUserBookMutation({
-    onCompleted: (data) => {
+    onCompleted: (_) => {
       resetStore(); //empty the userBook store
       toast({
         title: `Book removed from your shelf`,

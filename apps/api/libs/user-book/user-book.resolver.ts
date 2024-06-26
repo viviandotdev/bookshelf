@@ -34,6 +34,9 @@ import { IdentifierService } from 'libs/identifier/identifier.service';
 import { GoodreadsBookData } from './types';
 import { getGoodreadsCover } from 'libs/book/api/book-cover.api';
 import { BookCountsResponse } from './models/book-counts.response';
+import { BookService } from 'libs/book/book.service';
+import { Prisma } from '@prisma/client';
+import { BookDataInput } from 'libs/book/dto/book-data.input';
 @Resolver(() => UserBook)
 export class UserBookResolver {
   private readonly resend = new Resend(
@@ -43,6 +46,7 @@ export class UserBookResolver {
 
   constructor(
     private readonly userBookService: UserBookService,
+    private readonly bookService: BookService,
     private readonly prisma: PrismaRepository,
     private configService: ConfigService,
     private readonly identifiersService: IdentifierService,
@@ -75,24 +79,39 @@ export class UserBookResolver {
   }
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook, { nullable: true, name: 'createUserBook' })
+  @Mutation(() => UserBook)
   async createUserBook(
-    @Args('id')
-    id: string,
+    @Args('data')
+    data: BookDataInput,
     @CurrentUser() user: JwtPayload,
   ) {
-    let bookId;
-    const identifier = await this.identifiersService.findFirst({
-      where: {
-        source: 'GOOGLE',
-        sourceId: id,
+    // Create the book
+    const newBook = await this.userBookService.createBook(data);
+
+    const createUserBookArgs: Prisma.UserBookCreateArgs = {
+      data: {
+        book: {
+          connect: {
+            id: newBook.id,
+          },
+        },
+        user: {
+          connect: {
+            id: user.userId,
+          },
+        },
+        status: READING_STATUS.WANT_TO_READ,
       },
       include: {
-        book: true, // Include related book information if needed
+        book: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
       },
-    });
-    // bookId = identifier.bookId;
-    return this.userBookService.create(bookId, user.userId);
+    };
+    return await this.prisma.userBook.create(createUserBookArgs);
   }
 
   @UseGuards(AccessTokenGuard)
@@ -282,9 +301,8 @@ export class UserBookResolver {
 
     return true;
   }
-
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => UserBook)
+  @Mutation(() => Boolean)
   async removeUserBook(
     @Args('where') where: UserBookWhereUniqueInput,
     @CurrentUser() user: JwtPayload,
@@ -294,16 +312,27 @@ export class UserBookResolver {
         id: where.id,
       },
     });
+
     if (!userBook) {
       throw new NotFoundException(
         `User book ${JSON.stringify(where)} does not exist`,
       );
     }
-    return this.userBookService.delete({
+
+    const { userId, bookId } = userBook;
+
+    if (userId !== user.userId) {
+      throw new NotFoundException(
+        `Unauthorized to delete user book ${JSON.stringify(where)}`,
+      );
+    }
+
+    await this.bookService.delete({
       where: {
-        id: where.id,
+        id: bookId,
       },
     });
+    return true;
   }
 
   @Query(() => BookCountsResponse)
