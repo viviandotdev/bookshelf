@@ -39,20 +39,24 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
     onCompleted: (data) => {
       initializeStore({
         userBookId: data.createUserBook.id,
+        status: Reading_Status.WantToRead,
+        rating: 0,
         isInLibrary: true,
+        isAddedToLibrary: true,
       });
+      //   update tne userbook store with all the userbook data
       console.log('UserBook created', data);
     },
   });
 
   useEffect(() => {
-    if (userBook) {
-      updateStatus(userBook.status);
+    if (isInLibrary) {
+      updateStatus(userBook!.status);
     }
-  }, [userBook, updateStatus]);
+  }, [userBook, updateStatus, isInLibrary]);
 
   const handleExistingUserBookClick = async () => {
-    if (userBook) {
+    if (isInLibrary) {
       statusModal.onOpen();
       statusModal.setIsLoading(true);
       await bookCountsByUserId({
@@ -64,8 +68,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 
   const handleNewUserBookClick = async () => {
     console.log('Adding new book to "Want to Read"');
-
-    // Filter the book object to only include properties defined in BookDataInput
+    // Filter the book object to only include properties defined n BookDataInput
     await createUserBook({
       variables: {
         data: {
@@ -75,8 +78,15 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
           pageCount: book.pageCount,
           yearPublished: book.yearPublished,
           ratings: book.ratings,
-          covers: book.covers,
-          identifiers: book.identifiers,
+          covers: book.covers.map((cover) => ({
+            url: cover.url,
+            size: cover.size,
+            source: cover.source,
+          })),
+          identifiers: book.identifiers.map((identifier) => ({
+            source: identifier.source,
+            sourceId: identifier.sourceId,
+          })),
         },
       },
     });
@@ -85,7 +95,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 
   return (
     <>
-      {userBook && isInLibrary ? (
+      {isInLibrary ? (
         <>
           {status ? (
             <Button

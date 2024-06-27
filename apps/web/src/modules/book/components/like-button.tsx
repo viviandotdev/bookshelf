@@ -8,16 +8,16 @@ import {
 } from '@/graphql/graphql';
 import { useToggle } from '@uidotdev/usehooks';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import useUserBookStore from '@/stores/use-user-book-store';
 
 interface LikeButtonProps {
   userBook: UserBook;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
-  const [hasReacted, toggleReact] = useToggle(
-    userBook.shelves?.some(({ shelf }) => shelf.name === 'Favorites')
-  );
-  // TODO evict the cache after the mutation, so it is updated on other pages 
+  const { isLiked, userBookId } = useUserBookStore();
+  const [hasReacted, toggleReact] = useToggle(isLiked);
+  // TODO evict the cache after the mutation, so it is updated on other pages
   //https://github1s.com/heyxyz/hey/blob/main/apps/web/src/components/Publication/Actions/Like.tsx#L68-L86
   const [addLike] = useAddUserBookToShelfMutation({
     onError: (error) => {
@@ -39,7 +39,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
       await removeLike({
         variables: {
           where: {
-            id: userBook.id,
+            id: userBookId,
           },
           shelf: 'Favorites',
         },
@@ -48,7 +48,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
       await addLike({
         variables: {
           where: {
-            id: userBook.id,
+            id: userBookId,
           },
           shelf: 'Favorites',
         },

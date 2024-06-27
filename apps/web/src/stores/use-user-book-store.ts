@@ -1,5 +1,5 @@
 import { BookParts } from '@/modules/bookshelves/types';
-import { Book, Reading_Status, UserBookShelves } from '../graphql/graphql';
+import { UserBookShelves } from '../graphql/graphql';
 import { create } from 'zustand';
 
 type State = {
@@ -11,6 +11,8 @@ type State = {
   book: BookParts;
   shelves: UserBookShelves[];
   isInLibrary: boolean;
+  isLiked: boolean;
+  isOwned: boolean;
 };
 
 type Action = {
@@ -22,6 +24,8 @@ type Action = {
   initShelves: (shelves: UserBookShelves[]) => void;
   setBook: (book: State['book']) => void;
   setIsInLibrary: (isInLibrary: State['isInLibrary']) => void;
+  setIsLiked: (isLiked: State['isLiked']) => void;
+  setIsOwned: (isOwned: State['isOwned']) => void;
   resetStore: () => void; // Action to reset the store
   initializeStore: (initialState: Partial<State>) => void; // Action to initialize the store
 };
@@ -34,6 +38,8 @@ const initialState: State = {
   status: '',
   rating: 0,
   isInLibrary: false,
+  isLiked: false,
+  isOwned: false,
   book: {
     title: '',
     subtitle: '',
@@ -50,6 +56,8 @@ const useUserBookStore = create<State & Action>((set) => ({
 
   updateStatus: (status: string) => set(() => ({ status: status })),
   setIsInLibrary: (isInLibrary: boolean) => set(() => ({ isInLibrary })),
+  setIsLiked: (isLiked: boolean) => set(() => ({ isLiked })),
+  setIsOwned: (isOwned: boolean) => set(() => ({ isOwned })),
   updateUserBookId: (userBookId: string) =>
     set(() => ({ userBookId: userBookId })),
   updateRating: (rating: number) => set(() => ({ rating: rating })),

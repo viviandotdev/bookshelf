@@ -87,6 +87,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                     urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                   />
                 </div>
+                {/* initialize the user book state on this page */}
                 <BookControls userBook={userBook} book={book} />
               </section>
             </div>

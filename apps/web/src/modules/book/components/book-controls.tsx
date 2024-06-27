@@ -28,10 +28,13 @@ export const BookControls: React.FC<BookControlsProps> = ({
 
   useEffect(() => {
     if (userBook) {
-      // initialize the store with the userBook data
       initializeStore({
         userBookId: userBook.id,
         isInLibrary: true,
+        isLiked: userBook.shelves?.some(
+          ({ shelf }) => shelf.name === 'Favorites'
+        ),
+        isOwned: userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned'),
       });
     }
     return () => {
@@ -42,7 +45,7 @@ export const BookControls: React.FC<BookControlsProps> = ({
   return (
     <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
       <StatusButton userBook={userBook} book={book} />
-      {userBook && isInLibrary && (
+      {isInLibrary && (
         <AddToShelfButton
           variant='icon'
           userBook={userBook}

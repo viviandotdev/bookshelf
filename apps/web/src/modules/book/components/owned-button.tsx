@@ -8,37 +8,37 @@ import {
 } from '@/graphql/graphql';
 import { useToggle } from '@uidotdev/usehooks';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import useUserBookStore from '@/stores/use-user-book-store';
 
 interface OwnedButtonProps {
   userBook: UserBook;
 }
 
 const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
-  const [isOwned, toggleOwned] = useToggle(
-    userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned')
-  );
+  const { isOwned, userBookId } = useUserBookStore();
+  const [hasReacted, toggleReact] = useToggle(isOwned);
 
   const [addToOwned] = useAddUserBookToShelfMutation({
     onError: (error) => {
-      toggleOwned();
+      toggleReact();
       // Handle error
     },
   });
 
   const [removeFromOwned] = useRemoveUserBookFromShelfMutation({
     onError: (error) => {
-      toggleOwned();
+      toggleReact();
       // Handle error
     },
   });
 
   const toggleOwnedStatus = async () => {
-    toggleOwned();
-    if (isOwned) {
+    toggleReact();
+    if (hasReacted) {
       await removeFromOwned({
         variables: {
           where: {
-            id: userBook.id,
+            id: userBookId,
           },
           shelf: 'Owned',
         },
@@ -47,7 +47,7 @@ const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
       await addToOwned({
         variables: {
           where: {
-            id: userBook.id,
+            id: userBookId,
           },
           shelf: 'Owned',
         },
@@ -58,7 +58,7 @@ const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
   return (
     <IconButton onClick={toggleOwnedStatus} className='h-10 w-10'>
       <span className='sr-only'>Mark as Owned</span>
-      {isOwned ? (
+      {hasReacted ? (
         <Icons.owned className='h-4 w-4 items-center fill-current text-beige' />
       ) : (
         <Icons.owned className='h-4 w-4 items-center' />

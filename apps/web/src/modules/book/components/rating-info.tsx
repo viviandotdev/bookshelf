@@ -4,7 +4,7 @@ import { Icons } from '@/components/icons';
 import { RatingCreateInput, Source, UserBook } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface RatingInfoProps {
   ratings: RatingCreateInput[];
@@ -39,8 +39,15 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   userBook,
   size = 'lg',
 }) => {
-  const [rating, setRating] = useState(userBook?.rating || 0);
-  const { isInLibrary } = useUserBookStore();
+  const {
+    isInLibrary,
+    userBookId,
+    rating,
+    updateRating,
+    initializeStore,
+    resetStore,
+  } = useUserBookStore();
+
   const classes = sizeClasses[size];
   const goodreadsRating = ratings?.find(
     (rating) => rating.source === Source.Goodreads
@@ -48,14 +55,26 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   const googleRating = ratings?.find(
     (rating) => rating.source === Source.Google
   );
+  useEffect(() => {
+    if (userBook) {
+      initializeStore({
+        rating: userBook?.rating || 0,
+        isInLibrary: true,
+      });
+    }
+    return () => {
+      resetStore();
+    };
+  }, [userBook]);
+
   return (
     <div className={`flex ${classes.gap}`}>
-      {userBook && isInLibrary && (
+      {isInLibrary && (
         <BookRating
           size={size}
           rating={rating}
-          setRating={setRating}
-          userBookId={userBook?.id}
+          setRating={updateRating}
+          userBookId={userBookId}
         />
       )}
 
