@@ -1,34 +1,72 @@
 import {
   Book,
-  BookCreateInput,
   BookWhereUniqueInput,
+  IdentifierCreateInput,
 } from '@bookcue/api/generated-db-types';
 import { Resolver, Args, Query, Mutation } from '@nestjs/graphql';
 import { BookService } from './book.service';
-import { Prisma, READING_STATUS } from '@prisma/client';
 import { PrismaRepository } from 'prisma/prisma.repository';
+import { UserBookService } from 'libs/user-book/user-book.service';
 import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
-import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
-import { BookDataInput } from './dto/book-data.input';
-import { UserBookService } from 'libs/user-book/user-book.service';
+import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 
 @Resolver(() => Book)
 export class BookResolver {
-  constructor(
-    private readonly bookService: BookService,
-    private readonly userBookService: UserBookService,
-    private readonly prisma: PrismaRepository,
-  ) {}
-  @Query(() => Book, { nullable: true, name: 'book' })
+  constructor(private readonly bookService: BookService) {}
 
-//   input an identifier not a slug
-  async book(@Args('where') where: BookWhereUniqueInput) {
-    const book = await this.bookService.findUnique({
+  @UseGuards(AccessTokenGuard)
+  @Mutation(() => Book)
+  async addIdentifierToBook(
+    @Args('where') where: BookWhereUniqueInput,
+    @Args('identifier') identifier: IdentifierCreateInput,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const book = await this.bookService.findFirst({
       where: {
-        slug: where.slug,
         id: where.id,
+        userBook: {
+          userId: user.userId,
+        },
+      },
+    });
+
+    if (!book) {
+      throw new Error('Book not found or you do not have access to this book');
+    }
+    return this.bookService.update({
+      where: {
+        id: where.id,
+      },
+      data: {
+        identifiers: {
+          create: identifier,
+        },
+      },
+      include: {
+        identifiers: true,
+      },
+    });
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Query(() => Book, { nullable: true })
+  async findBookByIdentifier(
+    @Args('identifier') identifier: IdentifierCreateInput,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    const book = await this.bookService.findFirst({
+      where: {
+        userBook: {
+          userId: user.userId,
+        },
+        identifiers: {
+          some: {
+            source: identifier.source,
+            sourceId: identifier.sourceId,
+          },
+        },
       },
       include: {
         userBook: {

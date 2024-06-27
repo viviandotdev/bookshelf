@@ -1,7 +1,15 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER, GOODREADS_BASE_URL } from './constants';
-import { Book, Cover, Size, Source } from '@/graphql/graphql';
+import {
+  Book,
+  Cover,
+  CoverCreateInput,
+  IdentifierCreateInput,
+  RatingCreateInput,
+  Size,
+  Source,
+} from '@/graphql/graphql';
 import { split } from 'rambda';
 import { BookData } from '@/modules/bookshelves/types';
 import { SOURCE } from '@prisma/client';
@@ -123,14 +131,20 @@ export const mergeBookData = (
       google: additionalData.urls?.google,
     },
     identifiers: [
-      ...(baseBook.identifiers ?? []),
+      ...((baseBook.identifiers as IdentifierCreateInput[]) ?? []),
       ...(additionalData.identifiers ?? []),
     ],
     pageCount: baseBook.pageCount ?? additionalData.pageCount ?? 0,
     yearPublished: additionalData.yearPublished,
     publisher: additionalData.publisher ?? '',
-    covers: [...(baseBook.covers ?? []), ...(additionalData.covers ?? [])],
-    ratings: [...(baseBook.ratings ?? []), ...(additionalData.ratings ?? [])],
+    covers: [
+      ...((baseBook.covers as CoverCreateInput[]) ?? []),
+      ...(additionalData.covers ?? []),
+    ],
+    ratings: [
+      ...((baseBook.ratings as RatingCreateInput[]) ?? []),
+      ...(additionalData.ratings ?? []),
+    ],
     description: additionalData.description ?? '',
     language: additionalData.language ?? '',
     isbn:
@@ -146,7 +160,7 @@ export function processGoogleBook(book: any): BookData | null {
   const isbn =
     industryIdentifiers[0]?.identifier || industryIdentifiers[1]?.identifier;
   const bookData: BookData = {
-    slug: book.id,
+    slug: Source.Google + '-' + book.id,
     title: book.volumeInfo.title,
     subtitle: book.volumeInfo.subtitle,
     authors: book.volumeInfo.authors,
@@ -160,29 +174,33 @@ export function processGoogleBook(book: any): BookData | null {
     pageCount: book.volumeInfo.pageCount || 0,
     covers: [
       {
-        id: '_',
         source: Source.Google,
         size: Size.Small,
         url: book.volumeInfo.imageLinks?.thumbnail,
       },
-      {
-        id: '_',
-        source: Source.Google,
-        size: Size.Large,
-        url: book.volumeInfo.imageLinks?.large,
-      },
+      ...(book.volumeInfo.imageLinks?.large
+        ? [
+            {
+              source: Source.Google,
+              size: Size.Large,
+              url: book.volumeInfo.imageLinks.large,
+            },
+          ]
+        : []),
     ],
     ratings: [
-      {
-        id: '_',
-        maxScore: 5,
-        source: Source.Google,
-        score: book.volumeInfo.averageRating,
-      },
+      ...(book.volumeInfo.averageRating
+        ? [
+            {
+              maxScore: 5,
+              source: Source.Google,
+              score: book.volumeInfo.averageRating,
+            },
+          ]
+        : []),
     ],
     identifiers: [
       {
-        id: '_',
         source: Source.Google,
         sourceId: book.id,
       },

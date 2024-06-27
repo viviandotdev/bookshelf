@@ -1,5 +1,5 @@
-query Book($where: BookWhereUniqueInput!) {
-  book(where: $where) {
+query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
+  findBookByIdentifier(identifier: $identifier) {
     id
     userBook {
       id
@@ -23,6 +23,7 @@ query Book($where: BookWhereUniqueInput!) {
     }
     covers {
       url
+      source
       size
     }
     ratings {

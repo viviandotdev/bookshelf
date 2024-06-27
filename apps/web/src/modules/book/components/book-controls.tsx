@@ -1,5 +1,5 @@
 'use client';
-import { UserBook } from '@/graphql/graphql';
+import { Source, UserBook } from '@/graphql/graphql';
 import React, { useEffect } from 'react';
 import LikeButton from './like-button';
 import OwnedButton from './owned-button';
@@ -17,6 +17,15 @@ export const BookControls: React.FC<BookControlsProps> = ({
   userBook,
 }) => {
   const { resetStore, initializeStore, isInLibrary } = useUserBookStore();
+  // hack to update the url if the book is a goodreads book
+  // if the user removes the book and refreshes the url and the book still exists
+  useEffect(() => {
+    const googleBookId = book.identifiers?.find(
+      (id) => id.source === Source.Google
+    )?.sourceId;
+    window.history.pushState(null, '', '/book/GOOGLE-' + googleBookId);
+  }, []);
+
   useEffect(() => {
     if (userBook) {
       initializeStore({

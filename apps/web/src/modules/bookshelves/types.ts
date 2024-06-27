@@ -1,9 +1,6 @@
 import {
-  Cover,
   CoverCreateInput,
-  Identifier,
   IdentifierCreateInput,
-  Rating,
   RatingCreateInput,
 } from '@/graphql/graphql';
 

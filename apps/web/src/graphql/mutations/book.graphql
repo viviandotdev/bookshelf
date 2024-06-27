@@ -1,0 +1,8 @@
+mutation AddIdentifierToBook(
+  $where: BookWhereUniqueInput!
+  $identifier: IdentifierCreateInput!
+) {
+  addIdentifierToBook(where: $where, identifier: $identifier) {
+    id
+  }
+}

@@ -393,10 +393,29 @@ export class UserBookService {
 
     const covers = await this.coverService.createMany(book.covers ?? []);
 
+    const sources = [
+      SOURCE.GOOGLE,
+      SOURCE.ISBN_13,
+      SOURCE.ISBN_10,
+      SOURCE.GOODREADS,
+    ];
+
+    const slug = (() => {
+      for (const source of sources) {
+        const identifier = identifiers.find(
+          (identifier) => identifier.source === source,
+        );
+        if (identifier) {
+          return `${source}-${identifier.sourceId}`;
+        }
+      }
+      return `${identifiers[0].source}-${identifiers[0].sourceId}`;
+    })();
+
     const createBookArgs: Prisma.BookCreateArgs = {
       data: {
         title: book.title,
-        slug: generateSlug(book.title),
+        slug: slug,
         subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,
@@ -435,6 +454,7 @@ export class UserBookService {
   async createImportedBook(userInfo, book, imageLinks, user) {
     const { shelves, status, rating } = userInfo;
     const { userId } = user;
+
     const coverInput: CoverCreateInput[] = this.coverService.createCoverInput({
       small: imageLinks && imageLinks.small,
       large: imageLinks && imageLinks.large,

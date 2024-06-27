@@ -66,15 +66,15 @@ model User {
     journalEntries     JournalEntry[]
     following          User[]         @relation("UserFollows")
     followers          User[]         @relation("UserFollows")
-    // favoriteBooks      Book[]         @relation("FavoritedBooks")
     reviews            Review[]
     likedReviews       Review[]       @relation(name: "LikedReviews")
     comments           Comment[]
-    auditLogs          AuditLog[]
+    // auditLogs          AuditLog[]
     // AUTH
     image              String?
     emailVerified      DateTime?
     accounts           Account[]
+    AuditLog           AuditLog[]
 }
 
 model Account {
@@ -122,12 +122,12 @@ enum SIZE {
 }
 
 enum SOURCE {
-    GOODREADS
     GOOGLE
+    ISBN_13
+    ISBN_10
+    GOODREADS
     AMAZON
     OPEN_LIBRARY
-    ISBN_10
-    ISBN_13
 }
 
 model Identifier {
@@ -138,8 +138,6 @@ model Identifier {
     sourceId String
     book     Book?   @relation(fields: [bookId], references: [id])
     bookId   String?
-
-    @@unique(fields: [source, sourceId])
 }
 
 model Review {
@@ -206,7 +204,7 @@ model Book {
     /// @Validator.IsString()
     id            String       @id @default(uuid())
     /// @Validator.IsString()
-    slug          String       @unique
+    slug          String
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()
@@ -223,10 +221,11 @@ model Book {
     /// @Validator.ValidateNested()
     userBook UserBook?
     reviews  Review[]
-    logs     AuditLog[]
+    // logs     AuditLog[]
 
-    covers  Cover[]
-    ratings Rating[]
+    covers   Cover[]
+    ratings  Rating[]
+    AuditLog AuditLog[]
 }
 
 model UserBookShelves {

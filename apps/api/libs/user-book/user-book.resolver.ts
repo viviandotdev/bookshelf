@@ -49,7 +49,6 @@ export class UserBookResolver {
     private readonly bookService: BookService,
     private readonly prisma: PrismaRepository,
     private configService: ConfigService,
-    private readonly identifiersService: IdentifierService,
   ) {}
 
   @UseGuards(AccessTokenGuard)
@@ -326,6 +325,11 @@ export class UserBookResolver {
         `Unauthorized to delete user book ${JSON.stringify(where)}`,
       );
     }
+
+    // Step 1: Delete dependent records in the AuditLog table, remove when we remove auditlogs
+    await this.prisma.auditLog.deleteMany({
+      where: { bookId },
+    });
 
     await this.bookService.delete({
       where: {

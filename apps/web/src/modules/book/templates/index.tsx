@@ -14,11 +14,7 @@ import {
   GOOGLE_BASE_URL,
 } from '@/lib/constants';
 import { BookData } from '@/modules/bookshelves/types';
-import { Button } from '@/components/ui/button';
 import { Size, Source, UserBook } from '@/graphql/graphql';
-import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
-import shelves from '@/modules/profile/components/shelves';
-import useUserBookStore from '@/stores/use-user-book-store';
 import AddToShelfButton from '../components/add-to-shelf-button';
 
 interface BookTemplateProps {
@@ -35,9 +31,11 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
       id: 'bookInfo',
     },
   ];
+
   const coverUrl =
-    book.covers &&
-    book.covers.filter((cover) => cover.size === Size.Large)[0].url;
+    book.covers?.find((cover) => cover.size === Size.Large)?.url ||
+    book.covers?.find((cover) => cover.size === Size.Small)?.url;
+
   const goodreadsUrl =
     GOODREADS_BASE_URL +
     book.identifiers?.find((id) => id.source === Source.Goodreads)?.sourceId;
@@ -46,6 +44,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
     convertTitleToUnderscore(book.title) +
     '/' +
     book.identifiers?.find((id) => id.source === Source.Google)?.sourceId;
+
   return (
     <div className='flex justify-center'>
       <BookStatusModal />
@@ -90,7 +89,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                     urls={{ goodreads: goodreadsUrl, google: googleBookUrl }}
                   />
                 </div>
-                {<BookControls userBook={userBook} book={book} />}
+                <BookControls userBook={userBook} book={book} />
               </section>
             </div>
           </section>

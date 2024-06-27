@@ -8,13 +8,12 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma } from '@prisma/client';
 import { BookRepository } from './book.repository';
 import { IdentifierService } from 'libs/identifier/identifier.service';
-import { BookData } from 'libs/user-book/types';
-import { generateSlug } from 'libs/user-book/utils';
 import { CoverService } from 'libs/cover/cover.service';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
   delete = this.repository.delete;
+  update = this.repository.update;
   findFirst = this.repository.findFirst;
 
   constructor(
