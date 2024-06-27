@@ -1,13 +1,13 @@
 'use client';
 import { BookRating } from '@/components/book-rating';
 import { Icons } from '@/components/icons';
-import { Rating, Source, UserBook } from '@/graphql/graphql';
+import { RatingCreateInput, Source, UserBook } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 interface RatingInfoProps {
-  ratings: Rating[];
+  ratings: RatingCreateInput[];
   urls?: {
     goodreads?: string;
     google?: string;
@@ -40,7 +40,7 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   size = 'lg',
 }) => {
   const [rating, setRating] = useState(userBook?.rating || 0);
-  const { userBookId, isInLibrary } = useUserBookStore();
+  const { isInLibrary } = useUserBookStore();
   const classes = sizeClasses[size];
   const goodreadsRating = ratings?.find(
     (rating) => rating.source === Source.Goodreads

@@ -28,6 +28,7 @@ export const BookControls: React.FC<BookControlsProps> = ({
 
   useEffect(() => {
     if (userBook) {
+      // initialize the store with the userBook data
       initializeStore({
         userBookId: userBook.id,
         isInLibrary: true,
@@ -56,14 +57,6 @@ export const BookControls: React.FC<BookControlsProps> = ({
             <div className='flex gap-5'>
               <LikeButton userBook={userBook} />
               <OwnedButton userBook={userBook} />
-
-              {/* TODO: Add share or more buttons? */}
-              {/* <IconButton className='h-10 w-10'>
-            <Icons.more className='h-5 w-5 text-beige' />
-          </IconButton> */}
-              {/* <IconButton className='h-10 w-10'>
-            <Icons.share className='h-5 w-5 text-beige' />
-          </IconButton> */}
             </div>
           </div>
         </>

@@ -54,12 +54,10 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
             <div className='flex flex-col gap-4'>
               <section className='flex flex-col gap-3'>
                 <div className='text-center md:text-start'>
-                  {userBook && (
-                    <AddToShelfButton
-                      bookTitle={book.title}
-                      userBook={userBook}
-                    />
-                  )}
+                  <AddToShelfButton
+                    bookTitle={book.title}
+                    userBook={userBook}
+                  />
                 </div>
                 <section className='mx-auto block md:mx-0 md:hidden'>
                   <Image

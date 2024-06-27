@@ -7,19 +7,19 @@ import useUserBookStore from '@/stores/use-user-book-store';
 import { UserBook } from '@/graphql/graphql';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { Icons } from '@/components/icons'; // Assuming you have an Icons component
+import { Icons } from '@/components/icons';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 
 interface AddToShelfButtonProps {
   bookTitle: string;
-  userBook: UserBook;
-  variant?: 'default' | 'icon'; // New prop for variant
+  userBook?: UserBook;
+  variant?: 'default' | 'icon';
 }
 
 const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
   userBook,
   bookTitle,
-  variant = 'default', // Default to 'default' variant
+  variant = 'default',
 }) => {
   const { data } = useSession();
   const {
@@ -28,21 +28,26 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
     setUserBookId,
     setBookTitle,
   } = useAddToShelfModal();
-  let buttonText: string = ' + Add to shelves';
+
   const { isInLibrary } = useUserBookStore();
-  const myShelves = userBook.shelves?.filter(
-    ({ shelf }) => shelf.name != 'Owned' && shelf.name !== 'Favorites'
-  );
 
   useEffect(() => {
-    setUserBookId(userBook.id);
-    setBookTitle(bookTitle);
-    setShelves(myShelves as any);
-  }, [setShelves, userBook.shelves]);
+    if (userBook) {
+      const myShelves = userBook.shelves?.filter(
+        ({ shelf }) => shelf.name != 'Owned' && shelf.name !== 'Favorites'
+      );
+      setUserBookId(userBook.id);
+      setBookTitle(bookTitle);
+      setShelves(myShelves as any);
+    }
+  }, [setShelves, userBook]);
+
+  let buttonText: string = ' + Add to shelves';
 
   //  If is userbook and is part of shelves
   if (
     variant != 'icon' &&
+    userBook &&
     isInLibrary &&
     userBookShelves &&
     userBookShelves.length > 0
@@ -71,7 +76,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
 
   return (
     <>
-      {isInLibrary && (
+      {userBook && isInLibrary && (
         <AddToShelfHandler userBookId={userBook.id} bookTitle={bookTitle}>
           {(handleAddToShelf) =>
             variant === 'icon' ? (
@@ -82,7 +87,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
                   handleAddToShelf();
                 }}
               >
-                <span className='sr-only'>Add to Shelf</span>
+                <span className='sr-only'>{buttonText}</span>
                 <Icons.plus className='h-4 w-4 text-black' />
               </IconButton>
             ) : (
