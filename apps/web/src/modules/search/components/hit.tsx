@@ -13,8 +13,9 @@ export type HitProps = {
 const Hit: React.FC<HitProps> = ({ hit }) => {
   const width = 68;
   const coverUrl =
-    hit.covers &&
-    hit.covers.filter((cover) => cover.size === Size.Small)[0].url;
+    hit.covers?.find((cover) => cover.size === Size.Small)?.url ||
+    hit.covers?.find((cover) => cover.size === Size.Large)?.url;
+
   return (
     <Link
       href={`/book/${hit!.slug}`}

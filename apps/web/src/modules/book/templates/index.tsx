@@ -49,7 +49,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
     <div className='flex justify-center'>
       <BookStatusModal />
       <div className='w-full max-w-[1064px] px-4 sm:px-6 lg:px-8'>
-        <div className='mt-8 grid grid-cols-1 gap-8 md:grid-cols-[1fr_212px] md:items-start'>
+        <div className='my-8 grid grid-cols-1 gap-8 md:grid-cols-[1fr_212px] md:items-start'>
           <section>
             <div className='flex flex-col gap-4'>
               <section className='flex flex-col gap-3'>

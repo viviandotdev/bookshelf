@@ -181,11 +181,11 @@ export function ShelfSelector({
       <div className='flex w-full items-center justify-between rounded-b-md border-b border-l border-r '>
         <div className='px-6 py-4 text-sm'>
           <span className='truncate'>
-            {selectedValues.length === 1 &&
-              `${selectedValues.length} shelf selected`}
-            {selectedValues.length > 1
-              ? `${selectedValues.length} shelves selected`
-              : 'No shelves selected'}
+            {selectedValues.length === 0
+              ? 'No shelves selected'
+              : selectedValues.length === 1
+                ? `${selectedValues.length} shelf selected`
+                : `${selectedValues.length} shelves selected`}
           </span>
         </div>
         {footer}
