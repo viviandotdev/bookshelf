@@ -197,7 +197,38 @@ model UserBook {
     journalEntry JournalEntry[]
     order        Int               @default(autoincrement())
 
+    readDates ReadDate[]
+
+    /// @Validator.IsString()
+    /// @Validator.ValidateNested()
     @@unique([userId, bookId], name: "identifier")
+}
+
+model ReadingProgress {
+    id         String        @id @default(uuid())
+    /// @Validator.IsInt()
+    capacity   Int
+    /// @Validator.IsInt()
+    progress   Int
+    type       PROGRESS_TYPE
+    createdAt  DateTime      @default(now())
+    readDate   ReadDate      @relation(fields: [readDateId], references: [id])
+    readDateId String
+}
+
+enum PROGRESS_TYPE {
+    PAGES
+    PERCENTAGE
+}
+
+
+model ReadDate {
+    id              String            @id @default(uuid())
+    startDate       DateTime          @default(now())
+    finishedDate    DateTime?
+    readingProgress ReadingProgress[]
+    userBook        UserBook?         @relation(fields: [userBookId], references: [id])
+    userBookId      String?
 }
 
 model Book {

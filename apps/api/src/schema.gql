@@ -1354,6 +1354,13 @@ input EnumACTIONFilter {
   notIn: [ACTION!]
 }
 
+input EnumPROGRESS_TYPEFilter {
+  equals: PROGRESS_TYPE
+  in: [PROGRESS_TYPE!]
+  not: EnumPROGRESS_TYPEFilter
+  notIn: [PROGRESS_TYPE!]
+}
+
 input EnumREADING_STATUSFilter {
   equals: READING_STATUS
   in: [READING_STATUS!]
@@ -1920,6 +1927,11 @@ input OAuthInput {
   username: String!
 }
 
+enum PROGRESS_TYPE {
+  PAGES
+  PERCENTAGE
+}
+
 type PasswordResetTokenCountAggregate {
   _all: Int!
   email: Int!
@@ -2157,6 +2169,335 @@ input RatingWhereUniqueInput {
   maxScore: FloatFilter
   score: FloatFilter
   source: EnumSOURCEFilter
+}
+
+type ReadDate {
+  _count: ReadDateCount!
+  finishedDate: Timestamp
+  id: ID!
+  readingProgress: [ReadingProgress!]
+  startDate: Timestamp!
+  userBook: UserBook
+  userBookId: String
+}
+
+type ReadDateCount {
+  readingProgress: Int!
+}
+
+type ReadDateCountAggregate {
+  _all: Int!
+  finishedDate: Int!
+  id: Int!
+  startDate: Int!
+  userBookId: Int!
+}
+
+input ReadDateCreateManyUserBookInput {
+  finishedDate: Timestamp
+  id: String
+  startDate: Timestamp
+}
+
+input ReadDateCreateManyUserBookInputEnvelope {
+  data: [ReadDateCreateManyUserBookInput!]!
+  skipDuplicates: Boolean
+}
+
+input ReadDateCreateNestedManyWithoutUserBookInput {
+  connect: [ReadDateWhereUniqueInput!]
+  connectOrCreate: [ReadDateCreateOrConnectWithoutUserBookInput!]
+  create: [ReadDateCreateWithoutUserBookInput!]
+  createMany: ReadDateCreateManyUserBookInputEnvelope
+}
+
+input ReadDateCreateOrConnectWithoutUserBookInput {
+  create: ReadDateCreateWithoutUserBookInput!
+  where: ReadDateWhereUniqueInput!
+}
+
+input ReadDateCreateWithoutUserBookInput {
+  finishedDate: Timestamp
+  id: String
+  readingProgress: ReadingProgressCreateNestedManyWithoutReadDateInput
+  startDate: Timestamp
+}
+
+input ReadDateListRelationFilter {
+  every: ReadDateWhereInput
+  none: ReadDateWhereInput
+  some: ReadDateWhereInput
+}
+
+type ReadDateMaxAggregate {
+  finishedDate: Timestamp
+  id: String
+  startDate: Timestamp
+  userBookId: String
+}
+
+type ReadDateMinAggregate {
+  finishedDate: Timestamp
+  id: String
+  startDate: Timestamp
+  userBookId: String
+}
+
+input ReadDateOrderByRelationAggregateInput {
+  _count: SortOrder
+}
+
+input ReadDateRelationFilter {
+  is: ReadDateWhereInput
+  isNot: ReadDateWhereInput
+}
+
+input ReadDateScalarWhereInput {
+  AND: [ReadDateScalarWhereInput!]
+  NOT: [ReadDateScalarWhereInput!]
+  OR: [ReadDateScalarWhereInput!]
+  finishedDate: DateTimeFilter
+  id: StringFilter
+  startDate: DateTimeFilter
+  userBookId: StringFilter
+}
+
+input ReadDateUpdateManyMutationInput {
+  finishedDate: Timestamp
+  id: String
+  startDate: Timestamp
+}
+
+input ReadDateUpdateManyWithWhereWithoutUserBookInput {
+  data: ReadDateUpdateManyMutationInput!
+  where: ReadDateScalarWhereInput!
+}
+
+input ReadDateUpdateManyWithoutUserBookNestedInput {
+  connect: [ReadDateWhereUniqueInput!]
+  connectOrCreate: [ReadDateCreateOrConnectWithoutUserBookInput!]
+  create: [ReadDateCreateWithoutUserBookInput!]
+  createMany: ReadDateCreateManyUserBookInputEnvelope
+  delete: [ReadDateWhereUniqueInput!]
+  deleteMany: [ReadDateScalarWhereInput!]
+  disconnect: [ReadDateWhereUniqueInput!]
+  set: [ReadDateWhereUniqueInput!]
+  update: [ReadDateUpdateWithWhereUniqueWithoutUserBookInput!]
+  updateMany: [ReadDateUpdateManyWithWhereWithoutUserBookInput!]
+  upsert: [ReadDateUpsertWithWhereUniqueWithoutUserBookInput!]
+}
+
+input ReadDateUpdateWithWhereUniqueWithoutUserBookInput {
+  data: ReadDateUpdateWithoutUserBookInput!
+  where: ReadDateWhereUniqueInput!
+}
+
+input ReadDateUpdateWithoutUserBookInput {
+  finishedDate: Timestamp
+  id: String
+  readingProgress: ReadingProgressUpdateManyWithoutReadDateNestedInput
+  startDate: Timestamp
+}
+
+input ReadDateUpsertWithWhereUniqueWithoutUserBookInput {
+  create: ReadDateCreateWithoutUserBookInput!
+  update: ReadDateUpdateWithoutUserBookInput!
+  where: ReadDateWhereUniqueInput!
+}
+
+input ReadDateWhereInput {
+  AND: [ReadDateWhereInput!]
+  NOT: [ReadDateWhereInput!]
+  OR: [ReadDateWhereInput!]
+  finishedDate: DateTimeFilter
+  id: StringFilter
+  readingProgress: ReadingProgressListRelationFilter
+  startDate: DateTimeFilter
+  userBook: UserBookRelationFilter
+  userBookId: StringFilter
+}
+
+input ReadDateWhereUniqueInput {
+  AND: [ReadDateWhereInput!]
+  NOT: [ReadDateWhereInput!]
+  OR: [ReadDateWhereInput!]
+  finishedDate: DateTimeFilter
+  id: String
+  readingProgress: ReadingProgressListRelationFilter
+  startDate: DateTimeFilter
+  userBook: UserBookRelationFilter
+  userBookId: StringFilter
+}
+
+type ReadingProgress {
+  capacity: Int!
+  createdAt: Timestamp!
+  id: ID!
+  progress: Int!
+  readDate: ReadDate!
+  readDateId: String!
+  type: PROGRESS_TYPE!
+}
+
+type ReadingProgressAvgAggregate {
+  capacity: Float
+  progress: Float
+}
+
+type ReadingProgressCountAggregate {
+  _all: Int!
+  capacity: Int!
+  createdAt: Int!
+  id: Int!
+  progress: Int!
+  readDateId: Int!
+  type: Int!
+}
+
+input ReadingProgressCreateManyReadDateInput {
+  capacity: Int!
+  createdAt: Timestamp
+  id: String
+  progress: Int!
+  type: PROGRESS_TYPE!
+}
+
+input ReadingProgressCreateManyReadDateInputEnvelope {
+  data: [ReadingProgressCreateManyReadDateInput!]!
+  skipDuplicates: Boolean
+}
+
+input ReadingProgressCreateNestedManyWithoutReadDateInput {
+  connect: [ReadingProgressWhereUniqueInput!]
+  connectOrCreate: [ReadingProgressCreateOrConnectWithoutReadDateInput!]
+  create: [ReadingProgressCreateWithoutReadDateInput!]
+  createMany: ReadingProgressCreateManyReadDateInputEnvelope
+}
+
+input ReadingProgressCreateOrConnectWithoutReadDateInput {
+  create: ReadingProgressCreateWithoutReadDateInput!
+  where: ReadingProgressWhereUniqueInput!
+}
+
+input ReadingProgressCreateWithoutReadDateInput {
+  capacity: Int!
+  createdAt: Timestamp
+  id: String
+  progress: Int!
+  type: PROGRESS_TYPE!
+}
+
+input ReadingProgressListRelationFilter {
+  every: ReadingProgressWhereInput
+  none: ReadingProgressWhereInput
+  some: ReadingProgressWhereInput
+}
+
+type ReadingProgressMaxAggregate {
+  capacity: Int
+  createdAt: Timestamp
+  id: String
+  progress: Int
+  readDateId: String
+  type: PROGRESS_TYPE
+}
+
+type ReadingProgressMinAggregate {
+  capacity: Int
+  createdAt: Timestamp
+  id: String
+  progress: Int
+  readDateId: String
+  type: PROGRESS_TYPE
+}
+
+input ReadingProgressScalarWhereInput {
+  AND: [ReadingProgressScalarWhereInput!]
+  NOT: [ReadingProgressScalarWhereInput!]
+  OR: [ReadingProgressScalarWhereInput!]
+  capacity: IntFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  progress: IntFilter
+  readDateId: StringFilter
+  type: EnumPROGRESS_TYPEFilter
+}
+
+type ReadingProgressSumAggregate {
+  capacity: Int
+  progress: Int
+}
+
+input ReadingProgressUpdateManyMutationInput {
+  capacity: Int
+  createdAt: Timestamp
+  id: String
+  progress: Int
+  type: PROGRESS_TYPE
+}
+
+input ReadingProgressUpdateManyWithWhereWithoutReadDateInput {
+  data: ReadingProgressUpdateManyMutationInput!
+  where: ReadingProgressScalarWhereInput!
+}
+
+input ReadingProgressUpdateManyWithoutReadDateNestedInput {
+  connect: [ReadingProgressWhereUniqueInput!]
+  connectOrCreate: [ReadingProgressCreateOrConnectWithoutReadDateInput!]
+  create: [ReadingProgressCreateWithoutReadDateInput!]
+  createMany: ReadingProgressCreateManyReadDateInputEnvelope
+  delete: [ReadingProgressWhereUniqueInput!]
+  deleteMany: [ReadingProgressScalarWhereInput!]
+  disconnect: [ReadingProgressWhereUniqueInput!]
+  set: [ReadingProgressWhereUniqueInput!]
+  update: [ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput!]
+  updateMany: [ReadingProgressUpdateManyWithWhereWithoutReadDateInput!]
+  upsert: [ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput!]
+}
+
+input ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput {
+  data: ReadingProgressUpdateWithoutReadDateInput!
+  where: ReadingProgressWhereUniqueInput!
+}
+
+input ReadingProgressUpdateWithoutReadDateInput {
+  capacity: Int
+  createdAt: Timestamp
+  id: String
+  progress: Int
+  type: PROGRESS_TYPE
+}
+
+input ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput {
+  create: ReadingProgressCreateWithoutReadDateInput!
+  update: ReadingProgressUpdateWithoutReadDateInput!
+  where: ReadingProgressWhereUniqueInput!
+}
+
+input ReadingProgressWhereInput {
+  AND: [ReadingProgressWhereInput!]
+  NOT: [ReadingProgressWhereInput!]
+  OR: [ReadingProgressWhereInput!]
+  capacity: IntFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  progress: IntFilter
+  readDate: ReadDateRelationFilter
+  readDateId: StringFilter
+  type: EnumPROGRESS_TYPEFilter
+}
+
+input ReadingProgressWhereUniqueInput {
+  AND: [ReadingProgressWhereInput!]
+  NOT: [ReadingProgressWhereInput!]
+  OR: [ReadingProgressWhereInput!]
+  capacity: IntFilter
+  createdAt: DateTimeFilter
+  id: String
+  progress: IntFilter
+  readDate: ReadDateRelationFilter
+  readDateId: StringFilter
+  type: EnumPROGRESS_TYPEFilter
 }
 
 type RefreshResponse {
@@ -2923,6 +3264,7 @@ type UserBook {
   journalEntry: [JournalEntry!]
   order: Int!
   rating: Float
+  readDates: [ReadDate!]
   shelves: [UserBookShelves!]
   status: READING_STATUS!
   updatedAt: Timestamp!
@@ -2937,6 +3279,7 @@ type UserBookAvgAggregate {
 
 type UserBookCount {
   journalEntry: Int!
+  readDates: Int!
   shelves: Int!
 }
 
@@ -3018,6 +3361,7 @@ input UserBookCreateWithoutBookInput {
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int
   rating: Float
+  readDates: ReadDateCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: READING_STATUS!
   updatedAt: Timestamp
@@ -3030,6 +3374,7 @@ input UserBookCreateWithoutJournalEntryInput {
   id: String
   order: Int
   rating: Float
+  readDates: ReadDateCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: READING_STATUS!
   updatedAt: Timestamp
@@ -3043,6 +3388,7 @@ input UserBookCreateWithoutShelvesInput {
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int
   rating: Float
+  readDates: ReadDateCreateNestedManyWithoutUserBookInput
   status: READING_STATUS!
   updatedAt: Timestamp
   user: UserCreateNestedOneWithoutUserBooksInput!
@@ -3055,6 +3401,7 @@ input UserBookCreateWithoutUserInput {
   journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int
   rating: Float
+  readDates: ReadDateCreateNestedManyWithoutUserBookInput
   shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
   status: READING_STATUS!
   updatedAt: Timestamp
@@ -3105,6 +3452,7 @@ input UserBookOrderByWithRelationInput {
   journalEntry: JournalEntryOrderByRelationAggregateInput
   order: SortOrder
   rating: SortOrderInput
+  readDates: ReadDateOrderByRelationAggregateInput
   shelves: UserBookShelvesOrderByRelationAggregateInput
   status: SortOrder
   updatedAt: SortOrder
@@ -3421,6 +3769,7 @@ input UserBookUpdateWithoutBookInput {
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
+  readDates: ReadDateUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: READING_STATUS
   updatedAt: Timestamp
@@ -3433,6 +3782,7 @@ input UserBookUpdateWithoutJournalEntryInput {
   id: String
   order: Int
   rating: Float
+  readDates: ReadDateUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: READING_STATUS
   updatedAt: Timestamp
@@ -3446,6 +3796,7 @@ input UserBookUpdateWithoutShelvesInput {
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
+  readDates: ReadDateUpdateManyWithoutUserBookNestedInput
   status: READING_STATUS
   updatedAt: Timestamp
   user: UserUpdateOneRequiredWithoutUserBooksNestedInput
@@ -3458,6 +3809,7 @@ input UserBookUpdateWithoutUserInput {
   journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
+  readDates: ReadDateUpdateManyWithoutUserBookNestedInput
   shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
   status: READING_STATUS
   updatedAt: Timestamp
@@ -3498,6 +3850,7 @@ input UserBookWhereInput {
   journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
+  readDates: ReadDateListRelationFilter
   shelves: UserBookShelvesListRelationFilter
   status: EnumREADING_STATUSFilter
   updatedAt: DateTimeFilter
@@ -3517,6 +3870,7 @@ input UserBookWhereUniqueInput {
   journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
+  readDates: ReadDateListRelationFilter
   shelves: UserBookShelvesListRelationFilter
   status: EnumREADING_STATUSFilter
   updatedAt: DateTimeFilter
