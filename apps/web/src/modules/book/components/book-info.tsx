@@ -2,6 +2,7 @@ import { formatAuthors } from '@/lib/utils';
 import React from 'react';
 import { Book } from '@/graphql/graphql';
 import { BookData } from '@/modules/bookshelves/types';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface BookInfoProps {
   processedBook: BookData;
@@ -30,7 +31,7 @@ const BookDetails = ({ book }: { book: BookData }) => (
     </div>
   </section>
 );
-
+//  https://deadsimplechat.com/blog/how-to-safely-use-dangerouslysetinnerhtml-in-react/?ck_subscriber_id=2576113371&utm_source=convertkit&utm_medium=email&utm_campaign=%E2%9A%9B%EF%B8%8F%20This%20Week%20In%20React%20#177:%20Skia,%20Pigment,%20Mist,%20Storybook,%20shadcn/ui,%20Hydration%20Diff,%20Geiger,%20MDXTS,%20Remotion,%20WinterJS,%20Astro,%20Rolldown,%20Tailwind,%20TypeScript,%20Biome,%20INP...%20-%2013344084 */}
 export default function BookInfo({ processedBook }: BookInfoProps) {
   return (
     <div className='flex flex-col gap-4'>
@@ -38,12 +39,12 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
         <BookDetails book={processedBook} />
         <section className='border-t-1 items-start justify-between rounded-b-lg border border-gray-300 p-6'>
           <div className='overflow-hidden text-lg'>
-            {/* <div
+            <div
               className='leading-8'
               dangerouslySetInnerHTML={{
-                __html: processedBook.description!,
+                __html: DOMPurify.sanitize(processedBook.description!),
               }}
-            /> */}
+            ></div>
           </div>
         </section>
       </section>

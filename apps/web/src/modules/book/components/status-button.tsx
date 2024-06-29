@@ -15,6 +15,7 @@ import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import ContentLoader from 'react-content-loader';
 import { BookData } from '@/modules/bookshelves/types';
+import { toast } from '@/hooks/use-toast';
 interface StatusButtonProps {
   book: BookData;
   userBook?: UserBook;
@@ -26,7 +27,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 }) => {
   const statusModal = useBookStatusModal();
   const { data } = useSession();
-  const { status, setUserBook, isInLibrary } = useUserBookStore();
+  const { status, setUserBook, resetStore, isInLibrary } = useUserBookStore();
 
   const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
     onCompleted: (data) => {
@@ -36,15 +37,17 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 
   const [createUserBook] = useCreateUserBookMutation({
     onCompleted: (data) => {
-      setUserBook({
-        isInLibrary: true,
-        userBookId: data.createUserBook.id,
-        status: Reading_Status.WantToRead,
-        shelves: [],
-        isLiked: false,
-        isOwned: false,
-        rating: 0,
+      toast({
+        title: 'Book added to your library',
+        variant: 'success',
       });
+      setUserBook({
+        userBookId: data.createUserBook.id,
+      });
+    },
+    onError: (error) => {
+      resetStore();
+      console.error(error);
     },
   });
 
@@ -68,6 +71,14 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
   const handleNewUserBookClick = async () => {
     console.log('Adding new book to "Want to Read"');
     // Filter the book object to only include properties defined n BookDataInput
+    setUserBook({
+      isInLibrary: true,
+      status: Reading_Status.WantToRead,
+      shelves: [],
+      isLiked: false,
+      isOwned: false,
+      rating: 0,
+    });
     await createUserBook({
       variables: {
         data: {
@@ -76,7 +87,11 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
           authors: book.authors,
           pageCount: book.pageCount,
           yearPublished: book.yearPublished,
-          ratings: book.ratings,
+          ratings: book.ratings.map((rating) => ({
+            source: rating.source,
+            score: rating.score,
+            maxScore: rating.maxScore,
+          })),
           covers: book.covers.map((cover) => ({
             url: cover.url,
             size: cover.size,
