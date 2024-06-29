@@ -2,12 +2,11 @@
 import BookCover from '@/components/book-cover';
 import { Icons } from '@/components/icons';
 import { Card, CardContent } from '@/components/ui/card';
-import { Size, UserBook } from '@/graphql/graphql';
+import { Reading_Status, Size, UserBook } from '@/graphql/graphql';
 import React, { useState } from 'react';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
-import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 
 import BookActions from '@/components/book-actions';
 import Link from 'next/link';
@@ -18,7 +17,6 @@ interface ReadingCardProps {
 
 export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
-  const journalEntryModal = useJournalEntryModal();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
@@ -64,7 +62,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
                     setOpenAlert={setOpenAlert}
                     openDropdown={openDropdown}
                     setOpenDropdown={setOpenDropdown}
-                    status={status}
+                    status={status as Reading_Status}
                     setStatus={setStatus}
                     setRating={setRating}
                     rating={rating}

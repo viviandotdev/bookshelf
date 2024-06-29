@@ -1,9 +1,0 @@
-# mutation updateReadingStatus(
-#   $bookId: String!
-#   $readingStatus: READING_STATUS!
-# ) {
-#   updateReadingStatus(bookId: $bookId, readingStatus: $readingStatus) {
-#     id
-#     status
-#   }
-# }

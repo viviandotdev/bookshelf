@@ -57,17 +57,16 @@ model User {
     /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?
-    createdAt          DateTime       @default(now())
-    updatedAt          DateTime       @updatedAt
+    createdAt          DateTime   @default(now())
+    updatedAt          DateTime   @updatedAt
     //  One to Many: one user has many user books
     userBooks          UserBook[]
     //  One to Many: one user has many shelves
     shelves            Shelf[]
-    journalEntries     JournalEntry[]
-    following          User[]         @relation("UserFollows")
-    followers          User[]         @relation("UserFollows")
+    following          User[]     @relation("UserFollows")
+    followers          User[]     @relation("UserFollows")
     reviews            Review[]
-    likedReviews       Review[]       @relation(name: "LikedReviews")
+    likedReviews       Review[]   @relation(name: "LikedReviews")
     comments           Comment[]
     // auditLogs          AuditLog[]
     // AUTH
@@ -174,28 +173,26 @@ enum READING_STATUS {
 
 model UserBook {
     /// @Validator.IsString()
-    id           String            @id @unique @default(uuid())
+    id        String            @id @unique @default(uuid())
     /// @Validator.IsString()
-    userId       String
+    userId    String
     /// @Validator.IsString()
-    bookId       String            @unique
+    bookId    String            @unique
     /// @Validator.IsString()
-    status       READING_STATUS //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
+    status    READING_STATUS //WANT TO READ, READ, READING, DID NOT FINISH, UP NEXT
     /// @Validator.Min(0)
     /// @Validator.Max(5)
     /// @Validator.IsNumber()
-    rating       Float?            @default(0)
+    rating    Float?            @default(0)
     // Many to One: many user books belong to one user when user is deleted all user books are deleted as well
-    user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
     // Many to One: many user books belong to one book when book
-    book         Book              @relation(fields: [bookId], references: [id], onDelete: Cascade)
+    book      Book              @relation(fields: [bookId], references: [id], onDelete: Cascade)
     /// @Validator.ValidateNested()
-    createdAt    DateTime          @default(now())
-    updatedAt    DateTime          @updatedAt
-    shelves      UserBookShelves[]
-    // One to Many: one user book has many journal entries
-    journalEntry JournalEntry[]
-    order        Int               @default(autoincrement())
+    createdAt DateTime          @default(now())
+    updatedAt DateTime          @updatedAt
+    shelves   UserBookShelves[]
+    order     Int               @default(autoincrement())
 
     readDates ReadDate[]
 
@@ -220,7 +217,6 @@ enum PROGRESS_TYPE {
     PAGES
     PERCENTAGE
 }
-
 
 model ReadDate {
     id              String            @id @default(uuid())
@@ -286,29 +282,6 @@ model Shelf {
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, name], name: "identifier")
-}
-
-model JournalEntry {
-    id             String    @id @default(uuid())
-    /// @Validator.IsString()
-    readingNotes   String?
-    dateRead       DateTime  @default(now())
-    createdAt      DateTime  @default(now())
-    /// @Validator.IsInt()
-    currentPage    Int
-    /// @Validator.IsInt()
-    pagesRead      Int
-    /// @Validator.Min(0)
-    /// @Validator.Max(100)
-    /// @Validator.IsInt()
-    currentPercent Int
-    /// @Validator.IsString()
-    userId         String?
-    user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    /// @Validator.IsString()
-    userBookId     String?
-    // Many to One: many journal entries belong to one user book when user book is deleted all journal entries are deleted as well
-    userBook       UserBook? @relation(fields: [userBookId], references: [id], onDelete: Cascade)
 }
 
 enum ACTION {

@@ -6,17 +6,13 @@ import BookCover from '../../book-cover';
 import { CardDescription } from '../../ui/card';
 import { Size, UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
-import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
-import useUserBookStore from '@/stores/use-user-book-store';
 
 interface LogBookCardProps {
   userBook: UserBook;
-  setJournalEntry: any;
 }
 
 export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
-  const journalEntryModal = useJournalEntryModal();
 
   return (
     <div
@@ -24,8 +20,6 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
       onClick={(e) => {
         e.stopPropagation();
         logBookModal.onClose();
-        // setBook(userBook.book);
-        journalEntryModal.onOpen();
       }}
     >
       <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />

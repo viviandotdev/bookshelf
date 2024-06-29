@@ -9,7 +9,6 @@ import { Reading_Status, Size, UserBook } from '@/graphql/graphql';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
-import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { ColumnWithBooks } from '../types';
 interface CardItemProps {
@@ -31,28 +30,16 @@ export const CardItem: React.FC<CardItemProps> = ({
   const router = useRouter();
   const linkRef = useRef<HTMLAnchorElement>(null);
   const buttonText = cardStatus === 'Read' ? 'Write a Review' : 'View Activity';
-  const journalEntryModal = useJournalEntryModal();
   const { setUserBook } = useUserBookStore();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [status, setStatus] = useState(data.status ? data.status : '');
   const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
   const [openAlert, setOpenAlert] = useState(false); // Initial value
   const [percent, setPercent] = useState(0);
-  const { journalEntry } = useJournalEntryModal();
   useEffect(() => {
     setStatus(data.status ? data.status : '');
     setRating(data.rating ? data.rating : 0);
-    if (data.journalEntry && data.journalEntry.length > 0) {
-      setPercent(data.journalEntry[0].currentPercent || 0);
-    }
   }, [data]);
-
-  //   useEffect(() => {
-  //     // update percent detail
-  //     if (myBook && myBook.id === data.book?.id) {
-  //       setPercent(journalEntry.percent);
-  //     }
-  //   }, [journalEntry]);
 
   if (!data) return null;
 
@@ -153,10 +140,7 @@ export const CardItem: React.FC<CardItemProps> = ({
                       book: {
                         title: book.title,
                       },
-                      
                     });
-
-                    journalEntryModal.onOpen();
                   }}
                   variant={'card'}
                   size={'xs'}
