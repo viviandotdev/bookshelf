@@ -33,7 +33,8 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
   ];
 
   const coverUrl =
-    book.covers?.find((cover) => cover.size === Size.Large)?.url ||
+    (book.covers &&
+      book.covers?.find((cover) => cover.size === Size.Large)?.url) ||
     book.covers?.find((cover) => cover.size === Size.Small)?.url;
 
   const goodreadsUrl =

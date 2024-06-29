@@ -46,7 +46,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   const [loading, setLoading] = useState(false);
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
-      //   setShelves(data.shelves);
       setUserBook({
         shelves: data.shelves,
       });
@@ -91,6 +90,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   async function onSubmit({ shelves: formShelves }: DisplayFormValues) {
     setLoading(true);
     const shelves = formShelves.map((item) => item.value);
+    //this userBookId could be wrong
+    console.log(userBookId);
     await updateUserBook(userBookId, { shelves });
     if (userBookShelves.length == 0) {
       decrementLibraryCount('Unshelved');

@@ -31,8 +31,6 @@ export class UserBookUpdateInput {
 
   @IsOptional()
   @IsString({ each: true })
-  @MinLength(3, { each: true })
-  @MaxLength(50, { each: true })
   @ArrayUnique()
   @Field(() => [String], { nullable: true })
   shelves?: string[];

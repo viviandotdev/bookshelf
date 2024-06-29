@@ -38,12 +38,12 @@ export default function BookInfo({ processedBook }: BookInfoProps) {
         <BookDetails book={processedBook} />
         <section className='border-t-1 items-start justify-between rounded-b-lg border border-gray-300 p-6'>
           <div className='overflow-hidden text-lg'>
-            <div
+            {/* <div
               className='leading-8'
               dangerouslySetInnerHTML={{
                 __html: processedBook.description!,
               }}
-            />
+            /> */}
           </div>
         </section>
       </section>
