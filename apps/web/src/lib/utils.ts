@@ -173,11 +173,15 @@ export function processGoogleBook(book: any): BookData | null {
     language: book.volumeInfo.language || undefined,
     pageCount: book.volumeInfo.pageCount || 0,
     covers: [
-      {
-        source: Source.Google,
-        size: Size.Small,
-        url: book.volumeInfo.imageLinks?.thumbnail,
-      },
+      ...(book.volumeInfo.imageLinks?.thumbnail
+        ? [
+            {
+              source: Source.Google,
+              size: Size.Small,
+              url: book.volumeInfo.imageLinks.thumbnail,
+            },
+          ]
+        : []),
       ...(book.volumeInfo.imageLinks?.large
         ? [
             {

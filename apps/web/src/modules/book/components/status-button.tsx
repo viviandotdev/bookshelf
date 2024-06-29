@@ -26,8 +26,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 }) => {
   const statusModal = useBookStatusModal();
   const { data } = useSession();
-  const { updateStatus, status, initializeStore, isInLibrary } =
-    useUserBookStore();
+  const { status, setUserBook, isInLibrary } = useUserBookStore();
 
   const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
     onCompleted: (data) => {
@@ -37,23 +36,23 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 
   const [createUserBook] = useCreateUserBookMutation({
     onCompleted: (data) => {
-      initializeStore({
+      setUserBook({
+        isInLibrary: true,
         userBookId: data.createUserBook.id,
         status: Reading_Status.WantToRead,
+        shelves: [],
+        isLiked: false,
+        isOwned: false,
         rating: 0,
-        isInLibrary: true,
-        isAddedToLibrary: true,
       });
-      //   update tne userbook store with all the userbook data
-      console.log('UserBook created', data);
     },
   });
 
   useEffect(() => {
-    if (isInLibrary) {
-      updateStatus(userBook!.status);
+    if (userBook) {
+      setUserBook({ status: userBook!.status });
     }
-  }, [userBook, updateStatus, isInLibrary]);
+  }, [userBook, setUserBook]);
 
   const handleExistingUserBookClick = async () => {
     if (isInLibrary) {
@@ -90,7 +89,6 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
         },
       },
     });
-    // create a userbook with status "Want to Read"
   };
 
   return (

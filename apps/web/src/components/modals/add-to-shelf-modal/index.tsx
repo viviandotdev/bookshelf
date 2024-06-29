@@ -19,6 +19,7 @@ import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-us
 import useShelfStore from '@/stores/use-shelf-store';
 import { UserBook } from '@prisma/client';
 import { ShelfSelector } from '@/components/shelf-selector';
+import useUserBookStore from '@/stores/use-user-book-store';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -32,14 +33,23 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   } = useShelfStore();
   const {
     setShelves,
+    // shelves: userBookShelves,
+    // bookTitle,
+    // userBookId,
+  } = useAddToShelfModal();
+  const {
+    userBookId,
     shelves: userBookShelves,
     bookTitle,
-    userBookId,
-  } = useAddToShelfModal();
+    setUserBook,
+  } = useUserBookStore();
   const [loading, setLoading] = useState(false);
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
-      setShelves(data.shelves);
+      //   setShelves(data.shelves);
+      setUserBook({
+        shelves: data.shelves,
+      });
     },
     onError: (error) => {
       toast({ title: error.message, variant: 'destructive' });

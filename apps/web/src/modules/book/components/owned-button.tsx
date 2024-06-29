@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Icons } from '@/components/icons';
 import {
   useAddUserBookToShelfMutation,
@@ -11,12 +11,20 @@ import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 
 interface OwnedButtonProps {
-  userBook: UserBook;
+  userBook?: UserBook;
 }
 
 const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
-  const { isOwned, userBookId } = useUserBookStore();
+  const { isOwned, userBookId, setUserBook } = useUserBookStore();
   const [hasReacted, toggleReact] = useToggle(isOwned);
+
+  useEffect(() => {
+    if (userBook) {
+      setUserBook({
+        isOwned: userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned'),
+      });
+    }
+  }, [userBook]);
 
   const [addToOwned] = useAddUserBookToShelfMutation({
     onError: (error) => {

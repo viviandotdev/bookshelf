@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Icons } from '@/components/icons';
 import {
   useAddUserBookToShelfMutation,
@@ -11,12 +11,23 @@ import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 
 interface LikeButtonProps {
-  userBook: UserBook;
+  userBook?: UserBook;
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
-  const { isLiked, userBookId } = useUserBookStore();
+  const { isLiked, userBookId, setUserBook } = useUserBookStore();
   const [hasReacted, toggleReact] = useToggle(isLiked);
+
+  useEffect(() => {
+    if (userBook) {
+      setUserBook({
+        isLiked: userBook.shelves?.some(
+          ({ shelf }) => shelf.name === 'Favorites'
+        ),
+      });
+    }
+  }, [userBook]);
+
   // TODO evict the cache after the mutation, so it is updated on other pages
   //https://github1s.com/heyxyz/hey/blob/main/apps/web/src/components/Publication/Actions/Like.tsx#L68-L86
   const [addLike] = useAddUserBookToShelfMutation({

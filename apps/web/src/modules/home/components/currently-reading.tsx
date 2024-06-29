@@ -5,13 +5,11 @@ import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-mod
 import { useJournalEntryModal } from '@/components/modals/journal-entry-modal/use-journal-entry-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import BookCover from '@/components/book-cover';
-import { dm_sefif_display } from '@/lib/fonts';
 import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useLoadJournalEntry from '@/modules/journal/queries/use-load-entry';
-import { Bokor } from 'next/font/google';
 
 interface CurrentlyReadingProps {
   userBook: UserBook;
@@ -22,8 +20,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
 }) => {
   const logBookModal = useLogBookModal();
   const journalEntryModal = useJournalEntryModal();
-  const { updateBookId, updateStatus, setBook, initShelves } =
-    useUserBookStore();
+  const { setUserBook } = useUserBookStore();
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   if (!userBook) return null;
   const { book, shelves } = userBook;
@@ -91,9 +88,12 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
             variant={'secondary'}
             onClick={(e) => {
               e.stopPropagation();
-              setBook(book!);
-              updateStatus(status);
-              updateBookId(book!.id);
+              setUserBook({
+                status: status,
+                book: {
+                  title: book.title,
+                },
+              });
               journalEntryModal.onOpen();
             }}
           >

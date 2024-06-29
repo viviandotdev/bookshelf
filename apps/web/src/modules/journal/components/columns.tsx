@@ -172,7 +172,7 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
       // put this in a global state?
       const dnf = row.getValue('status') == 'Did Not Finish';
       const { setJournalEntry, onEdit } = useJournalEntryModal();
-      const { setBook, updateStatus } = useUserBookStore();
+      const { setUserBook } = useUserBookStore();
       useEffect(() => {
         setJournalEntry({
           originalPage: Number(progress.currentPage),
@@ -197,8 +197,13 @@ export const columns: ColumnDef<JournalEntryValues>[] = [
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setBook(userBook.book);
-                updateStatus(dnf ? 'Did Not Finish' : 'Currently Reading');
+                setUserBook({
+                  status: userBook.status as any,
+                  book: {
+                    title: userBook.book.title,
+                  },
+                });
+
                 onEdit(entry.id);
               }}
             >

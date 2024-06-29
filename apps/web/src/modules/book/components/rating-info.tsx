@@ -39,14 +39,11 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   userBook,
   size = 'lg',
 }) => {
-  const {
-    isInLibrary,
-    userBookId,
-    rating,
-    updateRating,
-    initializeStore,
-    resetStore,
-  } = useUserBookStore();
+  const { setUserBook, isInLibrary, userBookId, rating } = useUserBookStore();
+
+  const setRating = (rating: number) => {
+    setUserBook({ rating });
+  };
 
   const classes = sizeClasses[size];
   const goodreadsRating = ratings?.find(
@@ -57,15 +54,11 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
   );
   useEffect(() => {
     if (userBook) {
-      initializeStore({
+      setUserBook({
         rating: userBook?.rating || 0,
-        isInLibrary: true,
       });
     }
-    return () => {
-      resetStore();
-    };
-  }, [userBook]);
+  }, [userBook, setUserBook]);
 
   return (
     <div className={`flex ${classes.gap}`}>
@@ -73,7 +66,7 @@ export const RatingInfo: React.FC<RatingInfoProps> = ({
         <BookRating
           size={size}
           rating={rating}
-          setRating={updateRating}
+          setRating={setRating}
           userBookId={userBookId}
         />
       )}

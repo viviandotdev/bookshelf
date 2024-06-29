@@ -16,7 +16,7 @@ export const BookControls: React.FC<BookControlsProps> = ({
   book,
   userBook,
 }) => {
-  const { resetStore, initializeStore, isInLibrary } = useUserBookStore();
+  const { resetStore, setUserBook, isInLibrary } = useUserBookStore();
   // hack to update the url if the book is a goodreads book
   // if the user removes the book and refreshes the url and the book still exists
   useEffect(() => {
@@ -28,13 +28,9 @@ export const BookControls: React.FC<BookControlsProps> = ({
 
   useEffect(() => {
     if (userBook) {
-      initializeStore({
+      setUserBook({
         userBookId: userBook.id,
         isInLibrary: true,
-        isLiked: userBook.shelves?.some(
-          ({ shelf }) => shelf.name === 'Favorites'
-        ),
-        isOwned: userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned'),
       });
     }
     return () => {
@@ -53,7 +49,7 @@ export const BookControls: React.FC<BookControlsProps> = ({
         />
       )}
 
-      {userBook && isInLibrary && (
+      {isInLibrary && (
         <>
           <div className='h-10 w-px bg-gray-100' />
           <div className='flex flex-col items-start justify-center'>

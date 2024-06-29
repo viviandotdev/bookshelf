@@ -32,14 +32,12 @@ export const CardItem: React.FC<CardItemProps> = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
   const buttonText = cardStatus === 'Read' ? 'Write a Review' : 'View Activity';
   const journalEntryModal = useJournalEntryModal();
-  const { updateBookId, updateStatus, updateRating, setBook } =
-    useUserBookStore();
+  const { setUserBook } = useUserBookStore();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [status, setStatus] = useState(data.status ? data.status : '');
   const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
   const [openAlert, setOpenAlert] = useState(false); // Initial value
   const [percent, setPercent] = useState(0);
-  const { book: myBook } = useUserBookStore();
   const { journalEntry } = useJournalEntryModal();
   useEffect(() => {
     setStatus(data.status ? data.status : '');
@@ -129,26 +127,7 @@ export const CardItem: React.FC<CardItemProps> = ({
             </div>
           </div>
 
-          {cardStatus !== 'Currently Reading' ? (
-            // <Button
-            //   onClick={(e) => {
-            //     e.stopPropagation();
-            //     if (cardStatus === 'Read') {
-            //     } else {
-            //       startTransition(() => {
-            //         router.push(`/book/${book?.id}/activity`);
-            //       });
-            //     }
-            //   }}
-            //   variant={'secondary'}
-            //   size={'sm'}
-            //   className='mb-1 mt-4 h-9 w-full border border-beige-500/50'
-            // >
-            //   {buttonText}
-            // </Button>
-            <></>
-          ) : (
-            <div className=' mb-1 mt-4 flex w-full items-center justify-center gap-2'>
+          {/* <div className=' mb-1 mt-4 flex w-full items-center justify-center gap-2'>
               <Progress className='h-2.5 w-full items-center' value={percent} />
               <div className='flex items-center gap-0.5'>
                 <div className='items-center text-xs font-semibold text-beige-700'>
@@ -156,8 +135,8 @@ export const CardItem: React.FC<CardItemProps> = ({
                 </div>
                 <span>%</span>
               </div>
-            </div>
-          )}
+            </div> */}
+
           <div
             className={cn(
               'hidden rounded-sm px-1 group-hover/item:block hover:bg-gray-200',
@@ -169,9 +148,14 @@ export const CardItem: React.FC<CardItemProps> = ({
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setBook(book!);
-                    updateStatus(status as Reading_Status);
-                    updateBookId(book!.id);
+                    setUserBook({
+                      status: status as Reading_Status,
+                      book: {
+                        title: book.title,
+                      },
+                      
+                    });
+
                     journalEntryModal.onOpen();
                   }}
                   variant={'card'}

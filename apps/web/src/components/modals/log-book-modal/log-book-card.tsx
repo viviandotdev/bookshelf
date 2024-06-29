@@ -17,7 +17,6 @@ interface LogBookCardProps {
 export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
   const journalEntryModal = useJournalEntryModal();
-  const setBook = useUserBookStore((state) => state.setBook);
 
   return (
     <div
@@ -25,7 +24,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
       onClick={(e) => {
         e.stopPropagation();
         logBookModal.onClose();
-        setBook(userBook.book);
+        // setBook(userBook.book);
         journalEntryModal.onOpen();
       }}
     >

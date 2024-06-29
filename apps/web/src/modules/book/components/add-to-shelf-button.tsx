@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
-import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { UserBook } from '@/graphql/graphql';
 import Link from 'next/link';
@@ -23,26 +22,24 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
 }) => {
   const { data } = useSession();
   const {
-    setShelves,
-    shelves: userBookShelves,
     userBookId,
-    initializeStore,
-  } = useAddToShelfModal();
-
-  const { isInLibrary } = useUserBookStore();
+    isInLibrary,
+    shelves: userBookShelves,
+    setUserBook,
+  } = useUserBookStore();
 
   useEffect(() => {
     if (userBook) {
       const myShelves = userBook!.shelves?.filter(
         ({ shelf }) => shelf.name != 'Owned' && shelf.name !== 'Favorites'
       );
-      initializeStore({
+      setUserBook({
         userBookId: userBook!.id,
         bookTitle: bookTitle,
         shelves: myShelves,
       });
     }
-  }, [setShelves, userBook, isInLibrary]);
+  }, [setUserBook, userBook]);
 
   let buttonText: string = ' + Add to shelves';
 

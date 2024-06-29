@@ -53,7 +53,7 @@ const BookActions: React.FC<BookActionsProps> = ({
   side = 'top',
   align = 'start',
 }) => {
-  const { updateUserBookId, updateStatus, setBook } = useUserBookStore();
+  const { setUserBook } = useUserBookStore();
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
       toast({
@@ -156,9 +156,11 @@ const BookActions: React.FC<BookActionsProps> = ({
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
-                setBook(book!);
-                updateStatus(status);
-                updateUserBookId(userBookId);
+                setUserBook({
+                  userBookId: userBookId,
+                  status: status,
+                  book: book,
+                });
               }}
             >
               <Icons.plus className='mr-2 h-5 w-5' />

@@ -23,7 +23,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   } = useBookStatusModal();
   const [openAlert, setOpenAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { updateStatus, userBookId, status, resetStore } = useUserBookStore();
+  const { setUserBook, userBookId, status, resetStore } = useUserBookStore();
 
   const [removeUserBook] = useRemoveUserBookMutation({
     onCompleted: (_) => {
@@ -78,7 +78,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     await updateUserBook(userBookId, {
       status: newStatus,
     });
-    updateStatus(newStatus);
+    setUserBook({ status: newStatus });
     onClose();
   };
 
