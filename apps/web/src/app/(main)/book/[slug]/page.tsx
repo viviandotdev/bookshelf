@@ -1,5 +1,4 @@
 import React from 'react';
-import { notFound } from 'next/navigation';
 import BookTemplate from '@/modules/book/templates';
 import { getCurrentUser } from '@/lib/auth';
 import { getBookByIdentifier } from '@/modules/book/queries/getBook';
@@ -11,6 +10,7 @@ import {
 import { mergeBookData } from '@/lib/utils';
 import { IdentifierCreateInput, Source } from '@/graphql/graphql';
 import { addIdentifierToBook } from '@/modules/book/queries/addIdentifierToBook';
+import { notFound } from 'next/navigation';
 
 interface BookPageProps {
   params: { slug: string };
@@ -53,6 +53,10 @@ export default async function BookPage({ params }: BookPageProps) {
   if (myBook) {
     const book = mergeBookData(myBook, searchedBook);
     return <BookTemplate userBook={myBook.userBook} book={book} user={user} />;
+  }
+
+  if (!searchedBook) {
+    return notFound();
   }
 
   return <BookTemplate book={searchedBook} user={user} />;
