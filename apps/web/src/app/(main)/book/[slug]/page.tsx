@@ -18,7 +18,8 @@ interface BookPageProps {
 
 export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
-  const [source, sourceId] = params.slug.split('-');
+  const [source, ...rest] = params.slug.split('-');
+  const sourceId = rest.join('-');
 
   const identifier: IdentifierCreateInput = {
     source: source as Source,
@@ -40,7 +41,8 @@ export default async function BookPage({ params }: BookPageProps) {
     searchedBook = await findBookByGoogleQuery(query);
 
     if (myBook && searchedBook) {
-      const [googleSource, googleSourceId] = searchedBook.slug!.split('-');
+      const [googleSource, ...rest] = params.slug.split('-');
+      const googleSourceId = rest.join('-');
       await addIdentifierToBook(myBook.id, {
         source: googleSource as Source,
         sourceId: googleSourceId,
