@@ -68,13 +68,14 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
   };
 
   return (
-    <IconButton onClick={toggleLike} className='h-10 w-10'>
+    <IconButton
+      onClick={toggleLike}
+      className={`h-10 w-10 ${hasReacted ? 'border-beige-100 bg-beige-100' : ''}`}
+    >
       <span className='sr-only'>Like Book</span>
-      {hasReacted ? (
-        <Icons.heart className='h-4 w-4 items-center fill-current text-red-400' />
-      ) : (
-        <Icons.heart className='h-4 w-4 items-center' />
-      )}
+      <Icons.heart
+        className={`h-4 w-4 items-center ${hasReacted ? ' fill-current text-red-400' : ''}`}
+      />
     </IconButton>
   );
 };

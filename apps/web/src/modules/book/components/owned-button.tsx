@@ -64,13 +64,14 @@ const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
   };
 
   return (
-    <IconButton onClick={toggleOwnedStatus} className='h-10 w-10'>
+    <IconButton
+      onClick={toggleOwnedStatus}
+      className={`h-10 w-10 ${hasReacted ? 'border-beige-100 bg-beige-100' : ''}`}
+    >
       <span className='sr-only'>Mark as Owned</span>
-      {hasReacted ? (
-        <Icons.owned className='h-4 w-4 items-center fill-current text-beige' />
-      ) : (
-        <Icons.owned className='h-4 w-4 items-center' />
-      )}
+      <Icons.owned
+        className={`h-4 w-4 items-center ${hasReacted ? 'text-beige' : ''}`}
+      />
     </IconButton>
   );
 };
