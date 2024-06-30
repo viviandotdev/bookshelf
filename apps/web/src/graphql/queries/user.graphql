@@ -12,11 +12,5 @@ query User($where: UserWhereUniqueInput!) {
     username
     email
     bio
-    location
-    name
-    dob
-    isFollowing
-    followerCount
-    followingCount
   }
 }

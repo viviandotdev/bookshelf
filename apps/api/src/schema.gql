@@ -1554,298 +1554,6 @@ input IntFilter {
   notIn: [Int!]
 }
 
-type JournalEntry {
-  createdAt: Timestamp!
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp!
-  id: ID!
-  pagesRead: Int!
-  readingNotes: String
-  user: User
-  userBook: UserBook
-  userBookId: String
-  userId: String
-}
-
-type JournalEntryAvgAggregate {
-  currentPage: Float
-  currentPercent: Float
-  pagesRead: Float
-}
-
-type JournalEntryCountAggregate {
-  _all: Int!
-  createdAt: Int!
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Int!
-  id: Int!
-  pagesRead: Int!
-  readingNotes: Int!
-  userBookId: Int!
-  userId: Int!
-}
-
-input JournalEntryCreateManyUserBookInput {
-  createdAt: Timestamp
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int!
-  readingNotes: String
-  userId: String
-}
-
-input JournalEntryCreateManyUserBookInputEnvelope {
-  data: [JournalEntryCreateManyUserBookInput!]!
-  skipDuplicates: Boolean
-}
-
-input JournalEntryCreateManyUserInput {
-  createdAt: Timestamp
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int!
-  readingNotes: String
-  userBookId: String
-}
-
-input JournalEntryCreateManyUserInputEnvelope {
-  data: [JournalEntryCreateManyUserInput!]!
-  skipDuplicates: Boolean
-}
-
-input JournalEntryCreateNestedManyWithoutUserBookInput {
-  connect: [JournalEntryWhereUniqueInput!]
-  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserBookInput!]
-  create: [JournalEntryCreateWithoutUserBookInput!]
-  createMany: JournalEntryCreateManyUserBookInputEnvelope
-}
-
-input JournalEntryCreateNestedManyWithoutUserInput {
-  connect: [JournalEntryWhereUniqueInput!]
-  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserInput!]
-  create: [JournalEntryCreateWithoutUserInput!]
-  createMany: JournalEntryCreateManyUserInputEnvelope
-}
-
-input JournalEntryCreateOrConnectWithoutUserBookInput {
-  create: JournalEntryCreateWithoutUserBookInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryCreateOrConnectWithoutUserInput {
-  create: JournalEntryCreateWithoutUserInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryCreateWithoutUserBookInput {
-  createdAt: Timestamp
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int!
-  readingNotes: String
-  user: UserCreateNestedOneWithoutJournalEntriesInput
-}
-
-input JournalEntryCreateWithoutUserInput {
-  createdAt: Timestamp
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int!
-  readingNotes: String
-  userBook: UserBookCreateNestedOneWithoutJournalEntryInput
-}
-
-input JournalEntryListRelationFilter {
-  every: JournalEntryWhereInput
-  none: JournalEntryWhereInput
-  some: JournalEntryWhereInput
-}
-
-type JournalEntryMaxAggregate {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-  userBookId: String
-  userId: String
-}
-
-type JournalEntryMinAggregate {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-  userBookId: String
-  userId: String
-}
-
-input JournalEntryOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input JournalEntryScalarWhereInput {
-  AND: [JournalEntryScalarWhereInput!]
-  NOT: [JournalEntryScalarWhereInput!]
-  OR: [JournalEntryScalarWhereInput!]
-  createdAt: DateTimeFilter
-  currentPage: IntFilter
-  currentPercent: IntFilter
-  dateRead: DateTimeFilter
-  id: StringFilter
-  pagesRead: IntFilter
-  readingNotes: StringFilter
-  userBookId: StringFilter
-  userId: StringFilter
-}
-
-type JournalEntrySumAggregate {
-  currentPage: Int
-  currentPercent: Int
-  pagesRead: Int
-}
-
-input JournalEntryUpdateManyMutationInput {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-}
-
-input JournalEntryUpdateManyWithWhereWithoutUserBookInput {
-  data: JournalEntryUpdateManyMutationInput!
-  where: JournalEntryScalarWhereInput!
-}
-
-input JournalEntryUpdateManyWithWhereWithoutUserInput {
-  data: JournalEntryUpdateManyMutationInput!
-  where: JournalEntryScalarWhereInput!
-}
-
-input JournalEntryUpdateManyWithoutUserBookNestedInput {
-  connect: [JournalEntryWhereUniqueInput!]
-  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserBookInput!]
-  create: [JournalEntryCreateWithoutUserBookInput!]
-  createMany: JournalEntryCreateManyUserBookInputEnvelope
-  delete: [JournalEntryWhereUniqueInput!]
-  deleteMany: [JournalEntryScalarWhereInput!]
-  disconnect: [JournalEntryWhereUniqueInput!]
-  set: [JournalEntryWhereUniqueInput!]
-  update: [JournalEntryUpdateWithWhereUniqueWithoutUserBookInput!]
-  updateMany: [JournalEntryUpdateManyWithWhereWithoutUserBookInput!]
-  upsert: [JournalEntryUpsertWithWhereUniqueWithoutUserBookInput!]
-}
-
-input JournalEntryUpdateManyWithoutUserNestedInput {
-  connect: [JournalEntryWhereUniqueInput!]
-  connectOrCreate: [JournalEntryCreateOrConnectWithoutUserInput!]
-  create: [JournalEntryCreateWithoutUserInput!]
-  createMany: JournalEntryCreateManyUserInputEnvelope
-  delete: [JournalEntryWhereUniqueInput!]
-  deleteMany: [JournalEntryScalarWhereInput!]
-  disconnect: [JournalEntryWhereUniqueInput!]
-  set: [JournalEntryWhereUniqueInput!]
-  update: [JournalEntryUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [JournalEntryUpdateManyWithWhereWithoutUserInput!]
-  upsert: [JournalEntryUpsertWithWhereUniqueWithoutUserInput!]
-}
-
-input JournalEntryUpdateWithWhereUniqueWithoutUserBookInput {
-  data: JournalEntryUpdateWithoutUserBookInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryUpdateWithWhereUniqueWithoutUserInput {
-  data: JournalEntryUpdateWithoutUserInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryUpdateWithoutUserBookInput {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-  user: UserUpdateOneWithoutJournalEntriesNestedInput
-}
-
-input JournalEntryUpdateWithoutUserInput {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-  userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
-}
-
-input JournalEntryUpsertWithWhereUniqueWithoutUserBookInput {
-  create: JournalEntryCreateWithoutUserBookInput!
-  update: JournalEntryUpdateWithoutUserBookInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryUpsertWithWhereUniqueWithoutUserInput {
-  create: JournalEntryCreateWithoutUserInput!
-  update: JournalEntryUpdateWithoutUserInput!
-  where: JournalEntryWhereUniqueInput!
-}
-
-input JournalEntryWhereInput {
-  AND: [JournalEntryWhereInput!]
-  NOT: [JournalEntryWhereInput!]
-  OR: [JournalEntryWhereInput!]
-  createdAt: DateTimeFilter
-  currentPage: IntFilter
-  currentPercent: IntFilter
-  dateRead: DateTimeFilter
-  id: StringFilter
-  pagesRead: IntFilter
-  readingNotes: StringFilter
-  user: UserRelationFilter
-  userBook: UserBookRelationFilter
-  userBookId: StringFilter
-  userId: StringFilter
-}
-
-input JournalEntryWhereUniqueInput {
-  AND: [JournalEntryWhereInput!]
-  NOT: [JournalEntryWhereInput!]
-  OR: [JournalEntryWhereInput!]
-  createdAt: DateTimeFilter
-  currentPage: IntFilter
-  currentPercent: IntFilter
-  dateRead: DateTimeFilter
-  id: String
-  pagesRead: IntFilter
-  readingNotes: StringFilter
-  user: UserRelationFilter
-  userBook: UserBookRelationFilter
-  userBookId: StringFilter
-  userId: StringFilter
-}
-
 input LogInInput {
   email: String!
   password: String
@@ -1938,7 +1646,7 @@ type Query {
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   me: MeResponse!
   shelves: [Shelf!]
-  user(where: UserWhereUniqueInput!): User!
+  user(where: UserWhereUniqueInput!): User
   userBook(where: BookWhereUniqueInput!): UserBook
 }
 
@@ -3214,7 +2922,6 @@ type User {
   id: ID!
   image: String
   isFollowing: Boolean!
-  journalEntries: [JournalEntry!]
   likedReviews: [Review!]
   location: String
   name: String
@@ -3231,7 +2938,6 @@ type UserBook {
   bookId: String!
   createdAt: Timestamp!
   id: ID!
-  journalEntry: [JournalEntry!]
   order: Int!
   rating: Float
   readDates: [ReadDate!]
@@ -3248,7 +2954,6 @@ type UserBookAvgAggregate {
 }
 
 type UserBookCount {
-  journalEntry: Int!
   readDates: Int!
   shelves: Int!
 }
@@ -3293,12 +2998,6 @@ input UserBookCreateNestedOneWithoutBookInput {
   create: UserBookCreateWithoutBookInput
 }
 
-input UserBookCreateNestedOneWithoutJournalEntryInput {
-  connect: UserBookWhereUniqueInput
-  connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
-  create: UserBookCreateWithoutJournalEntryInput
-}
-
 input UserBookCreateNestedOneWithoutShelvesInput {
   connect: UserBookWhereUniqueInput
   connectOrCreate: UserBookCreateOrConnectWithoutShelvesInput
@@ -3307,11 +3006,6 @@ input UserBookCreateNestedOneWithoutShelvesInput {
 
 input UserBookCreateOrConnectWithoutBookInput {
   create: UserBookCreateWithoutBookInput!
-  where: UserBookWhereUniqueInput!
-}
-
-input UserBookCreateOrConnectWithoutJournalEntryInput {
-  create: UserBookCreateWithoutJournalEntryInput!
   where: UserBookWhereUniqueInput!
 }
 
@@ -3328,20 +3022,6 @@ input UserBookCreateOrConnectWithoutUserInput {
 input UserBookCreateWithoutBookInput {
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
-  order: Int
-  rating: Float
-  readDates: ReadDateCreateNestedManyWithoutUserBookInput
-  shelves: UserBookShelvesCreateNestedManyWithoutUserBookInput
-  status: READING_STATUS!
-  updatedAt: Timestamp
-  user: UserCreateNestedOneWithoutUserBooksInput!
-}
-
-input UserBookCreateWithoutJournalEntryInput {
-  book: BookCreateNestedOneWithoutUserBookInput!
-  createdAt: Timestamp
-  id: String
   order: Int
   rating: Float
   readDates: ReadDateCreateNestedManyWithoutUserBookInput
@@ -3355,7 +3035,6 @@ input UserBookCreateWithoutShelvesInput {
   book: BookCreateNestedOneWithoutUserBookInput!
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int
   rating: Float
   readDates: ReadDateCreateNestedManyWithoutUserBookInput
@@ -3368,7 +3047,6 @@ input UserBookCreateWithoutUserInput {
   book: BookCreateNestedOneWithoutUserBookInput!
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryCreateNestedManyWithoutUserBookInput
   order: Int
   rating: Float
   readDates: ReadDateCreateNestedManyWithoutUserBookInput
@@ -3419,7 +3097,6 @@ input UserBookOrderByWithRelationInput {
   bookId: SortOrder
   createdAt: SortOrder
   id: SortOrder
-  journalEntry: JournalEntryOrderByRelationAggregateInput
   order: SortOrder
   rating: SortOrderInput
   readDates: ReadDateOrderByRelationAggregateInput
@@ -3699,27 +3376,12 @@ input UserBookUpdateOneWithoutBookNestedInput {
   upsert: UserBookUpsertWithoutBookInput
 }
 
-input UserBookUpdateOneWithoutJournalEntryNestedInput {
-  connect: UserBookWhereUniqueInput
-  connectOrCreate: UserBookCreateOrConnectWithoutJournalEntryInput
-  create: UserBookCreateWithoutJournalEntryInput
-  delete: UserBookWhereInput
-  disconnect: UserBookWhereInput
-  update: UserBookUpdateToOneWithWhereWithoutJournalEntryInput
-  upsert: UserBookUpsertWithoutJournalEntryInput
-}
-
 input UserBookUpdateOrderInput {
   items: [BookItemInput!]
 }
 
 input UserBookUpdateToOneWithWhereWithoutBookInput {
   data: UserBookUpdateWithoutBookInput!
-  where: UserBookWhereInput
-}
-
-input UserBookUpdateToOneWithWhereWithoutJournalEntryInput {
-  data: UserBookUpdateWithoutJournalEntryInput!
   where: UserBookWhereInput
 }
 
@@ -3736,20 +3398,6 @@ input UserBookUpdateWithWhereUniqueWithoutUserInput {
 input UserBookUpdateWithoutBookInput {
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
-  order: Int
-  rating: Float
-  readDates: ReadDateUpdateManyWithoutUserBookNestedInput
-  shelves: UserBookShelvesUpdateManyWithoutUserBookNestedInput
-  status: READING_STATUS
-  updatedAt: Timestamp
-  user: UserUpdateOneRequiredWithoutUserBooksNestedInput
-}
-
-input UserBookUpdateWithoutJournalEntryInput {
-  book: BookUpdateOneRequiredWithoutUserBookNestedInput
-  createdAt: Timestamp
-  id: String
   order: Int
   rating: Float
   readDates: ReadDateUpdateManyWithoutUserBookNestedInput
@@ -3763,7 +3411,6 @@ input UserBookUpdateWithoutShelvesInput {
   book: BookUpdateOneRequiredWithoutUserBookNestedInput
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
   readDates: ReadDateUpdateManyWithoutUserBookNestedInput
@@ -3776,7 +3423,6 @@ input UserBookUpdateWithoutUserInput {
   book: BookUpdateOneRequiredWithoutUserBookNestedInput
   createdAt: Timestamp
   id: String
-  journalEntry: JournalEntryUpdateManyWithoutUserBookNestedInput
   order: Int
   rating: Float
   readDates: ReadDateUpdateManyWithoutUserBookNestedInput
@@ -3797,12 +3443,6 @@ input UserBookUpsertWithoutBookInput {
   where: UserBookWhereInput
 }
 
-input UserBookUpsertWithoutJournalEntryInput {
-  create: UserBookCreateWithoutJournalEntryInput!
-  update: UserBookUpdateWithoutJournalEntryInput!
-  where: UserBookWhereInput
-}
-
 input UserBookUpsertWithoutShelvesInput {
   create: UserBookCreateWithoutShelvesInput!
   update: UserBookUpdateWithoutShelvesInput!
@@ -3817,7 +3457,6 @@ input UserBookWhereInput {
   bookId: StringFilter
   createdAt: DateTimeFilter
   id: StringFilter
-  journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
   readDates: ReadDateListRelationFilter
@@ -3837,7 +3476,6 @@ input UserBookWhereUniqueInput {
   createdAt: DateTimeFilter
   id: String
   identifier: UserBookIdentifierCompoundUniqueInput
-  journalEntry: JournalEntryListRelationFilter
   order: IntFilter
   rating: FloatFilter
   readDates: ReadDateListRelationFilter
@@ -3860,7 +3498,6 @@ type UserCount {
   comments: Int!
   followers: Int!
   following: Int!
-  journalEntries: Int!
   likedReviews: Int!
   reviews: Int!
   shelves: Int!
@@ -3912,12 +3549,6 @@ input UserCreateNestedOneWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput
 }
 
-input UserCreateNestedOneWithoutJournalEntriesInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutJournalEntriesInput
-  create: UserCreateWithoutJournalEntriesInput
-}
-
 input UserCreateNestedOneWithoutReviewsInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutReviewsInput
@@ -3956,11 +3587,6 @@ input UserCreateOrConnectWithoutFollowingInput {
   where: UserWhereUniqueInput!
 }
 
-input UserCreateOrConnectWithoutJournalEntriesInput {
-  create: UserCreateWithoutJournalEntriesInput!
-  where: UserWhereUniqueInput!
-}
-
 input UserCreateOrConnectWithoutLikedReviewsInput {
   create: UserCreateWithoutLikedReviewsInput!
   where: UserWhereUniqueInput!
@@ -3995,7 +3621,6 @@ input UserCreateWithoutAuditLogInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4020,7 +3645,6 @@ input UserCreateWithoutCommentsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4045,7 +3669,6 @@ input UserCreateWithoutFollowersInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4066,32 +3689,6 @@ input UserCreateWithoutFollowingInput {
   email: String!
   emailVerified: Timestamp
   followers: UserCreateNestedManyWithoutFollowingInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
-  likedReviews: ReviewCreateNestedManyWithoutLikedByInput
-  location: String
-  name: String
-  reviews: ReviewCreateNestedManyWithoutUserInput
-  shelves: ShelfCreateNestedManyWithoutUserInput
-  updatedAt: Timestamp
-  userBooks: UserBookCreateNestedManyWithoutUserInput
-  username: String
-}
-
-input UserCreateWithoutJournalEntriesInput {
-  AuditLog: AuditLogCreateNestedManyWithoutUserInput
-  accounts: AccountCreateNestedManyWithoutUserInput
-  bio: String
-  comments: CommentCreateNestedManyWithoutUserInput
-  createdAt: Timestamp
-  dob: Timestamp
-  email: String!
-  emailVerified: Timestamp
-  followers: UserCreateNestedManyWithoutFollowingInput
-  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -4121,7 +3718,6 @@ input UserCreateWithoutLikedReviewsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   location: String
   name: String
   reviews: ReviewCreateNestedManyWithoutUserInput
@@ -4146,7 +3742,6 @@ input UserCreateWithoutReviewsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4171,7 +3766,6 @@ input UserCreateWithoutShelvesInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4196,7 +3790,6 @@ input UserCreateWithoutUserBooksInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryCreateNestedManyWithoutUserInput
   likedReviews: ReviewCreateNestedManyWithoutLikedByInput
   location: String
   name: String
@@ -4259,7 +3852,6 @@ input UserOrderByWithRelationInput {
   hashedRefreshToken: SortOrderInput
   id: SortOrder
   image: SortOrderInput
-  journalEntries: JournalEntryOrderByRelationAggregateInput
   likedReviews: ReviewOrderByRelationAggregateInput
   location: SortOrderInput
   name: SortOrderInput
@@ -4392,16 +3984,6 @@ input UserUpdateOneWithoutCommentsNestedInput {
   upsert: UserUpsertWithoutCommentsInput
 }
 
-input UserUpdateOneWithoutJournalEntriesNestedInput {
-  connect: UserWhereUniqueInput
-  connectOrCreate: UserCreateOrConnectWithoutJournalEntriesInput
-  create: UserCreateWithoutJournalEntriesInput
-  delete: UserWhereInput
-  disconnect: UserWhereInput
-  update: UserUpdateToOneWithWhereWithoutJournalEntriesInput
-  upsert: UserUpsertWithoutJournalEntriesInput
-}
-
 input UserUpdateOneWithoutReviewsNestedInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutReviewsInput
@@ -4429,11 +4011,6 @@ input UserUpdateToOneWithWhereWithoutAuditLogInput {
 
 input UserUpdateToOneWithWhereWithoutCommentsInput {
   data: UserUpdateWithoutCommentsInput!
-  where: UserWhereInput
-}
-
-input UserUpdateToOneWithWhereWithoutJournalEntriesInput {
-  data: UserUpdateWithoutJournalEntriesInput!
   where: UserWhereInput
 }
 
@@ -4481,7 +4058,6 @@ input UserUpdateWithoutAuditLogInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4506,7 +4082,6 @@ input UserUpdateWithoutCommentsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4531,7 +4106,6 @@ input UserUpdateWithoutFollowersInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4552,32 +4126,6 @@ input UserUpdateWithoutFollowingInput {
   email: String
   emailVerified: Timestamp
   followers: UserUpdateManyWithoutFollowingNestedInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
-  likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
-  location: String
-  name: String
-  reviews: ReviewUpdateManyWithoutUserNestedInput
-  shelves: ShelfUpdateManyWithoutUserNestedInput
-  updatedAt: Timestamp
-  userBooks: UserBookUpdateManyWithoutUserNestedInput
-  username: String
-}
-
-input UserUpdateWithoutJournalEntriesInput {
-  AuditLog: AuditLogUpdateManyWithoutUserNestedInput
-  accounts: AccountUpdateManyWithoutUserNestedInput
-  bio: String
-  comments: CommentUpdateManyWithoutUserNestedInput
-  createdAt: Timestamp
-  dob: Timestamp
-  email: String
-  emailVerified: Timestamp
-  followers: UserUpdateManyWithoutFollowingNestedInput
-  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -4607,7 +4155,6 @@ input UserUpdateWithoutLikedReviewsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   location: String
   name: String
   reviews: ReviewUpdateManyWithoutUserNestedInput
@@ -4632,7 +4179,6 @@ input UserUpdateWithoutReviewsInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4657,7 +4203,6 @@ input UserUpdateWithoutShelvesInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4682,7 +4227,6 @@ input UserUpdateWithoutUserBooksInput {
   hashedRefreshToken: String
   id: String
   image: String
-  journalEntries: JournalEntryUpdateManyWithoutUserNestedInput
   likedReviews: ReviewUpdateManyWithoutLikedByNestedInput
   location: String
   name: String
@@ -4722,12 +4266,6 @@ input UserUpsertWithoutCommentsInput {
   where: UserWhereInput
 }
 
-input UserUpsertWithoutJournalEntriesInput {
-  create: UserCreateWithoutJournalEntriesInput!
-  update: UserUpdateWithoutJournalEntriesInput!
-  where: UserWhereInput
-}
-
 input UserUpsertWithoutReviewsInput {
   create: UserCreateWithoutReviewsInput!
   update: UserUpdateWithoutReviewsInput!
@@ -4764,7 +4302,6 @@ input UserWhereInput {
   hashedRefreshToken: StringFilter
   id: StringFilter
   image: StringFilter
-  journalEntries: JournalEntryListRelationFilter
   likedReviews: ReviewListRelationFilter
   location: StringFilter
   name: StringFilter
@@ -4793,7 +4330,6 @@ input UserWhereUniqueInput {
   hashedRefreshToken: StringFilter
   id: String
   image: StringFilter
-  journalEntries: JournalEntryListRelationFilter
   likedReviews: ReviewListRelationFilter
   location: StringFilter
   name: StringFilter

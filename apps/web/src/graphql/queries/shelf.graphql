@@ -6,6 +6,9 @@ query Shelves {
     _count {
       userBooks
     }
+    user {
+      id
+    }
     userId
   }
 }

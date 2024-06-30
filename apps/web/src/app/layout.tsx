@@ -39,9 +39,9 @@ export default function RootLayout({
         <SessionProvider session={session}>
           <ApolloClientProvider>
             <QueryProvider>
-              <ModalProvider />
-              <Toaster />
-              {children}
+                <ModalProvider />
+                <Toaster />
+                {children}
             </QueryProvider>
           </ApolloClientProvider>
         </SessionProvider>

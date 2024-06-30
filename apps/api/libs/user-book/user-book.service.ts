@@ -153,22 +153,20 @@ export class UserBookService {
         userId,
       },
       include: {
+        user: {
+            select: {
+                id: true
+            }
+        },
         _count: {
           select: {
             shelves: true,
-            journalEntry: true,
           },
         },
         shelves: {
           include: {
             shelf: true,
           },
-        },
-        journalEntry: {
-          orderBy: {
-            dateRead: 'desc', // Order by dateRead in descending order
-          },
-          take: 1, // Take only the last element
         },
         book: {
           include: {

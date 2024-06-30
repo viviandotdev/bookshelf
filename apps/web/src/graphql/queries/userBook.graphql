@@ -1,5 +1,8 @@
 query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
+    user {
+        id
+    }
     book {
       slug
       id
@@ -45,6 +48,9 @@ query GetUserBooks(
   ) {
     userBooks {
       id
+      user {
+        id
+      }
       book {
         id
         slug
@@ -79,14 +85,6 @@ query GetUserBooks(
       }
       _count {
         shelves
-        journalEntry
-      }
-      journalEntry {
-        id
-        readingNotes
-        dateRead
-        currentPage
-        currentPercent
       }
     }
     hasMore
