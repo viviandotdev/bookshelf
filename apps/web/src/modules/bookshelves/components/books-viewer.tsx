@@ -22,7 +22,11 @@ interface BooksViewerProps {
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  const [view, setView] = React.useState<string>('gallery');
+  const [view, setView] = React.useState<string>(() => {
+    // Get the default view from local storage, or use 'gallery' as the default
+    return localStorage.getItem('defaultView') || 'gallery';
+  });
+
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
@@ -46,6 +50,10 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
 
   //
 
+  const updateView = (newView: string) => {
+    setView(newView);
+    localStorage.setItem('defaultView', newView);
+  };
   const handleScroll = async (e: any) => {
     const isAtBottom =
       Math.abs(
@@ -80,7 +88,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
             <div className='flex gap-1'>
               <ShelfTitle />
             </div>
-            <ViewOptions view={view} setView={setView} />
+            <ViewOptions view={view} setView={updateView} />
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
             <div className='flex gap-4'>

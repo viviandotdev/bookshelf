@@ -8,6 +8,7 @@ import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
 
 interface CurrentlyReadingProps {
   userBook: UserBook;
@@ -17,6 +18,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
   userBook,
 }) => {
   const logBookModal = useLogBookModal();
+  const progressModal = useProgressModal();
   const { setUserBook } = useUserBookStore();
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   if (!userBook) return null;
@@ -68,6 +70,7 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
             variant={'secondary'}
             onClick={(e) => {
               e.stopPropagation();
+              progressModal.onOpen();
               setUserBook({
                 status: status,
                 book: {

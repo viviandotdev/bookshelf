@@ -38,6 +38,7 @@ import {
   ListStart,
   Backpack,
   Flame,
+  Minus,
 } from 'lucide-react';
 import { DotsVerticalIcon, LayoutIcon } from '@radix-ui/react-icons';
 
@@ -154,4 +155,5 @@ export const Icons = {
   customize: Settings,
   goodReads,
   googleBooks,
+  minus: Minus,
 };

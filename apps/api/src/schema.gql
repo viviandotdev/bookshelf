@@ -1587,18 +1587,6 @@ type JournalEntryCountAggregate {
   userId: Int!
 }
 
-input JournalEntryCreateInput {
-  createdAt: Timestamp
-  currentPage: Int!
-  currentPercent: Int!
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int!
-  readingNotes: String
-  user: UserCreateNestedOneWithoutJournalEntriesInput
-  userBook: UserBookCreateNestedOneWithoutJournalEntryInput
-}
-
 input JournalEntryCreateManyUserBookInput {
   createdAt: Timestamp
   currentPage: Int!
@@ -1730,18 +1718,6 @@ type JournalEntrySumAggregate {
   currentPage: Int
   currentPercent: Int
   pagesRead: Int
-}
-
-input JournalEntryUpdateInput {
-  createdAt: Timestamp
-  currentPage: Int
-  currentPercent: Int
-  dateRead: Timestamp
-  id: String
-  pagesRead: Int
-  readingNotes: String
-  user: UserUpdateOneWithoutJournalEntriesNestedInput
-  userBook: UserBookUpdateOneWithoutJournalEntryNestedInput
 }
 
 input JournalEntryUpdateManyMutationInput {
@@ -1885,7 +1861,6 @@ type Mutation {
   addBookToShelf(shelf: String!, where: UserBookWhereUniqueInput!): UserBook!
   addIdentifierToBook(identifier: IdentifierCreateInput!, where: BookWhereUniqueInput!): Book!
   createIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
-  createJournalEntry(book: BookWhereUniqueInput!, data: JournalEntryCreateInput!): JournalEntry!
   createShelf(data: ShelfCreateInput!): Shelf!
   createUserBook(data: BookDataInput!): UserBook!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
@@ -1898,11 +1873,9 @@ type Mutation {
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
   removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): Boolean!
-  removeJournalEntry(where: JournalEntryWhereUniqueInput!): JournalEntry!
   removeUserBook(where: UserBookWhereUniqueInput!): Boolean!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   updateEmail(data: UpdateEmailInput!): User!
-  updateJournalEntry(data: JournalEntryUpdateInput!, where: JournalEntryWhereUniqueInput!): JournalEntry!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
@@ -1958,14 +1931,11 @@ type Query {
   auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, orderBy: AuditLogOrderByWithRelationInput, where: UserBookWhereUniqueInput): ActivitiesResponse!
   bookCountsByUserId(userId: String!): BookCountsResponse!
   booksByShelf(slug: String!, username: String!): Shelf
-  countJournalEntries(book: BookWhereUniqueInput): Int!
   countUserBooks(where: UserBookWhereInput): Int!
   findBookByIdentifier(identifier: IdentifierCreateInput!): Book
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
-  getMostRecentJournalEntry(book: BookWhereUniqueInput): JournalEntry
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
-  journalEntries(book: BookWhereUniqueInput, limit: Int! = 20, offset: Int! = 0): [JournalEntry!]!
   me: MeResponse!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User!

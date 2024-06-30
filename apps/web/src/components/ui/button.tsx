@@ -8,17 +8,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-beige text-beige-50 text-sm font-medium hover:bg-beige/90 ',
+        default: 'bg-beige text-beige-50 text-sm font-medium',
         outline:
           'flex cursor-pointer items-center justify-center rounded-3xl border border-gray-200 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100',
-        secondary: 'bg-beige-100 text-beige-700 hover:bg-beige-100/80',
+        secondary: 'bg-beige-100 text-beige-700 ',
         link: 'underline-offset-4 hover:underline text-beige',
         pill: 'bg-beige-100 text-beige-700 hover:bg-beige-100/80 rounded-2xl font-semibold h-8 px-3',
         card: 'rounded-none bg-white border border-gray-200 text-beige-700 hover:bg-gray-100',
-        filter: '',
-        action:
-          'text-xs bg-beige-100 text-beige-700 mr-1 mb-1 w-max gap-1 hover:bg-beige-100/80 ',
       },
       size: {
         default: 'h-10 py-2 px-4',

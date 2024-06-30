@@ -1,4 +1,3 @@
-import { readingStatuses } from '@/config/books';
 import { Reading_Status } from '@/graphql/graphql';
 
 export const DEFAULT_BOOKCOVER_PLACEHOLDER =
