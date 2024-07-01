@@ -12,6 +12,7 @@ export class ReadDateResolver {
     @Args('userBookIds', { type: () => [String] }) userBookIds: string[],
     @Args('active', { type: () => Boolean, nullable: true }) active?: boolean,
   ) {
+    console.log(userBookIds);
     const where: Prisma.ReadDateWhereInput = {
       userBookId: {
         in: userBookIds,

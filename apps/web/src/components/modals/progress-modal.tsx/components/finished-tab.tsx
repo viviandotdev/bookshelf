@@ -1,12 +1,35 @@
 // FinishedTab.tsx
-import { Button } from '@/components/ui/button';
-import { IconButton } from '@/modules/bookshelves/components/icon-button';
-import React from 'react';
+import React, { useEffect } from 'react';
 import DateSelectors from './date-selectors';
+import { ReadDate } from '@/graphql/graphql';
+import { read } from 'fs';
 
-interface FinishedTabProps {}
+interface FinishedTabProps {
+  readDate: ReadDate;
+}
 
-export const FinishedTab: React.FC<FinishedTabProps> = ({}) => {
+export const FinishedTab: React.FC<FinishedTabProps> = ({ readDate }) => {
+  // Initialize dates
+  useEffect(() => {
+    if (readDate?.startDate) {
+      const startDate = new Date(readDate.startDate);
+      setSelectedStartDay(startDate.getDate().toString().padStart(2, '0'));
+      setSelectedStartMonth(
+        startDate.toLocaleString('default', { month: 'long' })
+      );
+      setSelectedStartYear(startDate.getFullYear().toString());
+    }
+
+    const finishedDate = readDate?.finishedDate
+      ? new Date(readDate.finishedDate)
+      : new Date();
+    setSelectedEndDay(finishedDate.getDate().toString().padStart(2, '0'));
+    setSelectedEndMonth(
+      finishedDate.toLocaleString('default', { month: 'long' })
+    );
+    setSelectedEndYear(finishedDate.getFullYear().toString());
+  }, [readDate]);
+
   const [selectedStartDay, setSelectedStartDay] = React.useState('23');
   const [selectedStartMonth, setSelectedStartMonth] = React.useState('May');
   const [selectedStartYear, setSelectedStartYear] = React.useState('2024');
@@ -57,22 +80,9 @@ export const FinishedTab: React.FC<FinishedTabProps> = ({}) => {
         onDayChange={handleEndDayChange}
         onMonthChange={handleEndMonthChange}
         onYearChange={handleEndYearChange}
-        label='End Date'
+        label='Finished Date'
       />
-      <div className='flex w-full items-end justify-start gap-4'>
-        {/* <Button
-          variant={'outline'}
-          className='flex h-12 w-1/2 items-center justify-center rounded-lg  py-4 text-sm font-normal text-black'
-        >
-          Finished
-        </Button> */}
-        {/* <Button
-          variant={'outline'}
-          className='flex h-12 w-1/2 items-center justify-center rounded-lg py-4 text-sm font-normal text-black'
-        >
-          Mark as DNF
-        </Button> */}
-      </div>
+      <div className='flex w-full items-end justify-start gap-4'></div>
     </div>
   );
 };

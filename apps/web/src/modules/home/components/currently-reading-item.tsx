@@ -17,10 +17,8 @@ interface CurrentlyReadingItemProps {
 export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
   userBook,
 }) => {
-  const logBookModal = useLogBookModal();
   const progressModal = useProgressModal();
   const { setUserBook } = useUserBookStore();
-  const [status, setStatus] = useState(userBook.status ? userBook.status : '');
   if (!userBook) return null;
   const { book, shelves } = userBook;
   return (
@@ -72,10 +70,8 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
               e.stopPropagation();
               progressModal.onOpen();
               setUserBook({
-                status: status,
-                book: {
-                  title: book.title,
-                },
+                userBookId: userBook.id,
+                bookTitle: book.title,
               });
             }}
           >

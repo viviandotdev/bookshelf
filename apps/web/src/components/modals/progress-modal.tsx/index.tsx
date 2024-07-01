@@ -7,11 +7,17 @@ import ProgressTab from './components/progress-tab';
 import FinishedTab from './components/finished-tab';
 import { DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import useUserBookStore from '@/stores/use-user-book-store';
 
 interface ProgressModalProps {}
 
 export const ProgressModal: React.FC<ProgressModalProps> = () => {
-  const { isOpen, onClose } = useProgressModal();
+  const { isOpen, onClose, readDates } = useProgressModal();
+  const { userBookId } = useUserBookStore();
+  const readDateWithProgress = readDates.find(
+    (rd) => rd.userBookId === userBookId
+  );
+  console.log(readDateWithProgress);
   // no form validation, restrict user input, they can only input values i want
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={'Reading Progress'}>
@@ -25,10 +31,12 @@ export const ProgressModal: React.FC<ProgressModalProps> = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value='account'>
-          <ProgressTab />
+          <ProgressTab
+            readingProgress={readDateWithProgress?.readingProgress}
+          />
         </TabsContent>
         <TabsContent value='password'>
-          <FinishedTab />
+          <FinishedTab readDate={readDateWithProgress} />
         </TabsContent>
       </Tabs>
       <DialogFooter>

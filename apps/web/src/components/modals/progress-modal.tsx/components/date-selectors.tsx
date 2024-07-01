@@ -26,9 +26,9 @@ const DateSelectors: React.FC<DateSelectorsProps> = ({
     <div className='flex w-full flex-col gap-2'>
       <div className='flex justify-between'>
         <div className='text-sm font-normal text-zinc-700'>{label}</div>
-        <div className='text-right text-sm font-normal text-zinc-700'>
+        {/* <div className='text-right text-sm font-normal text-zinc-700'>
           Set to Today
-        </div>
+        </div> */}
       </div>
       <div className='flex justify-between gap-2'>
         <div className='relative w-1/3'>

@@ -1,23 +1,38 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
+import { Progress_Type, ReadingProgress } from '@/graphql/graphql';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
-import React, { useState } from 'react';
+import useUserBookStore from '@/stores/use-user-book-store';
+import React, { useState, ChangeEvent } from 'react';
 
-interface ProgressTabProps {}
+interface ProgressTabProps {
+  readingProgress: ReadingProgress;
+}
 
-export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
-  const [isPages, setIsPages] = useState(true);
-  const [progress, setProgress] = useState(40);
-  const totalPages = 460;
+export const ProgressTab: React.FC<ProgressTabProps> = ({
+  readingProgress,
+}) => {
+  const [type, setType] = useState<Progress_Type>(
+    readingProgress?.type || Progress_Type.Pages
+  );
+  const [progress, setProgress] = useState(readingProgress.progress || 0);
+  const totalPages = readingProgress.capacity || 0;
+  const { bookTitle } = useUserBookStore();
 
-  const handleToggle = (pages: boolean) => {
-    if (pages !== isPages) {
-      setIsPages(pages);
+  const handleToggle = (newType: Progress_Type) => {
+    if (newType !== type) {
+      setType(newType);
+      // Convert progress when switching between types
+      if (newType === Progress_Type.Percentage) {
+        setProgress(Math.round((progress / totalPages) * 100));
+      } else {
+        setProgress(Math.round((progress / 100) * totalPages));
+      }
     }
   };
 
   const handleIncrement = () => {
-    if (isPages) {
+    if (type === Progress_Type.Pages) {
       setProgress(Math.min(progress + 1, totalPages));
     } else {
       setProgress(Math.min(progress + 1, 100));
@@ -25,10 +40,25 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
   };
 
   const handleDecrement = () => {
-    if (isPages) {
-      setProgress(Math.max(progress - 1, 0));
+    setProgress(Math.max(progress - 1, 0));
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+      if (type === Progress_Type.Pages) {
+        setProgress(Math.min(Math.max(value, 0), totalPages));
+      } else {
+        setProgress(Math.min(Math.max(value, 0), 100));
+      }
+    }
+  };
+
+  const getProgressText = () => {
+    if (type === Progress_Type.Pages) {
+      return `of ${totalPages} pages read`;
     } else {
-      setProgress(Math.max(progress - 1, 0));
+      return `${progress}% completed`;
     }
   };
 
@@ -38,7 +68,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
         <div className='flex flex-col items-center justify-start gap-5'>
           <div className='text-lg font-normal'>
             Update reading progress for
-            <span className='font-bold'> Atomic Habits</span>
+            <span className='font-bold'> {bookTitle}</span>
           </div>
           <div className='flex w-full items-center justify-center gap-4'>
             <IconButton
@@ -52,7 +82,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
               type='text'
               className='h-14 w-64 rounded-lg border border-gray-200 px-5 py-4 text-center text-lg text-neutral-900 shadow-sm'
               value={progress}
-              readOnly
+              onChange={handleInputChange}
             />
             <IconButton
               className={`h-14 w-14 rounded-lg`}
@@ -64,23 +94,21 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
           </div>
         </div>
         <div className='text-base font-normal text-zinc-700'>
-          {isPages
-            ? `of ${totalPages} pages read`
-            : `${Math.round((progress / totalPages) * 100)}% completed`}
+          {getProgressText()}
         </div>
       </div>
       <div className='flex w-full items-end justify-start gap-4'>
         <Button
-          variant={isPages ? 'secondary' : 'outline'}
+          variant={type === Progress_Type.Pages ? 'secondary' : 'outline'}
           className='flex h-12 w-1/2 items-center justify-center rounded-lg py-4 text-sm font-normal text-black '
-          onClick={() => handleToggle(true)}
+          onClick={() => handleToggle(Progress_Type.Pages)}
         >
           # Pages
         </Button>
         <Button
-          variant={isPages ? 'outline' : 'secondary'}
+          variant={type === Progress_Type.Percentage ? 'secondary' : 'outline'}
           className='flex h-12 w-1/2 items-center justify-center rounded-lg py-4 text-sm font-normal text-black '
-          onClick={() => handleToggle(false)}
+          onClick={() => handleToggle(Progress_Type.Percentage)}
         >
           % Percent
         </Button>
@@ -88,4 +116,5 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({}) => {
     </div>
   );
 };
+
 export default ProgressTab;

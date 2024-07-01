@@ -293,7 +293,11 @@ export class UserBookService {
           });
           const readDate = await this.prisma.readDate.create({
             data: {
-              userBookId: userBookId,
+              userBook: {
+                connect: {
+                  id: userBookId,
+                },
+              },
               active: true,
             },
           });

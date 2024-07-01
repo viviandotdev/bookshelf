@@ -4,7 +4,6 @@ import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import CurrentlyReading from '../components/currently-reading-item';
 import BookCard from '../components/book-card';
 import DashboardHeader from '../components/dashboard-header';
 import CurrentlyReadingSection from '../components/currently-reading-section';
