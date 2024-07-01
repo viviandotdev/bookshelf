@@ -9,7 +9,6 @@ import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import React, { useState, ChangeEvent } from 'react';
 import useProgressModal from '../use-progress-modal';
-import { update } from 'rambda';
 
 interface ProgressTabProps {
   readingProgress: ReadingProgress;
@@ -70,12 +69,15 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value)) {
-      if (type === Progress_Type.Pages) {
-        setProgress(Math.min(Math.max(value, 0), totalPages));
+    const value = e.target.value;
+    if (value === '' || /^\d+$/.test(value)) {
+      const numValue = parseInt(value, 10);
+      if (value === '' || isNaN(numValue)) {
+        setProgress(0);
+      } else if (type === Progress_Type.Pages) {
+        setProgress(Math.min(Math.max(parseInt(value), 0), totalPages));
       } else {
-        setProgress(Math.min(Math.max(value, 0), 100));
+        setProgress(Math.min(Math.max(parseInt(value), 0), 100));
       }
     }
   };
