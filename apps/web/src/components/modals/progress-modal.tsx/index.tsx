@@ -39,14 +39,6 @@ export const ProgressModal: React.FC<ProgressModalProps> = () => {
           <FinishedTab readDate={readDateWithProgress} />
         </TabsContent>
       </Tabs>
-      <DialogFooter>
-        <Button
-          variant={'default'}
-          className='mt-4 flex  h-12 w-full items-center justify-center rounded-lg  text-base font-medium text-white'
-        >
-          Done
-        </Button>
-      </DialogFooter>
     </Modal>
   );
 };

@@ -113,6 +113,12 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
           % Percent
         </Button>
       </div>
+      <Button
+        variant={'default'}
+        className='mt-4 flex  h-12 w-full items-center justify-center rounded-lg  text-base font-medium text-white'
+      >
+        Done
+      </Button>
     </div>
   );
 };
