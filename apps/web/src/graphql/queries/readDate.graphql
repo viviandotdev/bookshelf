@@ -1,0 +1,14 @@
+query readDates($userBookIds: [String!]!, $active: Boolean) {
+  readDates(userBookIds: $userBookIds, active: $active) {
+    id
+    userBookId
+    startDate
+    finishedDate
+    active
+    readingProgress {
+      capacity
+      type
+      progress
+    }
+  }
+}

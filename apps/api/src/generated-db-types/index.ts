@@ -83,6 +83,7 @@ export enum ReadDateScalarFieldEnum {
     id = "id",
     startDate = "startDate",
     finishedDate = "finishedDate",
+    active = "active",
     userBookId = "userBookId"
 }
 
@@ -9519,10 +9520,10 @@ export class CreateManyReadDateArgs {
 
 @ArgsType()
 export class CreateOneReadDateArgs {
-    @Field(() => ReadDateCreateInput, {nullable:true})
+    @Field(() => ReadDateCreateInput, {nullable:false})
     @Type(() => ReadDateCreateInput)
     @ValidateNested()
-    data?: InstanceType<typeof ReadDateCreateInput>;
+    data!: InstanceType<typeof ReadDateCreateInput>;
 }
 
 @ArgsType()
@@ -9642,6 +9643,8 @@ export class ReadDateCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     finishedDate?: true;
     @Field(() => Boolean, {nullable:true})
+    active?: true;
+    @Field(() => Boolean, {nullable:true})
     userBookId?: true;
     @Field(() => Boolean, {nullable:true})
     _all?: true;
@@ -9655,6 +9658,8 @@ export class ReadDateCountAggregate {
     startDate!: number;
     @Field(() => Int, {nullable:false})
     finishedDate!: number;
+    @Field(() => Int, {nullable:false})
+    active!: number;
     @Field(() => Int, {nullable:false})
     userBookId!: number;
     @Field(() => Int, {nullable:false})
@@ -9670,13 +9675,9 @@ export class ReadDateCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     finishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
-}
-
-@ObjectType()
-export class ReadDateCount {
-    @Field(() => Int, {nullable:false})
-    readingProgress?: number;
 }
 
 @InputType()
@@ -9696,6 +9697,8 @@ export class ReadDateCreateManyUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
 }
 
 @InputType()
@@ -9706,6 +9709,8 @@ export class ReadDateCreateManyInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -9767,6 +9772,8 @@ export class ReadDateCreateWithoutReadingProgressInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => UserBookCreateNestedOneWithoutReadDatesInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReadDatesInput>;
 }
@@ -9779,8 +9786,10 @@ export class ReadDateCreateWithoutUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressCreateNestedManyWithoutReadDateInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressCreateNestedManyWithoutReadDateInput>;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
+    @Field(() => ReadingProgressCreateNestedOneWithoutReadDateInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressCreateNestedOneWithoutReadDateInput>;
 }
 
 @InputType()
@@ -9791,8 +9800,10 @@ export class ReadDateCreateInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressCreateNestedManyWithoutReadDateInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressCreateNestedManyWithoutReadDateInput>;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
+    @Field(() => ReadingProgressCreateNestedOneWithoutReadDateInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressCreateNestedOneWithoutReadDateInput>;
     @Field(() => UserBookCreateNestedOneWithoutReadDatesInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookCreateNestedOneWithoutReadDatesInput>;
 }
@@ -9829,6 +9840,8 @@ export class ReadDateGroupBy {
     startDate!: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
     @Field(() => ReadDateCountAggregate, {nullable:true})
@@ -9858,6 +9871,8 @@ export class ReadDateMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     finishedDate?: true;
     @Field(() => Boolean, {nullable:true})
+    active?: true;
+    @Field(() => Boolean, {nullable:true})
     userBookId?: true;
 }
 
@@ -9869,6 +9884,8 @@ export class ReadDateMaxAggregate {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -9882,6 +9899,8 @@ export class ReadDateMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     finishedDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
 }
 
@@ -9894,6 +9913,8 @@ export class ReadDateMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     finishedDate?: true;
     @Field(() => Boolean, {nullable:true})
+    active?: true;
+    @Field(() => Boolean, {nullable:true})
     userBookId?: true;
 }
 
@@ -9905,6 +9926,8 @@ export class ReadDateMinAggregate {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -9917,6 +9940,8 @@ export class ReadDateMinOrderByAggregateInput {
     startDate?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     finishedDate?: keyof typeof SortOrder;
+    @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     userBookId?: keyof typeof SortOrder;
 }
@@ -9935,6 +9960,8 @@ export class ReadDateOrderByWithAggregationInput {
     startDate?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     finishedDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => ReadDateCountOrderByAggregateInput, {nullable:true})
@@ -9953,10 +9980,12 @@ export class ReadDateOrderByWithRelationInput {
     startDate?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     finishedDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    active?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
-    @Field(() => ReadingProgressOrderByRelationAggregateInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressOrderByRelationAggregateInput>;
+    @Field(() => ReadingProgressOrderByWithRelationInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressOrderByWithRelationInput>;
     @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookOrderByWithRelationInput>;
 }
@@ -9983,6 +10012,8 @@ export class ReadDateScalarWhereWithAggregatesInput {
     startDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     finishedDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    active?: InstanceType<typeof BoolWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringWithAggregatesFilter>;
 }
@@ -10001,6 +10032,8 @@ export class ReadDateScalarWhereInput {
     startDate?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => BoolFilter, {nullable:true})
+    active?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
 }
@@ -10029,6 +10062,8 @@ export class ReadDateUncheckedCreateWithoutReadingProgressInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -10041,8 +10076,10 @@ export class ReadDateUncheckedCreateWithoutUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressUncheckedCreateNestedManyWithoutReadDateInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUncheckedCreateNestedManyWithoutReadDateInput>;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
+    @Field(() => ReadingProgressUncheckedCreateNestedOneWithoutReadDateInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUncheckedCreateNestedOneWithoutReadDateInput>;
 }
 
 @InputType()
@@ -10053,10 +10090,12 @@ export class ReadDateUncheckedCreateInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
-    @Field(() => ReadingProgressUncheckedCreateNestedManyWithoutReadDateInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUncheckedCreateNestedManyWithoutReadDateInput>;
+    @Field(() => ReadingProgressUncheckedCreateNestedOneWithoutReadDateInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUncheckedCreateNestedOneWithoutReadDateInput>;
 }
 
 @InputType()
@@ -10104,6 +10143,8 @@ export class ReadDateUncheckedUpdateManyWithoutUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
 }
 
 @InputType()
@@ -10114,6 +10155,8 @@ export class ReadDateUncheckedUpdateManyInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -10126,6 +10169,8 @@ export class ReadDateUncheckedUpdateWithoutReadingProgressInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
 }
@@ -10138,8 +10183,10 @@ export class ReadDateUncheckedUpdateWithoutUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressUncheckedUpdateManyWithoutReadDateNestedInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUncheckedUpdateManyWithoutReadDateNestedInput>;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+    @Field(() => ReadingProgressUncheckedUpdateOneWithoutReadDateNestedInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUncheckedUpdateOneWithoutReadDateNestedInput>;
 }
 
 @InputType()
@@ -10150,10 +10197,12 @@ export class ReadDateUncheckedUpdateInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => String, {nullable:true})
     userBookId?: string;
-    @Field(() => ReadingProgressUncheckedUpdateManyWithoutReadDateNestedInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUncheckedUpdateManyWithoutReadDateNestedInput>;
+    @Field(() => ReadingProgressUncheckedUpdateOneWithoutReadDateNestedInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUncheckedUpdateOneWithoutReadDateNestedInput>;
 }
 
 @InputType()
@@ -10164,6 +10213,8 @@ export class ReadDateUpdateManyMutationInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
 }
 
 @InputType()
@@ -10260,6 +10311,8 @@ export class ReadDateUpdateWithoutReadingProgressInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
     @Field(() => UserBookUpdateOneWithoutReadDatesNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReadDatesNestedInput>;
 }
@@ -10272,8 +10325,10 @@ export class ReadDateUpdateWithoutUserBookInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressUpdateManyWithoutReadDateNestedInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUpdateManyWithoutReadDateNestedInput>;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+    @Field(() => ReadingProgressUpdateOneWithoutReadDateNestedInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUpdateOneWithoutReadDateNestedInput>;
 }
 
 @InputType()
@@ -10284,8 +10339,10 @@ export class ReadDateUpdateInput {
     startDate?: Date | string;
     @Field(() => Date, {nullable:true})
     finishedDate?: Date | string;
-    @Field(() => ReadingProgressUpdateManyWithoutReadDateNestedInput, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressUpdateManyWithoutReadDateNestedInput>;
+    @Field(() => Boolean, {nullable:true})
+    active?: boolean;
+    @Field(() => ReadingProgressUpdateOneWithoutReadDateNestedInput, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressUpdateOneWithoutReadDateNestedInput>;
     @Field(() => UserBookUpdateOneWithoutReadDatesNestedInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookUpdateOneWithoutReadDatesNestedInput>;
 }
@@ -10330,10 +10387,12 @@ export class ReadDateWhereUniqueInput {
     startDate?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => BoolFilter, {nullable:true})
+    active?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReadingProgressListRelationFilter, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressListRelationFilter>;
+    @Field(() => ReadingProgressRelationFilter, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressRelationFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
 }
@@ -10352,10 +10411,12 @@ export class ReadDateWhereInput {
     startDate?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => BoolFilter, {nullable:true})
+    active?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReadingProgressListRelationFilter, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressListRelationFilter>;
+    @Field(() => ReadingProgressRelationFilter, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressRelationFilter>;
     @Field(() => UserBookRelationFilter, {nullable:true})
     userBook?: InstanceType<typeof UserBookRelationFilter>;
 }
@@ -10368,14 +10429,14 @@ export class ReadDate {
     startDate!: Date;
     @Field(() => Date, {nullable:true})
     finishedDate!: Date | null;
+    @Field(() => Boolean, {nullable:false})
+    active!: boolean;
     @Field(() => String, {nullable:true})
     userBookId!: string | null;
-    @Field(() => [ReadingProgress], {nullable:true})
-    readingProgress?: Array<ReadingProgress>;
+    @Field(() => ReadingProgress, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgress> | null;
     @Field(() => UserBook, {nullable:true})
     userBook?: InstanceType<typeof UserBook> | null;
-    @Field(() => ReadDateCount, {nullable:false})
-    _count?: InstanceType<typeof ReadDateCount>;
 }
 
 @ArgsType()
@@ -10461,7 +10522,7 @@ export class DeleteOneReadingProgressArgs {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @ArgsType()
@@ -10473,7 +10534,7 @@ export class FindFirstReadingProgressOrThrowArgs {
     @Field(() => [ReadingProgressOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReadingProgressOrderByWithRelationInput>;
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -10491,7 +10552,7 @@ export class FindFirstReadingProgressArgs {
     @Field(() => [ReadingProgressOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReadingProgressOrderByWithRelationInput>;
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -10509,7 +10570,7 @@ export class FindManyReadingProgressArgs {
     @Field(() => [ReadingProgressOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReadingProgressOrderByWithRelationInput>;
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -10523,7 +10584,7 @@ export class FindUniqueReadingProgressOrThrowArgs {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @ArgsType()
@@ -10531,7 +10592,7 @@ export class FindUniqueReadingProgressArgs {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @ArgsType()
@@ -10543,7 +10604,7 @@ export class ReadingProgressAggregateArgs {
     @Field(() => [ReadingProgressOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<ReadingProgressOrderByWithRelationInput>;
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -10639,31 +10700,6 @@ export class ReadingProgressCountOrderByAggregateInput {
 }
 
 @InputType()
-export class ReadingProgressCreateManyReadDateInputEnvelope {
-    @Field(() => [ReadingProgressCreateManyReadDateInput], {nullable:false})
-    @Type(() => ReadingProgressCreateManyReadDateInput)
-    data!: Array<ReadingProgressCreateManyReadDateInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@InputType()
-export class ReadingProgressCreateManyReadDateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    capacity!: number;
-    @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-}
-
-@InputType()
 export class ReadingProgressCreateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -10682,26 +10718,23 @@ export class ReadingProgressCreateManyInput {
 }
 
 @InputType()
-export class ReadingProgressCreateNestedManyWithoutReadDateInput {
-    @Field(() => [ReadingProgressCreateWithoutReadDateInput], {nullable:true})
+export class ReadingProgressCreateNestedOneWithoutReadDateInput {
+    @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateWithoutReadDateInput)
-    create?: Array<ReadingProgressCreateWithoutReadDateInput>;
-    @Field(() => [ReadingProgressCreateOrConnectWithoutReadDateInput], {nullable:true})
+    create?: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
+    @Field(() => ReadingProgressCreateOrConnectWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateOrConnectWithoutReadDateInput)
-    connectOrCreate?: Array<ReadingProgressCreateOrConnectWithoutReadDateInput>;
-    @Field(() => ReadingProgressCreateManyReadDateInputEnvelope, {nullable:true})
-    @Type(() => ReadingProgressCreateManyReadDateInputEnvelope)
-    createMany?: InstanceType<typeof ReadingProgressCreateManyReadDateInputEnvelope>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
+    connectOrCreate?: InstanceType<typeof ReadingProgressCreateOrConnectWithoutReadDateInput>;
+    @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
     @Type(() => ReadingProgressWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
+    connect?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @InputType()
 export class ReadingProgressCreateOrConnectWithoutReadDateInput {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:false})
     @Type(() => ReadingProgressCreateWithoutReadDateInput)
     create!: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
@@ -10795,16 +10828,6 @@ export class ReadingProgressGroupBy {
     _min?: InstanceType<typeof ReadingProgressMinAggregate>;
     @Field(() => ReadingProgressMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof ReadingProgressMaxAggregate>;
-}
-
-@InputType()
-export class ReadingProgressListRelationFilter {
-    @Field(() => ReadingProgressWhereInput, {nullable:true})
-    every?: InstanceType<typeof ReadingProgressWhereInput>;
-    @Field(() => ReadingProgressWhereInput, {nullable:true})
-    some?: InstanceType<typeof ReadingProgressWhereInput>;
-    @Field(() => ReadingProgressWhereInput, {nullable:true})
-    none?: InstanceType<typeof ReadingProgressWhereInput>;
 }
 
 @InputType()
@@ -10908,12 +10931,6 @@ export class ReadingProgressMinOrderByAggregateInput {
 }
 
 @InputType()
-export class ReadingProgressOrderByRelationAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
-}
-
-@InputType()
 export class ReadingProgressOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: keyof typeof SortOrder;
@@ -10958,6 +10975,14 @@ export class ReadingProgressOrderByWithRelationInput {
 }
 
 @InputType()
+export class ReadingProgressRelationFilter {
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    is?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    isNot?: InstanceType<typeof ReadingProgressWhereInput>;
+}
+
+@InputType()
 export class ReadingProgressScalarWhereWithAggregatesInput {
     @Field(() => [ReadingProgressScalarWhereWithAggregatesInput], {nullable:true})
     AND?: Array<ReadingProgressScalarWhereWithAggregatesInput>;
@@ -10977,28 +11002,6 @@ export class ReadingProgressScalarWhereWithAggregatesInput {
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     readDateId?: InstanceType<typeof StringWithAggregatesFilter>;
-}
-
-@InputType()
-export class ReadingProgressScalarWhereInput {
-    @Field(() => [ReadingProgressScalarWhereInput], {nullable:true})
-    AND?: Array<ReadingProgressScalarWhereInput>;
-    @Field(() => [ReadingProgressScalarWhereInput], {nullable:true})
-    OR?: Array<ReadingProgressScalarWhereInput>;
-    @Field(() => [ReadingProgressScalarWhereInput], {nullable:true})
-    NOT?: Array<ReadingProgressScalarWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    id?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    capacity?: InstanceType<typeof IntFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    progress?: InstanceType<typeof IntFilter>;
-    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
-    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    createdAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    readDateId?: InstanceType<typeof StringFilter>;
 }
 
 @InputType()
@@ -11028,19 +11031,16 @@ export class ReadingProgressSumOrderByAggregateInput {
 }
 
 @InputType()
-export class ReadingProgressUncheckedCreateNestedManyWithoutReadDateInput {
-    @Field(() => [ReadingProgressCreateWithoutReadDateInput], {nullable:true})
+export class ReadingProgressUncheckedCreateNestedOneWithoutReadDateInput {
+    @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateWithoutReadDateInput)
-    create?: Array<ReadingProgressCreateWithoutReadDateInput>;
-    @Field(() => [ReadingProgressCreateOrConnectWithoutReadDateInput], {nullable:true})
+    create?: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
+    @Field(() => ReadingProgressCreateOrConnectWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateOrConnectWithoutReadDateInput)
-    connectOrCreate?: Array<ReadingProgressCreateOrConnectWithoutReadDateInput>;
-    @Field(() => ReadingProgressCreateManyReadDateInputEnvelope, {nullable:true})
-    @Type(() => ReadingProgressCreateManyReadDateInputEnvelope)
-    createMany?: InstanceType<typeof ReadingProgressCreateManyReadDateInputEnvelope>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
+    connectOrCreate?: InstanceType<typeof ReadingProgressCreateOrConnectWithoutReadDateInput>;
+    @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
     @Type(() => ReadingProgressWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
+    connect?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @InputType()
@@ -11078,59 +11078,6 @@ export class ReadingProgressUncheckedCreateInput {
 }
 
 @InputType()
-export class ReadingProgressUncheckedUpdateManyWithoutReadDateNestedInput {
-    @Field(() => [ReadingProgressCreateWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressCreateWithoutReadDateInput)
-    create?: Array<ReadingProgressCreateWithoutReadDateInput>;
-    @Field(() => [ReadingProgressCreateOrConnectWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressCreateOrConnectWithoutReadDateInput)
-    connectOrCreate?: Array<ReadingProgressCreateOrConnectWithoutReadDateInput>;
-    @Field(() => [ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput)
-    upsert?: Array<ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput>;
-    @Field(() => ReadingProgressCreateManyReadDateInputEnvelope, {nullable:true})
-    @Type(() => ReadingProgressCreateManyReadDateInputEnvelope)
-    createMany?: InstanceType<typeof ReadingProgressCreateManyReadDateInputEnvelope>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput)
-    update?: Array<ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput>;
-    @Field(() => [ReadingProgressUpdateManyWithWhereWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpdateManyWithWhereWithoutReadDateInput)
-    updateMany?: Array<ReadingProgressUpdateManyWithWhereWithoutReadDateInput>;
-    @Field(() => [ReadingProgressScalarWhereInput], {nullable:true})
-    @Type(() => ReadingProgressScalarWhereInput)
-    deleteMany?: Array<ReadingProgressScalarWhereInput>;
-}
-
-@InputType()
-export class ReadingProgressUncheckedUpdateManyWithoutReadDateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    capacity?: number;
-    @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-}
-
-@InputType()
 export class ReadingProgressUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -11146,6 +11093,31 @@ export class ReadingProgressUncheckedUpdateManyInput {
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
     readDateId?: string;
+}
+
+@InputType()
+export class ReadingProgressUncheckedUpdateOneWithoutReadDateNestedInput {
+    @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressCreateWithoutReadDateInput)
+    create?: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
+    @Field(() => ReadingProgressCreateOrConnectWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressCreateOrConnectWithoutReadDateInput)
+    connectOrCreate?: InstanceType<typeof ReadingProgressCreateOrConnectWithoutReadDateInput>;
+    @Field(() => ReadingProgressUpsertWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressUpsertWithoutReadDateInput)
+    upsert?: InstanceType<typeof ReadingProgressUpsertWithoutReadDateInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    disconnect?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    delete?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
+    @Type(() => ReadingProgressWhereUniqueInput)
+    connect?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
+    @Field(() => ReadingProgressUpdateToOneWithWhereWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressUpdateToOneWithWhereWithoutReadDateInput)
+    update?: InstanceType<typeof ReadingProgressUpdateToOneWithWhereWithoutReadDateInput>;
 }
 
 @InputType()
@@ -11199,57 +11171,35 @@ export class ReadingProgressUpdateManyMutationInput {
 }
 
 @InputType()
-export class ReadingProgressUpdateManyWithWhereWithoutReadDateInput {
-    @Field(() => ReadingProgressScalarWhereInput, {nullable:false})
-    @Type(() => ReadingProgressScalarWhereInput)
-    where!: InstanceType<typeof ReadingProgressScalarWhereInput>;
-    @Field(() => ReadingProgressUpdateManyMutationInput, {nullable:false})
-    @Type(() => ReadingProgressUpdateManyMutationInput)
-    data!: InstanceType<typeof ReadingProgressUpdateManyMutationInput>;
-}
-
-@InputType()
-export class ReadingProgressUpdateManyWithoutReadDateNestedInput {
-    @Field(() => [ReadingProgressCreateWithoutReadDateInput], {nullable:true})
+export class ReadingProgressUpdateOneWithoutReadDateNestedInput {
+    @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateWithoutReadDateInput)
-    create?: Array<ReadingProgressCreateWithoutReadDateInput>;
-    @Field(() => [ReadingProgressCreateOrConnectWithoutReadDateInput], {nullable:true})
+    create?: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
+    @Field(() => ReadingProgressCreateOrConnectWithoutReadDateInput, {nullable:true})
     @Type(() => ReadingProgressCreateOrConnectWithoutReadDateInput)
-    connectOrCreate?: Array<ReadingProgressCreateOrConnectWithoutReadDateInput>;
-    @Field(() => [ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput)
-    upsert?: Array<ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput>;
-    @Field(() => ReadingProgressCreateManyReadDateInputEnvelope, {nullable:true})
-    @Type(() => ReadingProgressCreateManyReadDateInputEnvelope)
-    createMany?: InstanceType<typeof ReadingProgressCreateManyReadDateInputEnvelope>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
+    connectOrCreate?: InstanceType<typeof ReadingProgressCreateOrConnectWithoutReadDateInput>;
+    @Field(() => ReadingProgressUpsertWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressUpsertWithoutReadDateInput)
+    upsert?: InstanceType<typeof ReadingProgressUpsertWithoutReadDateInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    disconnect?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    delete?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => ReadingProgressWhereUniqueInput, {nullable:true})
     @Type(() => ReadingProgressWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressWhereUniqueInput], {nullable:true})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>>;
-    @Field(() => [ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput)
-    update?: Array<ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput>;
-    @Field(() => [ReadingProgressUpdateManyWithWhereWithoutReadDateInput], {nullable:true})
-    @Type(() => ReadingProgressUpdateManyWithWhereWithoutReadDateInput)
-    updateMany?: Array<ReadingProgressUpdateManyWithWhereWithoutReadDateInput>;
-    @Field(() => [ReadingProgressScalarWhereInput], {nullable:true})
-    @Type(() => ReadingProgressScalarWhereInput)
-    deleteMany?: Array<ReadingProgressScalarWhereInput>;
+    connect?: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
+    @Field(() => ReadingProgressUpdateToOneWithWhereWithoutReadDateInput, {nullable:true})
+    @Type(() => ReadingProgressUpdateToOneWithWhereWithoutReadDateInput)
+    update?: InstanceType<typeof ReadingProgressUpdateToOneWithWhereWithoutReadDateInput>;
 }
 
 @InputType()
-export class ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput {
-    @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+export class ReadingProgressUpdateToOneWithWhereWithoutReadDateInput {
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    where?: InstanceType<typeof ReadingProgressWhereInput>;
     @Field(() => ReadingProgressUpdateWithoutReadDateInput, {nullable:false})
     @Type(() => ReadingProgressUpdateWithoutReadDateInput)
     data!: InstanceType<typeof ReadingProgressUpdateWithoutReadDateInput>;
@@ -11290,22 +11240,24 @@ export class ReadingProgressUpdateInput {
 }
 
 @InputType()
-export class ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput {
-    @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
-    @Type(() => ReadingProgressWhereUniqueInput)
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+export class ReadingProgressUpsertWithoutReadDateInput {
     @Field(() => ReadingProgressUpdateWithoutReadDateInput, {nullable:false})
     @Type(() => ReadingProgressUpdateWithoutReadDateInput)
     update!: InstanceType<typeof ReadingProgressUpdateWithoutReadDateInput>;
     @Field(() => ReadingProgressCreateWithoutReadDateInput, {nullable:false})
     @Type(() => ReadingProgressCreateWithoutReadDateInput)
     create!: InstanceType<typeof ReadingProgressCreateWithoutReadDateInput>;
+    @Field(() => ReadingProgressWhereInput, {nullable:true})
+    @Type(() => ReadingProgressWhereInput)
+    where?: InstanceType<typeof ReadingProgressWhereInput>;
 }
 
 @InputType()
 export class ReadingProgressWhereUniqueInput {
     @Field(() => String, {nullable:true})
     id?: string;
+    @Field(() => String, {nullable:true})
+    readDateId?: string;
     @Field(() => [ReadingProgressWhereInput], {nullable:true})
     AND?: Array<ReadingProgressWhereInput>;
     @Field(() => [ReadingProgressWhereInput], {nullable:true})
@@ -11320,8 +11272,6 @@ export class ReadingProgressWhereUniqueInput {
     type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    readDateId?: InstanceType<typeof StringFilter>;
     @Field(() => ReadDateRelationFilter, {nullable:true})
     readDate?: InstanceType<typeof ReadDateRelationFilter>;
 }
@@ -11389,7 +11339,7 @@ export class UpdateOneReadingProgressArgs {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
 }
 
 @ArgsType()
@@ -11397,7 +11347,7 @@ export class UpsertOneReadingProgressArgs {
     @Field(() => ReadingProgressWhereUniqueInput, {nullable:false})
     @Type(() => ReadingProgressWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ReadingProgressWhereUniqueInput, 'id' | 'readDateId'>;
     @Field(() => ReadingProgressCreateInput, {nullable:false})
     @Type(() => ReadingProgressCreateInput)
     create!: InstanceType<typeof ReadingProgressCreateInput>;

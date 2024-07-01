@@ -210,7 +210,7 @@ model ReadingProgress {
     type       PROGRESS_TYPE
     createdAt  DateTime      @default(now())
     readDate   ReadDate      @relation(fields: [readDateId], references: [id])
-    readDateId String
+    readDateId String        @unique
 }
 
 enum PROGRESS_TYPE {
@@ -219,11 +219,12 @@ enum PROGRESS_TYPE {
 }
 
 model ReadDate {
-    id              String            @id @default(uuid())
-    startDate       DateTime          @default(now())
+    id              String           @id @default(uuid())
+    startDate       DateTime         @default(now())
     finishedDate    DateTime?
-    readingProgress ReadingProgress[]
-    userBook        UserBook?         @relation(fields: [userBookId], references: [id])
+    active          Boolean
+    readingProgress ReadingProgress?
+    userBook        UserBook?        @relation(fields: [userBookId], references: [id])
     userBookId      String?
 }
 

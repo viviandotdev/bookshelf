@@ -15,6 +15,7 @@ import { ReviewModule } from 'libs/review/review.module';
 import { CommentModule } from 'libs/comment/comment.module';
 import { ActivityModule } from '../libs/activity/activity.module';
 import { IdentifierModule } from 'libs/identifier/identifier.module';
+import { ReadDateModule } from 'libs/read-date/read-date.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { IdentifierModule } from 'libs/identifier/identifier.module';
     ShelfModule,
     CommentModule,
     ActivityModule,
+    ReadDateModule,
     IdentifierModule,
   ],
   providers: [PrismaRepository],

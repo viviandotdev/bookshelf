@@ -7,7 +7,7 @@ import {
   UserBookIdentifierCompoundUniqueInput,
   UserBookWhereUniqueInput,
 } from '../../src/generated-db-types';
-import { Prisma, SOURCE } from '@prisma/client';
+import { PROGRESS_TYPE, Prisma, SOURCE } from '@prisma/client';
 import { UserBookRepository } from './user-book.repository';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import { BookItemInput } from './models/user-book-update-order.input';
@@ -24,10 +24,8 @@ export class UserBookService {
   delete = this.repository.delete;
   constructor(
     private readonly repository: UserBookRepository,
-    private readonly activityService: ActivityService,
     private readonly bookService: BookService,
     private readonly coverService: CoverService,
-    private readonly identifierService: IdentifierService,
     private readonly prisma: PrismaRepository,
   ) {}
   async removeBookFromShelf(id: string, userId: string, shelf: string) {
@@ -154,9 +152,9 @@ export class UserBookService {
       },
       include: {
         user: {
-            select: {
-                id: true
-            }
+          select: {
+            id: true,
+          },
         },
         _count: {
           select: {
@@ -232,38 +230,6 @@ export class UserBookService {
     }
     return updatedCards;
   }
-  async updateStatus(args: {
-    data: UserBookUpdateInput;
-    bookId: string;
-    userId: string;
-  }) {
-    const userBook = await this.repository.findFirst({
-      where: {
-        userId: args.userId,
-        bookId: args.bookId,
-        // identifiers: {
-        //   some: {
-        //     source: args.where.source,
-        //     sourceId: args.where.sourceId,
-        //   },
-        // },
-      },
-    });
-
-    if (!userBook) {
-      throw new Error('UserBook not found');
-    }
-    console.log(userBook);
-
-    return this.repository.update({
-      data: {
-        status: args.data.status,
-      },
-      where: {
-        id: userBook.id,
-      },
-    });
-  }
 
   async update(args: {
     data: UserBookUpdateInput;
@@ -294,7 +260,7 @@ export class UserBookService {
     // Use a transaction to ensure atomicity
     return await this.prisma.$transaction(async (prisma) => {
       // if status is updated, update order number in the new status
-      if (args.data.status && !args.isImport) {
+      if (args.data.status) {
         // Increment the 'order' field by 1 for all matched records.
         await prisma.userBook.updateMany({
           where: {
@@ -311,43 +277,43 @@ export class UserBookService {
         // Set the new order for the updated book to 0.
         newOrder = 0;
 
-        // Create status update activity
-        this.activityService.create(
-          {
-            action: 'STATUS_UPDATE',
-            actionContent: args.data.status,
-          },
-          userId,
-          origin.book.id,
-        );
-      }
+        if (
+          origin.status !== READING_STATUS.READING &&
+          args.data.status == READING_STATUS.READING
+        ) {
+          // Mark the previously active read dates as inactive
+          await this.prisma.readDate.updateMany({
+            where: {
+              userBookId,
+              active: true,
+            },
+            data: {
+              active: false,
+            },
+          });
+          const readDate = await this.prisma.readDate.create({
+            data: {
+              userBookId: userBookId,
+              active: true,
+            },
+          });
 
-      // if rating is updated, create rating activity
-      if (args.data.rating && !args.isImport) {
-        this.activityService.create(
-          {
-            action: 'RATE',
-            actionContent: args.data.rating.toString(),
-          },
-          userId,
-          origin.book.id,
-        );
+          await this.prisma.readingProgress.create({
+            data: {
+              readDate: {
+                connect: {
+                  id: readDate.id,
+                },
+              },
+              capacity: origin.book.pageCount,
+              progress: 0,
+              type: PROGRESS_TYPE.PAGES,
+            },
+          });
+          // status changed to reading
+        }
       }
-
-      // Create activity for shelving a book
-      if (args.data.shelves && !args.isImport) {
-        this.activityService.create(
-          {
-            action: 'SHELVE',
-            actionContent: args.data.shelves.join(', '),
-          },
-          userId,
-          origin.book.id,
-        );
-      }
-
       // Update the UserBook record within the transaction
-      console.log(shelfList);
       const updateUserBook = await prisma.userBook.update({
         where: {
           id: userBookId,
@@ -384,71 +350,6 @@ export class UserBookService {
     });
   }
 
-  async createBook(book) {
-    const identifiers = await this.identifierService.createMany(
-      book.identifiers ?? [],
-    );
-
-    const covers = await this.coverService.createMany(book.covers ?? []);
-
-    const sources = [
-      SOURCE.GOOGLE,
-      SOURCE.ISBN_13,
-      SOURCE.ISBN_10,
-      SOURCE.GOODREADS,
-    ];
-
-    const slug = (() => {
-      for (const source of sources) {
-        const identifier = identifiers.find(
-          (identifier) => identifier.source === source,
-        );
-        if (identifier) {
-          return `${source}-${identifier.sourceId}`;
-        }
-      }
-      return `${identifiers[0].source}-${identifiers[0].sourceId}`;
-    })();
-
-    const createBookArgs: Prisma.BookCreateArgs = {
-      data: {
-        title: book.title,
-        slug: slug,
-        subtitle: book.subtitle || undefined,
-        authors: book.authors,
-        pageCount: book.pageCount,
-        yearPublished: book.yearPublished,
-        ratings: {
-          create: book.ratings.map((rating) => ({
-            score: rating.score,
-            maxScore: rating.maxScore,
-            source: rating.source,
-          })),
-        },
-        // ratings: {
-        //   create: {
-        //     score: Number(book.rating),
-        //     maxScore: 5,
-        //     source: SOURCE.GOODREADS,
-        //   },
-        // },
-        covers: {
-          connect: covers?.length
-            ? covers.map((cover) => ({ url: cover.url }))
-            : undefined,
-        },
-        identifiers: {
-          connect: identifiers?.length
-            ? identifiers.map((identifier) => ({
-                id: identifier.id,
-              }))
-            : undefined,
-        },
-      },
-    };
-
-    return this.prisma.book.create(createBookArgs);
-  }
   async createImportedBook(userInfo, book, imageLinks, user) {
     const { shelves, status, rating } = userInfo;
     const { userId } = user;
@@ -495,7 +396,7 @@ export class UserBookService {
       }
     }
 
-    const newBook = await this.createBook({
+    const newBook = await this.bookService.createBook({
       ...book,
       identifiers: identifiersInput,
       covers: coverInput,

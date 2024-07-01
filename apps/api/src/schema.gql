@@ -1645,6 +1645,7 @@ type Query {
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   me: MeResponse!
+  readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User
   userBook(where: BookWhereUniqueInput!): UserBook
@@ -1850,21 +1851,18 @@ input RatingWhereUniqueInput {
 }
 
 type ReadDate {
-  _count: ReadDateCount!
+  active: Boolean!
   finishedDate: Timestamp
   id: ID!
-  readingProgress: [ReadingProgress!]
+  readingProgress: ReadingProgress
   startDate: Timestamp!
   userBook: UserBook
   userBookId: String
 }
 
-type ReadDateCount {
-  readingProgress: Int!
-}
-
 type ReadDateCountAggregate {
   _all: Int!
+  active: Int!
   finishedDate: Int!
   id: Int!
   startDate: Int!
@@ -1872,6 +1870,7 @@ type ReadDateCountAggregate {
 }
 
 input ReadDateCreateManyUserBookInput {
+  active: Boolean!
   finishedDate: Timestamp
   id: String
   startDate: Timestamp
@@ -1895,9 +1894,10 @@ input ReadDateCreateOrConnectWithoutUserBookInput {
 }
 
 input ReadDateCreateWithoutUserBookInput {
+  active: Boolean!
   finishedDate: Timestamp
   id: String
-  readingProgress: ReadingProgressCreateNestedManyWithoutReadDateInput
+  readingProgress: ReadingProgressCreateNestedOneWithoutReadDateInput
   startDate: Timestamp
 }
 
@@ -1908,6 +1908,7 @@ input ReadDateListRelationFilter {
 }
 
 type ReadDateMaxAggregate {
+  active: Boolean
   finishedDate: Timestamp
   id: String
   startDate: Timestamp
@@ -1915,6 +1916,7 @@ type ReadDateMaxAggregate {
 }
 
 type ReadDateMinAggregate {
+  active: Boolean
   finishedDate: Timestamp
   id: String
   startDate: Timestamp
@@ -1934,6 +1936,7 @@ input ReadDateScalarWhereInput {
   AND: [ReadDateScalarWhereInput!]
   NOT: [ReadDateScalarWhereInput!]
   OR: [ReadDateScalarWhereInput!]
+  active: BoolFilter
   finishedDate: DateTimeFilter
   id: StringFilter
   startDate: DateTimeFilter
@@ -1941,6 +1944,7 @@ input ReadDateScalarWhereInput {
 }
 
 input ReadDateUpdateManyMutationInput {
+  active: Boolean
   finishedDate: Timestamp
   id: String
   startDate: Timestamp
@@ -1971,9 +1975,10 @@ input ReadDateUpdateWithWhereUniqueWithoutUserBookInput {
 }
 
 input ReadDateUpdateWithoutUserBookInput {
+  active: Boolean
   finishedDate: Timestamp
   id: String
-  readingProgress: ReadingProgressUpdateManyWithoutReadDateNestedInput
+  readingProgress: ReadingProgressUpdateOneWithoutReadDateNestedInput
   startDate: Timestamp
 }
 
@@ -1987,9 +1992,10 @@ input ReadDateWhereInput {
   AND: [ReadDateWhereInput!]
   NOT: [ReadDateWhereInput!]
   OR: [ReadDateWhereInput!]
+  active: BoolFilter
   finishedDate: DateTimeFilter
   id: StringFilter
-  readingProgress: ReadingProgressListRelationFilter
+  readingProgress: ReadingProgressRelationFilter
   startDate: DateTimeFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
@@ -1999,9 +2005,10 @@ input ReadDateWhereUniqueInput {
   AND: [ReadDateWhereInput!]
   NOT: [ReadDateWhereInput!]
   OR: [ReadDateWhereInput!]
+  active: BoolFilter
   finishedDate: DateTimeFilter
   id: String
-  readingProgress: ReadingProgressListRelationFilter
+  readingProgress: ReadingProgressRelationFilter
   startDate: DateTimeFilter
   userBook: UserBookRelationFilter
   userBookId: StringFilter
@@ -2032,24 +2039,10 @@ type ReadingProgressCountAggregate {
   type: Int!
 }
 
-input ReadingProgressCreateManyReadDateInput {
-  capacity: Int!
-  createdAt: Timestamp
-  id: String
-  progress: Int!
-  type: PROGRESS_TYPE!
-}
-
-input ReadingProgressCreateManyReadDateInputEnvelope {
-  data: [ReadingProgressCreateManyReadDateInput!]!
-  skipDuplicates: Boolean
-}
-
-input ReadingProgressCreateNestedManyWithoutReadDateInput {
-  connect: [ReadingProgressWhereUniqueInput!]
-  connectOrCreate: [ReadingProgressCreateOrConnectWithoutReadDateInput!]
-  create: [ReadingProgressCreateWithoutReadDateInput!]
-  createMany: ReadingProgressCreateManyReadDateInputEnvelope
+input ReadingProgressCreateNestedOneWithoutReadDateInput {
+  connect: ReadingProgressWhereUniqueInput
+  connectOrCreate: ReadingProgressCreateOrConnectWithoutReadDateInput
+  create: ReadingProgressCreateWithoutReadDateInput
 }
 
 input ReadingProgressCreateOrConnectWithoutReadDateInput {
@@ -2063,12 +2056,6 @@ input ReadingProgressCreateWithoutReadDateInput {
   id: String
   progress: Int!
   type: PROGRESS_TYPE!
-}
-
-input ReadingProgressListRelationFilter {
-  every: ReadingProgressWhereInput
-  none: ReadingProgressWhereInput
-  some: ReadingProgressWhereInput
 }
 
 type ReadingProgressMaxAggregate {
@@ -2089,16 +2076,9 @@ type ReadingProgressMinAggregate {
   type: PROGRESS_TYPE
 }
 
-input ReadingProgressScalarWhereInput {
-  AND: [ReadingProgressScalarWhereInput!]
-  NOT: [ReadingProgressScalarWhereInput!]
-  OR: [ReadingProgressScalarWhereInput!]
-  capacity: IntFilter
-  createdAt: DateTimeFilter
-  id: StringFilter
-  progress: IntFilter
-  readDateId: StringFilter
-  type: EnumPROGRESS_TYPEFilter
+input ReadingProgressRelationFilter {
+  is: ReadingProgressWhereInput
+  isNot: ReadingProgressWhereInput
 }
 
 type ReadingProgressSumAggregate {
@@ -2106,36 +2086,19 @@ type ReadingProgressSumAggregate {
   progress: Int
 }
 
-input ReadingProgressUpdateManyMutationInput {
-  capacity: Int
-  createdAt: Timestamp
-  id: String
-  progress: Int
-  type: PROGRESS_TYPE
+input ReadingProgressUpdateOneWithoutReadDateNestedInput {
+  connect: ReadingProgressWhereUniqueInput
+  connectOrCreate: ReadingProgressCreateOrConnectWithoutReadDateInput
+  create: ReadingProgressCreateWithoutReadDateInput
+  delete: ReadingProgressWhereInput
+  disconnect: ReadingProgressWhereInput
+  update: ReadingProgressUpdateToOneWithWhereWithoutReadDateInput
+  upsert: ReadingProgressUpsertWithoutReadDateInput
 }
 
-input ReadingProgressUpdateManyWithWhereWithoutReadDateInput {
-  data: ReadingProgressUpdateManyMutationInput!
-  where: ReadingProgressScalarWhereInput!
-}
-
-input ReadingProgressUpdateManyWithoutReadDateNestedInput {
-  connect: [ReadingProgressWhereUniqueInput!]
-  connectOrCreate: [ReadingProgressCreateOrConnectWithoutReadDateInput!]
-  create: [ReadingProgressCreateWithoutReadDateInput!]
-  createMany: ReadingProgressCreateManyReadDateInputEnvelope
-  delete: [ReadingProgressWhereUniqueInput!]
-  deleteMany: [ReadingProgressScalarWhereInput!]
-  disconnect: [ReadingProgressWhereUniqueInput!]
-  set: [ReadingProgressWhereUniqueInput!]
-  update: [ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput!]
-  updateMany: [ReadingProgressUpdateManyWithWhereWithoutReadDateInput!]
-  upsert: [ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput!]
-}
-
-input ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput {
+input ReadingProgressUpdateToOneWithWhereWithoutReadDateInput {
   data: ReadingProgressUpdateWithoutReadDateInput!
-  where: ReadingProgressWhereUniqueInput!
+  where: ReadingProgressWhereInput
 }
 
 input ReadingProgressUpdateWithoutReadDateInput {
@@ -2146,10 +2109,10 @@ input ReadingProgressUpdateWithoutReadDateInput {
   type: PROGRESS_TYPE
 }
 
-input ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput {
+input ReadingProgressUpsertWithoutReadDateInput {
   create: ReadingProgressCreateWithoutReadDateInput!
   update: ReadingProgressUpdateWithoutReadDateInput!
-  where: ReadingProgressWhereUniqueInput!
+  where: ReadingProgressWhereInput
 }
 
 input ReadingProgressWhereInput {
@@ -2174,7 +2137,7 @@ input ReadingProgressWhereUniqueInput {
   id: String
   progress: IntFilter
   readDate: ReadDateRelationFilter
-  readDateId: StringFilter
+  readDateId: String
   type: EnumPROGRESS_TYPEFilter
 }
 

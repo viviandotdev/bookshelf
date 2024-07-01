@@ -85,7 +85,7 @@ export class UserBookResolver {
     @CurrentUser() user: JwtPayload,
   ) {
     // Create the book
-    const newBook = await this.userBookService.createBook(data);
+    const newBook = await this.bookService.createBook(data);
 
     const createUserBookArgs: Prisma.UserBookCreateArgs = {
       data: {

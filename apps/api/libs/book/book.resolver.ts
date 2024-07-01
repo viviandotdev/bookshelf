@@ -5,8 +5,6 @@ import {
 } from '@bookcue/api/generated-db-types';
 import { Resolver, Args, Query, Mutation } from '@nestjs/graphql';
 import { BookService } from './book.service';
-import { PrismaRepository } from 'prisma/prisma.repository';
-import { UserBookService } from 'libs/user-book/user-book.service';
 import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { JwtPayload } from 'libs/auth/types';

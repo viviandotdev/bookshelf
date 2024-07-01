@@ -1816,6 +1816,7 @@ export type Query = {
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
   me: MeResponse;
+  readDates: Array<ReadDate>;
   shelves?: Maybe<Array<Shelf>>;
   user?: Maybe<User>;
   userBook?: Maybe<UserBook>;
@@ -1867,6 +1868,12 @@ export type QueryGetUserBooksArgs = {
   offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryReadDatesArgs = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+  userBookIds: Array<Scalars['String']['input']>;
 };
 
 
@@ -2086,23 +2093,19 @@ export type RatingWhereUniqueInput = {
 
 export type ReadDate = {
   __typename?: 'ReadDate';
-  _count: ReadDateCount;
+  active: Scalars['Boolean']['output'];
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id: Scalars['ID']['output'];
-  readingProgress?: Maybe<Array<ReadingProgress>>;
+  readingProgress?: Maybe<ReadingProgress>;
   startDate: Scalars['Timestamp']['output'];
   userBook?: Maybe<UserBook>;
   userBookId?: Maybe<Scalars['String']['output']>;
 };
 
-export type ReadDateCount = {
-  __typename?: 'ReadDateCount';
-  readingProgress: Scalars['Int']['output'];
-};
-
 export type ReadDateCountAggregate = {
   __typename?: 'ReadDateCountAggregate';
   _all: Scalars['Int']['output'];
+  active: Scalars['Int']['output'];
   finishedDate: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   startDate: Scalars['Int']['output'];
@@ -2110,6 +2113,7 @@ export type ReadDateCountAggregate = {
 };
 
 export type ReadDateCreateManyUserBookInput = {
+  active: Scalars['Boolean']['input'];
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -2133,9 +2137,10 @@ export type ReadDateCreateOrConnectWithoutUserBookInput = {
 };
 
 export type ReadDateCreateWithoutUserBookInput = {
+  active: Scalars['Boolean']['input'];
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  readingProgress?: InputMaybe<ReadingProgressCreateNestedManyWithoutReadDateInput>;
+  readingProgress?: InputMaybe<ReadingProgressCreateNestedOneWithoutReadDateInput>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
@@ -2147,6 +2152,7 @@ export type ReadDateListRelationFilter = {
 
 export type ReadDateMaxAggregate = {
   __typename?: 'ReadDateMaxAggregate';
+  active?: Maybe<Scalars['Boolean']['output']>;
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['Timestamp']['output']>;
@@ -2155,6 +2161,7 @@ export type ReadDateMaxAggregate = {
 
 export type ReadDateMinAggregate = {
   __typename?: 'ReadDateMinAggregate';
+  active?: Maybe<Scalars['Boolean']['output']>;
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['Timestamp']['output']>;
@@ -2174,6 +2181,7 @@ export type ReadDateScalarWhereInput = {
   AND?: InputMaybe<Array<ReadDateScalarWhereInput>>;
   NOT?: InputMaybe<Array<ReadDateScalarWhereInput>>;
   OR?: InputMaybe<Array<ReadDateScalarWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
@@ -2181,6 +2189,7 @@ export type ReadDateScalarWhereInput = {
 };
 
 export type ReadDateUpdateManyMutationInput = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -2211,9 +2220,10 @@ export type ReadDateUpdateWithWhereUniqueWithoutUserBookInput = {
 };
 
 export type ReadDateUpdateWithoutUserBookInput = {
+  active?: InputMaybe<Scalars['Boolean']['input']>;
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  readingProgress?: InputMaybe<ReadingProgressUpdateManyWithoutReadDateNestedInput>;
+  readingProgress?: InputMaybe<ReadingProgressUpdateOneWithoutReadDateNestedInput>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
 };
 
@@ -2227,9 +2237,10 @@ export type ReadDateWhereInput = {
   AND?: InputMaybe<Array<ReadDateWhereInput>>;
   NOT?: InputMaybe<Array<ReadDateWhereInput>>;
   OR?: InputMaybe<Array<ReadDateWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
-  readingProgress?: InputMaybe<ReadingProgressListRelationFilter>;
+  readingProgress?: InputMaybe<ReadingProgressRelationFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
@@ -2239,9 +2250,10 @@ export type ReadDateWhereUniqueInput = {
   AND?: InputMaybe<Array<ReadDateWhereInput>>;
   NOT?: InputMaybe<Array<ReadDateWhereInput>>;
   OR?: InputMaybe<Array<ReadDateWhereInput>>;
+  active?: InputMaybe<BoolFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  readingProgress?: InputMaybe<ReadingProgressListRelationFilter>;
+  readingProgress?: InputMaybe<ReadingProgressRelationFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
@@ -2275,24 +2287,10 @@ export type ReadingProgressCountAggregate = {
   type: Scalars['Int']['output'];
 };
 
-export type ReadingProgressCreateManyReadDateInput = {
-  capacity: Scalars['Int']['input'];
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  progress: Scalars['Int']['input'];
-  type: Progress_Type;
-};
-
-export type ReadingProgressCreateManyReadDateInputEnvelope = {
-  data: Array<ReadingProgressCreateManyReadDateInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type ReadingProgressCreateNestedManyWithoutReadDateInput = {
-  connect?: InputMaybe<Array<ReadingProgressWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ReadingProgressCreateOrConnectWithoutReadDateInput>>;
-  create?: InputMaybe<Array<ReadingProgressCreateWithoutReadDateInput>>;
-  createMany?: InputMaybe<ReadingProgressCreateManyReadDateInputEnvelope>;
+export type ReadingProgressCreateNestedOneWithoutReadDateInput = {
+  connect?: InputMaybe<ReadingProgressWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ReadingProgressCreateOrConnectWithoutReadDateInput>;
+  create?: InputMaybe<ReadingProgressCreateWithoutReadDateInput>;
 };
 
 export type ReadingProgressCreateOrConnectWithoutReadDateInput = {
@@ -2306,12 +2304,6 @@ export type ReadingProgressCreateWithoutReadDateInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   progress: Scalars['Int']['input'];
   type: Progress_Type;
-};
-
-export type ReadingProgressListRelationFilter = {
-  every?: InputMaybe<ReadingProgressWhereInput>;
-  none?: InputMaybe<ReadingProgressWhereInput>;
-  some?: InputMaybe<ReadingProgressWhereInput>;
 };
 
 export type ReadingProgressMaxAggregate = {
@@ -2334,16 +2326,9 @@ export type ReadingProgressMinAggregate = {
   type?: Maybe<Progress_Type>;
 };
 
-export type ReadingProgressScalarWhereInput = {
-  AND?: InputMaybe<Array<ReadingProgressScalarWhereInput>>;
-  NOT?: InputMaybe<Array<ReadingProgressScalarWhereInput>>;
-  OR?: InputMaybe<Array<ReadingProgressScalarWhereInput>>;
-  capacity?: InputMaybe<IntFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<StringFilter>;
-  progress?: InputMaybe<IntFilter>;
-  readDateId?: InputMaybe<StringFilter>;
-  type?: InputMaybe<EnumProgress_TypeFilter>;
+export type ReadingProgressRelationFilter = {
+  is?: InputMaybe<ReadingProgressWhereInput>;
+  isNot?: InputMaybe<ReadingProgressWhereInput>;
 };
 
 export type ReadingProgressSumAggregate = {
@@ -2352,36 +2337,19 @@ export type ReadingProgressSumAggregate = {
   progress?: Maybe<Scalars['Int']['output']>;
 };
 
-export type ReadingProgressUpdateManyMutationInput = {
-  capacity?: InputMaybe<Scalars['Int']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  progress?: InputMaybe<Scalars['Int']['input']>;
-  type?: InputMaybe<Progress_Type>;
+export type ReadingProgressUpdateOneWithoutReadDateNestedInput = {
+  connect?: InputMaybe<ReadingProgressWhereUniqueInput>;
+  connectOrCreate?: InputMaybe<ReadingProgressCreateOrConnectWithoutReadDateInput>;
+  create?: InputMaybe<ReadingProgressCreateWithoutReadDateInput>;
+  delete?: InputMaybe<ReadingProgressWhereInput>;
+  disconnect?: InputMaybe<ReadingProgressWhereInput>;
+  update?: InputMaybe<ReadingProgressUpdateToOneWithWhereWithoutReadDateInput>;
+  upsert?: InputMaybe<ReadingProgressUpsertWithoutReadDateInput>;
 };
 
-export type ReadingProgressUpdateManyWithWhereWithoutReadDateInput = {
-  data: ReadingProgressUpdateManyMutationInput;
-  where: ReadingProgressScalarWhereInput;
-};
-
-export type ReadingProgressUpdateManyWithoutReadDateNestedInput = {
-  connect?: InputMaybe<Array<ReadingProgressWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ReadingProgressCreateOrConnectWithoutReadDateInput>>;
-  create?: InputMaybe<Array<ReadingProgressCreateWithoutReadDateInput>>;
-  createMany?: InputMaybe<ReadingProgressCreateManyReadDateInputEnvelope>;
-  delete?: InputMaybe<Array<ReadingProgressWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<ReadingProgressScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<ReadingProgressWhereUniqueInput>>;
-  set?: InputMaybe<Array<ReadingProgressWhereUniqueInput>>;
-  update?: InputMaybe<Array<ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput>>;
-  updateMany?: InputMaybe<Array<ReadingProgressUpdateManyWithWhereWithoutReadDateInput>>;
-  upsert?: InputMaybe<Array<ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput>>;
-};
-
-export type ReadingProgressUpdateWithWhereUniqueWithoutReadDateInput = {
+export type ReadingProgressUpdateToOneWithWhereWithoutReadDateInput = {
   data: ReadingProgressUpdateWithoutReadDateInput;
-  where: ReadingProgressWhereUniqueInput;
+  where?: InputMaybe<ReadingProgressWhereInput>;
 };
 
 export type ReadingProgressUpdateWithoutReadDateInput = {
@@ -2392,10 +2360,10 @@ export type ReadingProgressUpdateWithoutReadDateInput = {
   type?: InputMaybe<Progress_Type>;
 };
 
-export type ReadingProgressUpsertWithWhereUniqueWithoutReadDateInput = {
+export type ReadingProgressUpsertWithoutReadDateInput = {
   create: ReadingProgressCreateWithoutReadDateInput;
   update: ReadingProgressUpdateWithoutReadDateInput;
-  where: ReadingProgressWhereUniqueInput;
+  where?: InputMaybe<ReadingProgressWhereInput>;
 };
 
 export type ReadingProgressWhereInput = {
@@ -2420,7 +2388,7 @@ export type ReadingProgressWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   progress?: InputMaybe<IntFilter>;
   readDate?: InputMaybe<ReadDateRelationFilter>;
-  readDateId?: InputMaybe<StringFilter>;
+  readDateId?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<EnumProgress_TypeFilter>;
 };
 
@@ -4820,6 +4788,14 @@ export type FindBookByIdentifierQueryVariables = Exact<{
 
 export type FindBookByIdentifierQuery = { __typename?: 'Query', findBookByIdentifier?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
 
+export type ReadDatesQueryVariables = Exact<{
+  userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  active?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type ReadDatesQuery = { __typename?: 'Query', readDates: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', capacity: number, type: Progress_Type, progress: number } | null }> };
+
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5848,6 +5824,56 @@ export type FindBookByIdentifierQueryHookResult = ReturnType<typeof useFindBookB
 export type FindBookByIdentifierLazyQueryHookResult = ReturnType<typeof useFindBookByIdentifierLazyQuery>;
 export type FindBookByIdentifierSuspenseQueryHookResult = ReturnType<typeof useFindBookByIdentifierSuspenseQuery>;
 export type FindBookByIdentifierQueryResult = Apollo.QueryResult<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>;
+export const ReadDatesDocument = gql`
+    query readDates($userBookIds: [String!]!, $active: Boolean) {
+  readDates(userBookIds: $userBookIds, active: $active) {
+    id
+    userBookId
+    startDate
+    finishedDate
+    active
+    readingProgress {
+      capacity
+      type
+      progress
+    }
+  }
+}
+    `;
+
+/**
+ * __useReadDatesQuery__
+ *
+ * To run a query within a React component, call `useReadDatesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadDatesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReadDatesQuery({
+ *   variables: {
+ *      userBookIds: // value for 'userBookIds'
+ *      active: // value for 'active'
+ *   },
+ * });
+ */
+export function useReadDatesQuery(baseOptions: Apollo.QueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables> & ({ variables: ReadDatesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
+      }
+export function useReadDatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
+        }
+export function useReadDatesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
+        }
+export type ReadDatesQueryHookResult = ReturnType<typeof useReadDatesQuery>;
+export type ReadDatesLazyQueryHookResult = ReturnType<typeof useReadDatesLazyQuery>;
+export type ReadDatesSuspenseQueryHookResult = ReturnType<typeof useReadDatesSuspenseQuery>;
+export type ReadDatesQueryResult = Apollo.QueryResult<ReadDatesQuery, ReadDatesQueryVariables>;
 export const ShelvesDocument = gql`
     query Shelves {
   shelves {
