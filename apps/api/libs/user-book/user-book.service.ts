@@ -442,6 +442,32 @@ export class UserBookService {
       },
     };
 
-    return await this.prisma.userBook.create(createUserBookArgs);
+    const userBook = await this.prisma.userBook.create(createUserBookArgs);
+    // Create reading progress for currently reading books
+    if (status == READING_STATUS.READING) {
+      const readDate = await this.prisma.readDate.create({
+        data: {
+          userBook: {
+            connect: {
+              id: userBook.id,
+            },
+          },
+          active: true,
+        },
+      });
+
+      await this.prisma.readingProgress.create({
+        data: {
+          readDate: {
+            connect: {
+              id: readDate.id,
+            },
+          },
+          capacity: newBook.pageCount,
+          progress: 0,
+          type: PROGRESS_TYPE.PAGES,
+        },
+      });
+    }
   }
 }
