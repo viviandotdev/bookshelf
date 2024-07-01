@@ -4,9 +4,10 @@ import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import { cn } from '@/lib/utils';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import CurrentlyReading from '../components/currently-reading';
+import CurrentlyReading from '../components/currently-reading-item';
 import BookCard from '../components/book-card';
 import DashboardHeader from '../components/dashboard-header';
+import CurrentlyReadingSection from '../components/currently-reading-section';
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
   wantToRead: UserBook[];
@@ -51,22 +52,7 @@ export default function HomeTemplate({
               currView={'want-to-read'}
             />
             {currentlyReading.length > 0 && (
-              <section className='rounded-md border border-gray-200 bg-white p-6 shadow-sm'>
-                <div className='mb-4 flex justify-between'>
-                  <DashboardHeader
-                    href={`/${username}/books?status=Currently+Reading`}
-                    title={'Currently Reading'}
-                    count={currentlyReading.length}
-                  />
-                </div>
-                <div className={'flex flex-col gap-2 '}>
-                  <div className='divide-y'>
-                    {currentlyReading.map((book, idx) => (
-                      <CurrentlyReading userBook={book} />
-                    ))}
-                  </div>
-                </div>
-              </section>
+              <CurrentlyReadingSection currentlyReading={currentlyReading} />
             )}
           </div>
           {/* Right column */}

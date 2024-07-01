@@ -10,11 +10,11 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
 
-interface CurrentlyReadingProps {
+interface CurrentlyReadingItemProps {
   userBook: UserBook;
 }
 
-export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
+export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
   userBook,
 }) => {
   const logBookModal = useLogBookModal();
@@ -86,4 +86,4 @@ export const CurrentlyReading: React.FC<CurrentlyReadingProps> = ({
     </div>
   );
 };
-export default CurrentlyReading;
+export default CurrentlyReadingItem;
