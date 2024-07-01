@@ -1,0 +1,37 @@
+mutation UpdateReadDate(
+  $id: String!
+  $startDate: String
+  $finishedDate: String
+) {
+  updateReadDate(id: $id, startDate: $startDate, finishedDate: $finishedDate) {
+    id
+    userBookId
+    startDate
+    finishedDate
+    active
+    readingProgress {
+      capacity
+      type
+      progress
+    }
+  }
+}
+
+mutation UpdateReadingProgress(
+  $readingProgressId: String!
+  $type: String!
+  $capacity: Int
+  $progress: Int!
+) {
+  updateReadingProgress(
+    readingProgressId: $readingProgressId
+    type: $type
+    capacity: $capacity
+    progress: $progress
+  ) {
+    id
+    type
+    capacity
+    progress
+  }
+}

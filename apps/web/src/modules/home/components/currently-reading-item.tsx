@@ -9,18 +9,51 @@ import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
+import { PROGRESS_TYPE } from '@prisma/client';
 
 interface CurrentlyReadingItemProps {
   userBook: UserBook;
 }
 
+const convertPercentProgressToPages = (
+  percentProgress: number,
+  capacity: number
+) => {
+  return Math.round((percentProgress / 100) * capacity);
+};
+const covertPageProgressToPercent = (
+  pageProgress: number,
+  capacity: number
+) => {
+  return Math.round((pageProgress / capacity) * 100);
+};
+
 export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
   userBook,
 }) => {
-  const progressModal = useProgressModal();
+  const { onOpen, readDates } = useProgressModal();
   const { setUserBook } = useUserBookStore();
-  if (!userBook) return null;
-  const { book, shelves } = userBook;
+  const readDate = readDates.find((rd) => rd.userBookId === userBook.id);
+  const type = readDate?.readingProgress?.type;
+  const capacity = readDate?.readingProgress?.capacity;
+
+  const percentProgress =
+    type == PROGRESS_TYPE.PERCENTAGE
+      ? readDate?.readingProgress?.progress
+      : covertPageProgressToPercent(
+          readDate?.readingProgress?.progress || 0,
+          capacity || 0
+        );
+
+  const pageProgress =
+    type == PROGRESS_TYPE.PAGES
+      ? readDate?.readingProgress?.progress
+      : convertPercentProgressToPages(
+          readDate?.readingProgress?.progress || 0,
+          capacity || 0
+        );
+
+  const { book } = userBook;
   return (
     <div className='flex justify-between'>
       <div className='flex gap-4 border-gray-100 p-2'>
@@ -53,12 +86,14 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
         <div>
           <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
             <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
-              <Progress className='items-center' value={100} />
-              <div className='flex items-center gap-0.5'>{100}%</div>
+              <Progress className='items-center' value={percentProgress} />
+              <div className='flex items-center gap-0.5'>
+                {percentProgress}%
+              </div>
             </div>
             <div className='flex w-max items-center text-xs font-medium text-gray-500'>
               <div>
-                {100} / {book?.pageCount} pages read
+                {pageProgress}/ {readDate?.readingProgress?.capacity} pages read
               </div>
             </div>
           </div>
@@ -68,7 +103,7 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
             variant={'secondary'}
             onClick={(e) => {
               e.stopPropagation();
-              progressModal.onOpen();
+              onOpen();
               setUserBook({
                 userBookId: userBook.id,
                 bookTitle: book.title,

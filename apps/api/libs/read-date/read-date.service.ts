@@ -12,7 +12,9 @@ export class ReadDateService {
   ) {}
 
   findMany = this.repository.findMany;
-
+  update = this.repository.update;
+  create = this.repository.create;
+  updateProgress = this.repository.updateProgress;
   async findByUserBookId(userBookId: string): Promise<ReadDate[]> {
     return this.prisma.readDate.findMany({
       where: {

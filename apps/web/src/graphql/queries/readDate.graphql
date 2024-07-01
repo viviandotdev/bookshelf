@@ -6,6 +6,7 @@ query readDates($userBookIds: [String!]!, $active: Boolean) {
     finishedDate
     active
     readingProgress {
+      id
       capacity
       type
       progress

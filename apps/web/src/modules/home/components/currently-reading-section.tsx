@@ -18,18 +18,17 @@ interface CurrentlyReadingSectionProps {
 export const CurrentlyReadingSection: React.FC<
   CurrentlyReadingSectionProps
 > = ({ currentlyReading }) => {
-  const progressModal = useProgressModal();
+  const { storeReadDates } = useProgressModal();
   const [loadReadDates, { data, error, fetchMore, loading }] =
     useReadDatesLazyQuery({
       fetchPolicy: 'cache-and-network',
       onCompleted: async ({ readDates }) => {
-        await progressModal.storeReadDates(readDates as ReadDate[]);
+        await storeReadDates(readDates as ReadDate[]);
       },
     });
 
   useEffect(() => {
     const loadData = async () => {
-      console.log(currentlyReading);
       await loadReadDates({
         variables: {
           userBookIds: currentlyReading.map((userBook) => userBook.id),

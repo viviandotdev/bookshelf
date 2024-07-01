@@ -1635,6 +1635,8 @@ export type Mutation = {
   removeUserBook: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   updateEmail: User;
+  updateReadDate: ReadDate;
+  updateReadingProgress: ReadingProgress;
   updateShelf: Shelf;
   updateUser: User;
   updateUserBook: UserBook;
@@ -1729,6 +1731,21 @@ export type MutationResetPasswordArgs = {
 
 export type MutationUpdateEmailArgs = {
   data: UpdateEmailInput;
+};
+
+
+export type MutationUpdateReadDateArgs = {
+  finishedDate?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  startDate?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationUpdateReadingProgressArgs = {
+  capacity?: InputMaybe<Scalars['Int']['input']>;
+  progress: Scalars['Int']['input'];
+  readingProgressId: Scalars['String']['input'];
+  type: Scalars['String']['input'];
 };
 
 
@@ -4669,6 +4686,25 @@ export type AddIdentifierToBookMutationVariables = Exact<{
 
 export type AddIdentifierToBookMutation = { __typename?: 'Mutation', addIdentifierToBook: { __typename?: 'Book', id: string } };
 
+export type UpdateReadDateMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  startDate?: InputMaybe<Scalars['String']['input']>;
+  finishedDate?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type UpdateReadDateMutation = { __typename?: 'Mutation', updateReadDate: { __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', capacity: number, type: Progress_Type, progress: number } | null } };
+
+export type UpdateReadingProgressMutationVariables = Exact<{
+  readingProgressId: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+  capacity?: InputMaybe<Scalars['Int']['input']>;
+  progress: Scalars['Int']['input'];
+}>;
+
+
+export type UpdateReadingProgressMutation = { __typename?: 'Mutation', updateReadingProgress: { __typename?: 'ReadingProgress', id: string, type: Progress_Type, capacity: number, progress: number } };
+
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
 }>;
@@ -4794,7 +4830,7 @@ export type ReadDatesQueryVariables = Exact<{
 }>;
 
 
-export type ReadDatesQuery = { __typename?: 'Query', readDates: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', capacity: number, type: Progress_Type, progress: number } | null }> };
+export type ReadDatesQuery = { __typename?: 'Query', readDates: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', id: string, capacity: number, type: Progress_Type, progress: number } | null }> };
 
 export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5180,6 +5216,94 @@ export function useAddIdentifierToBookMutation(baseOptions?: Apollo.MutationHook
 export type AddIdentifierToBookMutationHookResult = ReturnType<typeof useAddIdentifierToBookMutation>;
 export type AddIdentifierToBookMutationResult = Apollo.MutationResult<AddIdentifierToBookMutation>;
 export type AddIdentifierToBookMutationOptions = Apollo.BaseMutationOptions<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>;
+export const UpdateReadDateDocument = gql`
+    mutation UpdateReadDate($id: String!, $startDate: String, $finishedDate: String) {
+  updateReadDate(id: $id, startDate: $startDate, finishedDate: $finishedDate) {
+    id
+    userBookId
+    startDate
+    finishedDate
+    active
+    readingProgress {
+      capacity
+      type
+      progress
+    }
+  }
+}
+    `;
+export type UpdateReadDateMutationFn = Apollo.MutationFunction<UpdateReadDateMutation, UpdateReadDateMutationVariables>;
+
+/**
+ * __useUpdateReadDateMutation__
+ *
+ * To run a mutation, you first call `useUpdateReadDateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReadDateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReadDateMutation, { data, loading, error }] = useUpdateReadDateMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      startDate: // value for 'startDate'
+ *      finishedDate: // value for 'finishedDate'
+ *   },
+ * });
+ */
+export function useUpdateReadDateMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReadDateMutation, UpdateReadDateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateReadDateMutation, UpdateReadDateMutationVariables>(UpdateReadDateDocument, options);
+      }
+export type UpdateReadDateMutationHookResult = ReturnType<typeof useUpdateReadDateMutation>;
+export type UpdateReadDateMutationResult = Apollo.MutationResult<UpdateReadDateMutation>;
+export type UpdateReadDateMutationOptions = Apollo.BaseMutationOptions<UpdateReadDateMutation, UpdateReadDateMutationVariables>;
+export const UpdateReadingProgressDocument = gql`
+    mutation UpdateReadingProgress($readingProgressId: String!, $type: String!, $capacity: Int, $progress: Int!) {
+  updateReadingProgress(
+    readingProgressId: $readingProgressId
+    type: $type
+    capacity: $capacity
+    progress: $progress
+  ) {
+    id
+    type
+    capacity
+    progress
+  }
+}
+    `;
+export type UpdateReadingProgressMutationFn = Apollo.MutationFunction<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>;
+
+/**
+ * __useUpdateReadingProgressMutation__
+ *
+ * To run a mutation, you first call `useUpdateReadingProgressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReadingProgressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReadingProgressMutation, { data, loading, error }] = useUpdateReadingProgressMutation({
+ *   variables: {
+ *      readingProgressId: // value for 'readingProgressId'
+ *      type: // value for 'type'
+ *      capacity: // value for 'capacity'
+ *      progress: // value for 'progress'
+ *   },
+ * });
+ */
+export function useUpdateReadingProgressMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>(UpdateReadingProgressDocument, options);
+      }
+export type UpdateReadingProgressMutationHookResult = ReturnType<typeof useUpdateReadingProgressMutation>;
+export type UpdateReadingProgressMutationResult = Apollo.MutationResult<UpdateReadingProgressMutation>;
+export type UpdateReadingProgressMutationOptions = Apollo.BaseMutationOptions<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>;
 export const CreateShelfDocument = gql`
     mutation CreateShelf($data: ShelfCreateInput!) {
   createShelf(data: $data) {
@@ -5833,6 +5957,7 @@ export const ReadDatesDocument = gql`
     finishedDate
     active
     readingProgress {
+      id
       capacity
       type
       progress

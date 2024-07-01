@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReadDate } from '@/graphql/graphql';
+import { ReadDate, useUpdateReadDateMutation } from '@/graphql/graphql';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -55,9 +55,22 @@ export const FinishedTab: React.FC<FinishedTabProps> = ({ readDate }) => {
       finishedDate: defaultFinishedDate,
     },
   });
+  const [updateReadDate] = useUpdateReadDateMutation({
+    onCompleted: () => {
+      // update the store
+    },
+    onError: () => {},
+  });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = async (data: FormData) => {
     // update the database
+    await updateReadDate({
+      variables: {
+        id: readDate.id,
+        startDate: data.startDate,
+        finishedDate: data.finishedDate,
+      },
+    });
     alert(JSON.stringify(data, null, 2));
   };
 

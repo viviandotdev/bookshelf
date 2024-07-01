@@ -13,6 +13,6 @@ export class ReadDateRepository {
   count = this.prisma.readDate.count;
   delete = this.prisma.readDate.delete;
   findFirst = this.prisma.readDate.findFirst;
-
+  updateProgress = this.prisma.readingProgress.update;
   constructor(private readonly prisma: PrismaRepository) {}
 }

@@ -1,8 +1,6 @@
-import { ReadDate } from '@/graphql/graphql';
+import { Progress_Type, ReadDate } from '@/graphql/graphql';
 import { create } from 'zustand';
 
-//store the state
-// of each in progress book
 // Define the state type
 type State = {
   isOpen: boolean;
@@ -14,6 +12,11 @@ type Action = {
   onOpen: () => void;
   onClose: () => void;
   storeReadDates: (readDates: ReadDate[]) => void;
+  updateReadingProgressStore: (
+    readingProgressId: string,
+    type: Progress_Type,
+    progress: number
+  ) => void;
 };
 
 // Define the initial state
@@ -27,12 +30,28 @@ const useProgressModal = create<State & Action>((set) => ({
   ...initialState,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
-  storeReadDates: async (readDates) => {
+  storeReadDates: (readDates) => {
     if (!readDates.length) {
       return;
     }
     set((state) => ({
       readDates: [...state.readDates, ...readDates],
+    }));
+  },
+  updateReadingProgressStore: (readingProgressId, type, progress) => {
+    set((state) => ({
+      readDates: state.readDates.map((rd) =>
+        rd.readingProgress?.id === readingProgressId
+          ? {
+              ...rd,
+              readingProgress: {
+                ...rd.readingProgress,
+                type,
+                progress,
+              },
+            }
+          : rd
+      ),
     }));
   },
 }));

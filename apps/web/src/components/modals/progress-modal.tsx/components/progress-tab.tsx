@@ -1,9 +1,15 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { Progress_Type, ReadingProgress } from '@/graphql/graphql';
+import {
+  Progress_Type,
+  ReadingProgress,
+  useUpdateReadingProgressMutation,
+} from '@/graphql/graphql';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import React, { useState, ChangeEvent } from 'react';
+import useProgressModal from '../use-progress-modal';
+import { update } from 'rambda';
 
 interface ProgressTabProps {
   readingProgress: ReadingProgress;
@@ -18,6 +24,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
   const [progress, setProgress] = useState(readingProgress.progress || 0);
   const totalPages = readingProgress.capacity || 0;
   const { bookTitle } = useUserBookStore();
+  const { updateReadingProgressStore, onClose } = useProgressModal();
 
   const handleToggle = (newType: Progress_Type) => {
     if (newType !== type) {
@@ -30,7 +37,26 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
       }
     }
   };
+  const [updateReadingProgress] = useUpdateReadingProgressMutation({
+    onCompleted: ({ updateReadingProgress }) => {
+      // update the store
+      const { type, progress, capacity, id } = updateReadingProgress;
+      updateReadingProgressStore(id, type, progress);
+      onClose();
+    },
+  });
+  const submitProgress = async () => {
+    // In your component or hook:
 
+    // When you want to update the reading progress:
+    await updateReadingProgress({
+      variables: {
+        readingProgressId: readingProgress.id,
+        type: type,
+        progress: progress,
+      },
+    });
+  };
   const handleIncrement = () => {
     if (type === Progress_Type.Pages) {
       setProgress(Math.min(progress + 1, totalPages));
@@ -114,6 +140,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
         </Button>
       </div>
       <Button
+        onClick={submitProgress}
         variant={'default'}
         className='mt-4 flex  h-12 w-full items-center justify-center rounded-lg  text-base font-medium text-white'
       >

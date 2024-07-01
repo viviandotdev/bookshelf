@@ -5,8 +5,6 @@ import useProgressModal from './use-progress-modal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProgressTab from './components/progress-tab';
 import FinishedTab from './components/finished-tab';
-import { DialogFooter } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import useUserBookStore from '@/stores/use-user-book-store';
 
 interface ProgressModalProps {}
