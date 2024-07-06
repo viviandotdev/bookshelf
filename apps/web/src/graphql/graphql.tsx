@@ -2,21 +2,34 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
+export type MakeEmpty<
+  T extends { [key: string]: unknown },
+  K extends keyof T,
+> = { [_ in K]?: never };
+export type Incremental<T> =
+  | T
+  | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
+    };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
   /** `Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
-  Timestamp: { input: any; output: any; }
+  Timestamp: { input: any; output: any };
 };
 
 export enum Action {
@@ -26,7 +39,7 @@ export enum Action {
   Rate = 'RATE',
   Review = 'REVIEW',
   Shelve = 'SHELVE',
-  StatusUpdate = 'STATUS_UPDATE'
+  StatusUpdate = 'STATUS_UPDATE',
 }
 
 export type Account = {
@@ -1476,7 +1489,9 @@ export type IdentifierCreateManyBookInputEnvelope = {
 
 export type IdentifierCreateNestedManyWithoutBookInput = {
   connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<IdentifierCreateOrConnectWithoutBookInput>
+  >;
   create?: InputMaybe<Array<IdentifierCreateWithoutBookInput>>;
   createMany?: InputMaybe<IdentifierCreateManyBookInputEnvelope>;
 };
@@ -1541,7 +1556,9 @@ export type IdentifierUpdateManyWithWhereWithoutBookInput = {
 
 export type IdentifierUpdateManyWithoutBookNestedInput = {
   connect?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<IdentifierCreateOrConnectWithoutBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<IdentifierCreateOrConnectWithoutBookInput>
+  >;
   create?: InputMaybe<Array<IdentifierCreateWithoutBookInput>>;
   createMany?: InputMaybe<IdentifierCreateManyBookInputEnvelope>;
   delete?: InputMaybe<Array<IdentifierWhereUniqueInput>>;
@@ -1644,102 +1661,83 @@ export type Mutation = {
   verifyToken: AuthResponse;
 };
 
-
 export type MutationAddBookToShelfArgs = {
   shelf: Scalars['String']['input'];
   where: UserBookWhereUniqueInput;
 };
-
 
 export type MutationAddIdentifierToBookArgs = {
   identifier: IdentifierCreateInput;
   where: BookWhereUniqueInput;
 };
 
-
 export type MutationCreateIdentifiersArgs = {
   identifiers: Array<IdentifierCreateInput>;
 };
-
 
 export type MutationCreateShelfArgs = {
   data: ShelfCreateInput;
 };
 
-
 export type MutationCreateUserBookArgs = {
   data: BookDataInput;
 };
 
-
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
 };
-
 
 export type MutationFollowArgs = {
   value: Scalars['Boolean']['input'];
   where: UserWhereUniqueInput;
 };
 
-
 export type MutationForgotPasswordArgs = {
   email: Scalars['String']['input'];
 };
-
 
 export type MutationImportUserBooksArgs = {
   content: Scalars['String']['input'];
 };
 
-
 export type MutationLoginArgs = {
   logInInput: LogInInput;
 };
-
 
 export type MutationLogoutArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type MutationOAuthArgs = {
   oAuthInput: OAuthInput;
 };
 
-
 export type MutationRegisterArgs = {
   registerInput: RegisterInput;
 };
-
 
 export type MutationRemoveBookFromShelfArgs = {
   shelf: Scalars['String']['input'];
   where: UserBookWhereUniqueInput;
 };
 
-
 export type MutationRemoveUserBookArgs = {
   where: UserBookWhereUniqueInput;
 };
-
 
 export type MutationResetPasswordArgs = {
   resetPasswordInput: ResetPasswordInput;
 };
 
-
 export type MutationUpdateEmailArgs = {
   data: UpdateEmailInput;
 };
-
 
 export type MutationUpdateReadDateArgs = {
   finishedDate?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
   startDate?: InputMaybe<Scalars['String']['input']>;
 };
-
 
 export type MutationUpdateReadingProgressArgs = {
   capacity?: InputMaybe<Scalars['Int']['input']>;
@@ -1748,28 +1746,23 @@ export type MutationUpdateReadingProgressArgs = {
   type: Scalars['String']['input'];
 };
 
-
 export type MutationUpdateShelfArgs = {
   data: ShelfUpdateInput;
   where: ShelfWhereUniqueInput;
 };
 
-
 export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
 };
-
 
 export type MutationUpdateUserBookArgs = {
   data: UserBookUpdateInput;
   where: UserBookWhereUniqueInput;
 };
 
-
 export type MutationUpdateUserBookOrderArgs = {
   data: UserBookUpdateOrderInput;
 };
-
 
 export type MutationVerifyTokenArgs = {
   token: Scalars['String']['input'];
@@ -1777,7 +1770,7 @@ export type MutationVerifyTokenArgs = {
 
 export enum NullsOrder {
   First = 'first',
-  Last = 'last'
+  Last = 'last',
 }
 
 export type OAuthInput = {
@@ -1794,7 +1787,7 @@ export type OAuthInput = {
 
 export enum Progress_Type {
   Pages = 'PAGES',
-  Percentage = 'PERCENTAGE'
+  Percentage = 'PERCENTAGE',
 }
 
 export type PasswordResetTokenCountAggregate = {
@@ -1839,7 +1832,6 @@ export type Query = {
   userBook?: Maybe<UserBook>;
 };
 
-
 export type QueryAuditLogsArgs = {
   action?: InputMaybe<Action>;
   limit?: Scalars['Int']['input'];
@@ -1848,37 +1840,30 @@ export type QueryAuditLogsArgs = {
   where?: InputMaybe<UserBookWhereUniqueInput>;
 };
 
-
 export type QueryBookCountsByUserIdArgs = {
   userId: Scalars['String']['input'];
 };
-
 
 export type QueryBooksByShelfArgs = {
   slug: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
-
 export type QueryCountUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
 };
-
 
 export type QueryFindBookByIdentifierArgs = {
   identifier: IdentifierCreateInput;
 };
 
-
 export type QueryGetBookByIdentifiersArgs = {
   identifiers: Array<IdentifierCreateInput>;
 };
 
-
 export type QueryGetMyBookShelvesArgs = {
   where?: InputMaybe<UserBookWhereUniqueInput>;
 };
-
 
 export type QueryGetUserBooksArgs = {
   limit?: Scalars['Int']['input'];
@@ -1887,17 +1872,14 @@ export type QueryGetUserBooksArgs = {
   where?: InputMaybe<UserBookWhereInput>;
 };
 
-
 export type QueryReadDatesArgs = {
   active?: InputMaybe<Scalars['Boolean']['input']>;
   userBookIds: Array<Scalars['String']['input']>;
 };
 
-
 export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
-
 
 export type QueryUserBookArgs = {
   where: BookWhereUniqueInput;
@@ -1905,7 +1887,7 @@ export type QueryUserBookArgs = {
 
 export enum QueryMode {
   Default = 'default',
-  Insensitive = 'insensitive'
+  Insensitive = 'insensitive',
 }
 
 export enum Reading_Status {
@@ -1913,7 +1895,7 @@ export enum Reading_Status {
   Finished = 'FINISHED',
   Reading = 'READING',
   UpNext = 'UP_NEXT',
-  WantToRead = 'WANT_TO_READ'
+  WantToRead = 'WANT_TO_READ',
 }
 
 export type Rating = {
@@ -2143,7 +2125,9 @@ export type ReadDateCreateManyUserBookInputEnvelope = {
 
 export type ReadDateCreateNestedManyWithoutUserBookInput = {
   connect?: InputMaybe<Array<ReadDateWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ReadDateCreateOrConnectWithoutUserBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ReadDateCreateOrConnectWithoutUserBookInput>
+  >;
   create?: InputMaybe<Array<ReadDateCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<ReadDateCreateManyUserBookInputEnvelope>;
 };
@@ -2219,7 +2203,9 @@ export type ReadDateUpdateManyWithWhereWithoutUserBookInput = {
 
 export type ReadDateUpdateManyWithoutUserBookNestedInput = {
   connect?: InputMaybe<Array<ReadDateWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<ReadDateCreateOrConnectWithoutUserBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<ReadDateCreateOrConnectWithoutUserBookInput>
+  >;
   create?: InputMaybe<Array<ReadDateCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<ReadDateCreateManyUserBookInputEnvelope>;
   delete?: InputMaybe<Array<ReadDateWhereUniqueInput>>;
@@ -2227,7 +2213,9 @@ export type ReadDateUpdateManyWithoutUserBookNestedInput = {
   disconnect?: InputMaybe<Array<ReadDateWhereUniqueInput>>;
   set?: InputMaybe<Array<ReadDateWhereUniqueInput>>;
   update?: InputMaybe<Array<ReadDateUpdateWithWhereUniqueWithoutUserBookInput>>;
-  updateMany?: InputMaybe<Array<ReadDateUpdateManyWithWhereWithoutUserBookInput>>;
+  updateMany?: InputMaybe<
+    Array<ReadDateUpdateManyWithWhereWithoutUserBookInput>
+  >;
   upsert?: InputMaybe<Array<ReadDateUpsertWithWhereUniqueWithoutUserBookInput>>;
 };
 
@@ -2838,7 +2826,7 @@ export type ReviewWhereUniqueInput = {
 export enum Size {
   Large = 'LARGE',
   Medium = 'MEDIUM',
-  Small = 'SMALL'
+  Small = 'SMALL',
 }
 
 export enum Source {
@@ -2847,7 +2835,7 @@ export enum Source {
   Google = 'GOOGLE',
   Isbn_10 = 'ISBN_10',
   Isbn_13 = 'ISBN_13',
-  OpenLibrary = 'OPEN_LIBRARY'
+  OpenLibrary = 'OPEN_LIBRARY',
 }
 
 export type Shelf = {
@@ -3096,7 +3084,7 @@ export type ShelfWhereUniqueInput = {
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type SortOrderInput = {
@@ -3407,14 +3395,18 @@ export type UserBookShelvesCreateManyUserBookInputEnvelope = {
 
 export type UserBookShelvesCreateNestedManyWithoutShelfInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutShelfInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserBookShelvesCreateOrConnectWithoutShelfInput>
+  >;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutShelfInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyShelfInputEnvelope>;
 };
 
 export type UserBookShelvesCreateNestedManyWithoutUserBookInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>
+  >;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyUserBookInputEnvelope>;
 };
@@ -3487,30 +3479,46 @@ export type UserBookShelvesUpdateManyWithWhereWithoutUserBookInput = {
 
 export type UserBookShelvesUpdateManyWithoutShelfNestedInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutShelfInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserBookShelvesCreateOrConnectWithoutShelfInput>
+  >;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutShelfInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyShelfInputEnvelope>;
   delete?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserBookShelvesScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   set?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput>>;
-  updateMany?: InputMaybe<Array<UserBookShelvesUpdateManyWithWhereWithoutShelfInput>>;
-  upsert?: InputMaybe<Array<UserBookShelvesUpsertWithWhereUniqueWithoutShelfInput>>;
+  update?: InputMaybe<
+    Array<UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<UserBookShelvesUpdateManyWithWhereWithoutShelfInput>
+  >;
+  upsert?: InputMaybe<
+    Array<UserBookShelvesUpsertWithWhereUniqueWithoutShelfInput>
+  >;
 };
 
 export type UserBookShelvesUpdateManyWithoutUserBookNestedInput = {
   connect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserBookShelvesCreateOrConnectWithoutUserBookInput>
+  >;
   create?: InputMaybe<Array<UserBookShelvesCreateWithoutUserBookInput>>;
   createMany?: InputMaybe<UserBookShelvesCreateManyUserBookInputEnvelope>;
   delete?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserBookShelvesScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
   set?: InputMaybe<Array<UserBookShelvesWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserBookShelvesUpdateWithWhereUniqueWithoutUserBookInput>>;
-  updateMany?: InputMaybe<Array<UserBookShelvesUpdateManyWithWhereWithoutUserBookInput>>;
-  upsert?: InputMaybe<Array<UserBookShelvesUpsertWithWhereUniqueWithoutUserBookInput>>;
+  update?: InputMaybe<
+    Array<UserBookShelvesUpdateWithWhereUniqueWithoutUserBookInput>
+  >;
+  updateMany?: InputMaybe<
+    Array<UserBookShelvesUpdateManyWithWhereWithoutUserBookInput>
+  >;
+  upsert?: InputMaybe<
+    Array<UserBookShelvesUpsertWithWhereUniqueWithoutUserBookInput>
+  >;
 };
 
 export type UserBookShelvesUpdateWithWhereUniqueWithoutShelfInput = {
@@ -3787,7 +3795,9 @@ export type UserCreateNestedManyWithoutFollowingInput = {
 
 export type UserCreateNestedManyWithoutLikedReviewsInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserCreateOrConnectWithoutLikedReviewsInput>
+  >;
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
 };
 
@@ -4201,14 +4211,18 @@ export type UserUpdateManyWithoutFollowingNestedInput = {
 
 export type UserUpdateManyWithoutLikedReviewsNestedInput = {
   connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutLikedReviewsInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserCreateOrConnectWithoutLikedReviewsInput>
+  >;
   create?: InputMaybe<Array<UserCreateWithoutLikedReviewsInput>>;
   delete?: InputMaybe<Array<UserWhereUniqueInput>>;
   deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
   disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
   set?: InputMaybe<Array<UserWhereUniqueInput>>;
   update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutLikedReviewsInput>>;
-  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>>;
+  updateMany?: InputMaybe<
+    Array<UserUpdateManyWithWhereWithoutLikedReviewsInput>
+  >;
   upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutLikedReviewsInput>>;
 };
 
@@ -4628,63 +4642,125 @@ export type LoginMutationVariables = Exact<{
   input: LogInInput;
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login: {
+    __typename?: 'AuthResponse';
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    verificationToken?: string | null;
+    expiresIn?: number | null;
+    user: {
+      __typename?: 'User';
+      email: string;
+      username?: string | null;
+      emailVerified?: any | null;
+      id: string;
+    };
+  };
+};
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
 }>;
 
-
-export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
+export type ForgotPasswordMutation = {
+  __typename?: 'Mutation';
+  forgotPassword: boolean;
+};
 
 export type ResetPasswordMutationVariables = Exact<{
   input: ResetPasswordInput;
 }>;
 
-
-export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
+export type ResetPasswordMutation = {
+  __typename?: 'Mutation';
+  resetPassword: boolean;
+};
 
 export type VerifyTokenMutationVariables = Exact<{
   token: Scalars['String']['input'];
 }>;
 
-
-export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
+export type VerifyTokenMutation = {
+  __typename?: 'Mutation';
+  verifyToken: {
+    __typename?: 'AuthResponse';
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    verificationToken?: string | null;
+    expiresIn?: number | null;
+    user: {
+      __typename?: 'User';
+      email: string;
+      username?: string | null;
+      emailVerified?: any | null;
+      id: string;
+    };
+  };
+};
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string, id: string, username?: string | null } };
+export type RegisterMutation = {
+  __typename?: 'Mutation';
+  register: {
+    __typename?: 'User';
+    email: string;
+    id: string;
+    username?: string | null;
+  };
+};
 
 export type OAuthMutationVariables = Exact<{
   input: OAuthInput;
 }>;
 
+export type OAuthMutation = {
+  __typename?: 'Mutation';
+  oAuth: {
+    __typename?: 'AuthResponse';
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    expiresIn?: number | null;
+    user: {
+      __typename?: 'User';
+      email: string;
+      username?: string | null;
+      id: string;
+    };
+  };
+};
 
-export type OAuthMutation = { __typename?: 'Mutation', oAuth: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
+export type RefreshAuthMutationVariables = Exact<{ [key: string]: never }>;
 
-export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RefreshAuthMutation = { __typename?: 'Mutation', refreshAuth: { __typename?: 'RefreshResponse', accessToken: string, refreshToken: string, expiresIn: number } };
+export type RefreshAuthMutation = {
+  __typename?: 'Mutation';
+  refreshAuth: {
+    __typename?: 'RefreshResponse';
+    accessToken: string;
+    refreshToken: string;
+    expiresIn: number;
+  };
+};
 
 export type LogoutMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
-
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
 
 export type AddIdentifierToBookMutationVariables = Exact<{
   where: BookWhereUniqueInput;
   identifier: IdentifierCreateInput;
 }>;
 
-
-export type AddIdentifierToBookMutation = { __typename?: 'Mutation', addIdentifierToBook: { __typename?: 'Book', id: string } };
+export type AddIdentifierToBookMutation = {
+  __typename?: 'Mutation';
+  addIdentifierToBook: { __typename?: 'Book'; id: string };
+};
 
 export type UpdateReadDateMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -4692,8 +4768,23 @@ export type UpdateReadDateMutationVariables = Exact<{
   finishedDate?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-
-export type UpdateReadDateMutation = { __typename?: 'Mutation', updateReadDate: { __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', capacity: number, type: Progress_Type, progress: number } | null } };
+export type UpdateReadDateMutation = {
+  __typename?: 'Mutation';
+  updateReadDate: {
+    __typename?: 'ReadDate';
+    id: string;
+    userBookId?: string | null;
+    startDate: any;
+    finishedDate?: any | null;
+    active: boolean;
+    readingProgress?: {
+      __typename?: 'ReadingProgress';
+      capacity: number;
+      type: Progress_Type;
+      progress: number;
+    } | null;
+  };
+};
 
 export type UpdateReadingProgressMutationVariables = Exact<{
   readingProgressId: Scalars['String']['input'];
@@ -4702,104 +4793,180 @@ export type UpdateReadingProgressMutationVariables = Exact<{
   progress: Scalars['Int']['input'];
 }>;
 
-
-export type UpdateReadingProgressMutation = { __typename?: 'Mutation', updateReadingProgress: { __typename?: 'ReadingProgress', id: string, type: Progress_Type, capacity: number, progress: number } };
+export type UpdateReadingProgressMutation = {
+  __typename?: 'Mutation';
+  updateReadingProgress: {
+    __typename?: 'ReadingProgress';
+    id: string;
+    type: Progress_Type;
+    capacity: number;
+    progress: number;
+  };
+};
 
 export type CreateShelfMutationVariables = Exact<{
   data: ShelfCreateInput;
 }>;
 
-
-export type CreateShelfMutation = { __typename?: 'Mutation', createShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
+export type CreateShelfMutation = {
+  __typename?: 'Mutation';
+  createShelf: {
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+  };
+};
 
 export type DeleteShelfMutationVariables = Exact<{
   where: ShelfWhereUniqueInput;
 }>;
 
-
-export type DeleteShelfMutation = { __typename?: 'Mutation', deleteShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
+export type DeleteShelfMutation = {
+  __typename?: 'Mutation';
+  deleteShelf: {
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+  };
+};
 
 export type UpdateShelfMutationVariables = Exact<{
   data: ShelfUpdateInput;
   where: ShelfWhereUniqueInput;
 }>;
 
-
-export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
+export type UpdateShelfMutation = {
+  __typename?: 'Mutation';
+  updateShelf: {
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+  };
+};
 
 export type FollowMutationVariables = Exact<{
   where: UserWhereUniqueInput;
   value: Scalars['Boolean']['input'];
 }>;
 
-
-export type FollowMutation = { __typename?: 'Mutation', follow: { __typename?: 'User', id: string } };
+export type FollowMutation = {
+  __typename?: 'Mutation';
+  follow: { __typename?: 'User'; id: string };
+};
 
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
 }>;
 
-
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username?: string | null, email: string } };
+export type UpdateUserMutation = {
+  __typename?: 'Mutation';
+  updateUser: {
+    __typename?: 'User';
+    id: string;
+    username?: string | null;
+    email: string;
+  };
+};
 
 export type UpdateEmailMutationVariables = Exact<{
   data: UpdateEmailInput;
 }>;
 
-
-export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
+export type UpdateEmailMutation = {
+  __typename?: 'Mutation';
+  updateEmail: { __typename?: 'User'; id: string; email: string };
+};
 
 export type CreateUserBookMutationVariables = Exact<{
   data: BookDataInput;
 }>;
 
-
-export type CreateUserBookMutation = { __typename?: 'Mutation', createUserBook: { __typename?: 'UserBook', status: Reading_Status, id: string, book: { __typename?: 'Book', title: string } } };
+export type CreateUserBookMutation = {
+  __typename?: 'Mutation';
+  createUserBook: {
+    __typename?: 'UserBook';
+    status: Reading_Status;
+    id: string;
+    book: { __typename?: 'Book'; title: string };
+  };
+};
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
   where: UserBookWhereUniqueInput;
 }>;
 
-
-export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book' }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } };
+export type UpdateUserBookMutation = {
+  __typename?: 'Mutation';
+  updateUserBook: {
+    __typename: 'UserBook';
+    status: Reading_Status;
+    id: string;
+    book: { __typename: 'Book' };
+    shelves?: Array<{
+      __typename?: 'UserBookShelves';
+      shelf: { __typename?: 'Shelf'; id: string; name: string; slug: string };
+    }> | null;
+  };
+};
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
 }>;
 
-
-export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: boolean };
+export type RemoveUserBookMutation = {
+  __typename?: 'Mutation';
+  removeUserBook: boolean;
+};
 
 export type ImportUserBooksMutationVariables = Exact<{
   content: Scalars['String']['input'];
 }>;
 
-
-export type ImportUserBooksMutation = { __typename?: 'Mutation', importUserBooks: boolean };
+export type ImportUserBooksMutation = {
+  __typename?: 'Mutation';
+  importUserBooks: boolean;
+};
 
 export type UpdateUserBookOrderMutationVariables = Exact<{
   data: UserBookUpdateOrderInput;
 }>;
 
-
-export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
+export type UpdateUserBookOrderMutation = {
+  __typename?: 'Mutation';
+  updateUserBookOrder: Array<{
+    __typename?: 'UserBook';
+    id: string;
+    order: number;
+  }>;
+};
 
 export type AddUserBookToShelfMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
   shelf: Scalars['String']['input'];
 }>;
 
-
-export type AddUserBookToShelfMutation = { __typename?: 'Mutation', addBookToShelf: { __typename?: 'UserBook', id: string, status: Reading_Status } };
+export type AddUserBookToShelfMutation = {
+  __typename?: 'Mutation';
+  addBookToShelf: {
+    __typename?: 'UserBook';
+    id: string;
+    status: Reading_Status;
+  };
+};
 
 export type RemoveUserBookFromShelfMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
   shelf: Scalars['String']['input'];
 }>;
 
-
-export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeBookFromShelf: boolean };
+export type RemoveUserBookFromShelfMutation = {
+  __typename?: 'Mutation';
+  removeBookFromShelf: boolean;
+};
 
 export type GetAuditLogsQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereUniqueInput>;
@@ -4809,67 +4976,277 @@ export type GetAuditLogsQueryVariables = Exact<{
   orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
 }>;
 
+export type GetAuditLogsQuery = {
+  __typename?: 'Query';
+  auditLogs: {
+    __typename?: 'ActivitiesResponse';
+    hasMore: boolean;
+    totalActivities: number;
+    activities?: Array<{
+      __typename?: 'AuditLog';
+      id: string;
+      action: Action;
+      createdAt: any;
+      updatedAt: any;
+      actionContent?: string | null;
+      user?: {
+        __typename?: 'User';
+        id: string;
+        username?: string | null;
+        email: string;
+      } | null;
+      book?: {
+        __typename?: 'Book';
+        id: string;
+        title: string;
+        authors?: Array<string> | null;
+        pageCount?: number | null;
+        covers?: Array<{
+          __typename?: 'Cover';
+          url: string;
+          size: Size;
+        }> | null;
+      } | null;
+    }> | null;
+  };
+};
 
-export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: { __typename?: 'ActivitiesResponse', hasMore: boolean, totalActivities: number, activities?: Array<{ __typename?: 'AuditLog', id: string, action: Action, createdAt: any, updatedAt: any, actionContent?: string | null, user?: { __typename?: 'User', id: string, username?: string | null, email: string } | null, book?: { __typename?: 'Book', id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } | null }> | null } };
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', email?: string | null, username?: string | null, isOAuth?: boolean | null } };
+export type MeQuery = {
+  __typename?: 'Query';
+  me: {
+    __typename?: 'MeResponse';
+    email?: string | null;
+    username?: string | null;
+    isOAuth?: boolean | null;
+  };
+};
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
 }>;
 
-
-export type FindBookByIdentifierQuery = { __typename?: 'Query', findBookByIdentifier?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
+export type FindBookByIdentifierQuery = {
+  __typename?: 'Query';
+  findBookByIdentifier?: {
+    __typename?: 'Book';
+    id: string;
+    slug: string;
+    title: string;
+    authors?: Array<string> | null;
+    pageCount?: number | null;
+    userBook?: {
+      __typename?: 'UserBook';
+      id: string;
+      status: Reading_Status;
+      rating?: number | null;
+      shelves?: Array<{
+        __typename?: 'UserBookShelves';
+        shelf: { __typename?: 'Shelf'; id: string; name: string; slug: string };
+      }> | null;
+    } | null;
+    identifiers?: Array<{
+      __typename?: 'Identifier';
+      source: Source;
+      sourceId: string;
+    }> | null;
+    covers?: Array<{
+      __typename?: 'Cover';
+      url: string;
+      source: Source;
+      size: Size;
+    }> | null;
+    ratings?: Array<{
+      __typename?: 'Rating';
+      source: Source;
+      score: number;
+    }> | null;
+  } | null;
+};
 
 export type ReadDatesQueryVariables = Exact<{
   userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
   active?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
+export type ReadDatesQuery = {
+  __typename?: 'Query';
+  readDates: Array<{
+    __typename?: 'ReadDate';
+    id: string;
+    userBookId?: string | null;
+    startDate: any;
+    finishedDate?: any | null;
+    active: boolean;
+    readingProgress?: {
+      __typename?: 'ReadingProgress';
+      id: string;
+      capacity: number;
+      type: Progress_Type;
+      progress: number;
+    } | null;
+  }>;
+};
 
-export type ReadDatesQuery = { __typename?: 'Query', readDates: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', id: string, capacity: number, type: Progress_Type, progress: number } | null }> };
+export type ShelvesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ShelvesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ShelvesQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, slug: string, userId?: string | null, _count: { __typename?: 'ShelfCount', userBooks: number }, user?: { __typename?: 'User', id: string } | null }> | null };
+export type ShelvesQuery = {
+  __typename?: 'Query';
+  shelves?: Array<{
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    slug: string;
+    userId?: string | null;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+    user?: { __typename?: 'User'; id: string } | null;
+  }> | null;
+};
 
 export type GetMyBookShelvesQueryVariables = Exact<{
   where: UserBookWhereUniqueInput;
 }>;
 
-
-export type GetMyBookShelvesQuery = { __typename?: 'Query', getMyBookShelves?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string }, shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null };
+export type GetMyBookShelvesQuery = {
+  __typename?: 'Query';
+  getMyBookShelves?: Array<{
+    __typename?: 'UserBookShelves';
+    userBook: { __typename?: 'UserBook'; id: string };
+    shelf: { __typename?: 'Shelf'; id: string; name: string; slug: string };
+  }> | null;
+};
 
 export type BooksByShelfQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   username: Scalars['String']['input'];
 }>;
 
+export type BooksByShelfQuery = {
+  __typename?: 'Query';
+  booksByShelf?: {
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    slug: string;
+    user?: { __typename?: 'User'; id: string; username?: string | null } | null;
+    userBooks?: Array<{
+      __typename?: 'UserBookShelves';
+      userBook: {
+        __typename?: 'UserBook';
+        book: {
+          __typename?: 'Book';
+          id: string;
+          slug: string;
+          authors?: Array<string> | null;
+          title: string;
+          identifiers?: Array<{
+            __typename?: 'Identifier';
+            source: Source;
+            sourceId: string;
+          }> | null;
+          covers?: Array<{
+            __typename?: 'Cover';
+            url: string;
+            size: Size;
+          }> | null;
+          ratings?: Array<{
+            __typename?: 'Rating';
+            source: Source;
+            score: number;
+          }> | null;
+        };
+      };
+    }> | null;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+  } | null;
+};
 
-export type BooksByShelfQuery = { __typename?: 'Query', booksByShelf?: { __typename?: 'Shelf', id: string, name: string, slug: string, user?: { __typename?: 'User', id: string, username?: string | null } | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', book: { __typename?: 'Book', id: string, slug: string, authors?: Array<string> | null, title: string, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } } | null };
+export type ShelvesWithBookCoversQueryVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type ShelvesWithBookCoversQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ShelvesWithBookCoversQuery = { __typename?: 'Query', shelves?: Array<{ __typename?: 'Shelf', id: string, name: string, slug: string, userId?: string | null, userBooks?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null } } }> | null, _count: { __typename?: 'ShelfCount', userBooks: number } }> | null };
+export type ShelvesWithBookCoversQuery = {
+  __typename?: 'Query';
+  shelves?: Array<{
+    __typename?: 'Shelf';
+    id: string;
+    name: string;
+    slug: string;
+    userId?: string | null;
+    userBooks?: Array<{
+      __typename?: 'UserBookShelves';
+      userBook: {
+        __typename?: 'UserBook';
+        id: string;
+        book: {
+          __typename?: 'Book';
+          id: string;
+          covers?: Array<{
+            __typename?: 'Cover';
+            url: string;
+            size: Size;
+          }> | null;
+        };
+      };
+    }> | null;
+    _count: { __typename?: 'ShelfCount'; userBooks: number };
+  }> | null;
+};
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
-
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, bio?: string | null } | null };
+export type UserQuery = {
+  __typename?: 'Query';
+  user?: {
+    __typename?: 'User';
+    id: string;
+    username?: string | null;
+    email: string;
+    bio?: string | null;
+  } | null;
+};
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
 }>;
 
-
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, status: Reading_Status, rating?: number | null, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', slug: string, id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+export type UserBookQuery = {
+  __typename?: 'Query';
+  userBook?: {
+    __typename?: 'UserBook';
+    userId: string;
+    status: Reading_Status;
+    rating?: number | null;
+    user: { __typename?: 'User'; id: string };
+    book: {
+      __typename?: 'Book';
+      slug: string;
+      id: string;
+      title: string;
+      authors?: Array<string> | null;
+      pageCount?: number | null;
+      yearPublished?: string | null;
+      identifiers?: Array<{
+        __typename?: 'Identifier';
+        source: Source;
+        sourceId: string;
+      }> | null;
+      covers?: Array<{ __typename?: 'Cover'; url: string; size: Size }> | null;
+      ratings?: Array<{
+        __typename?: 'Rating';
+        score: number;
+        source: Source;
+      }> | null;
+    };
+    shelves?: Array<{
+      __typename?: 'UserBookShelves';
+      shelf: { __typename?: 'Shelf'; id: string; name: string };
+    }> | null;
+  } | null;
+};
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -4878,41 +5255,99 @@ export type GetUserBooksQueryVariables = Exact<{
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
 }>;
 
-
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, status: Reading_Status, rating?: number | null, createdAt: any, updatedAt: any, order: number, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number } }> | null } };
+export type GetUserBooksQuery = {
+  __typename?: 'Query';
+  getUserBooks: {
+    __typename?: 'UserBooksResponse';
+    hasMore: boolean;
+    totalBooks: number;
+    userBooks?: Array<{
+      __typename?: 'UserBook';
+      id: string;
+      userId: string;
+      status: Reading_Status;
+      rating?: number | null;
+      createdAt: any;
+      updatedAt: any;
+      order: number;
+      user: { __typename?: 'User'; id: string };
+      book: {
+        __typename?: 'Book';
+        id: string;
+        slug: string;
+        title: string;
+        authors?: Array<string> | null;
+        pageCount?: number | null;
+        yearPublished?: string | null;
+        identifiers?: Array<{
+          __typename?: 'Identifier';
+          source: Source;
+          sourceId: string;
+        }> | null;
+        covers?: Array<{
+          __typename?: 'Cover';
+          url: string;
+          size: Size;
+        }> | null;
+        ratings?: Array<{
+          __typename?: 'Rating';
+          score: number;
+          source: Source;
+        }> | null;
+      };
+      shelves?: Array<{
+        __typename?: 'UserBookShelves';
+        shelf: { __typename?: 'Shelf'; id: string; name: string };
+      }> | null;
+      _count: { __typename?: 'UserBookCount'; shelves: number };
+    }> | null;
+  };
+};
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
 }>;
 
-
-export type CountUserBooksQuery = { __typename?: 'Query', countUserBooks: number };
+export type CountUserBooksQuery = {
+  __typename?: 'Query';
+  countUserBooks: number;
+};
 
 export type BookCountsByUserIdQueryVariables = Exact<{
   userId: Scalars['String']['input'];
 }>;
 
-
-export type BookCountsByUserIdQuery = { __typename?: 'Query', bookCountsByUserId: { __typename?: 'BookCountsResponse', wantsToReadCount: number, readingCount: number, finishedCount: number, upNextCount: number } };
-
+export type BookCountsByUserIdQuery = {
+  __typename?: 'Query';
+  bookCountsByUserId: {
+    __typename?: 'BookCountsResponse';
+    wantsToReadCount: number;
+    readingCount: number;
+    finishedCount: number;
+    upNextCount: number;
+  };
+};
 
 export const LoginDocument = gql`
-    mutation Login($input: LogInInput!) {
-  login(logInInput: $input) {
-    accessToken
-    refreshToken
-    verificationToken
-    expiresIn
-    user {
-      email
-      username
-      emailVerified
-      id
+  mutation Login($input: LogInInput!) {
+    login(logInInput: $input) {
+      accessToken
+      refreshToken
+      verificationToken
+      expiresIn
+      user {
+        email
+        username
+        emailVerified
+        id
+      }
     }
   }
-}
-    `;
-export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+`;
+export type LoginMutationFn = Apollo.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -4931,19 +5366,33 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    options
+  );
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const ForgotPasswordDocument = gql`
-    mutation ForgotPassword($email: String!) {
-  forgotPassword(email: $email)
-}
-    `;
-export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+  mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email)
+  }
+`;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<
+  ForgotPasswordMutation,
+  ForgotPasswordMutationVariables
+>;
 
 /**
  * __useForgotPasswordMutation__
@@ -4962,19 +5411,36 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  *   },
  * });
  */
-export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
-      }
-export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
-export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
-export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
-export const ResetPasswordDocument = gql`
-    mutation ResetPassword($input: ResetPasswordInput!) {
-  resetPassword(resetPasswordInput: $input)
+export function useForgotPasswordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ForgotPasswordMutation,
+    ForgotPasswordMutationVariables
+  >(ForgotPasswordDocument, options);
 }
-    `;
-export type ResetPasswordMutationFn = Apollo.MutationFunction<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export type ForgotPasswordMutationHookResult = ReturnType<
+  typeof useForgotPasswordMutation
+>;
+export type ForgotPasswordMutationResult =
+  Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<
+  ForgotPasswordMutation,
+  ForgotPasswordMutationVariables
+>;
+export const ResetPasswordDocument = gql`
+  mutation ResetPassword($input: ResetPasswordInput!) {
+    resetPassword(resetPasswordInput: $input)
+  }
+`;
+export type ResetPasswordMutationFn = Apollo.MutationFunction<
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables
+>;
 
 /**
  * __useResetPasswordMutation__
@@ -4993,30 +5459,47 @@ export type ResetPasswordMutationFn = Apollo.MutationFunction<ResetPasswordMutat
  *   },
  * });
  */
-export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ResetPasswordMutation, ResetPasswordMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument, options);
-      }
-export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
-export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
-export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export function useResetPasswordMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ResetPasswordMutation,
+    ResetPasswordMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ResetPasswordMutation,
+    ResetPasswordMutationVariables
+  >(ResetPasswordDocument, options);
+}
+export type ResetPasswordMutationHookResult = ReturnType<
+  typeof useResetPasswordMutation
+>;
+export type ResetPasswordMutationResult =
+  Apollo.MutationResult<ResetPasswordMutation>;
+export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<
+  ResetPasswordMutation,
+  ResetPasswordMutationVariables
+>;
 export const VerifyTokenDocument = gql`
-    mutation VerifyToken($token: String!) {
-  verifyToken(token: $token) {
-    accessToken
-    refreshToken
-    verificationToken
-    expiresIn
-    user {
-      email
-      username
-      emailVerified
-      id
+  mutation VerifyToken($token: String!) {
+    verifyToken(token: $token) {
+      accessToken
+      refreshToken
+      verificationToken
+      expiresIn
+      user {
+        email
+        username
+        emailVerified
+        id
+      }
     }
   }
-}
-    `;
-export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation, VerifyTokenMutationVariables>;
+`;
+export type VerifyTokenMutationFn = Apollo.MutationFunction<
+  VerifyTokenMutation,
+  VerifyTokenMutationVariables
+>;
 
 /**
  * __useVerifyTokenMutation__
@@ -5035,23 +5518,40 @@ export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation,
  *   },
  * });
  */
-export function useVerifyTokenMutation(baseOptions?: Apollo.MutationHookOptions<VerifyTokenMutation, VerifyTokenMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(VerifyTokenDocument, options);
-      }
-export type VerifyTokenMutationHookResult = ReturnType<typeof useVerifyTokenMutation>;
-export type VerifyTokenMutationResult = Apollo.MutationResult<VerifyTokenMutation>;
-export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<VerifyTokenMutation, VerifyTokenMutationVariables>;
-export const RegisterDocument = gql`
-    mutation Register($input: RegisterInput!) {
-  register(registerInput: $input) {
-    email
-    id
-    username
-  }
+export function useVerifyTokenMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    VerifyTokenMutation,
+    VerifyTokenMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(
+    VerifyTokenDocument,
+    options
+  );
 }
-    `;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+export type VerifyTokenMutationHookResult = ReturnType<
+  typeof useVerifyTokenMutation
+>;
+export type VerifyTokenMutationResult =
+  Apollo.MutationResult<VerifyTokenMutation>;
+export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<
+  VerifyTokenMutation,
+  VerifyTokenMutationVariables
+>;
+export const RegisterDocument = gql`
+  mutation Register($input: RegisterInput!) {
+    register(registerInput: $input) {
+      email
+      id
+      username
+    }
+  }
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 
 /**
  * __useRegisterMutation__
@@ -5070,28 +5570,42 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RegisterMutation,
+    RegisterMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(
+    RegisterDocument,
+    options
+  );
+}
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 export const OAuthDocument = gql`
-    mutation OAuth($input: OAuthInput!) {
-  oAuth(oAuthInput: $input) {
-    accessToken
-    refreshToken
-    expiresIn
-    user {
-      email
-      username
-      id
+  mutation OAuth($input: OAuthInput!) {
+    oAuth(oAuthInput: $input) {
+      accessToken
+      refreshToken
+      expiresIn
+      user {
+        email
+        username
+        id
+      }
     }
   }
-}
-    `;
-export type OAuthMutationFn = Apollo.MutationFunction<OAuthMutation, OAuthMutationVariables>;
+`;
+export type OAuthMutationFn = Apollo.MutationFunction<
+  OAuthMutation,
+  OAuthMutationVariables
+>;
 
 /**
  * __useOAuthMutation__
@@ -5110,23 +5624,37 @@ export type OAuthMutationFn = Apollo.MutationFunction<OAuthMutation, OAuthMutati
  *   },
  * });
  */
-export function useOAuthMutation(baseOptions?: Apollo.MutationHookOptions<OAuthMutation, OAuthMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<OAuthMutation, OAuthMutationVariables>(OAuthDocument, options);
-      }
+export function useOAuthMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    OAuthMutation,
+    OAuthMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<OAuthMutation, OAuthMutationVariables>(
+    OAuthDocument,
+    options
+  );
+}
 export type OAuthMutationHookResult = ReturnType<typeof useOAuthMutation>;
 export type OAuthMutationResult = Apollo.MutationResult<OAuthMutation>;
-export type OAuthMutationOptions = Apollo.BaseMutationOptions<OAuthMutation, OAuthMutationVariables>;
+export type OAuthMutationOptions = Apollo.BaseMutationOptions<
+  OAuthMutation,
+  OAuthMutationVariables
+>;
 export const RefreshAuthDocument = gql`
-    mutation RefreshAuth {
-  refreshAuth {
-    accessToken
-    refreshToken
-    expiresIn
+  mutation RefreshAuth {
+    refreshAuth {
+      accessToken
+      refreshToken
+      expiresIn
+    }
   }
-}
-    `;
-export type RefreshAuthMutationFn = Apollo.MutationFunction<RefreshAuthMutation, RefreshAuthMutationVariables>;
+`;
+export type RefreshAuthMutationFn = Apollo.MutationFunction<
+  RefreshAuthMutation,
+  RefreshAuthMutationVariables
+>;
 
 /**
  * __useRefreshAuthMutation__
@@ -5144,19 +5672,36 @@ export type RefreshAuthMutationFn = Apollo.MutationFunction<RefreshAuthMutation,
  *   },
  * });
  */
-export function useRefreshAuthMutation(baseOptions?: Apollo.MutationHookOptions<RefreshAuthMutation, RefreshAuthMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RefreshAuthMutation, RefreshAuthMutationVariables>(RefreshAuthDocument, options);
-      }
-export type RefreshAuthMutationHookResult = ReturnType<typeof useRefreshAuthMutation>;
-export type RefreshAuthMutationResult = Apollo.MutationResult<RefreshAuthMutation>;
-export type RefreshAuthMutationOptions = Apollo.BaseMutationOptions<RefreshAuthMutation, RefreshAuthMutationVariables>;
-export const LogoutDocument = gql`
-    mutation Logout($id: String!) {
-  logout(id: $id)
+export function useRefreshAuthMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RefreshAuthMutation,
+    RefreshAuthMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RefreshAuthMutation, RefreshAuthMutationVariables>(
+    RefreshAuthDocument,
+    options
+  );
 }
-    `;
-export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+export type RefreshAuthMutationHookResult = ReturnType<
+  typeof useRefreshAuthMutation
+>;
+export type RefreshAuthMutationResult =
+  Apollo.MutationResult<RefreshAuthMutation>;
+export type RefreshAuthMutationOptions = Apollo.BaseMutationOptions<
+  RefreshAuthMutation,
+  RefreshAuthMutationVariables
+>;
+export const LogoutDocument = gql`
+  mutation Logout($id: String!) {
+    logout(id: $id)
+  }
+`;
+export type LogoutMutationFn = Apollo.MutationFunction<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 
 /**
  * __useLogoutMutation__
@@ -5175,21 +5720,38 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-      }
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    LogoutMutation,
+    LogoutMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(
+    LogoutDocument,
+    options
+  );
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 export const AddIdentifierToBookDocument = gql`
-    mutation AddIdentifierToBook($where: BookWhereUniqueInput!, $identifier: IdentifierCreateInput!) {
-  addIdentifierToBook(where: $where, identifier: $identifier) {
-    id
+  mutation AddIdentifierToBook(
+    $where: BookWhereUniqueInput!
+    $identifier: IdentifierCreateInput!
+  ) {
+    addIdentifierToBook(where: $where, identifier: $identifier) {
+      id
+    }
   }
-}
-    `;
-export type AddIdentifierToBookMutationFn = Apollo.MutationFunction<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>;
+`;
+export type AddIdentifierToBookMutationFn = Apollo.MutationFunction<
+  AddIdentifierToBookMutation,
+  AddIdentifierToBookMutationVariables
+>;
 
 /**
  * __useAddIdentifierToBookMutation__
@@ -5209,30 +5771,55 @@ export type AddIdentifierToBookMutationFn = Apollo.MutationFunction<AddIdentifie
  *   },
  * });
  */
-export function useAddIdentifierToBookMutation(baseOptions?: Apollo.MutationHookOptions<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>(AddIdentifierToBookDocument, options);
-      }
-export type AddIdentifierToBookMutationHookResult = ReturnType<typeof useAddIdentifierToBookMutation>;
-export type AddIdentifierToBookMutationResult = Apollo.MutationResult<AddIdentifierToBookMutation>;
-export type AddIdentifierToBookMutationOptions = Apollo.BaseMutationOptions<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>;
+export function useAddIdentifierToBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddIdentifierToBookMutation,
+    AddIdentifierToBookMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddIdentifierToBookMutation,
+    AddIdentifierToBookMutationVariables
+  >(AddIdentifierToBookDocument, options);
+}
+export type AddIdentifierToBookMutationHookResult = ReturnType<
+  typeof useAddIdentifierToBookMutation
+>;
+export type AddIdentifierToBookMutationResult =
+  Apollo.MutationResult<AddIdentifierToBookMutation>;
+export type AddIdentifierToBookMutationOptions = Apollo.BaseMutationOptions<
+  AddIdentifierToBookMutation,
+  AddIdentifierToBookMutationVariables
+>;
 export const UpdateReadDateDocument = gql`
-    mutation UpdateReadDate($id: String!, $startDate: String, $finishedDate: String) {
-  updateReadDate(id: $id, startDate: $startDate, finishedDate: $finishedDate) {
-    id
-    userBookId
-    startDate
-    finishedDate
-    active
-    readingProgress {
-      capacity
-      type
-      progress
+  mutation UpdateReadDate(
+    $id: String!
+    $startDate: String
+    $finishedDate: String
+  ) {
+    updateReadDate(
+      id: $id
+      startDate: $startDate
+      finishedDate: $finishedDate
+    ) {
+      id
+      userBookId
+      startDate
+      finishedDate
+      active
+      readingProgress {
+        capacity
+        type
+        progress
+      }
     }
   }
-}
-    `;
-export type UpdateReadDateMutationFn = Apollo.MutationFunction<UpdateReadDateMutation, UpdateReadDateMutationVariables>;
+`;
+export type UpdateReadDateMutationFn = Apollo.MutationFunction<
+  UpdateReadDateMutation,
+  UpdateReadDateMutationVariables
+>;
 
 /**
  * __useUpdateReadDateMutation__
@@ -5253,29 +5840,51 @@ export type UpdateReadDateMutationFn = Apollo.MutationFunction<UpdateReadDateMut
  *   },
  * });
  */
-export function useUpdateReadDateMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReadDateMutation, UpdateReadDateMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateReadDateMutation, UpdateReadDateMutationVariables>(UpdateReadDateDocument, options);
-      }
-export type UpdateReadDateMutationHookResult = ReturnType<typeof useUpdateReadDateMutation>;
-export type UpdateReadDateMutationResult = Apollo.MutationResult<UpdateReadDateMutation>;
-export type UpdateReadDateMutationOptions = Apollo.BaseMutationOptions<UpdateReadDateMutation, UpdateReadDateMutationVariables>;
-export const UpdateReadingProgressDocument = gql`
-    mutation UpdateReadingProgress($readingProgressId: String!, $type: String!, $capacity: Int, $progress: Int!) {
-  updateReadingProgress(
-    readingProgressId: $readingProgressId
-    type: $type
-    capacity: $capacity
-    progress: $progress
-  ) {
-    id
-    type
-    capacity
-    progress
-  }
+export function useUpdateReadDateMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateReadDateMutation,
+    UpdateReadDateMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateReadDateMutation,
+    UpdateReadDateMutationVariables
+  >(UpdateReadDateDocument, options);
 }
-    `;
-export type UpdateReadingProgressMutationFn = Apollo.MutationFunction<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>;
+export type UpdateReadDateMutationHookResult = ReturnType<
+  typeof useUpdateReadDateMutation
+>;
+export type UpdateReadDateMutationResult =
+  Apollo.MutationResult<UpdateReadDateMutation>;
+export type UpdateReadDateMutationOptions = Apollo.BaseMutationOptions<
+  UpdateReadDateMutation,
+  UpdateReadDateMutationVariables
+>;
+export const UpdateReadingProgressDocument = gql`
+  mutation UpdateReadingProgress(
+    $readingProgressId: String!
+    $type: String!
+    $capacity: Int
+    $progress: Int!
+  ) {
+    updateReadingProgress(
+      readingProgressId: $readingProgressId
+      type: $type
+      capacity: $capacity
+      progress: $progress
+    ) {
+      id
+      type
+      capacity
+      progress
+    }
+  }
+`;
+export type UpdateReadingProgressMutationFn = Apollo.MutationFunction<
+  UpdateReadingProgressMutation,
+  UpdateReadingProgressMutationVariables
+>;
 
 /**
  * __useUpdateReadingProgressMutation__
@@ -5297,25 +5906,42 @@ export type UpdateReadingProgressMutationFn = Apollo.MutationFunction<UpdateRead
  *   },
  * });
  */
-export function useUpdateReadingProgressMutation(baseOptions?: Apollo.MutationHookOptions<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>(UpdateReadingProgressDocument, options);
-      }
-export type UpdateReadingProgressMutationHookResult = ReturnType<typeof useUpdateReadingProgressMutation>;
-export type UpdateReadingProgressMutationResult = Apollo.MutationResult<UpdateReadingProgressMutation>;
-export type UpdateReadingProgressMutationOptions = Apollo.BaseMutationOptions<UpdateReadingProgressMutation, UpdateReadingProgressMutationVariables>;
+export function useUpdateReadingProgressMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateReadingProgressMutation,
+    UpdateReadingProgressMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateReadingProgressMutation,
+    UpdateReadingProgressMutationVariables
+  >(UpdateReadingProgressDocument, options);
+}
+export type UpdateReadingProgressMutationHookResult = ReturnType<
+  typeof useUpdateReadingProgressMutation
+>;
+export type UpdateReadingProgressMutationResult =
+  Apollo.MutationResult<UpdateReadingProgressMutation>;
+export type UpdateReadingProgressMutationOptions = Apollo.BaseMutationOptions<
+  UpdateReadingProgressMutation,
+  UpdateReadingProgressMutationVariables
+>;
 export const CreateShelfDocument = gql`
-    mutation CreateShelf($data: ShelfCreateInput!) {
-  createShelf(data: $data) {
-    id
-    name
-    _count {
-      userBooks
+  mutation CreateShelf($data: ShelfCreateInput!) {
+    createShelf(data: $data) {
+      id
+      name
+      _count {
+        userBooks
+      }
     }
   }
-}
-    `;
-export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation, CreateShelfMutationVariables>;
+`;
+export type CreateShelfMutationFn = Apollo.MutationFunction<
+  CreateShelfMutation,
+  CreateShelfMutationVariables
+>;
 
 /**
  * __useCreateShelfMutation__
@@ -5334,25 +5960,42 @@ export type CreateShelfMutationFn = Apollo.MutationFunction<CreateShelfMutation,
  *   },
  * });
  */
-export function useCreateShelfMutation(baseOptions?: Apollo.MutationHookOptions<CreateShelfMutation, CreateShelfMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateShelfMutation, CreateShelfMutationVariables>(CreateShelfDocument, options);
-      }
-export type CreateShelfMutationHookResult = ReturnType<typeof useCreateShelfMutation>;
-export type CreateShelfMutationResult = Apollo.MutationResult<CreateShelfMutation>;
-export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<CreateShelfMutation, CreateShelfMutationVariables>;
+export function useCreateShelfMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateShelfMutation,
+    CreateShelfMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateShelfMutation, CreateShelfMutationVariables>(
+    CreateShelfDocument,
+    options
+  );
+}
+export type CreateShelfMutationHookResult = ReturnType<
+  typeof useCreateShelfMutation
+>;
+export type CreateShelfMutationResult =
+  Apollo.MutationResult<CreateShelfMutation>;
+export type CreateShelfMutationOptions = Apollo.BaseMutationOptions<
+  CreateShelfMutation,
+  CreateShelfMutationVariables
+>;
 export const DeleteShelfDocument = gql`
-    mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
-  deleteShelf(where: $where) {
-    id
-    name
-    _count {
-      userBooks
+  mutation DeleteShelf($where: ShelfWhereUniqueInput!) {
+    deleteShelf(where: $where) {
+      id
+      name
+      _count {
+        userBooks
+      }
     }
   }
-}
-    `;
-export type DeleteShelfMutationFn = Apollo.MutationFunction<DeleteShelfMutation, DeleteShelfMutationVariables>;
+`;
+export type DeleteShelfMutationFn = Apollo.MutationFunction<
+  DeleteShelfMutation,
+  DeleteShelfMutationVariables
+>;
 
 /**
  * __useDeleteShelfMutation__
@@ -5371,25 +6014,45 @@ export type DeleteShelfMutationFn = Apollo.MutationFunction<DeleteShelfMutation,
  *   },
  * });
  */
-export function useDeleteShelfMutation(baseOptions?: Apollo.MutationHookOptions<DeleteShelfMutation, DeleteShelfMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteShelfMutation, DeleteShelfMutationVariables>(DeleteShelfDocument, options);
-      }
-export type DeleteShelfMutationHookResult = ReturnType<typeof useDeleteShelfMutation>;
-export type DeleteShelfMutationResult = Apollo.MutationResult<DeleteShelfMutation>;
-export type DeleteShelfMutationOptions = Apollo.BaseMutationOptions<DeleteShelfMutation, DeleteShelfMutationVariables>;
+export function useDeleteShelfMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteShelfMutation,
+    DeleteShelfMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteShelfMutation, DeleteShelfMutationVariables>(
+    DeleteShelfDocument,
+    options
+  );
+}
+export type DeleteShelfMutationHookResult = ReturnType<
+  typeof useDeleteShelfMutation
+>;
+export type DeleteShelfMutationResult =
+  Apollo.MutationResult<DeleteShelfMutation>;
+export type DeleteShelfMutationOptions = Apollo.BaseMutationOptions<
+  DeleteShelfMutation,
+  DeleteShelfMutationVariables
+>;
 export const UpdateShelfDocument = gql`
-    mutation UpdateShelf($data: ShelfUpdateInput!, $where: ShelfWhereUniqueInput!) {
-  updateShelf(data: $data, where: $where) {
-    id
-    name
-    _count {
-      userBooks
+  mutation UpdateShelf(
+    $data: ShelfUpdateInput!
+    $where: ShelfWhereUniqueInput!
+  ) {
+    updateShelf(data: $data, where: $where) {
+      id
+      name
+      _count {
+        userBooks
+      }
     }
   }
-}
-    `;
-export type UpdateShelfMutationFn = Apollo.MutationFunction<UpdateShelfMutation, UpdateShelfMutationVariables>;
+`;
+export type UpdateShelfMutationFn = Apollo.MutationFunction<
+  UpdateShelfMutation,
+  UpdateShelfMutationVariables
+>;
 
 /**
  * __useUpdateShelfMutation__
@@ -5409,21 +6072,38 @@ export type UpdateShelfMutationFn = Apollo.MutationFunction<UpdateShelfMutation,
  *   },
  * });
  */
-export function useUpdateShelfMutation(baseOptions?: Apollo.MutationHookOptions<UpdateShelfMutation, UpdateShelfMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateShelfMutation, UpdateShelfMutationVariables>(UpdateShelfDocument, options);
-      }
-export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMutation>;
-export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
-export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
-export const FollowDocument = gql`
-    mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
-  follow(where: $where, value: $value) {
-    id
-  }
+export function useUpdateShelfMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateShelfMutation,
+    UpdateShelfMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateShelfMutation, UpdateShelfMutationVariables>(
+    UpdateShelfDocument,
+    options
+  );
 }
-    `;
-export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
+export type UpdateShelfMutationHookResult = ReturnType<
+  typeof useUpdateShelfMutation
+>;
+export type UpdateShelfMutationResult =
+  Apollo.MutationResult<UpdateShelfMutation>;
+export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<
+  UpdateShelfMutation,
+  UpdateShelfMutationVariables
+>;
+export const FollowDocument = gql`
+  mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
+    follow(where: $where, value: $value) {
+      id
+    }
+  }
+`;
+export type FollowMutationFn = Apollo.MutationFunction<
+  FollowMutation,
+  FollowMutationVariables
+>;
 
 /**
  * __useFollowMutation__
@@ -5443,23 +6123,37 @@ export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMut
  *   },
  * });
  */
-export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
-      }
+export function useFollowMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    FollowMutation,
+    FollowMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<FollowMutation, FollowMutationVariables>(
+    FollowDocument,
+    options
+  );
+}
 export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
 export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
-export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
+export type FollowMutationOptions = Apollo.BaseMutationOptions<
+  FollowMutation,
+  FollowMutationVariables
+>;
 export const UpdateUserDocument = gql`
-    mutation UpdateUser($data: UpdateUserInput!) {
-  updateUser(data: $data) {
-    id
-    username
-    email
+  mutation UpdateUser($data: UpdateUserInput!) {
+    updateUser(data: $data) {
+      id
+      username
+      email
+    }
   }
-}
-    `;
-export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+`;
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
 
 /**
  * __useUpdateUserMutation__
@@ -5478,22 +6172,39 @@ export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, U
  *   },
  * });
  */
-export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
-export const UpdateEmailDocument = gql`
-    mutation UpdateEmail($data: UpdateEmailInput!) {
-  updateEmail(data: $data) {
-    id
-    email
-  }
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    options
+  );
 }
-    `;
-export type UpdateEmailMutationFn = Apollo.MutationFunction<UpdateEmailMutation, UpdateEmailMutationVariables>;
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>;
+export type UpdateUserMutationResult =
+  Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+export const UpdateEmailDocument = gql`
+  mutation UpdateEmail($data: UpdateEmailInput!) {
+    updateEmail(data: $data) {
+      id
+      email
+    }
+  }
+`;
+export type UpdateEmailMutationFn = Apollo.MutationFunction<
+  UpdateEmailMutation,
+  UpdateEmailMutationVariables
+>;
 
 /**
  * __useUpdateEmailMutation__
@@ -5512,25 +6223,42 @@ export type UpdateEmailMutationFn = Apollo.MutationFunction<UpdateEmailMutation,
  *   },
  * });
  */
-export function useUpdateEmailMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEmailMutation, UpdateEmailMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateEmailMutation, UpdateEmailMutationVariables>(UpdateEmailDocument, options);
-      }
-export type UpdateEmailMutationHookResult = ReturnType<typeof useUpdateEmailMutation>;
-export type UpdateEmailMutationResult = Apollo.MutationResult<UpdateEmailMutation>;
-export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<UpdateEmailMutation, UpdateEmailMutationVariables>;
+export function useUpdateEmailMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateEmailMutation,
+    UpdateEmailMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateEmailMutation, UpdateEmailMutationVariables>(
+    UpdateEmailDocument,
+    options
+  );
+}
+export type UpdateEmailMutationHookResult = ReturnType<
+  typeof useUpdateEmailMutation
+>;
+export type UpdateEmailMutationResult =
+  Apollo.MutationResult<UpdateEmailMutation>;
+export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<
+  UpdateEmailMutation,
+  UpdateEmailMutationVariables
+>;
 export const CreateUserBookDocument = gql`
-    mutation CreateUserBook($data: BookDataInput!) {
-  createUserBook(data: $data) {
-    status
-    id
-    book {
-      title
+  mutation CreateUserBook($data: BookDataInput!) {
+    createUserBook(data: $data) {
+      status
+      id
+      book {
+        title
+      }
     }
   }
-}
-    `;
-export type CreateUserBookMutationFn = Apollo.MutationFunction<CreateUserBookMutation, CreateUserBookMutationVariables>;
+`;
+export type CreateUserBookMutationFn = Apollo.MutationFunction<
+  CreateUserBookMutation,
+  CreateUserBookMutationVariables
+>;
 
 /**
  * __useCreateUserBookMutation__
@@ -5549,33 +6277,53 @@ export type CreateUserBookMutationFn = Apollo.MutationFunction<CreateUserBookMut
  *   },
  * });
  */
-export function useCreateUserBookMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserBookMutation, CreateUserBookMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateUserBookMutation, CreateUserBookMutationVariables>(CreateUserBookDocument, options);
-      }
-export type CreateUserBookMutationHookResult = ReturnType<typeof useCreateUserBookMutation>;
-export type CreateUserBookMutationResult = Apollo.MutationResult<CreateUserBookMutation>;
-export type CreateUserBookMutationOptions = Apollo.BaseMutationOptions<CreateUserBookMutation, CreateUserBookMutationVariables>;
+export function useCreateUserBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserBookMutation,
+    CreateUserBookMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateUserBookMutation,
+    CreateUserBookMutationVariables
+  >(CreateUserBookDocument, options);
+}
+export type CreateUserBookMutationHookResult = ReturnType<
+  typeof useCreateUserBookMutation
+>;
+export type CreateUserBookMutationResult =
+  Apollo.MutationResult<CreateUserBookMutation>;
+export type CreateUserBookMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserBookMutation,
+  CreateUserBookMutationVariables
+>;
 export const UpdateUserBookDocument = gql`
-    mutation UpdateUserBook($data: UserBookUpdateInput!, $where: UserBookWhereUniqueInput!) {
-  updateUserBook(data: $data, where: $where) {
-    status
-    id
-    book {
+  mutation UpdateUserBook(
+    $data: UserBookUpdateInput!
+    $where: UserBookWhereUniqueInput!
+  ) {
+    updateUserBook(data: $data, where: $where) {
+      status
+      id
+      book {
+        __typename
+      }
+      shelves {
+        shelf {
+          id
+          name
+          slug
+        }
+      }
       __typename
     }
-    shelves {
-      shelf {
-        id
-        name
-        slug
-      }
-    }
-    __typename
   }
-}
-    `;
-export type UpdateUserBookMutationFn = Apollo.MutationFunction<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
+`;
+export type UpdateUserBookMutationFn = Apollo.MutationFunction<
+  UpdateUserBookMutation,
+  UpdateUserBookMutationVariables
+>;
 
 /**
  * __useUpdateUserBookMutation__
@@ -5595,19 +6343,36 @@ export type UpdateUserBookMutationFn = Apollo.MutationFunction<UpdateUserBookMut
  *   },
  * });
  */
-export function useUpdateUserBookMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserBookMutation, UpdateUserBookMutationVariables>(UpdateUserBookDocument, options);
-      }
-export type UpdateUserBookMutationHookResult = ReturnType<typeof useUpdateUserBookMutation>;
-export type UpdateUserBookMutationResult = Apollo.MutationResult<UpdateUserBookMutation>;
-export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>;
-export const RemoveUserBookDocument = gql`
-    mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
-  removeUserBook(where: $where)
+export function useUpdateUserBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserBookMutation,
+    UpdateUserBookMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateUserBookMutation,
+    UpdateUserBookMutationVariables
+  >(UpdateUserBookDocument, options);
 }
-    `;
-export type RemoveUserBookMutationFn = Apollo.MutationFunction<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
+export type UpdateUserBookMutationHookResult = ReturnType<
+  typeof useUpdateUserBookMutation
+>;
+export type UpdateUserBookMutationResult =
+  Apollo.MutationResult<UpdateUserBookMutation>;
+export type UpdateUserBookMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserBookMutation,
+  UpdateUserBookMutationVariables
+>;
+export const RemoveUserBookDocument = gql`
+  mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
+    removeUserBook(where: $where)
+  }
+`;
+export type RemoveUserBookMutationFn = Apollo.MutationFunction<
+  RemoveUserBookMutation,
+  RemoveUserBookMutationVariables
+>;
 
 /**
  * __useRemoveUserBookMutation__
@@ -5626,19 +6391,36 @@ export type RemoveUserBookMutationFn = Apollo.MutationFunction<RemoveUserBookMut
  *   },
  * });
  */
-export function useRemoveUserBookMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveUserBookMutation, RemoveUserBookMutationVariables>(RemoveUserBookDocument, options);
-      }
-export type RemoveUserBookMutationHookResult = ReturnType<typeof useRemoveUserBookMutation>;
-export type RemoveUserBookMutationResult = Apollo.MutationResult<RemoveUserBookMutation>;
-export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
-export const ImportUserBooksDocument = gql`
-    mutation ImportUserBooks($content: String!) {
-  importUserBooks(content: $content)
+export function useRemoveUserBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveUserBookMutation,
+    RemoveUserBookMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RemoveUserBookMutation,
+    RemoveUserBookMutationVariables
+  >(RemoveUserBookDocument, options);
 }
-    `;
-export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
+export type RemoveUserBookMutationHookResult = ReturnType<
+  typeof useRemoveUserBookMutation
+>;
+export type RemoveUserBookMutationResult =
+  Apollo.MutationResult<RemoveUserBookMutation>;
+export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<
+  RemoveUserBookMutation,
+  RemoveUserBookMutationVariables
+>;
+export const ImportUserBooksDocument = gql`
+  mutation ImportUserBooks($content: String!) {
+    importUserBooks(content: $content)
+  }
+`;
+export type ImportUserBooksMutationFn = Apollo.MutationFunction<
+  ImportUserBooksMutation,
+  ImportUserBooksMutationVariables
+>;
 
 /**
  * __useImportUserBooksMutation__
@@ -5657,22 +6439,39 @@ export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksM
  *   },
  * });
  */
-export function useImportUserBooksMutation(baseOptions?: Apollo.MutationHookOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<ImportUserBooksMutation, ImportUserBooksMutationVariables>(ImportUserBooksDocument, options);
-      }
-export type ImportUserBooksMutationHookResult = ReturnType<typeof useImportUserBooksMutation>;
-export type ImportUserBooksMutationResult = Apollo.MutationResult<ImportUserBooksMutation>;
-export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
-export const UpdateUserBookOrderDocument = gql`
-    mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
-  updateUserBookOrder(data: $data) {
-    id
-    order
-  }
+export function useImportUserBooksMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    ImportUserBooksMutation,
+    ImportUserBooksMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    ImportUserBooksMutation,
+    ImportUserBooksMutationVariables
+  >(ImportUserBooksDocument, options);
 }
-    `;
-export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
+export type ImportUserBooksMutationHookResult = ReturnType<
+  typeof useImportUserBooksMutation
+>;
+export type ImportUserBooksMutationResult =
+  Apollo.MutationResult<ImportUserBooksMutation>;
+export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<
+  ImportUserBooksMutation,
+  ImportUserBooksMutationVariables
+>;
+export const UpdateUserBookOrderDocument = gql`
+  mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
+    updateUserBookOrder(data: $data) {
+      id
+      order
+    }
+  }
+`;
+export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<
+  UpdateUserBookOrderMutation,
+  UpdateUserBookOrderMutationVariables
+>;
 
 /**
  * __useUpdateUserBookOrderMutation__
@@ -5691,22 +6490,42 @@ export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<UpdateUserBo
  *   },
  * });
  */
-export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>(UpdateUserBookOrderDocument, options);
-      }
-export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
-export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
-export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
-export const AddUserBookToShelfDocument = gql`
-    mutation AddUserBookToShelf($where: UserBookWhereUniqueInput!, $shelf: String!) {
-  addBookToShelf(where: $where, shelf: $shelf) {
-    id
-    status
-  }
+export function useUpdateUserBookOrderMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserBookOrderMutation,
+    UpdateUserBookOrderMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateUserBookOrderMutation,
+    UpdateUserBookOrderMutationVariables
+  >(UpdateUserBookOrderDocument, options);
 }
-    `;
-export type AddUserBookToShelfMutationFn = Apollo.MutationFunction<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
+export type UpdateUserBookOrderMutationHookResult = ReturnType<
+  typeof useUpdateUserBookOrderMutation
+>;
+export type UpdateUserBookOrderMutationResult =
+  Apollo.MutationResult<UpdateUserBookOrderMutation>;
+export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserBookOrderMutation,
+  UpdateUserBookOrderMutationVariables
+>;
+export const AddUserBookToShelfDocument = gql`
+  mutation AddUserBookToShelf(
+    $where: UserBookWhereUniqueInput!
+    $shelf: String!
+  ) {
+    addBookToShelf(where: $where, shelf: $shelf) {
+      id
+      status
+    }
+  }
+`;
+export type AddUserBookToShelfMutationFn = Apollo.MutationFunction<
+  AddUserBookToShelfMutation,
+  AddUserBookToShelfMutationVariables
+>;
 
 /**
  * __useAddUserBookToShelfMutation__
@@ -5726,19 +6545,39 @@ export type AddUserBookToShelfMutationFn = Apollo.MutationFunction<AddUserBookTo
  *   },
  * });
  */
-export function useAddUserBookToShelfMutation(baseOptions?: Apollo.MutationHookOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>(AddUserBookToShelfDocument, options);
-      }
-export type AddUserBookToShelfMutationHookResult = ReturnType<typeof useAddUserBookToShelfMutation>;
-export type AddUserBookToShelfMutationResult = Apollo.MutationResult<AddUserBookToShelfMutation>;
-export type AddUserBookToShelfMutationOptions = Apollo.BaseMutationOptions<AddUserBookToShelfMutation, AddUserBookToShelfMutationVariables>;
-export const RemoveUserBookFromShelfDocument = gql`
-    mutation RemoveUserBookFromShelf($where: UserBookWhereUniqueInput!, $shelf: String!) {
-  removeBookFromShelf(where: $where, shelf: $shelf)
+export function useAddUserBookToShelfMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddUserBookToShelfMutation,
+    AddUserBookToShelfMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    AddUserBookToShelfMutation,
+    AddUserBookToShelfMutationVariables
+  >(AddUserBookToShelfDocument, options);
 }
-    `;
-export type RemoveUserBookFromShelfMutationFn = Apollo.MutationFunction<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
+export type AddUserBookToShelfMutationHookResult = ReturnType<
+  typeof useAddUserBookToShelfMutation
+>;
+export type AddUserBookToShelfMutationResult =
+  Apollo.MutationResult<AddUserBookToShelfMutation>;
+export type AddUserBookToShelfMutationOptions = Apollo.BaseMutationOptions<
+  AddUserBookToShelfMutation,
+  AddUserBookToShelfMutationVariables
+>;
+export const RemoveUserBookFromShelfDocument = gql`
+  mutation RemoveUserBookFromShelf(
+    $where: UserBookWhereUniqueInput!
+    $shelf: String!
+  ) {
+    removeBookFromShelf(where: $where, shelf: $shelf)
+  }
+`;
+export type RemoveUserBookFromShelfMutationFn = Apollo.MutationFunction<
+  RemoveUserBookFromShelfMutation,
+  RemoveUserBookFromShelfMutationVariables
+>;
 
 /**
  * __useRemoveUserBookFromShelfMutation__
@@ -5758,49 +6597,69 @@ export type RemoveUserBookFromShelfMutationFn = Apollo.MutationFunction<RemoveUs
  *   },
  * });
  */
-export function useRemoveUserBookFromShelfMutation(baseOptions?: Apollo.MutationHookOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>(RemoveUserBookFromShelfDocument, options);
-      }
-export type RemoveUserBookFromShelfMutationHookResult = ReturnType<typeof useRemoveUserBookFromShelfMutation>;
-export type RemoveUserBookFromShelfMutationResult = Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
-export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
-export const GetAuditLogsDocument = gql`
-    query GetAuditLogs($where: UserBookWhereUniqueInput, $action: ACTION, $offset: Int, $limit: Int, $orderBy: AuditLogOrderByWithRelationInput) {
-  auditLogs(
-    where: $where
-    action: $action
-    offset: $offset
-    limit: $limit
-    orderBy: $orderBy
-  ) {
-    activities {
-      id
-      action
-      createdAt
-      updatedAt
-      user {
-        id
-        username
-        email
-      }
-      book {
-        id
-        title
-        authors
-        pageCount
-        covers {
-          url
-          size
-        }
-      }
-      actionContent
-    }
-    hasMore
-    totalActivities
-  }
+export function useRemoveUserBookFromShelfMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RemoveUserBookFromShelfMutation,
+    RemoveUserBookFromShelfMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RemoveUserBookFromShelfMutation,
+    RemoveUserBookFromShelfMutationVariables
+  >(RemoveUserBookFromShelfDocument, options);
 }
-    `;
+export type RemoveUserBookFromShelfMutationHookResult = ReturnType<
+  typeof useRemoveUserBookFromShelfMutation
+>;
+export type RemoveUserBookFromShelfMutationResult =
+  Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
+export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<
+  RemoveUserBookFromShelfMutation,
+  RemoveUserBookFromShelfMutationVariables
+>;
+export const GetAuditLogsDocument = gql`
+  query GetAuditLogs(
+    $where: UserBookWhereUniqueInput
+    $action: ACTION
+    $offset: Int
+    $limit: Int
+    $orderBy: AuditLogOrderByWithRelationInput
+  ) {
+    auditLogs(
+      where: $where
+      action: $action
+      offset: $offset
+      limit: $limit
+      orderBy: $orderBy
+    ) {
+      activities {
+        id
+        action
+        createdAt
+        updatedAt
+        user {
+          id
+          username
+          email
+        }
+        book {
+          id
+          title
+          authors
+          pageCount
+          covers {
+            url
+            size
+          }
+        }
+        actionContent
+      }
+      hasMore
+      totalActivities
+    }
+  }
+`;
 
 /**
  * __useGetAuditLogsQuery__
@@ -5822,31 +6681,64 @@ export const GetAuditLogsDocument = gql`
  *   },
  * });
  */
-export function useGetAuditLogsQuery(baseOptions?: Apollo.QueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
-      }
-export function useGetAuditLogsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
-        }
-export function useGetAuditLogsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAuditLogsQuery, GetAuditLogsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(GetAuditLogsDocument, options);
-        }
-export type GetAuditLogsQueryHookResult = ReturnType<typeof useGetAuditLogsQuery>;
-export type GetAuditLogsLazyQueryHookResult = ReturnType<typeof useGetAuditLogsLazyQuery>;
-export type GetAuditLogsSuspenseQueryHookResult = ReturnType<typeof useGetAuditLogsSuspenseQuery>;
-export type GetAuditLogsQueryResult = Apollo.QueryResult<GetAuditLogsQuery, GetAuditLogsQueryVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    email
-    username
-    isOAuth
-  }
+export function useGetAuditLogsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetAuditLogsQuery,
+    GetAuditLogsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(
+    GetAuditLogsDocument,
+    options
+  );
 }
-    `;
+export function useGetAuditLogsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetAuditLogsQuery,
+    GetAuditLogsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(
+    GetAuditLogsDocument,
+    options
+  );
+}
+export function useGetAuditLogsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetAuditLogsQuery,
+    GetAuditLogsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetAuditLogsQuery, GetAuditLogsQueryVariables>(
+    GetAuditLogsDocument,
+    options
+  );
+}
+export type GetAuditLogsQueryHookResult = ReturnType<
+  typeof useGetAuditLogsQuery
+>;
+export type GetAuditLogsLazyQueryHookResult = ReturnType<
+  typeof useGetAuditLogsLazyQuery
+>;
+export type GetAuditLogsSuspenseQueryHookResult = ReturnType<
+  typeof useGetAuditLogsSuspenseQuery
+>;
+export type GetAuditLogsQueryResult = Apollo.QueryResult<
+  GetAuditLogsQuery,
+  GetAuditLogsQueryVariables
+>;
+export const MeDocument = gql`
+  query Me {
+    me {
+      email
+      username
+      isOAuth
+    }
+  }
+`;
 
 /**
  * __useMeQuery__
@@ -5863,58 +6755,67 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
-export function useMeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    options
+  );
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const FindBookByIdentifierDocument = gql`
-    query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
-  findBookByIdentifier(identifier: $identifier) {
-    id
-    userBook {
+  query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
+    findBookByIdentifier(identifier: $identifier) {
       id
-      status
-      rating
-      shelves {
-        shelf {
-          id
-          name
-          slug
+      userBook {
+        id
+        status
+        rating
+        shelves {
+          shelf {
+            id
+            name
+            slug
+          }
         }
       }
-    }
-    slug
-    title
-    authors
-    pageCount
-    identifiers {
-      source
-      sourceId
-    }
-    covers {
-      url
-      source
-      size
-    }
-    ratings {
-      source
-      score
+      slug
+      title
+      authors
+      pageCount
+      identifiers {
+        source
+        sourceId
+      }
+      covers {
+        url
+        source
+        size
+      }
+      ratings {
+        source
+        score
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useFindBookByIdentifierQuery__
@@ -5932,39 +6833,76 @@ export const FindBookByIdentifierDocument = gql`
  *   },
  * });
  */
-export function useFindBookByIdentifierQuery(baseOptions: Apollo.QueryHookOptions<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables> & ({ variables: FindBookByIdentifierQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>(FindBookByIdentifierDocument, options);
-      }
-export function useFindBookByIdentifierLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>(FindBookByIdentifierDocument, options);
-        }
-export function useFindBookByIdentifierSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>(FindBookByIdentifierDocument, options);
-        }
-export type FindBookByIdentifierQueryHookResult = ReturnType<typeof useFindBookByIdentifierQuery>;
-export type FindBookByIdentifierLazyQueryHookResult = ReturnType<typeof useFindBookByIdentifierLazyQuery>;
-export type FindBookByIdentifierSuspenseQueryHookResult = ReturnType<typeof useFindBookByIdentifierSuspenseQuery>;
-export type FindBookByIdentifierQueryResult = Apollo.QueryResult<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>;
+export function useFindBookByIdentifierQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  > &
+    (
+      | { variables: FindBookByIdentifierQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  >(FindBookByIdentifierDocument, options);
+}
+export function useFindBookByIdentifierLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  >(FindBookByIdentifierDocument, options);
+}
+export function useFindBookByIdentifierSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    FindBookByIdentifierQuery,
+    FindBookByIdentifierQueryVariables
+  >(FindBookByIdentifierDocument, options);
+}
+export type FindBookByIdentifierQueryHookResult = ReturnType<
+  typeof useFindBookByIdentifierQuery
+>;
+export type FindBookByIdentifierLazyQueryHookResult = ReturnType<
+  typeof useFindBookByIdentifierLazyQuery
+>;
+export type FindBookByIdentifierSuspenseQueryHookResult = ReturnType<
+  typeof useFindBookByIdentifierSuspenseQuery
+>;
+export type FindBookByIdentifierQueryResult = Apollo.QueryResult<
+  FindBookByIdentifierQuery,
+  FindBookByIdentifierQueryVariables
+>;
 export const ReadDatesDocument = gql`
-    query readDates($userBookIds: [String!]!, $active: Boolean) {
-  readDates(userBookIds: $userBookIds, active: $active) {
-    id
-    userBookId
-    startDate
-    finishedDate
-    active
-    readingProgress {
+  query readDates($userBookIds: [String!]!, $active: Boolean) {
+    readDates(userBookIds: $userBookIds, active: $active) {
       id
-      capacity
-      type
-      progress
+      userBookId
+      startDate
+      finishedDate
+      active
+      readingProgress {
+        id
+        capacity
+        type
+        progress
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useReadDatesQuery__
@@ -5983,38 +6921,70 @@ export const ReadDatesDocument = gql`
  *   },
  * });
  */
-export function useReadDatesQuery(baseOptions: Apollo.QueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables> & ({ variables: ReadDatesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
-      }
-export function useReadDatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
-        }
-export function useReadDatesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
-        }
-export type ReadDatesQueryHookResult = ReturnType<typeof useReadDatesQuery>;
-export type ReadDatesLazyQueryHookResult = ReturnType<typeof useReadDatesLazyQuery>;
-export type ReadDatesSuspenseQueryHookResult = ReturnType<typeof useReadDatesSuspenseQuery>;
-export type ReadDatesQueryResult = Apollo.QueryResult<ReadDatesQuery, ReadDatesQueryVariables>;
-export const ShelvesDocument = gql`
-    query Shelves {
-  shelves {
-    id
-    name
-    slug
-    _count {
-      userBooks
-    }
-    user {
-      id
-    }
-    userId
-  }
+export function useReadDatesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ReadDatesQuery,
+    ReadDatesQueryVariables
+  > &
+    ({ variables: ReadDatesQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ReadDatesQuery, ReadDatesQueryVariables>(
+    ReadDatesDocument,
+    options
+  );
 }
-    `;
+export function useReadDatesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ReadDatesQuery,
+    ReadDatesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ReadDatesQuery, ReadDatesQueryVariables>(
+    ReadDatesDocument,
+    options
+  );
+}
+export function useReadDatesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ReadDatesQuery,
+    ReadDatesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<ReadDatesQuery, ReadDatesQueryVariables>(
+    ReadDatesDocument,
+    options
+  );
+}
+export type ReadDatesQueryHookResult = ReturnType<typeof useReadDatesQuery>;
+export type ReadDatesLazyQueryHookResult = ReturnType<
+  typeof useReadDatesLazyQuery
+>;
+export type ReadDatesSuspenseQueryHookResult = ReturnType<
+  typeof useReadDatesSuspenseQuery
+>;
+export type ReadDatesQueryResult = Apollo.QueryResult<
+  ReadDatesQuery,
+  ReadDatesQueryVariables
+>;
+export const ShelvesDocument = gql`
+  query Shelves {
+    shelves {
+      id
+      name
+      slug
+      _count {
+        userBooks
+      }
+      user {
+        id
+      }
+      userId
+    }
+  }
+`;
 
 /**
  * __useShelvesQuery__
@@ -6031,36 +7001,59 @@ export const ShelvesDocument = gql`
  *   },
  * });
  */
-export function useShelvesQuery(baseOptions?: Apollo.QueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
-      }
-export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
-        }
-export function useShelvesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
-        }
+export function useShelvesQuery(
+  baseOptions?: Apollo.QueryHookOptions<ShelvesQuery, ShelvesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ShelvesQuery, ShelvesQueryVariables>(
+    ShelvesDocument,
+    options
+  );
+}
+export function useShelvesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(
+    ShelvesDocument,
+    options
+  );
+}
+export function useShelvesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ShelvesQuery,
+    ShelvesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<ShelvesQuery, ShelvesQueryVariables>(
+    ShelvesDocument,
+    options
+  );
+}
 export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
 export type ShelvesLazyQueryHookResult = ReturnType<typeof useShelvesLazyQuery>;
-export type ShelvesSuspenseQueryHookResult = ReturnType<typeof useShelvesSuspenseQuery>;
-export type ShelvesQueryResult = Apollo.QueryResult<ShelvesQuery, ShelvesQueryVariables>;
+export type ShelvesSuspenseQueryHookResult = ReturnType<
+  typeof useShelvesSuspenseQuery
+>;
+export type ShelvesQueryResult = Apollo.QueryResult<
+  ShelvesQuery,
+  ShelvesQueryVariables
+>;
 export const GetMyBookShelvesDocument = gql`
-    query getMyBookShelves($where: UserBookWhereUniqueInput!) {
-  getMyBookShelves(where: $where) {
-    userBook {
-      id
-    }
-    shelf {
-      id
-      name
-      slug
+  query getMyBookShelves($where: UserBookWhereUniqueInput!) {
+    getMyBookShelves(where: $where) {
+      userBook {
+        id
+      }
+      shelf {
+        id
+        name
+        slug
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetMyBookShelvesQuery__
@@ -6078,60 +7071,97 @@ export const GetMyBookShelvesDocument = gql`
  *   },
  * });
  */
-export function useGetMyBookShelvesQuery(baseOptions: Apollo.QueryHookOptions<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables> & ({ variables: GetMyBookShelvesQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(GetMyBookShelvesDocument, options);
-      }
-export function useGetMyBookShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(GetMyBookShelvesDocument, options);
-        }
-export function useGetMyBookShelvesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(GetMyBookShelvesDocument, options);
-        }
-export type GetMyBookShelvesQueryHookResult = ReturnType<typeof useGetMyBookShelvesQuery>;
-export type GetMyBookShelvesLazyQueryHookResult = ReturnType<typeof useGetMyBookShelvesLazyQuery>;
-export type GetMyBookShelvesSuspenseQueryHookResult = ReturnType<typeof useGetMyBookShelvesSuspenseQuery>;
-export type GetMyBookShelvesQueryResult = Apollo.QueryResult<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>;
+export function useGetMyBookShelvesQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMyBookShelvesQuery,
+    GetMyBookShelvesQueryVariables
+  > &
+    (
+      | { variables: GetMyBookShelvesQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(
+    GetMyBookShelvesDocument,
+    options
+  );
+}
+export function useGetMyBookShelvesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMyBookShelvesQuery,
+    GetMyBookShelvesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMyBookShelvesQuery,
+    GetMyBookShelvesQueryVariables
+  >(GetMyBookShelvesDocument, options);
+}
+export function useGetMyBookShelvesSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetMyBookShelvesQuery,
+    GetMyBookShelvesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    GetMyBookShelvesQuery,
+    GetMyBookShelvesQueryVariables
+  >(GetMyBookShelvesDocument, options);
+}
+export type GetMyBookShelvesQueryHookResult = ReturnType<
+  typeof useGetMyBookShelvesQuery
+>;
+export type GetMyBookShelvesLazyQueryHookResult = ReturnType<
+  typeof useGetMyBookShelvesLazyQuery
+>;
+export type GetMyBookShelvesSuspenseQueryHookResult = ReturnType<
+  typeof useGetMyBookShelvesSuspenseQuery
+>;
+export type GetMyBookShelvesQueryResult = Apollo.QueryResult<
+  GetMyBookShelvesQuery,
+  GetMyBookShelvesQueryVariables
+>;
 export const BooksByShelfDocument = gql`
-    query BooksByShelf($slug: String!, $username: String!) {
-  booksByShelf(slug: $slug, username: $username) {
-    id
-    name
-    slug
-    user {
+  query BooksByShelf($slug: String!, $username: String!) {
+    booksByShelf(slug: $slug, username: $username) {
       id
-      username
-    }
-    userBooks {
-      userBook {
-        book {
-          id
-          slug
-          authors
-          title
-          identifiers {
-            source
-            sourceId
-          }
-          covers {
-            url
-            size
-          }
-          ratings {
-            source
-            score
+      name
+      slug
+      user {
+        id
+        username
+      }
+      userBooks {
+        userBook {
+          book {
+            id
+            slug
+            authors
+            title
+            identifiers {
+              source
+              sourceId
+            }
+            covers {
+              url
+              size
+            }
+            ratings {
+              source
+              score
+            }
           }
         }
       }
-    }
-    _count {
-      userBooks
+      _count {
+        userBooks
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useBooksByShelfQuery__
@@ -6150,47 +7180,84 @@ export const BooksByShelfDocument = gql`
  *   },
  * });
  */
-export function useBooksByShelfQuery(baseOptions: Apollo.QueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables> & ({ variables: BooksByShelfQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
-      }
-export function useBooksByShelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
-        }
-export function useBooksByShelfSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
-        }
-export type BooksByShelfQueryHookResult = ReturnType<typeof useBooksByShelfQuery>;
-export type BooksByShelfLazyQueryHookResult = ReturnType<typeof useBooksByShelfLazyQuery>;
-export type BooksByShelfSuspenseQueryHookResult = ReturnType<typeof useBooksByShelfSuspenseQuery>;
-export type BooksByShelfQueryResult = Apollo.QueryResult<BooksByShelfQuery, BooksByShelfQueryVariables>;
+export function useBooksByShelfQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    BooksByShelfQuery,
+    BooksByShelfQueryVariables
+  > &
+    (
+      | { variables: BooksByShelfQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(
+    BooksByShelfDocument,
+    options
+  );
+}
+export function useBooksByShelfLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    BooksByShelfQuery,
+    BooksByShelfQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(
+    BooksByShelfDocument,
+    options
+  );
+}
+export function useBooksByShelfSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    BooksByShelfQuery,
+    BooksByShelfQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(
+    BooksByShelfDocument,
+    options
+  );
+}
+export type BooksByShelfQueryHookResult = ReturnType<
+  typeof useBooksByShelfQuery
+>;
+export type BooksByShelfLazyQueryHookResult = ReturnType<
+  typeof useBooksByShelfLazyQuery
+>;
+export type BooksByShelfSuspenseQueryHookResult = ReturnType<
+  typeof useBooksByShelfSuspenseQuery
+>;
+export type BooksByShelfQueryResult = Apollo.QueryResult<
+  BooksByShelfQuery,
+  BooksByShelfQueryVariables
+>;
 export const ShelvesWithBookCoversDocument = gql`
-    query ShelvesWithBookCovers {
-  shelves {
-    id
-    name
-    slug
-    userBooks {
-      userBook {
-        id
-        book {
+  query ShelvesWithBookCovers {
+    shelves {
+      id
+      name
+      slug
+      userBooks {
+        userBook {
           id
-          covers {
-            url
-            size
+          book {
+            id
+            covers {
+              url
+              size
+            }
           }
         }
       }
+      _count {
+        userBooks
+      }
+      userId
     }
-    _count {
-      userBooks
-    }
-    userId
   }
-}
-    `;
+`;
 
 /**
  * __useShelvesWithBookCoversQuery__
@@ -6207,32 +7274,65 @@ export const ShelvesWithBookCoversDocument = gql`
  *   },
  * });
  */
-export function useShelvesWithBookCoversQuery(baseOptions?: Apollo.QueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
-      }
-export function useShelvesWithBookCoversLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
-        }
-export function useShelvesWithBookCoversSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
-        }
-export type ShelvesWithBookCoversQueryHookResult = ReturnType<typeof useShelvesWithBookCoversQuery>;
-export type ShelvesWithBookCoversLazyQueryHookResult = ReturnType<typeof useShelvesWithBookCoversLazyQuery>;
-export type ShelvesWithBookCoversSuspenseQueryHookResult = ReturnType<typeof useShelvesWithBookCoversSuspenseQuery>;
-export type ShelvesWithBookCoversQueryResult = Apollo.QueryResult<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>;
-export const UserDocument = gql`
-    query User($where: UserWhereUniqueInput!) {
-  user(where: $where) {
-    id
-    username
-    email
-    bio
-  }
+export function useShelvesWithBookCoversQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >(ShelvesWithBookCoversDocument, options);
 }
-    `;
+export function useShelvesWithBookCoversLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >(ShelvesWithBookCoversDocument, options);
+}
+export function useShelvesWithBookCoversSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    ShelvesWithBookCoversQuery,
+    ShelvesWithBookCoversQueryVariables
+  >(ShelvesWithBookCoversDocument, options);
+}
+export type ShelvesWithBookCoversQueryHookResult = ReturnType<
+  typeof useShelvesWithBookCoversQuery
+>;
+export type ShelvesWithBookCoversLazyQueryHookResult = ReturnType<
+  typeof useShelvesWithBookCoversLazyQuery
+>;
+export type ShelvesWithBookCoversSuspenseQueryHookResult = ReturnType<
+  typeof useShelvesWithBookCoversSuspenseQuery
+>;
+export type ShelvesWithBookCoversQueryResult = Apollo.QueryResult<
+  ShelvesWithBookCoversQuery,
+  ShelvesWithBookCoversQueryVariables
+>;
+export const UserDocument = gql`
+  query User($where: UserWhereUniqueInput!) {
+    user(where: $where) {
+      id
+      username
+      email
+      bio
+    }
+  }
+`;
 
 /**
  * __useUserQuery__
@@ -6250,104 +7350,46 @@ export const UserDocument = gql`
  *   },
  * });
  */
-export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables> & ({ variables: UserQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-      }
-export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-        }
-export function useUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<UserQuery, UserQueryVariables>(UserDocument, options);
-        }
+export function useUserQuery(
+  baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables> &
+    ({ variables: UserQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, options);
+}
+export function useUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(
+    UserDocument,
+    options
+  );
+}
+export function useUserSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<UserQuery, UserQueryVariables>(
+    UserDocument,
+    options
+  );
+}
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
-export type UserSuspenseQueryHookResult = ReturnType<typeof useUserSuspenseQuery>;
+export type UserSuspenseQueryHookResult = ReturnType<
+  typeof useUserSuspenseQuery
+>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
 export const UserBookDocument = gql`
-    query UserBook($where: BookWhereUniqueInput!) {
-  userBook(where: $where) {
-    user {
-      id
-    }
-    book {
-      slug
-      id
-      title
-      authors
-      pageCount
-      yearPublished
-      identifiers {
-        source
-        sourceId
-      }
-      covers {
-        url
-        size
-      }
-      ratings {
-        score
-        source
-      }
-    }
-    userId
-    status
-    rating
-    shelves {
-      shelf {
-        id
-        name
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useUserBookQuery__
- *
- * To run a query within a React component, call `useUserBookQuery` and pass it any options that fit your needs.
- * When your component renders, `useUserBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUserBookQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useUserBookQuery(baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables> & ({ variables: UserBookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
-      }
-export function useUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
-        }
-export function useUserBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
-        }
-export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
-export type UserBookLazyQueryHookResult = ReturnType<typeof useUserBookLazyQuery>;
-export type UserBookSuspenseQueryHookResult = ReturnType<typeof useUserBookSuspenseQuery>;
-export type UserBookQueryResult = Apollo.QueryResult<UserBookQuery, UserBookQueryVariables>;
-export const GetUserBooksDocument = gql`
-    query GetUserBooks($where: UserBookWhereInput, $limit: Int! = 100, $offset: Int! = 0, $orderBy: UserBookOrderByWithRelationInput) {
-  getUserBooks(where: $where, offset: $offset, limit: $limit, orderBy: $orderBy) {
-    userBooks {
-      id
+  query UserBook($where: BookWhereUniqueInput!) {
+    userBook(where: $where) {
       user {
         id
       }
       book {
-        id
         slug
+        id
         title
         authors
         pageCount
@@ -6368,24 +7410,136 @@ export const GetUserBooksDocument = gql`
       userId
       status
       rating
-      createdAt
-      updatedAt
-      order
       shelves {
         shelf {
           id
           name
         }
       }
-      _count {
-        shelves
-      }
     }
-    hasMore
-    totalBooks
   }
+`;
+
+/**
+ * __useUserBookQuery__
+ *
+ * To run a query within a React component, call `useUserBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserBookQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useUserBookQuery(
+  baseOptions: Apollo.QueryHookOptions<UserBookQuery, UserBookQueryVariables> &
+    ({ variables: UserBookQueryVariables; skip?: boolean } | { skip: boolean })
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<UserBookQuery, UserBookQueryVariables>(
+    UserBookDocument,
+    options
+  );
 }
-    `;
+export function useUserBookLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserBookQuery,
+    UserBookQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(
+    UserBookDocument,
+    options
+  );
+}
+export function useUserBookSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    UserBookQuery,
+    UserBookQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<UserBookQuery, UserBookQueryVariables>(
+    UserBookDocument,
+    options
+  );
+}
+export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
+export type UserBookLazyQueryHookResult = ReturnType<
+  typeof useUserBookLazyQuery
+>;
+export type UserBookSuspenseQueryHookResult = ReturnType<
+  typeof useUserBookSuspenseQuery
+>;
+export type UserBookQueryResult = Apollo.QueryResult<
+  UserBookQuery,
+  UserBookQueryVariables
+>;
+export const GetUserBooksDocument = gql`
+  query GetUserBooks(
+    $where: UserBookWhereInput
+    $limit: Int! = 100
+    $offset: Int! = 0
+    $orderBy: UserBookOrderByWithRelationInput
+  ) {
+    getUserBooks(
+      where: $where
+      offset: $offset
+      limit: $limit
+      orderBy: $orderBy
+    ) {
+      userBooks {
+        id
+        user {
+          id
+        }
+        book {
+          id
+          slug
+          title
+          authors
+          pageCount
+          yearPublished
+          identifiers {
+            source
+            sourceId
+          }
+          covers {
+            url
+            size
+          }
+          ratings {
+            score
+            source
+          }
+        }
+        userId
+        status
+        rating
+        createdAt
+        updatedAt
+        order
+        shelves {
+          shelf {
+            id
+            name
+          }
+        }
+        _count {
+          shelves
+        }
+      }
+      hasMore
+      totalBooks
+    }
+  }
+`;
 
 /**
  * __useGetUserBooksQuery__
@@ -6406,27 +7560,60 @@ export const GetUserBooksDocument = gql`
  *   },
  * });
  */
-export function useGetUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
-      }
-export function useGetUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
-        }
-export function useGetUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
-        }
-export type GetUserBooksQueryHookResult = ReturnType<typeof useGetUserBooksQuery>;
-export type GetUserBooksLazyQueryHookResult = ReturnType<typeof useGetUserBooksLazyQuery>;
-export type GetUserBooksSuspenseQueryHookResult = ReturnType<typeof useGetUserBooksSuspenseQuery>;
-export type GetUserBooksQueryResult = Apollo.QueryResult<GetUserBooksQuery, GetUserBooksQueryVariables>;
-export const CountUserBooksDocument = gql`
-    query CountUserBooks($where: UserBookWhereInput) {
-  countUserBooks(where: $where)
+export function useGetUserBooksQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserBooksQuery,
+    GetUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(
+    GetUserBooksDocument,
+    options
+  );
 }
-    `;
+export function useGetUserBooksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserBooksQuery,
+    GetUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(
+    GetUserBooksDocument,
+    options
+  );
+}
+export function useGetUserBooksSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    GetUserBooksQuery,
+    GetUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(
+    GetUserBooksDocument,
+    options
+  );
+}
+export type GetUserBooksQueryHookResult = ReturnType<
+  typeof useGetUserBooksQuery
+>;
+export type GetUserBooksLazyQueryHookResult = ReturnType<
+  typeof useGetUserBooksLazyQuery
+>;
+export type GetUserBooksSuspenseQueryHookResult = ReturnType<
+  typeof useGetUserBooksSuspenseQuery
+>;
+export type GetUserBooksQueryResult = Apollo.QueryResult<
+  GetUserBooksQuery,
+  GetUserBooksQueryVariables
+>;
+export const CountUserBooksDocument = gql`
+  query CountUserBooks($where: UserBookWhereInput) {
+    countUserBooks(where: $where)
+  }
+`;
 
 /**
  * __useCountUserBooksQuery__
@@ -6444,32 +7631,65 @@ export const CountUserBooksDocument = gql`
  *   },
  * });
  */
-export function useCountUserBooksQuery(baseOptions?: Apollo.QueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
-      }
-export function useCountUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
-        }
-export function useCountUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
-        }
-export type CountUserBooksQueryHookResult = ReturnType<typeof useCountUserBooksQuery>;
-export type CountUserBooksLazyQueryHookResult = ReturnType<typeof useCountUserBooksLazyQuery>;
-export type CountUserBooksSuspenseQueryHookResult = ReturnType<typeof useCountUserBooksSuspenseQuery>;
-export type CountUserBooksQueryResult = Apollo.QueryResult<CountUserBooksQuery, CountUserBooksQueryVariables>;
-export const BookCountsByUserIdDocument = gql`
-    query BookCountsByUserId($userId: String!) {
-  bookCountsByUserId(userId: $userId) {
-    wantsToReadCount
-    readingCount
-    finishedCount
-    upNextCount
-  }
+export function useCountUserBooksQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    CountUserBooksQuery,
+    CountUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(
+    CountUserBooksDocument,
+    options
+  );
 }
-    `;
+export function useCountUserBooksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CountUserBooksQuery,
+    CountUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(
+    CountUserBooksDocument,
+    options
+  );
+}
+export function useCountUserBooksSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    CountUserBooksQuery,
+    CountUserBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    CountUserBooksQuery,
+    CountUserBooksQueryVariables
+  >(CountUserBooksDocument, options);
+}
+export type CountUserBooksQueryHookResult = ReturnType<
+  typeof useCountUserBooksQuery
+>;
+export type CountUserBooksLazyQueryHookResult = ReturnType<
+  typeof useCountUserBooksLazyQuery
+>;
+export type CountUserBooksSuspenseQueryHookResult = ReturnType<
+  typeof useCountUserBooksSuspenseQuery
+>;
+export type CountUserBooksQueryResult = Apollo.QueryResult<
+  CountUserBooksQuery,
+  CountUserBooksQueryVariables
+>;
+export const BookCountsByUserIdDocument = gql`
+  query BookCountsByUserId($userId: String!) {
+    bookCountsByUserId(userId: $userId) {
+      wantsToReadCount
+      readingCount
+      finishedCount
+      upNextCount
+    }
+  }
+`;
 
 /**
  * __useBookCountsByUserIdQuery__
@@ -6487,19 +7707,56 @@ export const BookCountsByUserIdDocument = gql`
  *   },
  * });
  */
-export function useBookCountsByUserIdQuery(baseOptions: Apollo.QueryHookOptions<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables> & ({ variables: BookCountsByUserIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>(BookCountsByUserIdDocument, options);
-      }
-export function useBookCountsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>(BookCountsByUserIdDocument, options);
-        }
-export function useBookCountsByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>(BookCountsByUserIdDocument, options);
-        }
-export type BookCountsByUserIdQueryHookResult = ReturnType<typeof useBookCountsByUserIdQuery>;
-export type BookCountsByUserIdLazyQueryHookResult = ReturnType<typeof useBookCountsByUserIdLazyQuery>;
-export type BookCountsByUserIdSuspenseQueryHookResult = ReturnType<typeof useBookCountsByUserIdSuspenseQuery>;
-export type BookCountsByUserIdQueryResult = Apollo.QueryResult<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>;
+export function useBookCountsByUserIdQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  > &
+    (
+      | { variables: BookCountsByUserIdQueryVariables; skip?: boolean }
+      | { skip: boolean }
+    )
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  >(BookCountsByUserIdDocument, options);
+}
+export function useBookCountsByUserIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  >(BookCountsByUserIdDocument, options);
+}
+export function useBookCountsByUserIdSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<
+    BookCountsByUserIdQuery,
+    BookCountsByUserIdQueryVariables
+  >(BookCountsByUserIdDocument, options);
+}
+export type BookCountsByUserIdQueryHookResult = ReturnType<
+  typeof useBookCountsByUserIdQuery
+>;
+export type BookCountsByUserIdLazyQueryHookResult = ReturnType<
+  typeof useBookCountsByUserIdLazyQuery
+>;
+export type BookCountsByUserIdSuspenseQueryHookResult = ReturnType<
+  typeof useBookCountsByUserIdSuspenseQuery
+>;
+export type BookCountsByUserIdQueryResult = Apollo.QueryResult<
+  BookCountsByUserIdQuery,
+  BookCountsByUserIdQueryVariables
+>;

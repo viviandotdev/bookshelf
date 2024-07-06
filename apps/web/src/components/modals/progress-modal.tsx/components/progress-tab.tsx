@@ -39,7 +39,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
   const [updateReadingProgress] = useUpdateReadingProgressMutation({
     onCompleted: ({ updateReadingProgress }) => {
       // update the store
-      const { type, progress, capacity, id } = updateReadingProgress;
+      const { type, progress, id } = updateReadingProgress;
       updateReadingProgressStore(id, type, progress);
       onClose();
     },

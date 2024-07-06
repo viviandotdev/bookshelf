@@ -6,6 +6,9 @@ import BookCover from '../../book-cover';
 import { CardDescription } from '../../ui/card';
 import { Size, UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
+import { Button } from '@/components/ui/button';
+import useUserBookStore from '@/stores/use-user-book-store';
+import useProgressModal from '../progress-modal.tsx/use-progress-modal';
 
 interface LogBookCardProps {
   userBook: UserBook;
@@ -13,13 +16,19 @@ interface LogBookCardProps {
 
 export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
-
+  const progressModal = useProgressModal();
+  const { setUserBook } = useUserBookStore();
   return (
     <div
-      className='flex cursor-pointer gap-4'
+      className='flex w-full cursor-pointer gap-4 rounded-md bg-white p-2 text-black hover:bg-gray-100'
       onClick={(e) => {
         e.stopPropagation();
         logBookModal.onClose();
+        progressModal.onOpen();
+        setUserBook({
+          userBookId: userBook.id,
+          bookTitle: userBook.book.title,
+        });
       }}
     >
       <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />

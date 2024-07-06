@@ -17,10 +17,6 @@ export interface Option {
   value: string;
   label: string;
   disable?: boolean;
-  /** fixed option that can't be removed. */
-  fixed?: boolean;
-  /** Group the options by providing key. */
-  [key: string]: string | boolean | undefined;
 }
 
 interface FancyBoxProps {
@@ -61,10 +57,7 @@ export function ShelfSelector({
         if (e.key === 'Delete' || e.key === 'Backspace') {
           if (input.value === '' && selectedValues.length > 0) {
             const lastSelectOption = selectedValues[selectedValues.length - 1];
-            // If last item is fixed, we should not remove it.
-            if (!lastSelectOption.fixed) {
-              toggleOption(selectedValues[selectedValues.length - 1]);
-            }
+            toggleOption(selectedValues[selectedValues.length - 1]);
           }
         }
         // This is not a default behavior of the <input /> field

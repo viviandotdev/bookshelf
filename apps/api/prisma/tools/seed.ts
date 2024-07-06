@@ -16,6 +16,8 @@ async function main() {
   await prisma.book.deleteMany();
   await prisma.verificationToken.deleteMany();
   await prisma.passwordResetToken.deleteMany();
+  await prisma.readingProgress.deleteMany();
+  await prisma.readDate.deleteMany();
 
   console.log('Data cleared from all tables except User.');
 }

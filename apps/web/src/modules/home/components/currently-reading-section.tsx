@@ -1,15 +1,8 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import CurrentlyReadingItem from './currently-reading-item';
 import DashboardHeader from './dashboard-header';
-import {
-  ReadDate,
-  Reading_Status,
-  UserBook,
-  useReadDatesLazyQuery,
-} from '@/graphql/graphql';
-import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
-import useUserBookStore from '@/stores/use-user-book-store';
+import { Reading_Status, UserBook } from '@/graphql/graphql';
 
 interface CurrentlyReadingSectionProps {
   currentlyReading: UserBook[];
@@ -18,27 +11,6 @@ interface CurrentlyReadingSectionProps {
 export const CurrentlyReadingSection: React.FC<
   CurrentlyReadingSectionProps
 > = ({ currentlyReading }) => {
-  const { storeReadDates } = useProgressModal();
-  const [loadReadDates, { data, error, fetchMore, loading }] =
-    useReadDatesLazyQuery({
-      fetchPolicy: 'cache-and-network',
-      onCompleted: async ({ readDates }) => {
-        await storeReadDates(readDates as ReadDate[]);
-      },
-    });
-
-  useEffect(() => {
-    const loadData = async () => {
-      await loadReadDates({
-        variables: {
-          userBookIds: currentlyReading.map((userBook) => userBook.id),
-          active: true,
-        },
-      });
-    };
-    loadData();
-  }, []);
-
   return (
     <section className='rounded-md border border-gray-200 bg-white p-6 shadow-sm'>
       <div className='mb-4 flex justify-between'>
@@ -51,7 +23,7 @@ export const CurrentlyReadingSection: React.FC<
       <div className={'flex flex-col gap-2 '}>
         <div className='divide-y'>
           {currentlyReading.map((book, idx) => (
-            <CurrentlyReadingItem userBook={book} />
+            <CurrentlyReadingItem key={idx} userBook={book} />
           ))}
         </div>
       </div>

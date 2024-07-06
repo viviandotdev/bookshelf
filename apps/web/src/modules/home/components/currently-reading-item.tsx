@@ -86,9 +86,9 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
         <div>
           <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
             <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
-              <Progress className='items-center' value={percentProgress} />
+              <Progress className='items-center' value={percentProgress || 0} />
               <div className='flex items-center gap-0.5'>
-                {percentProgress}%
+                {percentProgress || 0}%
               </div>
             </div>
             <div className='flex w-max items-center text-xs font-medium text-gray-500'>

@@ -1,17 +1,31 @@
 'use client';
 import { Icons } from '@/components/icons';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
+import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
 import { buttonVariants } from '@/components/ui/button';
-import { Reading_Status, useGetUserBooksLazyQuery } from '@/graphql/graphql';
+import {
+  ReadDate,
+  Reading_Status,
+  useGetUserBooksLazyQuery,
+  useReadDatesLazyQuery,
+} from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import React from 'react';
-
+import React, { useEffect } from 'react';
 interface LogBookButtonProps {}
 
 export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
-  const logBookModal = useLogBookModal();
+  const { setUserBooks, userBooks, onOpen } = useLogBookModal();
+  const { storeReadDates } = useProgressModal();
+  const [loadReadDates] = useReadDatesLazyQuery({
+    fetchPolicy: 'cache-and-network',
+    onCompleted: async ({ readDates }) => {
+      console.log(readDates);
+      await storeReadDates(readDates as ReadDate[]);
+    },
+  });
+
   const [loadBooks] = useGetUserBooksLazyQuery({
     fetchPolicy: 'cache-and-network',
     nextFetchPolicy: 'cache-only',
@@ -24,32 +38,45 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
     },
     onCompleted: (data) => {
       if (data && data.getUserBooks.userBooks) {
-        logBookModal.setUserBooks(data.getUserBooks?.userBooks);
+        setUserBooks(data.getUserBooks?.userBooks);
       }
     },
-
     errorPolicy: 'all',
   });
 
+  useEffect(() => {
+    const loadData = async () => {
+      await loadBooks({
+        variables: {
+          offset: 0,
+          limit: BOOKS_PAGE_SIZE,
+          where: {
+            status: {
+              equals: Reading_Status.Reading,
+            },
+          },
+        },
+      });
+    };
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      await loadReadDates({
+        variables: {
+          userBookIds: userBooks.map((userBook) => userBook.id),
+          active: true,
+        },
+      });
+    };
+    loadData();
+  }, [userBooks]);
   return (
     <>
       <button
         onClick={async () => {
-          logBookModal.onOpen();
-
-          logBookModal.setIsLoading(true);
-          await loadBooks({
-            variables: {
-              offset: 0,
-              limit: BOOKS_PAGE_SIZE,
-              where: {
-                status: {
-                  equals: Reading_Status.Reading,
-                },
-              },
-            },
-          });
-          logBookModal.setIsLoading(false);
+          onOpen();
         }}
         className={cn(
           buttonVariants({ variant: 'pill', size: 'xs' }),
