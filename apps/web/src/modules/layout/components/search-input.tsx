@@ -11,7 +11,6 @@ export const SearchInput: React.FC<SearchInputProps> = ({}) => {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && linkRef.current) {
-        
       linkRef.current.click();
     }
   };

@@ -32,3 +32,38 @@ query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
     }
   }
 }
+
+query SearchMyLibrary($query: String!, $offset: Int, $limit: Int) {
+  searchMyLibrary(query: $query, offset: $offset, limit: $limit) {
+    id
+    userBook {
+      id
+      status
+      rating
+      shelves {
+        shelf {
+          id
+          name
+          slug
+        }
+      }
+    }
+    slug
+    title
+    authors
+    pageCount
+    identifiers {
+      source
+      sourceId
+    }
+    covers {
+      url
+      source
+      size
+    }
+    ratings {
+      source
+      score
+    }
+  }
+}

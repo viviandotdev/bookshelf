@@ -1,9 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import {
-  BookCreateInput,
-  CoverCreateInput,
-  IdentifierCreateInput,
-} from 'src/generated-db-types';
 import { PrismaRepository } from 'prisma/prisma.repository';
 import { Prisma, SOURCE } from '@prisma/client';
 import { BookRepository } from './book.repository';
@@ -12,6 +7,7 @@ import { CoverService } from 'libs/cover/cover.service';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
+  findMany = this.repository.findMany;
   delete = this.repository.delete;
   update = this.repository.update;
   findFirst = this.repository.findFirst;

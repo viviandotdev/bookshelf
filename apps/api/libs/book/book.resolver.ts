@@ -3,7 +3,7 @@ import {
   BookWhereUniqueInput,
   IdentifierCreateInput,
 } from '@bookcue/api/generated-db-types';
-import { Resolver, Args, Query, Mutation } from '@nestjs/graphql';
+import { Resolver, Args, Query, Mutation, Int } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import { UseGuards } from '@nestjs/common';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
@@ -91,5 +91,54 @@ export class BookResolver {
       },
     });
     return book;
+  }
+  @UseGuards(AccessTokenGuard)
+  @Query(() => [Book])
+  async searchMyLibrary(
+    @Args('query', { type: () => String }) query: string,
+    @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
+    @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
+    @CurrentUser() user: JwtPayload,
+  ) {
+    return this.bookService.findMany({
+      where: {
+        userBook: {
+          userId: user.userId,
+        },
+        OR: [
+          { title: { contains: query, mode: 'insensitive' } },
+          { subtitle: { contains: query, mode: 'insensitive' } },
+          { authors: { hasSome: [query] } },
+        ],
+      },
+      skip: offset,
+      take: limit,
+      include: {
+        userBook: {
+          select: {
+            id: true,
+            status: true,
+            rating: true,
+            shelves: {
+              select: {
+                shelf: {
+                  select: {
+                    id: true,
+                    name: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        identifiers: true,
+        covers: true,
+        ratings: true,
+      },
+      orderBy: {
+        title: 'asc',
+      },
+    });
   }
 }

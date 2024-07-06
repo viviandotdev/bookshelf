@@ -6,7 +6,7 @@ import axios from 'axios';
 export async function searchBooks(
   search: string,
   field: string,
-  offset: number,
+  offset: number
 ) {
   try {
     let inField: string = 'intitle';

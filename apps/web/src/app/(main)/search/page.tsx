@@ -20,6 +20,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     field as string,
     offset
   );
+
+
   //   const hits = sampleBookData;
   return (
     <SeachTemplate
