@@ -36,7 +36,7 @@ export default async function BookPage({ params }: BookPageProps) {
     searchedBook = await findBookByGoogleBookId(sourceId);
   }
 
-  if (source == Source.Goodreads && myBook) {
+  if ((!searchedBook || source == Source.Goodreads) && myBook) {
     const query = `${myBook.title} ${myBook.authors?.join(' ')}`;
     searchedBook = await findBookByGoogleQuery(query);
 
@@ -50,13 +50,13 @@ export default async function BookPage({ params }: BookPageProps) {
     }
   }
 
+  if (!searchedBook) {
+    return notFound();
+  }
+
   if (myBook) {
     const book = mergeBookData(myBook, searchedBook);
     return <BookTemplate userBook={myBook.userBook} book={book} user={user} />;
-  }
-
-  if (!searchedBook) {
-    return notFound();
   }
 
   return <BookTemplate book={searchedBook} user={user} />;
