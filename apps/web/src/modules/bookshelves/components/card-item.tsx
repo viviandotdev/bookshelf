@@ -90,7 +90,6 @@ export const CardItem: React.FC<CardItemProps> = ({
             e.stopPropagation();
 
             if (linkRef.current) {
-              console.log('linked cliked');
               linkRef.current.click();
             }
           }}

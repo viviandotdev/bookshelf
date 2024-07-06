@@ -37,7 +37,7 @@ export const LogBookModal: React.FC<LogBookModalProps> = ({}) => {
         isOpen={isOpen}
         onClose={onClose}
         title={'Log a Book'}
-        description={'Choose a book to log progress'}
+        description={'Choose a book to log your reading progress'}
       >
         {content}
       </Modal>

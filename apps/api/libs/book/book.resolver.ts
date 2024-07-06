@@ -108,7 +108,6 @@ export class BookResolver {
         OR: [
           { title: { contains: query, mode: 'insensitive' } },
           { subtitle: { contains: query, mode: 'insensitive' } },
-          { authors: { hasSome: [query] } },
         ],
       },
       skip: offset,

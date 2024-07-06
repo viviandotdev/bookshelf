@@ -8,7 +8,11 @@ import useUserBookStore from '@/stores/use-user-book-store';
 import AlertModal from '../alert-modal';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
-import { Reading_Status, useRemoveUserBookMutation } from '@/graphql/graphql';
+import {
+  Reading_Status,
+  Source,
+  useRemoveUserBookMutation,
+} from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { readingStatuses } from '@/config/books';
 
@@ -28,6 +32,11 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const [removeUserBook] = useRemoveUserBookMutation({
     onCompleted: (_) => {
       resetStore(); //empty the userBook store
+      // when the book is removed from the shelf, the url should be updated to the book page
+      //   const googleBookId = book.identifiers?.find(
+      //     (id) => id.source === Source.Google
+      //   )?.sourceId;
+      //   window.history.pushState(null, '', '/book/GOOGLE-' + googleBookId);
       toast({
         title: `Book removed from your shelf`,
         variant: 'success',
@@ -53,7 +62,6 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   const readingStatusesWithCounts = Object.keys(readingStatuses).map(
     (key, index) => {
       let count = 0;
-      console.log(key);
       if (key === Reading_Status.WantToRead) {
         count = bookCounts?.wantsToReadCount || 0;
       } else if (key === Reading_Status.Reading) {
@@ -73,7 +81,6 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
       };
     }
   );
-  console.log(readingStatusesWithCounts);
   const handleStatusClick = async (newStatus: Reading_Status) => {
     await updateUserBook(userBookId, {
       status: newStatus,
@@ -81,6 +88,9 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     setUserBook({ status: newStatus });
     onClose();
   };
+
+  // hack to update the url if the book is a goodreads book
+  // if the user removes the book and refreshes the url and the book still exists
 
   const onDelete = async () => {
     setIsLoading(true);

@@ -20,7 +20,6 @@ export const useFollowUser = () => {
       });
 
       if (errors) {
-        console.log(errors);
         return null;
       }
 

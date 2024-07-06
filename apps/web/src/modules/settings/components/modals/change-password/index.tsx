@@ -51,7 +51,6 @@ export const ChangePasswordModal = () => {
               variant: 'destructive',
               description: `${data.error}`,
             });
-            console.log(data.error);
             changePasswordModal.onClose();
           }
           if (data.success) {

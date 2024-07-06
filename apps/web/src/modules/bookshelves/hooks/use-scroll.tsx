@@ -10,7 +10,6 @@ const useScroll = (callback: () => void) => {
       const { scrollTop, clientHeight } = document.documentElement;
 
       // Check if the user has reached the bottom of the page (considering a small offset)
-      console.log(scrollTop, clientHeight, totalHeight);
       const isAtBottom = scrollTop + clientHeight >= totalHeight - 20;
       if (isAtBottom) {
         // Perform your action when the user scrolls to the bottom of the page

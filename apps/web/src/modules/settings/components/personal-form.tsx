@@ -56,9 +56,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
     name: user.name || '',
   });
 
-  useEffect(() => {
-    console.log(personalInfo);
-  }, [openForm]);
+  useEffect(() => {}, [openForm]);
   const handleToggle = (formName: FormNames) => {
     setOpenForm(openForm === formName ? '' : formName);
   };

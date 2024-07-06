@@ -15,7 +15,6 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
   const coverUrl =
     hit.covers?.find((cover) => cover.size === Size.Small)?.url ||
     hit.covers?.find((cover) => cover.size === Size.Large)?.url;
-
   return (
     <Link
       href={`/book/${hit!.slug}`}

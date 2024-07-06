@@ -15,7 +15,6 @@ export const ProgressModal: React.FC<ProgressModalProps> = () => {
   const readDateWithProgress = readDates.find(
     (rd) => rd.userBookId === userBookId
   );
-  console.log(readDateWithProgress);
   // no form validation, restrict user input, they can only input values i want
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={'Reading Progress'}>

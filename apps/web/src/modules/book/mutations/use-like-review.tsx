@@ -20,7 +20,6 @@ export const useLikeReview = () => {
       });
 
       if (errors) {
-        console.log(errors);
         return null;
       }
 

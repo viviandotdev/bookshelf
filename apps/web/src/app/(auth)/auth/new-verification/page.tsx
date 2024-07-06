@@ -7,8 +7,6 @@ const NewVerificationPage = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  console.log(searchParams.token);
-
   return (
     <React.StrictMode>
       <NewVerificationForm />

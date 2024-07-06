@@ -8,7 +8,6 @@ interface StatusPageProps {
 }
 
 export const StatusPage: React.FC<StatusPageProps> = async ({ params }) => {
-  console.log(params.status, params.user);
   const books = await getUserBooks({
     status: {
       equals: params.status,

@@ -22,17 +22,13 @@ export const ActionsPanel: React.FC<ActionsPanelProps> = ({}) => {
         </CardContent>
       </Card>
       <div
-        onClick={() => {
-          console.log('action');
-        }}
+        onClick={() => {}}
         className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
       >
         Add to shelf
       </div>
       <div
-        onClick={() => {
-          console.log('action');
-        }}
+        onClick={() => {}}
         className='w-[stretch] cursor-pointer items-center rounded-lg bg-beige-100 p-2 text-center'
       >
         Edit shelf

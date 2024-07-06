@@ -17,14 +17,6 @@ export const BookControls: React.FC<BookControlsProps> = ({
   userBook,
 }) => {
   const { resetStore, setUserBook, isInLibrary } = useUserBookStore();
-  // hack to update the url if the book is a goodreads book
-  // if the user removes the book and refreshes the url and the book still exists
-  useEffect(() => {
-    const googleBookId = book.identifiers?.find(
-      (id) => id.source === Source.Google
-    )?.sourceId;
-    window.history.pushState(null, '', '/book/GOOGLE-' + googleBookId);
-  }, []);
 
   useEffect(() => {
     if (userBook) {

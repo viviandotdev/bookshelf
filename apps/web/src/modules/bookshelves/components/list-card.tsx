@@ -38,7 +38,6 @@ export const ListCard: React.FC<ListCardProps> = ({
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [openDropdown, setOpenDropdown] = useState(false);
-  console.log(shelves);
   const slug = book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   //   const currentStatus = getBookStatusIcon(status);
   return (

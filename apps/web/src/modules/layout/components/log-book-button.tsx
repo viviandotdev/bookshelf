@@ -21,7 +21,6 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
   const [loadReadDates] = useReadDatesLazyQuery({
     fetchPolicy: 'cache-and-network',
     onCompleted: async ({ readDates }) => {
-      console.log(readDates);
       await storeReadDates(readDates as ReadDate[]);
     },
   });

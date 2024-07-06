@@ -52,7 +52,7 @@ export const NavLink: React.FC<NavLinkProps> = ({
     activeStyle = active ? 'bg-beige-100 py-2 px-3 rounded-xl' : '';
   }
 
-  // console.log(segments, active)
+  // (segments, active)
   return (
     <Link
       className={cn(

@@ -72,7 +72,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     defaultValues: useMemo(() => {
       return {
         shelves: userBookShelves.map((item) => {
-          console.log(item);
           return { label: item.shelf.name, value: item.shelf.name };
         }),
       };
@@ -91,7 +90,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     setLoading(true);
     const shelves = formShelves.map((item) => item.value);
     //this userBookId could be wrong
-    console.log(userBookId);
     await updateUserBook(userBookId, { shelves });
     if (userBookShelves.length == 0) {
       decrementLibraryCount('Unshelved');

@@ -69,7 +69,6 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
   };
 
   const handleNewUserBookClick = async () => {
-    console.log('Adding new book to "Want to Read"');
     // Filter the book object to only include properties defined n BookDataInput
     setUserBook({
       isInLibrary: true,

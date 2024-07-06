@@ -4839,7 +4839,7 @@ export type SearchMyLibraryQueryVariables = Exact<{
 }>;
 
 
-export type SearchMyLibraryQuery = { __typename?: 'Query', searchMyLibrary: Array<{ __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null }> };
+export type SearchMyLibraryQuery = { __typename?: 'Query', searchMyLibrary: Array<{ __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, yearPublished?: string | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null }> };
 
 export type ReadDatesQueryVariables = Exact<{
   userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -5969,26 +5969,10 @@ export const SearchMyLibraryDocument = gql`
     query SearchMyLibrary($query: String!, $offset: Int, $limit: Int) {
   searchMyLibrary(query: $query, offset: $offset, limit: $limit) {
     id
-    userBook {
-      id
-      status
-      rating
-      shelves {
-        shelf {
-          id
-          name
-          slug
-        }
-      }
-    }
     slug
     title
     authors
-    pageCount
-    identifiers {
-      source
-      sourceId
-    }
+    yearPublished
     covers {
       url
       source

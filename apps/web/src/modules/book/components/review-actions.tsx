@@ -23,9 +23,7 @@ export const ReviewActions: React.FC<ReviewActionsProps> = ({
   const { likeReview, loading } = useLikeReview();
   const [likesCount, setLikesCount] = useState(likeCount ? likeCount : 0);
   const [isLiked, setIsLiked] = useState(liked);
-  useEffect(() => {
-    console.log(commentCount);
-  }, []);
+
   const handleLikeClick = async (e: any) => {
     if (!loading) {
       e.stopPropagation();
