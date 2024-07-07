@@ -95,7 +95,7 @@ const SearchBar = () => {
             <ul>
               {books.map((book: Book) => (
                 <Link
-                  href={book.slug}
+                  href={'/book/' + book.slug}
                   key={book.id}
                   className='flex items-center gap-2 p-2 hover:bg-gray-100'
                 >
