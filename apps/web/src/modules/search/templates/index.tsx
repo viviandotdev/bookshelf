@@ -1,13 +1,9 @@
 import { RESULTS_PAGE_SIZE } from '@/lib/constants';
 import SearchResults from '../components/search-results';
 import UnderlinedTabs from '@/components/underlined-tabs';
-import { BookData } from '@/modules/bookshelves/types';
-import { UserBook } from '@/graphql/graphql';
+import { searchBooks } from '../api/searchBooks';
 
-interface SeachTemplateProps {
-  hits: BookData[];
-  libraryHits?: BookData[];
-  count: number;
+interface SearchTemplateProps {
   query: {
     q: string;
     page: string | string[] | undefined;
@@ -15,37 +11,25 @@ interface SeachTemplateProps {
   };
 }
 
-export const SeachTemplate: React.FC<SeachTemplateProps> = ({
-  hits,
-  count,
+export const SearchTemplate: React.FC<SearchTemplateProps> = async ({
   query,
-  libraryHits,
 }) => {
-  const currentPage = query.page ? Number(query.page) : 1;
-  const pageCount = Math.ceil(count / RESULTS_PAGE_SIZE);
+  const { q, page, field } = query;
+  const pageAsNumber = Number(page) - 1;
+  const fallbackPage =
+    isNaN(pageAsNumber) || pageAsNumber < 0 ? 0 : pageAsNumber;
+
+  const offset = Math.ceil(Number(fallbackPage) * RESULTS_PAGE_SIZE);
+
+  const { hits, count } = await searchBooks(q, field as string, offset);
   const tabs = [
     {
       label: 'Books',
       children: <SearchResults hits={hits} />,
       id: 'bookInfo',
     },
-    libraryHits && libraryHits.length > 0
-      ? {
-          label: 'My Library',
-          children: <SearchResults hits={libraryHits} />,
-          id: 'library',
-        }
-      : null,
   ];
 
-  return (
-    <div className='flex justify-center'>
-      <section className='w-[1220px]'>
-        <main className='mt-8 flex min-h-screen flex-col'>
-          <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
-        </main>
-      </section>
-    </div>
-  );
+  return <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />;
 };
-export default SeachTemplate;
+export default SearchTemplate;

@@ -2,12 +2,14 @@ import { RESULTS_PAGE_SIZE } from '@/lib/constants';
 import { processGoogleBook } from '@/lib/utils';
 import { BookData } from '@/modules/bookshelves/types';
 import axios from 'axios';
+import { unstable_noStore } from 'next/cache';
 
 export async function searchBooks(
   search: string,
   field: string,
   offset: number
 ) {
+  unstable_noStore();
   try {
     let inField: string = 'intitle';
     if (field === 'author') {
@@ -17,17 +19,16 @@ export async function searchBooks(
     }
     const url = `https://www.googleapis.com/books/v1/volumes?q=${inField}:${search}&maxResults=${RESULTS_PAGE_SIZE}&startIndex=${offset}`;
 
-    const response = await axios.get(url);
-
-    // Check if the response status is successful (status code 2xx)
-    let data = response.data.items;
+    const response = await fetch(url);
+    const data = await response.json();
+    const bookData = data.items;
 
     let hits: BookData[] = [];
-    data.forEach((book: any) => {
+    bookData.forEach((book: any) => {
       const bookData = processGoogleBook(book);
       hits.push(bookData!);
     });
-    let count = response.data.totalItems;
+    let count = data.totalItems;
 
     return { hits: hits.length > 0 ? hits : [], count: count };
   } catch (error) {

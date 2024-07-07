@@ -2,16 +2,31 @@
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useRef } from 'react';
 interface SearchInputProps {}
 
 export const SearchInput: React.FC<SearchInputProps> = ({}) => {
   const [search, setSearch] = React.useState('');
   const linkRef = useRef<HTMLAnchorElement>(null);
-
+  const pathname = usePathname();
+  const { replace, refresh } = useRouter();
+  const searchParams = useSearchParams();
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && linkRef.current) {
-      linkRef.current.click();
+      if (pathname === '/search') {
+        const params = new URLSearchParams(searchParams);
+        if (search) {
+          params.set('q', search);
+        } else {
+          params.delete('q');
+        }
+        replace(`${pathname}?${params.toString()}`);
+        console.log('refresh');
+        refresh();
+      } else {
+        linkRef.current.click();
+      }
     }
   };
 
@@ -23,7 +38,10 @@ export const SearchInput: React.FC<SearchInputProps> = ({}) => {
       <div className='relative'>
         <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
           {/* <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" /> */}
-          <Icons.search className='h-5 w-5 text-gray-400' aria-hidden='true' />
+          <Icons.search
+            className='h-5 w-5 cursor-pointer text-gray-400'
+            aria-hidden='true'
+          />
         </div>
         <input
           id='search'
