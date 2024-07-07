@@ -1896,8 +1896,6 @@ export type QueryReadDatesArgs = {
 
 
 export type QuerySearchMyLibraryArgs = {
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
   query: Scalars['String']['input'];
 };
 
@@ -4834,8 +4832,6 @@ export type FindBookByIdentifierQuery = { __typename?: 'Query', findBookByIdenti
 
 export type SearchMyLibraryQueryVariables = Exact<{
   query: Scalars['String']['input'];
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -5966,8 +5962,8 @@ export type FindBookByIdentifierLazyQueryHookResult = ReturnType<typeof useFindB
 export type FindBookByIdentifierSuspenseQueryHookResult = ReturnType<typeof useFindBookByIdentifierSuspenseQuery>;
 export type FindBookByIdentifierQueryResult = Apollo.QueryResult<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>;
 export const SearchMyLibraryDocument = gql`
-    query SearchMyLibrary($query: String!, $offset: Int, $limit: Int) {
-  searchMyLibrary(query: $query, offset: $offset, limit: $limit) {
+    query SearchMyLibrary($query: String!) {
+  searchMyLibrary(query: $query) {
     id
     slug
     title
@@ -5999,8 +5995,6 @@ export const SearchMyLibraryDocument = gql`
  * const { data, loading, error } = useSearchMyLibraryQuery({
  *   variables: {
  *      query: // value for 'query'
- *      offset: // value for 'offset'
- *      limit: // value for 'limit'
  *   },
  * });
  */

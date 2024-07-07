@@ -96,8 +96,6 @@ export class BookResolver {
   @Query(() => [Book])
   async searchMyLibrary(
     @Args('query', { type: () => String }) query: string,
-    @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
-    @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
     @CurrentUser() user: JwtPayload,
   ) {
     return this.bookService.findMany({
@@ -110,8 +108,6 @@ export class BookResolver {
           { subtitle: { contains: query, mode: 'insensitive' } },
         ],
       },
-      skip: offset,
-      take: limit,
       include: {
         userBook: {
           select: {

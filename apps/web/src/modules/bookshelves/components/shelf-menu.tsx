@@ -59,28 +59,30 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({}) => {
   };
 
   return (
-    <FilterMenu
-      selections={
-        <>
-          {selections.map((s, i) => (
-            <DropdownMenuItem
-              key={i}
-              onSelect={() => {
-                handleSelect(s.name);
-              }}
-              className={`${
-                s.name === shelf ? 'bg-beige-100' : 'hover:bg-opacity-70'
-              } `}
-            >
-              {renderIcon(s.name, '5')}
-              <span>{s.name}</span>
-            </DropdownMenuItem>
-          ))}
-        </>
-      }
-      isActive={!selectedShelf?.name || selectedShelf?.name === 'All Books'}
-      selectedValue={selectedShelf?.name || 'All Books'}
-    />
+    <div className='block lg:hidden'>
+      <FilterMenu
+        selections={
+          <>
+            {selections.map((s, i) => (
+              <DropdownMenuItem
+                key={i}
+                onSelect={() => {
+                  handleSelect(s.name);
+                }}
+                className={`${
+                  s.name === shelf ? 'bg-beige-100' : 'hover:bg-opacity-70'
+                } `}
+              >
+                {renderIcon(s.name, '5')}
+                <span>{s.name}</span>
+              </DropdownMenuItem>
+            ))}
+          </>
+        }
+        isActive={!selectedShelf?.name || selectedShelf?.name === 'All Books'}
+        selectedValue={selectedShelf?.name || 'All Books'}
+      />
+    </div>
   );
 };
 export default ShelfMenu;

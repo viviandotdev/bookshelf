@@ -17,6 +17,8 @@ import useCreateQueryString from '../hooks/use-create-query-string';
 import ToggleButton from './toggle-button';
 import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
+import { Search } from 'lucide-react';
+import SearchBar from './search-bar';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
@@ -75,6 +77,13 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
   }
 
   const updateSelected = useShelfStore((state) => state.updateSelected);
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (value: string) => {
+    // Here, you can access the search value when Enter is pressed
+    console.log(value);
+    setSearchValue(value);
+  };
 
   return (
     <>
@@ -92,6 +101,7 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
             <div className='flex gap-4'>
+              <SearchBar onSearch={handleSearch} />
               <ShelfMenu />
               <StatusMenu />
 

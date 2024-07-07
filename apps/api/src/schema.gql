@@ -1648,7 +1648,7 @@ type Query {
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   me: MeResponse!
   readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
-  searchMyLibrary(limit: Int! = 20, offset: Int! = 0, query: String!): [Book!]!
+  searchMyLibrary(query: String!): [Book!]!
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User
   userBook(where: BookWhereUniqueInput!): UserBook
