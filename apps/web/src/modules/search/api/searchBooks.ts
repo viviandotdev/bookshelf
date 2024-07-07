@@ -30,7 +30,7 @@ export async function searchBooks(
     });
     let count = data.totalItems;
 
-    return { hits: hits.length > 0 ? hits : [], count: count };
+    return { hits: hits.length > 0 ? hits : [], totalItems: count };
   } catch (error) {
     console.error(`Error fetching books: ${error}`); // Log the error
     return {

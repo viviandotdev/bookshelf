@@ -2,6 +2,7 @@ import { RESULTS_PAGE_SIZE } from '@/lib/constants';
 import SearchResults from '../components/search-results';
 import UnderlinedTabs from '@/components/underlined-tabs';
 import { searchBooks } from '../api/searchBooks';
+import Pagination from '../components/pagination';
 
 interface SearchTemplateProps {
   query: {
@@ -21,7 +22,8 @@ export const SearchTemplate: React.FC<SearchTemplateProps> = async ({
 
   const offset = Math.ceil(Number(fallbackPage) * RESULTS_PAGE_SIZE);
 
-  const { hits, count } = await searchBooks(q, field as string, offset);
+  const { hits, totalItems } = await searchBooks(q, field as string, offset);
+
   const tabs = [
     {
       label: 'Books',
@@ -30,6 +32,11 @@ export const SearchTemplate: React.FC<SearchTemplateProps> = async ({
     },
   ];
 
-  return <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />;
+  return (
+    <>
+      <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
+      <Pagination totalPages={Math.floor(totalItems / RESULTS_PAGE_SIZE)} />
+    </>
+  );
 };
 export default SearchTemplate;

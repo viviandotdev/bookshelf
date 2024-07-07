@@ -16,6 +16,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({}) => {
     if (event.key === 'Enter' && linkRef.current) {
       if (pathname === '/search') {
         const params = new URLSearchParams(searchParams);
+        params.set('page', '1');
         if (search) {
           params.set('q', search);
         } else {
