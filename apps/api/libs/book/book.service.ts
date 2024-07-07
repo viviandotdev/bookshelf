@@ -4,6 +4,7 @@ import { Prisma, SOURCE } from '@prisma/client';
 import { BookRepository } from './book.repository';
 import { IdentifierService } from 'libs/identifier/identifier.service';
 import { CoverService } from 'libs/cover/cover.service';
+import { generateSlug } from 'libs/user-book/utils';
 @Injectable()
 export class BookService {
   findUnique = this.repository.findUnique;
@@ -48,7 +49,7 @@ export class BookService {
     const createBookArgs: Prisma.BookCreateArgs = {
       data: {
         title: book.title,
-        slug: slug,
+        slug: generateSlug(book.title),
         subtitle: book.subtitle || undefined,
         authors: book.authors,
         pageCount: book.pageCount,

@@ -193,7 +193,7 @@ export function processGoogleBook(book: any): BookData | null {
   const isbn =
     industryIdentifiers[0]?.identifier || industryIdentifiers[1]?.identifier;
   const bookData: BookData = {
-    slug: Source.Google + '-' + book.id,
+    slug: book.id,
     title: book.volumeInfo.title,
     subtitle: book.volumeInfo.subtitle,
     authors: book.volumeInfo.authors,

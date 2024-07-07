@@ -2788,7 +2788,7 @@ export class BookAggregateArgs {
     @Field(() => [BookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<BookOrderByWithRelationInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -2931,7 +2931,7 @@ export class BookCreateNestedOneWithoutAuditLogInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutAuditLogInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
@@ -2944,7 +2944,7 @@ export class BookCreateNestedOneWithoutCoversInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutCoversInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
@@ -2957,7 +2957,7 @@ export class BookCreateNestedOneWithoutIdentifiersInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutIdentifiersInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
@@ -2970,7 +2970,7 @@ export class BookCreateNestedOneWithoutRatingsInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutRatingsInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
@@ -2983,7 +2983,7 @@ export class BookCreateNestedOneWithoutReviewsInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutReviewsInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
@@ -2996,14 +2996,14 @@ export class BookCreateNestedOneWithoutUserBookInput {
     connectOrCreate?: InstanceType<typeof BookCreateOrConnectWithoutUserBookInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @InputType()
 export class BookCreateOrConnectWithoutAuditLogInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutAuditLogInput, {nullable:false})
     @Type(() => BookCreateWithoutAuditLogInput)
     create!: InstanceType<typeof BookCreateWithoutAuditLogInput>;
@@ -3013,7 +3013,7 @@ export class BookCreateOrConnectWithoutAuditLogInput {
 export class BookCreateOrConnectWithoutCoversInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutCoversInput, {nullable:false})
     @Type(() => BookCreateWithoutCoversInput)
     create!: InstanceType<typeof BookCreateWithoutCoversInput>;
@@ -3023,7 +3023,7 @@ export class BookCreateOrConnectWithoutCoversInput {
 export class BookCreateOrConnectWithoutIdentifiersInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutIdentifiersInput, {nullable:false})
     @Type(() => BookCreateWithoutIdentifiersInput)
     create!: InstanceType<typeof BookCreateWithoutIdentifiersInput>;
@@ -3033,7 +3033,7 @@ export class BookCreateOrConnectWithoutIdentifiersInput {
 export class BookCreateOrConnectWithoutRatingsInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutRatingsInput, {nullable:false})
     @Type(() => BookCreateWithoutRatingsInput)
     create!: InstanceType<typeof BookCreateWithoutRatingsInput>;
@@ -3043,7 +3043,7 @@ export class BookCreateOrConnectWithoutRatingsInput {
 export class BookCreateOrConnectWithoutReviewsInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutReviewsInput, {nullable:false})
     @Type(() => BookCreateWithoutReviewsInput)
     create!: InstanceType<typeof BookCreateWithoutReviewsInput>;
@@ -3053,7 +3053,7 @@ export class BookCreateOrConnectWithoutReviewsInput {
 export class BookCreateOrConnectWithoutUserBookInput {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateWithoutUserBookInput, {nullable:false})
     @Type(() => BookCreateWithoutUserBookInput)
     create!: InstanceType<typeof BookCreateWithoutUserBookInput>;
@@ -4149,7 +4149,7 @@ export class BookUpdateOneRequiredWithoutUserBookNestedInput {
     upsert?: InstanceType<typeof BookUpsertWithoutUserBookInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutUserBookInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutUserBookInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutUserBookInput>;
@@ -4174,7 +4174,7 @@ export class BookUpdateOneWithoutAuditLogNestedInput {
     delete?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutAuditLogInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutAuditLogInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutAuditLogInput>;
@@ -4199,7 +4199,7 @@ export class BookUpdateOneWithoutCoversNestedInput {
     delete?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutCoversInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutCoversInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutCoversInput>;
@@ -4224,7 +4224,7 @@ export class BookUpdateOneWithoutIdentifiersNestedInput {
     delete?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutIdentifiersInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutIdentifiersInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutIdentifiersInput>;
@@ -4249,7 +4249,7 @@ export class BookUpdateOneWithoutRatingsNestedInput {
     delete?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutRatingsInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutRatingsInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutRatingsInput>;
@@ -4274,7 +4274,7 @@ export class BookUpdateOneWithoutReviewsNestedInput {
     delete?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
     @Type(() => BookWhereUniqueInput)
-    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    connect?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookUpdateToOneWithWhereWithoutReviewsInput, {nullable:true})
     @Type(() => BookUpdateToOneWithWhereWithoutReviewsInput)
     update?: InstanceType<typeof BookUpdateToOneWithWhereWithoutReviewsInput>;
@@ -4678,14 +4678,15 @@ export class BookWhereUniqueInput {
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    slug?: string;
     @Field(() => [BookWhereInput], {nullable:true})
     AND?: Array<BookWhereInput>;
     @Field(() => [BookWhereInput], {nullable:true})
     OR?: Array<BookWhereInput>;
     @Field(() => [BookWhereInput], {nullable:true})
     NOT?: Array<BookWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    slug?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     title?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -4809,7 +4810,7 @@ export class DeleteOneBookArgs {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4821,7 +4822,7 @@ export class FindFirstBookOrThrowArgs {
     @Field(() => [BookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<BookOrderByWithRelationInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4839,7 +4840,7 @@ export class FindFirstBookArgs {
     @Field(() => [BookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<BookOrderByWithRelationInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4857,7 +4858,7 @@ export class FindManyBookArgs {
     @Field(() => [BookOrderByWithRelationInput], {nullable:true})
     orderBy?: Array<BookOrderByWithRelationInput>;
     @Field(() => BookWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => Int, {nullable:true})
     take?: number;
     @Field(() => Int, {nullable:true})
@@ -4871,7 +4872,7 @@ export class FindUniqueBookOrThrowArgs {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4879,7 +4880,7 @@ export class FindUniqueBookArgs {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4903,7 +4904,7 @@ export class UpdateOneBookArgs {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
 }
 
 @ArgsType()
@@ -4911,7 +4912,7 @@ export class UpsertOneBookArgs {
     @Field(() => BookWhereUniqueInput, {nullable:false})
     @Type(() => BookWhereUniqueInput)
     @ValidateNested()
-    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<BookWhereUniqueInput, 'id' | 'slug'>;
     @Field(() => BookCreateInput, {nullable:false})
     @Type(() => BookCreateInput)
     create!: InstanceType<typeof BookCreateInput>;

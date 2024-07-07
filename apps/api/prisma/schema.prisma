@@ -232,7 +232,7 @@ model Book {
     /// @Validator.IsString()
     id            String       @id @default(uuid())
     /// @Validator.IsString()
-    slug          String
+    slug          String       @unique
     /// @Validator.IsString()
     title         String
     /// @Validator.IsString()

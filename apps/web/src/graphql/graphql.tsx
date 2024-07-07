@@ -1825,6 +1825,7 @@ export type PasswordResetTokenMinAggregate = {
 export type Query = {
   __typename?: 'Query';
   auditLogs: ActivitiesResponse;
+  book?: Maybe<Book>;
   bookCountsByUserId: BookCountsResponse;
   booksByShelf?: Maybe<Shelf>;
   countUserBooks: Scalars['Int']['output'];
@@ -1847,6 +1848,11 @@ export type QueryAuditLogsArgs = {
   offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<AuditLogOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereUniqueInput>;
+};
+
+
+export type QueryBookArgs = {
+  where: BookWhereUniqueInput;
 };
 
 
@@ -4837,6 +4843,13 @@ export type SearchMyLibraryQueryVariables = Exact<{
 
 export type SearchMyLibraryQuery = { __typename?: 'Query', searchMyLibrary: Array<{ __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, yearPublished?: string | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null }> };
 
+export type BookQueryVariables = Exact<{
+  where: BookWhereUniqueInput;
+}>;
+
+
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
+
 export type ReadDatesQueryVariables = Exact<{
   userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
   active?: InputMaybe<Scalars['Boolean']['input']>;
@@ -6014,6 +6027,74 @@ export type SearchMyLibraryQueryHookResult = ReturnType<typeof useSearchMyLibrar
 export type SearchMyLibraryLazyQueryHookResult = ReturnType<typeof useSearchMyLibraryLazyQuery>;
 export type SearchMyLibrarySuspenseQueryHookResult = ReturnType<typeof useSearchMyLibrarySuspenseQuery>;
 export type SearchMyLibraryQueryResult = Apollo.QueryResult<SearchMyLibraryQuery, SearchMyLibraryQueryVariables>;
+export const BookDocument = gql`
+    query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    id
+    userBook {
+      id
+      status
+      rating
+      shelves {
+        shelf {
+          id
+          name
+          slug
+        }
+      }
+    }
+    slug
+    title
+    authors
+    pageCount
+    identifiers {
+      source
+      sourceId
+    }
+    covers {
+      url
+      size
+    }
+    ratings {
+      source
+      score
+    }
+  }
+}
+    `;
+
+/**
+ * __useBookQuery__
+ *
+ * To run a query within a React component, call `useBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useBookQuery(baseOptions: Apollo.QueryHookOptions<BookQuery, BookQueryVariables> & ({ variables: BookQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+      }
+export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQuery, BookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+        }
+export function useBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookQuery, BookQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BookQuery, BookQueryVariables>(BookDocument, options);
+        }
+export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
+export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
+export type BookSuspenseQueryHookResult = ReturnType<typeof useBookSuspenseQuery>;
+export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
 export const ReadDatesDocument = gql`
     query readDates($userBookIds: [String!]!, $active: Boolean) {
   readDates(userBookIds: $userBookIds, active: $active) {

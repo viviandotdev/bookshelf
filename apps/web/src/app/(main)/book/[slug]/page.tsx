@@ -1,17 +1,18 @@
 import React from 'react';
+import { notFound } from 'next/navigation';
 import BookTemplate from '@/modules/book/templates';
 import { getCurrentUser } from '@/lib/auth';
-import { getBookByIdentifier } from '@/modules/book/queries/getBook';
 import {
   findBookByGoogleQuery,
   findBookByGoogleBookId,
   findGoogleBookByISBN,
 } from '@/lib/google.api';
+import { SOURCE } from '@prisma/client';
 import { mergeBookData } from '@/lib/utils';
-import { IdentifierCreateInput, Source } from '@/graphql/graphql';
 import { addIdentifierToBook } from '@/modules/book/queries/addIdentifierToBook';
-import { notFound } from 'next/navigation';
-import { BookData } from '@/modules/bookshelves/types';
+import { Source } from '@/graphql/graphql';
+import { getBookBySlug } from '@/modules/book/queries/getBookBySlug';
+import { getBookByIdentifier } from '@/modules/book/queries/getBookByIdentifier';
 
 interface BookPageProps {
   params: { slug: string };
@@ -19,47 +20,48 @@ interface BookPageProps {
 
 export default async function BookPage({ params }: BookPageProps) {
   const user = await getCurrentUser();
-  const [source, ...rest] = params.slug.split('-');
-  const sourceId = rest.join('-');
+  //get my book
+  let myBook = await getBookBySlug(params.slug); //by slug
 
-  const identifier: IdentifierCreateInput = {
-    source: source as Source,
-    sourceId,
-  };
-  //   query userBook based on the id from the slug
-  const myBook = await getBookByIdentifier(identifier);
-  //get searched book from api
+  if (!myBook) {
+    myBook = await getBookByIdentifier({
+      //by google id
+      source: Source.Google,
+      sourceId: params.slug,
+    });
+  }
+
+  //get searched book
+  const isbn = myBook?.identifiers?.find(
+    (id) => id.source === SOURCE.ISBN_13 || id.source === SOURCE.ISBN_10
+  )?.sourceId;
+
   let searchedBook;
-  if (source === Source.Isbn_10 || source === Source.Isbn_13) {
-    searchedBook = await findGoogleBookByISBN(sourceId);
+  if (isbn) {
+    searchedBook = await findGoogleBookByISBN(isbn);
   }
 
-  if (source == Source.Google) {
-    searchedBook = await findBookByGoogleBookId(sourceId);
-  }
   if (!searchedBook && myBook) {
     const query = `${myBook.title} ${myBook.authors?.join(' ')}`;
     searchedBook = await findBookByGoogleQuery(query);
   }
-  if (myBook) {
-    let book: BookData = myBook as BookData;
-    if (searchedBook) {
-      book = mergeBookData(myBook, searchedBook);
 
-      const [googleSource, ...rest] = params.slug.split('-');
-      const googleSourceId = rest.join('-');
-      await addIdentifierToBook(myBook.id, {
-        source: googleSource as Source,
-        sourceId: googleSourceId,
-      });
-    }
-
+  // return book and searched book
+  if (myBook && searchedBook) {
+    const book = mergeBookData(myBook, searchedBook);
+    await addIdentifierToBook(myBook.id, {
+      source: Source.Google,
+      sourceId: searchedBook.slug!,
+    });
     return <BookTemplate userBook={myBook.userBook} book={book} user={user} />;
   }
+
+  const googleBookId = params.slug;
+  searchedBook = await findBookByGoogleBookId(googleBookId);
 
   if (!searchedBook) {
     return notFound();
   }
 
-  return <BookTemplate book={searchedBook} user={user} />;
+  return <>{<BookTemplate book={searchedBook} user={user} />}</>;
 }

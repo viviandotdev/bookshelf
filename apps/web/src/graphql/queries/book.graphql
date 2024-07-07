@@ -51,3 +51,37 @@ query SearchMyLibrary($query: String!) {
     }
   }
 }
+
+query Book($where: BookWhereUniqueInput!) {
+  book(where: $where) {
+    id
+    userBook {
+      id
+      status
+      rating
+      shelves {
+        shelf {
+          id
+          name
+          slug
+        }
+      }
+    }
+    slug
+    title
+    authors
+    pageCount
+    identifiers {
+      source
+      sourceId
+    }
+    covers {
+      url
+      size
+    }
+    ratings {
+      source
+      score
+    }
+  }
+}

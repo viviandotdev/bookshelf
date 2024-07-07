@@ -169,10 +169,97 @@ export class UserBookResolver {
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Boolean)
   async importUserBooks(
-    @Args('content') content: string,
+    @Args('content')
+    content: string,
     @CurrentUser() user: JwtPayload,
   ) {
-    // ... (importUserBooks implementation)
+    const lines = content.split('\n'); // -1 for empty last line, -1 for the top row
+    const mappings = parseLineWithQuotes(lines[0]);
+    const failedBooks = [];
+    const totalBooks = lines.length - 2;
+    async function limitConcurrency(tasks, concurrencyLimit) {
+      const results = [];
+      let currentIndex = 0;
+
+      async function nextBatch() {
+        const batchTasks = tasks.slice(
+          currentIndex,
+          currentIndex + concurrencyLimit,
+        );
+        currentIndex += concurrencyLimit;
+        await Promise.all(batchTasks.map((task) => task()));
+        results.push(...(await Promise.all(batchTasks)));
+      }
+
+      while (currentIndex < tasks.length) {
+        await nextBatch();
+      }
+
+      return results;
+    }
+    const allShelves = new Set();
+    for (let i = 1; i < lines.length - 1; i++) {
+      const line = lines[i];
+      const goodreadsBook = processCSVLine(line, mappings);
+      const shelves = getShelves(goodreadsBook);
+      shelves.forEach((shelf) => allShelves.add(shelf));
+      console.log('Create user shelves');
+    }
+
+    // Prepare data for Prisma's createMany
+    const shelvesData = Array.from(allShelves).map((shelf: string) => ({
+      userId: user.userId,
+      name: shelf,
+      slug: generateSlug(shelf),
+    }));
+
+    // Use Prisma's createMany to insert the shelves
+    await this.prisma.shelf.createMany({
+      data: shelvesData,
+      skipDuplicates: true, // This option skips inserting duplicates if any
+    });
+
+    // Example usage
+    const importTasks = lines.slice(1, -1).map((line) => async () => {
+      const goodreadsBook = processCSVLine(line, mappings);
+      const book: GoodreadsBookData = buildBook(goodreadsBook);
+      const imageLinks = await getGoodreadsCover(goodreadsBook['Book Id']);
+      // on the client get all the covers,  then send list of covers to the server to add in one go
+      const userInfo = getUserBookInfo(goodreadsBook);
+      await this.userBookService.createImportedBook(
+        userInfo,
+        book,
+        imageLinks,
+        user,
+      );
+      console.log('Imported book', goodreadsBook['Title']);
+    });
+
+    const startTime = performance.now(); // Start measuring time
+    await limitConcurrency(importTasks, 30);
+    const endTime = performance.now(); // End measuring time
+    const duration = endTime - startTime; // Calculate the duration in milliseconds
+
+    console.log(`Import process took ${duration} milliseconds`);
+
+    // if successful send email
+    await this.resend.emails.send({
+      from: 'Acme <onboarding@resend.dev>',
+      to: user.email,
+      subject: 'Confirm your email',
+      html: render(
+        ImportSummaryEmail({
+          totalBooks: totalBooks.toString(),
+          successBooks: (totalBooks - failedBooks.length).toString(),
+          failedBooks: failedBooks.length.toString(), // Replace with the actual number of failed imports
+          summaryLink: 'https://example.com/import-summary', // Replace with the actual link to the import summary
+          username: user.username, // Replace with the actual username
+          importId: 'import_123456', // Replace with the actual import ID
+        }),
+      ),
+    });
+
+    return true;
   }
 
   @UseGuards(AccessTokenGuard)
@@ -218,5 +305,4 @@ export class UserBookResolver {
 
     return { wantsToReadCount, readingCount, finishedCount, upNextCount };
   }
-
 }

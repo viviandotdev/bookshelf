@@ -48,6 +48,40 @@ export class BookResolver {
     });
   }
 
+  @Query(() => Book, { nullable: true, name: 'book' })
+  async book(@Args('where') where: BookWhereUniqueInput) {
+    const book = await this.bookService.findUnique({
+      where: {
+        slug: where.slug,
+        id: where.id,
+      },
+      include: {
+        userBook: {
+          select: {
+            id: true,
+            status: true,
+            rating: true,
+            shelves: {
+              select: {
+                shelf: {
+                  select: {
+                    id: true,
+                    name: true,
+                    slug: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        identifiers: true,
+        covers: true,
+        ratings: true,
+      },
+    });
+    return book;
+  }
+
   @UseGuards(AccessTokenGuard)
   @Query(() => Book, { nullable: true })
   async findBookByIdentifier(

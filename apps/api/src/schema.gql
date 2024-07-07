@@ -938,7 +938,7 @@ input BookWhereUniqueInput {
   pageCount: IntFilter
   ratings: RatingListRelationFilter
   reviews: ReviewListRelationFilter
-  slug: StringFilter
+  slug: String
   subtitle: StringFilter
   title: StringFilter
   userBook: UserBookRelationFilter
@@ -1639,6 +1639,7 @@ type PasswordResetTokenMinAggregate {
 
 type Query {
   auditLogs(action: ACTION, limit: Int! = 20, offset: Int! = 0, orderBy: AuditLogOrderByWithRelationInput, where: UserBookWhereUniqueInput): ActivitiesResponse!
+  book(where: BookWhereUniqueInput!): Book
   bookCountsByUserId(userId: String!): BookCountsResponse!
   booksByShelf(slug: String!, username: String!): Shelf
   countUserBooks(where: UserBookWhereInput): Int!
