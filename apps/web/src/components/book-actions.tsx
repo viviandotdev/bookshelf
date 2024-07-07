@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Icons } from './icons';
 import {
   DropdownMenu,
@@ -8,26 +8,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { Book, Reading_Status, UserBookShelves } from '../graphql/graphql';
+import {
+  Book,
+  Reading_Status,
+  useRemoveUserBookMutation,
+} from '../graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { BookRating } from './book-rating';
 import { readingStatuses } from '@/config/books';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { UserBook } from '@prisma/client';
 import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
+import AlertModal from './modals/alert-modal';
+import { ApolloCache } from '@apollo/client';
 interface BookActionsProps {
   book: Book | undefined;
-  shelves: UserBookShelves[] | undefined;
   openDropdown: boolean;
   rating: number;
   status: Reading_Status;
   showRemoveBook?: boolean;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
   setRating: React.Dispatch<React.SetStateAction<number>>;
-  setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   moveCard?: (status: Reading_Status) => void;
   trigger: React.ReactNode;
@@ -41,12 +44,10 @@ const BookActions: React.FC<BookActionsProps> = ({
   book,
   rating,
   status,
-  shelves,
   moveCard,
   openDropdown,
   showRemoveBook,
   setStatus,
-  setOpenAlert,
   setRating,
   setOpenDropdown,
   trigger,
@@ -54,6 +55,8 @@ const BookActions: React.FC<BookActionsProps> = ({
   align = 'start',
 }) => {
   const { setUserBook } = useUserBookStore();
+
+  const [openAlert, setOpenAlert] = useState(false); // Initial value
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
       toast({
@@ -69,10 +72,60 @@ const BookActions: React.FC<BookActionsProps> = ({
     setStatus(status);
     await updateUserBook(userBookId, { status: status });
   };
-  const linkRef = useRef<HTMLAnchorElement>(null);
+
+  const [removeUserBook] = useRemoveUserBookMutation({
+    onCompleted: (_) => {
+      toast({
+        title: `Book removed from your shelf`,
+        variant: 'success',
+      });
+    },
+    //https://www.youtube.com/watch?v=lQ7t20gFR14
+    update: (cache: ApolloCache<any>, { data }) => {
+      if (data?.removeUserBook) {
+        // Evict the deleted book from the cache
+        // Construct the cache ID
+        const cacheId = cache.identify({
+          __typename: 'UserBook',
+          id: userBookId,
+        });
+
+        cache.evict({ id: cacheId });
+
+        // Optionally, update the book count
+        // cache.modify({
+        //   fields: {
+        //     countUserBooks(existingCount = 0) {
+        //       return Math.max(0, existingCount - 1);
+        //     },
+        //   },
+        // });
+      }
+    },
+    onError: (error) => {
+      toast({ title: error.message, variant: 'destructive' });
+    },
+  });
+
+  const onDelete = async () => {
+    await removeUserBook({
+      variables: { where: { id: userBookId } },
+    });
+    setOpenAlert(false);
+  };
 
   return (
     <>
+      <AlertModal
+        title={'Are you sure you want to remove this book from your shelf?'}
+        description={
+          'Removing this book will clear associated ratings, reviews and reading activity'
+        }
+        isOpen={openAlert}
+        onClose={() => setOpenAlert(false)}
+        onConfirm={onDelete}
+        loading={false}
+      />
       <DropdownMenu open={openDropdown} modal={false}>
         <DropdownMenuTrigger
           asChild
@@ -167,7 +220,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               Log reading
             </DropdownMenuItem>
           )}
-
+          {/*
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
@@ -183,7 +236,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               href={`/book/${book?.id}/activity`}
               className='hidden'
             ></Link>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
 
           {showRemoveBook && (
             <DropdownMenuItem

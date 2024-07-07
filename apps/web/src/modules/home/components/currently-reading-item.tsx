@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
 import { PROGRESS_TYPE } from '@prisma/client';
+import { read } from 'fs';
 
 interface CurrentlyReadingItemProps {
   userBook: UserBook;
@@ -103,11 +104,13 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
             variant={'secondary'}
             onClick={(e) => {
               e.stopPropagation();
-              onOpen();
-              setUserBook({
-                userBookId: userBook.id,
-                bookTitle: book.title,
-              });
+              if (readDate?.readingProgress) {
+                onOpen();
+                setUserBook({
+                  userBookId: userBook.id,
+                  bookTitle: book.title,
+                });
+              }
             }}
           >
             Update Progress

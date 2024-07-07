@@ -78,7 +78,7 @@ export class UserBookService {
         });
       }
     } else {
-      console.log('Book not found on user shelf.');
+      ('Book not found on user shelf.');
       // If the userBook does not exist, throw an error or handle accordingly
       throw new Error('Book not found on user shelf.');
     }
@@ -225,7 +225,6 @@ export class UserBookService {
       );
       updatedCards = await this.prisma.$transaction(transaction);
     } catch (error) {
-      console.log(error);
       throw new Error('Error updating order');
     }
     return updatedCards;

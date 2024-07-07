@@ -39,7 +39,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           label='Continue'
           disabled={loading}
           variant='default'
-          onClick={onConfirm}
+          onClick={(e) => {
+            e.stopPropagation();
+            onConfirm();
+          }}
         >
           Continue
         </Button>

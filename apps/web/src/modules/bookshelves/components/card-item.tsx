@@ -27,14 +27,11 @@ export const CardItem: React.FC<CardItemProps> = ({
   setOrderedData,
   status: cardStatus,
 }) => {
-  const router = useRouter();
   const linkRef = useRef<HTMLAnchorElement>(null);
-  const buttonText = cardStatus === 'Read' ? 'Write a Review' : 'View Activity';
   const { setUserBook } = useUserBookStore();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [status, setStatus] = useState(data.status ? data.status : '');
   const [rating, setRating] = useState(data.rating ? data.rating : 0); // Initial value
-  const [openAlert, setOpenAlert] = useState(false); // Initial value
   const [percent, setPercent] = useState(0);
   useEffect(() => {
     setStatus(data.status ? data.status : '');
@@ -151,8 +148,7 @@ export const CardItem: React.FC<CardItemProps> = ({
               <BookActions
                 userBookId={data.id}
                 book={book!}
-                setOpenAlert={setOpenAlert}
-                // openAlert={openAlert}
+                // showRemoveBook={true}
                 openDropdown={openDropdown}
                 setOpenDropdown={setOpenDropdown}
                 status={status as Reading_Status}
@@ -160,7 +156,6 @@ export const CardItem: React.FC<CardItemProps> = ({
                 setStatus={setStatus}
                 setRating={setRating}
                 rating={rating}
-                shelves={shelves!}
                 side={'bottom'}
                 trigger={
                   <Button

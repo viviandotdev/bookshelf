@@ -3,9 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination';
 import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
-import { useCountUserBooksLazyQuery } from '@/graphql/graphql';
+import {
+  GetUserBooksDocument,
+  useCountUserBooksLazyQuery,
+} from '@/graphql/graphql';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
-import { NetworkStatus } from '@apollo/client';
+import { NetworkStatus, useApolloClient } from '@apollo/client';
 import useLoadBooks from '../queries/use-load-books';
 import useShelfStore from '@/stores/use-shelf-store';
 import SkeletonGalleryView from '@/modules/skeletons/components/skeleton-gallery-view';

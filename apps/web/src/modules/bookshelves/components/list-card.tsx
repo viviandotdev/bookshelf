@@ -102,14 +102,13 @@ export const ListCard: React.FC<ListCardProps> = ({
         <BookActions
           book={book!}
           userBookId={userBookId}
-          setOpenAlert={setOpenAlert}
           openDropdown={openDropdown}
           setOpenDropdown={setOpenDropdown}
           status={status as Reading_Status}
           setStatus={setStatus}
           setRating={setRating}
           rating={rating}
-          shelves={shelves!}
+          showRemoveBook={true}
           side={'bottom'}
           align='end'
           trigger={

@@ -163,8 +163,6 @@ export class AuthService {
       subject: 'Confirm your email',
       html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
     });
-    console.log(res);
-    console.log(email);
   }
 
   async sendVerificationEmailCode(email: string, existingEmail: string) {
@@ -179,7 +177,6 @@ export class AuthService {
       subject: 'Confirm your email',
       html: `<p>Here is your verification code ${verificationToken}</p>`,
     });
-    console.log(res);
   }
 
   async sendPasswordResetEmail(email: string) {

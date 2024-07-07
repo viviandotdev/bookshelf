@@ -6,9 +6,7 @@ const useLoadBooks = () => {
   const [loadBooks, { data: booksData, networkStatus }] =
     useGetUserBooksLazyQuery({
       fetchPolicy: 'cache-and-network',
-      // nextFetchPolicy: "cache-first",
-      // cache-only does not refetch when updating cache
-      nextFetchPolicy: 'cache-only',
+      nextFetchPolicy: 'cache-and-network',
       notifyOnNetworkStatusChange: true,
       onError: (error) => {
         // toast({
@@ -22,6 +20,7 @@ const useLoadBooks = () => {
           data.getUserBooks.userBooks &&
           data.getUserBooks.userBooks?.length === 0
         ) {
+          console.log('update query');
         }
       },
 

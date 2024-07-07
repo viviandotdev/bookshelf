@@ -18,7 +18,6 @@ export function getColumnData(csvContent, mappings) {
   const columnData = [];
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i];
-    console.log(line);
     const parsedData = parseLineWithQuotes(line);
     const shelves = [];
     mappings.forEach((key: GoodreadsBookKeys, index) => {

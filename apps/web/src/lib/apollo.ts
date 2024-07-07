@@ -23,5 +23,15 @@ export function getApolloClient() {
   return new ApolloClient({
     link: from([httpLink]),
     cache: new InMemoryCache(),
+    defaultOptions: {
+      query: {
+        errorPolicy: 'all',
+        // used for all queries
+        // fetchPolicy: 'cache-and-network',
+      },
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+      },
+    },
   });
 }

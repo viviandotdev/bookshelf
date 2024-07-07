@@ -24,7 +24,7 @@ export const GalleryView: React.FC<GalleryViewProps> = ({}) => {
       setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE));
     },
   });
-  const { loadBooks, booksData, networkStatus } = useLoadBooks();
+const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
   const books = booksData && booksData?.getUserBooks?.userBooks;
   const loading = networkStatus === NetworkStatus.loading;

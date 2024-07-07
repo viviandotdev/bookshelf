@@ -92,7 +92,6 @@ const useBuildQuery = () => {
         ...statusQuery,
       },
     };
-    console.log(finalQuery);
     setQuery(finalQuery);
   }, [searchParams]);
 

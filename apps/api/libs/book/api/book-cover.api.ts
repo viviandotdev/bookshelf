@@ -109,7 +109,6 @@ export async function bookcoverSearch(bookTitle, authorName) {
 
   if (!bookTitle || !authorName) {
     // const ex = new HttpException(400, 'Mandatory parameters missing');
-    // console.log(ex);
     return null;
   }
 
