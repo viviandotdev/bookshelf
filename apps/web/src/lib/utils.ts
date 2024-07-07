@@ -119,7 +119,7 @@ export function getCoverUrl(book: BookParts, size: string) {
   if (cover) {
     return cover.url;
   } else {
-    return null;
+    return book.covers[0].url;
   }
 }
 

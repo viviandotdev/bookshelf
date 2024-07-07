@@ -35,7 +35,7 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({
           disabled={isPending}
           aria-label='Sort books'
           variant={'secondary'}
-          className='border-2 border-gray-200 bg-white hover:bg-white'
+          className='min-w-24 border-2 border-gray-200 bg-white hover:bg-white'
           size={'sm'}
         >
           Sort by

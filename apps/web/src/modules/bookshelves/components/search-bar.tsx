@@ -1,13 +1,11 @@
 'use client';
-import { Book, useSearchMyLibraryLazyQuery } from '@/graphql/graphql';
+import { Icons } from '@/components/icons';
+import { Book, Size, useSearchMyLibraryLazyQuery } from '@/graphql/graphql';
+import { getCoverUrl } from '@/lib/utils';
 import React, { ChangeEvent, useState } from 'react';
-
-export type SearchProps = {
-  onSearch: (value: string) => void;
-};
-
-const SearchBar = (props: SearchProps) => {
-  const { onSearch } = props;
+import BookCover from '@/components/book-cover';
+import Link from 'next/link';
+const SearchBar = () => {
   const [value, setValue] = useState('');
   const [books, setBooks] = useState([] as Book[]);
   const [hasSearched, setHasSearched] = useState(false);
@@ -46,21 +44,46 @@ const SearchBar = (props: SearchProps) => {
           query: value,
         },
       });
-      onSearch(value);
     }
+  };
+
+  const handleClearSearch = () => {
+    setValue('');
+    setBooks([]);
+    setHasSearched(false);
   };
 
   return (
     <div className='relative w-full'>
-      <input
-        type='search'
-        name='search'
-        value={value}
-        placeholder={'Enter search...'}
-        className='h-10 w-full rounded-full border border-gray-300 bg-white px-5 pr-10 text-sm focus:outline-none'
-        onChange={(event) => searchHandler(event)}
-        onKeyDown={handleKeyDown}
-      />
+      <div className='relative'>
+        <div className='absolute inset-y-0 left-0 flex cursor-pointer items-center pl-3'>
+          {value ? (
+            <Icons.close
+              className='h-5 w-5 cursor-pointer  text-gray-400'
+              aria-hidden='true'
+              onClick={handleClearSearch}
+            />
+          ) : (
+            <Icons.search
+              className='h-5 w-5 text-gray-400'
+              aria-hidden='true'
+            />
+          )}
+        </div>
+        <input
+          type='text'
+          name='search'
+          value={value}
+          placeholder={'Enter search...'}
+          className='h-8 w-full rounded-full border border-gray-300 bg-white pl-10 pr-4 text-sm focus:outline-none'
+          onChange={(event) => searchHandler(event)}
+          onKeyDown={handleKeyDown}
+          autoComplete='off'
+          autoCorrect='off'
+          spellCheck='false'
+          autoCapitalize='off'
+        />
+      </div>
       {loading && (
         <div className='absolute z-10 mt-1 w-full rounded border border-gray-300 bg-white p-2 shadow-lg'>
           LOADING
@@ -71,19 +94,23 @@ const SearchBar = (props: SearchProps) => {
           {books.length > 0 ? (
             <ul>
               {books.map((book: Book) => (
-                <li
+                <Link
+                  href={book.slug}
                   key={book.id}
-                  className='flex items-center p-2 hover:bg-gray-100'
+                  className='flex items-center gap-2 p-2 hover:bg-gray-100'
                 >
+                  <BookCover size={'xs'} src={getCoverUrl(book, Size.Small)} />
                   <div>
-                    <p className='font-semibold text-gray-800'>{book.title}</p>
+                    <p className='line-clamp-2 overflow-hidden font-semibold text-gray-800'>
+                      {book.title}
+                    </p>
                     <p className='text-gray-600'>
                       {book.authors &&
                         book.authors.length > 0 &&
                         book.authors.join(', ')}
                     </p>
                   </div>
-                </li>
+                </Link>
               ))}
             </ul>
           ) : (

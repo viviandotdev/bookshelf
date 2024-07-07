@@ -77,13 +77,6 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
   }
 
   const updateSelected = useShelfStore((state) => state.updateSelected);
-  const [searchValue, setSearchValue] = useState('');
-
-  const handleSearch = (value: string) => {
-    // Here, you can access the search value when Enter is pressed
-    console.log(value);
-    setSearchValue(value);
-  };
 
   return (
     <>
@@ -101,7 +94,6 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
             <div className='flex gap-4'>
-              <SearchBar onSearch={handleSearch} />
               <ShelfMenu />
               <StatusMenu />
 
@@ -131,6 +123,9 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
               </Button>
             </div>
             <div className='flex items-center gap-2 text-sm'>
+              <div className='w-[312px]'>
+                <SearchBar />
+              </div>
               {view !== 'board' && (
                 <SortingOptions selections={sortingSelects} />
               )}
