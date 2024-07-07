@@ -1,18 +1,12 @@
 'use client';
 import React, { useState } from 'react';
 import { Modal } from '@/components/ui/modal';
-import { Button, buttonVariants } from '../../ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '../../ui/button';
 import { Icons } from '@/components/icons';
 import useUserBookStore from '@/stores/use-user-book-store';
-import AlertModal from '../alert-modal';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
-import {
-  Reading_Status,
-  Source,
-  useRemoveUserBookMutation,
-} from '@/graphql/graphql';
+import { Reading_Status } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { readingStatuses } from '@/config/books';
 
@@ -25,27 +19,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     bookCounts,
     isLoading: loadingBookCounts,
   } = useBookStatusModal();
-  const [openAlert, setOpenAlert] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { setUserBook, userBookId, status, resetStore } = useUserBookStore();
-
-  const [removeUserBook] = useRemoveUserBookMutation({
-    onCompleted: (_) => {
-      resetStore(); //empty the userBook store
-      // when the book is removed from the shelf, the url should be updated to the book page
-      //   const googleBookId = book.identifiers?.find(
-      //     (id) => id.source === Source.Google
-      //   )?.sourceId;
-      //   window.history.pushState(null, '', '/book/GOOGLE-' + googleBookId);
-      toast({
-        title: `Book removed from your shelf`,
-        variant: 'success',
-      });
-    },
-    onError: (error) => {
-      toast({ title: error.message, variant: 'destructive' });
-    },
-  });
+  const { setUserBook, userBookId, status } = useUserBookStore();
 
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data) => {
@@ -92,15 +66,6 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
   // hack to update the url if the book is a goodreads book
   // if the user removes the book and refreshes the url and the book still exists
 
-  const onDelete = async () => {
-    setIsLoading(true);
-    await removeUserBook({
-      variables: { where: { id: userBookId } },
-    });
-    setIsLoading(false);
-    setOpenAlert(false);
-  };
-
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-3'>
@@ -136,33 +101,11 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
           </Button>
         ))}
       </div>
-      <Button
-        className={cn(
-          buttonVariants({ size: 'lg' }),
-          'rounded-xl border-none bg-white text-base text-red-500 hover:bg-white'
-        )}
-        onClick={() => {
-          onClose();
-          setOpenAlert(true);
-        }}
-        label={'Remove from my library'}
-        icon={<Icons.delete className='m-2 h-4 w-4 stroke-[4px]' />}
-      />
     </div>
   );
 
   return (
     <>
-      <AlertModal
-        title={'Are you sure you want to remove this book from your shelf?'}
-        description={
-          'Removing this book will clear associated ratings, reviews and reading activity'
-        }
-        isOpen={openAlert}
-        onClose={() => setOpenAlert(false)}
-        onConfirm={onDelete}
-        loading={isLoading}
-      />
       <Modal isOpen={isOpen} onClose={onClose} title={`Select book status `}>
         {bodyContent}
       </Modal>
