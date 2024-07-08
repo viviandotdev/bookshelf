@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -24,10 +24,17 @@ export default function UploadFile({
     formState: { errors },
   } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const { dispatch } = useContext(ImportLibraryContext)!;
+  const { state, dispatch } = useContext(ImportLibraryContext)!;
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (state.selectedFile) {
+      setSelectedFile(state.selectedFile);
+    }
+  }, [state.selectedFile]);
 
   const handleFileUpload = (data: any) => {
-    const file = data.file[0];
+    const file = data.file[0] || selectedFile;
     if (!file) {
       toast({
         variant: 'destructive',
@@ -44,7 +51,7 @@ export default function UploadFile({
       const contents = e.target?.result;
       if (contents) {
         dispatch({ type: 'SET_CSV_CONTENT', payload: contents as string });
-        //const get shelves from csv
+        dispatch({ type: 'SET_SELECTED_FILE', payload: file });
         setDirection(1);
         setCurrentStep((prev) => prev + 1);
       }
@@ -79,8 +86,19 @@ export default function UploadFile({
             id='file'
             type='file'
             accept='.csv'
-            {...register('file', { required: 'Please select a file' })}
+            {...register('file', { required: !selectedFile })}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setSelectedFile(file);
+              }
+            }}
           />
+          {selectedFile && (
+            <p className='text-sm text-gray-500'>
+              Selected file: {selectedFile.name}
+            </p>
+          )}
           {errors.file && (
             <p className='text-sm text-red-500'>
               {errors.file.message as string}

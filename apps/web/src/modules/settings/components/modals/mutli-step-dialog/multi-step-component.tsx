@@ -6,18 +6,17 @@ import Step2 from './step-2';
 import { toast } from '@/hooks/use-toast';
 import { useImportUserBooksMutation } from '@/graphql/graphql';
 
-// Define the state type
 interface ImportLibraryState {
   shelves: string[];
   csvContent: string | null;
+  selectedFile: File | null;
 }
 
-// Define the action types
 type ImportLibraryAction =
   | { type: 'SET_SHELVES'; payload: string[] }
-  | { type: 'SET_CSV_CONTENT'; payload: string };
+  | { type: 'SET_CSV_CONTENT'; payload: string }
+  | { type: 'SET_SELECTED_FILE'; payload: File };
 
-// Create the reducer function
 function importLibraryReducer(
   state: ImportLibraryState,
   action: ImportLibraryAction
@@ -27,6 +26,8 @@ function importLibraryReducer(
       return { ...state, shelves: action.payload };
     case 'SET_CSV_CONTENT':
       return { ...state, csvContent: action.payload };
+    case 'SET_SELECTED_FILE':
+      return { ...state, selectedFile: action.payload };
     default:
       return state;
   }
@@ -52,6 +53,7 @@ export default function MultiStepComponent() {
     {
       shelves: [],
       csvContent: null,
+      selectedFile: null,
     }
   );
 
