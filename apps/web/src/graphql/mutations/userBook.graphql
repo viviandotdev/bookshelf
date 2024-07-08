@@ -33,8 +33,18 @@ mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
   removeUserBook(where: $where)
 }
 
-mutation ImportUserBooks($content: String!) {
-  importUserBooks(content: $content)
+mutation ImportUserBooks(
+  $content: String!
+  $shelves: [String!]
+  $ownedShelf: String
+  $favoritesShelf: String
+) {
+  importUserBooks(
+    content: $content
+    shelves: $shelves
+    ownedShelf: $ownedShelf
+    favoritesShelf: $favoritesShelf
+  )
 }
 
 mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {

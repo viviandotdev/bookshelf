@@ -165,14 +165,17 @@ export class UserBookResolver {
   ) {
     return this.userBookService.updateOrder(data.items, user.userId);
   }
-
   @UseGuards(AccessTokenGuard)
   @Mutation(() => Boolean)
   async importUserBooks(
-    @Args('content')
-    content: string,
+    @Args('content') content: string,
     @CurrentUser() user: JwtPayload,
+    @Args('shelves', { nullable: true, type: () => [String] })
+    shelves?: string[],
+    @Args('ownedShelf', { nullable: true }) ownedShelf?: string,
+    @Args('favoritesShelf', { nullable: true }) favoritesShelf?: string,
   ) {
+    // Your implementation here
     const lines = content.split('\n'); // -1 for empty last line, -1 for the top row
     const mappings = parseLineWithQuotes(lines[0]);
     const failedBooks = [];
@@ -197,25 +200,16 @@ export class UserBookResolver {
 
       return results;
     }
-    const allShelves = new Set();
-    for (let i = 1; i < lines.length - 1; i++) {
-      const line = lines[i];
-      const goodreadsBook = processCSVLine(line, mappings);
-      const shelves = getShelves(goodreadsBook);
-      shelves.forEach((shelf) => allShelves.add(shelf));
-      console.log('Create user shelves');
-    }
-
-    // Prepare data for Prisma's createMany
-    const shelvesData = Array.from(allShelves).map((shelf: string) => ({
-      userId: user.userId,
-      name: shelf,
-      slug: generateSlug(shelf),
-    }));
-
-    // Use Prisma's createMany to insert the shelves
+    const filteredShelves = shelves.filter(
+      (shelf) => shelf !== ownedShelf && shelf !== favoritesShelf,
+    );
+    // Create shelves using Prisma's createMany
     await this.prisma.shelf.createMany({
-      data: shelvesData,
+      data: Array.from(filteredShelves).map((shelf: string) => ({
+        userId: user.userId,
+        name: shelf,
+        slug: generateSlug(shelf),
+      })),
       skipDuplicates: true, // This option skips inserting duplicates if any
     });
 
@@ -225,7 +219,11 @@ export class UserBookResolver {
       const book: GoodreadsBookData = buildBook(goodreadsBook);
       const imageLinks = await getGoodreadsCover(goodreadsBook['Book Id']);
       // on the client get all the covers,  then send list of covers to the server to add in one go
-      const userInfo = getUserBookInfo(goodreadsBook);
+      const userInfo = getUserBookInfo(
+        goodreadsBook,
+        ownedShelf,
+        favoritesShelf,
+      );
       await this.userBookService.createImportedBook(
         userInfo,
         book,

@@ -8,6 +8,7 @@ import { toast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { ImportLibraryContext } from './modals/mutli-step-dialog/multi-step-component';
 import { motion } from 'framer-motion';
+import { parseLineWithQuotes, processCSVLine } from '@/lib/utils';
 
 interface UploadFileProps {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
@@ -50,8 +51,38 @@ export default function UploadFile({
     reader.onload = (e) => {
       const contents = e.target?.result;
       if (contents) {
+        //set the content
         dispatch({ type: 'SET_CSV_CONTENT', payload: contents as string });
+        // get all the shelves and set the shlf contnent
+        const csvContent = contents as string;
+        const lines = csvContent.split('\n'); // -1 for empty last line, -1 for the top row
+
+        const allShelves = new Set();
+        for (let i = 1; i < lines.length - 1; i++) {
+          const line = lines[i];
+          const mappings = parseLineWithQuotes(lines[0]);
+          const goodreadsBook = processCSVLine(line, mappings);
+          let shelves: string[] = []; // get shelves
+          if (goodreadsBook['Bookshelves']) {
+            const cleanShelves = goodreadsBook['Bookshelves']
+              .split(',')
+              .map((shelf) => shelf.trim());
+            const excludedShelves = ['to-read', 'currently-reading', 'read'];
+            shelves = cleanShelves.filter(
+              (shelf) => !excludedShelves.includes(shelf)
+            );
+          }
+          shelves.forEach((shelf) => allShelves.add(shelf));
+        }
+
+        dispatch({
+          type: 'SET_SHELVES',
+          payload: Array.from(allShelves) as string[],
+        });
+        console.log('allShelves', allShelves);
+        // set the selected file
         dispatch({ type: 'SET_SELECTED_FILE', payload: file });
+        // go to the next step
         setDirection(1);
         setCurrentStep((prev) => prev + 1);
       }

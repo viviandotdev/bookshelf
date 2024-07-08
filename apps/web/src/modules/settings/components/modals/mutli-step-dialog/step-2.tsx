@@ -14,19 +14,32 @@ export const Step2: React.FC<Step2Props> = ({
   setDirection,
 }) => {
   const [ownedShelf, setOwnedShelf] = useState('');
-  const [favoritesShelf, setFavoritesShelf] = useState('favorites');
+  const [favoritesShelf, setFavoritesShelf] = useState('');
   const [ImportUserBooks] = useImportUserBooksMutation();
+  const { state } = useContext(ImportLibraryContext)!;
+
   const handleOwnedShelfChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setOwnedShelf(e.target.value);
   };
-  const { state } = useContext(ImportLibraryContext)!;
+
+  const handleFavoritesShelfChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setFavoritesShelf(e.target.value);
+  };
 
   const handleImportLibrary = useCallback(() => {
-    // This function will be called when the "Next" button is clicked in the UploadFile component
     if (state.csvContent) {
       const { csvContent } = state;
       if (csvContent) {
-        ImportUserBooks({ variables: { content: csvContent } });
+        ImportUserBooks({
+          variables: {
+            content: csvContent,
+            shelves: state.shelves || [],
+            ownedShelf: ownedShelf,
+            favoritesShelf: favoritesShelf,
+          },
+        });
       }
       toast({
         variant: 'success',
@@ -34,17 +47,14 @@ export const Step2: React.FC<Step2Props> = ({
           "Your books are now being imported, we'll send you an email notification once it is done ",
       });
     } else {
-      // Handle the case when no file is uploaded
       console.error('No file uploaded');
-      // You might want to show an error message to the user here
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No file was uploaded. Please go back and select a file.',
+      });
     }
-  }, [state.csvContent]);
-
-  const handleFavoritesShelfChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setFavoritesShelf(e.target.value);
-  };
+  }, [state.csvContent, ownedShelf, favoritesShelf, ImportUserBooks]);
 
   return (
     <div className=''>
@@ -63,9 +73,11 @@ export const Step2: React.FC<Step2Props> = ({
             onChange={handleOwnedShelfChange}
           >
             <option value=''>Select a shelf</option>
-            <option value='owned'>Owned</option>
-            <option value='my-books'>My Books</option>
-            <option value='personal-library'>Personal Library</option>
+            {state.shelves.map((shelf) => (
+              <option key={shelf} value={shelf}>
+                {shelf}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -79,9 +91,11 @@ export const Step2: React.FC<Step2Props> = ({
             onChange={handleFavoritesShelfChange}
           >
             <option value=''>Select a shelf</option>
-            <option value='favorites'>Favorites</option>
-            <option value='best-books'>Best Books</option>
-            <option value='top-picks'>Top Picks</option>
+            {state.shelves.map((shelf) => (
+              <option key={shelf} value={shelf}>
+                {shelf}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -102,10 +116,7 @@ export const Step2: React.FC<Step2Props> = ({
         </button>
         <button
           className='cursor-pointer rounded-lg bg-beige-700 p-2 px-3 text-sm font-medium text-white shadow-sm disabled:opacity-50'
-          onClick={() => {
-            handleImportLibrary();
-            return;
-          }}
+          onClick={handleImportLibrary}
         >
           {'Import Books'}
         </button>

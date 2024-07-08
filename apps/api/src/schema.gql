@@ -1574,7 +1574,7 @@ type Mutation {
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
   follow(value: Boolean!, where: UserWhereUniqueInput!): User!
   forgotPassword(email: String!): Boolean!
-  importUserBooks(content: String!): Boolean!
+  importUserBooks(content: String!, favoritesShelf: String, ownedShelf: String, shelves: [String!]): Boolean!
   login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
   oAuth(oAuthInput: OAuthInput!): AuthResponse!

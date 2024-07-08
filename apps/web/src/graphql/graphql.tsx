@@ -975,7 +975,7 @@ export type BookWhereUniqueInput = {
   pageCount?: InputMaybe<IntFilter>;
   ratings?: InputMaybe<RatingListRelationFilter>;
   reviews?: InputMaybe<ReviewListRelationFilter>;
-  slug?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   userBook?: InputMaybe<UserBookRelationFilter>;
@@ -1690,6 +1690,9 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationImportUserBooksArgs = {
   content: Scalars['String']['input'];
+  favoritesShelf?: InputMaybe<Scalars['String']['input']>;
+  ownedShelf?: InputMaybe<Scalars['String']['input']>;
+  shelves?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 
@@ -4785,6 +4788,9 @@ export type RemoveUserBookMutation = { __typename?: 'Mutation', removeUserBook: 
 
 export type ImportUserBooksMutationVariables = Exact<{
   content: Scalars['String']['input'];
+  shelves?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  ownedShelf?: InputMaybe<Scalars['String']['input']>;
+  favoritesShelf?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -4848,7 +4854,7 @@ export type BookQueryVariables = Exact<{
 }>;
 
 
-export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
+export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
 
 export type ReadDatesQueryVariables = Exact<{
   userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -5660,8 +5666,13 @@ export type RemoveUserBookMutationHookResult = ReturnType<typeof useRemoveUserBo
 export type RemoveUserBookMutationResult = Apollo.MutationResult<RemoveUserBookMutation>;
 export type RemoveUserBookMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookMutation, RemoveUserBookMutationVariables>;
 export const ImportUserBooksDocument = gql`
-    mutation ImportUserBooks($content: String!) {
-  importUserBooks(content: $content)
+    mutation ImportUserBooks($content: String!, $shelves: [String!], $ownedShelf: String, $favoritesShelf: String) {
+  importUserBooks(
+    content: $content
+    shelves: $shelves
+    ownedShelf: $ownedShelf
+    favoritesShelf: $favoritesShelf
+  )
 }
     `;
 export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
@@ -5680,6 +5691,9 @@ export type ImportUserBooksMutationFn = Apollo.MutationFunction<ImportUserBooksM
  * const [importUserBooksMutation, { data, loading, error }] = useImportUserBooksMutation({
  *   variables: {
  *      content: // value for 'content'
+ *      shelves: // value for 'shelves'
+ *      ownedShelf: // value for 'ownedShelf'
+ *      favoritesShelf: // value for 'favoritesShelf'
  *   },
  * });
  */
@@ -6053,6 +6067,7 @@ export const BookDocument = gql`
     }
     covers {
       url
+      source
       size
     }
     ratings {

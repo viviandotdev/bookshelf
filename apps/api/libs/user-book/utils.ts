@@ -70,7 +70,11 @@ export function getShelves(objectFromCSV: GoodreadsBook) {
   }
   return shelves;
 }
-export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
+export function getUserBookInfo(
+  objectFromCSV: GoodreadsBook,
+  ownedShelf: string,
+  favoritesShelf: string,
+) {
   let shelves: string[] = []; // get shelves
   if (objectFromCSV['Bookshelves']) {
     const cleanShelves = objectFromCSV['Bookshelves']
@@ -78,6 +82,15 @@ export function getUserBookInfo(objectFromCSV: GoodreadsBook) {
       .map((shelf) => shelf.trim());
     const excludedShelves = ['to-read', 'currently-reading', 'read'];
     shelves = cleanShelves.filter((shelf) => !excludedShelves.includes(shelf));
+    shelves = shelves.map((shelf) => {
+      if (shelf === ownedShelf) {
+        return 'Owned'; //owned shelf name
+      } else if (shelf === favoritesShelf) {
+        return 'Favorites'; //favorites shelf name
+      } else {
+        return shelf;
+      }
+    });
   }
   let status: READING_STATUS;
   if (objectFromCSV['Exclusive Shelf']) {
