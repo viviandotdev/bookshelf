@@ -16,7 +16,7 @@ interface LikeButtonProps {
 
 const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
   const { isLiked, userBookId, setUserBook } = useUserBookStore();
-  const [hasReacted, toggleReact] = useToggle(isLiked);
+  const [hasReacted, toggleReact] = useToggle();
 
   useEffect(() => {
     if (userBook) {
@@ -25,6 +25,9 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
           ({ shelf }) => shelf.name === 'Favorites'
         ),
       });
+      toggleReact(
+        userBook.shelves?.some(({ shelf }) => shelf.name === 'Favorites')
+      );
     }
   }, [userBook]);
 

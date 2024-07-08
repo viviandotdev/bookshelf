@@ -23,6 +23,9 @@ const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
       setUserBook({
         isOwned: userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned'),
       });
+      toggleReact(
+        userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned')
+      );
     }
   }, [userBook]);
 
