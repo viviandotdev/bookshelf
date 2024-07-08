@@ -79,6 +79,11 @@ module.exports = {
       },
       // Animation
       keyframes: {
+        //defines the animation
+        'fade-in': {
+          from: { opacity: '0', transform: 'translateY(-10px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
         'accordion-down': {
           from: { height: 0 },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -90,6 +95,7 @@ module.exports = {
       },
 
       animation: {
+        'fade-in': 'fade-in 2000ms var(--animation-delay, 0ms) ease forwards',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },

@@ -11,62 +11,28 @@ import { Reading_Status } from '@/graphql/graphql';
 
 export const MainBookList = ({
   books,
-  currView,
-  username,
+  count,
 }: {
   books: any;
-  username: string;
-  currView: string;
+  count: number;
 }) => {
   // fiction, nonfiction, want-to-read
-  const [view, setView] = useState<string>('want-to-read');
-  const [isPending, startTransition] = useTransition();
-  const [content, setContent] = useState(books);
-  const getTitle = (view: string) => {
-    switch (view) {
-      case 'want-to-read':
-        return Reading_Status.WantToRead;
-      default:
-        return ''; // Default title or some other appropriate title
-    }
-  };
-
-  useEffect(() => {
-    switch (view) {
-      case 'want-to-read':
-        startTransition(() => {
-          getUserBooks({
-            status: {
-              equals: Reading_Status.WantToRead,
-            },
-          }).then((data) => {
-            setContent(data);
-          });
-        });
-        break;
-      default:
-        break;
-    }
-  }, [view]);
-
   return (
-    <div className='shadow-xs rounded-md border border-gray-200 bg-white p-6'>
+    <div className='border border-gray-200 bg-white p-6'>
       <div className='mb-4 flex justify-between'>
         <DashboardHeader
-          title={getTitle(view)}
-          count={content.length}
-          href={`/${username}/books?status=Want+to+Read`}
+          title={'Want to Read'}
+          count={count}
+          href={`/library?status=${Reading_Status.WantToRead}`}
         />
 
         {/* <CustomizeDropdown currentView={view} setView={setView} /> */}
       </div>
       <div className={'grid grid-cols-5 gap-4'}>
-        {content.length > 0 &&
-          content
-            .slice(0, 5)
-            .map((book: any) => <BookItem key={book.id} book={book} />)}
+        {books.length > 0 &&
+          books.map((book: any) => <BookItem key={book.id} book={book} />)}
       </div>
-      <ContentMessage isPending={isPending} view={view} content={content} />
+      {/* <ContentMessage isPending={isPending} view={view} content={content} /> */}
     </div>
   );
 };
@@ -94,7 +60,7 @@ type ContentMessageProps = {
   content: any[]; // You should replace 'any' with the actual type of your content items
 };
 
-const ContentMessage: React.FC<ContentMessageProps> = ({
+const LoadingMessage: React.FC<ContentMessageProps> = ({
   isPending,
   view,
   content,

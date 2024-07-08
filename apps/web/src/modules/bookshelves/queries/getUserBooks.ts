@@ -3,12 +3,17 @@ import {
   GetUserBooksDocument,
   GetUserBooksQuery,
   UserBook,
+  UserBookOrderByWithRelationInput,
   UserBookWhereInput,
 } from '@/graphql/graphql';
 import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { getCurrentUser } from '@/lib/auth';
 
-export async function getUserBooks(where: UserBookWhereInput, limit?: number) {
+export async function getUserBooks(
+  where: UserBookWhereInput,
+  limit?: number,
+  orderBy?: UserBookOrderByWithRelationInput
+) {
   const user = await getCurrentUser();
   const client = getApolloClient();
   client.setLink(setAuthToken(user.accessToken).concat(httpLink));
@@ -18,6 +23,7 @@ export async function getUserBooks(where: UserBookWhereInput, limit?: number) {
     variables: {
       where,
       limit,
+      orderBy,
     },
   });
 

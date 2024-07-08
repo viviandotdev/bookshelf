@@ -39,6 +39,8 @@ import {
   Backpack,
   Flame,
   Minus,
+  CircleCheck,
+  BookCheck,
 } from 'lucide-react';
 import { DotsVerticalIcon, LayoutIcon } from '@radix-ui/react-icons';
 
@@ -142,6 +144,7 @@ export const Icons = {
   book: Book,
   reading: Eye,
   finished: CheckCircle2,
+  bookCheck: BookCheck,
   bookOpen: openBook,
   dot: Dot,
   layoutGrid: LayoutGrid,

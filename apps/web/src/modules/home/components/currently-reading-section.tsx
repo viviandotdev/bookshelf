@@ -6,18 +6,19 @@ import { Reading_Status, UserBook } from '@/graphql/graphql';
 
 interface CurrentlyReadingSectionProps {
   currentlyReading: UserBook[];
+  count: number;
 }
 
 export const CurrentlyReadingSection: React.FC<
   CurrentlyReadingSectionProps
-> = ({ currentlyReading }) => {
+> = ({ currentlyReading, count }) => {
   return (
     <section className='rounded-md border border-gray-200 bg-white p-6 shadow-sm'>
       <div className='mb-4 flex justify-between'>
         <DashboardHeader
           href={`/library?status=${Reading_Status.Reading}`}
           title={'Currently Reading'}
-          count={currentlyReading.length}
+          count={count}
         />
       </div>
       <div className={'flex flex-col gap-2 '}>

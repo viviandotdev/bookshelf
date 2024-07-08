@@ -1,23 +1,28 @@
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+// MarketingTemplate.tsx
 import React from 'react';
+import HeroSection from '../sections/hero-section';
+import FeaturesSection from '../sections/features-seciton';
+import FooterSection from '../sections/footer-section';
+import ViewFilterSortSection from '../sections/view-filter-sort-section';
 
-interface MarketingTemplateProps {}
-
-export const MarketingTemplate: React.FC<MarketingTemplateProps> = ({}) => {
+export const MarketingTemplate: React.FC = () => {
   return (
-    <section className='relative z-0 space-y-6 pb-8 pt-6 md:pb-12 md:pt-10'>
-      <div className='container flex max-w-[64rem] flex-col items-center gap-4 text-center'>
-        <h1
-          className={cn(
-            dm_sefif_display.className,
-            'text-2xl/[1.25] sm:text-3xl/[1.25] md:text-4xl/[1.25]'
-          )}
-        >
-          Welcome to Bookcue, A place to store and track your favorite books
-        </h1>
+    <section className='relative z-0 pt-20'>
+      <div className='container flex max-w-[72rem] flex-col items-center gap-4 pb-28 text-center'>
+        <HeroSection
+          title='Organize and track your favorite books'
+          ctaText='Sign up now'
+        />
       </div>
+      <div className='pb-12'>
+        <FeaturesSection />
+      </div>
+      <div className='flex flex-col items-center gap-12 p-4 pb-28 pt-12'>
+        <ViewFilterSortSection />
+      </div>
+      <FooterSection />
     </section>
   );
 };
+
 export default MarketingTemplate;

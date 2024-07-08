@@ -15,6 +15,11 @@ const buttonVariants = cva(
         link: 'underline-offset-4 hover:underline text-beige',
         pill: 'bg-beige-100 text-beige-700 hover:bg-beige-100/80 rounded-2xl font-semibold h-8 px-3',
         card: 'rounded-none bg-white border border-gray-200 text-beige-700 hover:bg-gray-100',
+        // cta: 'rounded-full bg-indigo-600 text-center text-lg font-medium text-gray-300',
+        cta: [
+          'bg-beige-100 hover:text-shadow hover:shadow-primary transition-[shadow,text-shadow]',
+          '[&_.highlight]:ml-2',
+        ],
       },
       size: {
         default: 'h-10 py-2 px-4',

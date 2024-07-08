@@ -1,7 +1,11 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Icons } from '@/components/icons';
-import { CountUserBooksQuery } from '@/graphql/graphql';
+import {
+  BookCountsResponse,
+  CountUserBooksQuery,
+  Reading_Status,
+} from '@/graphql/graphql';
 import Link from 'next/link';
 import { getCurrentUser } from '@/lib/auth';
 import { User } from 'next-auth';
@@ -34,44 +38,40 @@ const ReadingItem = ({
 );
 
 // Modify ReadingSummary to accept props
-const ReadingSummary = ({
-  summaryData,
-  username,
-}: {
-  summaryData: {
-    wantToRead: number;
-    currentlyReading: number;
-    read: number;
-  };
-  username: string;
-}) => {
-  // href: user ? `/${user.username}/books` : '/',
+const ReadingSummary = ({ bookCounts }: { bookCounts: BookCountsResponse }) => {
   const readingSummaryItems = [
     {
       icon: <Icons.bookOpen />,
       label: 'Currently Reading',
-      value: `${summaryData.currentlyReading} books`,
-      link: `/${username}/books?status=Currently+Reading`,
+      value: `${bookCounts.readingCount} books`,
+      link: `/library?status=${Reading_Status.Reading}`,
+    },
+    {
+      icon: <Icons.upNext />,
+      label: 'Up Next',
+      value: `${bookCounts.upNextCount} books`,
+      link: `/library?status=${Reading_Status.UpNext}`,
     },
     {
       icon: <Icons.save />,
       label: 'Want to Read',
-      value: `${summaryData.wantToRead} books`,
-      link: `/${username}/books?status=Want+to+Read`,
+      value: `${bookCounts.wantsToReadCount} books`,
+      link: `/library?status=${Reading_Status.WantToRead}`,
     },
 
     {
-      icon: <Icons.book />,
+      icon: <Icons.bookCheck />,
       label: 'Read',
-      value: `${summaryData.read} books`,
-      link: `/${username}/books?status=Read`,
+      value: `${bookCounts.finishedCount} books`,
+      link: `/library?status=${Reading_Status.Finished}`,
     },
-    {
-      icon: <Icons.streak />,
-      label: 'Longest streak',
-      value: '10 days',
-      link: '',
-    },
+
+    // {
+    //   icon: <Icons.streak />,
+    //   label: 'Longest streak',
+    //   value: '10 days',
+    //   link: '',
+    // },
   ];
 
   return (

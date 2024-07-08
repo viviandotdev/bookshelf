@@ -94,7 +94,8 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
             </div>
             <div className='flex w-max items-center text-xs font-medium text-gray-500'>
               <div>
-                {pageProgress}/ {readDate?.readingProgress?.capacity} pages read
+                {pageProgress} / {readDate?.readingProgress?.capacity} pages
+                read
               </div>
             </div>
           </div>

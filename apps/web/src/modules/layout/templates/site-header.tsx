@@ -2,7 +2,7 @@ import React from 'react';
 import MainHeader from '../components/main-header';
 
 interface SiteHeaderProps {
-  user: any;
+  user?: any;
   children?: React.ReactNode;
 }
 
@@ -12,7 +12,7 @@ const SiteHeader = ({ user, children }: SiteHeaderProps) => {
       <div className='mx-0 bg-white'>
         <MainHeader user={user}>{children}</MainHeader>
       </div>
-      <hr className='border-t border-gray-200' />
+      <hr className='border-t border-gray-200 shadow-sm' />
     </header>
   );
 };
