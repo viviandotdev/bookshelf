@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import UploadFileDialog from './upload-file-dialog';
+import UploadFileDialogButton from './upload-file';
+import MultiStep, { MultiStepDialog } from './modals/mutli-step-dialog';
 
 interface ImportActionsProps {}
 
@@ -13,7 +14,7 @@ interface StepProps {
   children: React.ReactNode;
 }
 
-const Step: React.FC<StepProps> = ({ title, description, children }) => (
+const ImportStep: React.FC<StepProps> = ({ title, description, children }) => (
   <div className='flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm'>
     <div>
       <h1 className='text-base font-semibold'>{title}</h1>
@@ -26,7 +27,7 @@ const Step: React.FC<StepProps> = ({ title, description, children }) => (
 export const ImportActions: React.FC<ImportActionsProps> = () => {
   return (
     <div className='mt-6 flex flex-col gap-6'>
-      <Step
+      <ImportStep
         title='1. Export Library'
         description='Download your data from the Goodreads Export page'
       >
@@ -40,17 +41,18 @@ export const ImportActions: React.FC<ImportActionsProps> = () => {
         >
           Export Goodreads Library
         </Link>
-      </Step>
-      <Step
+      </ImportStep>
+      <ImportStep
         title='2. Upload CSV File'
         description='Upload the file downloaded from step 1'
       >
-        <UploadFileDialog
+        {/* <UploadFileDialogButton
           actionLabel='Import'
           className='justify-start'
-          buttonLabel='Upload a File'
-        />
-      </Step>
+        /> */}
+        {/* <MultiStepModal triggerLabel='lolo' /> */}
+        <MultiStepDialog actionLabel={''} isLoading={false} />
+      </ImportStep>
     </div>
   );
 };

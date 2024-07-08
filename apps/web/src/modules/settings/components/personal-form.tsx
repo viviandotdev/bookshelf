@@ -1,7 +1,7 @@
 // PersonalForm.tsx
 import React, { useEffect, useReducer, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import UploadFileDialog from './upload-file-dialog';
+import UploadFileDialog from './upload-file';
 import CollapsibleForm, { FormNames } from './collapsible-form';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';

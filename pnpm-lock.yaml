@@ -370,6 +370,9 @@ importers:
       react-spinners:
         specifier: ^0.13.8
         version: 0.13.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-use-measure:
+        specifier: ^2.1.1
+        version: 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-ymd-date-select:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6621,6 +6624,12 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  react-use-measure@2.1.1:
+    resolution: {integrity: sha512-nocZhN26cproIiIduswYpV5y5lQpSQS1y/4KuvUCjSKmw7ZWIS/+g3aFnX3WdBkyuGUtTLif3UTqnLLhbDoQig==}
+    peerDependencies:
+      react: '>=16.13'
+      react-dom: '>=16.13'
 
   react-ymd-date-select@0.3.0:
     resolution: {integrity: sha512-frX9m7eo7dC6j8nJr1pWEq+Ti++ojftVbBDeivrozxervvkZTzPW3PgZA8hwTQwED5NmslaeXBVZyUOBu89a6w==}
@@ -15330,6 +15339,12 @@ snapshots:
       tslib: 2.6.2
     optionalDependencies:
       '@types/react': 18.3.3
+
+  react-use-measure@2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      debounce: 1.2.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react-ymd-date-select@0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
