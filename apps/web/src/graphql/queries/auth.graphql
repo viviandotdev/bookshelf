@@ -5,5 +5,6 @@ query Me {
     name
     location
     bio
+    image
   }
 }

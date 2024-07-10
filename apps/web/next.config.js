@@ -41,6 +41,11 @@ const nextConfig = {
         hostname: 'i.gr-assets.com',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'webgradients.com',
+        port: '',
+      },
     ],
   },
 };

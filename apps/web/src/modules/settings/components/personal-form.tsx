@@ -4,6 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import CollapsibleForm, { FormNames } from './collapsible-form';
 import { useSession } from 'next-auth/react';
 import { useMeLazyQuery, User } from '@/graphql/graphql';
+import { ChangeAvatarModal } from './modals/change-avatar';
+import { Button } from '@/components/ui/button';
+import useChangeAvatarModal from './modals/change-avatar/use-change-avatar';
 
 interface PersonalFormProps {
   user: User;
@@ -41,7 +44,7 @@ const personalInfoReducer = (
 export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
   const { data: session } = useSession();
   const [openForm, setOpenForm] = useState<FormNames | ''>('');
-
+  const changeAvatarModal = useChangeAvatarModal();
   const [personalInfo, dispatch] = useReducer(personalInfoReducer, {
     bio: user.bio || '',
     location: user.location || '',
@@ -83,23 +86,25 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
 
         <div className='mx-auto'>
           <div className='mb-8 rounded-lg bg-beige-50'>
-            <div className='mb-6 flex items-center rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm '>
-              <Avatar className='h-16 w-16'>
-                <AvatarImage
-                  alt='User avatar'
-                  src='/placeholder.svg?height=96&width=96'
-                />
-                <AvatarFallback>VL</AvatarFallback>
-              </Avatar>
-              <h2 className='ml-4 text-lg font-medium'>
-                {session?.user.username || user.username}
-              </h2>
-              {/* <UploadFileDialog
-                actionLabel={'Save'}
-                className='ml-auto'
-                buttonLabel={'Change Avatar'}
-              /> */}
+            <div className='mb-6 flex items-center justify-between rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm'>
+              <div className='flex items-center'>
+                <Avatar className='h-16 w-16'>
+                  <AvatarImage
+                    alt='User avatar'
+                    src='/placeholder.svg?height=96&width=96'
+                  />
+                  <AvatarFallback>VL</AvatarFallback>
+                </Avatar>
+                <h2 className='ml-4 text-lg font-medium'>
+                  {session?.user.username || user.username}
+                </h2>
+              </div>
+              <Button variant='secondary' onClick={changeAvatarModal.onOpen}>
+                Change Avatar
+              </Button>
+              {/* <ChangeAvatarModal /> */}
             </div>
+
             <div className=' rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
               <CollapsibleForm
                 label='Name'

@@ -21,6 +21,8 @@ import { ResetPasswordInput } from './dto/reset-password.input';
 import { MeResponse } from './dto/me.response';
 import { ShelfService } from 'libs/shelf/shelf.service';
 import { generateSlug } from 'libs/user-book/utils';
+const DEFAULT_AVATAR =
+  'https://webgradients.com/public/webgradients_png/029%20Everlasting%20Sky.png';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -36,6 +38,7 @@ export class AuthResolver {
     const user = await this.userService.createUser({
       email: registerInput.email,
       username: registerInput.username,
+      image: DEFAULT_AVATAR,
       hashedPassword,
     });
     // Create default shelves
@@ -170,7 +173,6 @@ export class AuthResolver {
       where: {
         id: currentUser.userId,
       },
-      
     });
 
     const existingAccount = await this.authService.findAccountById({

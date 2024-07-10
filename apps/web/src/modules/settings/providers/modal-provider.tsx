@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ChangePasswordModal } from '../components/modals/change-password';
 import { ChangeEmailModal } from '../components/modals/change-email';
+import { ChangeAvatarModal } from '../components/modals/change-avatar';
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -18,6 +19,7 @@ export const ModalProvider = () => {
     <>
       <ChangePasswordModal />
       <ChangeEmailModal />
+      <ChangeAvatarModal />
     </>
   );
 };
