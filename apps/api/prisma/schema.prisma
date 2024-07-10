@@ -52,8 +52,6 @@ model User {
     /// @Validator.IsString()
     bio String?
 
-    /// @Validator.IsDate()
-    dob                DateTime?
     /// @Validator.IsString()
     /// @HideField()
     hashedRefreshToken String?

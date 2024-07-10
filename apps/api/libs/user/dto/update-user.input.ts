@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsDateString, IsEmail, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsString, MinLength } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
@@ -34,8 +34,4 @@ export class UpdateUserInput {
   @IsString()
   @Field({ nullable: true })
   bio?: string;
-
-  @IsDateString()
-  @Field({ nullable: true })
-  dob?: string;
 }

@@ -13,4 +13,15 @@ export class MeResponse {
   @IsBoolean()
   @Field({ nullable: true })
   isOAuth?: boolean;
+
+  @Field({ nullable: true })
+  id?: string;
+  @Field({ nullable: true })
+  location?: string;
+
+  @Field({ nullable: true })
+  bio?: string;
+
+  @Field({ nullable: true })
+  name?: string;
 }

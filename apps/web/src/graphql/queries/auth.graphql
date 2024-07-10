@@ -1,7 +1,9 @@
 query Me {
   me {
-    email
     username
-    isOAuth
+    email
+    name
+    location
+    bio
   }
 }

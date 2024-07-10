@@ -11,6 +11,9 @@ query User($where: UserWhereUniqueInput!) {
     id
     username
     email
+    name
+    location
     bio
   }
 }
+

@@ -7,6 +7,9 @@ mutation Login($input: LogInInput!) {
     user {
       email
       username
+      location
+      bio
+      name
       emailVerified
       id
     }

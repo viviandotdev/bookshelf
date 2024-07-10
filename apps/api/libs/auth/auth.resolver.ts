@@ -170,6 +170,7 @@ export class AuthResolver {
       where: {
         id: currentUser.userId,
       },
+      
     });
 
     const existingAccount = await this.authService.findAccountById({

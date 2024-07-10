@@ -80,7 +80,6 @@ export default {
         return {
           id: data!.user.id,
           email: data!.user.email,
-          
           username: data!.user.username,
           emailVerified: data!.user.emailVerified,
           accessToken: data!.accessToken,
@@ -104,6 +103,8 @@ export default {
     async jwt({ token, user, account, profile }) {
       const u = user as unknown as any;
       if (account && account?.provider != 'credentials') {
+        //  handle oauth provider case
+        // create provider account in the database
         const { data } = await client.mutate<OAuthMutation>({
           mutation: OAuthDocument,
           variables: {
@@ -123,18 +124,17 @@ export default {
           token.expiresIn = data?.oAuth.expiresIn;
           token.isOAuth = true;
         }
-      }
-      //  handle oauth provider case
-      // create provider account in the database
-      else if (user && account?.provider == 'credentials') {
+      } else if (user && account?.provider == 'credentials') {
+        //login credentials pass the values jere
         token.username = u.username;
         token.email = u.email;
         token.id = u.id;
         token.accessToken = u.accessToken;
         token.expiresIn = u.expiresIn;
+
         token.isOAuth = false;
-        //the user is signin, add additional properties to the jwt token created
       } else if (token.accessToken) {
+        //the user is signed up, add additional properties to the jwt token created
         client.setLink(
           setAuthToken(token.accessToken as string).concat(httpLink)
         );
@@ -161,6 +161,7 @@ export default {
       return Promise.resolve(token); //signed in user is returning to the same session
     },
     async session({ session, token }) {
+      //pass the additional properties to the session object on the client side
       session.error = token.error;
       session.user = {
         ...session.user,
@@ -173,7 +174,6 @@ export default {
         isOAuth: token.isOAuth,
       };
       return Promise.resolve(session);
-      //pass the additional properties to the session object on the client side
     },
   },
 } satisfies NextAuthConfig;

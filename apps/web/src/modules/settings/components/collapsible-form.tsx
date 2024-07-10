@@ -26,6 +26,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calender';
+import { toast } from '@/hooks/use-toast';
 
 export type FormNames =
   | 'username'
@@ -57,6 +58,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const textColor = value ? 'text-black' : 'text-gray-400';
   const [isPending, startTransition] = useTransition();
   const { update } = useSession();
+  //get user from query
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
@@ -66,10 +68,10 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       name: undefined,
       username: undefined,
       location: undefined,
-      dob: undefined,
       bio: undefined,
     },
   });
+  //   call the api to update the value in the database
 
   useEffect(() => {
     form.reset({
@@ -77,7 +79,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       username: openForm === 'username' ? value : undefined,
       location: openForm === 'location' ? value : undefined,
       bio: openForm === 'bio' ? value : undefined,
-      dob: openForm === 'dob' && value ? new Date(value) : undefined,
     });
   }, [openForm]);
 
@@ -99,6 +100,11 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                 onChange(values[openForm] || '');
               }
             }
+            toast({
+              title: 'Success',
+              description: 'Your settings have been updated',
+              variant: 'success',
+            });
             setSuccess(data.success);
           }
         })
@@ -107,12 +113,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   };
 
   function formatDateOrDisplayValue(value: string) {
-    if (label === 'Date of Birth') {
-      const dateObject = new Date(value);
-      if (dateObject && isValid(dateObject)) {
-        return format(dateObject, 'PPP');
-      }
-    }
     return value || '+ Add';
   }
 
@@ -127,40 +127,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
             disabled={isPending}
           />
         </FormControl>
-      );
-    } else if (openForm === 'dob') {
-      return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <FormControl>
-              <Button
-                variant={'outline'}
-                className={cn(
-                  'w-[240px] pl-3 text-left font-normal',
-                  !field.value && 'text-muted-foreground'
-                )}
-              >
-                {field.value && isValid(field.value) ? (
-                  format(field.value, 'PPP')
-                ) : (
-                  <span>Pick a date</span>
-                )}
-                <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-              </Button>
-            </FormControl>
-          </PopoverTrigger>
-          <PopoverContent className='w-auto p-0' align='start'>
-            <Calendar
-              mode='single'
-              selected={field.value}
-              onSelect={field.onChange}
-              disabled={(date) =>
-                date > new Date() || date < new Date('1900-01-01')
-              }
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
       );
     } else {
       return (

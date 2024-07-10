@@ -26,12 +26,11 @@ export class UserResolver {
   ) {}
 
   @UseGuards(AccessTokenGuard)
-  @Mutation(() => User )
+  @Mutation(() => User)
   async updateUser(
     @Args('data') data: UpdateUserInput,
     @CurrentUser() currentUser: JwtPayload,
   ) {
-    console.log(data);
     const existingUser = await this.userService.findUnique({
       where: {
         id: currentUser.userId,
@@ -75,7 +74,6 @@ export class UserResolver {
         location: data.location,
         bio: data.bio,
         name: data.name,
-        dob: data.dob ? new Date(data.dob) : undefined,
       },
     });
   }
@@ -99,7 +97,7 @@ export class UserResolver {
   }
 
   @UseGuards(OptionalAccessTokenGuard)
-  @Query(() => User , {nullable: true})
+  @Query(() => User, { nullable: true })
   user(@Args('where') where: UserWhereUniqueInput) {
     return this.userService.findUnique({
       where: {
