@@ -30,26 +30,12 @@ export function MobileNav({ user }: MobileNavProps) {
 
   return (
     <div className='nav-lg:hidden' aria-label='Global'>
-      {/* <div className="space-y-1 px-2 pb-3 pt-2">
-                {items.map((item) => (
-                    <Link
-                        key={item.title}
-                        href={item.href!}
-                        className={cn(
-                            'flex w-full items-center rounded-md px-4 py-2 text-base font-medium hover:underline',
-                            item.disabled && 'cursor-not-allowed opacity-60'
-                        )}
-
-                    >
-                        {item.title}
-                    </Link>
-                ))}
-            </div> */}
       <div className='border-t border-gray-200 pb-3 pt-4'>
         <div className='flex items-center px-4'>
           <div className='flex-shrink-0'>
             <UserAvatar
-              username={'vivian'}
+              username={session?.user.username || user.username}
+              src={session?.user.avatarImage || user.avatarImage}
               size={'default'}
               className='h-10 w-10'
             />

@@ -72,6 +72,7 @@ export class UserResolver {
         email: data.email,
         username: data.username,
         location: data.location,
+        avatarImage: data.avatarImage,
         bio: data.bio,
         name: data.name,
       },

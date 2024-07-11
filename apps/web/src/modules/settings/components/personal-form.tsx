@@ -90,7 +90,10 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
             <div className='mb-6 flex items-center justify-between rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm'>
               <div className='flex items-center'>
                 <Avatar className='h-16 w-16'>
-                  <AvatarImage alt='User avatar' src={user.avatarImage || ''} />
+                  <AvatarImage
+                    alt='User avatar'
+                    src={session?.user.avatarImage || user.avatarImage || ''}
+                  />
                   <AvatarFallback>
                     <span className='sr-only'>{user.username}</span>
                     <Icons.user className={'h-6 w-6'} />

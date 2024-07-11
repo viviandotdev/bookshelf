@@ -11,12 +11,16 @@ import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 import useChangeAvatarModal from './use-change-avatar';
 import { ImagePicker } from './image-picker';
+import { useSession } from 'next-auth/react';
+import { changeAvatar } from '@/modules/settings/actions/change-avatar';
+import { toast } from '@/hooks/use-toast';
 
 export const changeAvatarSchema = z.object({
   image: z.string().min(1),
 });
 
 export const ChangeAvatarModal = () => {
+  const { data: session, update } = useSession();
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
@@ -24,21 +28,42 @@ export const ChangeAvatarModal = () => {
 
   useEffect(() => {
     form.reset({
-      image: undefined,
+      image: session?.user.avatarImage, // Set default image
     });
   }, [changeAvatarModal.isOpen]);
 
   const form = useForm<z.infer<typeof changeAvatarSchema>>({
     resolver: zodResolver(changeAvatarSchema),
     defaultValues: {
-      image: undefined,
+      image: session?.user.avatarImage, // Set default image
     },
   });
 
   const onSubmit = async (values: z.infer<typeof changeAvatarSchema>) => {
     setError('');
     setSuccess('');
-    console.log(values);
+
+    startTransition(() => {
+      // Perform the email update logic here with the verification code
+      changeAvatar({ image: values.image })
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          }
+          if (data.success) {
+            changeAvatarModal.onClose();
+            toast({
+              title: data.success,
+              variant: 'success',
+            });
+            // update the client seession
+            update({
+              avatarImage: form.getValues().image,
+            });
+          }
+        })
+        .catch(() => setError('Something went wrong!'));
+    });
   };
 
   return (
@@ -56,7 +81,11 @@ export const ChangeAvatarModal = () => {
                 control={form.control}
                 name='image'
                 render={({ field }) => (
-                  <ImagePicker id='avatar-image' onChange={field.onChange} />
+                  <ImagePicker
+                    value={field.value}
+                    id='avatar-image'
+                    onChange={field.onChange}
+                  />
                 )}
               />
               <FormError message={error} />

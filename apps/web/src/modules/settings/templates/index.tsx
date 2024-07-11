@@ -36,10 +36,6 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
     default:
       pageForm = <AccountForm user={user} />;
   }
-
-  useEffect(() => {
-    console.log(session);
-  }, []);
   const isActiveLink = (linkPage: string) => {
     if (linkPage === 'personal information') {
       linkPage = 'personal';

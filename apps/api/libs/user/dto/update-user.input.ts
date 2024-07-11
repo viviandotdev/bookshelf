@@ -34,4 +34,8 @@ export class UpdateUserInput {
   @IsString()
   @Field({ nullable: true })
   bio?: string;
+
+  @IsString()
+  @Field({ nullable: true })
+  avatarImage?: string;
 }

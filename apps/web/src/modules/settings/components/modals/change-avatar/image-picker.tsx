@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const defaultImages = [
+export const defaultImages = [
   {
     id: 1,
     title: 'Warm Flame',
@@ -65,10 +65,23 @@ const defaultImages = [
 interface ImagePickerProps {
   id: string;
   onChange: (value: string) => void;
+  value?: string; // Add this prop
 }
 
-export const ImagePicker = ({ id, onChange }: ImagePickerProps) => {
-  const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
+export const ImagePicker = ({ id, onChange, value }: ImagePickerProps) => {
+  const [selectedImageId, setSelectedImageId] = useState<number | null>(() => {
+    // Initialize with the id of the image matching the value prop
+    const defaultImage = defaultImages.find((img) => img.source === value);
+    return defaultImage ? defaultImage.id : null;
+  });
+
+  useEffect(() => {
+    // Update selectedImageId when value changes
+    const image = defaultImages.find((img) => img.source === value);
+    if (image) {
+      setSelectedImageId(image.id);
+    }
+  }, [value]);
 
   const handleImageSelect = (imageId: number) => {
     setSelectedImageId(imageId);

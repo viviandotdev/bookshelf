@@ -11,6 +11,7 @@ import React from 'react';
 import SearchInput from './search-input';
 import { Icons } from '@/components/icons';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 interface MainHeaderProps {
   user: any;
@@ -19,7 +20,7 @@ interface MainHeaderProps {
 
 export default function MainHeader({ user, children }: MainHeaderProps) {
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
-
+  const { data: session } = useSession();
   const subItems = [
     {
       title: 'My Library',
@@ -106,10 +107,10 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
               <LogBookButton />
               <UserAccountNav
                 user={{
-                  email: user.email,
-                  username: user.username,
+                  email: session?.user.email || user.email,
+                  username: session?.user.username || user.username,
                   id: user.id,
-                  avatarImage: user.avatarImage,
+                  avatarImage: session?.user.avatarImage || user.avatarImage,
                 }}
               />
             </div>
