@@ -11,9 +11,6 @@ import { UserModule } from 'libs/user/user.module';
 import { BookModule } from 'libs/book/book.module';
 import { UserBookModule } from 'libs/user-book/user-book.module';
 import { AuthModule } from 'libs/auth/auth.module';
-import { ReviewModule } from 'libs/review/review.module';
-import { CommentModule } from 'libs/comment/comment.module';
-import { ActivityModule } from '../libs/activity/activity.module';
 import { IdentifierModule } from 'libs/identifier/identifier.module';
 import { ReadDateModule } from 'libs/read-date/read-date.module';
 
@@ -32,10 +29,7 @@ import { ReadDateModule } from 'libs/read-date/read-date.module';
     AuthModule,
     BookModule,
     UserBookModule,
-    ReviewModule,
     ShelfModule,
-    CommentModule,
-    ActivityModule,
     ReadDateModule,
     IdentifierModule,
   ],

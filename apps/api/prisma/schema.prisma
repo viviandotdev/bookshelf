@@ -63,15 +63,10 @@ model User {
     shelves            Shelf[]
     following          User[]     @relation("UserFollows")
     followers          User[]     @relation("UserFollows")
-    reviews            Review[]
-    likedReviews       Review[]   @relation(name: "LikedReviews")
-    comments           Comment[]
-    // auditLogs          AuditLog[]
-    // AUTH
-    avatarImage        String?
-    emailVerified      DateTime?
-    accounts           Account[]
-    AuditLog           AuditLog[]
+
+    avatarImage   String?
+    emailVerified DateTime?
+    accounts      Account[]
 }
 
 model Account {
@@ -135,30 +130,6 @@ model Identifier {
     sourceId String
     book     Book?   @relation(fields: [bookId], references: [id])
     bookId   String?
-}
-
-model Review {
-    id        String    @id @default(uuid())
-    createdAt DateTime  @default(now())
-    content   String?
-    likeCount Int       @default(0)
-    likedBy   User[]    @relation("LikedReviews")
-    spoilers  Boolean   @default(false)
-    comments  Comment[]
-    user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String?
-    book      Book?     @relation(fields: [bookId], references: [id], onDelete: Cascade)
-    bookId    String?
-}
-
-model Comment {
-    id        String   @id @default(uuid())
-    createdAt DateTime @default(now())
-    content   String?
-    user      User?    @relation(fields: [userId], references: [id])
-    userId    String?
-    review    Review?  @relation(fields: [reviewId], references: [id])
-    reviewId  String?
 }
 
 enum READING_STATUS {
@@ -246,12 +217,10 @@ model Book {
 
     /// @Validator.ValidateNested()
     userBook UserBook?
-    reviews  Review[]
     // logs     AuditLog[]
 
-    covers   Cover[]
-    ratings  Rating[]
-    AuditLog AuditLog[]
+    covers  Cover[]
+    ratings Rating[]
 }
 
 model UserBookShelves {
@@ -281,33 +250,6 @@ model Shelf {
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique(fields: [userId, name], name: "identifier")
-}
-
-enum ACTION {
-    REVIEW
-    COMMENT
-    STATUS_UPDATE
-    LIKE
-    RATE
-    LOG
-    SHELVE
-}
-
-model AuditLog {
-    id     String @id @unique @default(uuid())
-    userId String
-    user   User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    action ACTION
-    // BOOK the action was performed on
-    bookId String
-    book   Book?  @relation(fields: [bookId], references: [id])
-
-    // ACTION content
-    actionContent String?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {

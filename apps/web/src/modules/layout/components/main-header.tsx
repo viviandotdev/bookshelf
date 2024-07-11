@@ -27,21 +27,6 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
       href: user ? `/library` : '/',
       type: user ? 'user' : '',
     },
-    {
-      title: 'Journal',
-      href: user ? `/${user.username}/journal` : '/',
-      type: user ? 'user' : '',
-    },
-    {
-      title: 'Activity',
-      href: user ? `/${user.username}/activity` : '/',
-      type: user ? 'user' : '',
-    },
-    {
-      title: 'Lists',
-      href: user ? `/${user.username}/lists` : '/',
-      type: user ? 'user' : '',
-    },
   ];
 
   const items = [

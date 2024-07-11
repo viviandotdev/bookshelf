@@ -12,7 +12,6 @@ import { UserBookRepository } from './user-book.repository';
 import { UserBookUpdateInput } from './models/user-book-update.input';
 import { BookItemInput } from './models/user-book-update-order.input';
 import { PrismaRepository } from 'prisma/prisma.repository';
-import { ActivityService } from 'libs/activity/activity.service';
 import { generateSlug, getUserBookInfo } from './utils';
 import { CoverService } from 'libs/cover/cover.service';
 import { BookService } from 'libs/book/book.service';

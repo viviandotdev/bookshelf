@@ -30,7 +30,6 @@ import ImportSummaryEmail from '../../email/import-result';
 import {
   buildBook,
   generateSlug,
-  getShelves,
   getUserBookInfo,
   parseLineWithQuotes,
   processCSVLine,
@@ -279,9 +278,6 @@ export class UserBookResolver {
         `Unauthorized to delete user book ${JSON.stringify(where)}`,
       );
     }
-    await this.prisma.auditLog.deleteMany({
-      where: { bookId: userBook.bookId },
-    });
     await this.bookService.delete({ where: { id: userBook.bookId } });
     return true;
   }

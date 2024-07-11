@@ -119,7 +119,7 @@ const BookActions: React.FC<BookActionsProps> = ({
       <AlertModal
         title={'Are you sure you want to remove this book from your shelf?'}
         description={
-          'Removing this book will clear associated ratings, reviews and reading activity'
+          'Removing this book will clear associated ratings, reading progress and status'
         }
         isOpen={openAlert}
         onClose={() => setOpenAlert(false)}
@@ -220,23 +220,6 @@ const BookActions: React.FC<BookActionsProps> = ({
               Log reading
             </DropdownMenuItem>
           )}
-          {/*
-          <DropdownMenuItem
-            onClick={(e) => {
-              e.stopPropagation();
-              if (linkRef.current) {
-                linkRef.current.click();
-              }
-            }}
-          >
-            <Icons.view className='mr-2 h-5 w-5' />
-            Show your activity
-            <Link
-              ref={linkRef}
-              href={`/book/${book?.id}/activity`}
-              className='hidden'
-            ></Link>
-          </DropdownMenuItem> */}
 
           {showRemoveBook && (
             <DropdownMenuItem

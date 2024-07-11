@@ -5,9 +5,6 @@ const prisma = new PrismaClient();
 async function main() {
   // Delete data from all tables except User
   await prisma.account.deleteMany();
-  await prisma.comment.deleteMany();
-  await prisma.review.deleteMany();
-  await prisma.auditLog.deleteMany();
   await prisma.userBookShelves.deleteMany();
   await prisma.userBook.deleteMany();
   await prisma.shelf.deleteMany();
