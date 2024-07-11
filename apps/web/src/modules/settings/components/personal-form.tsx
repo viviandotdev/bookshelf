@@ -7,6 +7,7 @@ import { useMeLazyQuery, User } from '@/graphql/graphql';
 import { ChangeAvatarModal } from './modals/change-avatar';
 import { Button } from '@/components/ui/button';
 import useChangeAvatarModal from './modals/change-avatar/use-change-avatar';
+import { Icons } from '@/components/icons';
 
 interface PersonalFormProps {
   user: User;
@@ -89,11 +90,11 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
             <div className='mb-6 flex items-center justify-between rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm'>
               <div className='flex items-center'>
                 <Avatar className='h-16 w-16'>
-                  <AvatarImage
-                    alt='User avatar'
-                    src='/placeholder.svg?height=96&width=96'
-                  />
-                  <AvatarFallback>VL</AvatarFallback>
+                  <AvatarImage alt='User avatar' src={user.avatarImage || ''} />
+                  <AvatarFallback>
+                    <span className='sr-only'>{user.username}</span>
+                    <Icons.user className={'h-6 w-6'} />
+                  </AvatarFallback>
                 </Avatar>
                 <h2 className='ml-4 text-lg font-medium'>
                   {session?.user.username || user.username}

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { ModalProvider } from '../providers/modal-provider';
 import { useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+import { Icons } from '@/components/icons';
 
 interface SettingsTemplateProps {
   page: string;
@@ -57,7 +58,10 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
                 alt='Vivian Lin'
                 src={`${session?.user.avatarImage || user.avatarImage}`}
               />
-              <AvatarFallback>VL</AvatarFallback>
+              <AvatarFallback>
+                <span className='sr-only'>{user.username}</span>
+                <Icons.user className={'h-7 w-7'} />
+              </AvatarFallback>
             </Avatar>
             <h2 className='mt-4 line-clamp-1 overflow-clip text-lg font-semibold'>
               {session?.user.username || user.username}

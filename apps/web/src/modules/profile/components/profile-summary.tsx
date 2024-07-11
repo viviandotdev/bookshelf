@@ -8,7 +8,8 @@ import StatsCard from '@/components/stats-card';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { AvatarImage } from '@/components/ui/avatar';
+import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Icons } from '@/components/icons';
 interface ProfileSummaryProps {
   profileUser: User;
   currentUser: User;
@@ -27,6 +28,10 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
         <div className='flex items-center justify-center'>
           <div className='h-28 w-28 overflow-hidden  rounded-full'>
             <Avatar className='h-full w-full rounded-full'>
+              <AvatarFallback>
+                <span className='sr-only'>{profileUser.username}</span>
+                <Icons.user className={'h-10 w-10'} />
+              </AvatarFallback>
               <AvatarImage
                 className='rounded-full'
                 alt='Profile picture'
