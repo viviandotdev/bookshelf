@@ -14,21 +14,6 @@ export const ProfileNav: React.FC<ProfileNavProps> = ({ currentUser }) => {
       type: 'user',
     },
     {
-      title: 'Journal',
-      href: `/${currentUser.username}/journal`,
-      type: 'user',
-    },
-    {
-      title: 'Reviews',
-      href: `/${currentUser.username}/reviews`,
-      type: 'user',
-    },
-    {
-      title: 'Activity',
-      href: `/${currentUser.username}/activity`,
-      type: 'user',
-    },
-    {
       title: 'Lists',
       href: `/${currentUser.username}/lists`,
       type: 'user',

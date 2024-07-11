@@ -5,6 +5,6 @@ query Me {
     name
     location
     bio
-    image
+    avatarImage
   }
 }

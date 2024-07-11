@@ -1,14 +1,14 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { useRef, useState } from 'react';
-import { useFollowUser } from '../mutations/use-follow-user';
+import { useRef } from 'react';
 import { BookCountsResponse, User } from '@/graphql/graphql';
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
+import { Avatar } from '@radix-ui/react-avatar';
 import Link from 'next/link';
 import StatsCard from '@/components/stats-card';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-
+import Image from 'next/image';
+import { AvatarImage } from '@/components/ui/avatar';
 interface ProfileSummaryProps {
   profileUser: User;
   currentUser: User;
@@ -23,17 +23,20 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
   return (
     <div className='mb-12 flex flex-col items-center justify-between space-y-6 pt-12 lg:flex-row lg:items-start lg:space-x-6 lg:space-y-0'>
-      <div className='flex flex-col gap-4 lg:flex-row'>
-        <div className='h-32 w-32 flex-shrink-0  rounded-full bg-gray-200'>
-          <Avatar className='h-full w-full rounded-full'>
-            <AvatarImage
-              className='rounded-full'
-              alt='Profile picture'
-              src='/placeholder.svg?height=200&width=200'
-            />
-          </Avatar>
+      <div className='flex flex-col gap-8 lg:flex-row'>
+        <div className='flex items-center justify-center'>
+          <div className='h-28 w-28 overflow-hidden  rounded-full'>
+            <Avatar className='h-full w-full rounded-full'>
+              <AvatarImage
+                className='rounded-full'
+                alt='Profile picture'
+                src={`${profileUser.avatarImage}`}
+              />
+            </Avatar>
+          </div>
         </div>
-    <div className='min-w-0 flex-1 text-center lg:text-left'>
+
+        <div className='min-w-0 flex-1 text-center lg:text-left'>
           <div className='text-sm text-gray-500'>@{profileUser.username}</div>
           <h2
             className={cn(

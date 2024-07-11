@@ -68,7 +68,7 @@ model User {
     comments           Comment[]
     // auditLogs          AuditLog[]
     // AUTH
-    image              String?
+    avatarImage        String?
     emailVerified      DateTime?
     accounts           Account[]
     AuditLog           AuditLog[]

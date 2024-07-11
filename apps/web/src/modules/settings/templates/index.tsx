@@ -8,6 +8,7 @@ import { siteConfig } from '@/config/site';
 import Link from 'next/link';
 import { ModalProvider } from '../providers/modal-provider';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 interface SettingsTemplateProps {
   page: string;
@@ -35,6 +36,9 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
       pageForm = <AccountForm user={user} />;
   }
 
+  useEffect(() => {
+    console.log(session);
+  }, []);
   const isActiveLink = (linkPage: string) => {
     if (linkPage === 'personal information') {
       linkPage = 'personal';
@@ -51,7 +55,7 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
             <Avatar size={'profile'}>
               <AvatarImage
                 alt='Vivian Lin'
-                src='/placeholder.svg?height=64&width=64'
+                src={`${session?.user.avatarImage || user.avatarImage}`}
               />
               <AvatarFallback>VL</AvatarFallback>
             </Avatar>

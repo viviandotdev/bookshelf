@@ -38,7 +38,7 @@ export class AuthResolver {
     const user = await this.userService.createUser({
       email: registerInput.email,
       username: registerInput.username,
-      image: DEFAULT_AVATAR,
+      avatarImage: DEFAULT_AVATAR,
       hashedPassword,
     });
     // Create default shelves
@@ -145,7 +145,7 @@ export class AuthResolver {
         username: oAuthInput.username,
         email: oAuthInput.email,
         emailVerified: new Date(),
-        image: oAuthInput.image,
+        avatarImage: oAuthInput.image,
       });
 
       await this.authService.createAccount({

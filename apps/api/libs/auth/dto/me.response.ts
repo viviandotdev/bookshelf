@@ -24,4 +24,7 @@ export class MeResponse {
 
   @Field({ nullable: true })
   name?: string;
+
+  @Field({ nullable: true })
+  avatarImage?: string;
 }

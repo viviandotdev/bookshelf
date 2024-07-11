@@ -56,6 +56,7 @@ export default {
             });
 
           data = loginData?.login;
+          console.log(data.user);
           if (errors) {
             throw new Error(errors.map((e) => e.message)[0]);
           }
@@ -79,6 +80,7 @@ export default {
 
         return {
           id: data!.user.id,
+          avatarImage: data!.user.avatarImage,
           email: data!.user.email,
           username: data!.user.username,
           emailVerified: data!.user.emailVerified,
@@ -110,7 +112,7 @@ export default {
           variables: {
             input: {
               ...account,
-              image: profile?.avatar_url,
+              avatarImage: profile?.avatar_url,
               username: profile?.login,
               email: profile?.email,
             },
@@ -118,6 +120,7 @@ export default {
         });
         if (data) {
           token.username = data!.oAuth!.user.username;
+          token.avatarImage = data!.oAuth.user.avatarImage;
           token.email = data!.oAuth!.user.email;
           token.id = data?.oAuth.user.id;
           token.accessToken = data?.oAuth.accessToken;
@@ -128,6 +131,7 @@ export default {
         //login credentials pass the values jere
         token.username = u.username;
         token.email = u.email;
+        token.avatarImage = u.avatarImage;
         token.id = u.id;
         token.accessToken = u.accessToken;
         token.expiresIn = u.expiresIn;
@@ -147,6 +151,7 @@ export default {
           token.isOAuth = data!.me!.isOAuth;
           token.username = data!.me!.username;
           token.email = data!.me!.email;
+          token.avatarImage = data!.me!.avatarImage;
         }
 
         return Promise.resolve(token);
@@ -169,6 +174,7 @@ export default {
         email: token.email,
         id: token.id,
         accessToken: token.accessToken,
+        avatarImage: token.avatarImage,
         expiresIn: token.expiresIn,
         error: token.error,
         isOAuth: token.isOAuth,

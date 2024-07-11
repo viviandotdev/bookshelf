@@ -10,6 +10,7 @@ mutation Login($input: LogInInput!) {
       location
       bio
       name
+      avatarImage
       emailVerified
       id
     }

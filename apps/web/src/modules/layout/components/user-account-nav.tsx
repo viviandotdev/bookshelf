@@ -14,7 +14,8 @@ import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import { useLogoutMutation } from '@/graphql/graphql';
 import { useApolloClient } from '@apollo/client';
 import { User } from '@/types/interfaces';
-
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+// import { UserAvatar } from '@/modules/layout/components/user-avatar';
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: User;
 }
@@ -34,6 +35,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
       <DropdownMenuTrigger>
         <UserAvatar
           username={user.username}
+          src={user.avatarImage}
           size={'default'}
           className='h-8 w-8'
         />

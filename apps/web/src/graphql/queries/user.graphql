@@ -12,8 +12,8 @@ query User($where: UserWhereUniqueInput!) {
     username
     email
     name
+    avatarImage
     location
     bio
   }
 }
-

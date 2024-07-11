@@ -2,6 +2,7 @@ export interface User {
   username?: string | null | undefined;
   id: string;
   email?: string;
+  avatarImage?: string;
   accessToken?: string;
 }
 

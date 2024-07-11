@@ -1610,6 +1610,7 @@ export type LogInInput = {
 
 export type MeResponse = {
   __typename?: 'MeResponse';
+  avatarImage?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['String']['output']>;
@@ -3167,6 +3168,7 @@ export type User = {
   AuditLog?: Maybe<Array<AuditLog>>;
   _count: UserCount;
   accounts?: Maybe<Array<Account>>;
+  avatarImage?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   comments?: Maybe<Array<Comment>>;
   createdAt: Scalars['Timestamp']['output'];
@@ -3177,7 +3179,6 @@ export type User = {
   following?: Maybe<Array<User>>;
   followingCount: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
-  image?: Maybe<Scalars['String']['output']>;
   isFollowing: Scalars['Boolean']['output'];
   likedReviews?: Maybe<Array<Review>>;
   location?: Maybe<Scalars['String']['output']>;
@@ -3777,12 +3778,12 @@ export type UserCount = {
 export type UserCountAggregate = {
   __typename?: 'UserCountAggregate';
   _all: Scalars['Int']['output'];
+  avatarImage: Scalars['Int']['output'];
   bio: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
   email: Scalars['Int']['output'];
   emailVerified: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
-  image: Scalars['Int']['output'];
   location: Scalars['Int']['output'];
   name: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
@@ -3879,6 +3880,7 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
 
 export type UserCreateWithoutAuditLogInput = {
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -3889,7 +3891,6 @@ export type UserCreateWithoutAuditLogInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3903,6 +3904,7 @@ export type UserCreateWithoutAuditLogInput = {
 export type UserCreateWithoutCommentsInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email: Scalars['String']['input'];
@@ -3912,7 +3914,6 @@ export type UserCreateWithoutCommentsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3926,6 +3927,7 @@ export type UserCreateWithoutCommentsInput = {
 export type UserCreateWithoutFollowersInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -3935,7 +3937,6 @@ export type UserCreateWithoutFollowersInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3949,6 +3950,7 @@ export type UserCreateWithoutFollowersInput = {
 export type UserCreateWithoutFollowingInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -3958,7 +3960,6 @@ export type UserCreateWithoutFollowingInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3972,6 +3973,7 @@ export type UserCreateWithoutFollowingInput = {
 export type UserCreateWithoutLikedReviewsInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -3982,7 +3984,6 @@ export type UserCreateWithoutLikedReviewsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewCreateNestedManyWithoutUserInput>;
@@ -3995,6 +3996,7 @@ export type UserCreateWithoutLikedReviewsInput = {
 export type UserCreateWithoutReviewsInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4005,7 +4007,6 @@ export type UserCreateWithoutReviewsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4018,6 +4019,7 @@ export type UserCreateWithoutReviewsInput = {
 export type UserCreateWithoutShelvesInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4028,7 +4030,6 @@ export type UserCreateWithoutShelvesInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4041,6 +4042,7 @@ export type UserCreateWithoutShelvesInput = {
 export type UserCreateWithoutUserBooksInput = {
   AuditLog?: InputMaybe<AuditLogCreateNestedManyWithoutUserInput>;
   accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentCreateNestedManyWithoutUserInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4051,7 +4053,6 @@ export type UserCreateWithoutUserBooksInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewCreateNestedManyWithoutLikedByInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4069,12 +4070,12 @@ export type UserListRelationFilter = {
 
 export type UserMaxAggregate = {
   __typename?: 'UserMaxAggregate';
+  avatarImage?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  image?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
@@ -4083,12 +4084,12 @@ export type UserMaxAggregate = {
 
 export type UserMinAggregate = {
   __typename?: 'UserMinAggregate';
+  avatarImage?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   emailVerified?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
-  image?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
@@ -4102,6 +4103,7 @@ export type UserOrderByRelationAggregateInput = {
 export type UserOrderByWithRelationInput = {
   AuditLog?: InputMaybe<AuditLogOrderByRelationAggregateInput>;
   accounts?: InputMaybe<AccountOrderByRelationAggregateInput>;
+  avatarImage?: InputMaybe<SortOrderInput>;
   bio?: InputMaybe<SortOrderInput>;
   comments?: InputMaybe<CommentOrderByRelationAggregateInput>;
   createdAt?: InputMaybe<SortOrder>;
@@ -4112,7 +4114,6 @@ export type UserOrderByWithRelationInput = {
   hashedPassword?: InputMaybe<SortOrderInput>;
   hashedRefreshToken?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
-  image?: InputMaybe<SortOrderInput>;
   likedReviews?: InputMaybe<ReviewOrderByRelationAggregateInput>;
   location?: InputMaybe<SortOrderInput>;
   name?: InputMaybe<SortOrderInput>;
@@ -4132,6 +4133,7 @@ export type UserScalarWhereInput = {
   AND?: InputMaybe<Array<UserScalarWhereInput>>;
   NOT?: InputMaybe<Array<UserScalarWhereInput>>;
   OR?: InputMaybe<Array<UserScalarWhereInput>>;
+  avatarImage?: InputMaybe<StringFilter>;
   bio?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
@@ -4139,7 +4141,6 @@ export type UserScalarWhereInput = {
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  image?: InputMaybe<StringFilter>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
@@ -4147,6 +4148,7 @@ export type UserScalarWhereInput = {
 };
 
 export type UserUpdateManyMutationInput = {
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -4154,7 +4156,6 @@ export type UserUpdateManyMutationInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4305,6 +4306,7 @@ export type UserUpdateWithWhereUniqueWithoutLikedReviewsInput = {
 
 export type UserUpdateWithoutAuditLogInput = {
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4315,7 +4317,6 @@ export type UserUpdateWithoutAuditLogInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4329,6 +4330,7 @@ export type UserUpdateWithoutAuditLogInput = {
 export type UserUpdateWithoutCommentsInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -4338,7 +4340,6 @@ export type UserUpdateWithoutCommentsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4352,6 +4353,7 @@ export type UserUpdateWithoutCommentsInput = {
 export type UserUpdateWithoutFollowersInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4361,7 +4363,6 @@ export type UserUpdateWithoutFollowersInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4375,6 +4376,7 @@ export type UserUpdateWithoutFollowersInput = {
 export type UserUpdateWithoutFollowingInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4384,7 +4386,6 @@ export type UserUpdateWithoutFollowingInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4398,6 +4399,7 @@ export type UserUpdateWithoutFollowingInput = {
 export type UserUpdateWithoutLikedReviewsInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4408,7 +4410,6 @@ export type UserUpdateWithoutLikedReviewsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   reviews?: InputMaybe<ReviewUpdateManyWithoutUserNestedInput>;
@@ -4421,6 +4422,7 @@ export type UserUpdateWithoutLikedReviewsInput = {
 export type UserUpdateWithoutReviewsInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4431,7 +4433,6 @@ export type UserUpdateWithoutReviewsInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4444,6 +4445,7 @@ export type UserUpdateWithoutReviewsInput = {
 export type UserUpdateWithoutShelvesInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4454,7 +4456,6 @@ export type UserUpdateWithoutShelvesInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4467,6 +4468,7 @@ export type UserUpdateWithoutShelvesInput = {
 export type UserUpdateWithoutUserBooksInput = {
   AuditLog?: InputMaybe<AuditLogUpdateManyWithoutUserNestedInput>;
   accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
+  avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   comments?: InputMaybe<CommentUpdateManyWithoutUserNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -4477,7 +4479,6 @@ export type UserUpdateWithoutUserBooksInput = {
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
   likedReviews?: InputMaybe<ReviewUpdateManyWithoutLikedByNestedInput>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4541,6 +4542,7 @@ export type UserWhereInput = {
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   accounts?: InputMaybe<AccountListRelationFilter>;
+  avatarImage?: InputMaybe<StringFilter>;
   bio?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -4551,7 +4553,6 @@ export type UserWhereInput = {
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
-  image?: InputMaybe<StringFilter>;
   likedReviews?: InputMaybe<ReviewListRelationFilter>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
@@ -4568,6 +4569,7 @@ export type UserWhereUniqueInput = {
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
   accounts?: InputMaybe<AccountListRelationFilter>;
+  avatarImage?: InputMaybe<StringFilter>;
   bio?: InputMaybe<StringFilter>;
   comments?: InputMaybe<CommentListRelationFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -4578,7 +4580,6 @@ export type UserWhereUniqueInput = {
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<StringFilter>;
   likedReviews?: InputMaybe<ReviewListRelationFilter>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
@@ -4622,7 +4623,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, emailVerified?: any | null, id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, avatarImage?: string | null, emailVerified?: any | null, id: string } } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -4811,7 +4812,7 @@ export type GetAuditLogsQuery = { __typename?: 'Query', auditLogs: { __typename?
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null } };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null } };
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
@@ -4872,7 +4873,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, location?: string | null, bio?: string | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, avatarImage?: string | null, location?: string | null, bio?: string | null } | null };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -4919,6 +4920,7 @@ export const LoginDocument = gql`
       location
       bio
       name
+      avatarImage
       emailVerified
       id
     }
@@ -5868,6 +5870,7 @@ export const MeDocument = gql`
     name
     location
     bio
+    avatarImage
   }
 }
     `;
@@ -6376,6 +6379,7 @@ export const UserDocument = gql`
     username
     email
     name
+    avatarImage
     location
     bio
   }

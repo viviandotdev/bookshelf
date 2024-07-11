@@ -1,16 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
-import { UserAvatar } from '@/modules/layout/components/user-avatar';
-import { Section } from '../components/section';
 import { BookCountsResponse, Shelf, User, UserBook } from '@/graphql/graphql';
-import ReadingChallenge from '../components/reading-challenge';
-import ShelvesSection from '../components/shelves-section';
 import ProfileSummary from '../components/profile-summary';
-import { Tabs } from '@/components/ui/tabs';
-import { Card } from '@/components/ui/card';
-import NavLink from '../components/nav-link';
-import ProfileNav from '../components/profile-nav';
 import UnderlinedTabs from '@/components/underlined-tabs';
 import Library from '../components/library';
 import MyShelves from '../components/my-shelves';

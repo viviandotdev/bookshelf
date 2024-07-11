@@ -47,7 +47,7 @@ export enum UserScalarFieldEnum {
     hashedRefreshToken = "hashedRefreshToken",
     createdAt = "createdAt",
     updatedAt = "updatedAt",
-    image = "image",
+    avatarImage = "avatarImage",
     emailVerified = "emailVerified"
 }
 
@@ -14353,7 +14353,7 @@ export class UserCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
-    image?: true;
+    avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
     emailVerified?: true;
     @Field(() => Boolean, {nullable:true})
@@ -14383,7 +14383,7 @@ export class UserCountAggregate {
     @Field(() => Int, {nullable:false})
     updatedAt!: number;
     @Field(() => Int, {nullable:false})
-    image!: number;
+    avatarImage!: number;
     @Field(() => Int, {nullable:false})
     emailVerified!: number;
     @Field(() => Int, {nullable:false})
@@ -14413,7 +14413,7 @@ export class UserCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
+    avatarImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     emailVerified?: keyof typeof SortOrder;
 }
@@ -14472,7 +14472,7 @@ export class UserCreateManyInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -14716,7 +14716,7 @@ export class UserCreateWithoutAccountsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14769,7 +14769,7 @@ export class UserCreateWithoutAuditLogInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14822,7 +14822,7 @@ export class UserCreateWithoutCommentsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14875,7 +14875,7 @@ export class UserCreateWithoutFollowersInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14928,7 +14928,7 @@ export class UserCreateWithoutFollowingInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -14981,7 +14981,7 @@ export class UserCreateWithoutLikedReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15034,7 +15034,7 @@ export class UserCreateWithoutReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15087,7 +15087,7 @@ export class UserCreateWithoutShelvesInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15140,7 +15140,7 @@ export class UserCreateWithoutUserBooksInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15193,7 +15193,7 @@ export class UserCreateInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15270,7 +15270,7 @@ export class UserGroupBy {
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserCountAggregate, {nullable:true})
@@ -15314,7 +15314,7 @@ export class UserMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
-    image?: true;
+    avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
     emailVerified?: true;
 }
@@ -15349,7 +15349,7 @@ export class UserMaxAggregate {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -15377,7 +15377,7 @@ export class UserMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
+    avatarImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     emailVerified?: keyof typeof SortOrder;
 }
@@ -15405,7 +15405,7 @@ export class UserMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
-    image?: true;
+    avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
     emailVerified?: true;
 }
@@ -15440,7 +15440,7 @@ export class UserMinAggregate {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -15468,7 +15468,7 @@ export class UserMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
-    image?: keyof typeof SortOrder;
+    avatarImage?: keyof typeof SortOrder;
     @Field(() => SortOrder, {nullable:true})
     emailVerified?: keyof typeof SortOrder;
 }
@@ -15502,7 +15502,7 @@ export class UserOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    image?: InstanceType<typeof SortOrderInput>;
+    avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     emailVerified?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserCountOrderByAggregateInput, {nullable:true})
@@ -15536,7 +15536,7 @@ export class UserOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: keyof typeof SortOrder;
     @Field(() => SortOrderInput, {nullable:true})
-    image?: InstanceType<typeof SortOrderInput>;
+    avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
     emailVerified?: InstanceType<typeof SortOrderInput>;
     @Field(() => UserBookOrderByRelationAggregateInput, {nullable:true})
@@ -15596,7 +15596,7 @@ export class UserScalarWhereWithAggregatesInput {
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    image?: InstanceType<typeof StringWithAggregatesFilter>;
+    avatarImage?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     emailVerified?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
@@ -15630,7 +15630,7 @@ export class UserScalarWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
-    image?: InstanceType<typeof StringFilter>;
+    avatarImage?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     emailVerified?: InstanceType<typeof DateTimeFilter>;
 }
@@ -15706,7 +15706,7 @@ export class UserUncheckedCreateWithoutAccountsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15759,7 +15759,7 @@ export class UserUncheckedCreateWithoutAuditLogInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15812,7 +15812,7 @@ export class UserUncheckedCreateWithoutCommentsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15865,7 +15865,7 @@ export class UserUncheckedCreateWithoutFollowersInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15918,7 +15918,7 @@ export class UserUncheckedCreateWithoutFollowingInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -15971,7 +15971,7 @@ export class UserUncheckedCreateWithoutLikedReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -16024,7 +16024,7 @@ export class UserUncheckedCreateWithoutReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -16077,7 +16077,7 @@ export class UserUncheckedCreateWithoutShelvesInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -16130,7 +16130,7 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -16183,7 +16183,7 @@ export class UserUncheckedCreateInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
@@ -16272,7 +16272,7 @@ export class UserUncheckedUpdateManyWithoutFollowersInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -16343,7 +16343,7 @@ export class UserUncheckedUpdateManyWithoutFollowingInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -16414,7 +16414,7 @@ export class UserUncheckedUpdateManyWithoutLikedReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -16451,7 +16451,7 @@ export class UserUncheckedUpdateManyInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -16488,7 +16488,7 @@ export class UserUncheckedUpdateWithoutAccountsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16541,7 +16541,7 @@ export class UserUncheckedUpdateWithoutAuditLogInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16594,7 +16594,7 @@ export class UserUncheckedUpdateWithoutCommentsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16647,7 +16647,7 @@ export class UserUncheckedUpdateWithoutFollowersInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16700,7 +16700,7 @@ export class UserUncheckedUpdateWithoutFollowingInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16753,7 +16753,7 @@ export class UserUncheckedUpdateWithoutLikedReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16806,7 +16806,7 @@ export class UserUncheckedUpdateWithoutReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16859,7 +16859,7 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16912,7 +16912,7 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -16965,7 +16965,7 @@ export class UserUncheckedUpdateInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17020,7 +17020,7 @@ export class UserUpdateManyMutationInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
 }
@@ -17417,7 +17417,7 @@ export class UserUpdateWithoutAccountsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17470,7 +17470,7 @@ export class UserUpdateWithoutAuditLogInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17523,7 +17523,7 @@ export class UserUpdateWithoutCommentsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17576,7 +17576,7 @@ export class UserUpdateWithoutFollowersInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17629,7 +17629,7 @@ export class UserUpdateWithoutFollowingInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17682,7 +17682,7 @@ export class UserUpdateWithoutLikedReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17735,7 +17735,7 @@ export class UserUpdateWithoutReviewsInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17788,7 +17788,7 @@ export class UserUpdateWithoutShelvesInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17841,7 +17841,7 @@ export class UserUpdateWithoutUserBooksInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -17894,7 +17894,7 @@ export class UserUpdateInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
     @Field(() => String, {nullable:true})
-    image?: string;
+    avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
@@ -18067,7 +18067,7 @@ export class UserWhereUniqueInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
-    image?: InstanceType<typeof StringFilter>;
+    avatarImage?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     emailVerified?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
@@ -18119,7 +18119,7 @@ export class UserWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
-    image?: InstanceType<typeof StringFilter>;
+    avatarImage?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     emailVerified?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserBookListRelationFilter, {nullable:true})
@@ -18165,7 +18165,7 @@ export class User {
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
     @Field(() => String, {nullable:true})
-    image!: string | null;
+    avatarImage!: string | null;
     @Field(() => Date, {nullable:true})
     emailVerified!: Date | null;
     @Field(() => [UserBook], {nullable:true})

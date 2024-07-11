@@ -109,6 +109,7 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
                   email: user.email,
                   username: user.username,
                   id: user.id,
+                  avatarImage: user.avatarImage,
                 }}
               />
             </div>
