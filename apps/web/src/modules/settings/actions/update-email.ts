@@ -5,7 +5,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
 import { UpdateEmailDocument, UpdateEmailMutation } from '@/graphql/graphql';
 import { changeEmailSchema } from '../components/modals/change-email';
-import { unstable_update } from '@/auth';
+import { update } from '@/auth';
 
 export const updateEmail = async (
   values: z.infer<typeof changeEmailSchema>
@@ -35,7 +35,7 @@ export const updateEmail = async (
       return { error: errors?.map((e) => e.message)[0] };
     }
     // fix unstable update
-    unstable_update({
+      update({
       user: {
         email: data?.updateEmail.email,
       },

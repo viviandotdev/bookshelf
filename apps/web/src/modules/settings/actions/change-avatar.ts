@@ -5,7 +5,7 @@ import { changeAvatarSchema } from '../components/modals/change-avatar';
 import { getApolloClient, httpLink, setAuthToken } from '@/lib/apollo';
 import { UpdateUserMutation, UpdateUserDocument } from '@/graphql/graphql';
 import { getCurrentUser } from '@/lib/auth';
-import { unstable_update } from '@/auth';
+import { update } from '@/auth';
 
 export const changeAvatar = async (
   values: z.infer<typeof changeAvatarSchema>
@@ -33,7 +33,7 @@ export const changeAvatar = async (
       return { error: errors?.map((e) => e.message)[0] };
     }
 
-    unstable_update({
+      update({
       user: {
         avatarImage: values.image,
       },

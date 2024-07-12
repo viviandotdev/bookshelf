@@ -4,7 +4,7 @@ import * as z from 'zod';
 
 import { getCurrentUser } from '@/lib/auth';
 import { SettingsSchema } from '@/schemas/auth';
-import { unstable_update } from '@/auth';
+import { update } from '@/auth';
 import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
 import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
 
@@ -37,7 +37,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     return { success: 'Check your email for a verification link!' };
   }
 
-  unstable_update({
+    update({
     user: {
       username: data?.updateUser.username,
       email: data?.updateUser.email,
