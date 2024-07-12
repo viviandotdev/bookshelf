@@ -11,6 +11,7 @@
     "dependencies": {
         "@apollo/client": "^3.10.4",
         "@apollo/experimental-nextjs-app-support": "^0.10.1",
+        "@auth/core": "^0.34.1",
         "@hello-pangea/dnd": "^16.6.0",
         "@hookform/resolvers": "^3.4.2",
         "@prisma/client": "^5.14.0",
@@ -49,7 +50,7 @@
         "isomorphic-dompurify": "^2.12.0",
         "lucide-react": "^0.379.0",
         "next": "14.2.3",
-        "next-auth": "5.0.0-beta.5",
+        "next-auth": "5.0.0-beta.4",
         "next-themes": "^0.3.0",
         "nextjs-toploader": "^1.6.12",
         "postcss": "8.4.38",

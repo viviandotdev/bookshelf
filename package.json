@@ -29,7 +29,8 @@
         "create:resolver": "pnpm --filter api exec nest g resource users --no-spec",
         "---Format SECTION----": "-------------------------",
         "format": "pnpm --filter web exec prettier --check --ignore-path .gitignore .",
-        "format:fix": "pnpm --filter web exec prettier --write --ignore-path .gitignore ."
+        "format:fix": "pnpm --filter web exec prettier --write --ignore-path .gitignore .",
+        "generate": "graphql-codegen"
     },
     "keywords": [],
     "author": "",

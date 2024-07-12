@@ -17,6 +17,6 @@ export async function getShelvesWithBookCovers(): Promise<{
     query: ShelvesWithBookCoversDocument,
   });
   return {
-    shelves: shelvesData.shelves ? shelvesData.shelves : [],
+    shelves: shelvesData.shelves ? (shelvesData.shelves as Shelf[]) : [],
   };
 }
