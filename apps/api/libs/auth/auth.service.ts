@@ -14,6 +14,8 @@ export class AuthService {
   private readonly resend = new Resend(
     this.configService.get<string>('resend.api'),
   );
+  //   private readonly resend = new Resend(appConfig.resendApiKey);
+
   private readonly domain = this.configService.get<string>('web.url');
   findAccountById = this.prisma.account.findFirst;
   constructor(

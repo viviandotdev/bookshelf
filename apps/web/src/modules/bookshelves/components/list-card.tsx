@@ -54,12 +54,12 @@ export const ListCard: React.FC<ListCardProps> = ({
           <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
         </div>
         <div className='flex flex-col gap-1.5'>
-          <div className='mt-1 flex items-center gap-2'>
+          <div className='flex items-center gap-2'>
             <h2 className={'text-xl font-semibold leading-none text-beige'}>
               {book.title}
             </h2>
           </div>
-          <p className='text-xs font-normal text-beige'>
+          <p className='mt-0.5 text-sm font-normal text-beige'>
             by {formatAuthors(book.authors!)}
           </p>
           <div className='flex items-center gap-1'>
@@ -74,13 +74,13 @@ export const ListCard: React.FC<ListCardProps> = ({
               ) : (
                 <div></div>
               )}
-              <span className='text-xs font-normal text-beige'>
+              {/* <span className='text-xs font-normal text-beige'>
                 Finished 20 April 2024
-              </span>
+              </span> */}
             </div>
           </div>
 
-          <div className='flex items-center font-medium'>
+          <div className='-mt-1.5 flex items-center font-medium'>
             <div className='inline-flex w-96 items-start justify-start'>
               {shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
                 <div

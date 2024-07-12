@@ -40,7 +40,7 @@ async function bootstrap() {
     origin: 'http://localhost:3000',
     credentials: true,
   });
-  await app.listen(port, () => {
+  await app.listen(8080, () => {
     console.log(`🚀 Server ready at: http://localhost:${port}/graphql`);
   });
 }

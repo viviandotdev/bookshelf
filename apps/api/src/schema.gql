@@ -738,6 +738,12 @@ input FloatFilter {
   notIn: [Float!]
 }
 
+type HealthCheck {
+  message: String!
+  status: String!
+  timestamp: String!
+}
+
 type Identifier {
   book: Book
   bookId: String
@@ -996,6 +1002,7 @@ type Query {
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
+  healthCheck: HealthCheck!
   me: MeResponse!
   readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
   searchMyLibrary(query: String!): [Book!]!

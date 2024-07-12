@@ -222,6 +222,7 @@ export class UserBookService {
           },
         }),
       );
+
       updatedCards = await this.prisma.$transaction(transaction);
     } catch (error) {
       throw new Error('Error updating order');
@@ -279,6 +280,7 @@ export class UserBookService {
           origin.status !== READING_STATUS.READING &&
           args.data.status == READING_STATUS.READING
         ) {
+          console.log('change rading status');
           // Mark the previously active read dates as inactive
           await this.prisma.readDate.updateMany({
             where: {

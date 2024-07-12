@@ -9,6 +9,7 @@ import { UserService } from 'libs/user/user.service';
 import { UserRepository } from 'libs/user/user.repository';
 import { ShelfService } from 'libs/shelf/shelf.service';
 import { ShelfRepository } from 'libs/shelf/shelf.repository';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   providers: [
@@ -22,6 +23,7 @@ import { ShelfRepository } from 'libs/shelf/shelf.repository';
     UserRepository,
     AccessTokenStrategy,
     RefreshTokenStrategy,
+    ConfigService,
   ],
 })
 export class AuthModule {}

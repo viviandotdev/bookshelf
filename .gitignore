@@ -42,3 +42,4 @@ lerna-debug.log*
 .nx/cache
 .nx/cache/lockfile.hash
 .zed
+apps/api/.env.production

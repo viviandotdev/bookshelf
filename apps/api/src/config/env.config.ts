@@ -7,7 +7,7 @@ export default () => ({
     port: Number(process.env.BOOKCUE_API_PORT),
   },
   database: {
-    url: process.env.BOOKCUE_DB_URL,
+    url: process.env.DATABASE_URL,
   },
   jwt: {
     access: process.env.JWT_ACCESS_SECRET,

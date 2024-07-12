@@ -8,6 +8,7 @@ import { HttpModule } from '@nestjs/axios';
 import { CoverService } from 'libs/cover/cover.service';
 import { CoverRepository } from 'libs/cover/cover.repository';
 import { IdentifierService } from 'libs/identifier/identifier.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   providers: [
@@ -17,6 +18,7 @@ import { IdentifierService } from 'libs/identifier/identifier.service';
     CoverService,
     CoverRepository,
     IdentifierService,
+    ConfigService,
   ],
   imports: [PrismaModule, UserBookModule, HttpModule],
 })

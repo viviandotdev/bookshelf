@@ -49,6 +49,7 @@ export class UserBookResolver {
     private configService: ConfigService,
   ) {
     this.resend = new Resend(this.configService.get<string>('resend.api'));
+    // this.resend = new Resend(appConfig.resendApiKey);
     this.domain = this.configService.get<string>('web.url');
   }
 
@@ -240,21 +241,21 @@ export class UserBookResolver {
     console.log(`Import process took ${duration} milliseconds`);
 
     // if successful send email
-    await this.resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: user.email,
-      subject: 'Confirm your email',
-      html: render(
-        ImportSummaryEmail({
-          totalBooks: totalBooks.toString(),
-          successBooks: (totalBooks - failedBooks.length).toString(),
-          failedBooks: failedBooks.length.toString(), // Replace with the actual number of failed imports
-          summaryLink: 'https://example.com/import-summary', // Replace with the actual link to the import summary
-          username: user.username, // Replace with the actual username
-          importId: 'import_123456', // Replace with the actual import ID
-        }),
-      ),
-    });
+    // await this.resend.emails.send({
+    //   from: 'Acme <onboarding@resend.dev>',
+    //   to: user.email,
+    //   subject: 'Confirm your email',
+    //   html: render(
+    //     ImportSummaryEmail({
+    //       totalBooks: totalBooks.toString(),
+    //       successBooks: (totalBooks - failedBooks.length).toString(),
+    //       failedBooks: failedBooks.length.toString(), // Replace with the actual number of failed imports
+    //       summaryLink: 'https://example.com/import-summary', // Replace with the actual link to the import summary
+    //       username: user.username, // Replace with the actual username
+    //       importId: 'import_123456', // Replace with the actual import ID
+    //     }),
+    //   ),
+    // });
 
     return true;
   }

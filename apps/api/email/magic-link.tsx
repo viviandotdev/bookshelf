@@ -9,7 +9,7 @@ import {
   Tailwind,
   Hr,
   Text,
-} from "@react-email/components";
+} from '@react-email/components';
 
 interface MagicLinkEmailProps {
   loginCode?: string;
@@ -45,7 +45,7 @@ export const MagicLinkEmail = ({ loginCode }: MagicLinkEmailProps) => (
             Hint: You can set a permanent password in Settings→ My account.
           </Text>
           <Hr className="border-gray-200 my-4" />
-          <Link href={"localhost:3000"} className="text-xs text-gray-400">
+          <Link href={'localhost:3000'} className="text-xs text-gray-400">
             Bookcue
           </Link>
         </Container>
@@ -55,7 +55,7 @@ export const MagicLinkEmail = ({ loginCode }: MagicLinkEmailProps) => (
 );
 
 MagicLinkEmail.PreviewProps = {
-  loginCode: "sparo-ndigo-amurt-secan",
+  loginCode: 'sparo-ndigo-amurt-secan',
 } as MagicLinkEmailProps;
 
 export default MagicLinkEmail;
