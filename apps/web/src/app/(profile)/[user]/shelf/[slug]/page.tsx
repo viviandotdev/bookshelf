@@ -3,18 +3,15 @@ import {
   BooksByShelfQuery,
   Reading_Status,
 } from '@/graphql/graphql';
-import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
-import { getCurrentUser } from '@/lib/auth';
-import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
+import { getApolloClient, httpLink } from '@/lib/apollo';
 import Hit from '@/modules/search/components/hit';
-import { Book } from 'lucide-react';
 import React from 'react';
 
 interface ShelfPageProps {
-  params: { slug: string; user: string };
+params: { slug: string; user: string };
 }
 
-export const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
+const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
   const client = getApolloClient();
   client.setLink(httpLink);
   const { data } = await client.query<BooksByShelfQuery>({

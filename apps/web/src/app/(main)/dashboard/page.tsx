@@ -1,7 +1,6 @@
 import { Reading_Status, SortOrder } from '@/graphql/graphql';
 import { getCurrentUser } from '@/lib/auth';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
-import { summary } from '@/modules/home/api/summary';
 import HomeTemplate from '@/modules/home/templates';
 import { bookCountsByUserId } from '@/modules/profile/actions/bookCountsByUserId';
 import { getShelves } from '@/modules/shelf/queries/getShelves';
@@ -10,7 +9,7 @@ import React from 'react';
 
 interface DashboardPageProps {}
 
-export const DashboardPage: React.FC<DashboardPageProps> = async ({}) => {
+const DashboardPage: React.FC<DashboardPageProps> = async ({}) => {
   const user = await getCurrentUser();
 
   if (!user) {
