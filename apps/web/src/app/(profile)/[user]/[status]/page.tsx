@@ -7,7 +7,7 @@ interface StatusPageProps {
   params: { status: Reading_Status; user: string };
 }
 
-export const StatusPage: React.FC<StatusPageProps> = async ({ params }) => {
+const StatusPage: React.FC<StatusPageProps> = async ({ params }) => {
   const books = await getUserBooks({
     status: {
       equals: params.status,
