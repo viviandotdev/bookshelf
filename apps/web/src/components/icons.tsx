@@ -44,9 +44,9 @@ import {
 } from 'lucide-react';
 import { DotsVerticalIcon, LayoutIcon } from '@radix-ui/react-icons';
 
-export type Icon = LucideIcon;
+export type Icon = typeof LucideIcon;
 
-function UploadIcon(props) {
+function UploadIcon(props: any) {
   return (
     <svg
       {...props}

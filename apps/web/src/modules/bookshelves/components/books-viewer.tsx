@@ -1,6 +1,5 @@
 'use client';
-import React, { Suspense, useRef, useState } from 'react';
-import BoardView from './board-view';
+import React, { Suspense, useRef } from 'react';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
 import { SortingOptions } from './sorting-options';
@@ -17,18 +16,19 @@ import useCreateQueryString from '../hooks/use-create-query-string';
 import ToggleButton from './toggle-button';
 import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
-import { Search } from 'lucide-react';
 import SearchBar from './search-bar';
+import KanbanTemplate from './kanban-template';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  const [view, setView] = React.useState<string>(() => {
-    // Get the default view from local storage, or use 'gallery' as the default
-    return localStorage.getItem('defaultView') || 'gallery';
-  });
+  //   const [view, setView] = React.useState<string>(() => {
+  //     // Get the default view from local storage, or use 'gallery' as the default
+  //     return localStorage.getItem('defaultView') || 'gallery';
+  //   });
 
+  const [view, setView] = React.useState<string>('gallery');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
@@ -44,13 +44,11 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     searchParams?.get('owned') ||
     searchParams?.get('favorites');
 
-  const callLoadMoreFromParent = async (index: number) => {
-    if (boardViewRef.current) {
-      await boardViewRef.current.loadMore(index);
-    }
-  };
-
-  //
+  //   const callLoadMoreFromParent = async (index: number) => {
+  //     if (boardViewRef.current) {
+  //       await boardViewRef.current.loadMore(index);
+  //     }
+  //   };
 
   const updateView = (newView: string) => {
     setView(newView);
@@ -63,25 +61,24 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
       ) < 1;
     if (isAtBottom) {
       await statuses.forEach((_, index) => {
-        callLoadMoreFromParent(index);
+        // callLoadMoreFromParent(index);
       });
     }
   };
+
+  const updateSelected = useShelfStore((state) => state.updateSelected);
 
   if (view === 'gallery') {
     contentView = <GalleryView />;
   } else if (view === 'list') {
     contentView = <ListView />;
   } else if (view === 'board') {
-    contentView = <BoardView ref={boardViewRef} />;
+    return <KanbanTemplate view={view} setView={setView} />;
   }
-
-  const updateSelected = useShelfStore((state) => state.updateSelected);
 
   return (
     <>
       <div
-        onScroll={handleScroll}
         className='w-full overflow-y-auto bg-beige-50 pt-3.5'
         style={{ height: 'calc(100vh - 64px)' }}
       >

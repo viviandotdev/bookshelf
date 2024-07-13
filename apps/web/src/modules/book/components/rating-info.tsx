@@ -1,13 +1,13 @@
 'use client';
 import { BookRating } from '@/components/book-rating';
 import { Icons } from '@/components/icons';
-import { RatingCreateInput, Source, UserBook } from '@/graphql/graphql';
+import { Rating, RatingCreateInput, Source, UserBook } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 interface RatingInfoProps {
-  ratings: RatingCreateInput[];
+  ratings: RatingCreateInput[] | Rating[];
   urls?: {
     goodreads?: string;
     google?: string;
@@ -113,7 +113,7 @@ const RatingIconWrapper = ({
   const WrapperComponent = href ? Link : 'div';
 
   return (
-    <WrapperComponent
+    <div
       {...(href && { href, target: '_blank' })}
       className='flex items-center'
     >
@@ -133,7 +133,7 @@ const RatingIconWrapper = ({
           </div>
         </div>
       </div>
-    </WrapperComponent>
+    </div>
   );
 };
 

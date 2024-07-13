@@ -8,7 +8,13 @@ interface BookInfoProps {
   processedBook: BookData;
 }
 
-const DetailItem = ({ label, value }) => (
+const DetailItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: number | string | undefined;
+}) => (
   <div className='flex items-end justify-start gap-4 pb-px text-base font-normal leading-snug'>
     <div className='flex w-32 items-center justify-start pr-5'>
       <div className='text-zinc-500'>{label}</div>

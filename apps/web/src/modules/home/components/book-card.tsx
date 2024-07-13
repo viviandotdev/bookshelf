@@ -59,14 +59,12 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
                 <div className='absolute right-2 top-2 flex rounded-md'>
                   <BookActions
                     book={book!}
-                    setOpenAlert={setOpenAlert}
                     openDropdown={openDropdown}
                     setOpenDropdown={setOpenDropdown}
                     status={status as Reading_Status}
                     setStatus={setStatus}
                     setRating={setRating}
                     rating={rating}
-                    shelves={shelves!}
                     trigger={
                       <Button
                         variant={'card'}

@@ -1,5 +1,5 @@
 'use client';
-import { Size } from '@/graphql/graphql';
+import { Book, Size } from '@/graphql/graphql';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from '@/lib/constants';
 import RatingInfo from '@/modules/book/components/rating-info';
 import { BookData } from '@/modules/bookshelves/types';
@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export type HitProps = {
-  hit: BookData;
+  hit: BookData | Book;
 };
 
 const Hit: React.FC<HitProps> = ({ hit }) => {
@@ -40,7 +40,7 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
           </div>
           <div className='mt-1 flex'>
             <div className='flex items-center'>
-              <RatingInfo size={'sm'} ratings={hit?.ratings} />
+              <RatingInfo size={'sm'} ratings={hit?.ratings || []} />
             </div>
           </div>
         </div>

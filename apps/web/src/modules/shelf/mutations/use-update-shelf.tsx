@@ -38,7 +38,7 @@ export const useUpdateShelf = (options: UseActionOptions = {}) => {
         options.onSuccess?.(data.updateShelf);
         toast({ title: `Shelf "${data.updateShelf.name}" updated` });
         return {
-          data: data.updateShelf,
+          data: data.updateShelf as Shelf,
         };
       }
       if (errors) {

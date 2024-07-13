@@ -1,4 +1,5 @@
 import {
+  Book,
   BooksByShelfDocument,
   BooksByShelfQuery,
   Reading_Status,
@@ -8,7 +9,7 @@ import Hit from '@/modules/search/components/hit';
 import React from 'react';
 
 interface ShelfPageProps {
-params: { slug: string; user: string };
+  params: { slug: string; user: string };
 }
 
 const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
@@ -43,7 +44,7 @@ const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
           </div>
           <ul className='mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
             {data?.booksByShelf?.userBooks?.map((hit, index) => (
-              <Hit key={index} hit={hit.userBook.book} />
+              <Hit key={index} hit={hit.userBook.book as Book} />
             ))}
           </ul>
         </main>

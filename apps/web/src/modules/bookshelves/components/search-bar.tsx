@@ -29,7 +29,7 @@ const SearchBar = () => {
     },
     onCompleted: (data) => {
       if (data && data.searchMyLibrary) {
-        setBooks(data.searchMyLibrary);
+        setBooks(data.searchMyLibrary as Book[]);
         setHasSearched(true);
       }
     },

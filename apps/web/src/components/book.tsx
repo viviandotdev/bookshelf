@@ -14,7 +14,7 @@ interface BookProps {
   userBook: UserBook;
   responsive?: boolean;
   showRemoveBook?: boolean;
-  view: string;
+  view?: string;
 }
 
 export const Book: React.FC<BookProps> = ({

@@ -1,4 +1,3 @@
-'use client';
 import './globals.css';
 import '@smastrom/react-rating/style.css';
 import { Inter } from 'next/font/google';
@@ -7,22 +6,18 @@ import { SessionProvider } from 'next-auth/react';
 import { Toaster } from '@/components/ui/toaster';
 import { ModalProvider } from '@/providers/modal-provider';
 import NextTopLoader from 'nextjs-toploader';
-import {
-  HydrationBoundary,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
 import QueryProvider from '@/providers/query-provider';
+import { auth } from '@/auth';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  session,
 }: {
   children: React.ReactNode;
-  session: any;
 }) {
+  const session = await auth();
+
   return (
     <html lang='en' suppressHydrationWarning>
       <body className={`${inter.className} bg-background`}>
@@ -39,9 +34,9 @@ export default function RootLayout({
         <SessionProvider session={session}>
           <ApolloClientProvider>
             <QueryProvider>
-                <ModalProvider />
-                <Toaster />
-                {children}
+              <ModalProvider />
+              <Toaster />
+              {children}
             </QueryProvider>
           </ApolloClientProvider>
         </SessionProvider>

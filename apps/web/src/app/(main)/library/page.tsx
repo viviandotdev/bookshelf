@@ -4,13 +4,8 @@ import Sidebar from '@/modules/shelf/components/shelf-sidebar';
 import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { notFound } from 'next/navigation';
 import React from 'react';
-import { MainSidebar } from '../main-sidebar';
 
-export default async function LibraryPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function LibraryPage({}: {}) {
   const user = await getCurrentUser();
   if (!user) {
     notFound();
@@ -26,7 +21,7 @@ export default async function LibraryPage({
           <Sidebar librarySelections={library} shelfSelections={shelves} />
         </div>
         <div className='flex w-3/4 flex-1 flex-col overflow-x-auto border-l border-gray-200'>
-          <BookshelvesTemplate shelf={searchParams.shelf} />
+          <BookshelvesTemplate />
         </div>
       </div>
     </>

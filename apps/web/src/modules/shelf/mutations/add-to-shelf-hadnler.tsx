@@ -2,7 +2,9 @@
 import React from 'react';
 import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-to-shelf-modal';
 import {
+  Shelf,
   useGetMyBookShelvesLazyQuery,
+  UserBookShelves,
   useShelvesLazyQuery,
 } from '@/graphql/graphql';
 import useShelfStore from '@/stores/use-shelf-store';
@@ -29,7 +31,7 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     onCompleted: (data) => {
       if (data.getMyBookShelves) {
         setUserBook({
-          shelves: data.getMyBookShelves,
+          shelves: data.getMyBookShelves as UserBookShelves[],
         });
       }
     },
@@ -40,7 +42,7 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data.shelves) {
-        initAllShelves(data.shelves);
+        initAllShelves(data.shelves as Shelf[]);
       }
     },
   });

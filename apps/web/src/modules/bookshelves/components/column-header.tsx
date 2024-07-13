@@ -20,9 +20,7 @@ export const ColumnHeader: React.FC<ColumnHeaderProps> = ({
         // onClick={enableEditing}
         className='align-center flex h-7 w-full border-transparent px-2.5 py-1 font-semibold'
       >
-        <span className='mt-[1px]'>
-          {item && item.icon && <item.icon className={cn('mr-2 h-4 w-4')} />}
-        </span>
+        <span className='mt-[1px]'>{item && item.icon && <item.icon />}</span>
 
         {title}
       </div>

@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProgressTab from './components/progress-tab';
 import FinishedTab from './components/finished-tab';
 import useUserBookStore from '@/stores/use-user-book-store';
+import { ReadDate, ReadingProgress } from '@/graphql/graphql';
 
 interface ProgressModalProps {}
 
@@ -29,11 +30,13 @@ export const ProgressModal: React.FC<ProgressModalProps> = () => {
         </TabsList>
         <TabsContent value='account'>
           <ProgressTab
-            readingProgress={readDateWithProgress?.readingProgress}
+            readingProgress={
+              readDateWithProgress?.readingProgress as ReadingProgress
+            }
           />
         </TabsContent>
         <TabsContent value='password'>
-          <FinishedTab readDate={readDateWithProgress} />
+          <FinishedTab readDate={readDateWithProgress as ReadDate} />
         </TabsContent>
       </Tabs>
     </Modal>

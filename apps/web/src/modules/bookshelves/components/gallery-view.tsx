@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination';
 import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
-import { useCountUserBooksLazyQuery } from '@/graphql/graphql';
+import { useCountUserBooksLazyQuery, UserBook } from '@/graphql/graphql';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { NetworkStatus } from '@apollo/client';
 import useLoadBooks from '../queries/use-load-books';
@@ -46,7 +46,7 @@ const { loadBooks, booksData, networkStatus } = useLoadBooks();
         <div className='grid grid-cols-6 justify-center gap-4 overflow-hidden pb-10 pt-2 xl:grid-cols-8'>
           {books?.map((book, idx) => (
             <div key={idx}>
-              <Book userBook={book} showRemoveBook={true} view='gallery' />
+              <Book userBook={book as UserBook} showRemoveBook={true} view='gallery' />
             </div>
           ))}
         </div>

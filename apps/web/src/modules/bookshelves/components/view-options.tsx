@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { Dispatch, SetStateAction } from 'react';
 interface ViewOptionsProps {
   view: string;
-  setView: Dispatch<SetStateAction<string>>;
+  setView: (newView: string) => void;
 }
 export const ViewOptions: React.FC<ViewOptionsProps> = ({ view, setView }) => {
   let selectedView =

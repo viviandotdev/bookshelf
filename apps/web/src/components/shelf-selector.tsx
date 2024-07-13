@@ -106,11 +106,7 @@ export function ShelfSelector({
           <div className='flex flex-wrap gap-2'>
             {selectedValues.map((option) => {
               return (
-                <Badge
-                  key={option.value}
-                  data-fixed={option.fixed}
-                  className='border-gray-100'
-                >
+                <Badge key={option.value} className='border-gray-100'>
                   {option.label}
                   <button
                     className={cn('ml-1 rounded-full outline-none')}

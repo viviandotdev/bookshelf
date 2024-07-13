@@ -1,5 +1,5 @@
 import { Icons } from '@/components/icons';
-import { Shelf } from '@/graphql/graphql';
+import { Shelf, UserBookShelves } from '@/graphql/graphql';
 import Link from 'next/link';
 import React from 'react';
 import ShelfCoverGrid from './shelf-images';
@@ -30,7 +30,9 @@ export const MyShelves: React.FC<MyShelvesProps> = ({ shelves, username }) => {
               </div>
             </div>
             <div className='flex w-full justify-center overflow-hidden'>
-              <ShelfCoverGrid shelfBooks={shelf.userBooks} />
+              <ShelfCoverGrid
+                shelfBooks={shelf.userBooks as UserBookShelves[]}
+              />
             </div>
           </Card>
         </Link>

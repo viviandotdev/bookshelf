@@ -84,7 +84,7 @@ export function DateSelector({
             <option value='Month'>Month</option>
             {dateSelect.monthOptions.map((monthOption) => (
               <option key={monthOption.value} value={monthOption.value}>
-                {monthOptions[monthOption.value - 1]}
+                {monthOptions[parseInt(monthOption.value) - 1]}
               </option>
             ))}
           </select>

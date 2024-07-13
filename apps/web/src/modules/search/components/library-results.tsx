@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Hit from './hit';
+import { BookData } from '@/modules/bookshelves/types';
 
 interface SearchResultsProps {
   hits: BookData[];

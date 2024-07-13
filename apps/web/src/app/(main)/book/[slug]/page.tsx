@@ -7,7 +7,6 @@ import {
   findBookByGoogleBookId,
   findGoogleBookByISBN,
 } from '@/lib/google.api';
-import { SOURCE } from '@prisma/client';
 import { mergeBookData } from '@/lib/utils';
 import { addIdentifierToBook } from '@/modules/book/queries/addIdentifierToBook';
 import { Source, UserBook } from '@/graphql/graphql';
@@ -33,7 +32,7 @@ export default async function BookPage({ params }: BookPageProps) {
 
   //get searched book
   const isbn = myBook?.identifiers?.find(
-    (id) => id.source === SOURCE.ISBN_13 || id.source === SOURCE.ISBN_10
+    (id) => id.source === Source.Isbn_13 || id.source === Source.Isbn_10
   )?.sourceId;
 
   let searchedBook;

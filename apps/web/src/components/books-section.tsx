@@ -45,12 +45,12 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
           booksData.map((book, idx) => (
             <div key={idx}>
               {/* Cover View */}
-              <Book
+              {/* <Book
                 userBook={book}
                 details={details}
                 responsive
                 showRemoveBook={false}
-              />
+              /> */}
               {/* Responsive View */}
               <div className='flex flex-col md:hidden'>
                 <div className='pt-4'>
@@ -59,7 +59,7 @@ export const BooksSection: React.FC<BooksSectionProps> = ({
                     <div className='flex flex-grow justify-end'>
                       <button
                         className={cn(
-                          buttonVariants({ variant: 'tag', size: 'xs' }),
+                          buttonVariants({ size: 'xs' }),
                           'mb-1 mr-1 cursor-pointer'
                         )}
                       >

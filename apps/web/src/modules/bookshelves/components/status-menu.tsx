@@ -64,10 +64,10 @@ const StatusMenu: React.FC<StatusMenuProps> = () => {
             >
               {s.icon && (
                 <s.icon
-                  className={cn(
-                    'mr-2 h-4 w-4',
-                    s.id === status ? 'opacity-100' : 'opacity-40'
-                  )}
+                //   className={cn(
+                //     'mr-2 h-4 w-4',
+                //     s.id === status ? 'opacity-100' : 'opacity-40'
+                //   )}
                 />
               )}
               <span>{s.name}</span>

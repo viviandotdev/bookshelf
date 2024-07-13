@@ -3,8 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import UploadFileDialogButton from './upload-file';
-import MultiStep, { MultiStepDialog } from './modals/mutli-step-dialog';
+import { MultiStepDialog } from './modals/mutli-step-dialog';
 
 interface ImportActionsProps {}
 
@@ -51,7 +50,7 @@ export const ImportActions: React.FC<ImportActionsProps> = () => {
           className='justify-start'
         /> */}
         {/* <MultiStepModal triggerLabel='lolo' /> */}
-        <MultiStepDialog actionLabel={''} isLoading={false} />
+        <MultiStepDialog triggerLabel='import books' />
       </ImportStep>
     </div>
   );

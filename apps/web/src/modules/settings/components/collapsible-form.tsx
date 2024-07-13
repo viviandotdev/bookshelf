@@ -116,7 +116,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     return value || '+ Add';
   }
 
-  const renderFormControl = (field) => {
+  const renderFormControl = (field: any) => {
     if (openForm === 'bio') {
       return (
         <FormControl>

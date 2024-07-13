@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import { useTabs } from '@/hooks/use-tabs';
 import { FramerLayout } from './framer';
-import BookInfo from '@/modules/book/components/book-info';
-import { Book } from '@/graphql/graphql';
 
 interface Tab {
   label: string;

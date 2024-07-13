@@ -6,6 +6,7 @@ import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
 import {
   GetUserBooksDocument,
   useCountUserBooksLazyQuery,
+  UserBook,
 } from '@/graphql/graphql';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { NetworkStatus, useApolloClient } from '@apollo/client';
@@ -49,7 +50,11 @@ export const ListView: React.FC<ListViewProps> = ({}) => {
         <div className='space-y-4'>
           {books?.map((book, idx) => (
             <div key={idx}>
-              <Book userBook={book} showRemoveBook={true} view={'list'} />
+              <Book
+                userBook={book as UserBook}
+                showRemoveBook={true}
+                view={'list'}
+              />
             </div>
           ))}
         </div>

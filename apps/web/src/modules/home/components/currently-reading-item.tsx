@@ -1,7 +1,6 @@
 'use client';
-import { Size, UserBook } from '@/graphql/graphql';
-import React, { useEffect, useState } from 'react';
-import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
+import { Progress_Type, Size, UserBook } from '@/graphql/graphql';
+import React from 'react';
 import useUserBookStore from '@/stores/use-user-book-store';
 import BookCover from '@/components/book-cover';
 import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
@@ -9,8 +8,6 @@ import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
-import { PROGRESS_TYPE } from '@prisma/client';
-import { read } from 'fs';
 
 interface CurrentlyReadingItemProps {
   userBook: UserBook;
@@ -39,7 +36,7 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
   const capacity = readDate?.readingProgress?.capacity;
 
   const percentProgress =
-    type == PROGRESS_TYPE.PERCENTAGE
+    type == Progress_Type.Percentage
       ? readDate?.readingProgress?.progress
       : covertPageProgressToPercent(
           readDate?.readingProgress?.progress || 0,
@@ -47,7 +44,7 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
         );
 
   const pageProgress =
-    type == PROGRESS_TYPE.PAGES
+    type == Progress_Type.Pages
       ? readDate?.readingProgress?.progress
       : convertPercentProgressToPages(
           readDate?.readingProgress?.progress || 0,

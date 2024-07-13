@@ -7,6 +7,7 @@ import {
   ReadDate,
   Reading_Status,
   useGetUserBooksLazyQuery,
+  UserBook,
   useReadDatesLazyQuery,
 } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
@@ -37,7 +38,7 @@ export const LogBookButton: React.FC<LogBookButtonProps> = ({}) => {
     },
     onCompleted: (data) => {
       if (data && data.getUserBooks.userBooks) {
-        setUserBooks(data.getUserBooks?.userBooks);
+        setUserBooks(data.getUserBooks?.userBooks as UserBook[]);
       }
     },
     errorPolicy: 'all',

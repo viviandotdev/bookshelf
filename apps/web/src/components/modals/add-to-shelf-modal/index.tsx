@@ -17,9 +17,9 @@ import useAddToShelfModal from '@/components/modals/add-to-shelf-modal/use-add-t
 import { Button } from '../../ui/button';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import useShelfStore from '@/stores/use-shelf-store';
-import { UserBook } from '@prisma/client';
 import { ShelfSelector } from '@/components/shelf-selector';
 import useUserBookStore from '@/stores/use-user-book-store';
+import { UserBook, UserBookShelves } from '@/graphql/graphql';
 interface AddToShelfModalProps {}
 
 export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
@@ -32,7 +32,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     incrementShelfCount,
   } = useShelfStore();
   const {
-    setShelves,
     // shelves: userBookShelves,
     // bookTitle,
     // userBookId,
@@ -47,7 +46,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
       setUserBook({
-        shelves: data.shelves,
+        shelves: data.shelves as UserBookShelves[],
       });
     },
     onError: (error) => {

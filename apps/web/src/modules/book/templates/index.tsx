@@ -3,7 +3,6 @@ import { cn, convertTitleToUnderscore, formatAuthors } from '@/lib/utils';
 import { User } from '@/types/interfaces';
 import React from 'react';
 import Image from 'next/image';
-import BookInfo from '@/modules/book/components/book-info';
 import BookStatusModal from '@/components/modals/book-status-modal';
 import RatingInfo from '../components/rating-info';
 import BookControls from '../components/book-controls';
@@ -16,6 +15,7 @@ import {
 import { BookData } from '@/modules/bookshelves/types';
 import { Size, Source, UserBook } from '@/graphql/graphql';
 import AddToShelfButton from '../components/add-to-shelf-button';
+import BookInfo from '../components/book-info';
 
 interface BookTemplateProps {
   book: BookData;

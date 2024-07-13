@@ -1,11 +1,9 @@
 import {
   useUpdateUserBookMutation,
   UserBookUpdateInput,
+  UserBook,
 } from '@/graphql/graphql';
 import { gql } from '@apollo/client';
-import { UserBook } from '@prisma/client';
-import { Rating } from '@smastrom/react-rating';
-import { update } from 'rambda';
 
 interface UseUpdateUserBookOptions {
   onCompleted?: (data: UserBook) => void;
@@ -17,7 +15,7 @@ export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
 
   const [UpdateUserBook] = useUpdateUserBookMutation({
     onCompleted: (data) => {
-      onCompleted?.(data.updateUserBook);
+      onCompleted?.(data.updateUserBook as any);
     },
     onError: (error) => {
       onError?.(error);

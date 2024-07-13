@@ -11,6 +11,7 @@ import {
 import {
   Book,
   Reading_Status,
+  UserBook,
   useRemoveUserBookMutation,
 } from '../graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
@@ -19,7 +20,6 @@ import { readingStatuses } from '@/config/books';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
-import { UserBook } from '@prisma/client';
 import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
 import AlertModal from './modals/alert-modal';
 import { ApolloCache } from '@apollo/client';
@@ -36,7 +36,7 @@ interface BookActionsProps {
   trigger: React.ReactNode;
   side?: 'top' | 'bottom';
   align?: 'start' | 'end';
-  userBookId: string;
+  userBookId?: string;
 }
 
 const BookActions: React.FC<BookActionsProps> = ({
@@ -70,7 +70,7 @@ const BookActions: React.FC<BookActionsProps> = ({
   });
   const onUpdateStatus = async (status: Reading_Status) => {
     setStatus(status);
-    await updateUserBook(userBookId, { status: status });
+    await updateUserBook(userBookId as string, { status: status });
   };
 
   const [removeUserBook] = useRemoveUserBookMutation({
@@ -183,14 +183,14 @@ const BookActions: React.FC<BookActionsProps> = ({
             <div className='flex gap-2'>
               My Rating:
               <BookRating
-                userBookId={userBookId}
+                userBookId={userBookId as string}
                 rating={rating}
                 setRating={setRating}
               />
             </div>
           </DropdownMenuItem>
           <AddToShelfHandler
-            userBookId={userBookId}
+            userBookId={userBookId as string}
             bookTitle={book?.title || ''}
           >
             {(handleAddToShelf) => (

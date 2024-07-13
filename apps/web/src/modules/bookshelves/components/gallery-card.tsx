@@ -1,17 +1,16 @@
 import React, { useRef, useState } from 'react';
-import { Book, Size, UserBook } from '@/graphql/graphql';
+import { Book, Reading_Status, Size, UserBook } from '@/graphql/graphql';
 import { Icons } from '@/components/icons';
 import BookCover from '@/components/book-cover';
 import AlertModal from '@/components/modals/alert-modal';
 import BookActions from '@/components/book-actions';
 import Link from 'next/link';
 import { getCoverUrl } from '@/lib/utils';
-import { SIZE } from '@prisma/client';
 
 interface GalleryCardProps {
   responsive?: boolean;
   userBookId: string;
-  book: BookParts;
+  book: any;
   details?: {
     progress: number;
     date_started: string;
@@ -65,7 +64,7 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
       <div className={`cursor-pointer flex-row `}>
         <div>
           <BookCover
-            src={getCoverUrl(book, SIZE.LARGE) || getCoverUrl(book, SIZE.SMALL)}
+            src={getCoverUrl(book, Size.Large) || getCoverUrl(book, Size.Small)}
             size={'dynamic'}
           />
           <div className='absolute top-0'></div>
@@ -125,13 +124,11 @@ export const GalleryCard: React.FC<GalleryCardProps> = ({
                 userBookId={userBookId}
                 openDropdown={openDropdown}
                 setOpenDropdown={setOpenDropdown}
-                setOpenAlert={setOpenAlert}
-                status={status}
+                status={status as Reading_Status}
                 setStatus={setStatus}
                 book={book}
                 setRating={setRating}
                 rating={rating}
-                shelves={shelves}
                 trigger={
                   <Icons.more className='h-6 w-6 rotate-90 cursor-pointer fill-current stroke-beige stroke-1 text-beige' />
                 }
