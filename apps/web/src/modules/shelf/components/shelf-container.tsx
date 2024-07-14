@@ -65,7 +65,7 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
                   shelfModal.onOpen();
                 }}
                 variant={'link'}
-                className='mr-4 flex items-center justify-start gap-2 rounded-lg bg-beige-50 px-3 text-base text-gray-400 transition-all hover:text-beige-700 hover:no-underline '
+                className='mr-4 flex items-center justify-start gap-2 rounded-lg px-3 text-base text-gray-400 transition-all hover:text-beige-700 hover:no-underline '
               >
                 <Icons.plus className='h-4 w-4' />
                 Add a shelf

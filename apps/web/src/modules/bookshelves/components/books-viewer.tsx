@@ -23,12 +23,12 @@ interface BooksViewerProps {
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  //   const [view, setView] = React.useState<string>(() => {
-  //     // Get the default view from local storage, or use 'gallery' as the default
-  //     return localStorage.getItem('defaultView') || 'gallery';
-  //   });
+  const [view, setView] = React.useState<string>(() => {
+    // Get the default view from local storage, or use 'gallery' as the default
+    return localStorage.getItem('defaultView') || 'gallery';
+  });
 
-  const [view, setView] = React.useState<string>('gallery');
+  //   const [view, setView] = React.useState<string>('gallery');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
@@ -44,26 +44,9 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     searchParams?.get('owned') ||
     searchParams?.get('favorites');
 
-  //   const callLoadMoreFromParent = async (index: number) => {
-  //     if (boardViewRef.current) {
-  //       await boardViewRef.current.loadMore(index);
-  //     }
-  //   };
-
   const updateView = (newView: string) => {
     setView(newView);
     localStorage.setItem('defaultView', newView);
-  };
-  const handleScroll = async (e: any) => {
-    const isAtBottom =
-      Math.abs(
-        e.target.scrollHeight - e.target.clientHeight - e.target.scrollTop
-      ) < 1;
-    if (isAtBottom) {
-      await statuses.forEach((_, index) => {
-        // callLoadMoreFromParent(index);
-      });
-    }
   };
 
   const updateSelected = useShelfStore((state) => state.updateSelected);

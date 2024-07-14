@@ -31,7 +31,6 @@ export const KanbanTemplate: React.FC<KanbanTemplateProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const boardViewRef = useRef(null);
   const [isPending, startTransition] = useTransition();
   const createQueryString = useCreateQueryString();
   // Call the loadMore function from the parent component

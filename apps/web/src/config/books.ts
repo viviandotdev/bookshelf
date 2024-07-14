@@ -1,5 +1,6 @@
 import { Icons } from '@/components/icons';
 import { Reading_Status } from '@/graphql/graphql';
+import { LucideIcon } from 'lucide-react';
 
 export const sortingSelects = [
   { label: 'Date: Old to new', value: 'createdAt.asc' },
@@ -52,7 +53,7 @@ export const librarySelects = [
 type ReadingStatuses = {
   [key in Reading_Status]: {
     name: string;
-    icon: React.ComponentType;
+    icon: LucideIcon;
   };
 };
 

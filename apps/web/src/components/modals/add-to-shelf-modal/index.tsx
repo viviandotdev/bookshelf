@@ -169,7 +169,6 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     <Modal
       title={`Add
         '${bookTitle}' to shelves`}
-      description='Add a new shelf to organize your books.'
       isOpen={addToShelfModal.isOpen}
       onClose={addToShelfModal.onClose}
     >
