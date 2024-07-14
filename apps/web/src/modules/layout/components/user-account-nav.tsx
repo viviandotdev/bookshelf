@@ -74,7 +74,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             });
             await apolloClient.resetStore();
             signOut({
-              callbackUrl: `${window.location.origin}/login`,
+              callbackUrl: `/`,
             });
           }}
         >

@@ -25,7 +25,6 @@ export const LoginTemplate: React.FC<LoginTemplateProps> = ({}) => {
       {activeForm === 'register' && <RegisterForm />}
       {activeForm === 'forgotPassword' && (
         <>
-          {' '}
           <ForgotPasswordForm />
           <p className='px-8 text-center text-sm text-beige'>
             <Button

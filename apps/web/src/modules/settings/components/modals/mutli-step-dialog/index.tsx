@@ -8,6 +8,8 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import MultiStepComponent from './multi-step-component';
+import { useSession } from 'next-auth/react';
+import { toast } from '@/hooks/use-toast';
 
 interface MultiStepDialogProps {
   className?: string;
@@ -19,15 +21,21 @@ export const MultiStepDialog: React.FC<MultiStepDialogProps> = ({
   triggerLabel = 'Import books',
 }) => {
   const [open, setOpen] = useState(false);
+  const { data } = useSession();
+  const onOpenDialog = () => {
+    if (data?.user.username == 'demo') {
+      return toast({
+        title: 'Demo account',
+        description: 'You cannot import books to the demo account.',
+      });
+    }
+    setOpen(!open);
+  };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenDialog}>
       <DialogTrigger asChild>
-        <Button
-          variant='secondary'
-          className={className}
-          onClick={() => setOpen(true)}
-        >
+        <Button variant='secondary' className={className}>
           {triggerLabel}
         </Button>
       </DialogTrigger>

@@ -5,6 +5,7 @@ import useChangeEmailModal from './modals/change-email/use-change-email-modal';
 import useChangePasswordModal from './modals/change-password/use-change-password-modal';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
+import { toast } from '@/hooks/use-toast';
 
 interface AccountCardsProps {
   config: {
@@ -25,6 +26,13 @@ export const AccountCards: React.FC<AccountCardsProps> = ({ config }) => {
   const changePasswordModal = useChangePasswordModal();
   const changeEmailModal = useChangeEmailModal();
   const handleClick = () => {
+    if (data?.user?.username === 'demo') {
+      return toast({
+        title: 'Demo account',
+        description:
+          'You cannot change the email or password of the demo account.',
+      });
+    }
     if (config.title === 'Password') {
       changePasswordModal.onOpen();
     } else {

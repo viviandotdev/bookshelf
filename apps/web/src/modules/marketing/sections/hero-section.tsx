@@ -1,12 +1,10 @@
 // components/HeroSection.tsx
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { dm_sefif_display } from '@/lib/fonts';
 import { Button, buttonVariants } from '@/components/ui/button';
-import Hero, { HeroTitle, HeroSubtitle } from '../components/hero';
-import { Icons } from '@/components/icons';
-import { HeroImage } from '../components/hero-image';
+import Hero, { HeroTitle } from '../components/hero';
 import Link from 'next/link';
+import DemoButton from '../components/demo-button';
 
 interface HeroSectionProps {
   title: string;
@@ -36,15 +34,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <HeroTitle className='translate-y-[-1rem] animate-fade-in opacity-0'>
             {title}
           </HeroTitle>
-          <Link
-            href='/register'
-            className={cn(
-              buttonVariants({ variant: 'cta' }),
-              'text-md mt-4 h-12 translate-y-[-1rem] animate-fade-in bg-beige-700 px-6 text-white opacity-0 [--animation-delay:600ms]'
-            )}
-          >
-            {ctaText}
-          </Link>
+          <div className='flex justify-center gap-2'>
+            <DemoButton />
+            <Link
+              href='/register'
+              className={cn(
+                buttonVariants({ variant: 'cta' }),
+                'text-md mt-4 h-12 translate-y-[-1rem] animate-fade-in bg-beige-700 px-6 text-white opacity-0 [--animation-delay:600ms]'
+              )}
+            >
+              {ctaText}
+            </Link>
+          </div>
         </div>
         <div className='mt-8 flex flex-col items-center justify-center rounded-lg'>
           <div className='relative overflow-hidden rounded-lg border border-gray-200 shadow-md'>
