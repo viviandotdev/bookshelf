@@ -1,5 +1,4 @@
 'use client';
-import { MainNav } from './main-nav';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { dm_sefif_display } from '@/lib/fonts';
@@ -38,14 +37,6 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
       title: 'My Library',
       href: user ? `/library` : '/',
       type: 'user',
-    },
-    {
-      title: 'Browse',
-      href: '/browse',
-    },
-    {
-      title: 'Community',
-      href: '/browse',
     },
   ];
 
@@ -87,7 +78,7 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
             )}
           </Button>
         </div>
-        <div className='hidden nav-lg:relative nav-lg:z-10 nav-lg:ml-4 nav-lg:flex nav-lg:items-center'>
+        <div className='hidden nav-lg:relative nav-lg:z-10 nav-lg:mr-4 nav-lg:flex nav-lg:items-center'>
           {user ? (
             <div className='relative ml-4 mr-4 flex flex-shrink-0 gap-4'>
               <LogBookButton />
@@ -101,15 +92,26 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
               />
             </div>
           ) : (
-            <Link
-              href='/login'
-              className={cn(
-                buttonVariants({ variant: 'secondary', size: 'sm' }),
-                'px-4'
-              )}
-            >
-              Login
-            </Link>
+            <div className='flex gap-4'>
+              <Link
+                href='/login'
+                className={cn(
+                  buttonVariants({ variant: 'secondary', size: 'sm' }),
+                  ' px-4 py-2'
+                )}
+              >
+                Login
+              </Link>
+              <Link
+                href='/register'
+                className={cn(
+                  buttonVariants({ variant: 'default', size: 'sm' }),
+                  'px-4 py-2'
+                )}
+              >
+                Sign up
+              </Link>
+            </div>
           )}
         </div>
       </div>

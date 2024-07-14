@@ -9,7 +9,6 @@ import { useDeleteShelf } from '../mutations/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { CreateShelfModal } from './modals/create-shelf-modal';
 interface ShelfContainerProps {
   title: string;
   shelves: Shelf[];

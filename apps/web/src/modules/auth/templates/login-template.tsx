@@ -19,7 +19,7 @@ export const LoginTemplate: React.FC<LoginTemplateProps> = ({}) => {
 
   return (
     <div className='grid gap-4'>
-      <Social />
+      {/* <Social /> */}
       <hr />
       {activeForm === 'login' && <LoginForm />}
       {activeForm === 'register' && <RegisterForm />}

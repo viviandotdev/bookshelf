@@ -8,7 +8,7 @@ import ViewFilterSortSection from '../sections/view-filter-sort-section';
 export const MarketingTemplate: React.FC = () => {
   return (
     <section className='relative z-0 pt-20'>
-      <div className='container flex max-w-[72rem] flex-col items-center gap-4 pb-28 text-center'>
+      <div className='container flex flex-col items-center gap-4 pb-28 text-center'>
         <HeroSection
           title='Organize and track your favorite books'
           ctaText='Sign up now'

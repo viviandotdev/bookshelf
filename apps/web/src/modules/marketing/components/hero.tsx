@@ -7,6 +7,8 @@ interface HeroElementProps {
   children: React.ReactNode;
   className?: string;
 }
+
+// In Supporting Text 1
 export const HeroTitle: React.FC<HeroElementProps> = ({
   children,
   className,
@@ -15,7 +17,7 @@ export const HeroTitle: React.FC<HeroElementProps> = ({
     <h1
       className={cn(
         dm_sefif_display.className,
-        'text-2xl/[1.25] sm:text-3xl/[1.25] md:text-5xl/[1.25]',
+        'mx-auto max-w-2xl text-2xl/[1.25] sm:text-3xl/[1.25] md:text-5xl/[1.25]',
         className
       )}
     >
@@ -43,7 +45,7 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ children }) => {
   return (
-    <div className='mx-auto flex max-w-[40rem] flex-col items-center justify-center gap-6 text-center '>
+    <div className='mx-auto flex max-w-7xl flex-col items-center justify-center gap-6 text-center '>
       {children}
     </div>
   );

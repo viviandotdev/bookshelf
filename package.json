@@ -8,6 +8,7 @@
         "serve:all": "pnpm run start:api & pnpm run start:web",
         "start:web": "pnpm exec nx dev web",
         "start:api": "pnpm exec nx start api",
+        "type-check:web": "pnpm exec nx type-check web",
         "gql:watch": "graphql-code-generator --config codegen.ts --watch",
         "----DEPLOY SECTION----": "----------------------",
         "cd:api": "pnpm run cd:db-push && pnpm run db:seed && pnpm run build:api --prod",

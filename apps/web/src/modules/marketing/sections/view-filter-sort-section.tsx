@@ -7,17 +7,17 @@ const tabs = [
   {
     name: 'Board',
     width: 'w-14',
-    image: 'https://via.placeholder.com/1200x520?text=Board+View',
+    image: '/landing/board.png',
   },
   {
     name: 'Gallery',
     width: 'w-16',
-    image: 'https://via.placeholder.com/1200x520?text=Gallery+View',
+    image: '/landing/gallery.png',
   },
   {
     name: 'List',
     width: 'w-11',
-    image: 'https://via.placeholder.com/1200x520?text=List+View',
+    image: '/landing/list.png',
   },
 ];
 
@@ -41,10 +41,10 @@ const ViewFilterSortSection: React.FC = () => {
         </p>
       </div>
 
-      <div className='flex flex-col items-center gap-6 rounded-xl border-2 border-stone-100 bg-stone-100 p-8'>
-        <div className='w-full max-w-4xl overflow-hidden rounded-xl bg-white shadow-lg'>
+      <div className='flex flex-col items-center gap-8 rounded-xl bg-beige-100 p-12 pb-8'>
+        <div className='w-full max-w-6xl overflow-hidden rounded-xl '>
           <img
-            className='h-auto w-full'
+            className='h-full w-full'
             src={selectedTab.image}
             alt={`${selectedTab.name} view illustration`}
           />
@@ -53,15 +53,17 @@ const ViewFilterSortSection: React.FC = () => {
           {tabs.map((tab) => (
             <div
               key={tab.name}
-              className={`${tab.width} flex cursor-pointer items-center justify-center rounded-lg border border-black/10 p-px`}
+              className={`items -center flex cursor-pointer justify-center rounded-md shadow-sm`}
               onClick={() => setSelectedTab(tab)}
             >
               <div
-                className={`flex w-full items-center justify-center rounded px-2.5 py-1 ${
-                  selectedTab.name === tab.name ? 'bg-black/10' : ''
+                className={`flex w-full items-center justify-center rounded-md border px-2.5 py-1 ${
+                  selectedTab.name === tab.name
+                    ? 'border-beige-700 bg-beige-100'
+                    : 'border-gray-200 bg-white'
                 }`}
               >
-                <span className='text-sm font-normal leading-tight tracking-tight text-neutral-900'>
+                <span className='text-sm font-normal tracking-tight text-neutral-900'>
                   {tab.name}
                 </span>
               </div>
