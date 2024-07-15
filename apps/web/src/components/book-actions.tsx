@@ -189,7 +189,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               />
             </div>
           </DropdownMenuItem>
-          <AddToShelfHandler
+          {/* <AddToShelfHandler
             userBookId={userBookId as string}
             bookTitle={book?.title || ''}
           >
@@ -204,8 +204,8 @@ const BookActions: React.FC<BookActionsProps> = ({
                 Add to shelf
               </DropdownMenuItem>
             )}
-          </AddToShelfHandler>
-          {status == Reading_Status.Reading && (
+          </AddToShelfHandler> */}
+          {/* {status == Reading_Status.Reading && (
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
@@ -219,7 +219,7 @@ const BookActions: React.FC<BookActionsProps> = ({
               <Icons.plus className='mr-2 h-5 w-5' />
               Log reading
             </DropdownMenuItem>
-          )}
+          )} */}
 
           {showRemoveBook && (
             <DropdownMenuItem

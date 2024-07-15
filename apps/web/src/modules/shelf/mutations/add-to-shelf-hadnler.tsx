@@ -29,11 +29,16 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     variables: { where: { id: userBookId } },
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
+      console.log(data);
       if (data.getMyBookShelves) {
+        console.log(data.getMyBookShelves);
         setUserBook({
           shelves: data.getMyBookShelves as UserBookShelves[],
         });
       }
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
 
@@ -41,6 +46,7 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     variables: {},
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
+      console.log(data);
       if (data.shelves) {
         initAllShelves(data.shelves as Shelf[]);
       }
@@ -53,6 +59,7 @@ const AddToShelfHandler: React.FC<AddToShelfHandlerProps> = ({
     setIsLoading(true);
     await loadShelves();
     await loadBookShelves();
+    console.log('loadShelves');
     setIsLoading(false);
   };
 

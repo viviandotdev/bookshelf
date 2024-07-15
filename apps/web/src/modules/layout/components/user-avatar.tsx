@@ -23,7 +23,6 @@ export function UserAvatar({ username, size, src, ...props }: UserAvatarProps) {
       iconSize = 'h-4 w-4';
       break;
   }
-  console.log('src', src);
 
   return (
     <Avatar size={size} {...props}>

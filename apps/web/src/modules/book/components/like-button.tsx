@@ -15,7 +15,7 @@ interface LikeButtonProps {
 }
 
 const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
-  const { isLiked, userBookId, setUserBook } = useUserBookStore();
+  const { userBookId, setUserBook } = useUserBookStore();
   const [hasReacted, toggleReact] = useToggle();
 
   useEffect(() => {

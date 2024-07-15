@@ -4,7 +4,12 @@ import { Home, Settings, LibraryBig } from 'lucide-react';
 export function MainSidebar() {
   const menuItems = [
     { icon: Home, label: 'Dashboard', href: '/' },
-    { icon: LibraryBig, label: 'Library', href: '/library', bgAccent: true },
+    {
+      icon: LibraryBig,
+      label: 'Library',
+      href: '/library?shelf=All+Books&page=1&status=Any+Status',
+      bgAccent: true,
+    },
     { icon: Settings, label: 'Analytics', href: '/settings/account' },
   ];
 
