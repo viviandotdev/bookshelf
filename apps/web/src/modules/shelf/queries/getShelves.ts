@@ -22,20 +22,6 @@ export async function getShelves(): Promise<{
         query: ShelvesDocument,
     });
 
-    const { data: AllBooks } = await client.query<CountUserBooksQuery>({
-        query: CountUserBooksDocument,
-    });
-
-    const { data: UnShelvedBooks } = await client.query<CountUserBooksQuery>({
-        query: CountUserBooksDocument,
-        variables: {
-            where: {
-                shelves: {
-                    none: {}, // Checks if the shelves array is empty
-                },
-            },
-        },
-    });
 
     const library = librarySelects.map((item, i): Shelf => {
         return {
@@ -45,8 +31,8 @@ export async function getShelves(): Promise<{
             _count: {
                 userBooks:
                     item.name == 'All Books'
-                        ? AllBooks.countUserBooks
-                        : UnShelvedBooks.countUserBooks,
+                        ? 0
+                        : 0,
             },
         };
     });

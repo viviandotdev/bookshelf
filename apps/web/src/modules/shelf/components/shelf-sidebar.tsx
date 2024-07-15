@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Shelf } from '@/graphql/graphql';
+import { Shelf, useShelvesLazyQuery } from '@/graphql/graphql';
 import useShelfStore from '@/stores/use-shelf-store';
-import { Icons } from '@/components/icons';
-import { Button } from '@/components/ui/button';
 import ShelfContainer from '@/modules/shelf/components/shelf-container';
+import { librarySelects } from '@/config/books';
 interface SidebarProps {
   librarySelections: Shelf[];
   shelfSelections: Shelf[];
@@ -21,6 +20,37 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const params = useSearchParams();
   const shelf = params?.get('shelf');
 
+  //   const [loadShelves] = useShelvesLazyQuery({
+  //     variables: {},
+  //     fetchPolicy: 'network-only',
+  //     onCompleted: (data) => {
+  //       console.log(data);
+  //       if (data.shelves) {
+  //         const library = librarySelects.map((item, i): Shelf => {
+  //           return {
+  //             id: i.toString(),
+  //             name: item.name,
+  //             slug: '',
+  //             _count: {
+  //               userBooks: item.name == 'All Books' ? 100 : 12,
+  //             },
+  //           };
+  //         });
+  //         initLibrary(library);
+  //         initShelves((data.shelves ? data.shelves : []) as Shelf[]);
+
+  //         // initAllShelves(data.shelves as Shelf[]);
+  //       }
+  //     },
+  //   });
+
+  //   useEffect(() => {
+  //     const loadData = async () => {
+  //       await loadShelves();
+  //     };
+
+  //     loadData();
+  //   }, []);
   useEffect(() => {
     if (shelf) {
       updateSelected(shelf);
