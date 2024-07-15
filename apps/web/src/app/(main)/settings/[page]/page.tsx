@@ -7,6 +7,7 @@ interface SettingsPageProps {
     page: string;
   };
 }
+export const maxDuration = 60; // Applies to the actions
 
 async function SettingsPage({ params }: SettingsPageProps) {
   const page = params.page;

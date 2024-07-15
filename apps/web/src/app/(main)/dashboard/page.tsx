@@ -9,6 +9,8 @@ import React from 'react';
 
 interface DashboardPageProps {}
 
+export const maxDuration = 60; // Applies to the actions
+
 const DashboardPage: React.FC<DashboardPageProps> = async ({}) => {
   const user = await getCurrentUser();
 
