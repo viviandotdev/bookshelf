@@ -1,7 +1,7 @@
 'use client';
 
 import { ApolloProvider, from } from '@apollo/client';
-import { ReactNode, useMemo } from 'react';
+import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { setContext } from '@apollo/client/link/context';
 import {
   NextSSRInMemoryCache,
@@ -9,6 +9,7 @@ import {
   NextSSRApolloClient,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import { httpLink } from '../lib/apollo';
+import { useSession } from 'next-auth/react';
 
 export type ApolloClientProviderProps = {
   children: ReactNode;
@@ -17,19 +18,19 @@ export type ApolloClientProviderProps = {
 /**
  * Create apollo client on 'client'
  */
+//https://lyonwj.com/blog/grandstack-podcast-app-next-js-graphql-authentication
 //https://grafbase.com/guides/how-to-use-nextauthjs-jwt-auth-with-apollo-client
 // Client components with server side rendering
 export const ApolloClientProvider = ({
   children,
 }: ApolloClientProviderProps) => {
+  const session = useSession();
   const client = useMemo(() => {
     const authMiddleware = setContext(async (operation, { headers }) => {
-      const response = await fetch('/api/accessToken');
-      const { session } = await response.json();
       return {
         headers: {
           ...headers,
-          authorization: `Bearer ${session.accessToken}`,
+          authorization: `Bearer ${session.data?.user.accessToken}`,
         },
       };
     });
