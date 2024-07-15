@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useEffect, useRef } from 'react';
+import React, { Suspense, useEffect,  } from 'react';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
 import { SortingOptions } from './sorting-options';
