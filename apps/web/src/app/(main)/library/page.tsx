@@ -5,6 +5,8 @@ import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
+export const maxDuration = 60; // Applies to the actions
+
 export default async function LibraryPage({}: {}) {
   const user = await getCurrentUser();
   if (!user) {
