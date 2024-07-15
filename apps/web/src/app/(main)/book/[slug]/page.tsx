@@ -13,6 +13,7 @@ import { Source, UserBook } from '@/graphql/graphql';
 import { getBookBySlug } from '@/modules/book/queries/getBookBySlug';
 import { getBookByIdentifier } from '@/modules/book/queries/getBookByIdentifier';
 
+export const maxDuration = 60; // Applies to the actions
 interface BookPageProps {
   params: { slug: string };
 }

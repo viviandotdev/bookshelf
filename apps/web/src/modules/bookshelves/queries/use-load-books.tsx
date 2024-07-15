@@ -20,7 +20,6 @@ const useLoadBooks = () => {
           data.getUserBooks.userBooks &&
           data.getUserBooks.userBooks?.length === 0
         ) {
-          console.log('update query');
         }
       },
 

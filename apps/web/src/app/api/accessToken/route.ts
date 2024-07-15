@@ -1,10 +1,11 @@
+export const maxDuration = 5; // Applies to the actions
 import { auth } from '@/auth';
 
 export async function GET() {
-  const session = await auth();
-  if (session?.user) {
-    return Response.json({ session: session.user }, { status: 200 });
-  }
+    const session = await auth();
+    if (session?.user) {
+        return Response.json({ session: session.user }, { status: 200 });
+    }
 
-  return new Response(null, { status: 403 });
+    return new Response(null, { status: 403 });
 }

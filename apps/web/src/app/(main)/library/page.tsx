@@ -12,7 +12,6 @@ export default async function LibraryPage({}: {}) {
   if (!user) {
     notFound();
   }
-  const { library, shelves } = await getShelves();
   return (
     <>
       <div className='flex'>
@@ -20,7 +19,7 @@ export default async function LibraryPage({}: {}) {
           className='flex h-[80vh] overflow-y-auto'
           style={{ height: 'calc(100vh - 64px)' }}
         >
-          <Sidebar librarySelections={library} shelfSelections={shelves} />
+          <Sidebar />
         </div>
         <div className='flex w-3/4 flex-1 flex-col overflow-x-auto border-l border-gray-200'>
           <BookshelvesTemplate />

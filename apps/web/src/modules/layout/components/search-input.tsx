@@ -23,7 +23,6 @@ export const SearchInput: React.FC<SearchInputProps> = ({}) => {
           params.delete('q');
         }
         replace(`${pathname}?${params.toString()}`);
-        console.log('refresh');
         refresh();
       } else {
         linkRef.current.click();

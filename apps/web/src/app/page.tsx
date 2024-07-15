@@ -2,6 +2,7 @@ import { getCurrentUser } from '@/lib/auth';
 import SiteHeader from '@/modules/layout/templates/site-header';
 import MarketingTemplate from '@/modules/marketing/templates';
 import { redirect } from 'next/navigation';
+export const maxDuration = 60; // Applies to the actions
 
 export default async function IndexPage() {
   const user = await getCurrentUser();

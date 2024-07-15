@@ -32,11 +32,15 @@ export const ListView: React.FC<ListViewProps> = ({}) => {
 
   const books = booksData && booksData?.getUserBooks?.userBooks;
   const loading = networkStatus === NetworkStatus.loading;
-
   useEffect(() => {
     const loadData = async () => {
-      await loadBooks({ variables: { ...query } });
-      await getCount({ variables: { ...query } });
+      if (query && Object.keys(query).length > 0) {
+        await loadBooks({ variables: { ...query } });
+        await getCount({ variables: { ...query } });
+      } else {
+        // Handle the case when query is empty or undefined
+        // For example, you might want to load all books or show an error message
+      }
     };
 
     loadData();

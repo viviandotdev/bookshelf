@@ -24,19 +24,24 @@ export const GalleryView: React.FC<GalleryViewProps> = ({}) => {
       setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE));
     },
   });
-const { loadBooks, booksData, networkStatus } = useLoadBooks();
+  const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
   const books = booksData && booksData?.getUserBooks?.userBooks;
   const loading = networkStatus === NetworkStatus.loading;
 
   useEffect(() => {
     const loadData = async () => {
-      await loadBooks({ variables: { ...query } });
-      await getCount({ variables: { ...query } });
+      if (query && Object.keys(query).length > 0) {
+        await loadBooks({ variables: { ...query } });
+        await getCount({ variables: { ...query } });
+      } else {
+        // Handle the case when query is empty or undefined
+        // For example, you might want to load all books or show an error message
+      }
     };
 
     loadData();
-  }, [query, loadBooks, getCount, library]);
+  }, [query, loadBooks, getCount]);
 
   return (
     <>
@@ -46,7 +51,11 @@ const { loadBooks, booksData, networkStatus } = useLoadBooks();
         <div className='grid grid-cols-6 justify-center gap-4 overflow-hidden pb-10 pt-2 xl:grid-cols-8'>
           {books?.map((book, idx) => (
             <div key={idx}>
-              <Book userBook={book as UserBook} showRemoveBook={true} view='gallery' />
+              <Book
+                userBook={book as UserBook}
+                showRemoveBook={true}
+                view='gallery'
+              />
             </div>
           ))}
         </div>

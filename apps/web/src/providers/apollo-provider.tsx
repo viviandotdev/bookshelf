@@ -17,7 +17,7 @@ export type ApolloClientProviderProps = {
 /**
  * Create apollo client on 'client'
  */
-
+//https://grafbase.com/guides/how-to-use-nextauthjs-jwt-auth-with-apollo-client
 // Client components with server side rendering
 export const ApolloClientProvider = ({
   children,
