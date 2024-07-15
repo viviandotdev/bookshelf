@@ -93,6 +93,7 @@ export const KanbanTemplate: React.FC<KanbanTemplateProps> = ({
   };
 
   const loadBooksByStatus = async (status: string) => {
+    setIsLoading(true);
     const queryFilter = generateQueryFilter(query, status);
 
     const { data: bookData, fetchMore } = await loadBooks({
@@ -100,6 +101,8 @@ export const KanbanTemplate: React.FC<KanbanTemplateProps> = ({
         ...queryFilter,
       },
     });
+
+    setIsLoading(false);
 
     return {
       title: status,
@@ -199,10 +202,16 @@ export const KanbanTemplate: React.FC<KanbanTemplateProps> = ({
           <Suspense fallback={<div>Loading...</div>}>
             <div className='mt-4'>
               <div className='mb-6'>
-                <ColumnContainer data={data} setData={setData} />
+                {isLoading ? (
+                  <h2>Loading...</h2>
+                ) : (
+                  <ColumnContainer data={data} setData={setData} />
+                )}
               </div>
               <div>
-                {!data.some((column) => column.hasMore) && <NoResults />}
+                {!isLoading && !data.some((column) => column.hasMore) && (
+                  <NoResults />
+                )}
               </div>
             </div>
           </Suspense>
