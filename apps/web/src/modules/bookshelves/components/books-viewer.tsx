@@ -7,7 +7,6 @@ import StatusMenu from './status-menu';
 import { ViewOptions } from './view-options';
 import { GalleryView } from './gallery-view';
 import { ShelfTitle } from './shelf-title';
-import { STATUS } from '@/lib/constants';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
 import { useTransition } from 'react';
@@ -18,25 +17,18 @@ import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
 import SearchBar from './search-bar';
 import KanbanTemplate from './kanban-template';
-import { update } from 'rambda';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
 
 export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
-  const [view, setView] = React.useState<string>(() => {
-    // Get the default view from local storage, or use 'gallery' as the default
-    return localStorage.getItem('defaultView') || 'gallery';
-  });
+  const [view, setView] = React.useState<string>('gallery');
 
-  const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
   const pathname = usePathname();
-  const boardViewRef = useRef(null);
   const [isPending, startTransition] = useTransition();
   const createQueryString = useCreateQueryString();
-  // Call the loadMore function from the parent component
   const searchParams = useSearchParams();
   const buttonIsEnabled =
     searchParams?.get('status') ||
