@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import ListView from './list-view';
 import ShelfMenu from './shelf-menu';
 import { SortingOptions } from './sorting-options';
@@ -18,6 +18,7 @@ import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
 import SearchBar from './search-bar';
 import KanbanTemplate from './kanban-template';
+import { update } from 'rambda';
 interface BooksViewerProps {
   children?: React.ReactNode;
 }
@@ -28,7 +29,6 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     return localStorage.getItem('defaultView') || 'gallery';
   });
 
-  //   const [view, setView] = React.useState<string>('gallery');
   const statuses: string[] = Object.values(STATUS);
   let contentView;
   const router = useRouter();
@@ -48,6 +48,15 @@ export const BooksViewer: React.FC<BooksViewerProps> = ({}) => {
     setView(newView);
     localStorage.setItem('defaultView', newView);
   };
+
+  useEffect(() => {
+    const shelf = searchParams?.get('shelf');
+    if (shelf) {
+      updateSelected(shelf);
+    } else {
+      updateSelected('All Books');
+    }
+  }, [searchParams]);
 
   const updateSelected = useShelfStore((state) => state.updateSelected);
 
