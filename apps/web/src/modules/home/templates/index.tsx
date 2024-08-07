@@ -1,11 +1,6 @@
 // HomeTemplate.tsx
 import React from 'react';
-import {
-  BookCountsResponse,
-  Reading_Status,
-  Shelf,
-  UserBook,
-} from '@/graphql/graphql';
+import { BookCountsResponse, Shelf, UserBook } from '@/graphql/graphql';
 import { ReadingSummary } from '../components/readidng-summary';
 import { MainBookList } from '../components/main-booklist';
 import CurrentlyReadingSection from '../components/currently-reading-section';

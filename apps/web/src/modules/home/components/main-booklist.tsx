@@ -1,11 +1,8 @@
 'use client';
 import Book from '@/components/book';
 import BookCover from '@/components/book-cover';
-import { Suspense, useEffect, useState, useTransition } from 'react';
-import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import Link from 'next/link';
 import NoResults from '@/components/no-results';
-import CustomizeDropdown from './customize-dropdown';
 import DashboardHeader from './dashboard-header';
 import { Reading_Status } from '@/graphql/graphql';
 
@@ -16,6 +13,7 @@ export const MainBookList = ({
   books: any;
   count: number;
 }) => {
+  console.log(books);
   // fiction, nonfiction, want-to-read
   return (
     <div className='border border-gray-200 bg-white p-6'>

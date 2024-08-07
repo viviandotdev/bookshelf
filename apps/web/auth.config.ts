@@ -153,13 +153,18 @@ export default {
                     token.avatarImage = data!.me!.avatarImage;
                 }
 
-                return Promise.resolve(token);
+                if (!data) { //invalidate a nextauth session when the external API token expires
+                    await client.resetStore();
+                    token.error = 'AccessTokenExpired' as string;
+                    return null
+                }
             }
 
             if (Date.now() >= (token.expiresIn as unknown as any) * 1000) {
                 //the api token expired sign in again
                 await client.resetStore();
                 token.error = 'TokenExpiredError' as string;
+                return null;
             }
 
             return Promise.resolve(token); //signed in user is returning to the same session

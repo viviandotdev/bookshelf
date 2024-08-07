@@ -59,6 +59,9 @@ const BookActions: React.FC<BookActionsProps> = ({
   const [openAlert, setOpenAlert] = useState(false); // Initial value
   const { updateUserBook } = useUpdateUserBook({
     onCompleted: (data: UserBook) => {
+      if (data.status === Reading_Status.Reading) {
+        // add currently reading store
+      }
       toast({
         title: `Book status updated to ${data.status} `,
         variant: 'success',
