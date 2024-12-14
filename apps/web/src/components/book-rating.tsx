@@ -27,7 +27,7 @@ export function BookRating({
     onCompleted: (_) => {
       toast({
         title: `Book rating updated `,
-        variant: 'success',
+        // variant: 'success',
       });
     },
     onError: (error) => {

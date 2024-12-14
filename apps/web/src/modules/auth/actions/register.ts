@@ -23,8 +23,10 @@ export const register = async (values: z.infer<typeof registerUserSchema>) => {
         },
       },
     });
+    console.log(errors);
   } catch (error) {
-    return { error: 'Email or username already exists' };
+    console.log(error);
+    return { error: 'An error occurred! Try again later' };
   }
 
   return { success: 'Confirmation email sent!' };

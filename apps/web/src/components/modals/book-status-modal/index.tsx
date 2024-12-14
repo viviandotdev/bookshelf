@@ -25,7 +25,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     onCompleted: (data) => {
       toast({
         title: `Book status updated `,
-        variant: 'success',
+        // variant: 'success',
       });
     },
     onError: (error) => {

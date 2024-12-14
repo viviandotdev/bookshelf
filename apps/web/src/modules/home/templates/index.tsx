@@ -38,16 +38,16 @@ export default function HomeTemplate({
               </div>
             </div>
           </section>
-          <MainBookList
-            count={bookCounts.wantsToReadCount}
-            books={wantToRead}
-          />
           {currentlyReading.length > 0 && (
             <CurrentlyReadingSection
               count={bookCounts.readingCount}
               currentlyReading={currentlyReading}
             />
           )}
+          <MainBookList
+            count={bookCounts.wantsToReadCount}
+            books={wantToRead}
+          />
         </div>
         {/* Right column */}
         <div className='grid grid-cols-1 gap-4 xl:col-span-5'>
