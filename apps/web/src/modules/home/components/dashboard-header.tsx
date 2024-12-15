@@ -9,7 +9,7 @@ function DashboardHeader({
   href,
 }: {
   title: string;
-  count: number;
+  count?: number;
   href: string;
 }) {
   // Wait for the playlists
@@ -17,7 +17,7 @@ function DashboardHeader({
     <>
       <h2 className={cn('space-x-4')}>
         <span className='text-xl font-semibold text-beige-700'>{title}</span>
-        <span className='text-gray-400'>{count} books</span>
+        {count && <span className='text-gray-400'>{count} books</span>}
       </h2>
       <Link href={href} className='text-gray-400'>
         View more

@@ -4,7 +4,7 @@ import BookCover from '@/components/book-cover';
 import Link from 'next/link';
 import NoResults from '@/components/no-results';
 import DashboardHeader from './dashboard-header';
-import { Book as BookType, Reading_Status, Size } from '@/graphql/graphql';
+import { Reading_Status, Size } from '@/graphql/graphql';
 import Image from 'next/image';
 import { getCoverUrl } from '@/lib/utils';
 export const MainBookList = ({
@@ -14,8 +14,6 @@ export const MainBookList = ({
   books: any;
   count: number;
 }) => {
-  console.log(books);
-  // fiction, nonfiction, want-to-read
   return (
     <div className='rounded-md border border-gray-200 bg-white p-6'>
       <div className='mb-4 flex justify-between'>
@@ -55,25 +53,6 @@ export const MainBookList = ({
   );
 };
 
-const BookItem = ({ book }: { book: any }) =>
-  book.userId ? (
-    <div className={'flex-row'}>
-      <div className=''>
-        <Book userBook={book} showRemoveBook={false} view='gallery' />
-      </div>
-    </div>
-  ) : (
-    <div className={'flex-row'}>
-      <Link
-        href={`/book/${book.googleId}`}
-        className={'text-beige hover:text-stone-500'}
-      >
-        <BookCover src={book.bookImage} />
-      </Link>
-    </div>
-  );
-
-// Define the props for the new component
 type ContentMessageProps = {
   isPending: boolean;
   view: string;

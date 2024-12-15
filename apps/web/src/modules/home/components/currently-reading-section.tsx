@@ -13,13 +13,13 @@ export const CurrentlyReadingSection: React.FC<
   CurrentlyReadingSectionProps
 > = ({ currentlyReading, count }) => {
   return (
-    <section className='rounded-md border border-gray-200 bg-white p-6'>
-      <div className='mb-4 flex justify-between'>
-        <DashboardHeader
+    <section className='bg-white '>
+      <div className=' flex justify-between'>
+        {/* <DashboardHeader
           href={`/library?status=${Reading_Status.Reading}`}
           title={'Currently Reading'}
           count={count}
-        />
+        /> */}
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
         {currentlyReading.map((book, idx) => (

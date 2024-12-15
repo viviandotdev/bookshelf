@@ -38,6 +38,7 @@ export default function HomeTemplate({
               </div>
             </div>
           </section>
+
           {currentlyReading.length > 0 && (
             <CurrentlyReadingSection
               count={bookCounts.readingCount}

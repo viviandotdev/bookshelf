@@ -12,13 +12,13 @@ interface UpNextCardProps {
 
 const UpNextCard: React.FC<UpNextCardProps> = ({ upNext }) => {
   return (
-    <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
+    <Card className='border-grey-200 overflow-hidden rounded-md border bg-white  shadow-none'>
       <CardHeader className='p-6 pb-2 text-beige-700'>
         <div className='flex justify-between'>
           <DashboardHeader
             href={`/library?status=${Reading_Status.UpNext}`}
             title='Up Next'
-            count={upNext.length}
+            // count={upNext.length}
           />
         </div>
       </CardHeader>

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
 import { Pencil } from 'lucide-react';
+import { IconButton } from '@/modules/bookshelves/components/icon-button';
 
 interface CurrentlyReadingItemProps {
   userBook: UserBook;
@@ -59,52 +60,63 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
         <div className='w-20 flex-shrink-0 overflow-hidden rounded-md shadow-sm'>
           <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
         </div>
-        <div className='flex flex-col gap-1'>
-          <div className='line-clamp-2 overflow-hidden text-base font-medium text-stone-700'>
-            {book.title}
+        <div className='flex w-full flex-col justify-between'>
+          <div className='flex w-full flex-col gap-1'>
+            <div className='line-clamp-2 overflow-hidden text-base font-medium text-stone-700'>
+              {book.title}
+            </div>
+            <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
+              by {formatAuthors(book.authors!)}
+            </div>
+            {/* <RatingInfo size={'sm'} ratings={hit?.ratings || []} /> */}
           </div>
-          <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
-            by {formatAuthors(book.authors!)}
-            {/* {hit.yearPublished} */}
-          </div>
-          <div className='mt-1 flex'>
-            <div className='flex items-center'>
-              <div>
-                <div className='flex min-w-[19em] flex-col gap-[-2px] text-sm'>
-                  <div className='flex min-w-36 items-center justify-center gap-2  px-2 text-center text-beige'>
-                    <Progress
-                      className='items-center'
-                      value={percentProgress || 0}
-                    />
-                    <div className='flex items-center gap-0.5'>
-                      {percentProgress || 0}%
-                    </div>
-                    <Button
-                      variant={'secondary'}
-                      className='px-2 py-0'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (readDate?.readingProgress) {
-                          onOpen();
-                          setUserBook({
-                            userBookId: userBook.id,
-                            bookTitle: book.title,
-                          });
-                        }
-                      }}
-                    >
-                      <Pencil height={16} width={16} />
-                    </Button>
-                  </div>
-                  <div className='flex w-max items-center text-xs font-medium text-gray-500'>
-                    <div>
-                      {pageProgress} / {readDate?.readingProgress?.capacity}{' '}
-                      pages read
-                    </div>
+
+          <div className='mt-1 flex flex-col '>
+            <div className='flex items-center justify-between gap-2'>
+              <div className='h-fit w-[85%] rounded-md border border-gray-200 bg-white px-2 py-2 text-center text-beige shadow-sm'>
+                <div className='flex items-center gap-1'>
+                  <Progress
+                    className='align-middle'
+                    value={percentProgress || 0}
+                  />
+                  <div className='ml-2 min-w-2 text-xs font-medium text-gray-500'>
+                    {percentProgress || 0}%
                   </div>
                 </div>
               </div>
-              {/* <RatingInfo size={'sm'} ratings={hit?.ratings || []} /> */}
+
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (readDate?.readingProgress) {
+                    onOpen();
+                    setUserBook({
+                      userBookId: userBook.id,
+                      bookTitle: book.title,
+                    });
+                  }
+                }}
+                className={`h-8 w-8 rounded-sm`}
+              >
+                <span className='sr-only'>Like Book</span>
+                <Pencil className={`h-4 w-4 items-center`} />
+              </IconButton>
+              {/* <Button
+                variant={'secondary'}
+                className='flex h-8 w-8 items-center justify-center border p-0'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (readDate?.readingProgress) {
+                    onOpen();
+                    setUserBook({
+                      userBookId: userBook.id,
+                      bookTitle: book.title,
+                    });
+                  }
+                }}
+              >
+                <Pencil height={16} />
+              </Button> */}
             </div>
           </div>
         </div>
