@@ -7,11 +7,13 @@ import { useImportUserBooksMutation } from '@/graphql/graphql';
 interface Step2Props {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   setDirection: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Step2: React.FC<Step2Props> = ({
   setCurrentStep,
   setDirection,
+  setOpenDialog,
 }) => {
   const [ownedShelf, setOwnedShelf] = useState('');
   const [favoritesShelf, setFavoritesShelf] = useState('');
@@ -54,6 +56,7 @@ export const Step2: React.FC<Step2Props> = ({
         description: 'No file was uploaded. Please go back and select a file.',
       });
     }
+    setOpenDialog(false);
   }, [state.csvContent, ownedShelf, favoritesShelf, ImportUserBooks]);
 
   return (

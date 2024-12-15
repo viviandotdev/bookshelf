@@ -68,6 +68,9 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
             <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
               by {formatAuthors(book.authors!)}
             </div>
+            <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
+              Started on December 12, 2021
+            </div>
             {/* <RatingInfo size={'sm'} ratings={hit?.ratings || []} /> */}
           </div>
 
