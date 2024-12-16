@@ -33,7 +33,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
       <div className='relative py-3'>
         <div className='flex space-x-4'>
           <Link
-            href={`/book/${book?.id}`}
+            href={`/book/${book?.slug}`}
             className={'text-beige hover:text-stone-500'}
           >
             <BookCover src={getCoverUrl(book!, Size.Small)} size={'xs'} />
@@ -42,7 +42,10 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
           <div className='flex w-full flex-col justify-center '>
             <div className='flex flex-col'>
               <h3 className='line-clamp-2 text-lg font-bold leading-6 text-beige-700'>
-                <Link href={`/book/${book?.id}`} className={'hover:underline'}>
+                <Link
+                  href={`/book/${book?.slug}`}
+                  className={'hover:underline'}
+                >
                   {book?.title}
                 </Link>
               </h3>
@@ -50,7 +53,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
                 by {formatAuthors(book.authors!)}
               </p>
               <p className='mt-1 flex items-center gap-1.5 '></p>
-              <div
+              {/* <div
                 className={cn(
                   'hidden rounded-sm px-1 group-hover/item:block hover:bg-gray-200',
                   openDropdown && 'block'
@@ -78,7 +81,7 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
                     }
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

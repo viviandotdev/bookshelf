@@ -75,7 +75,7 @@ const ReadingSummary = ({ bookCounts }: { bookCounts: BookCountsResponse }) => {
   ];
 
   return (
-    <Card className='overflow-hidden rounded-md border-2 border-gray-100 bg-white shadow-sm'>
+    <Card className='border-grey-200 overflow-hidden rounded-md border bg-white  shadow-none'>
       <CardHeader className='p-6 pb-2 text-xl font-bold text-beige-700'>
         Reading Summary
       </CardHeader>
