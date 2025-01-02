@@ -3,10 +3,10 @@ import { Reading_Status } from '@/graphql/graphql';
 import { LucideIcon } from 'lucide-react';
 
 export const sortingSelects = [
-  { label: 'Date: Old to new', value: 'createdAt.asc' },
+  { label: 'Date: Old to new', value: 'dateAdded.asc' },
   {
     label: 'Date: New to old',
-    value: 'createdAt.desc',
+    value: 'dateAdded.desc',
   },
   {
     label: 'Title: A to Z',

@@ -88,6 +88,7 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
       variant='pill'
       size='sm'
     >
+      {/* {iconType} */}
       {buttonText}
     </Button>
   );

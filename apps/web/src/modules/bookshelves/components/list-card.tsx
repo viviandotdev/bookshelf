@@ -11,6 +11,8 @@ import { readingStatuses } from '@/config/books';
 import Rating from '@/components/rating';
 import RatingInfo from '@/modules/book/components/rating-info';
 import { format } from 'date-fns';
+import LikeButton from '@/modules/book/components/like-button';
+import { IconButton } from './icon-button';
 interface ListCardProps {
   book: Book;
   openAlert: boolean;
@@ -45,7 +47,12 @@ export const ListCard: React.FC<ListCardProps> = ({
   const slug = book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   //   const currentStatus = getBookStatusIcon(status);
   const StatusIcon = readingStatuses[status as Reading_Status].icon;
-
+  const isLiked = shelves?.some(
+    ({ shelf }: { shelf: Shelf }) => shelf.name === 'Favorites'
+  );
+  const isOwned = shelves?.some(
+    ({ shelf }: { shelf: Shelf }) => shelf.name === 'Owned'
+  );
   return (
     <div
       className='flex cursor-pointer items-start justify-between rounded-lg border-2 border-gray-100 bg-white/90 p-4 shadow-sm transition-all duration-300 ease-in-out hover:shadow-md'
@@ -93,18 +100,40 @@ export const ListCard: React.FC<ListCardProps> = ({
 
           <div className='-mt-0.5 flex items-center font-medium'>
             <div className='inline-flex w-96 items-start justify-start'>
-              {shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
-                <div
-                  key={index}
-                  className='mt-1 inline-flex h-9 flex-col items-start justify-start pr-2'
-                >
-                  <div className='flex h-7 flex-col items-center justify-center self-stretch rounded-lg bg-beige-100 px-3'>
-                    <div className='text-xs font-normal leading-loose text-beige'>
-                      {shelf.name}
+              <div className='mt-1 flex h-9 items-start justify-start gap-2'>
+                {isLiked && (
+                  <IconButton
+                    className={`h-7 w-7  border-beige-100 bg-beige-100 `}
+                  >
+                    <Icons.heart
+                      className={`h-3 w-3 items-center  fill-current text-beige-700 drop-shadow-lg`}
+                    />
+                  </IconButton>
+                )}
+                {isOwned && (
+                  <IconButton
+                    className={`h-7 w-7  border-beige-100 bg-beige-100`}
+                  >
+                    <Icons.owned
+                      className={`h-3 w-3 items-center text-beige-700 drop-shadow-lg`}
+                    />
+                  </IconButton>
+                )}
+              </div>
+              <div className='pl-2'>
+                {shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
+                  <div
+                    key={index}
+                    className='mt-1 inline-flex h-9 flex-col items-start justify-start pr-2'
+                  >
+                    <div className='flex h-7 flex-col items-center justify-center self-stretch rounded-lg bg-beige-100 px-3'>
+                      <div className='text-xs font-normal leading-loose text-beige'>
+                        {shelf.name}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -26,7 +26,7 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({
   const [isPending, startTransition] = useTransition();
   const createQueryString = useCreateQueryString();
   const searchParams = useSearchParams();
-  const sort = searchParams?.get('sort') ?? 'createdAt.desc';
+  const sort = searchParams?.get('sort') ?? 'dateAdded.desc';
   const pathname = usePathname();
   return (
     <DropdownMenu>

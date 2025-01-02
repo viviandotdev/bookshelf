@@ -73,7 +73,7 @@ const OwnedButton: React.FC<OwnedButtonProps> = ({ userBook }) => {
     >
       <span className='sr-only'>Mark as Owned</span>
       <Icons.owned
-        className={`h-4 w-4 items-center ${hasReacted ? 'text-beige-700 shadow-md' : ''}`}
+        className={`h-4 w-4 items-center ${hasReacted ? 'text-beige-700 drop-shadow-lg' : ''}`}
       />
     </IconButton>
   );

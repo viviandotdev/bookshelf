@@ -377,30 +377,6 @@ export class UserBookService {
         : []),
     ];
 
-    // Check if there already exists a userBook with these identifiers, in the userbook
-    if (identifiersInput.length > 0) {
-      const existingUserBook = await this.prisma.userBook.findFirst({
-        where: {
-          userId: userId,
-          book: {
-            identifiers: {
-              some: {
-                OR: identifiersInput.map(({ source, sourceId }) => ({
-                  source,
-                  sourceId,
-                })),
-              },
-            },
-          },
-        },
-      });
-
-      if (existingUserBook) {
-        // update the existing user book with new rating, status, shelves
-        return existingUserBook;
-      }
-    }
-
     const newBook = await this.bookService.createBook({
       ...book,
       identifiers: identifiersInput,
