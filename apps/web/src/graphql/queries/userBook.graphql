@@ -1,7 +1,7 @@
 query UserBook($where: BookWhereUniqueInput!) {
   userBook(where: $where) {
     user {
-        id
+      id
     }
     book {
       slug
@@ -26,6 +26,7 @@ query UserBook($where: BookWhereUniqueInput!) {
     userId
     status
     rating
+    dateAdded
     shelves {
       shelf {
         id
@@ -74,6 +75,7 @@ query GetUserBooks(
       userId
       status
       rating
+      dateAdded
       createdAt
       updatedAt
       order

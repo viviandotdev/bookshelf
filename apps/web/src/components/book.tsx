@@ -93,6 +93,7 @@ export const Book: React.FC<BookProps> = ({
           status={status}
           rating={rating}
           shelves={shelves}
+          dateAdded={userBook.dateAdded}
           setStatus={setStatus}
           setRating={setRating}
           setOpenAlert={setOpenAlert}

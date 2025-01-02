@@ -107,8 +107,11 @@ export function getUserBookInfo(
   if (objectFromCSV['My Rating']) {
     rating = objectFromCSV['My Rating'];
   }
+  const dateString = objectFromCSV['Date Added'];
 
-  return { shelves, status, rating };
+  const dateAdded = new Date(dateString);
+
+  return { shelves, status, rating, dateAdded };
 }
 export function parseLineWithQuotes(csvContent: string) {
   const pattern = /(?:,|\r?\n|\r|^)(?:"([^"]*(?:""[^"]*)*)"|([^",\r\n]*))/gi;

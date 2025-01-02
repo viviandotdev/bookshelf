@@ -130,6 +130,7 @@ export class UserBookService {
           },
         },
         status: status || READING_STATUS.WANT_TO_READ,
+        dateAdded: new Date(),
       },
     };
 
@@ -355,7 +356,7 @@ export class UserBookService {
   }
 
   async createImportedBook(userInfo, book, imageLinks, user) {
-    const { shelves, status, rating } = userInfo;
+    const { shelves, status, rating, dateAdded } = userInfo;
     const { userId } = user;
 
     const coverInput: CoverCreateInput[] = this.coverService.createCoverInput({
@@ -437,6 +438,7 @@ export class UserBookService {
             id: userId,
           },
         },
+        dateAdded: dateAdded,
         status: status || READING_STATUS.WANT_TO_READ,
         rating: Number(rating),
       },

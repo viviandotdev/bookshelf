@@ -163,6 +163,7 @@ model UserBook {
     shelves   UserBookShelves[]
     order     Int               @default(autoincrement())
 
+    dateAdded DateTime
     readDates ReadDate[]
 
     /// @Validator.IsString()

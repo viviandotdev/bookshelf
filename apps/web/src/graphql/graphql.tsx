@@ -2119,6 +2119,7 @@ export type UserBook = {
   book: Book;
   bookId: Scalars['String']['output'];
   createdAt: Scalars['Timestamp']['output'];
+  dateAdded: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
   order: Scalars['Int']['output'];
   rating?: Maybe<Scalars['Float']['output']>;
@@ -2147,6 +2148,7 @@ export type UserBookCountAggregate = {
   _all: Scalars['Int']['output'];
   bookId: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
+  dateAdded: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   order: Scalars['Int']['output'];
   rating: Scalars['Int']['output'];
@@ -2158,6 +2160,7 @@ export type UserBookCountAggregate = {
 export type UserBookCreateManyUserInput = {
   bookId: Scalars['String']['input'];
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded: Scalars['Timestamp']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2206,6 +2209,7 @@ export type UserBookCreateOrConnectWithoutUserInput = {
 
 export type UserBookCreateWithoutBookInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded: Scalars['Timestamp']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2219,6 +2223,7 @@ export type UserBookCreateWithoutBookInput = {
 export type UserBookCreateWithoutShelvesInput = {
   book: BookCreateNestedOneWithoutUserBookInput;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded: Scalars['Timestamp']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2231,6 +2236,7 @@ export type UserBookCreateWithoutShelvesInput = {
 export type UserBookCreateWithoutUserInput = {
   book: BookCreateNestedOneWithoutUserBookInput;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded: Scalars['Timestamp']['input'];
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2255,6 +2261,7 @@ export type UserBookMaxAggregate = {
   __typename?: 'UserBookMaxAggregate';
   bookId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  dateAdded?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   order?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
@@ -2267,6 +2274,7 @@ export type UserBookMinAggregate = {
   __typename?: 'UserBookMinAggregate';
   bookId?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
+  dateAdded?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   order?: Maybe<Scalars['Int']['output']>;
   rating?: Maybe<Scalars['Float']['output']>;
@@ -2283,6 +2291,7 @@ export type UserBookOrderByWithRelationInput = {
   book?: InputMaybe<BookOrderByWithRelationInput>;
   bookId?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
+  dateAdded?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   order?: InputMaybe<SortOrder>;
   rating?: InputMaybe<SortOrderInput>;
@@ -2305,6 +2314,7 @@ export type UserBookScalarWhereInput = {
   OR?: InputMaybe<Array<UserBookScalarWhereInput>>;
   bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  dateAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   order?: InputMaybe<IntFilter>;
   rating?: InputMaybe<FloatFilter>;
@@ -2524,6 +2534,7 @@ export type UserBookUpdateInput = {
 
 export type UserBookUpdateManyMutationInput = {
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2575,6 +2586,7 @@ export type UserBookUpdateWithWhereUniqueWithoutUserInput = {
 export type UserBookUpdateWithoutShelvesInput = {
   book?: InputMaybe<BookUpdateOneRequiredWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2587,6 +2599,7 @@ export type UserBookUpdateWithoutShelvesInput = {
 export type UserBookUpdateWithoutUserInput = {
   book?: InputMaybe<BookUpdateOneRequiredWithoutUserBookNestedInput>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
+  dateAdded?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   rating?: InputMaybe<Scalars['Float']['input']>;
@@ -2615,6 +2628,7 @@ export type UserBookWhereInput = {
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  dateAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   order?: InputMaybe<IntFilter>;
   rating?: InputMaybe<FloatFilter>;
@@ -2633,6 +2647,7 @@ export type UserBookWhereUniqueInput = {
   book?: InputMaybe<BookRelationFilter>;
   bookId?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<DateTimeFilter>;
+  dateAdded?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   identifier?: InputMaybe<UserBookIdentifierCompoundUniqueInput>;
   order?: InputMaybe<IntFilter>;
@@ -3166,9 +3181,7 @@ export type VerifyTokenMutationVariables = Exact<{
 }>;
 
 
-export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: {
-    avatarImage: any; __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string
-} } };
+export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
@@ -3182,9 +3195,7 @@ export type OAuthMutationVariables = Exact<{
 }>;
 
 
-export type OAuthMutation = { __typename?: 'Mutation', oAuth: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: {
-    avatarImage: unknown; __typename?: 'User', email: string, username?: string | null, id: string
-} } };
+export type OAuthMutation = { __typename?: 'Mutation', oAuth: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
 
 export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -3327,9 +3338,7 @@ export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeB
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me: {
-    isOAuth: unknown; __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null
-} };
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null } };
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
@@ -3397,7 +3406,7 @@ export type UserBookQueryVariables = Exact<{
 }>;
 
 
-export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, status: Reading_Status, rating?: number | null, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', slug: string, id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
+export type UserBookQuery = { __typename?: 'Query', userBook?: { __typename?: 'UserBook', userId: string, status: Reading_Status, rating?: number | null, dateAdded: any, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', slug: string, id: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null } | null };
 
 export type GetUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -3407,7 +3416,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, status: Reading_Status, rating?: number | null, createdAt: any, updatedAt: any, order: number, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number } }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, order: number, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number } }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -4891,6 +4900,7 @@ export const UserBookDocument = gql`
     userId
     status
     rating
+    dateAdded
     shelves {
       shelf {
         id
@@ -4964,6 +4974,7 @@ export const GetUserBooksDocument = gql`
       userId
       status
       rating
+      dateAdded
       createdAt
       updatedAt
       order

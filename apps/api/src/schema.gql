@@ -1854,6 +1854,7 @@ type UserBook {
   book: Book!
   bookId: String!
   createdAt: Timestamp!
+  dateAdded: Timestamp!
   id: ID!
   order: Int!
   rating: Float
@@ -1879,6 +1880,7 @@ type UserBookCountAggregate {
   _all: Int!
   bookId: Int!
   createdAt: Int!
+  dateAdded: Int!
   id: Int!
   order: Int!
   rating: Int!
@@ -1890,6 +1892,7 @@ type UserBookCountAggregate {
 input UserBookCreateManyUserInput {
   bookId: String!
   createdAt: Timestamp
+  dateAdded: Timestamp!
   id: String
   order: Int
   rating: Float
@@ -1938,6 +1941,7 @@ input UserBookCreateOrConnectWithoutUserInput {
 
 input UserBookCreateWithoutBookInput {
   createdAt: Timestamp
+  dateAdded: Timestamp!
   id: String
   order: Int
   rating: Float
@@ -1951,6 +1955,7 @@ input UserBookCreateWithoutBookInput {
 input UserBookCreateWithoutShelvesInput {
   book: BookCreateNestedOneWithoutUserBookInput!
   createdAt: Timestamp
+  dateAdded: Timestamp!
   id: String
   order: Int
   rating: Float
@@ -1963,6 +1968,7 @@ input UserBookCreateWithoutShelvesInput {
 input UserBookCreateWithoutUserInput {
   book: BookCreateNestedOneWithoutUserBookInput!
   createdAt: Timestamp
+  dateAdded: Timestamp!
   id: String
   order: Int
   rating: Float
@@ -1986,6 +1992,7 @@ input UserBookListRelationFilter {
 type UserBookMaxAggregate {
   bookId: String
   createdAt: Timestamp
+  dateAdded: Timestamp
   id: String
   order: Int
   rating: Float
@@ -1997,6 +2004,7 @@ type UserBookMaxAggregate {
 type UserBookMinAggregate {
   bookId: String
   createdAt: Timestamp
+  dateAdded: Timestamp
   id: String
   order: Int
   rating: Float
@@ -2013,6 +2021,7 @@ input UserBookOrderByWithRelationInput {
   book: BookOrderByWithRelationInput
   bookId: SortOrder
   createdAt: SortOrder
+  dateAdded: SortOrder
   id: SortOrder
   order: SortOrder
   rating: SortOrderInput
@@ -2035,6 +2044,7 @@ input UserBookScalarWhereInput {
   OR: [UserBookScalarWhereInput!]
   bookId: StringFilter
   createdAt: DateTimeFilter
+  dateAdded: DateTimeFilter
   id: StringFilter
   order: IntFilter
   rating: FloatFilter
@@ -2249,6 +2259,7 @@ input UserBookUpdateInput {
 
 input UserBookUpdateManyMutationInput {
   createdAt: Timestamp
+  dateAdded: Timestamp
   id: String
   order: Int
   rating: Float
@@ -2300,6 +2311,7 @@ input UserBookUpdateWithWhereUniqueWithoutUserInput {
 input UserBookUpdateWithoutShelvesInput {
   book: BookUpdateOneRequiredWithoutUserBookNestedInput
   createdAt: Timestamp
+  dateAdded: Timestamp
   id: String
   order: Int
   rating: Float
@@ -2312,6 +2324,7 @@ input UserBookUpdateWithoutShelvesInput {
 input UserBookUpdateWithoutUserInput {
   book: BookUpdateOneRequiredWithoutUserBookNestedInput
   createdAt: Timestamp
+  dateAdded: Timestamp
   id: String
   order: Int
   rating: Float
@@ -2340,6 +2353,7 @@ input UserBookWhereInput {
   book: BookRelationFilter
   bookId: StringFilter
   createdAt: DateTimeFilter
+  dateAdded: DateTimeFilter
   id: StringFilter
   order: IntFilter
   rating: FloatFilter
@@ -2358,6 +2372,7 @@ input UserBookWhereUniqueInput {
   book: BookRelationFilter
   bookId: String
   createdAt: DateTimeFilter
+  dateAdded: DateTimeFilter
   id: String
   identifier: UserBookIdentifierCompoundUniqueInput
   order: IntFilter

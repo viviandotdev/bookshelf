@@ -10,6 +10,7 @@ import { Icons } from '@/components/icons';
 import { readingStatuses } from '@/config/books';
 import Rating from '@/components/rating';
 import RatingInfo from '@/modules/book/components/rating-info';
+import { format } from 'date-fns';
 interface ListCardProps {
   book: Book;
   openAlert: boolean;
@@ -21,6 +22,7 @@ interface ListCardProps {
   setRating: React.Dispatch<React.SetStateAction<number>>;
   rating: number;
   shelves: any; // Adjust the type according to your requirement
+  dateAdded: string;
   userBookId: string;
 }
 
@@ -36,13 +38,14 @@ export const ListCard: React.FC<ListCardProps> = ({
   setOpenAlert,
   rating,
   shelves,
+  dateAdded,
 }) => {
   const linkRef = useRef<HTMLAnchorElement>(null);
   const [openDropdown, setOpenDropdown] = useState(false);
   const slug = book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   //   const currentStatus = getBookStatusIcon(status);
   const StatusIcon = readingStatuses[status as Reading_Status].icon;
-  
+
   return (
     <div
       className='flex cursor-pointer items-start justify-between rounded-lg border-2 border-gray-100 bg-white/90 p-4 shadow-sm transition-all duration-300 ease-in-out hover:shadow-md'
@@ -83,7 +86,7 @@ export const ListCard: React.FC<ListCardProps> = ({
                 •
               </span>
               <span className='text-xs font-normal text-beige'>
-                Finished 20 April 2024
+                Added on {format(new Date(dateAdded), 'MMMM d, yyyy')}
               </span>
             </div>
           </div>
