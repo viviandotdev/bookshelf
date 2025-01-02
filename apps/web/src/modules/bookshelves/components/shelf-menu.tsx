@@ -74,7 +74,7 @@ export const ShelfMenu: React.FC<ShelfMenuProps> = ({}) => {
                 } `}
               >
                 {renderIcon(s.name, '5')}
-                <span>{s.name}</span>
+                {s.name}
               </DropdownMenuItem>
             ))}
           </>

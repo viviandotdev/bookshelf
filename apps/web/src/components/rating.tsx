@@ -1,10 +1,11 @@
 import React from 'react';
 
-const Rating = ({ value }: { value: number }) => {
+const Rating = ({ value, className }: { value: number; className: string }) => {
   const svgElements = [];
   for (let i = 0; i < value; i++) {
     svgElements.push(
       <svg
+        className={className}
         key={i}
         xmlns='http://www.w3.org/2000/svg'
         width='16'

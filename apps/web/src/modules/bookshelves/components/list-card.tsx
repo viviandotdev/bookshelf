@@ -2,7 +2,7 @@
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
 import { Book, Reading_Status, Shelf, Size } from '@/graphql/graphql';
-import { formatAuthors, getCoverUrl } from '@/lib/utils';
+import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 import BookActions from '@/components/book-actions';
@@ -41,6 +41,8 @@ export const ListCard: React.FC<ListCardProps> = ({
   const [openDropdown, setOpenDropdown] = useState(false);
   const slug = book.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   //   const currentStatus = getBookStatusIcon(status);
+  const StatusIcon = readingStatuses[status as Reading_Status].icon;
+  
   return (
     <div
       className='flex cursor-pointer items-start justify-between rounded-lg border-2 border-gray-100 bg-white/90 p-4 shadow-sm transition-all duration-300 ease-in-out hover:shadow-md'
@@ -67,23 +69,26 @@ export const ListCard: React.FC<ListCardProps> = ({
             <div className='flex items-center'>
               {rating ? (
                 <>
-                  <Rating value={rating} />
-                </>
-              ) : (
-                <div>
-                  <RatingInfo size={'sm'} ratings={book?.ratings || []} />
-                  {/* <span className='mx-1 text-[6px] font-normal text-beige'>
+                  <Rating className='mt-[-2.5px]' value={rating} />
+                  <span className='mx-1.5 items-center text-[10px] font-normal text-gray-400'>
                     •
-                  </span> */}
-                </div>
-              )}
-              {/* <span className='text-xs font-normal text-beige'>
+                  </span>
+                </>
+              ) : null}
+              <>
+                <RatingInfo size={'sm'} ratings={book?.ratings || []} />
+              </>
+
+              <span className='mx-1.5 items-center text-[10px] font-normal text-gray-400'>
+                •
+              </span>
+              <span className='text-xs font-normal text-beige'>
                 Finished 20 April 2024
-              </span> */}
+              </span>
             </div>
           </div>
 
-          <div className='-mt-1.5 flex items-center font-medium'>
+          <div className='-mt-0.5 flex items-center font-medium'>
             <div className='inline-flex w-96 items-start justify-start'>
               {shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
                 <div
@@ -117,6 +122,8 @@ export const ListCard: React.FC<ListCardProps> = ({
           trigger={
             <Button variant={'secondary'} className='h-8 px-3 shadow-sm'>
               <div className='flex items-center gap-1.5'>
+                <StatusIcon className={cn('h-4 w-4')} />
+
                 {readingStatuses[status as Reading_Status].name}
                 <Icons.chevronDown className='h-5 w-5 text-beige-700' />
               </div>

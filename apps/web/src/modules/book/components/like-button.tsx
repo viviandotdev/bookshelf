@@ -77,7 +77,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({ userBook }) => {
     >
       <span className='sr-only'>Like Book</span>
       <Icons.heart
-        className={`h-4 w-4 items-center ${hasReacted ? ' fill-current text-red-400' : ''}`}
+        className={`h-4 w-4 items-center ${hasReacted ? ' fill-current text-beige-700' : ''}`}
       />
     </IconButton>
   );
