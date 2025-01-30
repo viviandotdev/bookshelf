@@ -65,8 +65,8 @@ export class ShelfResolver {
                 id: true,
                 user: {
                   select: {
-                    id: true
-                  }
+                    id: true,
+                  },
                 },
                 book: {
                   select: {

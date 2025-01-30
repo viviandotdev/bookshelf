@@ -1,12 +1,11 @@
 'use client';
-import React, { useCallback, useTransition } from 'react';
+import React, { useCallback, useTransition, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Shelf } from '@/graphql/graphql';
 import EditShelfMenu from './edit-shelf-menu';
 import useCreateQueryString from '../../bookshelves/hooks/use-create-query-string';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '@/components/icons';
-import { renderIcon } from '@/modules/bookshelves/components/shelf-menu';
 
 interface ShelfItemProps {
   shelf: Shelf;
@@ -22,6 +21,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
   padding = 'py-3',
 }) => {
   const [isPending, startTransition] = useTransition();
+  const [isHovered, setIsHovered] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { selected } = useShelfStore();
@@ -49,27 +49,25 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
             selected && shelf.name === selected!.name
               ? 'bg-beige-100 text-beige-700'
               : 'text-gray-400'
-          } group/item mr-4 flex justify-between rounded-lg px-3 text-base font-medium`}
+          } mr-4 flex justify-between rounded-lg px-3 text-base font-normal ${
+            isHovered ? 'hover:text-beige-700' : ''
+          }`}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <div className={`cursor-pointer py-[8px] `} onClick={handleClick}>
-            <span className='flex items-center hover:text-beige-700   '>
+          <div className={`cursor-pointer py-[10px]`} onClick={handleClick}>
+            <span className='flex items-center'>
               <Icons.shelf className='mr-2 h-6 w-6' />
-              {/* {renderIcon(shelf.name, "6")} */}
-              <span className='w-44  truncate'>{shelf.name}</span>
+              <span className='w-44 truncate font-normal'>{shelf.name}</span>
             </span>
           </div>
-          {setOpenAlert && isShelves ? (
-            <EditShelfMenu shelf={shelf} setOpenAlert={setOpenAlert} />
-          ) : (
-            <span
-              className={`${
-                isShelves ? 'block items-end group-hover/item:hidden ' : ''
-              } cursor-pointer rounded-sm
-                            px-1 text-gray-400 ${padding}`}
-            >
-              {/* {shelf._count.userBooks} */}
-            </span>
-          )}
+          <span
+            className={`flex cursor-pointer items-center rounded-sm px-1 text-sm ${
+              isHovered ? 'text-beige-700' : 'text-gray-400'
+            }`}
+          >
+            {shelf._count.userBooks}
+          </span>
         </div>
       )}
     </>

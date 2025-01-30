@@ -12,7 +12,7 @@ const useBuildQuery = () => {
     return {
       page: searchParams?.get('page') ?? '1',
       status: searchParams?.get('status') ?? 'Any Status',
-      sort: searchParams?.get('sort') ?? 'createdAt.desc',
+      sort: searchParams?.get('sort') ?? 'dateAdded.desc',
       shelf: searchParams?.get('shelf') ?? 'All Books',
       owned: searchParams?.get('owned') ?? '',
       favorites: searchParams?.get('favorites') ?? '',

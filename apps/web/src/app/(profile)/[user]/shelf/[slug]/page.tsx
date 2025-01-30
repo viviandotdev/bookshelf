@@ -6,6 +6,7 @@ import {
 } from '@/graphql/graphql';
 import { getApolloClient, httpLink } from '@/lib/apollo';
 import Hit from '@/modules/search/components/hit';
+import { Edit } from 'lucide-react';
 import React from 'react';
 
 interface ShelfPageProps {
@@ -38,7 +39,7 @@ const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
             </p>
             <p className='mt-2 text-gray-500'>
               <span className=' rounded-full px-2 py-1 align-middle text-base '>
-                Manage Collection
+                Edit Shelf
               </span>{' '}
             </p>
           </div>

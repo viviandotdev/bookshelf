@@ -70,16 +70,15 @@ export default function BookshelvesTemplate({}: BookshelvesTemplateProps) {
             <div className='flex gap-1'>
               <ShelfTitle />
             </div>
-            <ViewOptions view={view} setView={updateView} />
+            {/* <ViewOptions view={view} setView={updateView} /> */}
           </div>
           <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
             <div className='flex gap-4'>
               <ShelfMenu />
               <StatusMenu />
-
-              <ToggleButton type={'owned'} />
-              <ToggleButton type={'favorites'} />
-              <Button
+              {/* <ToggleButton type={'owned'} /> */}
+              {/* <ToggleButton type={'favorites'} /> */}
+              {/* <Button
                 onClick={() => {
                   updateSelected('All Books');
                   startTransition(() => {
@@ -100,7 +99,7 @@ export default function BookshelvesTemplate({}: BookshelvesTemplateProps) {
               >
                 <Icons.close className='mr-1 h-4 w-4' />
                 Clear Filters
-              </Button>
+              </Button> */}
             </div>
             <div className='flex items-center gap-2 text-sm'>
               <div className='w-[312px]'>

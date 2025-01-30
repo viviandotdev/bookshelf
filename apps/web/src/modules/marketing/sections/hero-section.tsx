@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Hero, { HeroTitle } from '../components/hero';
 import Link from 'next/link';
-import DemoButton from '../components/demo-button';
 
 interface HeroSectionProps {
   title: string;
@@ -35,7 +34,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             {title}
           </HeroTitle>
           <div className='flex justify-center gap-2'>
-            <DemoButton />
             <Link
               href='/register'
               className={cn(
