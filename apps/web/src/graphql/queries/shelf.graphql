@@ -25,6 +25,20 @@ query getMyBookShelves($where: UserBookWhereUniqueInput!) {
     }
   }
 }
+query BooksByShelfName($slug: String!, $username: String!) {
+  booksByShelf(slug: $slug, username: $username) {
+    id
+    name
+    slug
+    user {
+      id
+      username
+    }
+    _count {
+      userBooks
+    }
+  }
+}
 
 query BooksByShelf($slug: String!, $username: String!) {
   booksByShelf(slug: $slug, username: $username) {

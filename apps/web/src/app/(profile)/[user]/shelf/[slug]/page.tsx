@@ -1,3 +1,4 @@
+import { Icons } from '@/components/icons';
 import {
   Book,
   BooksByShelfDocument,
@@ -5,6 +6,9 @@ import {
   Reading_Status,
 } from '@/graphql/graphql';
 import { getApolloClient, httpLink } from '@/lib/apollo';
+import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import EditShelfButton from '@/modules/profile/components/edit-shelf-button';
+import ShelfTemplate from '@/modules/profile/templates/shelf-template';
 import Hit from '@/modules/search/components/hit';
 import { Edit } from 'lucide-react';
 import React from 'react';
@@ -29,19 +33,7 @@ const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
       <section className='w-[1220px]'>
         <main className='mt-8 flex min-h-screen flex-col items-center'>
           <div className='text-center'>
-            <h1 className='text-2xl font-bold'>{data.booksByShelf?.name}</h1>
-            <p className='mt-2 text-gray-500'>
-              A collection of
-              <span className='font-medium'>
-                {/* {data?.booksByShelf?.length} Books */}
-              </span>{' '}
-              by Vivian Lin
-            </p>
-            <p className='mt-2 text-gray-500'>
-              <span className=' rounded-full px-2 py-1 align-middle text-base '>
-                Edit Shelf
-              </span>{' '}
-            </p>
+            <ShelfTemplate slug={params.slug} username={params.user} />
           </div>
           <ul className='mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
             {data?.booksByShelf?.userBooks?.map((hit, index) => (

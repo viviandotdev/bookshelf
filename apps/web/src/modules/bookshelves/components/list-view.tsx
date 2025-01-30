@@ -5,6 +5,8 @@ import { Pagination } from '@/components/pagination';
 import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
 import {
   GetUserBooksDocument,
+  useBooksByShelfLazyQuery,
+  useBooksByShelfQuery,
   useCountUserBooksLazyQuery,
   UserBook,
 } from '@/graphql/graphql';
@@ -28,6 +30,7 @@ export const ListView: React.FC<ListViewProps> = ({}) => {
       setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE));
     },
   });
+
   const { loadBooks, booksData, networkStatus } = useLoadBooks();
 
   const books = booksData && booksData?.getUserBooks?.userBooks;

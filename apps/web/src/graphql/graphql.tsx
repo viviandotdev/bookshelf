@@ -3381,6 +3381,14 @@ export type GetMyBookShelvesQueryVariables = Exact<{
 
 export type GetMyBookShelvesQuery = { __typename?: 'Query', getMyBookShelves?: Array<{ __typename?: 'UserBookShelves', userBook: { __typename?: 'UserBook', id: string }, shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null };
 
+export type BooksByShelfNameQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+}>;
+
+
+export type BooksByShelfNameQuery = { __typename?: 'Query', booksByShelf?: { __typename?: 'Shelf', id: string, name: string, slug: string, user?: { __typename?: 'User', id: string, username?: string | null } | null, _count: { __typename?: 'ShelfCount', userBooks: number } } | null };
+
 export type BooksByShelfQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   username: Scalars['String']['input'];
@@ -4696,6 +4704,56 @@ export type GetMyBookShelvesQueryHookResult = ReturnType<typeof useGetMyBookShel
 export type GetMyBookShelvesLazyQueryHookResult = ReturnType<typeof useGetMyBookShelvesLazyQuery>;
 export type GetMyBookShelvesSuspenseQueryHookResult = ReturnType<typeof useGetMyBookShelvesSuspenseQuery>;
 export type GetMyBookShelvesQueryResult = Apollo.QueryResult<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>;
+export const BooksByShelfNameDocument = gql`
+    query BooksByShelfName($slug: String!, $username: String!) {
+  booksByShelf(slug: $slug, username: $username) {
+    id
+    name
+    slug
+    user {
+      id
+      username
+    }
+    _count {
+      userBooks
+    }
+  }
+}
+    `;
+
+/**
+ * __useBooksByShelfNameQuery__
+ *
+ * To run a query within a React component, call `useBooksByShelfNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useBooksByShelfNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBooksByShelfNameQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useBooksByShelfNameQuery(baseOptions: Apollo.QueryHookOptions<BooksByShelfNameQuery, BooksByShelfNameQueryVariables> & ({ variables: BooksByShelfNameQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>(BooksByShelfNameDocument, options);
+      }
+export function useBooksByShelfNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>(BooksByShelfNameDocument, options);
+        }
+export function useBooksByShelfNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>(BooksByShelfNameDocument, options);
+        }
+export type BooksByShelfNameQueryHookResult = ReturnType<typeof useBooksByShelfNameQuery>;
+export type BooksByShelfNameLazyQueryHookResult = ReturnType<typeof useBooksByShelfNameLazyQuery>;
+export type BooksByShelfNameSuspenseQueryHookResult = ReturnType<typeof useBooksByShelfNameSuspenseQuery>;
+export type BooksByShelfNameQueryResult = Apollo.QueryResult<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>;
 export const BooksByShelfDocument = gql`
     query BooksByShelf($slug: String!, $username: String!) {
   booksByShelf(slug: $slug, username: $username) {

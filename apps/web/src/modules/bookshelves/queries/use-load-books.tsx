@@ -1,6 +1,4 @@
 import { useGetUserBooksLazyQuery } from '@/graphql/graphql';
-import { toast } from '@/hooks/use-toast';
-import { useSession } from 'next-auth/react';
 
 const useLoadBooks = () => {
   const [loadBooks, { data: booksData, networkStatus }] =
