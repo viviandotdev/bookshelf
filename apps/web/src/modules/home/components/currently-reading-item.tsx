@@ -4,12 +4,10 @@ import React from 'react';
 import useUserBookStore from '@/stores/use-user-book-store';
 import BookCover from '@/components/book-cover';
 import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
-
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
-import { Pencil } from 'lucide-react';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
+import { Pencil } from 'lucide-react';
 
 interface CurrentlyReadingItemProps {
   userBook: UserBook;
@@ -21,6 +19,7 @@ const convertPercentProgressToPages = (
 ) => {
   return Math.round((percentProgress / 100) * capacity);
 };
+
 const covertPageProgressToPercent = (
   pageProgress: number,
   capacity: number
@@ -55,73 +54,71 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
 
   const { book } = userBook;
   return (
-    <>
-      <div className='border-grey-200 flex flex-row gap-4 rounded-md border bg-white p-4 transition duration-300'>
-        <div className='w-20 flex-shrink-0 overflow-hidden rounded-md shadow-sm'>
-          <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
-        </div>
-        <div className='flex w-full flex-col justify-between'>
-          <div className='flex w-full flex-col gap-1'>
-            <div className='line-clamp-2 overflow-hidden text-base font-medium text-stone-700'>
-              {book.title}
+    <div className='flex cursor-pointer items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white shadow-sm'>
+      <div className='flex items-center gap-4 border-gray-100 px-4 py-3'>
+        <div className='flex flex-col items-center'>
+          <div className='flex items-center gap-4'>
+            <BookCover src={getCoverUrl(book, Size.Small)} size={'xxs'} />
+            <div className='space-y-1'>
+              <h2
+                className={cn(
+                  'text-md line-clamp-2 font-semibold leading-[18px] text-beige-700'
+                )}
+              >
+                {book.title}
+              </h2>
+              <div className='flex items-center gap-2'>
+                <p className='line-clamp-1 text-sm text-gray-400'>
+                  by {formatAuthors(book.authors!)}
+                </p>
+                <div className='flex items-center'></div>
+              </div>
             </div>
-            <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
-              by {formatAuthors(book.authors!)}
-            </div>
-            {/* <RatingInfo size={'sm'} ratings={hit?.ratings || []} /> */}
           </div>
 
-          <div className='mt-1 flex flex-col '>
-            <div className='flex items-center justify-between gap-2'>
-              <div className='h-fit w-[85%] rounded-md border border-gray-200 bg-white px-2 py-2 text-center text-beige shadow-sm'>
-                <div className='flex items-center gap-1'>
-                  <Progress
-                    className='align-middle'
-                    value={percentProgress || 0}
-                  />
-                  <div className='ml-2 min-w-2 text-xs font-medium text-gray-500'>
-                    {percentProgress || 0}%
-                  </div>
-                </div>
-              </div>
-
-              <IconButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (readDate?.readingProgress) {
-                    onOpen();
-                    setUserBook({
-                      userBookId: userBook.id,
-                      bookTitle: book.title,
-                    });
-                  }
-                }}
-                className={`h-8 w-8 rounded-sm`}
-              >
-                <span className='sr-only'>Like Book</span>
-                <Pencil className={`h-4 w-4 items-center`} />
-              </IconButton>
-              {/* <Button
-                variant={'secondary'}
-                className='flex h-8 w-8 items-center justify-center border p-0'
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (readDate?.readingProgress) {
-                    onOpen();
-                    setUserBook({
-                      userBookId: userBook.id,
-                      bookTitle: book.title,
-                    });
-                  }
-                }}
-              >
-                <Pencil height={16} />
-              </Button> */}
-            </div>
+          <div className='flex items-center font-medium'>
+            <span className='text-sm text-gray-700'></span>
           </div>
         </div>
       </div>
-    </>
+      <div className='flex items-center justify-end gap-4 px-4 py-2'>
+        <div>
+          <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
+            <div className='flex w-full items-center justify-between text-xs font-medium text-gray-500'>
+              <div className='mb-1'>
+                {pageProgress} / {readDate?.readingProgress?.capacity} pages
+                read
+              </div>
+
+              <div className='mb-1 flex items-center'>
+                {percentProgress || 0}%
+              </div>
+            </div>
+            <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
+              <Progress className='items-center' value={percentProgress || 0} />
+            </div>
+          </div>
+        </div>
+        <div className='flex justify-end'>
+          <IconButton
+            onClick={(e) => {
+              e.stopPropagation();
+              if (readDate?.readingProgress) {
+                onOpen();
+                setUserBook({
+                  userBookId: userBook.id,
+                  bookTitle: book.title,
+                });
+              }
+            }}
+            className={`h-8 w-8 rounded-sm bg-white`}
+          >
+            <span className='sr-only'>Edit Progress</span>
+            <Pencil className={`h-4 w-4 items-center`} />
+          </IconButton>
+        </div>
+      </div>
+    </div>
   );
 };
 export default CurrentlyReadingItem;
