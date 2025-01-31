@@ -56,7 +56,7 @@ export const UpdateCard: React.FC<UpdateCardProps> = ({}) => {
           <div className='mt-3 flex justify-between space-x-4 p-4'>
             <Button variant='secondary'>Want To Read</Button>
             <div className='flex items-center'>
-              <Rating value={5} />
+              <Rating className='' value={5} />
             </div>
           </div>
         </div>

@@ -38,7 +38,7 @@ export const ShelfTemplate: React.FC<ShelfTemplateProps> = ({
   const editShelf = async () => {
     try {
       await shelfModal.onEdit({
-        id: data.booksByShelf.id!,
+        id: data?.booksByShelf?.id!,
         name: shelfName!,
       });
     } catch (error) {
@@ -57,7 +57,7 @@ export const ShelfTemplate: React.FC<ShelfTemplateProps> = ({
         by {username}
       </p>
       <p className='mt-2 text-gray-500'>
-        <EditShelfMenu shelf={data?.booksByShelf} />
+        {/* <EditShelfMenu shelf={data?.booksByShelf} /> */}
         <Button
           onClick={editShelf}
           className={`cursor-pointer items-center justify-center rounded-3xl border border-gray-200 bg-white text-black shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}

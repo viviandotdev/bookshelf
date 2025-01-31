@@ -10,7 +10,7 @@ import { Shelf } from '@/graphql/graphql';
 import useCreateShelfModal from '../hooks/use-create-shelf-modal';
 
 interface EditShelfMenuProps {
-  shelf: Shelf;
+  shelf?: Shelf | null | undefined;
   //   setOpenAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -37,23 +37,23 @@ export const EditShelfMenu: React.FC<EditShelfMenuProps> = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent align={'end'} side={'bottom'} alignOffset={-100}>
           <DropdownMenuItem
-            onClick={() => {
-              shelfModal.onEdit({
-                id: shelf.id!,
-                name: shelf.name!,
-              });
-            }}
+          // onClick={() => {
+          //   shelfModal.onEdit({
+          //     id: shelf.id!,
+          //     name: shelf.name!,
+          //   });
+          // }}
           >
             Rename
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => {
-              shelfModal.setEditShelf({
-                id: shelf.id!,
-                name: shelf.name!,
-              });
-              // setOpenAlert(true);
-            }}
+          // onClick={() => {
+          //   shelfModal.setEditShelf({
+          //     id: shelf.id!,
+          //     name: shelf.name!,
+          //   });
+          //   // setOpenAlert(true);
+          // }}
           >
             Delete
           </DropdownMenuItem>

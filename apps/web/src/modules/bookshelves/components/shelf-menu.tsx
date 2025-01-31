@@ -1,12 +1,7 @@
 'use client';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import React, { useTransition } from 'react';
 import useShelfStore from '@/stores/use-shelf-store';

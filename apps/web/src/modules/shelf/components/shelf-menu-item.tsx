@@ -57,7 +57,7 @@ export const ShelfMenuItem: React.FC<ShelfMenuItemProps> = ({
         </span>
       </div>
       {setOpenAlert && isShelves ? (
-        <EditShelfMenu shelf={shelf} setOpenAlert={setOpenAlert} />
+        <EditShelfMenu shelf={shelf} />
       ) : (
         <span
           className={`${
