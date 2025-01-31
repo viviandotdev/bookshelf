@@ -40,6 +40,7 @@ export class AuthResolver {
       username: registerInput.username,
       avatarImage: DEFAULT_AVATAR,
       hashedPassword,
+      emailVerified: new Date(),
     });
     // Create default shelves
     this.shelfService.create(
@@ -51,7 +52,7 @@ export class AuthResolver {
       user.id,
     );
 
-    await this.authService.sendVerificationEmail(user.email, user.email);
+    // await this.authService.sendVerificationEmail(user.email, user.email);
 
     return user;
   }
@@ -68,10 +69,10 @@ export class AuthResolver {
       throw new NotFoundException('User not found');
     }
 
-    if (!user.emailVerified) {
-      await this.authService.sendVerificationEmail(user.email, user.email);
-      throw new ForbiddenException('Email not verified');
-    }
+    // if (!user.emailVerified) {
+    //   await this.authService.sendVerificationEmail(user.email, user.email);
+    //   throw new ForbiddenException('Email not verified');
+    // }
     const doPasswordsMatch = await compare(
       logInInput.password,
       user.hashedPassword,
