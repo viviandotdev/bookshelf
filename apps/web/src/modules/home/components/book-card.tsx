@@ -10,6 +10,7 @@ import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 
 import BookActions from '@/components/book-actions';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 
 interface ReadingCardProps {
   userBook: UserBook;
@@ -19,74 +20,41 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
   const logBookModal = useLogBookModal();
   const [openDropdown, setOpenDropdown] = useState(false);
   const [status, setStatus] = useState(userBook.status ? userBook.status : '');
-  const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
-  const [openAlert, setOpenAlert] = useState(false); // Initial value
+  const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0);
+  const [openAlert, setOpenAlert] = useState(false);
+
   if (!userBook) return null;
   const { book, shelves } = userBook;
+
   return (
-    <div
-      className='group/item w-full'
+    <Link
+      href={`/book/${book?.slug}`}
+      className='group/item block w-full text-beige-600 hover:text-beige'
       onMouseLeave={() => {
         setOpenDropdown(false);
       }}
     >
       <div className='relative py-3'>
-        <div className='flex space-x-4'>
-          <Link
-            href={`/book/${book?.slug}`}
-            className={'text-beige hover:text-stone-500'}
-          >
-            <BookCover src={getCoverUrl(book!, Size.Small)} size={'xs'} />
-          </Link>
+        <div className='flex items-center'>
+          <BookCover src={getCoverUrl(book!, Size.Small)} size={'xs'} />
 
-          <div className='flex w-full flex-col justify-center '>
+          <div className='ml-4 flex w-full flex-col justify-center'>
             <div className='flex flex-col'>
-              <h3 className='line-clamp-2 text-lg font-bold leading-6 text-beige-700'>
-                <Link
-                  href={`/book/${book?.slug}`}
-                  className={'hover:underline'}
-                >
-                  {book?.title}
-                </Link>
+              <h3 className='line-clamp-2 font-bold leading-6 text-beige-700'>
+                {book?.title}
               </h3>
               <p className='text-sm text-beige-700'>
                 by {formatAuthors(book.authors!)}
               </p>
-              <p className='mt-1 flex items-center gap-1.5 '></p>
-              {/* <div
-                className={cn(
-                  'hidden rounded-sm px-1 group-hover/item:block hover:bg-gray-200',
-                  openDropdown && 'block'
-                )}
-              >
-                <div className='absolute right-2 top-2 flex rounded-md'>
-                  <BookActions
-                    book={book!}
-                    openDropdown={openDropdown}
-                    setOpenDropdown={setOpenDropdown}
-                    status={status as Reading_Status}
-                    setStatus={setStatus}
-                    setRating={setRating}
-                    rating={rating}
-                    trigger={
-                      <Button
-                        variant={'card'}
-                        size={'xs'}
-                        className={cn('rounded-md px-2')}
-                      >
-                        <a className=''>
-                          <Icons.more className='h-4 w-4 rotate-90 cursor-pointer fill-current stroke-gray-500 stroke-1' />
-                        </a>
-                      </Button>
-                    }
-                  />
-                </div>
-              </div> */}
             </div>
+          </div>
+          <div className='ml-auto rounded-full p-2 group-hover/item:border group-hover/item:border-gray-200 group-hover/item:bg-white group-hover/item:shadow-md'>
+            <ArrowUpRight className='h-6 w-6 transition-transform duration-300 group-hover/item:rotate-45' />
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
+
 export default BookCard;

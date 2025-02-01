@@ -1,10 +1,18 @@
 // HomeTemplate.tsx
 import React from 'react';
-import { BookCountsResponse, Shelf, UserBook } from '@/graphql/graphql';
-import { ReadingSummary } from '../components/readidng-summary';
-import { MainBookList } from '../components/main-booklist';
+import {
+  BookCountsResponse,
+  Reading_Status,
+  Shelf,
+  UserBook,
+} from '@/graphql/graphql';
 import CurrentlyReadingSection from '../components/currently-reading-section';
-import UpNextCard from '../components/up-next-card';
+import ReadingOverview from '../components/reading-overview';
+import { Plus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import AnimatedWave from '../components/animated-wave';
+import StatusBooksCard from '../components/status-books-card';
+import { readingStatuses } from '@/config/books';
 
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
@@ -30,7 +38,8 @@ export default function HomeTemplate({
             <div id='section-1-title'>
               <div className='ml-1 overflow-hidden rounded-lg text-beige-700'>
                 <div className='text-4xl font-bold'>
-                  Welcome back, {username} 👋
+                  Welcome back, {username}
+                  <AnimatedWave />
                 </div>
                 <span className='mt-1 text-xl text-gray-400'>
                   Here's what you've been reading
@@ -38,26 +47,42 @@ export default function HomeTemplate({
               </div>
             </div>
           </section>
-
-          {currentlyReading.length > 0 && (
+          <ReadingOverview bookCounts={bookCounts} />
+          {currentlyReading.length > 0 ? (
             <CurrentlyReadingSection
               count={bookCounts.readingCount}
               currentlyReading={currentlyReading}
             />
+          ) : (
+            <>
+              <div className='p-4'>
+                <Button className='w-full justify-start border border-dashed border-gray-200 hover:border-gray-300 hover:bg-gray-50/50'>
+                  <Plus className='mr-2 h-4 w-4 text-gray-500' />
+                  <span className='text-sm text-gray-600'>
+                    Add new assignment
+                  </span>
+                </Button>
+              </div>
+            </>
           )}
-          <MainBookList
-            count={bookCounts.wantsToReadCount}
-            books={wantToRead}
-          />
         </div>
-        {/* Right column */}
         <div className='grid grid-cols-1 gap-4 xl:col-span-5'>
           <section aria-labelledby='section-2-title'>
             <div className='overflow-hidden rounded-lg'>
               <div className='py-4 shadow-md'>
                 <div className='space-y-4'>
-                  <ReadingSummary bookCounts={bookCounts} />
-                  <UpNextCard upNext={upNext} />
+                  <StatusBooksCard
+                    title={'Want to Read'}
+                    upNext={wantToRead}
+                    count={bookCounts.wantsToReadCount}
+                    status={Reading_Status.WantToRead}
+                  />
+                  <StatusBooksCard
+                    title={'Up Next'}
+                    upNext={upNext}
+                    count={bookCounts.upNextCount}
+                    status={Reading_Status.UpNext}
+                  />
                 </div>
               </div>
             </div>

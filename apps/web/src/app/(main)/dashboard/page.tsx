@@ -28,7 +28,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({}) => {
     },
     5,
     {
-      updatedAt: SortOrder.Desc,
+      dateAdded: SortOrder.Desc,
     }
   );
   const currentlyReading = await getUserBooks({

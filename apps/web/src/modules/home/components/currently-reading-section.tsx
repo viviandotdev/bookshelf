@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import CurrentlyReadingItem from './currently-reading-item';
 import DashboardHeader from './dashboard-header';
 import { Reading_Status, UserBook } from '@/graphql/graphql';
+import CurrentlyReadingItem from './currently-reading-item';
 
 interface CurrentlyReadingSectionProps {
   currentlyReading: UserBook[];
@@ -17,16 +17,6 @@ export const CurrentlyReadingSection: React.FC<
       {currentlyReading.map((book, idx) => (
         <CurrentlyReadingItem key={idx} userBook={book} />
       ))}
-      {/* <div className='mb-4 flex justify-between'>
-        <DashboardHeader
-          href={`/library?status=${Reading_Status.Reading}`}
-          title={'Currently Reading'}
-          count={count}
-        />
-      </div>
-      <div className={'flex flex-col gap-2 '}>
-        <div className='flex flex-col gap-3'></div>
-      </div> */}
     </section>
   );
 };

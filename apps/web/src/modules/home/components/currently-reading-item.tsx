@@ -68,14 +68,13 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
                 {book.title}
               </h2>
               <div className='flex items-center gap-2'>
-                <p className='line-clamp-1 text-sm text-gray-400'>
+                <p className='line-clamp-1 text-sm text-beige-700'>
                   by {formatAuthors(book.authors!)}
                 </p>
                 <div className='flex items-center'></div>
               </div>
             </div>
           </div>
-
           <div className='flex items-center font-medium'>
             <span className='text-sm text-gray-700'></span>
           </div>
@@ -84,7 +83,7 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
       <div className='flex items-center justify-end gap-4 px-4 py-2'>
         <div>
           <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
-            <div className='flex w-full items-center justify-between text-xs font-medium text-gray-500'>
+            <div className='flex w-full items-center justify-between text-xs font-medium text-beige-700'>
               <div className='mb-1'>
                 {pageProgress} / {readDate?.readingProgress?.capacity} pages
                 read

@@ -17,9 +17,6 @@ function DashboardHeader({
     <>
       <h2 className={cn('space-x-4')}>
         <span className='text-xl font-semibold text-beige-700'>{title}</span>
-        {count && count !== 0 && (
-          <span className='text-gray-400'>{count} books</span>
-        )}
       </h2>
       <Link href={href} className='text-gray-400'>
         View more
