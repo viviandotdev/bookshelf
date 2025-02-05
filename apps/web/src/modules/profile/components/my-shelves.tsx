@@ -4,6 +4,8 @@ import Link from 'next/link';
 import React from 'react';
 import ShelfCoverGrid from './shelf-images';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 
 interface MyShelvesProps {
   shelves: Shelf[];
@@ -38,16 +40,19 @@ export const MyShelves: React.FC<MyShelvesProps> = ({ shelves, username }) => {
         </Link>
       ))}
 
-      <button className='flex flex-col items-center justify-center gap-2 rounded-lg bg-stone-100 px-4 py-6'>
-        <div className='flex h-8 w-8 items-center justify-center rounded-full border border-stone-100 bg-white'>
-          <div className='text-2xl font-normal leading-normal text-black'>
-            <Icons.plus className='h-5 w-5 text-stone-500' />
+      {/* <div className='flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-300 px-4 py-6'>
+        <Button
+          className={`cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-black shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}
+        >
+          <span className='sr-only'>Edit Shelf</span>
+          <div className='flex gap-2'>
+            <div className='flex items-center justify-center'>
+              <Plus className={`h-4 w-4 `} />
+            </div>
+            Add a shelf
           </div>
-        </div>
-        <div className='text-center text-sm font-medium leading-tight text-stone-500'>
-          New Collection
-        </div>
-      </button>
+        </Button>
+      </div> */}
     </div>
   );
 };

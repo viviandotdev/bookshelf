@@ -1,11 +1,11 @@
-<a href="https://bookcue.vercel.app">
-  <h1 align="center">Bookcue: Organize and track your favorite books</h1>
+<a href="https://bookshelf-webapp.vercel.app/">
+  <h1 align="center">Bookshelf: Organize and track your favorite books</h1>
 </a>
 
- <img width="1440" alt="dashboard_mockup" src="https://github.com/VivianLin61/bookcue/blob/main/apps/web/public/landing/dashboard.png?raw=true">
+ <img width="1440" alt="dashboard_mockup" src="https://github.com/VivianLin61/bookshelf/blob/main/apps/web/public/landing/dashboard.png?raw=true">
 
 <p align="center">
-  Organize and track your favorite books with Bookcue, a modern bookshelf app that helps you keep track of your reading list.
+  Organize and track your favorite books with Bookshelf, a modern bookshelf app that helps you keep track of your reading list.
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 
 ## Directory Structure
 
-Bookcue is a monorepo managed by [Nx](https://nx.dev/). The monorepo is split between `web` and `api` directories.
+Bookshelf is a monorepo managed by [Nx](https://nx.dev/). The monorepo is split between `web` and `api` directories.
 ```sh
     .
     ├── apps
@@ -56,7 +56,7 @@ Bookcue is a monorepo managed by [Nx](https://nx.dev/). The monorepo is split be
 Clone & create this repo locally with the following command:
 
 ```bash
-git clone https://github.com/VivianLin61/bookcue.git
+git clone https://github.com/VivianLin61/bookshelf.git
 ```
 
 1. Install dependencies using pnpm:

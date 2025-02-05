@@ -1,7 +1,11 @@
 'use client';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Shelf, useShelvesLazyQuery } from '@/graphql/graphql';
+import {
+  Shelf,
+  useCountUserBooksLazyQuery,
+  useShelvesLazyQuery,
+} from '@/graphql/graphql';
 import useShelfStore from '@/stores/use-shelf-store';
 import ShelfContainer from '@/modules/shelf/components/shelf-container';
 import { librarySelects } from '@/config/books';
@@ -13,23 +17,26 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   const params = useSearchParams();
   const shelf = params?.get('shelf');
+  const [getAllCounts, { data: allCountsData, loading: allCountsLoading }] =
+    useCountUserBooksLazyQuery({
+      variables: {},
+    });
 
+  const [
+    getUnshelvedCounts,
+    { data: unshelvedCountsData, loading: unshelvedCountsLoading },
+  ] = useCountUserBooksLazyQuery({
+    variables: {
+      where: {
+        shelves: { none: {} },
+      },
+    },
+  });
   const [loadShelves] = useShelvesLazyQuery({
     variables: {},
     fetchPolicy: 'network-only',
     onCompleted: (data) => {
       if (data.shelves) {
-        const library = librarySelects.map((item, i): Shelf => {
-          return {
-            id: i.toString(),
-            name: item.name,
-            slug: '',
-            _count: {
-              userBooks: item.name == 'All Books' ? 100 : 12,
-            },
-          };
-        });
-        initLibrary(library);
         initShelves((data.shelves ? data.shelves : []) as Shelf[]);
       }
     },
@@ -37,7 +44,21 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
 
   useEffect(() => {
     const loadData = async () => {
+      await getAllCounts();
+      await getUnshelvedCounts();
       await loadShelves();
+
+      const library = librarySelects.map((item, i): Shelf => {
+        return {
+          id: i.toString(),
+          name: item.name,
+          slug: '',
+          _count: {
+            userBooks: item.name === 'All Books' ? 0 : 0,
+          },
+        };
+      });
+      initLibrary(library);
     };
 
     loadData();
@@ -60,16 +81,15 @@ export const Sidebar: React.FC<SidebarProps> = ({}) => {
       //   style={{ height: 'calc(100vh - 64px)' }}
     >
       <div className='ml-4 flex w-72 flex-col'>
-        {/* <Button className='py- mb-2 mr-6 mt-6 flex items-center   justify-start gap-2 rounded-lg px-3 text-white transition-all hover:text-white '>
-                    <Icons.plus className='h-5 w-5' />
-                    Add a Book
-                </Button> */}
-
         <nav className='flex flex-1 flex-col gap-2 overflow-auto scrollbar-thin scrollbar-track-beige-50 scrollbar-thumb-beige-700'>
           <ShelfContainer
             shelves={library}
             collapsible={true}
             title='My Library '
+            counts={{
+              'All Books': allCountsData?.countUserBooks || 0,
+              Unshelved: unshelvedCountsData?.countUserBooks || 0,
+            }}
           />
           <ShelfContainer
             shelves={shelves}

@@ -75,7 +75,8 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
       <div className='flex  flex-row gap-x-3'>
         <StatsCard title='Want to Read' value={bookCounts.wantsToReadCount} />
         <StatsCard title='Books Read' value={bookCounts.finishedCount} />
-        <StatsCard title='Pages' value={160} />
+        <StatsCard title='Reading' value={bookCounts.readingCount} />
+        {/* <StatsCard title='pages' value={bookCounts.readingCount} /> */}
       </div>
     </div>
   );

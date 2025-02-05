@@ -12,6 +12,7 @@ interface ShelfItemProps {
   isShelves?: boolean;
   setOpenAlert?: React.Dispatch<React.SetStateAction<boolean>>;
   padding?: string;
+  counts: number;
 }
 
 export const ShelfItem: React.FC<ShelfItemProps> = ({
@@ -19,6 +20,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
   isShelves,
   setOpenAlert,
   padding = 'py-3',
+  counts,
 }) => {
   const [isPending, startTransition] = useTransition();
   const [isHovered, setIsHovered] = useState(false);
@@ -66,7 +68,11 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
               isHovered ? 'text-beige-700' : 'text-gray-400'
             }`}
           >
-            {shelf._count.userBooks}
+            {isShelves ? (
+              <div>{shelf._count.userBooks}</div>
+            ) : (
+              <div>{counts}</div>
+            )}
           </span>
         </div>
       )}

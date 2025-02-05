@@ -7,17 +7,7 @@ const tabs = [
   {
     name: 'Board',
     width: 'w-14',
-    image: '/landing/board.png',
-  },
-  {
-    name: 'Gallery',
-    width: 'w-16',
-    image: '/landing/gallery.png',
-  },
-  {
-    name: 'List',
-    width: 'w-11',
-    image: '/landing/list.png',
+    image: '/landing/bookshelves.png',
   },
 ];
 
@@ -50,7 +40,7 @@ const ViewFilterSortSection: React.FC = () => {
           />
         </div>
         <div className='flex flex-wrap items-start justify-center gap-2'>
-          {tabs.map((tab) => (
+          {/* {tabs.map((tab) => (
             <div
               key={tab.name}
               className={`items -center flex cursor-pointer justify-center rounded-md shadow-sm`}
@@ -68,7 +58,7 @@ const ViewFilterSortSection: React.FC = () => {
                 </span>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </>

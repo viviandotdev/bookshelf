@@ -1,5 +1,4 @@
 import { getCurrentUser } from '@/lib/auth';
-import { getShelves } from '@/modules/shelf/queries/getShelves';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import { getUser } from '@/modules/profile/queries/getUser';
 import ProfileTemplate from '@/modules/profile/templates';

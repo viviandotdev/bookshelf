@@ -62,7 +62,7 @@ export default function BookshelvesTemplate({}: BookshelvesTemplateProps) {
   return (
     <>
       <div
-        className='w-full overflow-y-auto bg-beige-50 pt-3.5'
+        className='w-full overflow-y-auto pt-3.5'
         style={{ height: 'calc(100vh - 64px)' }}
       >
         <nav className='mx-16 flex flex-col justify-between gap-2 rounded-lg pb-2 '>
