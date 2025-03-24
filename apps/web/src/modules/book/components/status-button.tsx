@@ -29,6 +29,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
   const { data } = useSession();
   const { status, setUserBook, resetStore, isInLibrary } = useUserBookStore();
 
+
   const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
     onCompleted: (data) => {
       statusModal.setBookCounts(data.bookCountsByUserId);

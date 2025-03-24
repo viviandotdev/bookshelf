@@ -1,10 +1,9 @@
 'use client';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
-import { useBooksByShelfNameLazyQuery } from '@/graphql/graphql';
-import EditShelfMenu from '@/modules/shelf/components/edit-shelf-menu';
+import { useBooksByShelfNameQuery } from '@/graphql/graphql';
 import useCreateShelfModal from '@/modules/shelf/hooks/use-create-shelf-modal';
-import React, { useEffect } from 'react';
+import React  from 'react';
 
 interface ShelfTemplateProps {
   slug: string;
@@ -15,31 +14,26 @@ export const ShelfTemplate: React.FC<ShelfTemplateProps> = ({
   slug,
   username,
 }) => {
-  const [shelfName, setShelfName] = React.useState<string>();
   const shelfModal = useCreateShelfModal();
 
-  const [loadShelves, { data }] = useBooksByShelfNameLazyQuery();
-
-  useEffect(() => {
-    loadShelves({
+  const { data, loading } = useBooksByShelfNameQuery(
+    {
       variables: {
         slug: slug,
         username: username,
       },
-    });
-  }, [slug, username, loadShelves]);
-
-  useEffect(() => {
-    if (data?.booksByShelf?.name) {
-      setShelfName(data.booksByShelf.name);
     }
-  }, [data]);
+  );
+
+  if (loading) {
+    return <div>loading</div>
+  }
 
   const editShelf = async () => {
     try {
       await shelfModal.onEdit({
         id: data?.booksByShelf?.id!,
-        name: shelfName!,
+        name: data?.booksByShelf?.name!,
       });
     } catch (error) {
       console.error('Failed to rename shelf:', error);
@@ -48,7 +42,7 @@ export const ShelfTemplate: React.FC<ShelfTemplateProps> = ({
 
   return (
     <>
-      <h1 className='text-2xl font-bold'>{shelfName}</h1>
+      <h1 className='text-2xl font-bold'>{data?.booksByShelf?.name}</h1>
       <p className='mr-2 mt-2 text-gray-500'>
         A collection of
         <span className='px-1 font-medium'>

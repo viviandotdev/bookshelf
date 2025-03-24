@@ -4,9 +4,6 @@ import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination';
 import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
 import {
-  GetUserBooksDocument,
-  useBooksByShelfLazyQuery,
-  useBooksByShelfQuery,
   useCountUserBooksLazyQuery,
   UserBook,
 } from '@/graphql/graphql';
