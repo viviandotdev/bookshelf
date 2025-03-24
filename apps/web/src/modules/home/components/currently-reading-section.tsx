@@ -1,20 +1,16 @@
 'use client';
 import React from 'react';
-import DashboardHeader from './dashboard-header';
-import { Reading_Status, UserBook } from '@/graphql/graphql';
+import {  UserBook } from '@/graphql/graphql';
 import CurrentlyReadingItem from './currently-reading-item';
-// import { CurrentlyReadingItem } from './currently-reading-item_v1';
 import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
 import { Plus } from 'lucide-react';
 interface CurrentlyReadingSectionProps {
   currentlyReading: UserBook[];
-  count: number;
 }
 
 export const CurrentlyReadingSection: React.FC<
   CurrentlyReadingSectionProps
-> = ({ currentlyReading, count }) => {
+> = ({ currentlyReading }) => {
   return (
     <section className='bg-white '>
       <div className=' flex flex-col justify-between gap-4'>

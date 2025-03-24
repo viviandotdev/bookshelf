@@ -3,16 +3,14 @@ import React from 'react';
 import {
   BookCountsResponse,
   Reading_Status,
-  Shelf,
   UserBook,
 } from '@/graphql/graphql';
+import AnimatedWave from '../../../components/animated-wave';
 import CurrentlyReadingSection from '../components/currently-reading-section';
+import StatusBooksSection from '../components/status-books-section';
 import ReadingOverview from '../components/reading-overview';
-import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import AnimatedWave from '../components/animated-wave';
-import StatusBooksCard from '../components/status-books-card';
-import { readingStatuses } from '@/config/books';
+
+
 
 interface HomeTemplateProps {
   currentlyReading: UserBook[];
@@ -48,7 +46,6 @@ export default function HomeTemplate({
           </section>
           <ReadingOverview bookCounts={bookCounts} />
           <CurrentlyReadingSection
-            count={bookCounts.readingCount}
             currentlyReading={currentlyReading}
           />
         </div>
@@ -57,13 +54,13 @@ export default function HomeTemplate({
             <div className='overflow-hidden rounded-lg'>
               <div className='py-4 shadow-md'>
                 <div className='space-y-4'>
-                  <StatusBooksCard
+                  <StatusBooksSection
                     title={'Up Next'}
                     upNext={upNext}
                     count={bookCounts.upNextCount}
                     status={Reading_Status.UpNext}
                   />
-                  <StatusBooksCard
+                  <StatusBooksSection
                     title={'Want to Read'}
                     upNext={wantToRead}
                     count={bookCounts.wantsToReadCount}

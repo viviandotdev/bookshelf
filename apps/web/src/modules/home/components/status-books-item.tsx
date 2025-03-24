@@ -1,38 +1,24 @@
 'use client';
 import BookCover from '@/components/book-cover';
-import { Icons } from '@/components/icons';
-import { Card, CardContent } from '@/components/ui/card';
-import { Reading_Status, Size, UserBook } from '@/graphql/graphql';
-import React, { useState } from 'react';
-import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
+import { Size, UserBook } from '@/graphql/graphql';
+import React  from 'react';
+import {  formatAuthors, getCoverUrl } from '@/lib/utils';
 
-import BookActions from '@/components/book-actions';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 
-interface ReadingCardProps {
+interface StatusBookItemProps {
   userBook: UserBook;
 }
 
-export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
-  const logBookModal = useLogBookModal();
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const [status, setStatus] = useState(userBook.status ? userBook.status : '');
-  const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0);
-  const [openAlert, setOpenAlert] = useState(false);
-
+export const StatusBookItem: React.FC<StatusBookItemProps> = ({ userBook }) => {
   if (!userBook) return null;
-  const { book, shelves } = userBook;
+  const { book } = userBook;
 
   return (
     <Link
       href={`/book/${book?.slug}`}
       className='group/item block w-full text-beige-600 hover:text-beige'
-      onMouseLeave={() => {
-        setOpenDropdown(false);
-      }}
     >
       <div className='relative py-3'>
         <div className='flex items-center'>
@@ -57,4 +43,4 @@ export const BookCard: React.FC<ReadingCardProps> = ({ userBook }) => {
   );
 };
 
-export default BookCard;
+export default StatusBookItem;
