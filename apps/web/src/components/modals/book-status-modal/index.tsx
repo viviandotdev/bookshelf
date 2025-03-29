@@ -30,7 +30,7 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
     },
     onError: (error) => {
       toast({ title: error.message, variant: 'destructive' });
-    },
+            },
   });
 
   const readingStatusesWithCounts = Object.keys(readingStatuses).map(

@@ -95,8 +95,7 @@ query GetUserBooks(
 }
 
 query CountUserBooks($where: UserBookWhereInput) {
-  countUserBooks(where: $where) {
-  }
+  countUserBooks(where: $where)
 }
 
 query BookCountsByUserId($userId: String!) {
