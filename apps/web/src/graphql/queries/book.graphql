@@ -40,6 +40,10 @@ query SearchMyLibrary($query: String!) {
     title
     authors
     yearPublished
+    userBook {
+      id
+      status
+    }
     covers {
       url
       source

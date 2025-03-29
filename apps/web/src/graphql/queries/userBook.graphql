@@ -35,6 +35,7 @@ query UserBook($where: BookWhereUniqueInput!) {
     }
   }
 }
+
 query GetUserBooks(
   $where: UserBookWhereInput
   $limit: Int! = 100
@@ -95,8 +96,7 @@ query GetUserBooks(
 }
 
 query CountUserBooks($where: UserBookWhereInput) {
-  countUserBooks(where: $where) {
-  }
+  countUserBooks(where: $where)
 }
 
 query BookCountsByUserId($userId: String!) {

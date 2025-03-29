@@ -3352,7 +3352,7 @@ export type SearchMyLibraryQueryVariables = Exact<{
 }>;
 
 
-export type SearchMyLibraryQuery = { __typename?: 'Query', searchMyLibrary: Array<{ __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, yearPublished?: string | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null }> };
+export type SearchMyLibraryQuery = { __typename?: 'Query', searchMyLibrary: Array<{ __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, yearPublished?: string | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status } | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null }> };
 
 export type BookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -4444,6 +4444,10 @@ export const SearchMyLibraryDocument = gql`
     title
     authors
     yearPublished
+    userBook {
+      id
+      status
+    }
     covers {
       url
       source
