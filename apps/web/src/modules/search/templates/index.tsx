@@ -1,42 +1,38 @@
-import { RESULTS_PAGE_SIZE } from '@/lib/constants';
-import SearchResults from '../components/search-results';
 import UnderlinedTabs from '@/components/underlined-tabs';
 import { searchBooks } from '../api/searchBooks';
-import Pagination from '../components/pagination';
+import { SearchResults } from '../components/search-results';
 
 interface SearchTemplateProps {
-  query: {
-    q: string;
-    page: string | string[] | undefined;
-    field: string | string[] | undefined;
-  };
+    query: {
+        q: string;
+        page: string | string[] | undefined;
+        field: string | string[] | undefined;
+    };
 }
 
 export const SearchTemplate: React.FC<SearchTemplateProps> = async ({
-  query,
+    query,
 }) => {
-  const { q, page, field } = query;
-  const pageAsNumber = Number(page) - 1;
-  const fallbackPage =
-    isNaN(pageAsNumber) || pageAsNumber < 0 ? 0 : pageAsNumber;
+    const { q, field } = query;
+    const offset = 0;
 
-  const offset = Math.ceil(Number(fallbackPage) * RESULTS_PAGE_SIZE);
+    const { hits, totalItems } = await searchBooks(q, field as string, offset);
 
-  const { hits, totalItems } = await searchBooks(q, field as string, offset);
-
-  const tabs = [
-    {
-      label: 'Books',
-      children: <SearchResults hits={hits} />,
-      id: 'bookInfo',
-    },
-  ];
-
-  return (
-    <>
-      <UnderlinedTabs tabs={tabs} initialTabId='bookInfo' />
-      <Pagination totalPages={Math.floor(totalItems / RESULTS_PAGE_SIZE)} />
-    </>
-  );
+    return (
+        <UnderlinedTabs tabs={[
+            {
+                label: 'Books',
+                children: (
+                    <SearchResults
+                        initialHits={hits}
+                        totalItems={totalItems}
+                        searchQuery={q}
+                        field={field as string}
+                    />
+                ),
+                id: 'search-results',
+            },
+        ]} initialTabId='search-results' />
+    );
 };
 export default SearchTemplate;

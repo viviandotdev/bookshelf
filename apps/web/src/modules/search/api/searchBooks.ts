@@ -20,21 +20,24 @@ export async function searchBooks(
 
         const response = await fetch(url);
         const data = await response.json();
-        const bookData = data.items;
+        const bookData = data.items || [];
 
         let hits: BookData[] = [];
         bookData.forEach((book: any) => {
             const bookData = processGoogleBook(book);
-            hits.push(bookData!);
+            if (bookData) {
+                hits.push(bookData);
+            }
         });
-        let count = data.totalItems;
-
-        return { hits: hits.length > 0 ? hits : [], totalItems: count };
+        return {
+            hits: hits,
+            totalItems: data.totalItems || 0
+        };
     } catch (error) {
-        console.error(`Error fetching books: ${error}`); // Log the error
+        console.error(`Error fetching books: ${error}`);
         return {
             hits: [],
-            count: 0,
+            totalItems: 0
         };
     }
 }
