@@ -18,20 +18,20 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
     return (
         <Link
             href={`/book/${hit!.slug}`}
-            className='flex max-w-[370px] cursor-pointer flex-col'
+            className='flex w-full cursor-pointer flex-col'
         >
-            <div className='border-grey-200 flex cursor-pointer flex-row gap-4 rounded-md border bg-white p-4 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md'>
-                <div className='w-20 flex-shrink-0 overflow-hidden rounded-md shadow-sm'>
+            <div className='border-grey-200 flex cursor-pointer flex-row gap-4 rounded-md border bg-white p-3 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md sm:p-4'>
+                <div className='w-16 flex-shrink-0 overflow-hidden rounded-md shadow-sm sm:w-20'>
                     <Image
-                        className='max-h-[114px] w-full rounded object-cover'
+                        className='max-h-[96px] w-full rounded object-cover sm:max-h-[114px]'
                         src={coverUrl || DEFAULT_BOOKCOVER_PLACEHOLDER}
                         width={width}
                         height={width * 1.5}
                         alt={`${hit.title} cover`}
                     />
                 </div>
-                <div className='flex flex-col gap-1'>
-                    <div className='line-clamp-2 overflow-hidden text-base font-medium text-stone-700'>
+                <div className='flex flex-1 flex-col gap-1'>
+                    <div className='line-clamp-2 overflow-hidden text-sm font-medium text-stone-700 sm:text-base'>
                         {hit.title}
                     </div>
                     <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>

@@ -64,7 +64,7 @@ export function BookRating({
                     <Button
                         variant="outline"
                         size="sm"
-                        className="h-8 w-8 p-0"
+                        className="h-8 w-8 p-0 "
                         onClick={clearRating}
                     >
                         <Icons.close className="h-4 w-4" />
