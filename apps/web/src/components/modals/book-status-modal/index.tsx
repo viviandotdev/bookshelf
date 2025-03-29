@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '../../ui/button';
 import { Icons } from '@/components/icons';
@@ -10,107 +10,83 @@ import { Reading_Status } from '@/graphql/graphql';
 import { toast } from '@/hooks/use-toast';
 import { readingStatuses } from '@/config/books';
 
-interface BookStatusModalProps {}
+interface BookStatusModalProps { }
 
-const BookStatusModal: React.FC<BookStatusModalProps> = ({}) => {
-  const {
-    isOpen,
-    onClose,
-    bookCounts,
-    isLoading: loadingBookCounts,
-  } = useBookStatusModal();
-  const { setUserBook, userBookId, status } = useUserBookStore();
+const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
+    const {
+        isOpen,
+        onClose,
+    } = useBookStatusModal();
+    const { setUserBook, userBookId, status: targetBookStatus } = useUserBookStore();
+    const [selectedStatus, setSelectedStatus] = useState<Reading_Status>(targetBookStatus as Reading_Status);
 
-  const { updateUserBook } = useUpdateUserBook({
-    onCompleted: (data) => {
-      toast({
-        title: `Book status updated `,
-        // variant: 'success',
-      });
-    },
-    onError: (error) => {
-      toast({ title: error.message, variant: 'destructive' });
-    },
-  });
-
-  const readingStatusesWithCounts = Object.keys(readingStatuses).map(
-    (key, index) => {
-      let count = 0;
-      if (key === Reading_Status.WantToRead) {
-        count = bookCounts?.wantsToReadCount || 0;
-      } else if (key === Reading_Status.Reading) {
-        count = bookCounts?.readingCount || 0;
-      } else if (key === Reading_Status.UpNext) {
-        count = bookCounts?.upNextCount || 0;
-      } else if (key === Reading_Status.Finished) {
-        count = bookCounts?.finishedCount || 0;
-      } else if (key === Reading_Status.DidNotFinish) {
-        // count = statusModal.bookCounts?.didNotFinishCount || 0;
-      }
-
-      return {
-        key,
-        name: readingStatuses[key as Reading_Status].name,
-        count,
-      };
-    }
-  );
-  const handleStatusClick = async (newStatus: Reading_Status) => {
-    await updateUserBook(userBookId, {
-      status: newStatus,
+    const { updateUserBook } = useUpdateUserBook({
+        onCompleted: (_) => {
+            toast({
+                title: `Book status updated `,
+                variant: 'success',
+            });
+        },
+        onError: (error) => {
+            toast({ title: error.message, variant: 'destructive' });
+        },
     });
-    setUserBook({ status: newStatus });
-    onClose();
-  };
 
-  // hack to update the url if the book is a goodreads book
-  // if the user removes the book and refreshes the url and the book still exists
+    useEffect(() => {
+        setSelectedStatus(targetBookStatus as Reading_Status);
+    }, [targetBookStatus]);
 
-  const bodyContent = (
-    <div className='flex flex-col gap-4'>
-      <div className='flex flex-col gap-3'>
-        {readingStatusesWithCounts.map((bookStatus, index) => (
-          <Button
-            key={index}
-            onClick={() => handleStatusClick(bookStatus.key as Reading_Status)}
-            variant={'outline'}
-            className='h-full w-full items-start justify-start rounded-xl px-6 py-6'
-          >
-            <div className='flex w-full justify-between'>
-              <div className='flex flex-col gap-2'>
-                <div className='text-base font-normal leading-tight text-black'>
-                  {bookStatus.name}
-                </div>
-                <div className='flex'>
-                  {loadingBookCounts ? (
-                    <div className='h-4 w-12 animate-pulse rounded-md bg-gray-200'></div>
-                  ) : (
-                    <div className='items-start text-xs font-normal uppercase leading-3 text-gray-400 '>
-                      {bookStatus.count}
-                      {bookStatus.count == 1 ? ' BOOK' : ' BOOKS'}
+    const handleStatusClick = (newStatus: Reading_Status) => {
+        setSelectedStatus(newStatus);
+    };
+
+    const onSubmit = async () => {
+        await updateUserBook(userBookId, {
+            status: selectedStatus,
+        });
+        setUserBook({ status: selectedStatus });
+        onClose();
+    }
+
+    return (
+        <>
+            <Modal isOpen={isOpen} onClose={onClose} title={`Select book status `}>
+                <div className='flex flex-col gap-4'>
+                    <div className='flex flex-col gap-3'>
+                        {Object.keys(readingStatuses).map((bookStatus, index) => (
+                            <Button
+                                key={index}
+                                onClick={() => handleStatusClick(bookStatus as Reading_Status)}
+                                variant={'outline'}
+                                className='h-full w-full items-start justify-start rounded-xl px-6 py-6'
+                            >
+                                <div className='flex w-full justify-between'>
+                                    <div className='flex flex-col'>
+                                        <div className='text-base font-normal leading-tight text-black'>
+                                            {readingStatuses[bookStatus as Reading_Status].name}
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-center">
+                                        {selectedStatus === bookStatus && (
+                                            <Icons.check className='h-4 w-4 stroke-[4px]' />
+                                        )}
+                                    </div>
+                                </div>
+                            </Button>
+                        ))}
                     </div>
-                  )}
+                    <div className='flex justify-end gap-2 pt-4'>
+                        <Button variant="outline" className="rounded-lg" onClick={onClose}>
+                            Cancel
+                        </Button>
+                        <Button className="rounded-lg" onClick={onSubmit}>
+                            Done
+                        </Button>
+                    </div>
                 </div>
-              </div>
-              <div>
-                {status == bookStatus.key && (
-                  <Icons.check className='m-2 h-4 w-4 stroke-[4px]' />
-                )}
-              </div>
-            </div>
-          </Button>
-        ))}
-      </div>
-    </div>
-  );
-
-  return (
-    <>
-      <Modal isOpen={isOpen} onClose={onClose} title={`Select book status `}>
-        {bodyContent}
-      </Modal>
-    </>
-  );
+            </Modal>
+        </>
+    );
 };
 
 export default BookStatusModal;

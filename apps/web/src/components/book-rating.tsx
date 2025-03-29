@@ -5,7 +5,7 @@ import { Rating, Star } from '@smastrom/react-rating';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 
-export const myStyles = {
+export const starStyles = {
     itemShapes: Star,
     activeFillColor: '#F4CC49',
     inactiveFillColor: '#c6cdd6',
@@ -15,10 +15,9 @@ interface BookRatingProps {
     size?: 'lg' | 'sm' | 'md';
     userBookId: string;
     rating: number | null;
-    setRating: (rating: number | undefined) => void;
+    setRating: (rating: number | null) => void;
 }
 
-// Book Rating Component
 export function BookRating({
     userBookId,
     size = 'sm',
@@ -55,21 +54,22 @@ export function BookRating({
         <div className='flex items-center justify-end gap-2'>
             <Rating
                 halfFillMode='box'
-                itemStyles={myStyles}
+                itemStyles={starStyles}
                 style={{ maxWidth: width }}
                 value={rating ?? 0}
                 onChange={updateRating}
             />
-            {rating !== null && (
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 w-8 p-0"
-                    onClick={clearRating}
-                >
-                    <Icons.close className="h-4 w-4" />
-                </Button>
-            )}
+            {rating == 0
+                || rating !== null && (
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={clearRating}
+                    >
+                        <Icons.close className="h-4 w-4" />
+                    </Button>
+                )}
         </div>
     );
 }
