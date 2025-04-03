@@ -347,6 +347,11 @@ export class UserBookService {
                             shelf: true,
                         },
                     },
+                    readDates: {
+                        include: {
+                            readingProgress: true,
+                        },
+                    }
                 },
             });
 

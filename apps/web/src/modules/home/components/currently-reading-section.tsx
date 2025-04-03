@@ -1,53 +1,52 @@
 'use client';
-import React, { useState } from 'react';
-import { UserBook } from '@/graphql/graphql';
+import React from 'react';
+import { UserBook, Reading_Status } from '@/graphql/graphql';
 import CurrentlyReadingItem from './currently-reading-item';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import { SearchBookModal } from './search-book-modal';
+import { AddBookButton } from './add-book-button';
+import { useGetUserBooksQuery } from '@/graphql/graphql';
 
-interface CurrentlyReadingSectionProps {
-    currentlyReading: UserBook[];
-}
+interface CurrentlyReadingSectionProps {}
 
-const AddBookButton = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
+  const { data, loading } = useGetUserBooksQuery({
+    variables: {
+      where: {
+        status: {
+          equals: Reading_Status.Reading,
+        },
+      },
+    },
+  });
 
+  const currentlyReading = data?.getUserBooks.userBooks || [];
+
+  if (loading) {
     return (
-        <>
-            <Button
-                onClick={() => setIsModalOpen(true)}
-                className="cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-black shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100"
-            >
-                <div className="flex gap-2">
-                    <div className="flex items-center justify-center">
-                        <Plus className="h-4 w-4" />
-                    </div>
-                    Add a book
-                </div>
-            </Button>
-            <SearchBookModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-        </>
+      <section className='bg-white'>
+        <div className='flex justify-center py-4'>
+          <div className='h-8 w-8 animate-spin rounded-full border-b-2 border-beige-700'></div>
+        </div>
+      </section>
     );
-};
+  }
 
-export const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = ({
-    currentlyReading,
-}) => {
-    return (
-        <section className="bg-white">
-            <div className="flex flex-col justify-between gap-4">
-                {currentlyReading.map((book, idx) => (
-                    <CurrentlyReadingItem key={idx} userBook={book} />
-                ))}
-                <div>
-                    <div className="flex items-center justify-center rounded-md border border-dashed border-gray-300 p-4">
-                        <AddBookButton />
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
+  return (
+    <section className='bg-white'>
+      <div className='flex flex-col justify-between gap-4'>
+        {currentlyReading.map((userBook) => (
+          <CurrentlyReadingItem
+            key={userBook.id}
+            userBook={userBook as UserBook}
+          />
+        ))}
+        <div>
+          <div className='flex items-center justify-center rounded-md border border-dashed border-gray-300 p-4'>
+            <AddBookButton />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default CurrentlyReadingSection;

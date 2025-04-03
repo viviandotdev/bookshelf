@@ -25,6 +25,13 @@ mutation UpdateUserBook(
         slug
       }
     }
+   readDates {
+        userBookId
+        readingProgress {
+            progress
+            capacity
+        }
+   }
     __typename
   }
 }

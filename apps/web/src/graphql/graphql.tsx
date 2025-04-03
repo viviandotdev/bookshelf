@@ -3293,7 +3293,7 @@ export type UpdateUserBookMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book' }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } };
+export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book' }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null, readDates?: Array<{ __typename?: 'ReadDate', userBookId?: string | null, readingProgress?: { __typename?: 'ReadingProgress', progress: number, capacity: number } | null }> | null } };
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
@@ -4119,6 +4119,13 @@ export const UpdateUserBookDocument = gql`
         id
         name
         slug
+      }
+    }
+    readDates {
+      userBookId
+      readingProgress {
+        progress
+        capacity
       }
     }
     __typename
