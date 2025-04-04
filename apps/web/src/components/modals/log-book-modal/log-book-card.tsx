@@ -1,5 +1,4 @@
 'use client';
-import { dm_sefif_display } from '@/lib/fonts';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import React, { useEffect, useReducer, useState } from 'react';
 import BookCover from '../../book-cover';
@@ -11,36 +10,38 @@ import useUserBookStore from '@/stores/use-user-book-store';
 import useProgressModal from '../progress-modal.tsx/use-progress-modal';
 
 interface LogBookCardProps {
-  userBook: UserBook;
+    userBook: UserBook;
 }
 
 export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
-  const logBookModal = useLogBookModal();
-  const progressModal = useProgressModal();
-  const { setUserBook } = useUserBookStore();
-  return (
-    <div
-      className='flex w-full cursor-pointer gap-4 rounded-md bg-white p-2 text-black hover:bg-gray-100'
-      onClick={(e) => {
-        e.stopPropagation();
-        logBookModal.onClose();
-        progressModal.onOpen();
-        setUserBook({
-          userBookId: userBook.id,
-          bookTitle: userBook.book.title,
-        });
-      }}
-    >
-      <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />
-      <div className='flex-col'>
-        <div className={cn(dm_sefif_display.className, 'text-xl')}>
-          {userBook.book?.title}
+    const logBookModal = useLogBookModal();
+    const progressModal = useProgressModal();
+    const { setUserBook } = useUserBookStore();
+    return (
+        <div
+            className='flex w-full cursor-pointer items-start gap-4 rounded-lg border-2 border-gray-100 bg-white/90 p-3 shadow-sm transition-all duration-300 ease-in-out hover:border-beige-500/50 hover:shadow-md hover:translate-y-[-2px] hover:scale-[1.01]'
+            onClick={(e) => {
+                e.stopPropagation();
+                logBookModal.onClose();
+                progressModal.onOpen();
+                setUserBook({
+                    userBookId: userBook.id,
+                    bookTitle: userBook.book.title,
+                });
+            }}
+        >
+            <div className="flex-shrink-0">
+                <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />
+            </div>
+            <div className='flex flex-col justify-center overflow-hidden'>
+                <div className={cn('line-clamp-1 text-base font-semibold leading-tight text-beige-700')}>
+                    {userBook.book?.title}
+                </div>
+                <CardDescription className='mt-1 line-clamp-1 text-sm text-gray-400'>
+                    by {formatAuthors(userBook.book.authors!)}
+                </CardDescription>
+            </div>
         </div>
-        <CardDescription className='line-clamp-1 text-sm'>
-          by {formatAuthors(userBook.book.authors!)}
-        </CardDescription>
-      </div>
-    </div>
-  );
+    );
 };
 export default LogBookCard;
