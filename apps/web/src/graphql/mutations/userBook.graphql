@@ -26,9 +26,15 @@ mutation UpdateUserBook(
       }
     }
    readDates {
+        id
         userBookId
+        startDate
+        finishedDate
+        active
         readingProgress {
+            id
             progress
+            type
             capacity
         }
    }

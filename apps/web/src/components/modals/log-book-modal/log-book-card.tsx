@@ -7,7 +7,7 @@ import { Size, UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { Button } from '@/components/ui/button';
 import useUserBookStore from '@/stores/use-user-book-store';
-import useProgressModal from '../progress-modal.tsx/use-progress-modal';
+import useProgressModal from '../progress-modal/use-progress-modal';
 
 interface LogBookCardProps {
     userBook: UserBook;

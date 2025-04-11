@@ -5,7 +5,7 @@ import useUserBookStore from '@/stores/use-user-book-store';
 import BookCover from '@/components/book-cover';
 import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
-import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
+import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';

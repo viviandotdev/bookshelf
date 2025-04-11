@@ -22,7 +22,7 @@ import BookCover from '@/components/book-cover';
 import { DEFAULT_BOOKCOVER_PLACEHOLDER } from '@/lib/constants';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import { toast } from '@/hooks/use-toast';
-import useProgressModal from '@/components/modals/progress-modal.tsx/use-progress-modal';
+import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
 
 interface SearchBookModalProps {
     isOpen: boolean;
@@ -67,9 +67,9 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
             });
             // add the read date to the store
             if (userBook.readDates) {
-                storeReadDates([
-                    userBook.readDates[0]
-                ]);
+                storeReadDates(
+                    userBook.readDates
+                );
             }
 
             onClose();

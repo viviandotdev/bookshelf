@@ -5,19 +5,19 @@ import { redirect } from 'next/navigation';
 export const maxDuration = 60; // Applies to the actions
 
 export default async function IndexPage() {
-  const user = await getCurrentUser();
-  if (user) {
-    redirect('/dashboard');
-  } else {
-    return (
-      <div className='bg-muted/40 w-full '>
-        <div className='flex flex-col bg-background'>
-          <SiteHeader />
-          <div className=''>
-            <MarketingTemplate />
-          </div>
-        </div>
-      </div>
-    );
-  }
+    const user = await getCurrentUser();
+    if (user) {
+        redirect('/dashboard');
+    } else {
+        return (
+            <div className='bg-muted/40 w-full '>
+                <div className='flex flex-col bg-background'>
+                    <SiteHeader />
+                    <div className=''>
+                        <MarketingTemplate />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }

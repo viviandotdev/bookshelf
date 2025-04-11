@@ -4,25 +4,25 @@ import { useEffect, useState } from 'react';
 import { AddToShelfModal } from '@/components/modals/add-to-shelf-modal';
 import { CreateShelfModal } from '@/modules/shelf/components/modals/create-shelf-modal';
 import LogBookModal from '@/components/modals/log-book-modal';
-import ProgressModal from '@/components/modals/progress-modal.tsx';
+import ProgressModal from '@/components/modals/progress-modal';
 
 export const ModalProvider = () => {
-  const [isMounted, setIsMounted] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
-  if (!isMounted) {
-    return null;
-  }
+    if (!isMounted) {
+        return null;
+    }
 
-  return (
-    <>
-      <LogBookModal />
-      <AddToShelfModal />
-      <ProgressModal />
-      <CreateShelfModal />
-    </>
-  );
+    return (
+        <>
+            <LogBookModal />
+            <AddToShelfModal />
+            <ProgressModal />
+            <CreateShelfModal />
+        </>
+    );
 };
