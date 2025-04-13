@@ -32,10 +32,10 @@ const useShelfStore = create<ShelfState & ShelfAction>((set) => ({
     updateSelected: (payload: string) =>
         set((state) => {
             const selectedFromShelves = state.shelves.find(
-                (shelf) => shelf.name === payload
+                (shelf) => shelf.slug === payload
             );
             const selectedFromLibrary = state.library.find(
-                (shelf) => shelf.name === payload
+                (shelf) => shelf.slug === payload
             );
 
             return {

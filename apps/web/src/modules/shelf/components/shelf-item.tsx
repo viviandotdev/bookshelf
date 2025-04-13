@@ -37,7 +37,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
                 `${pathname}?${createQueryString({
                     shelf: shelf.slug ? shelf.slug : shelf.name,
                     page: 1,
-                    status: 'Any Status',
+                    status: 'All Status',
                 })}`
             );
         });

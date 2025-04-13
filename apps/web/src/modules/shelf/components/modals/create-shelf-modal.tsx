@@ -58,7 +58,7 @@ export const CreateShelfModal = () => {
                     for (const [key, value] of Object.entries({
                         shelf: shelf.name,
                         page: Number(searchParams?.get('page')) || 1,
-                        status: searchParams?.get('status') || 'Any Status',
+                        status: searchParams?.get('status') || 'All Status',
                     })) {
                         if (value === null) {
                             newSearchParams.delete(key);

@@ -6,52 +6,82 @@ import { Icons } from './icons';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import useCreateQueryString from '@/modules/bookshelves/hooks/use-create-query-string';
+import { ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
+
 interface PaginationProps {
-  page: string;
-  totalPages: number;
+    page: string;
+    totalPages: number;
 }
 
 export function Pagination({ page, totalPages }: PaginationProps) {
-  const createQueryString = useCreateQueryString();
-  const router = useRouter();
-  const [isPending, startTransition] = React.useTransition();
-  const pathname = usePathname();
-  // Rereender this compoennet
-  const handlePageClick = (data: { selected: any }) => {
-    startTransition(() => {
-      router.push(
-        `${pathname}?${createQueryString({
-          page: data.selected + 1,
-        })}`
-      );
-    });
-  };
+    const createQueryString = useCreateQueryString();
+    const router = useRouter();
+    const [isPending, startTransition] = React.useTransition();
+    const pathname = usePathname();
+    const currentPage = Number(page);
 
-  const showNextButton = true;
-  const showPrevButton = true;
-  return (
-    <ReactPaginate
-      breakLabel={<span className='mr-2'>...</span>}
-      nextLabel={
-        showNextButton ? (
-          <span className='flex h-10 w-10 items-center justify-center rounded-md bg-beige-100 text-beige'>
-            <Icons.chevronRight />
-          </span>
-        ) : null
-      }
-      pageCount={totalPages}
-      onPageChange={handlePageClick}
-      previousLabel={
-        showPrevButton ? (
-          <span className='mr-4 flex h-10 w-10 items-center justify-center rounded-md bg-beige-100 text-beige'>
-            <Icons.chevronLeft />
-          </span>
-        ) : null
-      }
-      forcePage={Number(page) - 1}
-      containerClassName='flex items-center justify-center mt-8 mb-4'
-      pageClassName='cursor-pointer block border- border-solid hover:bg-beige-100 w-10 h-10 flex items-center justify-center rounded-md mr-4'
-      activeClassName='text-beige text-sm'
-    />
-  );
+    const handlePageClick = (pageNumber: number) => {
+        startTransition(() => {
+            router.push(
+                `${pathname}?${createQueryString({
+                    page: pageNumber,
+                })}`
+            );
+        });
+    };
+
+    return (
+        <div className="flex items-center justify-center gap-2 mt-8 mb-4">
+            {/* First page */}
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handlePageClick(1)}
+                disabled={currentPage === 1}
+                className="h-8 w-8"
+            >
+                <ChevronsLeft className="h-4 w-4" />
+            </Button>
+
+            <ReactPaginate
+                breakLabel={null}
+                nextLabel={
+                    <span className='flex h-8 w-8 items-center justify-center rounded'>
+                        <Icons.chevronRight className="h-4 w-4" />
+                    </span>
+                }
+                pageRangeDisplayed={5}
+                marginPagesDisplayed={2}
+                pageCount={totalPages}
+                onPageChange={(data) => handlePageClick(data.selected + 1)}
+                previousLabel={
+                    <span className='flex h-8 w-8 items-center justify-center rounded'>
+                        <Icons.chevronLeft className="h-4 w-4" />
+                    </span>
+                }
+                forcePage={currentPage - 1}
+                containerClassName='flex items-center justify-center gap-2'
+                pageClassName='cursor-pointer block hover:bg-gray-100 w-8 h-8 flex items-center justify-center rounded'
+                pageLinkClassName='w-full h-full flex items-center justify-center'
+                activeClassName='!bg-black text-white hover:!bg-black/90'
+                previousClassName='cursor-pointer hover:bg-gray-100 rounded'
+                nextClassName='cursor-pointer hover:bg-gray-100 rounded'
+                disabledClassName='opacity-50 cursor-not-allowed hover:bg-transparent'
+                renderOnZeroPageCount={null}
+            />
+
+            {/* Last page */}
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => handlePageClick(totalPages)}
+                disabled={currentPage === totalPages}
+                className="h-8 w-8"
+            >
+                <ChevronsRight className="h-4 w-4" />
+            </Button>
+        </div>
+    );
 }

@@ -32,7 +32,7 @@ export function MainSidebar() {
         {
             icon: LibraryBig,
             label: 'Library',
-            href: '/library?shelf=All+Books&page=1&status=Any+Status',
+            href: '/library?shelf=All+Books&page=1&status=All+Status',
             isActive: isActive('/library'),
         },
         { icon: User, label: "Profile", href: `/${session?.user.username}`, isActive: isActive(`/${session?.user.username}`) },

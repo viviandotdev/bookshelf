@@ -11,7 +11,7 @@ const useBuildQuery = () => {
     const parseSearchParams = () => {
         return {
             page: searchParams?.get('page') ?? '1',
-            status: searchParams?.get('status') ?? 'Any Status',
+            status: searchParams?.get('status') ?? 'All Status',
             sort: searchParams?.get('sort') ?? 'dateAdded.desc',
             shelf: searchParams?.get('shelf') ?? 'All Books',
             owned: searchParams?.get('owned') ?? '',
@@ -81,7 +81,7 @@ const useBuildQuery = () => {
 
         // Build query based on status parameter
         const statusQuery =
-            status === 'Any Status' ? {} : { status: { equals: status } };
+            status === 'All Status' ? {} : { status: { equals: status } };
 
         // Merge the shelf and status queries
         const finalQuery = {
