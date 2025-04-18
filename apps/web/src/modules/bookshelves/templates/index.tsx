@@ -4,12 +4,10 @@ import ListView from '../components/list-view';
 import ShelfMenu from '../components/shelf-menu';
 import { SortingOptions } from '../components/sorting-options';
 import StatusMenu from '../components/status-menu';
-import { ViewOptions } from '../components/view-options';
 import { GalleryView } from '../components/gallery-view';
 import { ShelfTitle } from '../components/shelf-title';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
-import { useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import useCreateQueryString from '../hooks/use-create-query-string';
 import ToggleButton from '../components/toggle-button';
@@ -17,7 +15,6 @@ import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
 import SearchBar from '../components/search-bar';
 import KanbanTemplate from '../components/kanban-template';
-import EditShelfButton from '@/modules/profile/components/edit-shelf-button';
 import useCreateShelfModal from '@/modules/shelf/hooks/use-create-shelf-modal';
 
 interface BookshelvesTemplateProps { }
@@ -40,10 +37,9 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     let contentView;
     const router = useRouter();
     const pathname = usePathname();
-    const [isPending, startTransition] = useTransition();
     const createQueryString = useCreateQueryString();
 
-    const buttonIsEnabled =
+    const clearButtonIsEnabled =
         searchParams?.get('status') ||
         searchParams?.get('shelf') ||
         searchParams?.get('owned') ||
@@ -90,12 +86,11 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                         <div className='flex gap-4'>
                             <ShelfMenu />
                             <StatusMenu />
-                            {/* <ToggleButton type={'owned'} /> */}
-                            {/* <ToggleButton type={'favorites'} /> */}
+                            <ToggleButton type={'owned'} />
+                            <ToggleButton type={'favorites'} />
                             {/* <Button
                 onClick={() => {
                   updateSelected('All Books');
-                  startTransition(() => {
                     router.push(
                       `${pathname}?${createQueryString({
                         shelf: null,
@@ -104,9 +99,8 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                         favorites: null,
                       })}`
                     );
-                  });
                 }}
-                disabled={!buttonIsEnabled}
+                disabled={!clearButtonIsEnabled}
                 variant={'pill'}
                 size={'sm'}
                 className='bg-beige-50 px-0 font-normal text-red-500 hover:bg-beige-50 disabled:text-gray-500'
