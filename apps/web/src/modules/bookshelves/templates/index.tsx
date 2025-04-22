@@ -22,7 +22,7 @@ interface BookshelvesTemplateProps { }
 
 
 export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
-    const [view, setView] = React.useState<string>('list');
+    const [view, setView] = React.useState<string>('board');
     const shelfModal = useCreateShelfModal();
     const searchParams = useSearchParams();
     const editShelf = async () => {

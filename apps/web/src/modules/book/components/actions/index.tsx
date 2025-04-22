@@ -35,14 +35,6 @@ export const BookControls: React.FC<BookControlsProps> = ({
         <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
             <StatusButton targetBook={targetBook} book={book} />
             {isInLibrary && (
-                <AddToShelfButton
-                    variant='icon'
-                    targetBook={targetBook}
-                    bookTitle={book.title || ''}
-                />
-            )}
-
-            {isInLibrary && (
                 <>
                     <div className='h-10 w-px bg-gray-100' />
                     <div className='flex flex-col items-start justify-center'>

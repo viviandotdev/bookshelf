@@ -16,6 +16,7 @@ import { BookData } from '@/modules/bookshelves/types';
 import { Size, Source, UserBook } from '@/graphql/graphql';
 import AddToShelfButton from '../components/actions/add-to-shelf-button';
 import BookInfo from '../components/book-info';
+import ShelvesTags from '../components/actions/shelves-tags';
 
 interface BookTemplateProps {
     book: BookData;
@@ -54,10 +55,16 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                     <section>
                         <div className='flex flex-col gap-4'>
                             <section className='flex flex-col gap-3'>
-                                <div className='text-center md:text-start'>
+                                <div className='flex gap-3 text-center md:text-start'>
+
+                                    <ShelvesTags
+                                        targetBook={userBook}
+                                        bookTitle={book.title || ''}
+                                    />
                                     <AddToShelfButton
-                                        bookTitle={book.title}
-                                        userBook={userBook}
+                                        variant='icon'
+                                        targetBook={userBook}
+                                        bookTitle={book.title || ''}
                                     />
                                 </div>
                                 <section className='mx-auto block md:mx-0 md:hidden'>

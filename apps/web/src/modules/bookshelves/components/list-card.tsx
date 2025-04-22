@@ -52,7 +52,7 @@ export const ListCard: React.FC<ListCardProps> = ({
                                 {book.title}
                             </h2>
                         </Link>
-                        <BookActions
+                        {/* <BookActions
                             book={book!}
                             userBookId={userBook.id}
                             openDropdown={openDropdown}
@@ -73,7 +73,7 @@ export const ListCard: React.FC<ListCardProps> = ({
                                     </div>
                                 </Button>
                             }
-                        />
+                        /> */}
                     </div>
                     <div className='flex flex-col gap-2'>
                         <p className='truncate text-sm font-normal text-beige'>
