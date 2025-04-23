@@ -7,6 +7,9 @@ import StatusButton from './status-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import AddToShelfButton from './add-to-shelf-button';
 import { BookData } from '@/modules/bookshelves/types';
+import StartReadingButton from './menu/start-reading';
+import ToReadButton from './menu/to-read';
+import UpNextButton from './menu/up-next';
 
 interface BookControlsProps {
     targetBook?: UserBook;
@@ -33,7 +36,18 @@ export const BookControls: React.FC<BookControlsProps> = ({
 
     return (
         <div className='mb-10 mt-2 flex items-center justify-center gap-5 md:mb-0 md:items-start md:justify-start'>
+            {/* <ToReadButton onClick={function (): void {
+                throw new Error('Function not implemented.');
+            }} /> */}
+            {/* <UpNextButton onClick={function (): void {
+                throw new Error('Function not implemented.');
+            }} />
+            <StartReadingButton onClick={function (): void {
+                throw new Error('Function not implemented.');
+            }} /> */}
             <StatusButton targetBook={targetBook} book={book} />
+            {/* <StatusButton targetBook={targetBook} book={book} /> */}
+            {/* <StatusButton targetBook={targetBook} book={book} /> */}
             {isInLibrary && (
                 <>
                     <div className='h-10 w-px bg-gray-100' />
