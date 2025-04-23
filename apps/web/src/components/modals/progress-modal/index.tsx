@@ -27,7 +27,7 @@ export const ProgressModal: React.FC<ProgressModalProps> = () => {
                         Progress
                     </TabsTrigger>
                     <TabsTrigger className='w-full' value='password'>
-                        Finished
+                        Logs
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value='account'>

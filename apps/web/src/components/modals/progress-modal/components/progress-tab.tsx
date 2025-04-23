@@ -125,18 +125,18 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
             </div>
             <div className='flex w-full items-end justify-start gap-4'>
                 <Button
-                    variant={type === Progress_Type.Pages ? 'secondary' : 'outline'}
+                    variant={'outline'}
                     className='flex h-12 w-1/2 items-center justify-center rounded-lg py-4 text-sm font-normal text-black '
                     onClick={() => handleToggle(Progress_Type.Pages)}
                 >
-                    # Pages
+                    Mark as Finished
                 </Button>
                 <Button
-                    variant={type === Progress_Type.Percentage ? 'secondary' : 'outline'}
+                    variant={'outline'}
                     className='flex h-12 w-1/2 items-center justify-center rounded-lg py-4 text-sm font-normal text-black '
                     onClick={() => handleToggle(Progress_Type.Percentage)}
                 >
-                    % Percent
+                    Abandon Book
                 </Button>
             </div>
             <Button
