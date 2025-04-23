@@ -1,6 +1,5 @@
 'use client';
 import { Icons } from '@/components/icons';
-import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
 import { Button } from '@/components/ui/button';
 import { readingStatuses } from '@/config/books';
 import {
@@ -9,13 +8,20 @@ import {
     UserBook,
     useBookCountsByUserIdLazyQuery,
     useCreateUserBookMutation,
+    useRemoveUserBookMutation,
 } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import ContentLoader from 'react-content-loader';
 import { BookData } from '@/modules/bookshelves/types';
 import { toast } from '@/hooks/use-toast';
+import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
+import StatusDropdown from './status-dropdown';
+import { ApolloCache } from '@apollo/client';
+import AlertModal from '@/components/modals/alert-modal';
+import { useRouter } from 'next/navigation';
+
 interface StatusButtonProps {
     book: BookData;
     targetBook?: UserBook;
@@ -25,14 +31,52 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
     targetBook,
     book,
 }) => {
-    const statusModal = useBookStatusModal();
     const { data } = useSession();
-    const { status, setUserBook, resetStore, isInLibrary } = useUserBookStore();
-
+    const { status, setUserBook, resetStore, isInLibrary, userBookId } = useUserBookStore();
+    const [openAlert, setOpenAlert] = useState(false);
+    const router = useRouter();
 
     const [bookCountsByUserId] = useBookCountsByUserIdLazyQuery({
         onCompleted: (data) => {
-            statusModal.setBookCounts(data.bookCountsByUserId);
+            // Handle book counts if needed
+        },
+    });
+
+    const [removeUserBook] = useRemoveUserBookMutation({
+        onCompleted: (_) => {
+            toast({
+                title: `Book removed from your shelf`,
+                variant: 'success',
+            });
+            resetStore();
+        },
+        update: (cache: ApolloCache<any>, { data }) => {
+            if (data?.removeUserBook) {
+                // Evict the deleted book from the cache
+                const cacheId = cache.identify({
+                    __typename: 'UserBook',
+                    id: userBookId,
+                });
+
+                cache.evict({ id: cacheId });
+            }
+            // redirect the user to home
+            router.push('/');
+        },
+        onError: (error) => {
+            toast({ title: error.message, variant: 'destructive' });
+        },
+    });
+
+    const { updateUserBook } = useUpdateUserBook({
+        onCompleted: (_) => {
+            toast({
+                title: `Book status updated`,
+                variant: 'success',
+            });
+        },
+        onError: (error) => {
+            toast({ title: error.message, variant: 'destructive' });
         },
     });
 
@@ -58,15 +102,26 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
         }
     }, [targetBook, setUserBook]);
 
-    const handleExistingUserBookClick = async () => {
-        if (isInLibrary) {
-            statusModal.onOpen();
-            statusModal.setIsLoading(true);
-            await bookCountsByUserId({
-                variables: { userId: data?.user.id },
+    const handleStatusChange = async (newStatus: Reading_Status) => {
+        if (isInLibrary && userBookId) {
+            await updateUserBook(userBookId, {
+                status: newStatus,
             });
-            statusModal.setIsLoading(false);
+            setUserBook({ status: newStatus });
         }
+    };
+
+    const handleRemoveBook = () => {
+        setOpenAlert(true);
+    };
+
+    const onDelete = async () => {
+        if (isInLibrary && userBookId) {
+            await removeUserBook({
+                variables: { where: { id: userBookId } },
+            });
+        }
+        setOpenAlert(false);
     };
 
     const handleNewUserBookClick = async () => {
@@ -108,17 +163,24 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
 
     return (
         <>
+            <AlertModal
+                title={'Are you sure you want to remove this book from your shelf?'}
+                description={
+                    'Removing this book will clear associated ratings, reading progress and status'
+                }
+                isOpen={openAlert}
+                onClose={() => setOpenAlert(false)}
+                onConfirm={onDelete}
+                loading={false}
+            />
             {isInLibrary ? (
                 <>
                     {status ? (
-                        <Button
-                            onClick={handleExistingUserBookClick}
-                            variant='secondary'
-                            className='w-[160px] gap-2 rounded-lg font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
-                        >
-                            {/* <Icons.save className='h-5 w-5' /> */}
-                            <div>{readingStatuses[status as Reading_Status]?.name}</div>
-                        </Button>
+                        <StatusDropdown
+                            currentStatus={status as Reading_Status}
+                            onStatusChange={handleStatusChange}
+                            onRemoveBook={handleRemoveBook}
+                        />
                     ) : (
                         <>
                             <ContentLoader

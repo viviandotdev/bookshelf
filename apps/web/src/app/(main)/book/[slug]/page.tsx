@@ -20,7 +20,6 @@ interface BookPageProps {
 
 export default async function BookPage({ params }: BookPageProps) {
     const user = await getCurrentUser();
-    //get my book
     let myBook = await getBookBySlug(params.slug); //by slug
 
     if (!myBook) {
