@@ -2,7 +2,7 @@
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { readingStatuses } from '@/config/books';
-import { Reading_Status } from '@/graphql/graphql';
+import { Reading_Status, useReadDatesLazyQuery, ReadDate } from '@/graphql/graphql';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { ArrowUp, ChevronDown, ClipboardList, History, Pencil, Play, Trash2, X, Check } from "lucide-react";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
@@ -32,8 +32,27 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({
     bookTitle,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const { onOpen } = useProgressModal();
+    const { onOpen, readDates } = useProgressModal();
     const { setUserBook } = useUserBookStore();
+    const readDate = readDates.find((rd) => rd.userBookId === userBookId);
+    // const [loadReadDates] = useReadDatesLazyQuery({
+    //     fetchPolicy: 'cache-and-network',
+    //     onCompleted: async ({ readDates }) => {
+    //         await storeReadDates(readDates as ReadDate[]);
+    //     },
+    // });
+
+    // useEffect(() => {
+    //     const loadData = async () => {
+    //         await loadReadDates({
+    //             variables: {
+    //                 userBookIds: [userBookId],
+    //                 active: true,
+    //             },
+    //         });
+    //     };
+    //     loadData();
+    // }, [userBookId, loadReadDates]);
 
     const handleStatusChange = (newStatus: Reading_Status) => {
         onStatusChange(newStatus);
@@ -47,11 +66,18 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({
 
     const handleUpdateProgress = () => {
         setIsOpen(false);
-        onOpen();
-        setUserBook({
-            userBookId,
-            bookTitle,
-        });
+        if (readDate?.readingProgress) {
+            onOpen();
+            setUserBook({
+                userBookId: userBookId,
+                bookTitle: bookTitle,
+            });
+        }
+        // onOpen();
+        // setUserBook({
+        //     userBookId,
+        //     bookTitle,
+        // });
     };
 
     const isWantToRead = currentStatus === Reading_Status.WantToRead;

@@ -180,6 +180,8 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
                             currentStatus={status as Reading_Status}
                             onStatusChange={handleStatusChange}
                             onRemoveBook={handleRemoveBook}
+                            userBookId={userBookId}
+                            bookTitle={book.title}
                         />
                     ) : (
                         <>
