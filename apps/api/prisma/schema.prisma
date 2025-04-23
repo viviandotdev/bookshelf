@@ -165,10 +165,31 @@ model UserBook {
 
     dateAdded DateTime
     readDates ReadDate[]
+    reads     Read[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique([userId, bookId], name: "identifier")
+}
+
+model Read {
+    id           String        @id @default(uuid())
+    startDate    DateTime      @default(now())
+    finishedDate DateTime?
+    active       Boolean
+    readLogs     ReadLog[]
+    type         PROGRESS_TYPE
+    capacity     Int
+    userBook     UserBook      @relation(fields: [userBookId], references: [id])
+    userBookId   String
+}
+
+model ReadLog {
+    id        String   @id @default(uuid())
+    progress  Int
+    createdAt DateTime @default(now())
+    read      Read     @relation(fields: [readId], references: [id])
+    readId    String
 }
 
 model ReadingProgress {
