@@ -24,6 +24,7 @@ interface StatusDropdownProps {
     onRemoveBook: () => void;
     userBookId: string;
     bookTitle: string;
+    pageCount?: number | null;
 }
 
 export const StatusDropdown: React.FC<StatusDropdownProps> = ({
@@ -32,6 +33,7 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({
     onRemoveBook,
     userBookId,
     bookTitle,
+    pageCount,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { onOpen: openStartReadingModal } = useStartReadingModal();
@@ -59,7 +61,7 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({
 
     const handleStatusChange = (newStatus: Reading_Status) => {
         if (newStatus === Reading_Status.Reading) {
-            openStartReadingModal(userBookId, bookTitle);
+            openStartReadingModal(userBookId, bookTitle, pageCount ?? null);
         } else {
             onStatusChange(newStatus);
         }

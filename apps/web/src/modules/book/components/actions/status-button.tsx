@@ -182,6 +182,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
                             onRemoveBook={handleRemoveBook}
                             userBookId={userBookId}
                             bookTitle={book.title}
+                            pageCount={book.pageCount}
                         />
                     ) : (
                         <>

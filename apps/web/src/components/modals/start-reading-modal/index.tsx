@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 import { Progress_Type, Reading_Status } from '@/graphql/graphql';
@@ -15,11 +15,30 @@ import useStartReadingModal from './use-start-reading-modal';
 interface StartReadingModalProps { }
 
 export const StartReadingModal: React.FC<StartReadingModalProps> = () => {
-    const { isOpen, onClose, userBookId, bookTitle } = useStartReadingModal();
+    const { isOpen, onClose, userBookId, bookTitle, pageCount } = useStartReadingModal();
     const [progressType, setProgressType] = useState<Progress_Type>(Progress_Type.Pages);
     const [capacity, setCapacity] = useState<string>('');
     const { createRead } = useCreateRead();
     const { updateUserBook } = useUpdateUserBook();
+
+    useEffect(() => {
+        // Set initial capacity based on progress type
+        if (progressType === Progress_Type.Pages) {
+            setCapacity(pageCount?.toString() || '');
+        } else {
+            setCapacity('100');
+        }
+    }, [progressType, pageCount]);
+
+    const handleProgressTypeChange = (value: Progress_Type) => {
+        setProgressType(value);
+        // Update capacity when switching types
+        if (value === Progress_Type.Percentage) {
+            setCapacity('100');
+        } else {
+            setCapacity(pageCount?.toString() || '');
+        }
+    };
 
     const handleSubmit = async () => {
         try {
@@ -80,7 +99,7 @@ export const StartReadingModal: React.FC<StartReadingModalProps> = () => {
                         <RadioGroup
                             defaultValue={Progress_Type.Pages}
                             value={progressType}
-                            onValueChange={(value) => setProgressType(value as Progress_Type)}
+                            onValueChange={handleProgressTypeChange}
                         >
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem value={Progress_Type.Pages} id="pages" />
@@ -100,7 +119,8 @@ export const StartReadingModal: React.FC<StartReadingModalProps> = () => {
                             id="capacity"
                             type="number"
                             value={capacity}
-                            onChange={(e) => setCapacity(e.target.value)}
+                            onChange={(e) => progressType === Progress_Type.Pages && setCapacity(e.target.value)}
+                            disabled={progressType === Progress_Type.Percentage}
                             placeholder={progressType === Progress_Type.Pages ? 'Enter total pages' : '100'}
                             className="mt-2"
                         />

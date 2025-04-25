@@ -1,11 +1,10 @@
 'use client';
-import { Source, UserBook } from '@/graphql/graphql';
+import { UserBook } from '@/graphql/graphql';
 import React, { useEffect } from 'react';
 import LikeButton from './like-button';
 import OwnedButton from './owned-button';
 import StatusButton from './status-button';
 import useUserBookStore from '@/stores/use-user-book-store';
-import AddToShelfButton from './add-to-shelf-button';
 import { BookData } from '@/modules/bookshelves/types';
 
 interface BookControlsProps {
