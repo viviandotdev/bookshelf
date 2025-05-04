@@ -1,0 +1,19 @@
+mutation CreateRead(
+  $userBookId: String!
+  $type: String!
+) {
+  createRead(userBookId: $userBookId, type: $type) {
+    id
+    type
+    capacity
+    startDate
+    finishedDate
+    active
+    userBook {
+      id
+      book {
+        title
+      }
+    }
+  }
+}
