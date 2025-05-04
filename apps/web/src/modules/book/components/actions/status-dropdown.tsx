@@ -100,8 +100,8 @@ export const StatusDropdown: React.FC<StatusDropdownProps> = ({
             <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
                 <DropdownMenuTrigger asChild>
                     <Button
-                        variant='link'
-                        className='flex items-center justify-between gap-2 px-3 py-2 text-sm font-normal hover:bg-transparent'
+                        variant='outline'
+                        className='hover:bg-beige-100 flex items-center rounded-lg justify-between gap-2 px-3 py-2 text-sm font-normal hover:bg-transparent'
                     >
                         <span>{readingStatuses[currentStatus]?.name}</span>
                         <ChevronDown className="h-4 w-4" />
