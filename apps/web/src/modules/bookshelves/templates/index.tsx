@@ -80,59 +80,56 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                         <div className='flex gap-1'>
                             <ShelfTitle />
                         </div>
-                        {/* <ViewOptions view={view} setView={updateView} /> */}
                     </div>
-                    <div className='relative flex w-full items-center justify-between gap-2 text-sm'>
-                        <div className='flex gap-4'>
-                            <ShelfMenu />
-                            <StatusMenu />
-                            <ToggleButton type={'owned'} />
-                            <ToggleButton type={'favorites'} />
-                            {/* <Button
-                onClick={() => {
-                  updateSelected('All Books');
-                    router.push(
-                      `${pathname}?${createQueryString({
-                        shelf: null,
-                        status: null,
-                        owned: null,
-                        favorites: null,
-                      })}`
-                    );
-                }}
-                disabled={!clearButtonIsEnabled}
-                variant={'pill'}
-                size={'sm'}
-                className='bg-beige-50 px-0 font-normal text-red-500 hover:bg-beige-50 disabled:text-gray-500'
-              >
-                <Icons.close className='mr-1 h-4 w-4' />
-                Clear Filters
-              </Button> */}
-                        </div>
-                        <div className='flex items-center gap-2 text-sm'>
-                            <div className='w-[312px]'>
-                                <SearchBar />
-                            </div>
+                    <div className="w-full text-sm">
+                        <div className="flex flex-col gap-2 w-full xl:gap-x-4">
+                            {/* Search bar and Edit Shelf button */}
+                            <div className="flex w-auto gap-2">
+                                <div className="flex-1 min-w-0">
+                                    <SearchBar />
+                                </div>
+                                <div className="hidden xl:flex gap-2">
+                                    <ShelfMenu />
+                                    <StatusMenu />
+                                    {/* <ToggleButton type={'owned'} /> */}
+                                    {/* <ToggleButton type={'favorites'} /> */}
 
-                            {
-                                searchParams?.get('shelf') != "All Books" && searchParams?.get('shelf') != "Unshelved" && <Button
-                                    onClick={editShelf}
-                                    className={`cursor-pointer items-center justify-center rounded-3xl border border-gray-200 bg-white text-black shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}
-                                >
-                                    <span className='sr-only'>Edit Shelf</span>
-                                    <div className='flex gap-2'>
-                                        <div className='flex items-center justify-center'>
-                                            <Icons.edit className={`h-4 w-4 `} />
+                                    {view !== 'board' && (
+                                        <SortingOptions selections={sortingSelects} />
+                                    )}
+                                </div>
+
+                                {searchParams?.get('shelf') !== "All Books" && searchParams?.get('shelf') !== "Unshelved" && (
+                                    <Button
+                                        onClick={editShelf}
+                                        size={'sm'}
+                                        className="min-w-[120px] flex-shrink-0 cursor-pointer bg-beige-100 items-center justify-center text-black shadow-sm"
+                                    >
+                                        <span className='sr-only'>Edit Shelf</span>
+                                        <div className='flex gap-2'>
+                                            <div className='flex items-center justify-center'>
+                                                <Icons.edit className="h-4 w-4" />
+                                            </div>
+                                            Edit Shelf
                                         </div>
-                                        Edit Shelf
-                                    </div>
-                                </Button>
-                            }
+                                    </Button>
+                                )}
 
+                            </div>
+                            {/* Filters and Sort */}
+                            <div className="flex xl:hidden flex-col gap-2 w-full ">
+                                <div className="flex flex-wrap gap-2 w-full">
+                                    <ShelfMenu />
+                                    <StatusMenu />
+                                    {/* <ToggleButton type={'owned'} /> */}
+                                    {/* <ToggleButton type={'favorites'} /> */}
 
-                            {view !== 'board' && (
-                                <SortingOptions selections={sortingSelects} />
-                            )}
+                                    {view !== 'board' && (
+                                        <SortingOptions selections={sortingSelects} />
+                                    )}
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </nav>

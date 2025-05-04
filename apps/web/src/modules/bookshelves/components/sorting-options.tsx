@@ -13,6 +13,8 @@ import { useTransition } from 'react';
 import useCreateQueryString from '../hooks/use-create-query-string';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
+import React from 'react';
 interface SortingOptionsProps {
     selections: {
         label: string;
@@ -28,18 +30,27 @@ export const SortingOptions: React.FC<SortingOptionsProps> = ({
     const searchParams = useSearchParams();
     const sort = searchParams?.get('sort') ?? 'dateAdded.desc';
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = React.useState(false);
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+            <DropdownMenuTrigger asChild className='flex justify-between min-w-[112px]'>
                 <Button
                     disabled={isPending}
                     aria-label='Sort books'
                     variant={'secondary'}
-                    className='border border-gray-300 shadow-sm bg-white hover:bg-white'
+                    className='hover:bg-white border shadow-sm bg-white text-gray-900 font-normal'
                     size={'sm'}
                 >
                     Sort by
-                    <Icons.down className='ml-1 h-4 w-4' />
+                    <ChevronDown
+                        size={16}
+                        strokeWidth={2}
+                        aria-hidden='true'
+                        className={cn(
+                            '-me-1 ms-2 opacity-60 transition-transform duration-500',
+                            isOpen ? 'rotate-180' : 'rotate-0',
+                        )}
+                    />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

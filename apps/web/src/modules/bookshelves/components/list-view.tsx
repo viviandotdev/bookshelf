@@ -51,7 +51,7 @@ export const ListView: React.FC<ListViewProps> = ({ }) => {
             {!books || loading ? (
                 <SkeletonGalleryView />
             ) : (
-                <div className='space-y-4'>
+                <div className='grid 2xl:grid-cols-2 gap-4'>
                     {books?.map((book, idx) => (
                         <div key={idx}>
                             <Book

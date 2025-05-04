@@ -22,6 +22,15 @@ interface ListCardProps {
     rating: number;
 }
 
+const statusColorMap: Record<string, string> = {
+    'Reading': 'bg-blue-100 text-blue-700 border-blue-200',
+    'Completed': 'bg-green-100 text-green-700 border-green-200',
+    'Want to Read': 'bg-yellow-100 text-yellow-700 border-yellow-200',
+    'Paused': 'bg-gray-100 text-gray-700 border-gray-200',
+    'Dropped': 'bg-red-100 text-red-700 border-red-200',
+    // Add more as needed
+};
+
 export const ListCard: React.FC<ListCardProps> = ({
     userBook,
     status,
@@ -38,72 +47,31 @@ export const ListCard: React.FC<ListCardProps> = ({
     const shelves = userBook.shelves?.filter(({ shelf }) => shelf.name !== 'Favorites' && shelf.name !== 'Owned');
 
     return (
+
         <div
-            className='flex items-start justify-between rounded-lg border border-gray-300 bg-white/90 p-4 shadow-sm'
+            className='flex items-start justify-between rounded-lg border border-gray-200 bg-white/90 p-4 shadow-sm'
         >
             <div className='flex flex-1 items-start space-x-4'>
                 <div className='flex-shrink-0'>
                     <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
                 </div>
                 <div className='flex w-full flex-col overflow-hidden'>
-                    <div className='flex w-full items-center justify-between'>
-                        <Link href={`/book/${book.slug}`}>
-                            <h2 className='text-xl font-semibold leading-none text-beige hover:underline hover:underline-offset-2 cursor-pointer'>
+                    <div className='flex w-full items-start gap-2 justify-between'>
+                        <Link href={`/book/${book.slug}`} className="flex-1 min-w-0">
+                            <div className='line-clamp-2 overflow-hidden text-sm font-medium text-stone-700 sm:text-base hover:underline hover:underline-offset-2 cursor-pointer'>
                                 {book.title}
-                            </h2>
-                        </Link>
-                        <BookActions
-                            book={book!}
-                            userBookId={userBook.id}
-                            openDropdown={openDropdown}
-                            setOpenDropdown={setOpenDropdown}
-                            status={status as Reading_Status}
-                            setStatus={setStatus}
-                            setRating={setRating}
-                            rating={rating}
-                            showRemoveBook={true}
-                            side={'bottom'}
-                            align='end'
-                            trigger={
-                                <Button variant={'secondary'} className='h-8 px-3 shadow-sm'>
-                                    <div className='flex items-center gap-1.5'>
-                                        <StatusIcon className={cn('h-4 w-4')} />
-                                        {readingStatuses[status as Reading_Status].name}
-                                        <Icons.chevronDown className='h-5 w-5 text-beige-700' />
-                                    </div>
-                                </Button>
-                            }
-                        />
-                    </div>
-                    <div className='flex flex-col gap-2'>
-                        <p className='truncate text-sm font-normal text-beige'>
-                            by {formatAuthors(book.authors!)}
-                        </p>
-                        <div className='flex items-center'>
-                            <div className='flex items-center'>
-                                {rating ? (
-                                    <>
-                                        <Rating className='mt-[-2.5px]' value={rating} />
-                                        <span className='mx-1.5 items-center text-[10px] font-normal text-gray-400'>
-                                            •
-                                        </span>
-                                    </>
-                                ) : null}
-                                {book?.ratings && book?.ratings?.length > 0 && (
-                                    <>
-                                        <RatingInfo size={'sm'} ratings={book?.ratings || []} />
-                                        <span className='mx-1.5 items-center text-[10px] font-normal text-gray-400'>
-                                            •
-                                        </span>
-                                    </>
-                                )}
-
-                                <span className='text-xs font-normal text-beige'>
-                                    Added on {format(new Date(userBook.dateAdded), 'MMMM d, yyyy')}
-                                </span>
                             </div>
+                            <div className='line-clamp-1 overflow-hidden text-xs text-gray-400'>
+                                {book.authors && formatAuthors(book.authors!)}
+                            </div>
+                        </Link>
+                        <div className={`inline-flex items-start rounded-full px-2 py-1 border text-xs font-medium
+                            ${statusColorMap[readingStatuses[status as Reading_Status]?.name] || 'bg-beige-100 text-beige-700 border-beige-200'}`}>
+                            {readingStatuses[status as Reading_Status].name}
                         </div>
+                    </div>
 
+                    <div className='flex flex-col mt-2 gap-2'>
                         <div className='-mt-0.5 flex items-center font-medium'>
                             <div className='inline-flex flex-wrap items-start justify-start'>
                                 <div className='flex flex-wrap'>
@@ -129,18 +97,21 @@ export const ListCard: React.FC<ListCardProps> = ({
                                             />
                                         </IconButton>
                                     }
-                                    {shelves && shelves.length > 0 && shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
-                                        <div
-                                            key={index}
-                                            className={`${isOwned || isLiked ? 'ml-2' : ''} inline-flex h-9 flex-col items-start justify-start`}
-                                        >
-                                            <div className='flex h-7 flex-col items-center justify-center self-stretch rounded-lg bg-beige-100 px-3'>
-                                                <div className='text-xs font-normal leading-loose text-beige'>
-                                                    {shelf.name}
+                                    <div className='flex items-center gap-2'>
+                                        {shelves && shelves.length > 0 && shelves.map(({ shelf }: { shelf: Shelf }, index: number) => (
+                                            <div
+                                                key={index}
+                                                className={`${isOwned || isLiked ? 'ml-2' : ''} inline-flex h-9 flex-col items-start justify-start`}
+                                            >
+                                                <div className='flex h-7 flex-col items-center justify-center self-stretch rounded-full bg-beige-100 px-3'>
+                                                    <div className='text-xs font-medium leading-loose text-beige'>
+                                                        {shelf.name}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

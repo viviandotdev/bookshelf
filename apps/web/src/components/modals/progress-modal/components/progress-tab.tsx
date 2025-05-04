@@ -89,8 +89,8 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
     };
 
     return (
-        <div className='mt-8 flex w-full flex-col items-center justify-start gap-4'>
-            <div className='flex flex-col items-center justify-start gap-4'>
+        <div className='flex w-full flex-col items-center justify-start gap-4'>
+            <div className='flex flex-col items-center justify-start'>
                 <div className='flex flex-col items-center justify-start gap-5'>
                     <div className='text-lg font-normal'>
                         Update reading progress for
