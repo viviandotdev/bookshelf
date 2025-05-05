@@ -8,11 +8,11 @@ import {
     UserBook,
 } from '@/graphql/graphql';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
-import { NetworkStatus, useApolloClient } from '@apollo/client';
+import { NetworkStatus } from '@apollo/client';
 import useLoadBooks from '../queries/use-load-books';
 import useShelfStore from '@/stores/use-shelf-store';
-import SkeletonGalleryView from '@/modules/skeletons/components/skeleton-gallery-view';
-import Book from '@/components/book';
+import ListCard from './list-card';
+
 interface ListViewProps { }
 
 export const ListView: React.FC<ListViewProps> = ({ }) => {
@@ -49,15 +49,13 @@ export const ListView: React.FC<ListViewProps> = ({ }) => {
     return (
         <>
             {!books || loading ? (
-                <SkeletonGalleryView />
+                <div>Loading...</div>
             ) : (
                 <div className='grid 2xl:grid-cols-2 gap-4'>
-                    {books?.map((book, idx) => (
+                    {books?.map((book: UserBook, idx: React.Key) => (
                         <div key={idx}>
-                            <Book
-                                userBook={book as UserBook}
-                                showRemoveBook={true}
-                                view={'list'}
+                            <ListCard
+                                userBook={book}
                             />
                         </div>
                     ))}

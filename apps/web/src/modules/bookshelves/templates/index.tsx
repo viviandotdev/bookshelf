@@ -4,7 +4,6 @@ import ListView from '../components/list-view';
 import ShelfMenu from '../components/shelf-menu';
 import { SortingOptions } from '../components/sorting-options';
 import StatusMenu from '../components/status-menu';
-import { GalleryView } from '../components/gallery-view';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -30,18 +29,6 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
             });
         }
     };
-    let contentView;
-    const router = useRouter();
-    const pathname = usePathname();
-    const createQueryString = useCreateQueryString();
-
-    const clearButtonIsEnabled =
-        searchParams?.get('status') ||
-        searchParams?.get('shelf') ||
-        searchParams?.get('owned') ||
-        searchParams?.get('favorites');
-
-
 
     useEffect(() => {
         const shelf = searchParams?.get('shelf');
@@ -53,6 +40,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     }, [searchParams]);
 
     const updateSelected = useShelfStore((state) => state.updateSelected);
+
     return (
         <>
             <div
@@ -94,7 +82,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                 )}
 
                             </div>
-                            {/* Filters and Sort */}
+                            {/* Mobile Responsive Filters and Sort */}
                             <div className="flex xl:hidden flex-col gap-2 w-full ">
                                 <div className="flex flex-wrap gap-2 w-full">
                                     <ShelfMenu />

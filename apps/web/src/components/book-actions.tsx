@@ -26,13 +26,10 @@ import { ApolloCache } from '@apollo/client';
 interface BookActionsProps {
     book: Book | undefined;
     openDropdown: boolean;
-    rating: number;
     status: Reading_Status;
     showRemoveBook?: boolean;
     setStatus: React.Dispatch<React.SetStateAction<string>>;
-    setRating: React.Dispatch<React.SetStateAction<number>>;
     setOpenDropdown: React.Dispatch<React.SetStateAction<boolean>>;
-    moveCard?: (status: Reading_Status) => void;
     trigger: React.ReactNode;
     side?: 'top' | 'bottom';
     align?: 'start' | 'end';
@@ -42,13 +39,10 @@ interface BookActionsProps {
 const BookActions: React.FC<BookActionsProps> = ({
     userBookId,
     book,
-    rating,
     status,
-    moveCard,
     openDropdown,
     showRemoveBook,
     setStatus,
-    setRating,
     setOpenDropdown,
     trigger,
     side = 'top',
@@ -57,7 +51,6 @@ const BookActions: React.FC<BookActionsProps> = ({
     const [openAlert, setOpenAlert] = useState(false); // Initial value
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (data: UserBook) => {
-
             toast({
                 title: `Book status updated to ${data.status} `,
                 variant: 'success',
@@ -158,10 +151,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onUpdateStatus(key as Reading_Status);
-                                        if (moveCard) {
-                                            moveCard(key as Reading_Status);
-                                            setOpenDropdown(false);
-                                        }
+
                                     }}
                                 >
                                     {item.icon && (

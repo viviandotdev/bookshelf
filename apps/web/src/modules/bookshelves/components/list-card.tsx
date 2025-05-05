@@ -4,22 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Book, Reading_Status, Shelf, Size, UserBook } from '@/graphql/graphql';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BookActions from '@/components/book-actions';
 import { Icons } from '@/components/icons';
 import { readingStatuses } from '@/config/books';
-import Rating from '@/components/rating';
-import RatingInfo from '@/modules/book/components/actions/rating-info';
-import { format } from 'date-fns';
 import { IconButton } from './icon-button';
 
 interface ListCardProps {
     userBook: UserBook;
-    isLoading: boolean;
-    status: string;
-    setStatus: React.Dispatch<React.SetStateAction<string>>;
-    setRating: React.Dispatch<React.SetStateAction<number>>;
-    rating: number;
 }
 
 const statusColorMap: Record<string, string> = {
@@ -32,18 +24,20 @@ const statusColorMap: Record<string, string> = {
 
 export const ListCard: React.FC<ListCardProps> = ({
     userBook,
-    status,
-    setRating,
-    setStatus,
-    rating,
 }) => {
-    const linkRef = useRef<HTMLAnchorElement>(null);
     const { book } = userBook;
     const [openDropdown, setOpenDropdown] = useState(false);
-    const StatusIcon = readingStatuses[status as Reading_Status].icon;
     const [isLiked, setIsLiked] = useState(userBook.shelves?.some(({ shelf }) => shelf.name === 'Favorites'));
     const [isOwned, setIsOwned] = useState(userBook.shelves?.some(({ shelf }) => shelf.name === 'Owned'));
     const shelves = userBook.shelves?.filter(({ shelf }) => shelf.name !== 'Favorites' && shelf.name !== 'Owned');
+
+    const [status, setStatus] = useState(userBook.status ? userBook.status : '');
+    const [rating, setRating] = useState(userBook.rating ? userBook.rating : 0); // Initial value
+
+    useEffect(() => {
+        setStatus(userBook.status ? userBook.status : '');
+        setRating(userBook.rating ? userBook.rating : 0);
+    }, [book]);
 
     return (
 
@@ -76,8 +70,6 @@ export const ListCard: React.FC<ListCardProps> = ({
                             setOpenDropdown={setOpenDropdown}
                             status={status as Reading_Status}
                             setStatus={setStatus}
-                            setRating={setRating}
-                            rating={rating}
                             side={'bottom'}
                             trigger={
                                 <Button
@@ -133,7 +125,6 @@ export const ListCard: React.FC<ListCardProps> = ({
                                             </div>
                                         ))}
                                     </div>
-
                                 </div>
                             </div>
                         </div>

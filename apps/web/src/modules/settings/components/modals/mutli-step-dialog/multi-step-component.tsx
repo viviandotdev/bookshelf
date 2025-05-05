@@ -1,10 +1,7 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React, { useMemo, useReducer } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
-import useMeasure from 'react-use-measure';
 import UploadFile from '../../upload-file';
 import Step2 from './step-2';
-import { toast } from '@/hooks/use-toast';
-import { useImportUserBooksMutation } from '@/graphql/graphql';
 
 interface ImportLibraryState {
     shelves: string[];

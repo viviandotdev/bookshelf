@@ -1,4 +1,3 @@
-import { BookCountsResponse } from '@/graphql/graphql';
 import { create } from 'zustand';
 
 type State = {

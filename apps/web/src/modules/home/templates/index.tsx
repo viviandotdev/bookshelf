@@ -10,8 +10,6 @@ import StatusBooksSection from '../components/status-books-section';
 import ReadingOverview from '../components/reading-overview';
 import CurrentlyReadingSection from '../components/currently-reading-section';
 
-
-
 interface HomeTemplateProps {
     wantToRead: UserBook[];
     username: string;
@@ -45,28 +43,26 @@ export default function HomeTemplate({
                     <ReadingOverview bookCounts={bookCounts} />
                     <CurrentlyReadingSection />
                 </div>
-                <div className='grid grid-cols-1 gap-4 xl:col-span-5'>
-                    <section aria-labelledby='section-2-title'>
-                        <div className='overflow-hidden rounded-lg'>
-                            <div className='py-4 shadow-md'>
-                                <div className='space-y-4'>
-                                    <StatusBooksSection
-                                        title={'Up Next'}
-                                        upNext={upNext}
-                                        count={bookCounts.upNextCount}
-                                        status={Reading_Status.UpNext}
-                                    />
-                                    <StatusBooksSection
-                                        title={'Want to Read'}
-                                        upNext={wantToRead}
-                                        count={bookCounts.wantsToReadCount}
-                                        status={Reading_Status.WantToRead}
-                                    />
-                                </div>
+                <section className='grid grid-cols-1 gap-4 xl:col-span-5'   >
+                    <div className='overflow-hidden rounded-lg'>
+                        <div className='py-4 shadow-md'>
+                            <div className='space-y-4'>
+                                <StatusBooksSection
+                                    title={'Up Next'}
+                                    upNext={upNext}
+                                    count={bookCounts.upNextCount}
+                                    status={Reading_Status.UpNext}
+                                />
+                                <StatusBooksSection
+                                    title={'Want to Read'}
+                                    upNext={wantToRead}
+                                    count={bookCounts.wantsToReadCount}
+                                    status={Reading_Status.WantToRead}
+                                />
                             </div>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </div>
         </main>
     );

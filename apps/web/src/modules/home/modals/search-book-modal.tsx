@@ -29,6 +29,65 @@ interface SearchBookModalProps {
     onClose: () => void;
 }
 
+interface BookSearchResultProps {
+    book: Book;
+    isSelected: boolean;
+    onSelect: (book: Book) => void;
+}
+
+const BookSearchResult: React.FC<BookSearchResultProps> = ({ book, isSelected, onSelect }) => {
+    const getCoverUrl = (book: Book) => {
+        if (!book.covers || book.covers.length === 0) {
+            return DEFAULT_BOOKCOVER_PLACEHOLDER;
+        }
+        const cover = book.covers.find((c) => c.size === Size.Small);
+        return cover?.url || book.covers[0].url || DEFAULT_BOOKCOVER_PLACEHOLDER;
+    };
+
+    return (
+        <button
+            onClick={() => onSelect(book)}
+            className={`flex w-full items-center gap-4 rounded-lg border p-3 text-left hover:bg-gray-50 ${isSelected ? 'border-beige-700 bg-beige-50' : ''
+                }`}
+        >
+            <BookCover src={getCoverUrl(book)} size='xxs' />
+            <div className='flex flex-col'>
+                <h3 className='font-medium text-beige-700'>{book.title}</h3>
+                <p className='text-sm text-gray-500'>
+                    by {formatAuthors(book.authors || [])}
+                </p>
+            </div>
+        </button>
+    );
+};
+
+const SearchInput: React.FC<{
+    value: string;
+    onChange: (value: string) => void;
+}> = ({ value, onChange }) => (
+    <div className='relative'>
+        <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500' />
+        <Input
+            placeholder='Search your library...'
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className='pl-9'
+        />
+    </div>
+);
+
+const LoadingSpinner: React.FC = () => (
+    <div className='flex justify-center py-4'>
+        <div className='h-8 w-8 animate-spin rounded-full border-b-2 border-beige-700'></div>
+    </div>
+);
+
+const NoResults: React.FC = () => (
+    <div className='py-4 text-center text-gray-500'>
+        No books found in your library
+    </div>
+);
+
 export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     isOpen,
     onClose,
@@ -39,6 +98,7 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const { storeReadDates } = useProgressModal();
+
     const [loadBooks] = useSearchMyLibraryLazyQuery({
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-only',
@@ -48,8 +108,7 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
             toast({ title: 'Error searching books', variant: 'destructive' });
         },
         onCompleted: (data) => {
-            if (data && data.searchMyLibrary) {
-                // Filter out books that are already marked as currently reading
+            if (data?.searchMyLibrary) {
                 const filteredBooks = (data.searchMyLibrary as Book[]).filter(
                     (book) => book.userBook?.status !== Reading_Status.Reading
                 );
@@ -65,13 +124,9 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                 title: 'Book added to Currently Reading',
                 variant: 'success',
             });
-            // add the read date to the store
             if (userBook.readDates) {
-                storeReadDates(
-                    userBook.readDates
-                );
+                storeReadDates(userBook.readDates);
             }
-
             onClose();
         },
         onError: (error) => {
@@ -90,22 +145,15 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
         setLoading(true);
         try {
             await loadBooks({
-                variables: {
-                    query: query,
-                },
+                variables: { query },
             });
         } finally {
             setLoading(false);
         }
     };
 
-    const handleBookSelect = (book: Book) => {
-        setSelectedBook(book);
-    };
-
     const handleSubmit = async () => {
         if (selectedBook?.userBook?.id) {
-            console.log('Submitting book update:', selectedBook.userBook.id);
             await updateUserBook(
                 selectedBook.userBook.id,
                 {
@@ -134,68 +182,42 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
         onClose();
     };
 
-    const getCoverUrl = (book: Book) => {
-        if (!book.covers || book.covers.length === 0) {
-            return DEFAULT_BOOKCOVER_PLACEHOLDER;
-        }
-        const cover = book.covers.find((c) => c.size === Size.Small);
-        return cover?.url || book.covers[0].url || DEFAULT_BOOKCOVER_PLACEHOLDER;
-    };
-
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
             <DialogContent className='max-w-2xl'>
                 <DialogHeader>
                     <DialogTitle>Add a book to Currently Reading</DialogTitle>
                 </DialogHeader>
-                <div className='relative'>
-                    <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500' />
-                    <Input
-                        placeholder='Search your library...'
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value);
-                            handleSearch(e.target.value);
-                        }}
-                        className='pl-9'
-                    />
-                </div>
+
+                <SearchInput
+                    value={searchQuery}
+                    onChange={(value) => {
+                        setSearchQuery(value);
+                        handleSearch(value);
+                    }}
+                />
+
                 <div className='mt-4 max-h-[400px] overflow-y-auto'>
                     {loading ? (
-                        <div className='flex justify-center py-4'>
-                            <div className='h-8 w-8 animate-spin rounded-full border-b-2 border-beige-700'></div>
-                        </div>
+                        <LoadingSpinner />
                     ) : hasSearched ? (
                         <div className='grid gap-2'>
                             {books.length > 0 ? (
                                 books.map((book) => (
-                                    <button
+                                    <BookSearchResult
                                         key={book.id}
-                                        onClick={() => handleBookSelect(book)}
-                                        className={`flex w-full items-center gap-4 rounded-lg border p-3 text-left hover:bg-gray-50 ${selectedBook?.id === book.id
-                                            ? 'border-beige-700 bg-beige-50'
-                                            : ''
-                                            }`}
-                                    >
-                                        <BookCover src={getCoverUrl(book)} size='xxs' />
-                                        <div className='flex flex-col'>
-                                            <h3 className='font-medium text-beige-700'>
-                                                {book.title}
-                                            </h3>
-                                            <p className='text-sm text-gray-500'>
-                                                by {formatAuthors(book.authors || [])}
-                                            </p>
-                                        </div>
-                                    </button>
+                                        book={book}
+                                        isSelected={selectedBook?.id === book.id}
+                                        onSelect={setSelectedBook}
+                                    />
                                 ))
                             ) : (
-                                <div className='py-4 text-center text-gray-500'>
-                                    No books found in your library
-                                </div>
+                                <NoResults />
                             )}
                         </div>
                     ) : null}
                 </div>
+
                 <DialogFooter>
                     <Button
                         variant='outline'

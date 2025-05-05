@@ -1,11 +1,10 @@
 'use client';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import BookCover from '../../book-cover';
 import { CardDescription } from '../../ui/card';
 import { Size, UserBook } from '@/graphql/graphql';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
-import { Button } from '@/components/ui/button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import useProgressModal from '../progress-modal/use-progress-modal';
 
