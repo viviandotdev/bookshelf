@@ -11,17 +11,21 @@ export default async function LibraryPage({ }: {}) {
     }
     return (
         <>
-            <div className='flex'>
-                <div
-                    className='flex h-[80vh] overflow-y-auto'
-                    style={{ height: 'calc(100vh - 64px)' }}
-                >
-                    <Sidebar />
+
+            <main className='container z-40 mx-auto max-w-4xl flex-1  p-0 px-4 sm:px-6 lg:max-w-6xl xl:max-w-[1440px] xl:px-8'>
+                <div className='flex'>
+                    <div
+                        className='flex h-[80vh] overflow-y-auto'
+                        style={{ height: 'calc(100vh - 64px)' }}
+                    >
+                        <Sidebar />
+                    </div>
+                    <div className='flex w-3/4 flex-1 flex-col overflow-x-auto'>
+                        <BookshelvesTemplate />
+                    </div>
                 </div>
-                <div className='flex w-3/4 flex-1 flex-col overflow-x-auto border-l border-gray-200'>
-                    <BookshelvesTemplate />
-                </div>
-            </div>
+            </main>
+
         </>
     );
 }

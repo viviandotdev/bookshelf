@@ -84,7 +84,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ }) => {
                 <nav className='flex flex-1 flex-col gap-2 overflow-auto scrollbar-thin scrollbar-track-beige-50 scrollbar-thumb-beige-700'>
                     <ShelfContainer
                         shelves={library}
-                        collapsible={true}
                         title='My Library '
                         counts={{
                             'All Books': allCountsData?.countUserBooks || 0,
@@ -94,7 +93,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ }) => {
                     <ShelfContainer
                         shelves={shelves}
                         isShelves={true}
-                        collapsible={true}
                         title='Shelves '
                     />
                 </nav>

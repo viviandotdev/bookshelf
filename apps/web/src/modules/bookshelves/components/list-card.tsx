@@ -23,12 +23,11 @@ interface ListCardProps {
 }
 
 const statusColorMap: Record<string, string> = {
-    'Reading': 'bg-blue-100 text-blue-700 border-blue-200',
-    'Completed': 'bg-green-100 text-green-700 border-green-200',
-    'Want to Read': 'bg-yellow-100 text-yellow-700 border-yellow-200',
-    'Paused': 'bg-gray-100 text-gray-700 border-gray-200',
-    'Dropped': 'bg-red-100 text-red-700 border-red-200',
-    // Add more as needed
+    'Reading': 'bg-orange-100 text-orange-700 border-orange-200',
+    'Finished': 'bg-green-100 text-green-700 border-green-200',
+    'Want to Read': 'bg-red-100 text-red-700 border-red-200',
+    'Up Next': 'bg-yellow-100 text-yellow-700 border-yellow-200',
+    'Did Not Finish': 'bg-gray-100 text-gray-700 border-gray-200',
 };
 
 export const ListCard: React.FC<ListCardProps> = ({

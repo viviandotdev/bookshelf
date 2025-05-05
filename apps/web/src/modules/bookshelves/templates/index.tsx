@@ -1,11 +1,10 @@
 'use client';
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useCallback } from 'react';
 import ListView from '../components/list-view';
 import ShelfMenu from '../components/shelf-menu';
 import { SortingOptions } from '../components/sorting-options';
 import StatusMenu from '../components/status-menu';
 import { GalleryView } from '../components/gallery-view';
-import { ShelfTitle } from '../components/shelf-title';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -16,10 +15,10 @@ import useShelfStore from '@/stores/use-shelf-store';
 import SearchBar from '../components/search-bar';
 import KanbanTemplate from '../components/kanban-template';
 import useCreateShelfModal from '@/modules/shelf/hooks/use-create-shelf-modal';
+import { dm_sefif_display } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
 
 interface BookshelvesTemplateProps { }
-
-
 
 export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     const [view, setView] = React.useState<string>('list');
@@ -72,14 +71,11 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     return (
         <>
             <div
-                className='w-full overflow-y-auto pt-3.5'
+                className='w-full overflow-y-auto pt-3.5 scrollbar-thin scrollbar-track-beige-50 scrollbar-thumb-white'
                 style={{ height: 'calc(100vh - 64px)' }}
             >
-                <nav className='mx-16 flex flex-col justify-between gap-2 rounded-lg pb-2 '>
-                    <div className='flex justify-between py-4'>
-                        <div className='flex gap-1'>
-                            <ShelfTitle />
-                        </div>
+                <nav className='mx-8 flex flex-col justify-between gap-2 rounded-lg pb-2 '>
+                    <div className='flex justify-between py-2'>
                     </div>
                     <div className="w-full text-sm">
                         <div className="flex flex-col gap-2 w-full xl:gap-x-4">
@@ -133,7 +129,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                         </div>
                     </div>
                 </nav>
-                <div className='mx-16 mt-4 overflow-x-auto'>
+                <div className='mx-8 mt-4 overflow-x-auto'>
                     <Suspense fallback={<div>Loading...</div>}>{contentView}</Suspense>
                 </div>
             </div>
