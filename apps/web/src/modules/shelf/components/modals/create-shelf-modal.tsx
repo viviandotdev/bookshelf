@@ -22,9 +22,7 @@ import { useDeleteShelf } from '../../mutations/use-delete-shelf';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Shelf } from '@/graphql/graphql';
 import {
-    usePathname,
     useRouter,
-    useSearchParams,
 } from 'next/navigation';
 import AlertModal from '@/components/modals/alert-modal';
 
@@ -35,8 +33,6 @@ const formSchema = z.object({
 export const CreateShelfModal = () => {
     const shelfModal = useCreateShelfModal();
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
     const { selected, addShelf, renameShelf, updateSelected, removeShelf } = useShelfStore();
     const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
 
@@ -51,25 +47,6 @@ export const CreateShelfModal = () => {
         onSuccess: (shelf: Shelf) => {
             renameShelf({ slug: shelfModal.shelf!.slug!, name: shelf.name });
             if (shelfModal.shelf?.name === selected?.name) {
-                const shelfParam = searchParams?.get('shelf') || '';
-                if (shelfParam) {
-                    const newSearchParams = new URLSearchParams(searchParams?.toString());
-
-                    for (const [key, value] of Object.entries({
-                        shelf: shelf.name,
-                        page: Number(searchParams?.get('page')) || 1,
-                        status: searchParams?.get('status') || 'All Status',
-                    })) {
-                        if (value === null) {
-                            newSearchParams.delete(key);
-                        } else {
-                            newSearchParams.set(key, String(value));
-                        }
-                    }
-
-                    const res = newSearchParams.toString();
-                    router.replace(`${pathname}?${res}`);
-                }
                 updateSelected(shelf.name);
             }
             shelfModal.onClose();
@@ -87,7 +64,7 @@ export const CreateShelfModal = () => {
 
     useEffect(() => {
         form.reset({
-            name: shelfModal.isEdit ? shelfModal.shelf!.name : '',
+            name: shelfModal.isEdit ? selected?.name : '',
         });
     }, [shelfModal.isOpen]);
 
@@ -95,7 +72,7 @@ export const CreateShelfModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues: useMemo(() => {
             return {
-                name: shelfModal.isEdit ? shelfModal.shelf!.name : '',
+                name: shelfModal.isEdit ? selected?.name : '',
             };
         }, [shelfModal.isOpen]),
     });
