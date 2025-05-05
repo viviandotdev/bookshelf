@@ -68,6 +68,29 @@ export const ListCard: React.FC<ListCardProps> = ({
                             ${statusColorMap[readingStatuses[status as Reading_Status]?.name] || 'bg-beige-100 text-beige-700 border-beige-200'}`}>
                             {readingStatuses[status as Reading_Status].name}
                         </div>
+                        <BookActions
+                            userBookId={userBook.id}
+                            book={book!}
+                            showRemoveBook={true}
+                            openDropdown={openDropdown}
+                            setOpenDropdown={setOpenDropdown}
+                            status={status as Reading_Status}
+                            setStatus={setStatus}
+                            setRating={setRating}
+                            rating={rating}
+                            side={'bottom'}
+                            trigger={
+                                <Button
+                                    variant={'card'}
+                                    size={'xs'}
+                                    className={cn('rounded-md px-2')}
+                                >
+                                    <a className=''>
+                                        <Icons.more className='h-4 w-4 rotate-90 cursor-pointer fill-current stroke-gray-500 stroke-1' />
+                                    </a>
+                                </Button>
+                            }
+                        />
                     </div>
 
                     <div className='flex flex-col mt-2 gap-2'>

@@ -13,15 +13,12 @@ import ToggleButton from '../components/toggle-button';
 import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
 import SearchBar from '../components/search-bar';
-import KanbanTemplate from '../components/kanban-template';
 import useCreateShelfModal from '@/modules/shelf/hooks/use-create-shelf-modal';
-import { dm_sefif_display } from '@/lib/fonts';
-import { cn } from '@/lib/utils';
+
 
 interface BookshelvesTemplateProps { }
 
 export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
-    const [view, setView] = React.useState<string>('list');
     const shelfModal = useCreateShelfModal();
     const searchParams = useSearchParams();
     const editShelf = async () => {
@@ -44,10 +41,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
         searchParams?.get('owned') ||
         searchParams?.get('favorites');
 
-    const updateView = (newView: string) => {
-        setView(newView);
-        localStorage.setItem('defaultView', newView);
-    };
+
 
     useEffect(() => {
         const shelf = searchParams?.get('shelf');
@@ -59,15 +53,6 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     }, [searchParams]);
 
     const updateSelected = useShelfStore((state) => state.updateSelected);
-
-    if (view === 'gallery') {
-        contentView = <GalleryView />;
-    } else if (view === 'list') {
-        contentView = <ListView />;
-    } else if (view === 'board') {
-        return <KanbanTemplate view={view} setView={setView} />;
-    }
-
     return (
         <>
             <div
@@ -89,10 +74,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                     <StatusMenu />
                                     <ToggleButton type={'owned'} />
                                     <ToggleButton type={'favorites'} />
-
-                                    {view !== 'board' && (
-                                        <SortingOptions selections={sortingSelects} />
-                                    )}
+                                    <SortingOptions selections={sortingSelects} />
                                 </div>
 
                                 {searchParams?.get('shelf') !== "All Books" && searchParams?.get('shelf') !== "Unshelved" && (
@@ -119,10 +101,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                     <StatusMenu />
                                     <ToggleButton type={'owned'} />
                                     <ToggleButton type={'favorites'} />
-
-                                    {view !== 'board' && (
-                                        <SortingOptions selections={sortingSelects} />
-                                    )}
+                                    <SortingOptions selections={sortingSelects} />
                                 </div>
 
                             </div>
@@ -130,7 +109,9 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                     </div>
                 </nav>
                 <div className='mx-8 mt-4 overflow-x-auto'>
-                    <Suspense fallback={<div>Loading...</div>}>{contentView}</Suspense>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <ListView />
+                    </Suspense>
                 </div>
             </div>
         </>
