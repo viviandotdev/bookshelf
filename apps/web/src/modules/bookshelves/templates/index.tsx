@@ -91,8 +91,8 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                 <div className="hidden xl:flex gap-2">
                                     <ShelfMenu />
                                     <StatusMenu />
-                                    {/* <ToggleButton type={'owned'} /> */}
-                                    {/* <ToggleButton type={'favorites'} /> */}
+                                    <ToggleButton type={'owned'} />
+                                    <ToggleButton type={'favorites'} />
 
                                     {view !== 'board' && (
                                         <SortingOptions selections={sortingSelects} />
@@ -121,8 +121,8 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                 <div className="flex flex-wrap gap-2 w-full">
                                     <ShelfMenu />
                                     <StatusMenu />
-                                    {/* <ToggleButton type={'owned'} /> */}
-                                    {/* <ToggleButton type={'favorites'} /> */}
+                                    <ToggleButton type={'owned'} />
+                                    <ToggleButton type={'favorites'} />
 
                                     {view !== 'board' && (
                                         <SortingOptions selections={sortingSelects} />
