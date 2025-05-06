@@ -1,5 +1,5 @@
 import React, { useMemo, useReducer } from 'react';
-import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import UploadFile from '../../upload-file';
 import Step2 from './step-2';
 
