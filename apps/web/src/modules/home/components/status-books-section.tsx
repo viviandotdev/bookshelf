@@ -36,7 +36,7 @@ const StatusBooksSection: React.FC<StatusBooksSectionProps> = ({
                 <div className={cn('flex flex-col gap-4')}>
                     {upNext.length > 0 &&
                         upNext.map((book, idx) => (
-                            <div className='bg-white-100/80 rounded-lg border px-4 shadow-sm'>
+                            <div key={idx} className='bg-white-100/80 rounded-lg border px-4 shadow-sm'>
                                 <StatusBookItem key={idx} userBook={book} />
                             </div>
                         ))}

@@ -14,8 +14,9 @@ interface ProfilePageProps {
 export default async function ProfilePage({ params }: ProfilePageProps) {
     const currentUser = await getCurrentUser();
 
+    const { user } = await params;
     const { shelves } = await getShelvesWithBookCovers();
-    const profileUser = await getUser({ username: params.user });
+    const profileUser = await getUser({ username: user });
 
     if (!profileUser || !profileUser.username) {
         return notFound();

@@ -13,7 +13,7 @@ export const MyShelves: React.FC<MyShelvesProps> = ({ shelves, username }) => {
     return (
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
             {shelves.map((shelf, index) => (
-                <Link href={`/${username}/shelf/${shelf.slug}`}>
+                <Link key={`${shelf.slug}-${index}`} href={`/${username}/shelf/${shelf.slug}`}>
                     <Card
                         key={index}
                         className='flex max-h-44 flex-col justify-between rounded-lg bg-white px-4 pt-3 transition-all duration-300 hover:border hover:border-beige-700 hover:shadow-lg'
