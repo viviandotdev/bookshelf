@@ -14,7 +14,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
 }) => (
   <div
     className={cn(
-      'flex cursor-pointer items-center justify-center rounded-3xl border border-gray-200 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100',
+      'flex cursor-pointer items-center justify-center rounded-3xl border border-gray-200 shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100',
       className
     )}
     onClick={onClick}

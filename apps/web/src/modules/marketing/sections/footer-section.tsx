@@ -31,7 +31,7 @@ const FooterSection: React.FC<FooterSectionProps> = () => {
 
           <Link
             href={'/register'}
-            className='rounded-lg bg-beige-700 px-12 py-4 text-base font-medium text-white shadow'
+            className='rounded-lg bg-beige-700 px-12 py-4 text-base font-medium text-white shadow-sm'
           >
             Create a free account
           </Link>

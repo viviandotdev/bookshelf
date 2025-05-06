@@ -106,7 +106,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                         </IconButton>
                         <input
                             type='text'
-                            className='h-14 w-64 rounded-lg border border-gray-200 px-5 py-4 text-center text-lg text-neutral-900 shadow-sm'
+                            className='h-14 w-64 rounded-lg border border-gray-200 px-5 py-4 text-center text-lg text-neutral-900 shadow-xs'
                             value={progress}
                             onChange={handleInputChange}
                         />

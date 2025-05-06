@@ -134,7 +134,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
           <Input
             {...field}
             disabled={isPending}
-            className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+            className='rounded-md border border-gray-100 bg-transparent bg-white px-3 py-2 text-sm shadow-xs placeholder:text-gray-400 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
           />
         </FormControl>
       );

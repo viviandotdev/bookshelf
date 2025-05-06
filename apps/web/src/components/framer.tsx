@@ -25,7 +25,7 @@ export const Tabs = ({
     const [hoveredTab, setHoveredTab] = useState<number | null>(null);
     return (
         <motion.nav
-            className='relative z-0 flex flex-shrink-0 items-center justify-start border-b py-2'
+            className='relative z-0 flex shrink-0 items-center justify-start border-b py-2'
             onHoverEnd={() => setHoveredTab(null)}
         >
             <LayoutGroup id='tabs'>

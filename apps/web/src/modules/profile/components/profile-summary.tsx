@@ -57,7 +57,7 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
                 <Button
                   onClick={() => linkRef.current?.click()}
                   variant={'pill'}
-                  className='h-8 rounded-full border border-beige-100 font-normal transition-all duration-300 hover:border-beige-700 hover:shadow-sm'
+                  className='h-8 rounded-full border border-beige-100 font-normal transition-all duration-300 hover:border-beige-700 hover:shadow-xs'
                 >
                   Edit Profile
                 </Button>

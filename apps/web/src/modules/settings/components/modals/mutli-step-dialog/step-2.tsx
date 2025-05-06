@@ -71,7 +71,7 @@ export const Step2: React.FC<Step2Props> = ({
                         Shelf for my <span className='font-bold'>owned</span> books
                     </label>
                     <select
-                        className='w-full appearance-none rounded-lg border border-neutral-300 bg-white px-4 py-2 pr-8 text-sm font-normal text-neutral-900 focus:outline-none'
+                        className='w-full appearance-none rounded-lg border border-neutral-300 bg-white px-4 py-2 pr-8 text-sm font-normal text-neutral-900 focus:outline-hidden'
                         value={ownedShelf}
                         onChange={handleOwnedShelfChange}
                     >
@@ -89,7 +89,7 @@ export const Step2: React.FC<Step2Props> = ({
                         Shelf for my <span className='font-bold'>favorites</span> books
                     </label>
                     <select
-                        className='w-full appearance-none rounded-lg border border-neutral-300 bg-white px-4 py-2 pr-8 text-sm font-normal text-neutral-900 focus:outline-none'
+                        className='w-full appearance-none rounded-lg border border-neutral-300 bg-white px-4 py-2 pr-8 text-sm font-normal text-neutral-900 focus:outline-hidden'
                         value={favoritesShelf}
                         onChange={handleFavoritesShelfChange}
                     >
@@ -109,7 +109,7 @@ export const Step2: React.FC<Step2Props> = ({
             </p>
             <motion.div layout className='mt-8 flex justify-between'>
                 <button
-                    className='cursor-pointer rounded-lg border border-gray-200 p-2 px-3 text-sm font-medium text-gray-600 shadow-sm disabled:opacity-50'
+                    className='cursor-pointer rounded-lg border border-gray-200 p-2 px-3 text-sm font-medium text-gray-600 shadow-xs disabled:opacity-50'
                     onClick={() => {
                         setDirection(-1);
                         setCurrentStep((prev) => prev - 1);
@@ -118,7 +118,7 @@ export const Step2: React.FC<Step2Props> = ({
                     Back
                 </button>
                 <button
-                    className='cursor-pointer rounded-lg bg-beige-700 p-2 px-3 text-sm font-medium text-white shadow-sm disabled:opacity-50'
+                    className='cursor-pointer rounded-lg bg-beige-700 p-2 px-3 text-sm font-medium text-white shadow-xs disabled:opacity-50'
                     onClick={handleImportLibrary}
                 >
                     {'Import Books'}

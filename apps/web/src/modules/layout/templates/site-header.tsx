@@ -12,7 +12,7 @@ const SiteHeader = ({ user, children }: SiteHeaderProps) => {
       <div className='mx-0 bg-white'>
         <MainHeader user={user}>{children}</MainHeader>
       </div>
-      <hr className='border-t border-gray-200 shadow-sm' />
+      <hr className='border-t border-gray-200 shadow-xs' />
     </header>
   );
 };

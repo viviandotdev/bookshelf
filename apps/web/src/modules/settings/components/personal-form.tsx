@@ -87,7 +87,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
 
         <div className='mx-auto'>
           <div className='mb-8 rounded-lg bg-beige-50'>
-            <div className='mb-6 flex items-center justify-between rounded-md border border-gray-100 bg-white px-4 py-3 shadow-sm'>
+            <div className='mb-6 flex items-center justify-between rounded-md border border-gray-100 bg-white px-4 py-3 shadow-xs'>
               <div className='flex items-center'>
                 <Avatar className='h-16 w-16'>
                   <AvatarImage
@@ -109,7 +109,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
               {/* <ChangeAvatarModal /> */}
             </div>
 
-            <div className=' rounded-md border border-gray-50 bg-white px-4 py-3 shadow-sm '>
+            <div className=' rounded-md border border-gray-50 bg-white px-4 py-3 shadow-xs '>
               <CollapsibleForm
                 label='Name'
                 value={personalInfo.name || ''}

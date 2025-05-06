@@ -23,7 +23,7 @@ export const ProfileNav: React.FC<ProfileNavProps> = ({ currentUser }) => {
   ];
   return (
     <Tabs>
-      <div className='mt-4 flex min-w-[1024px] justify-center space-x-1 rounded-xl border border-gray-200 bg-white px-12 py-3 shadow-sm'>
+      <div className='mt-4 flex min-w-[1024px] justify-center space-x-1 rounded-xl border border-gray-200 bg-white px-12 py-3 shadow-xs'>
         {tabs.map((tab, index) => (
           <NavLink href={tab.href}>{tab.title}</NavLink>
         ))}

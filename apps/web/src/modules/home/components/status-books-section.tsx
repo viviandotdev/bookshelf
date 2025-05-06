@@ -20,7 +20,7 @@ const StatusBooksSection: React.FC<StatusBooksSectionProps> = ({
     status,
 }) => {
     return (
-        <Card className='overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm'>
+        <Card className='overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xs'>
             <CardHeader className='p-4'>
                 <div className='flex items-center justify-between'>
                     <h2 className={cn('font-semibold text-beige-700')}>{title}</h2>
@@ -36,7 +36,7 @@ const StatusBooksSection: React.FC<StatusBooksSectionProps> = ({
                 <div className={cn('flex flex-col gap-4')}>
                     {upNext.length > 0 &&
                         upNext.map((book, idx) => (
-                            <div key={idx} className='bg-white-100/80 rounded-lg border px-4 shadow-sm'>
+                            <div key={idx} className='bg-white-100/80 rounded-lg border px-4 shadow-xs'>
                                 <StatusBookItem key={idx} userBook={book} />
                             </div>
                         ))}

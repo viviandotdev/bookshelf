@@ -1,13 +1,12 @@
 'use client';
-import React, { Suspense, useEffect, useCallback } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import ListView from '../components/list-view';
 import ShelfMenu from '../components/shelf-menu';
 import { SortingOptions } from '../components/sorting-options';
 import StatusMenu from '../components/status-menu';
 import { sortingSelects } from '@/config/books';
 import { Button } from '@/components/ui/button';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import useCreateQueryString from '../hooks/use-create-query-string';
+import { useSearchParams } from 'next/navigation';
 import ToggleButton from '../components/toggle-button';
 import { Icons } from '@/components/icons';
 import useShelfStore from '@/stores/use-shelf-store';
@@ -23,7 +22,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
     const editShelf = async () => {
         if (searchParams?.get('shelf')) {
             const shelfSlug = searchParams?.get('shelf') || '';
-            await shelfModal.onEdit({
+            shelfModal.onEdit({
                 slug: shelfSlug,
                 name: shelfSlug.substring(0, shelfSlug.lastIndexOf('-'))
             });
@@ -69,7 +68,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                     <Button
                                         onClick={editShelf}
                                         size={'sm'}
-                                        className="min-w-[120px] flex-shrink-0 cursor-pointer bg-beige-100 items-center justify-center text-black shadow-sm"
+                                        className="min-w-[120px] shrink-0 cursor-pointer bg-beige-100 items-center justify-center text-black shadow-xs"
                                     >
                                         <span className='sr-only'>Edit Shelf</span>
                                         <div className='flex gap-2'>

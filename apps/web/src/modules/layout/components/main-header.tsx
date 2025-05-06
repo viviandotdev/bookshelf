@@ -68,7 +68,7 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
           {user && <LogBookButton />}
           <Button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className='inline-flex items-center justify-center rounded-md bg-beige-100 p-2 text-beige-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500'
+            className='inline-flex items-center justify-center rounded-md bg-beige-100 p-2 text-beige-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-indigo-500'
           >
             <span className='sr-only'>Open menu</span>
             {showMobileMenu ? (
@@ -80,7 +80,7 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
         </div>
         <div className='hidden nav-lg:relative nav-lg:z-10 nav-lg:mr-4 nav-lg:flex nav-lg:items-center'>
           {user ? (
-            <div className='relative ml-4 mr-4 flex flex-shrink-0 gap-4'>
+            <div className='relative ml-4 mr-4 flex shrink-0 gap-4'>
               <LogBookButton />
               <UserAccountNav
                 user={{

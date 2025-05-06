@@ -89,7 +89,7 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
                                     onClick={() => {
                                         shelfModal.onOpen();
                                     }}
-                                    className={`my-3 mr-4 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-black shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}
+                                    className={`my-3 mr-4 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-black shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}
                                 >
                                     <span className='sr-only'>Edit Shelf</span>
                                     <div className='flex gap-2'>

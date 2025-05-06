@@ -58,7 +58,7 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
                         {tag}
 
                         <span
-                            className='ml-2 cursor-pointer focus:outline-none'
+                            className='ml-2 cursor-pointer focus:outline-hidden'
                             onClick={(e) => deleteShelf(tag)}
                         >
                             &#x2716;{' '}
@@ -67,7 +67,7 @@ export const ShelfInput: React.FC<ShelfInputProps> = ({
                 ))}
                 <li className='flex-1'>
                     <Input
-                        className='w-full border-none bg-white px-2 py-1 focus:outline-none'
+                        className='w-full border-none bg-white px-2 py-1 focus:outline-hidden'
                         onKeyDown={handleKeyPress}
                         disabled={false}
                         ref={input.ref}

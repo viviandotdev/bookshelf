@@ -60,7 +60,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
                         >
                             <Button
                                 variant='pill'
-                                className='h-10 rounded-full text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
+                                className='h-10 rounded-full text-base font-normal shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
                             >
                                 {shelf.name}
                             </Button>
@@ -95,7 +95,7 @@ const AddToShelfButton: React.FC<AddToShelfButtonProps> = ({
                                     handleAddToShelf();
                                 }}
                                 variant='pill'
-                                className='h-10 rounded-full text-base font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
+                                className='h-10 rounded-full text-base font-normal shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
                             >
                                 {buttonText}
                             </Button>

@@ -21,7 +21,7 @@ const Hit: React.FC<HitProps> = ({ hit }) => {
             className='flex w-full cursor-pointer flex-col'
         >
             <div className='border-grey-200 flex cursor-pointer flex-row gap-4 rounded-md border bg-white p-3 transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:shadow-md sm:p-4'>
-                <div className='w-16 flex-shrink-0 overflow-hidden rounded-md shadow-sm sm:w-20'>
+                <div className='w-16 shrink-0 overflow-hidden rounded-md shadow-xs sm:w-20'>
                     <Image
                         className='max-h-[96px] w-full rounded object-cover sm:max-h-[114px]'
                         src={coverUrl || DEFAULT_BOOKCOVER_PLACEHOLDER}

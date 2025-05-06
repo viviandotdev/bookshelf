@@ -56,7 +56,7 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
     const { book } = userBook;
     const router = useRouter();
     return (
-        <div className='flex items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white shadow-sm'>
+        <div className='flex items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white shadow-xs'>
             <div className='flex items-center gap-4 border-gray-100 px-4 py-3'>
                 <div className='flex flex-col items-center'>
                     <div className='flex items-center gap-4'>

@@ -57,7 +57,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
                                 <div className='text-center md:text-start'>
                                     <AddToShelfButton
                                         bookTitle={book.title}
-                                        userBook={userBook}
+                                        targetBook={userBook}
                                     />
                                 </div>
                                 <section className='mx-auto block md:mx-0 md:hidden'>

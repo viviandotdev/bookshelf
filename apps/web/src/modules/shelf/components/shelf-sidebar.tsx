@@ -78,10 +78,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ }) => {
     return (
         <div
             className='mt-5 hidden w-72 gap-10 overflow-y-auto lg:flex'
-        //   style={{ height: 'calc(100vh - 64px)' }}
         >
             <div className='ml-4 flex w-72 flex-col'>
-                <nav className='flex flex-1 flex-col gap-2 overflow-auto scrollbar-thin scrollbar-track-beige-50 scrollbar-thumb-beige-700'>
+                <nav className='flex flex-1 flex-col gap-2 overflow-auto no-scrollbar'>
                     <ShelfContainer
                         shelves={library}
                         title='My Library '

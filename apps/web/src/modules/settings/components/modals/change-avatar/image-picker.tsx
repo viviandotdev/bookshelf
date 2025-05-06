@@ -100,7 +100,7 @@ export const ImagePicker = ({ id, onChange, value }: ImagePickerProps) => {
           <div
             key={image.id}
             className={cn(
-              'relative h-20 w-20 transform cursor-pointer overflow-hidden rounded-lg border-gray-100 bg-white shadow-sm'
+              'relative h-20 w-20 transform cursor-pointer overflow-hidden rounded-lg border-gray-100 bg-white shadow-xs'
             )}
             onClick={() => handleImageSelect(image.id)}
           >
@@ -115,7 +115,7 @@ export const ImagePicker = ({ id, onChange, value }: ImagePickerProps) => {
             />
             <div
               className={cn(
-                'flex h-20 w-20 transform items-center justify-center rounded-lg border-[1px] border-gray-100 bg-white shadow-sm',
+                'flex h-20 w-20 transform items-center justify-center rounded-lg border-[1px] border-gray-100 bg-white shadow-xs',
                 selectedImageId === image.id
                   ? 'border-[4px] border-beige-100 bg-white'
                   : 'border-gray-100 bg-white '
@@ -145,7 +145,7 @@ export const ImagePicker = ({ id, onChange, value }: ImagePickerProps) => {
           </div>
         ))}
       </div>
-      <div className='relative h-36 w-36 flex-shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md'>
+      <div className='relative h-36 w-36 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md'>
         {selectedImage && (
           <div className='flex h-36 w-36 cursor-pointer items-center justify-center rounded-md'>
             <div

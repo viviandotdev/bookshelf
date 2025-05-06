@@ -18,7 +18,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
     const { setUserBook } = useUserBookStore();
     return (
         <div
-            className='flex w-full cursor-pointer items-start gap-4 rounded-lg border-2 border-gray-100 bg-white/90 p-3 shadow-sm transition-all duration-300 ease-in-out hover:border-beige-500/50 hover:shadow-md hover:translate-y-[-2px] hover:scale-[1.01]'
+            className='flex w-full cursor-pointer items-start gap-4 rounded-lg border-2 border-gray-100 bg-white/90 p-3 shadow-xs transition-all duration-300 ease-in-out hover:border-beige-500/50 hover:shadow-md hover:translate-y-[-2px] hover:scale-[1.01]'
             onClick={(e) => {
                 e.stopPropagation();
                 logBookModal.onClose();
@@ -29,7 +29,7 @@ export const LogBookCard: React.FC<LogBookCardProps> = ({ userBook }) => {
                 });
             }}
         >
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
                 <BookCover size={'xs'} src={getCoverUrl(userBook.book, Size.Small)} />
             </div>
             <div className='flex flex-col justify-center overflow-hidden'>

@@ -1,6 +1,146 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+
+/*
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+} */
+
+
+@theme {
+    --grid-template-columns-16: repeat(16, minmax(0, 1fr));
+
+    --breakpoint-2xl: 1400px;
+    --breakpoint-3xl: 1656px;
+    --breakpoint-nav-lg: 1166px;
+
+    --container-44: 11rem;
+    --container-48: 12rem;
+    --container-52: 13rem;
+    --container-56: 14rem;
+    --container-72: 18rem;
+    --container-76: 19rem;
+    --container-80: 20rem;
+    --container-92: 23rem;
+
+    --min-width-20: 5rem;
+    --min-width-24: 6rem;
+    --min-width-28: 7rem;
+    --min-width-32: 8rem;
+    --min-width-36: 9rem;
+    --min-width-40: 10rem;
+    --min-width-44: 11rem;
+    --min-width-48: 12rem;
+    --min-width-52: 13rem;
+    --min-width-56: 14rem;
+    --min-width-60: 15rem;
+    --min-width-64: 16rem;
+    --min-width-72: 18rem;
+    --min-width-92: 23rem;
+    --min-width-96: 24rem;
+    --min-width-100: 28rem;
+
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+    --color-background: #ffffff;
+
+    --color-beige-50: #fdfcfb;
+    --color-beige-100: #f7f2ee;
+    --color-beige-200: #f3ece8;
+    --color-beige-300: #eee4de;
+    --color-beige-400: #eaded7;
+    --color-beige-500: #a49b97;
+    --color-beige-600: #6c5c50;
+    --color-beige-700: #4e3b2c;
+    --color-beige-800: #30241b;
+    --color-beige-900: #221a22;
+    --color-beige: #4e3b2c;
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --animate-fade-in: fade-in 2000ms var(--animation-delay, 0ms) ease forwards;
+    --animate-accordion-down: accordion-down 0.2s ease-out;
+    --animate-accordion-up: accordion-up 0.2s ease-out;
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes accordion-down {
+        from {
+            height: 0;
+        }
+
+        to {
+            height: var(--radix-accordion-content-height);
+        }
+    }
+
+    @keyframes accordion-up {
+        from {
+            height: var(--radix-accordion-content-height);
+        }
+
+        to {
+            height: 0;
+        }
+    }
+}
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 2rem;
+}
+
+@utility no-scrollbar {
+    @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
+}
+
+@utility underline-distance {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    /* Adjust this value as needed */
+}
 
 @layer base {
     :root {
@@ -8,14 +148,6 @@
         --foreground: 27 28% 24%;
         --ring: 27 39% 95%;
         --radius: 0.5rem;
-    }
-}
-
-@layer utilities {
-    .underline-distance {
-        text-decoration: underline;
-        text-underline-offset: 0.2em;
-        /* Adjust this value as needed */
     }
 }
 

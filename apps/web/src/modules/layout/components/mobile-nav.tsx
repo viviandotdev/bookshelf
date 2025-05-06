@@ -36,7 +36,7 @@ export function MobileNav({ user }: MobileNavProps) {
       {user ? (
         <div className='border-t border-gray-200 pb-3 pt-4'>
           <div className='flex items-center px-4'>
-            <div className='flex-shrink-0'>
+            <div className='shrink-0'>
               <UserAvatar
                 username={session?.user.username || user.username}
                 src={session?.user.avatarImage || user.avatarImage}

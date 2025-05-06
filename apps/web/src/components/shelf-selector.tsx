@@ -109,7 +109,7 @@ export function ShelfSelector({
                 <Badge key={option.value} className='border-gray-100'>
                   {option.label}
                   <button
-                    className={cn('ml-1 rounded-full outline-none')}
+                    className={cn('ml-1 rounded-full outline-hidden')}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         toggleOption(option);
@@ -128,7 +128,7 @@ export function ShelfSelector({
             })}
             <CommandPrimitive.Input
               ref={inputRef}
-              className='placeholder:text-muted-foreground ml-2 flex-1 bg-transparent outline-none'
+              className='placeholder:text-muted-foreground ml-2 flex-1 bg-transparent outline-hidden'
               placeholder='Search shelves...'
               value={inputValue}
               onValueChange={setInputValue}

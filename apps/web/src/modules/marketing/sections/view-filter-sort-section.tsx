@@ -43,7 +43,7 @@ const ViewFilterSortSection: React.FC = () => {
           {/* {tabs.map((tab) => (
             <div
               key={tab.name}
-              className={`items -center flex cursor-pointer justify-center rounded-md shadow-sm`}
+              className={`items -center flex cursor-pointer justify-center rounded-md shadow-xs`}
               onClick={() => setSelectedTab(tab)}
             >
               <div

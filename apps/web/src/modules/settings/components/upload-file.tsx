@@ -139,7 +139,7 @@ export default function UploadFile({
             </div>
             <motion.div layout className='mt-8 flex justify-between'>
                 <button
-                    className='cursor-pointer rounded-lg border border-gray-200 p-2 px-3 text-sm font-medium text-gray-600 shadow-sm disabled:opacity-50'
+                    className='cursor-pointer rounded-lg border border-gray-200 p-2 px-3 text-sm font-medium text-gray-600 shadow-xs disabled:opacity-50'
                     disabled={true}
                 >
                     Back

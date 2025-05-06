@@ -60,7 +60,7 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
         if (status === 'true') {
             return 'bg-beige-100 text-beige-700 font-normal hover:line-through';
         } else {
-            return 'hover:bg-white border bg-white font-normal border-gray-200 text-gray-900 shadow-sm hover:bg-beige-50';
+            return 'hover:bg-white border bg-white font-normal border-gray-200 text-gray-900 shadow-xs hover:bg-beige-50';
         }
     };
 

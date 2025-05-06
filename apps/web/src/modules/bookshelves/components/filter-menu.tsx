@@ -29,7 +29,7 @@ const FilterMenu: React.FC<FilterMenuProps> = ({
                 <Button
                     size='sm'
                     className={cn(
-                        'hover:bg-white border shadow-sm bg-white text-gray-900 font-normal',
+                        'hover:bg-white border shadow-xs bg-white text-gray-900 font-normal',
                     )}
                 >
                     {selectedValue}

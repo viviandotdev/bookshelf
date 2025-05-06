@@ -75,7 +75,7 @@ const SearchBar = () => {
                     name='search'
                     value={value}
                     placeholder={'Enter search...'}
-                    className='h-8 w-full rounded-xl border border-gray-300 bg-white pl-10 pr-4 text-sm focus:outline-none'
+                    className='h-8 w-full rounded-xl border border-gray-300 bg-white pl-10 pr-4 text-sm focus:outline-hidden'
                     onChange={(event) => searchHandler(event)}
                     onKeyDown={handleKeyDown}
                     autoComplete='off'

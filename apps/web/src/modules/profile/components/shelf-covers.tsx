@@ -26,7 +26,7 @@ const BookCover: React.FC<BookCoverProps> = ({
             }}
         >
             <img
-                className='h-full w-full rounded-sm shadow'
+                className='h-full w-full rounded-sm shadow-sm'
                 src={src}
                 alt='Book Cover'
             />

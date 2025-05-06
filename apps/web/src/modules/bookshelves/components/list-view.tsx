@@ -52,10 +52,11 @@ export const ListView: React.FC<ListViewProps> = ({ }) => {
                 <div>Loading...</div>
             ) : (
                 <div className='grid 2xl:grid-cols-2 gap-4'>
-                    {books?.map((book: UserBook, idx: React.Key) => (
-                        <div key={idx}>
+                    {books?.map((userBook, idx) => (
+                        <div key={userBook.id}>
                             <ListCard
-                                userBook={book}
+                                key={userBook.id}
+                                userBook={userBook}
                             />
                         </div>
                     ))}

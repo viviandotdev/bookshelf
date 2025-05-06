@@ -114,7 +114,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
                         <Button
                             onClick={handleExistingUserBookClick}
                             variant='secondary'
-                            className='w-[160px] gap-2 rounded-lg font-normal shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
+                            className='w-[160px] gap-2 rounded-lg font-normal shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border hover:border-beige-700 hover:bg-beige-100'
                         >
                             <Icons.save className='h-5 w-5' />
                             <div>{readingStatuses[status as Reading_Status]?.name}</div>
@@ -139,8 +139,8 @@ export const StatusButton: React.FC<StatusButtonProps> = ({
                     variant='outline'
                     className='gap-2 rounded-lg font-normal'
                 >
-                    <Icons.save className='h-5 w-5' />
-                    <div>{readingStatuses[Reading_Status.WantToRead].name}</div>
+                    <Icons.plus className='h-5 w-5' />
+                    <div>{'Add to library'}</div>
                 </Button>
             )}
         </>

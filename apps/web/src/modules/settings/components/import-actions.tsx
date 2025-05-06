@@ -14,7 +14,7 @@ interface StepProps {
 }
 
 const ImportStep: React.FC<StepProps> = ({ title, description, children }) => (
-  <div className='flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm'>
+  <div className='flex cursor-pointer justify-between rounded-md border border-gray-100 bg-white px-4 py-3 text-sm shadow-xs'>
     <div>
       <h1 className='text-base font-semibold'>{title}</h1>
       <p className='py-1 text-xs text-gray-500'>{description}</p>

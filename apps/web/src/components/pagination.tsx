@@ -60,7 +60,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
                 containerClassName='flex items-center justify-center gap-2'
                 pageClassName='cursor-pointer block hover:bg-beige-100 w-8 h-8 flex items-center justify-center rounded'
                 pageLinkClassName='w-full h-full flex items-center justify-center'
-                activeClassName='!bg-beige-700 text-white hover:!bg-beige-700'
+                activeClassName='bg-beige-700! text-white hover:bg-beige-700!'
                 previousClassName='cursor-pointer hover:bg-beige-100 rounded'
                 nextClassName='cursor-pointer hover:bg-beige-100 rounded'
                 disabledClassName='opacity-50 cursor-not-allowed hover:bg-transparent'

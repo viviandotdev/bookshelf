@@ -42,10 +42,10 @@ export const ListCard: React.FC<ListCardProps> = ({
     return (
 
         <div
-            className='flex items-start justify-between rounded-lg border border-gray-200 bg-white/90 p-4 shadow-sm'
+            className='flex items-start justify-between rounded-lg border border-gray-200 bg-white/90 p-4 shadow-xs'
         >
             <div className='flex flex-1 items-start space-x-4'>
-                <div className='flex-shrink-0'>
+                <div className='shrink-0'>
                     <BookCover src={getCoverUrl(book, Size.Small)} size={'sm'} />
                 </div>
                 <div className='flex w-full flex-col overflow-hidden'>
