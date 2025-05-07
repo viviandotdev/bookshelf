@@ -1,10 +1,10 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Pagination } from '@/components/pagination';
 import useBuildQuery from '@/modules/bookshelves/hooks/use-build-query';
 import {
-    useCountUserBooksLazyQuery,
+    useCountUserBooksQuery,
     UserBook,
 } from '@/graphql/graphql';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
@@ -15,55 +15,77 @@ import ListCard from './list-card';
 
 interface ListViewProps { }
 
-export const ListView: React.FC<ListViewProps> = ({ }) => {
+export const ListView: React.FC<ListViewProps> = () => {
     const searchParams = useSearchParams();
     const page = searchParams?.get('page') ?? '1';
     const query = useBuildQuery();
-    const [totalPages, setTotalPages] = useState(0);
     const { library } = useShelfStore();
 
-    const [getCount] = useCountUserBooksLazyQuery({
-        onCompleted: (data) => {
-            setTotalPages(Math.ceil(data!.countUserBooks / BOOKS_PAGE_SIZE));
-        },
+    // Memoize the query variables to prevent unnecessary rerenders
+    const queryVariables = useMemo(() => {
+        if (!query || Object.keys(query).length === 0) {
+            return {};
+        }
+        return { ...query };
+    }, [query]);
+
+    // Use regular query for count
+    const { data: countData } = useCountUserBooksQuery({
+        variables: queryVariables,
+        skip: !queryVariables || Object.keys(queryVariables).length === 0,
     });
 
-    const { loadBooks, booksData, networkStatus } = useLoadBooks();
+    // Calculate total pages
+    const totalPages = useMemo(() => {
+        if (!countData?.countUserBooks) return 0;
+        return Math.ceil(countData.countUserBooks / BOOKS_PAGE_SIZE);
+    }, [countData?.countUserBooks]);
 
-    const books = booksData && booksData?.getUserBooks?.userBooks;
+    // Use the optimized loadBooks hook
+    const { booksData, networkStatus } = useLoadBooks({
+        variables: queryVariables,
+        skip: !queryVariables || Object.keys(queryVariables).length === 0,
+    });
+
+    const books = booksData?.getUserBooks?.userBooks;
     const loading = networkStatus === NetworkStatus.loading;
-    useEffect(() => {
-        const loadData = async () => {
-            if (query && Object.keys(query).length > 0) {
-                await loadBooks({ variables: { ...query } });
-                await getCount({ variables: { ...query } });
-            } else {
-                // Handle the case when query is empty or undefined
-                // For example, you might want to load all books or show an error message
-            }
-        };
 
-        loadData();
-    }, [query, loadBooks, getCount, library]);
+    // Memoize the books grid to prevent unnecessary rerenders
+    const booksGrid = useMemo(() => {
+        if (!books || loading) {
+            return (
+                <div className="flex justify-center items-center h-48">
+                    <div className="animate-pulse">Loading books...</div>
+                </div>
+            );
+        }
+
+        if (books.length === 0) {
+            return (
+                <div className="flex justify-center items-center h-48">
+                    <p className="text-gray-500">No books found</p>
+                </div>
+            );
+        }
+
+        return (
+            <div className='grid 2xl:grid-cols-2 gap-4'>
+                {books.map((userBook) => (
+                    <ListCard
+                        key={userBook.id}
+                        userBook={userBook as UserBook}
+                    />
+                ))}
+            </div>
+        );
+    }, [books, loading]);
 
     return (
-        <>
-            {!books || loading ? (
-                <div>Loading...</div>
-            ) : (
-                <div className='grid 2xl:grid-cols-2 gap-4'>
-                    {books?.map((userBook, idx) => (
-                        <div key={userBook.id}>
-                            <ListCard
-                                key={userBook.id}
-                                userBook={userBook}
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
-            <Pagination page={page} totalPages={totalPages} />
-        </>
+        <div className="space-y-6">
+            {booksGrid}
+            {totalPages > 0 && <Pagination page={page} totalPages={totalPages} />}
+        </div>
     );
 };
+
 export default ListView;

@@ -223,7 +223,7 @@ input AccountWhereInput {
   session_state: StringFilter
   token_type: StringFilter
   type: StringFilter
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userId: StringFilter
 }
 
@@ -243,7 +243,7 @@ input AccountWhereUniqueInput {
   session_state: StringFilter
   token_type: StringFilter
   type: StringFilter
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userId: StringFilter
 }
 
@@ -446,7 +446,7 @@ input BookOrderByWithRelationInput {
   yearPublished: SortOrderInput
 }
 
-input BookRelationFilter {
+input BookScalarRelationFilter {
   is: BookWhereInput
   isNot: BookWhereInput
 }
@@ -500,7 +500,7 @@ input BookWhereInput {
   slug: StringFilter
   subtitle: StringFilter
   title: StringFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   yearPublished: StringFilter
 }
 
@@ -517,7 +517,7 @@ input BookWhereUniqueInput {
   slug: String
   subtitle: StringFilter
   title: StringFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   yearPublished: StringFilter
 }
 
@@ -668,7 +668,7 @@ input CoverWhereInput {
   AND: [CoverWhereInput!]
   NOT: [CoverWhereInput!]
   OR: [CoverWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   id: StringFilter
   size: EnumSIZEFilter
@@ -680,7 +680,7 @@ input CoverWhereUniqueInput {
   AND: [CoverWhereInput!]
   NOT: [CoverWhereInput!]
   OR: [CoverWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   id: String
   size: EnumSIZEFilter
@@ -876,7 +876,7 @@ input IdentifierWhereInput {
   AND: [IdentifierWhereInput!]
   NOT: [IdentifierWhereInput!]
   OR: [IdentifierWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   id: StringFilter
   source: EnumSOURCEFilter
@@ -887,7 +887,7 @@ input IdentifierWhereUniqueInput {
   AND: [IdentifierWhereInput!]
   NOT: [IdentifierWhereInput!]
   OR: [IdentifierWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   id: String
   source: EnumSOURCEFilter
@@ -1188,7 +1188,7 @@ input RatingWhereInput {
   AND: [RatingWhereInput!]
   NOT: [RatingWhereInput!]
   OR: [RatingWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   count: IntFilter
   id: StringFilter
@@ -1201,7 +1201,7 @@ input RatingWhereUniqueInput {
   AND: [RatingWhereInput!]
   NOT: [RatingWhereInput!]
   OR: [RatingWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   count: IntFilter
   id: String
@@ -1287,7 +1287,7 @@ input ReadDateOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
-input ReadDateRelationFilter {
+input ReadDateScalarRelationFilter {
   is: ReadDateWhereInput
   isNot: ReadDateWhereInput
 }
@@ -1355,9 +1355,9 @@ input ReadDateWhereInput {
   active: BoolFilter
   finishedDate: DateTimeFilter
   id: StringFilter
-  readingProgress: ReadingProgressRelationFilter
+  readingProgress: ReadingProgressScalarRelationFilter
   startDate: DateTimeFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   userBookId: StringFilter
 }
 
@@ -1368,9 +1368,9 @@ input ReadDateWhereUniqueInput {
   active: BoolFilter
   finishedDate: DateTimeFilter
   id: String
-  readingProgress: ReadingProgressRelationFilter
+  readingProgress: ReadingProgressScalarRelationFilter
   startDate: DateTimeFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   userBookId: StringFilter
 }
 
@@ -1436,7 +1436,7 @@ type ReadingProgressMinAggregate {
   type: PROGRESS_TYPE
 }
 
-input ReadingProgressRelationFilter {
+input ReadingProgressScalarRelationFilter {
   is: ReadingProgressWhereInput
   isNot: ReadingProgressWhereInput
 }
@@ -1483,7 +1483,7 @@ input ReadingProgressWhereInput {
   createdAt: DateTimeFilter
   id: StringFilter
   progress: IntFilter
-  readDate: ReadDateRelationFilter
+  readDate: ReadDateScalarRelationFilter
   readDateId: StringFilter
   type: EnumPROGRESS_TYPEFilter
 }
@@ -1496,7 +1496,7 @@ input ReadingProgressWhereUniqueInput {
   createdAt: DateTimeFilter
   id: String
   progress: IntFilter
-  readDate: ReadDateRelationFilter
+  readDate: ReadDateScalarRelationFilter
   readDateId: String
   type: EnumPROGRESS_TYPEFilter
 }
@@ -1648,7 +1648,7 @@ input ShelfOrderByRelationAggregateInput {
   _count: SortOrder
 }
 
-input ShelfRelationFilter {
+input ShelfScalarRelationFilter {
   is: ShelfWhereInput
   isNot: ShelfWhereInput
 }
@@ -1753,7 +1753,7 @@ input ShelfWhereInput {
   id: StringFilter
   name: StringFilter
   slug: StringFilter
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userBooks: UserBookShelvesListRelationFilter
   userId: StringFilter
 }
@@ -1767,7 +1767,7 @@ input ShelfWhereUniqueInput {
   identifier: ShelfIdentifierCompoundUniqueInput
   name: StringFilter
   slug: String
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userBooks: UserBookShelvesListRelationFilter
   userId: StringFilter
 }
@@ -2033,7 +2033,7 @@ input UserBookOrderByWithRelationInput {
   userId: SortOrder
 }
 
-input UserBookRelationFilter {
+input UserBookScalarRelationFilter {
   is: UserBookWhereInput
   isNot: UserBookWhereInput
 }
@@ -2229,9 +2229,9 @@ input UserBookShelvesWhereInput {
   AND: [UserBookShelvesWhereInput!]
   NOT: [UserBookShelvesWhereInput!]
   OR: [UserBookShelvesWhereInput!]
-  shelf: ShelfRelationFilter
+  shelf: ShelfScalarRelationFilter
   shelfId: StringFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   userBookId: StringFilter
 }
 
@@ -2239,9 +2239,9 @@ input UserBookShelvesWhereUniqueInput {
   AND: [UserBookShelvesWhereInput!]
   NOT: [UserBookShelvesWhereInput!]
   OR: [UserBookShelvesWhereInput!]
-  shelf: ShelfRelationFilter
+  shelf: ShelfScalarRelationFilter
   shelfId: StringFilter
-  userBook: UserBookRelationFilter
+  userBook: UserBookScalarRelationFilter
   userBookId: StringFilter
   userBookId_shelfId: UserBookShelvesUserBookIdShelfIdCompoundUniqueInput
 }
@@ -2350,7 +2350,7 @@ input UserBookWhereInput {
   AND: [UserBookWhereInput!]
   NOT: [UserBookWhereInput!]
   OR: [UserBookWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: StringFilter
   createdAt: DateTimeFilter
   dateAdded: DateTimeFilter
@@ -2361,7 +2361,7 @@ input UserBookWhereInput {
   shelves: UserBookShelvesListRelationFilter
   status: EnumREADING_STATUSFilter
   updatedAt: DateTimeFilter
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userId: StringFilter
 }
 
@@ -2369,7 +2369,7 @@ input UserBookWhereUniqueInput {
   AND: [UserBookWhereInput!]
   NOT: [UserBookWhereInput!]
   OR: [UserBookWhereInput!]
-  book: BookRelationFilter
+  book: BookScalarRelationFilter
   bookId: String
   createdAt: DateTimeFilter
   dateAdded: DateTimeFilter
@@ -2381,7 +2381,7 @@ input UserBookWhereUniqueInput {
   shelves: UserBookShelvesListRelationFilter
   status: EnumREADING_STATUSFilter
   updatedAt: DateTimeFilter
-  user: UserRelationFilter
+  user: UserScalarRelationFilter
   userId: StringFilter
 }
 
@@ -2589,7 +2589,7 @@ input UserOrderByWithRelationInput {
   username: SortOrderInput
 }
 
-input UserRelationFilter {
+input UserScalarRelationFilter {
   is: UserWhereInput
   isNot: UserWhereInput
 }

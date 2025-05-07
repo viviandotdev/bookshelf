@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Icons } from './icons';
 import {
     DropdownMenu,
@@ -14,8 +14,6 @@ import {
     UserBook,
     useRemoveUserBookMutation,
 } from '../graphql/graphql';
-import useUserBookStore from '@/stores/use-user-book-store';
-import { BookRating } from './book-rating';
 import { readingStatuses } from '@/config/books';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import { cn } from '@/lib/utils';
@@ -23,7 +21,10 @@ import { toast } from '@/hooks/use-toast';
 import AddToShelfHandler from '@/modules/shelf/mutations/add-to-shelf-hadnler';
 import AlertModal from './modals/alert-modal';
 import { ApolloCache } from '@apollo/client';
+import useUserBookStore from '@/stores/use-user-book-store';
+
 interface BookActionsProps {
+    targetBook?: UserBook;
     book: Book | undefined;
     openDropdown: boolean;
     status: Reading_Status;
@@ -38,6 +39,7 @@ interface BookActionsProps {
 
 const BookActions: React.FC<BookActionsProps> = ({
     userBookId,
+    targetBook,
     book,
     status,
     openDropdown,
@@ -48,11 +50,12 @@ const BookActions: React.FC<BookActionsProps> = ({
     side = 'top',
     align = 'start',
 }) => {
-    const [openAlert, setOpenAlert] = useState(false); // Initial value
+    const [openAlert, setOpenAlert] = useState(false);
+
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (data: UserBook) => {
             toast({
-                title: `Book status updated to ${data.status} `,
+                title: `Book status updated to ${data.status}`,
                 variant: 'success',
             });
         },
@@ -60,38 +63,29 @@ const BookActions: React.FC<BookActionsProps> = ({
             toast({ title: error.message, variant: 'destructive' });
         },
     });
-    const onUpdateStatus = async (status: Reading_Status) => {
-        setStatus(status);
-        await updateUserBook(userBookId as string, { status: status });
+
+    const onUpdateStatus = async (newStatus: Reading_Status) => {
+        setStatus(newStatus);
+        await updateUserBook(userBookId as string, { status: newStatus });
     };
 
     const [removeUserBook] = useRemoveUserBookMutation({
-        onCompleted: (_) => {
+        onCompleted: () => {
             toast({
-                title: `Book removed from your shelf`,
+                title: 'Book removed from your shelf',
                 variant: 'success',
             });
         },
-        //https://www.youtube.com/watch?v=lQ7t20gFR14
         update: (cache: ApolloCache<any>, { data }) => {
             if (data?.removeUserBook) {
-                // Evict the deleted book from the cache
-                // Construct the cache ID
                 const cacheId = cache.identify({
                     __typename: 'UserBook',
                     id: userBookId,
                 });
-
-                cache.evict({ id: cacheId });
-
-                // Optionally, update the book count
-                // cache.modify({
-                //   fields: {
-                //     countUserBooks(existingCount = 0) {
-                //       return Math.max(0, existingCount - 1);
-                //     },
-                //   },
-                // });
+                if (cacheId) {
+                    cache.evict({ id: cacheId });
+                    cache.gc();
+                }
             }
         },
         onError: (error) => {
@@ -106,13 +100,16 @@ const BookActions: React.FC<BookActionsProps> = ({
         setOpenAlert(false);
     };
 
+    const {
+        shelves: userBookShelves,
+        setUserBook,
+    } = useUserBookStore();
+
     return (
         <>
             <AlertModal
-                title={'Are you sure you want to remove this book from your shelf?'}
-                description={
-                    'Removing this book will clear associated ratings, reading progress and status'
-                }
+                title="Are you sure you want to remove this book from your shelf?"
+                description="Removing this book will clear associated ratings, reading progress and status"
                 isOpen={openAlert}
                 onClose={() => setOpenAlert(false)}
                 onConfirm={onDelete}
@@ -147,11 +144,13 @@ const BookActions: React.FC<BookActionsProps> = ({
                             return (
                                 <DropdownMenuItem
                                     key={key}
-                                    className={`${status === key && 'bg-beige-400 text-beige'}`}
+                                    className={cn(
+                                        'cursor-pointer',
+                                        status === key && 'bg-beige-400 text-beige'
+                                    )}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onUpdateStatus(key as Reading_Status);
-
                                     }}
                                 >
                                     {item.icon && (
@@ -167,7 +166,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                             );
                         })}
                     </>
-                    <DropdownMenuSeparator></DropdownMenuSeparator>
+                    <DropdownMenuSeparator />
 
                     <AddToShelfHandler
                         userBookId={userBookId as string}
@@ -177,6 +176,14 @@ const BookActions: React.FC<BookActionsProps> = ({
                             <DropdownMenuItem
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    const myShelves = targetBook?.shelves?.filter(
+                                        ({ shelf }) => shelf.name !== 'Owned' && shelf.name !== 'Favorites'
+                                    );
+                                    setUserBook({
+                                        userBookId: targetBook!.id,
+                                        bookTitle: book?.title,
+                                        shelves: myShelves,
+                                    });
                                     handleAddToShelf();
                                 }}
                             >
@@ -185,21 +192,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                             </DropdownMenuItem>
                         )}
                     </AddToShelfHandler>
-                    {/* {status == Reading_Status.Reading && (
-            <DropdownMenuItem
-              onClick={(e) => {
-                e.stopPropagation();
-                setUserBook({
-                  userBookId: userBookId,
-                  status: status,
-                  book: book,
-                });
-              }}
-            >
-              <Icons.plus className='mr-2 h-5 w-5' />
-              Log reading
-            </DropdownMenuItem>
-          )} */}
 
                     {showRemoveBook && (
                         <DropdownMenuItem

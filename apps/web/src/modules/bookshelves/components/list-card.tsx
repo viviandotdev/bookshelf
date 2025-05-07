@@ -63,6 +63,7 @@ export const ListCard: React.FC<ListCardProps> = ({
                             {readingStatuses[status as Reading_Status].name}
                         </div>
                         <BookActions
+                            targetBook={userBook}
                             userBookId={userBook.id}
                             book={book!}
                             showRemoveBook={true}

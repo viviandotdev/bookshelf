@@ -34,18 +34,24 @@ export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
                     id: userBookId,
                 },
             },
+
             update: (cache, { data }) => {
-                cache.writeFragment({
-                    id: `UserBook:${data?.updateUserBook.id}`,
-                    fragment: gql`
-            fragment MyUserBook on UserBook {
-              status
-            }
-          `,
-                    data: {
-                        status: data?.updateUserBook.status,
-                    },
-                });
+                if (data?.updateUserBook) {
+                    // Update the cache for the specific book
+                    const cacheId = cache.identify({
+                        __typename: 'UserBook',
+                        id: userBookId,
+                    });
+
+                    if (cacheId) {
+                        cache.modify({
+                            id: cacheId,
+                            fields: {
+                                status: () => data.updateUserBook.status,
+                            },
+                        });
+                    }
+                }
             },
             ...mutationOptions,
         });

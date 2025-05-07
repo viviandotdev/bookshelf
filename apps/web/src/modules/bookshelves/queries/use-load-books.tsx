@@ -1,34 +1,22 @@
-import { useGetUserBooksLazyQuery } from '@/graphql/graphql';
+import { useGetUserBooksQuery } from '@/graphql/graphql';
+import { QueryHookOptions } from '@apollo/client';
 
-const useLoadBooks = () => {
-  const [loadBooks, { data: booksData, networkStatus }] =
-    useGetUserBooksLazyQuery({
-      fetchPolicy: 'cache-and-network',
-      nextFetchPolicy: 'cache-and-network',
-      notifyOnNetworkStatusChange: true,
-      onError: (error) => {
-        // toast({
-        //   title: error.message,
-        //   variant: 'destructive',
-        // });
-      },
-      onCompleted: (data) => {
-        if (
-          data &&
-          data.getUserBooks.userBooks &&
-          data.getUserBooks.userBooks?.length === 0
-        ) {
-        }
-      },
+interface UseLoadBooksOptions extends QueryHookOptions {
+    variables?: Record<string, any>;
+}
 
-      errorPolicy: 'all',
+const useLoadBooks = (options: UseLoadBooksOptions = {}) => {
+    const { data: booksData, networkStatus } = useGetUserBooksQuery({
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
+        errorPolicy: 'all',
+        ...options,
     });
 
-  return {
-    loadBooks,
-    booksData,
-    networkStatus,
-  };
+    return {
+        booksData,
+        networkStatus,
+    };
 };
 
 export default useLoadBooks;

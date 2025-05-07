@@ -246,7 +246,7 @@ export class AccountAvgAggregate {
 @InputType()
 export class AccountAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    expires_at?: keyof typeof SortOrder;
+    expires_at?: `${SortOrder}`;
 }
 
 @InputType()
@@ -312,29 +312,29 @@ export class AccountCountAggregate {
 @InputType()
 export class AccountCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    provider?: keyof typeof SortOrder;
+    provider?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: keyof typeof SortOrder;
+    providerAccountId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    refresh_token?: keyof typeof SortOrder;
+    refresh_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    access_token?: keyof typeof SortOrder;
+    access_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires_at?: keyof typeof SortOrder;
+    expires_at?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token_type?: keyof typeof SortOrder;
+    token_type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    scope?: keyof typeof SortOrder;
+    scope?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    id_token?: keyof typeof SortOrder;
+    id_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    session_state?: keyof typeof SortOrder;
+    session_state?: `${SortOrder}`;
 }
 
 @InputType()
@@ -489,7 +489,7 @@ export class AccountGroupByArgs {
     @Field(() => [AccountOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<AccountOrderByWithAggregationInput>;
     @Field(() => [AccountScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof AccountScalarFieldEnum>;
+    by!: Array<`${AccountScalarFieldEnum}`>;
     @Field(() => AccountScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof AccountScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -615,29 +615,29 @@ export class AccountMaxAggregate {
 @InputType()
 export class AccountMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    provider?: keyof typeof SortOrder;
+    provider?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: keyof typeof SortOrder;
+    providerAccountId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    refresh_token?: keyof typeof SortOrder;
+    refresh_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    access_token?: keyof typeof SortOrder;
+    access_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires_at?: keyof typeof SortOrder;
+    expires_at?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token_type?: keyof typeof SortOrder;
+    token_type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    scope?: keyof typeof SortOrder;
+    scope?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    id_token?: keyof typeof SortOrder;
+    id_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    session_state?: keyof typeof SortOrder;
+    session_state?: `${SortOrder}`;
 }
 
 @InputType()
@@ -699,49 +699,49 @@ export class AccountMinAggregate {
 @InputType()
 export class AccountMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    provider?: keyof typeof SortOrder;
+    provider?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: keyof typeof SortOrder;
+    providerAccountId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    refresh_token?: keyof typeof SortOrder;
+    refresh_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    access_token?: keyof typeof SortOrder;
+    access_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires_at?: keyof typeof SortOrder;
+    expires_at?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token_type?: keyof typeof SortOrder;
+    token_type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    scope?: keyof typeof SortOrder;
+    scope?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    id_token?: keyof typeof SortOrder;
+    id_token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    session_state?: keyof typeof SortOrder;
+    session_state?: `${SortOrder}`;
 }
 
 @InputType()
 export class AccountOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class AccountOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    provider?: keyof typeof SortOrder;
+    provider?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: keyof typeof SortOrder;
+    providerAccountId?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     refresh_token?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -771,15 +771,15 @@ export class AccountOrderByWithAggregationInput {
 @InputType()
 export class AccountOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    provider?: keyof typeof SortOrder;
+    provider?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: keyof typeof SortOrder;
+    providerAccountId?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     refresh_token?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -889,7 +889,7 @@ export class AccountSumAggregate {
 @InputType()
 export class AccountSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    expires_at?: keyof typeof SortOrder;
+    expires_at?: `${SortOrder}`;
 }
 
 @InputType()
@@ -1291,8 +1291,8 @@ export class AccountWhereUniqueInput {
     id_token?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     session_state?: InstanceType<typeof StringFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
 }
 
 @InputType()
@@ -1327,8 +1327,8 @@ export class AccountWhereInput {
     id_token?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     session_state?: InstanceType<typeof StringFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -1399,6 +1399,8 @@ export class DeleteManyAccountArgs {
     @Type(() => AccountWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -1424,7 +1426,7 @@ export class FindFirstAccountOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+    distinct?: Array<`${AccountScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -1442,7 +1444,7 @@ export class FindFirstAccountArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+    distinct?: Array<`${AccountScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -1460,7 +1462,7 @@ export class FindManyAccountArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof AccountScalarFieldEnum>;
+    distinct?: Array<`${AccountScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -1489,6 +1491,8 @@ export class UpdateManyAccountArgs {
     @Type(() => AccountWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof AccountWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -1572,7 +1576,7 @@ export class BookAvgAggregate {
 @InputType()
 export class BookAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageCount?: `${SortOrder}`;
 }
 
 @InputType()
@@ -1619,19 +1623,19 @@ export class BookCountAggregate {
 @InputType()
 export class BookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    title?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    subtitle?: keyof typeof SortOrder;
+    subtitle?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    authors?: keyof typeof SortOrder;
+    authors?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    yearPublished?: keyof typeof SortOrder;
+    yearPublished?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageCount?: `${SortOrder}`;
 }
 
 @ObjectType()
@@ -1933,7 +1937,7 @@ export class BookGroupByArgs {
     @Field(() => [BookOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<BookOrderByWithAggregationInput>;
     @Field(() => [BookScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof BookScalarFieldEnum>;
+    by!: Array<`${BookScalarFieldEnum}`>;
     @Field(() => BookScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof BookScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -2028,17 +2032,17 @@ export class BookMaxAggregate {
 @InputType()
 export class BookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    title?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    subtitle?: keyof typeof SortOrder;
+    subtitle?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    yearPublished?: keyof typeof SortOrder;
+    yearPublished?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageCount?: `${SortOrder}`;
 }
 
 @InputType()
@@ -2082,31 +2086,31 @@ export class BookMinAggregate {
 @InputType()
 export class BookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    title?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    subtitle?: keyof typeof SortOrder;
+    subtitle?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    yearPublished?: keyof typeof SortOrder;
+    yearPublished?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageCount?: `${SortOrder}`;
 }
 
 @InputType()
 export class BookOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    title?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     subtitle?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    authors?: keyof typeof SortOrder;
+    authors?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     yearPublished?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -2126,15 +2130,15 @@ export class BookOrderByWithAggregationInput {
 @InputType()
 export class BookOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    title?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     subtitle?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    authors?: keyof typeof SortOrder;
+    authors?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     yearPublished?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -2150,7 +2154,7 @@ export class BookOrderByWithRelationInput {
 }
 
 @InputType()
-export class BookRelationFilter {
+export class BookScalarRelationFilter {
     @Field(() => BookWhereInput, {nullable:true})
     is?: InstanceType<typeof BookWhereInput>;
     @Field(() => BookWhereInput, {nullable:true})
@@ -2197,7 +2201,7 @@ export class BookSumAggregate {
 @InputType()
 export class BookSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    pageCount?: keyof typeof SortOrder;
+    pageCount?: `${SortOrder}`;
 }
 
 @InputType()
@@ -2941,8 +2945,8 @@ export class BookWhereUniqueInput {
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => IdentifierListRelationFilter, {nullable:true})
     identifiers?: InstanceType<typeof IdentifierListRelationFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
     @Field(() => CoverListRelationFilter, {nullable:true})
     covers?: InstanceType<typeof CoverListRelationFilter>;
     @Field(() => RatingListRelationFilter, {nullable:true})
@@ -2973,8 +2977,8 @@ export class BookWhereInput {
     pageCount?: InstanceType<typeof IntFilter>;
     @Field(() => IdentifierListRelationFilter, {nullable:true})
     identifiers?: InstanceType<typeof IdentifierListRelationFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
     @Field(() => CoverListRelationFilter, {nullable:true})
     covers?: InstanceType<typeof CoverListRelationFilter>;
     @Field(() => RatingListRelationFilter, {nullable:true})
@@ -3033,6 +3037,8 @@ export class DeleteManyBookArgs {
     @Type(() => BookWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof BookWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -3058,7 +3064,7 @@ export class FindFirstBookOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [BookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof BookScalarFieldEnum>;
+    distinct?: Array<`${BookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3076,7 +3082,7 @@ export class FindFirstBookArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [BookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof BookScalarFieldEnum>;
+    distinct?: Array<`${BookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3094,7 +3100,7 @@ export class FindManyBookArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [BookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof BookScalarFieldEnum>;
+    distinct?: Array<`${BookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3123,6 +3129,8 @@ export class UpdateManyBookArgs {
     @Type(() => BookWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof BookWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -3218,15 +3226,15 @@ export class CoverCountAggregate {
 @InputType()
 export class CoverCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    url?: keyof typeof SortOrder;
+    url?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    size?: keyof typeof SortOrder;
+    size?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -3245,9 +3253,9 @@ export class CoverCreateManyBookInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
 }
 
 @InputType()
@@ -3257,9 +3265,9 @@ export class CoverCreateManyInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3297,9 +3305,9 @@ export class CoverCreateWithoutBookInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
 }
 
 @InputType()
@@ -3309,9 +3317,9 @@ export class CoverCreateInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => BookCreateNestedOneWithoutCoversInput, {nullable:true})
     book?: InstanceType<typeof BookCreateNestedOneWithoutCoversInput>;
 }
@@ -3325,7 +3333,7 @@ export class CoverGroupByArgs {
     @Field(() => [CoverOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<CoverOrderByWithAggregationInput>;
     @Field(() => [CoverScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof CoverScalarFieldEnum>;
+    by!: Array<`${CoverScalarFieldEnum}`>;
     @Field(() => CoverScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof CoverScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -3347,9 +3355,9 @@ export class CoverGroupBy {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
     @Field(() => CoverCountAggregate, {nullable:true})
@@ -3391,9 +3399,9 @@ export class CoverMaxAggregate {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3401,15 +3409,15 @@ export class CoverMaxAggregate {
 @InputType()
 export class CoverMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    url?: keyof typeof SortOrder;
+    url?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    size?: keyof typeof SortOrder;
+    size?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -3433,9 +3441,9 @@ export class CoverMinAggregate {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3443,33 +3451,33 @@ export class CoverMinAggregate {
 @InputType()
 export class CoverMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    url?: keyof typeof SortOrder;
+    url?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    size?: keyof typeof SortOrder;
+    size?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
 export class CoverOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class CoverOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    url?: keyof typeof SortOrder;
+    url?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    size?: keyof typeof SortOrder;
+    size?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => CoverCountOrderByAggregateInput, {nullable:true})
@@ -3483,13 +3491,13 @@ export class CoverOrderByWithAggregationInput {
 @InputType()
 export class CoverOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    url?: keyof typeof SortOrder;
+    url?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    size?: keyof typeof SortOrder;
+    size?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -3559,9 +3567,9 @@ export class CoverUncheckedCreateWithoutBookInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
 }
 
 @InputType()
@@ -3571,9 +3579,9 @@ export class CoverUncheckedCreateInput {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3622,9 +3630,9 @@ export class CoverUncheckedUpdateManyWithoutBookInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
 }
 
 @InputType()
@@ -3634,9 +3642,9 @@ export class CoverUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3648,9 +3656,9 @@ export class CoverUncheckedUpdateWithoutBookInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
 }
 
 @InputType()
@@ -3660,9 +3668,9 @@ export class CoverUncheckedUpdateInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId?: string;
 }
@@ -3674,9 +3682,9 @@ export class CoverUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
 }
 
 @InputType()
@@ -3743,9 +3751,9 @@ export class CoverUpdateWithoutBookInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
 }
 
 @InputType()
@@ -3755,9 +3763,9 @@ export class CoverUpdateInput {
     @Field(() => String, {nullable:true})
     url?: string;
     @Field(() => SIZE, {nullable:true})
-    size?: keyof typeof SIZE;
+    size?: `${SIZE}`;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => BookUpdateOneWithoutCoversNestedInput, {nullable:true})
     book?: InstanceType<typeof BookUpdateOneWithoutCoversNestedInput>;
 }
@@ -3793,8 +3801,8 @@ export class CoverWhereUniqueInput {
     source?: InstanceType<typeof EnumSOURCEFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @InputType()
@@ -3815,8 +3823,8 @@ export class CoverWhereInput {
     source?: InstanceType<typeof EnumSOURCEFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -3826,9 +3834,9 @@ export class Cover {
     @Field(() => String, {nullable:false})
     url!: string;
     @Field(() => SIZE, {nullable:false})
-    size!: keyof typeof SIZE;
+    size!: `${SIZE}`;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     bookId!: string | null;
     @Field(() => Book, {nullable:true})
@@ -3859,6 +3867,8 @@ export class DeleteManyCoverArgs {
     @Type(() => CoverWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -3884,7 +3894,7 @@ export class FindFirstCoverOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [CoverScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+    distinct?: Array<`${CoverScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3902,7 +3912,7 @@ export class FindFirstCoverArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [CoverScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+    distinct?: Array<`${CoverScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3920,7 +3930,7 @@ export class FindManyCoverArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [CoverScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof CoverScalarFieldEnum>;
+    distinct?: Array<`${CoverScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -3949,6 +3959,8 @@ export class UpdateManyCoverArgs {
     @Type(() => CoverWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof CoverWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -4011,6 +4023,8 @@ export class DeleteManyIdentifierArgs {
     @Type(() => IdentifierWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -4036,7 +4050,7 @@ export class FindFirstIdentifierOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+    distinct?: Array<`${IdentifierScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4054,7 +4068,7 @@ export class FindFirstIdentifierArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+    distinct?: Array<`${IdentifierScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4072,7 +4086,7 @@ export class FindManyIdentifierArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [IdentifierScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof IdentifierScalarFieldEnum>;
+    distinct?: Array<`${IdentifierScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4144,13 +4158,13 @@ export class IdentifierCountAggregate {
 @InputType()
 export class IdentifierCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    sourceId?: keyof typeof SortOrder;
+    sourceId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -4168,7 +4182,7 @@ export class IdentifierCreateManyBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4180,7 +4194,7 @@ export class IdentifierCreateManyInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4220,7 +4234,7 @@ export class IdentifierCreateWithoutBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4232,7 +4246,7 @@ export class IdentifierCreateInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4249,7 +4263,7 @@ export class IdentifierGroupByArgs {
     @Field(() => [IdentifierOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<IdentifierOrderByWithAggregationInput>;
     @Field(() => [IdentifierScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof IdentifierScalarFieldEnum>;
+    by!: Array<`${IdentifierScalarFieldEnum}`>;
     @Field(() => IdentifierScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof IdentifierScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -4270,7 +4284,7 @@ export class IdentifierGroupBy {
     id!: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4312,7 +4326,7 @@ export class IdentifierMaxAggregate {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4323,13 +4337,13 @@ export class IdentifierMaxAggregate {
 @InputType()
 export class IdentifierMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    sourceId?: keyof typeof SortOrder;
+    sourceId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -4350,7 +4364,7 @@ export class IdentifierMinAggregate {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4361,29 +4375,29 @@ export class IdentifierMinAggregate {
 @InputType()
 export class IdentifierMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    sourceId?: keyof typeof SortOrder;
+    sourceId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
 export class IdentifierOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class IdentifierOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    sourceId?: keyof typeof SortOrder;
+    sourceId?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => IdentifierCountOrderByAggregateInput, {nullable:true})
@@ -4397,11 +4411,11 @@ export class IdentifierOrderByWithAggregationInput {
 @InputType()
 export class IdentifierOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    sourceId?: keyof typeof SortOrder;
+    sourceId?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -4466,7 +4480,7 @@ export class IdentifierUncheckedCreateWithoutBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4478,7 +4492,7 @@ export class IdentifierUncheckedCreateInput {
     id?: string;
     @Field(() => SOURCE, {nullable:false})
     @Validator.IsString()
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     @Validator.IsString()
     sourceId!: string;
@@ -4529,7 +4543,7 @@ export class IdentifierUncheckedUpdateManyWithoutBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4541,7 +4555,7 @@ export class IdentifierUncheckedUpdateManyInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4555,7 +4569,7 @@ export class IdentifierUncheckedUpdateWithoutBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4567,7 +4581,7 @@ export class IdentifierUncheckedUpdateInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4581,7 +4595,7 @@ export class IdentifierUpdateManyMutationInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4650,7 +4664,7 @@ export class IdentifierUpdateWithoutBookInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4662,7 +4676,7 @@ export class IdentifierUpdateInput {
     id?: string;
     @Field(() => SOURCE, {nullable:true})
     @Validator.IsString()
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => String, {nullable:true})
     @Validator.IsString()
     sourceId?: string;
@@ -4699,8 +4713,8 @@ export class IdentifierWhereUniqueInput {
     sourceId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @InputType()
@@ -4719,8 +4733,8 @@ export class IdentifierWhereInput {
     sourceId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -4728,7 +4742,7 @@ export class Identifier {
     @Field(() => ID, {nullable:false})
     id!: string;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => String, {nullable:false})
     sourceId!: string;
     @Field(() => String, {nullable:true})
@@ -4747,6 +4761,8 @@ export class UpdateManyIdentifierArgs {
     @Type(() => IdentifierWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof IdentifierWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -4809,6 +4825,8 @@ export class DeleteManyPasswordResetTokenArgs {
     @Type(() => PasswordResetTokenWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -4834,7 +4852,7 @@ export class FindFirstPasswordResetTokenOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+    distinct?: Array<`${PasswordResetTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4852,7 +4870,7 @@ export class FindFirstPasswordResetTokenArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+    distinct?: Array<`${PasswordResetTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4870,7 +4888,7 @@ export class FindManyPasswordResetTokenArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+    distinct?: Array<`${PasswordResetTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -4942,13 +4960,13 @@ export class PasswordResetTokenCountAggregate {
 @InputType()
 export class PasswordResetTokenCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
@@ -4992,7 +5010,7 @@ export class PasswordResetTokenGroupByArgs {
     @Field(() => [PasswordResetTokenOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<PasswordResetTokenOrderByWithAggregationInput>;
     @Field(() => [PasswordResetTokenScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof PasswordResetTokenScalarFieldEnum>;
+    by!: Array<`${PasswordResetTokenScalarFieldEnum}`>;
     @Field(() => PasswordResetTokenScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof PasswordResetTokenScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -5052,13 +5070,13 @@ export class PasswordResetTokenMaxAggregate {
 @InputType()
 export class PasswordResetTokenMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
@@ -5088,25 +5106,25 @@ export class PasswordResetTokenMinAggregate {
 @InputType()
 export class PasswordResetTokenMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
 export class PasswordResetTokenOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
     @Field(() => PasswordResetTokenCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof PasswordResetTokenCountOrderByAggregateInput>;
     @Field(() => PasswordResetTokenMaxOrderByAggregateInput, {nullable:true})
@@ -5118,13 +5136,13 @@ export class PasswordResetTokenOrderByWithAggregationInput {
 @InputType()
 export class PasswordResetTokenOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
@@ -5265,6 +5283,8 @@ export class UpdateManyPasswordResetTokenArgs {
     @Type(() => PasswordResetTokenWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof PasswordResetTokenWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -5370,11 +5390,11 @@ export class DateTimeWithAggregatesFilter {
 @InputType()
 export class EnumPROGRESS_TYPEFilter {
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    equals?: keyof typeof PROGRESS_TYPE;
+    equals?: `${PROGRESS_TYPE}`;
     @Field(() => [PROGRESS_TYPE], {nullable:true})
-    in?: Array<keyof typeof PROGRESS_TYPE>;
+    in?: Array<`${PROGRESS_TYPE}`>;
     @Field(() => [PROGRESS_TYPE], {nullable:true})
-    notIn?: Array<keyof typeof PROGRESS_TYPE>;
+    notIn?: Array<`${PROGRESS_TYPE}`>;
     @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
     not?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
 }
@@ -5382,11 +5402,11 @@ export class EnumPROGRESS_TYPEFilter {
 @InputType()
 export class EnumPROGRESS_TYPEWithAggregatesFilter {
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    equals?: keyof typeof PROGRESS_TYPE;
+    equals?: `${PROGRESS_TYPE}`;
     @Field(() => [PROGRESS_TYPE], {nullable:true})
-    in?: Array<keyof typeof PROGRESS_TYPE>;
+    in?: Array<`${PROGRESS_TYPE}`>;
     @Field(() => [PROGRESS_TYPE], {nullable:true})
-    notIn?: Array<keyof typeof PROGRESS_TYPE>;
+    notIn?: Array<`${PROGRESS_TYPE}`>;
     @Field(() => EnumPROGRESS_TYPEWithAggregatesFilter, {nullable:true})
     not?: InstanceType<typeof EnumPROGRESS_TYPEWithAggregatesFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -5400,11 +5420,11 @@ export class EnumPROGRESS_TYPEWithAggregatesFilter {
 @InputType()
 export class EnumREADING_STATUSFilter {
     @Field(() => READING_STATUS, {nullable:true})
-    equals?: keyof typeof READING_STATUS;
+    equals?: `${READING_STATUS}`;
     @Field(() => [READING_STATUS], {nullable:true})
-    in?: Array<keyof typeof READING_STATUS>;
+    in?: Array<`${READING_STATUS}`>;
     @Field(() => [READING_STATUS], {nullable:true})
-    notIn?: Array<keyof typeof READING_STATUS>;
+    notIn?: Array<`${READING_STATUS}`>;
     @Field(() => EnumREADING_STATUSFilter, {nullable:true})
     not?: InstanceType<typeof EnumREADING_STATUSFilter>;
 }
@@ -5412,11 +5432,11 @@ export class EnumREADING_STATUSFilter {
 @InputType()
 export class EnumREADING_STATUSWithAggregatesFilter {
     @Field(() => READING_STATUS, {nullable:true})
-    equals?: keyof typeof READING_STATUS;
+    equals?: `${READING_STATUS}`;
     @Field(() => [READING_STATUS], {nullable:true})
-    in?: Array<keyof typeof READING_STATUS>;
+    in?: Array<`${READING_STATUS}`>;
     @Field(() => [READING_STATUS], {nullable:true})
-    notIn?: Array<keyof typeof READING_STATUS>;
+    notIn?: Array<`${READING_STATUS}`>;
     @Field(() => EnumREADING_STATUSWithAggregatesFilter, {nullable:true})
     not?: InstanceType<typeof EnumREADING_STATUSWithAggregatesFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -5430,11 +5450,11 @@ export class EnumREADING_STATUSWithAggregatesFilter {
 @InputType()
 export class EnumSIZEFilter {
     @Field(() => SIZE, {nullable:true})
-    equals?: keyof typeof SIZE;
+    equals?: `${SIZE}`;
     @Field(() => [SIZE], {nullable:true})
-    in?: Array<keyof typeof SIZE>;
+    in?: Array<`${SIZE}`>;
     @Field(() => [SIZE], {nullable:true})
-    notIn?: Array<keyof typeof SIZE>;
+    notIn?: Array<`${SIZE}`>;
     @Field(() => EnumSIZEFilter, {nullable:true})
     not?: InstanceType<typeof EnumSIZEFilter>;
 }
@@ -5442,11 +5462,11 @@ export class EnumSIZEFilter {
 @InputType()
 export class EnumSIZEWithAggregatesFilter {
     @Field(() => SIZE, {nullable:true})
-    equals?: keyof typeof SIZE;
+    equals?: `${SIZE}`;
     @Field(() => [SIZE], {nullable:true})
-    in?: Array<keyof typeof SIZE>;
+    in?: Array<`${SIZE}`>;
     @Field(() => [SIZE], {nullable:true})
-    notIn?: Array<keyof typeof SIZE>;
+    notIn?: Array<`${SIZE}`>;
     @Field(() => EnumSIZEWithAggregatesFilter, {nullable:true})
     not?: InstanceType<typeof EnumSIZEWithAggregatesFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -5460,11 +5480,11 @@ export class EnumSIZEWithAggregatesFilter {
 @InputType()
 export class EnumSOURCEFilter {
     @Field(() => SOURCE, {nullable:true})
-    equals?: keyof typeof SOURCE;
+    equals?: `${SOURCE}`;
     @Field(() => [SOURCE], {nullable:true})
-    in?: Array<keyof typeof SOURCE>;
+    in?: Array<`${SOURCE}`>;
     @Field(() => [SOURCE], {nullable:true})
-    notIn?: Array<keyof typeof SOURCE>;
+    notIn?: Array<`${SOURCE}`>;
     @Field(() => EnumSOURCEFilter, {nullable:true})
     not?: InstanceType<typeof EnumSOURCEFilter>;
 }
@@ -5472,11 +5492,11 @@ export class EnumSOURCEFilter {
 @InputType()
 export class EnumSOURCEWithAggregatesFilter {
     @Field(() => SOURCE, {nullable:true})
-    equals?: keyof typeof SOURCE;
+    equals?: `${SOURCE}`;
     @Field(() => [SOURCE], {nullable:true})
-    in?: Array<keyof typeof SOURCE>;
+    in?: Array<`${SOURCE}`>;
     @Field(() => [SOURCE], {nullable:true})
-    notIn?: Array<keyof typeof SOURCE>;
+    notIn?: Array<`${SOURCE}`>;
     @Field(() => EnumSOURCEWithAggregatesFilter, {nullable:true})
     not?: InstanceType<typeof EnumSOURCEWithAggregatesFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -5590,9 +5610,9 @@ export class IntWithAggregatesFilter {
 @InputType()
 export class SortOrderInput {
     @Field(() => SortOrder, {nullable:false})
-    sort!: keyof typeof SortOrder;
+    sort!: `${SortOrder}`;
     @Field(() => NullsOrder, {nullable:true})
-    nulls?: keyof typeof NullsOrder;
+    nulls?: `${NullsOrder}`;
 }
 
 @InputType()
@@ -5618,7 +5638,7 @@ export class StringFilter {
     @Field(() => String, {nullable:true})
     endsWith?: string;
     @Field(() => QueryMode, {nullable:true})
-    mode?: keyof typeof QueryMode;
+    mode?: `${QueryMode}`;
     @Field(() => StringFilter, {nullable:true})
     not?: InstanceType<typeof StringFilter>;
 }
@@ -5660,7 +5680,7 @@ export class StringWithAggregatesFilter {
     @Field(() => String, {nullable:true})
     endsWith?: string;
     @Field(() => QueryMode, {nullable:true})
-    mode?: keyof typeof QueryMode;
+    mode?: `${QueryMode}`;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     not?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => IntFilter, {nullable:true})
@@ -5709,6 +5729,8 @@ export class DeleteManyRatingArgs {
     @Type(() => RatingWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof RatingWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -5734,7 +5756,7 @@ export class FindFirstRatingOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [RatingScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof RatingScalarFieldEnum>;
+    distinct?: Array<`${RatingScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -5752,7 +5774,7 @@ export class FindFirstRatingArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [RatingScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof RatingScalarFieldEnum>;
+    distinct?: Array<`${RatingScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -5770,7 +5792,7 @@ export class FindManyRatingArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [RatingScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof RatingScalarFieldEnum>;
+    distinct?: Array<`${RatingScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -5838,11 +5860,11 @@ export class RatingAvgAggregate {
 @InputType()
 export class RatingAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    count?: keyof typeof SortOrder;
+    count?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
 }
 
 @InputType()
@@ -5884,17 +5906,17 @@ export class RatingCountAggregate {
 @InputType()
 export class RatingCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    count?: keyof typeof SortOrder;
+    count?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -5913,7 +5935,7 @@ export class RatingCreateManyBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -5927,7 +5949,7 @@ export class RatingCreateManyInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -5969,7 +5991,7 @@ export class RatingCreateWithoutBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -5983,7 +6005,7 @@ export class RatingCreateInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -6001,7 +6023,7 @@ export class RatingGroupByArgs {
     @Field(() => [RatingOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<RatingOrderByWithAggregationInput>;
     @Field(() => [RatingScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof RatingScalarFieldEnum>;
+    by!: Array<`${RatingScalarFieldEnum}`>;
     @Field(() => RatingScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof RatingScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -6027,7 +6049,7 @@ export class RatingGroupBy {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -6079,7 +6101,7 @@ export class RatingMaxAggregate {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6091,17 +6113,17 @@ export class RatingMaxAggregate {
 @InputType()
 export class RatingMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    count?: keyof typeof SortOrder;
+    count?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -6127,7 +6149,7 @@ export class RatingMinAggregate {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6139,37 +6161,37 @@ export class RatingMinAggregate {
 @InputType()
 export class RatingMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    count?: keyof typeof SortOrder;
+    count?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
 }
 
 @InputType()
 export class RatingOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class RatingOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     count?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => RatingCountOrderByAggregateInput, {nullable:true})
@@ -6187,15 +6209,15 @@ export class RatingOrderByWithAggregationInput {
 @InputType()
 export class RatingOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     count?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    source?: keyof typeof SortOrder;
+    source?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     bookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -6269,11 +6291,11 @@ export class RatingSumAggregate {
 @InputType()
 export class RatingSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    count?: keyof typeof SortOrder;
+    count?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    maxScore?: keyof typeof SortOrder;
+    maxScore?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    score?: keyof typeof SortOrder;
+    score?: `${SortOrder}`;
 }
 
 @InputType()
@@ -6299,7 +6321,7 @@ export class RatingUncheckedCreateWithoutBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -6313,7 +6335,7 @@ export class RatingUncheckedCreateInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -6366,7 +6388,7 @@ export class RatingUncheckedUpdateManyWithoutBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6380,7 +6402,7 @@ export class RatingUncheckedUpdateManyInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6396,7 +6418,7 @@ export class RatingUncheckedUpdateWithoutBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6410,7 +6432,7 @@ export class RatingUncheckedUpdateInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6426,7 +6448,7 @@ export class RatingUpdateManyMutationInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6497,7 +6519,7 @@ export class RatingUpdateWithoutBookInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6511,7 +6533,7 @@ export class RatingUpdateInput {
     @Field(() => Int, {nullable:true})
     count?: number;
     @Field(() => SOURCE, {nullable:true})
-    source?: keyof typeof SOURCE;
+    source?: `${SOURCE}`;
     @Field(() => Float, {nullable:true})
     maxScore?: number;
     @Field(() => Float, {nullable:true})
@@ -6553,8 +6575,8 @@ export class RatingWhereUniqueInput {
     score?: InstanceType<typeof FloatFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @InputType()
@@ -6577,8 +6599,8 @@ export class RatingWhereInput {
     score?: InstanceType<typeof FloatFilter>;
     @Field(() => StringFilter, {nullable:true})
     bookId?: InstanceType<typeof StringFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -6588,7 +6610,7 @@ export class Rating {
     @Field(() => Int, {nullable:true})
     count!: number | null;
     @Field(() => SOURCE, {nullable:false})
-    source!: keyof typeof SOURCE;
+    source!: `${SOURCE}`;
     @Field(() => Float, {nullable:false})
     maxScore!: number;
     @Field(() => Float, {nullable:false})
@@ -6609,6 +6631,8 @@ export class UpdateManyRatingArgs {
     @Type(() => RatingWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof RatingWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -6671,6 +6695,8 @@ export class DeleteManyReadDateArgs {
     @Type(() => ReadDateWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ReadDateWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -6696,7 +6722,7 @@ export class FindFirstReadDateOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadDateScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadDateScalarFieldEnum>;
+    distinct?: Array<`${ReadDateScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -6714,7 +6740,7 @@ export class FindFirstReadDateArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadDateScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadDateScalarFieldEnum>;
+    distinct?: Array<`${ReadDateScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -6732,7 +6758,7 @@ export class FindManyReadDateArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadDateScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadDateScalarFieldEnum>;
+    distinct?: Array<`${ReadDateScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -6808,15 +6834,15 @@ export class ReadDateCountAggregate {
 @InputType()
 export class ReadDateCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    startDate?: keyof typeof SortOrder;
+    startDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    finishedDate?: keyof typeof SortOrder;
+    finishedDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    active?: keyof typeof SortOrder;
+    active?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -6956,7 +6982,7 @@ export class ReadDateGroupByArgs {
     @Field(() => [ReadDateOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<ReadDateOrderByWithAggregationInput>;
     @Field(() => [ReadDateScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof ReadDateScalarFieldEnum>;
+    by!: Array<`${ReadDateScalarFieldEnum}`>;
     @Field(() => ReadDateScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof ReadDateScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -7032,15 +7058,15 @@ export class ReadDateMaxAggregate {
 @InputType()
 export class ReadDateMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    startDate?: keyof typeof SortOrder;
+    startDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    finishedDate?: keyof typeof SortOrder;
+    finishedDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    active?: keyof typeof SortOrder;
+    active?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -7074,33 +7100,33 @@ export class ReadDateMinAggregate {
 @InputType()
 export class ReadDateMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    startDate?: keyof typeof SortOrder;
+    startDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    finishedDate?: keyof typeof SortOrder;
+    finishedDate?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    active?: keyof typeof SortOrder;
+    active?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
 }
 
 @InputType()
 export class ReadDateOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class ReadDateOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    startDate?: keyof typeof SortOrder;
+    startDate?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     finishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    active?: keyof typeof SortOrder;
+    active?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => ReadDateCountOrderByAggregateInput, {nullable:true})
@@ -7114,13 +7140,13 @@ export class ReadDateOrderByWithAggregationInput {
 @InputType()
 export class ReadDateOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    startDate?: keyof typeof SortOrder;
+    startDate?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     finishedDate?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    active?: keyof typeof SortOrder;
+    active?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     userBookId?: InstanceType<typeof SortOrderInput>;
     @Field(() => ReadingProgressOrderByWithRelationInput, {nullable:true})
@@ -7130,7 +7156,7 @@ export class ReadDateOrderByWithRelationInput {
 }
 
 @InputType()
-export class ReadDateRelationFilter {
+export class ReadDateScalarRelationFilter {
     @Field(() => ReadDateWhereInput, {nullable:true})
     is?: InstanceType<typeof ReadDateWhereInput>;
     @Field(() => ReadDateWhereInput, {nullable:true})
@@ -7530,10 +7556,10 @@ export class ReadDateWhereUniqueInput {
     active?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReadingProgressRelationFilter, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressRelationFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
+    @Field(() => ReadingProgressScalarRelationFilter, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressScalarRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
 }
 
 @InputType()
@@ -7554,10 +7580,10 @@ export class ReadDateWhereInput {
     active?: InstanceType<typeof BoolFilter>;
     @Field(() => StringFilter, {nullable:true})
     userBookId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReadingProgressRelationFilter, {nullable:true})
-    readingProgress?: InstanceType<typeof ReadingProgressRelationFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
+    @Field(() => ReadingProgressScalarRelationFilter, {nullable:true})
+    readingProgress?: InstanceType<typeof ReadingProgressScalarRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -7588,6 +7614,8 @@ export class UpdateManyReadDateArgs {
     @Type(() => ReadDateWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ReadDateWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -7654,6 +7682,8 @@ export class DeleteManyReadingProgressArgs {
     @Type(() => ReadingProgressWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -7679,7 +7709,7 @@ export class FindFirstReadingProgressOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadingProgressScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadingProgressScalarFieldEnum>;
+    distinct?: Array<`${ReadingProgressScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -7697,7 +7727,7 @@ export class FindFirstReadingProgressArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadingProgressScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadingProgressScalarFieldEnum>;
+    distinct?: Array<`${ReadingProgressScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -7715,7 +7745,7 @@ export class FindManyReadingProgressArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ReadingProgressScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ReadingProgressScalarFieldEnum>;
+    distinct?: Array<`${ReadingProgressScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -7779,9 +7809,9 @@ export class ReadingProgressAvgAggregate {
 @InputType()
 export class ReadingProgressAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
 }
 
 @InputType()
@@ -7825,17 +7855,17 @@ export class ReadingProgressCountAggregate {
 @InputType()
 export class ReadingProgressCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    readDateId?: keyof typeof SortOrder;
+    readDateId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -7849,7 +7879,7 @@ export class ReadingProgressCreateManyInput {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:false})
@@ -7890,7 +7920,7 @@ export class ReadingProgressCreateWithoutReadDateInput {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -7906,7 +7936,7 @@ export class ReadingProgressCreateInput {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => ReadDateCreateNestedOneWithoutReadingProgressInput, {nullable:false})
@@ -7922,7 +7952,7 @@ export class ReadingProgressGroupByArgs {
     @Field(() => [ReadingProgressOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<ReadingProgressOrderByWithAggregationInput>;
     @Field(() => [ReadingProgressScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof ReadingProgressScalarFieldEnum>;
+    by!: Array<`${ReadingProgressScalarFieldEnum}`>;
     @Field(() => ReadingProgressScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof ReadingProgressScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -7952,7 +7982,7 @@ export class ReadingProgressGroupBy {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:false})
     createdAt!: Date | string;
     @Field(() => String, {nullable:false})
@@ -7996,7 +8026,7 @@ export class ReadingProgressMaxAggregate {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8006,17 +8036,17 @@ export class ReadingProgressMaxAggregate {
 @InputType()
 export class ReadingProgressMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    readDateId?: keyof typeof SortOrder;
+    readDateId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -8046,7 +8076,7 @@ export class ReadingProgressMinAggregate {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8056,33 +8086,33 @@ export class ReadingProgressMinAggregate {
 @InputType()
 export class ReadingProgressMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    readDateId?: keyof typeof SortOrder;
+    readDateId?: `${SortOrder}`;
 }
 
 @InputType()
 export class ReadingProgressOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    readDateId?: keyof typeof SortOrder;
+    readDateId?: `${SortOrder}`;
     @Field(() => ReadingProgressCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof ReadingProgressCountOrderByAggregateInput>;
     @Field(() => ReadingProgressAvgOrderByAggregateInput, {nullable:true})
@@ -8098,23 +8128,23 @@ export class ReadingProgressOrderByWithAggregationInput {
 @InputType()
 export class ReadingProgressOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    type?: keyof typeof SortOrder;
+    type?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    readDateId?: keyof typeof SortOrder;
+    readDateId?: `${SortOrder}`;
     @Field(() => ReadDateOrderByWithRelationInput, {nullable:true})
     readDate?: InstanceType<typeof ReadDateOrderByWithRelationInput>;
 }
 
 @InputType()
-export class ReadingProgressRelationFilter {
+export class ReadingProgressScalarRelationFilter {
     @Field(() => ReadingProgressWhereInput, {nullable:true})
     is?: InstanceType<typeof ReadingProgressWhereInput>;
     @Field(() => ReadingProgressWhereInput, {nullable:true})
@@ -8164,9 +8194,9 @@ export class ReadingProgressSumAggregate {
 @InputType()
 export class ReadingProgressSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    capacity?: keyof typeof SortOrder;
+    capacity?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: keyof typeof SortOrder;
+    progress?: `${SortOrder}`;
 }
 
 @InputType()
@@ -8193,7 +8223,7 @@ export class ReadingProgressUncheckedCreateWithoutReadDateInput {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8209,7 +8239,7 @@ export class ReadingProgressUncheckedCreateInput {
     @Validator.IsInt()
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:false})
@@ -8227,7 +8257,7 @@ export class ReadingProgressUncheckedUpdateManyInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8270,7 +8300,7 @@ export class ReadingProgressUncheckedUpdateWithoutReadDateInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8286,7 +8316,7 @@ export class ReadingProgressUncheckedUpdateInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8304,7 +8334,7 @@ export class ReadingProgressUpdateManyMutationInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8355,7 +8385,7 @@ export class ReadingProgressUpdateWithoutReadDateInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8371,7 +8401,7 @@ export class ReadingProgressUpdateInput {
     @Validator.IsInt()
     progress?: number;
     @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: keyof typeof PROGRESS_TYPE;
+    type?: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => ReadDateUpdateOneRequiredWithoutReadingProgressNestedInput, {nullable:true})
@@ -8411,8 +8441,8 @@ export class ReadingProgressWhereUniqueInput {
     type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => ReadDateRelationFilter, {nullable:true})
-    readDate?: InstanceType<typeof ReadDateRelationFilter>;
+    @Field(() => ReadDateScalarRelationFilter, {nullable:true})
+    readDate?: InstanceType<typeof ReadDateScalarRelationFilter>;
 }
 
 @InputType()
@@ -8435,8 +8465,8 @@ export class ReadingProgressWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     readDateId?: InstanceType<typeof StringFilter>;
-    @Field(() => ReadDateRelationFilter, {nullable:true})
-    readDate?: InstanceType<typeof ReadDateRelationFilter>;
+    @Field(() => ReadDateScalarRelationFilter, {nullable:true})
+    readDate?: InstanceType<typeof ReadDateScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -8448,7 +8478,7 @@ export class ReadingProgress {
     @Field(() => Int, {nullable:false})
     progress!: number;
     @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: keyof typeof PROGRESS_TYPE;
+    type!: `${PROGRESS_TYPE}`;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
     @Field(() => String, {nullable:false})
@@ -8467,6 +8497,8 @@ export class UpdateManyReadingProgressArgs {
     @Type(() => ReadingProgressWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ReadingProgressWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -8529,6 +8561,8 @@ export class DeleteManyShelfArgs {
     @Type(() => ShelfWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ShelfWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -8554,7 +8588,7 @@ export class FindFirstShelfOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ShelfScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ShelfScalarFieldEnum>;
+    distinct?: Array<`${ShelfScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -8572,7 +8606,7 @@ export class FindFirstShelfArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ShelfScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ShelfScalarFieldEnum>;
+    distinct?: Array<`${ShelfScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -8590,7 +8624,7 @@ export class FindManyShelfArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [ShelfScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof ShelfScalarFieldEnum>;
+    distinct?: Array<`${ShelfScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -8666,15 +8700,15 @@ export class ShelfCountAggregate {
 @InputType()
 export class ShelfCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateTime?: keyof typeof SortOrder;
+    dateTime?: `${SortOrder}`;
 }
 
 @ObjectType()
@@ -8836,7 +8870,7 @@ export class ShelfGroupByArgs {
     @Field(() => [ShelfOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<ShelfOrderByWithAggregationInput>;
     @Field(() => [ShelfScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof ShelfScalarFieldEnum>;
+    by!: Array<`${ShelfScalarFieldEnum}`>;
     @Field(() => ShelfScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof ShelfScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -8930,15 +8964,15 @@ export class ShelfMaxAggregate {
 @InputType()
 export class ShelfMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateTime?: keyof typeof SortOrder;
+    dateTime?: `${SortOrder}`;
 }
 
 @InputType()
@@ -8976,31 +9010,31 @@ export class ShelfMinAggregate {
 @InputType()
 export class ShelfMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateTime?: keyof typeof SortOrder;
+    dateTime?: `${SortOrder}`;
 }
 
 @InputType()
 export class ShelfOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class ShelfOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     userId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -9016,11 +9050,11 @@ export class ShelfOrderByWithAggregationInput {
 @InputType()
 export class ShelfOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    slug?: keyof typeof SortOrder;
+    slug?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     userId?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -9032,7 +9066,7 @@ export class ShelfOrderByWithRelationInput {
 }
 
 @InputType()
-export class ShelfRelationFilter {
+export class ShelfScalarRelationFilter {
     @Field(() => ShelfWhereInput, {nullable:true})
     is?: InstanceType<typeof ShelfWhereInput>;
     @Field(() => ShelfWhereInput, {nullable:true})
@@ -9477,8 +9511,8 @@ export class ShelfWhereUniqueInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     dateTime?: InstanceType<typeof StringFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
     @Field(() => UserBookShelvesListRelationFilter, {nullable:true})
     userBooks?: InstanceType<typeof UserBookShelvesListRelationFilter>;
 }
@@ -9501,8 +9535,8 @@ export class ShelfWhereInput {
     userId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     dateTime?: InstanceType<typeof StringFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
     @Field(() => UserBookShelvesListRelationFilter, {nullable:true})
     userBooks?: InstanceType<typeof UserBookShelvesListRelationFilter>;
 }
@@ -9537,6 +9571,8 @@ export class UpdateManyShelfArgs {
     @Type(() => ShelfWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof ShelfWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -9599,6 +9635,8 @@ export class DeleteManyUserArgs {
     @Type(() => UserWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -9624,7 +9662,7 @@ export class FindFirstUserOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserScalarFieldEnum>;
+    distinct?: Array<`${UserScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -9642,7 +9680,7 @@ export class FindFirstUserArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserScalarFieldEnum>;
+    distinct?: Array<`${UserScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -9660,7 +9698,7 @@ export class FindManyUserArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserScalarFieldEnum>;
+    distinct?: Array<`${UserScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -9689,6 +9727,8 @@ export class UpdateManyUserArgs {
     @Type(() => UserWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -9802,29 +9842,29 @@ export class UserCountAggregate {
 @InputType()
 export class UserCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    username?: keyof typeof SortOrder;
+    username?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedPassword?: keyof typeof SortOrder;
+    hashedPassword?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    location?: keyof typeof SortOrder;
+    location?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bio?: keyof typeof SortOrder;
+    bio?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedRefreshToken?: keyof typeof SortOrder;
+    hashedRefreshToken?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    avatarImage?: keyof typeof SortOrder;
+    avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    emailVerified?: keyof typeof SortOrder;
+    emailVerified?: `${SortOrder}`;
 }
 
 @ObjectType()
@@ -10274,7 +10314,7 @@ export class UserGroupByArgs {
     @Field(() => [UserOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<UserOrderByWithAggregationInput>;
     @Field(() => [UserScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof UserScalarFieldEnum>;
+    by!: Array<`${UserScalarFieldEnum}`>;
     @Field(() => UserScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof UserScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -10406,29 +10446,29 @@ export class UserMaxAggregate {
 @InputType()
 export class UserMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    username?: keyof typeof SortOrder;
+    username?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedPassword?: keyof typeof SortOrder;
+    hashedPassword?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    location?: keyof typeof SortOrder;
+    location?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bio?: keyof typeof SortOrder;
+    bio?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedRefreshToken?: keyof typeof SortOrder;
+    hashedRefreshToken?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    avatarImage?: keyof typeof SortOrder;
+    avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    emailVerified?: keyof typeof SortOrder;
+    emailVerified?: `${SortOrder}`;
 }
 
 @InputType()
@@ -10497,43 +10537,43 @@ export class UserMinAggregate {
 @InputType()
 export class UserMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    username?: keyof typeof SortOrder;
+    username?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedPassword?: keyof typeof SortOrder;
+    hashedPassword?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    name?: keyof typeof SortOrder;
+    name?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    location?: keyof typeof SortOrder;
+    location?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bio?: keyof typeof SortOrder;
+    bio?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    hashedRefreshToken?: keyof typeof SortOrder;
+    hashedRefreshToken?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    avatarImage?: keyof typeof SortOrder;
+    avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    emailVerified?: keyof typeof SortOrder;
+    emailVerified?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     username?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -10547,9 +10587,9 @@ export class UserOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -10565,9 +10605,9 @@ export class UserOrderByWithAggregationInput {
 @InputType()
 export class UserOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     username?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -10581,9 +10621,9 @@ export class UserOrderByWithRelationInput {
     @Field(() => SortOrderInput, {nullable:true})
     hashedRefreshToken?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -10601,7 +10641,7 @@ export class UserOrderByWithRelationInput {
 }
 
 @InputType()
-export class UserRelationFilter {
+export class UserScalarRelationFilter {
     @Field(() => UserWhereInput, {nullable:true})
     is?: InstanceType<typeof UserWhereInput>;
     @Field(() => UserWhereInput, {nullable:true})
@@ -12170,6 +12210,8 @@ export class DeleteManyUserBookArgs {
     @Type(() => UserBookWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -12195,7 +12237,7 @@ export class FindFirstUserBookOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookScalarFieldEnum>;
+    distinct?: Array<`${UserBookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -12213,7 +12255,7 @@ export class FindFirstUserBookArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookScalarFieldEnum>;
+    distinct?: Array<`${UserBookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -12231,7 +12273,7 @@ export class FindManyUserBookArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookScalarFieldEnum>;
+    distinct?: Array<`${UserBookScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -12260,6 +12302,8 @@ export class UpdateManyUserBookArgs {
     @Type(() => UserBookWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -12336,9 +12380,9 @@ export class UserBookAvgAggregate {
 @InputType()
 export class UserBookAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    rating?: keyof typeof SortOrder;
+    rating?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
 }
 
 @InputType()
@@ -12392,23 +12436,23 @@ export class UserBookCountAggregate {
 @InputType()
 export class UserBookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    status?: keyof typeof SortOrder;
+    status?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    rating?: keyof typeof SortOrder;
+    rating?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateAdded?: keyof typeof SortOrder;
+    dateAdded?: `${SortOrder}`;
 }
 
 @ObjectType()
@@ -12438,7 +12482,7 @@ export class UserBookCreateManyUserInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12468,7 +12512,7 @@ export class UserBookCreateManyInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12587,7 +12631,7 @@ export class UserBookCreateWithoutBookInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12617,7 +12661,7 @@ export class UserBookCreateWithoutReadDatesInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12647,7 +12691,7 @@ export class UserBookCreateWithoutShelvesInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12677,7 +12721,7 @@ export class UserBookCreateWithoutUserInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12707,7 +12751,7 @@ export class UserBookCreateInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12741,7 +12785,7 @@ export class UserBookGroupByArgs {
     @Field(() => [UserBookOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<UserBookOrderByWithAggregationInput>;
     @Field(() => [UserBookScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof UserBookScalarFieldEnum>;
+    by!: Array<`${UserBookScalarFieldEnum}`>;
     @Field(() => UserBookScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof UserBookScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -12773,7 +12817,7 @@ export class UserBookGroupBy {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12855,7 +12899,7 @@ export class UserBookMaxAggregate {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12875,23 +12919,23 @@ export class UserBookMaxAggregate {
 @InputType()
 export class UserBookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    status?: keyof typeof SortOrder;
+    status?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    rating?: keyof typeof SortOrder;
+    rating?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateAdded?: keyof typeof SortOrder;
+    dateAdded?: `${SortOrder}`;
 }
 
 @InputType()
@@ -12929,7 +12973,7 @@ export class UserBookMinAggregate {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -12949,51 +12993,51 @@ export class UserBookMinAggregate {
 @InputType()
 export class UserBookMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    status?: keyof typeof SortOrder;
+    status?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    rating?: keyof typeof SortOrder;
+    rating?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateAdded?: keyof typeof SortOrder;
+    dateAdded?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserBookOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserBookOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    status?: keyof typeof SortOrder;
+    status?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     rating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateAdded?: keyof typeof SortOrder;
+    dateAdded?: `${SortOrder}`;
     @Field(() => UserBookCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserBookCountOrderByAggregateInput>;
     @Field(() => UserBookAvgOrderByAggregateInput, {nullable:true})
@@ -13009,23 +13053,23 @@ export class UserBookOrderByWithAggregationInput {
 @InputType()
 export class UserBookOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    userId?: keyof typeof SortOrder;
+    userId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    bookId?: keyof typeof SortOrder;
+    bookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    status?: keyof typeof SortOrder;
+    status?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     rating?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrder, {nullable:true})
-    createdAt?: keyof typeof SortOrder;
+    createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    updatedAt?: keyof typeof SortOrder;
+    updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    dateAdded?: keyof typeof SortOrder;
+    dateAdded?: `${SortOrder}`;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
     @Field(() => BookOrderByWithRelationInput, {nullable:true})
@@ -13037,7 +13081,7 @@ export class UserBookOrderByWithRelationInput {
 }
 
 @InputType()
-export class UserBookRelationFilter {
+export class UserBookScalarRelationFilter {
     @Field(() => UserBookWhereInput, {nullable:true})
     is?: InstanceType<typeof UserBookWhereInput>;
     @Field(() => UserBookWhereInput, {nullable:true})
@@ -13122,9 +13166,9 @@ export class UserBookSumAggregate {
 @InputType()
 export class UserBookSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    rating?: keyof typeof SortOrder;
+    rating?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: keyof typeof SortOrder;
+    order?: `${SortOrder}`;
 }
 
 @InputType()
@@ -13166,7 +13210,7 @@ export class UserBookUncheckedCreateWithoutBookInput {
     userId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13200,7 +13244,7 @@ export class UserBookUncheckedCreateWithoutReadDatesInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13232,7 +13276,7 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13261,7 +13305,7 @@ export class UserBookUncheckedCreateWithoutUserInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13295,7 +13339,7 @@ export class UserBookUncheckedCreateInput {
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
     @Validator.IsString()
-    status!: keyof typeof READING_STATUS;
+    status!: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13363,7 +13407,7 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13393,7 +13437,7 @@ export class UserBookUncheckedUpdateManyInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13445,7 +13489,7 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     userId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13479,7 +13523,7 @@ export class UserBookUncheckedUpdateWithoutReadDatesInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13511,7 +13555,7 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13540,7 +13584,7 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13574,7 +13618,7 @@ export class UserBookUncheckedUpdateInput {
     bookId?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13602,7 +13646,7 @@ export class UserBookUpdateManyMutationInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13782,7 +13826,7 @@ export class UserBookUpdateWithoutBookInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13812,7 +13856,7 @@ export class UserBookUpdateWithoutReadDatesInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13842,7 +13886,7 @@ export class UserBookUpdateWithoutShelvesInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13872,7 +13916,7 @@ export class UserBookUpdateWithoutUserInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -13902,7 +13946,7 @@ export class UserBookUpdateInput {
     id?: string;
     @Field(() => READING_STATUS, {nullable:true})
     @Validator.IsString()
-    status?: keyof typeof READING_STATUS;
+    status?: `${READING_STATUS}`;
     @Field(() => Float, {nullable:true})
     @Validator.Min(0)
     @Validator.Max(5)
@@ -14009,10 +14053,10 @@ export class UserBookWhereUniqueInput {
     order?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
     @Field(() => UserBookShelvesListRelationFilter, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesListRelationFilter>;
     @Field(() => ReadDateListRelationFilter, {nullable:true})
@@ -14045,10 +14089,10 @@ export class UserBookWhereInput {
     order?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => UserRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserRelationFilter>;
-    @Field(() => BookRelationFilter, {nullable:true})
-    book?: InstanceType<typeof BookRelationFilter>;
+    @Field(() => UserScalarRelationFilter, {nullable:true})
+    user?: InstanceType<typeof UserScalarRelationFilter>;
+    @Field(() => BookScalarRelationFilter, {nullable:true})
+    book?: InstanceType<typeof BookScalarRelationFilter>;
     @Field(() => UserBookShelvesListRelationFilter, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesListRelationFilter>;
     @Field(() => ReadDateListRelationFilter, {nullable:true})
@@ -14064,8 +14108,8 @@ export class UserBook {
     @Field(() => String, {nullable:false})
     bookId!: string;
     @Field(() => READING_STATUS, {nullable:false})
-    status!: keyof typeof READING_STATUS;
-    @Field(() => Float, {nullable:true,defaultValue:0})
+    status!: `${READING_STATUS}`;
+    @Field(() => Float, {defaultValue:0,nullable:true})
     rating!: number | null;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
@@ -14121,6 +14165,8 @@ export class DeleteManyUserBookShelvesArgs {
     @Type(() => UserBookShelvesWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserBookShelvesWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -14146,7 +14192,7 @@ export class FindFirstUserBookShelvesOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookShelvesScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookShelvesScalarFieldEnum>;
+    distinct?: Array<`${UserBookShelvesScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -14164,7 +14210,7 @@ export class FindFirstUserBookShelvesArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookShelvesScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookShelvesScalarFieldEnum>;
+    distinct?: Array<`${UserBookShelvesScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -14182,7 +14228,7 @@ export class FindManyUserBookShelvesArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [UserBookShelvesScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof UserBookShelvesScalarFieldEnum>;
+    distinct?: Array<`${UserBookShelvesScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -14211,6 +14257,8 @@ export class UpdateManyUserBookShelvesArgs {
     @Type(() => UserBookShelvesWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof UserBookShelvesWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -14284,9 +14332,9 @@ export class UserBookShelvesCountAggregate {
 @InputType()
 export class UserBookShelvesCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    shelfId?: keyof typeof SortOrder;
+    shelfId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -14408,7 +14456,7 @@ export class UserBookShelvesGroupByArgs {
     @Field(() => [UserBookShelvesOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<UserBookShelvesOrderByWithAggregationInput>;
     @Field(() => [UserBookShelvesScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof UserBookShelvesScalarFieldEnum>;
+    by!: Array<`${UserBookShelvesScalarFieldEnum}`>;
     @Field(() => UserBookShelvesScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof UserBookShelvesScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -14466,9 +14514,9 @@ export class UserBookShelvesMaxAggregate {
 @InputType()
 export class UserBookShelvesMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    shelfId?: keyof typeof SortOrder;
+    shelfId?: `${SortOrder}`;
 }
 
 @InputType()
@@ -14490,23 +14538,23 @@ export class UserBookShelvesMinAggregate {
 @InputType()
 export class UserBookShelvesMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    shelfId?: keyof typeof SortOrder;
+    shelfId?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserBookShelvesOrderByRelationAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    _count?: keyof typeof SortOrder;
+    _count?: `${SortOrder}`;
 }
 
 @InputType()
 export class UserBookShelvesOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    shelfId?: keyof typeof SortOrder;
+    shelfId?: `${SortOrder}`;
     @Field(() => UserBookShelvesCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof UserBookShelvesCountOrderByAggregateInput>;
     @Field(() => UserBookShelvesMaxOrderByAggregateInput, {nullable:true})
@@ -14518,9 +14566,9 @@ export class UserBookShelvesOrderByWithAggregationInput {
 @InputType()
 export class UserBookShelvesOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    userBookId?: keyof typeof SortOrder;
+    userBookId?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    shelfId?: keyof typeof SortOrder;
+    shelfId?: `${SortOrder}`;
     @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
     userBook?: InstanceType<typeof UserBookOrderByWithRelationInput>;
     @Field(() => ShelfOrderByWithRelationInput, {nullable:true})
@@ -14903,10 +14951,10 @@ export class UserBookShelvesWhereUniqueInput {
     userBookId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     shelfId?: InstanceType<typeof StringFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
-    @Field(() => ShelfRelationFilter, {nullable:true})
-    shelf?: InstanceType<typeof ShelfRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
+    @Field(() => ShelfScalarRelationFilter, {nullable:true})
+    shelf?: InstanceType<typeof ShelfScalarRelationFilter>;
 }
 
 @InputType()
@@ -14921,10 +14969,10 @@ export class UserBookShelvesWhereInput {
     userBookId?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
     shelfId?: InstanceType<typeof StringFilter>;
-    @Field(() => UserBookRelationFilter, {nullable:true})
-    userBook?: InstanceType<typeof UserBookRelationFilter>;
-    @Field(() => ShelfRelationFilter, {nullable:true})
-    shelf?: InstanceType<typeof ShelfRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    userBook?: InstanceType<typeof UserBookScalarRelationFilter>;
+    @Field(() => ShelfScalarRelationFilter, {nullable:true})
+    shelf?: InstanceType<typeof ShelfScalarRelationFilter>;
 }
 
 @ObjectType()
@@ -14973,6 +15021,8 @@ export class DeleteManyVerificationTokenArgs {
     @Type(() => VerificationTokenWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -14998,7 +15048,7 @@ export class FindFirstVerificationTokenOrThrowArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+    distinct?: Array<`${VerificationTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -15016,7 +15066,7 @@ export class FindFirstVerificationTokenArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+    distinct?: Array<`${VerificationTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -15034,7 +15084,7 @@ export class FindManyVerificationTokenArgs {
     @Field(() => Int, {nullable:true})
     skip?: number;
     @Field(() => [VerificationTokenScalarFieldEnum], {nullable:true})
-    distinct?: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+    distinct?: Array<`${VerificationTokenScalarFieldEnum}`>;
 }
 
 @ArgsType()
@@ -15063,6 +15113,8 @@ export class UpdateManyVerificationTokenArgs {
     @Type(() => VerificationTokenWhereInput)
     @ValidateNested()
     where?: InstanceType<typeof VerificationTokenWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
 }
 
 @ArgsType()
@@ -15148,15 +15200,15 @@ export class VerificationTokenCountAggregate {
 @InputType()
 export class VerificationTokenCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: keyof typeof SortOrder;
+    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
@@ -15204,7 +15256,7 @@ export class VerificationTokenGroupByArgs {
     @Field(() => [VerificationTokenOrderByWithAggregationInput], {nullable:true})
     orderBy?: Array<VerificationTokenOrderByWithAggregationInput>;
     @Field(() => [VerificationTokenScalarFieldEnum], {nullable:false})
-    by!: Array<keyof typeof VerificationTokenScalarFieldEnum>;
+    by!: Array<`${VerificationTokenScalarFieldEnum}`>;
     @Field(() => VerificationTokenScalarWhereWithAggregatesInput, {nullable:true})
     having?: InstanceType<typeof VerificationTokenScalarWhereWithAggregatesInput>;
     @Field(() => Int, {nullable:true})
@@ -15270,15 +15322,15 @@ export class VerificationTokenMaxAggregate {
 @InputType()
 export class VerificationTokenMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: keyof typeof SortOrder;
+    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
@@ -15312,29 +15364,29 @@ export class VerificationTokenMinAggregate {
 @InputType()
 export class VerificationTokenMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: keyof typeof SortOrder;
+    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
 export class VerificationTokenOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: keyof typeof SortOrder;
+    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
     @Field(() => VerificationTokenCountOrderByAggregateInput, {nullable:true})
     _count?: InstanceType<typeof VerificationTokenCountOrderByAggregateInput>;
     @Field(() => VerificationTokenMaxOrderByAggregateInput, {nullable:true})
@@ -15346,15 +15398,15 @@ export class VerificationTokenOrderByWithAggregationInput {
 @InputType()
 export class VerificationTokenOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
-    id?: keyof typeof SortOrder;
+    id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    email?: keyof typeof SortOrder;
+    email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: keyof typeof SortOrder;
+    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    token?: keyof typeof SortOrder;
+    token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    expires?: keyof typeof SortOrder;
+    expires?: `${SortOrder}`;
 }
 
 @InputType()
