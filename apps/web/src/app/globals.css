@@ -4,7 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 /*
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
@@ -16,7 +15,6 @@
         scrollbar-width: none;
     }
 } */
-
 
 @theme {
     --grid-template-columns-16: repeat(16, minmax(0, 1fr));
@@ -117,6 +115,7 @@
 @utility no-scrollbar {
     @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
+
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still

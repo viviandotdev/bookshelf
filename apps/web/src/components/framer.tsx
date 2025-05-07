@@ -31,54 +31,56 @@ export const Tabs = ({
             <LayoutGroup id='tabs'>
                 {tabs.map((item, i) => {
                     return (
-                        <motion.button
-                            key={i}
-                            className={classNames(
-                                'text-md relative flex h-8 cursor-pointer select-none items-center justify-center rounded-md px-4 text-sm transition-colors',
-                                {
-                                    'text-beige-700': hoveredTab === i || selectedTabIndex === i,
-                                }
-                            )}
-                            onHoverStart={() => setHoveredTab(i)}
-                            onFocus={() => setHoveredTab(i)}
-                            onClick={() => {
-                                setSelectedTab([i, i > selectedTabIndex ? 1 : -1]);
-                            }}
-                        >
-                            <span className='z-20'>{item.label}</span>
+                        <div key={i + item.label}>
+                            <motion.button
+                                className={classNames(
+                                    'text-md relative flex h-8 cursor-pointer select-none items-center justify-center rounded-md px-4 text-sm transition-colors',
+                                    {
+                                        'text-beige-700': hoveredTab === i || selectedTabIndex === i,
+                                    }
+                                )}
+                                onHoverStart={() => setHoveredTab(i)}
+                                onFocus={() => setHoveredTab(i)}
+                                onClick={() => {
+                                    setSelectedTab([i, i > selectedTabIndex ? 1 : -1]);
+                                }}
+                            >
+                                <span className='z-20'>{item.label}</span>
 
-                            <AnimatePresence>
-                                {i === selectedTabIndex ? (
-                                    <div className=''>
+                                <AnimatePresence>
+                                    {i === selectedTabIndex ? (
                                         <motion.div
+                                            key={'selected' + i + item.id}
                                             transition={transition}
                                             layoutId='underline'
                                             className={cn(
                                                 'absolute bottom-[-9.5px] left-0 right-0 z-10 mr-0 border-b-2 border-beige-700'
                                             )}
                                         />
-                                    </div>
-                                ) : null}
-                                {i === hoveredTab ? (
-                                    <motion.div
-                                        className='absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-beige-100'
-                                        initial={false}
-                                        animate={{
-                                            opacity: 1,
-                                        }}
-                                        exit={{
-                                            opacity: 0,
-                                        }}
-                                        transition={transition}
-                                        layoutId='hover'
-                                    />
-                                ) : null}
-                            </AnimatePresence>
-                        </motion.button>
+                                    ) : null}
+                                    {i === hoveredTab ? (
+                                        <motion.div
+                                            key={'hovered' + i + item.id}
+                                            className='absolute bottom-0 left-0 right-0 top-0 z-10 rounded-md bg-beige-100'
+                                            initial={false}
+                                            animate={{
+                                                opacity: 1,
+                                            }}
+                                            exit={{
+                                                opacity: 0,
+                                            }}
+                                            transition={transition}
+                                            layoutId='hover'
+                                        />
+                                    ) : null}
+                                </AnimatePresence>
+                            </motion.button>
+                        </div>
+
                     );
                 })}
             </LayoutGroup>
-        </motion.nav>
+        </motion.nav >
     );
 };
 
@@ -86,41 +88,19 @@ const Content = ({
     children,
     className,
     selectedTabIndex,
-    direction,
 }: {
-    direction: number;
     selectedTabIndex: number;
     children: ReactNode;
     className?: string;
 }): JSX.Element => {
     return (
-        // <AnimatePresence mode='wait' custom={direction}>
         <motion.div
             key={selectedTabIndex}
-            // variants={{
-            //   enter: (direction) => ({
-            //     opacity: 0,
-            //     x: direction > 0 ? 100 : -100,
-            //     scale: 0.8,
-            //   }),
-            //   center: { opacity: 1, x: 0, scale: 1, rotate: 0 },
-            //   exit: (direction) => ({
-            //     opacity: 0,
-            //     x: direction > 0 ? -100 : 100,
-            //     scale: 0.8,
-            //     position: 'absolute',
-            //   }),
-            // }}
-            // transition={{ duration: 0.25 }}
             initial={false}
-            // animate={'center'}
-            // exit={'exit'}
-            // custom={direction}
             className={className}
         >
             {children}
         </motion.div>
-        // </AnimatePresence>
     );
 };
 

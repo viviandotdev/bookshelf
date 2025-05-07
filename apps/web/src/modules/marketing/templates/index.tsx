@@ -1,11 +1,10 @@
-// MarketingTemplate.tsx
 import React from 'react';
 import HeroSection from '../sections/hero-section';
 import FeaturesSection from '../sections/features-seciton';
 import FooterSection from '../sections/footer-section';
 import ViewFilterSortSection from '../sections/view-filter-sort-section';
 
-export const MarketingTemplate: React.FC = () => {
+export default async function MarketingTemplate() {
     return (
         <section className='relative z-0 pt-20'>
             <div className='container flex flex-col items-center gap-4 pb-28 text-center'>
@@ -24,5 +23,3 @@ export const MarketingTemplate: React.FC = () => {
         </section>
     );
 };
-
-export default MarketingTemplate;
