@@ -1,7 +1,7 @@
 'use client';
 import BookCover from '@/components/book-cover';
 import { Button } from '@/components/ui/button';
-import { Book, Reading_Status, Shelf, Size, UserBook } from '@/graphql/graphql';
+import { Reading_Status, Shelf, Size, UserBook } from '@/graphql/graphql';
 import { cn, formatAuthors, getCoverUrl } from '@/lib/utils';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';

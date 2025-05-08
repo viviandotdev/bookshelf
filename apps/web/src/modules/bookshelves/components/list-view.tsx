@@ -19,7 +19,6 @@ export const ListView: React.FC<ListViewProps> = () => {
     const searchParams = useSearchParams();
     const page = searchParams?.get('page') ?? '1';
     const query = useBuildQuery();
-    const { library } = useShelfStore();
 
     // Memoize the query variables to prevent unnecessary rerenders
     const queryVariables = useMemo(() => {
