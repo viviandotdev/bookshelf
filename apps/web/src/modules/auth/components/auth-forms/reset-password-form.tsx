@@ -5,18 +5,14 @@ import { useForm } from 'react-hook-form';
 import { useState, useTransition } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Icons } from '@/components/icons';
-import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
-
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { FormError } from '@/components/form-error';
+import { AuthFormWrapper } from '../auth-form-wrapper';
+import { AuthInput } from '../auth-input';
 import { NewPasswordSchema } from '@/schemas/auth';
-import { resetPassword } from '../actions/reset-password';
+import { resetPassword } from '../../actions/reset-password';
 import { dm_sefif_display } from '@/lib/fonts';
 import { CheckIcon } from 'lucide-react';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export const ResetPasswordForm = () => {
     const searchParams = useSearchParams();
@@ -40,7 +36,6 @@ export const ResetPasswordForm = () => {
     const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
         setError('');
         setSuccess('');
-
         startTransition(() => {
             resetPassword(values, token).then((data) => {
                 setError(data?.error);
@@ -75,34 +70,23 @@ export const ResetPasswordForm = () => {
                     Reset Password
                 </h1>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='grid gap-6'>
-                    <div className='grid gap-2'>
-                        <Label htmlFor='password'>New Password</Label>
-                        <Input
-                            className='w-full'
-                            id='password'
-                            type='password'
-                            variant='rings'
-                            placeholder='******'
-                            disabled={isPending}
-                            {...register('password')}
-                        />
-                        {errors?.password && (
-                            <p className='px-1 text-xs text-red-600'>{errors.password.message}</p>
-                        )}
-                    </div>
-                    <FormError message={error} />
-                    <button
-                        className={cn(buttonVariants({ variant: 'default' }))}
-                        disabled={isPending}
-                    >
-                        {isPending && <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />}
-                        Reset password
-                    </button>
-                </div>
-            </form>
+            <AuthFormWrapper
+                onSubmit={handleSubmit(onSubmit)}
+                isPending={isPending}
+                error={error}
+                success={success}
+                buttonLabel='Reset password'
+            >
+                <AuthInput
+                    id='password'
+                    label='New Password'
+                    type='password'
+                    placeholder='******'
+                    error={errors?.password?.message}
+                    disabled={isPending}
+                    register={register}
+                />
+            </AuthFormWrapper>
         </>
-
     );
 };

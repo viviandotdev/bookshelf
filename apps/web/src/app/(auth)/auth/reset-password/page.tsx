@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { ResetPasswordForm } from '@/modules/auth/components/reset-password-form';
+import { ResetPasswordForm } from '@/modules/auth/components/auth-forms/reset-password-form';
 
 export default function ResetPasswordPage() {
     return (
