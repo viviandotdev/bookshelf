@@ -27,16 +27,7 @@ export default function LoginPage() {
         </>
       </Link>
       <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
-        <div className='flex flex-col space-y-2 text-center'>
-          <h1
-            className={cn(
-              dm_sefif_display.className,
-              'text-5xl/[64px] font-bold  text-beige'
-            )}
-          >
-            Log in
-          </h1>
-        </div>
+     
         <LoginTemplate />
       </div>
     </div>
