@@ -933,7 +933,6 @@ type Mutation {
   importUserBooks(content: String!, favoritesShelf: String, ownedShelf: String, shelves: [String!]): Boolean!
   login(logInInput: LogInInput!): AuthResponse!
   logout(id: String!): Boolean!
-  oAuth(oAuthInput: OAuthInput!): AuthResponse!
   refreshAuth: RefreshResponse!
   register(registerInput: RegisterInput!): User!
   removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): Boolean!
@@ -946,24 +945,11 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
-  verifyToken(token: String!): AuthResponse!
 }
 
 enum NullsOrder {
   first
   last
-}
-
-input OAuthInput {
-  access_token: String!
-  email: String!
-  image: String!
-  provider: String!
-  providerAccountId: String!
-  scope: String!
-  token_type: String!
-  type: String!
-  username: String!
 }
 
 enum PROGRESS_TYPE {

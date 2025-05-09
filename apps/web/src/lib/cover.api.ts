@@ -6,8 +6,6 @@ const START_PATTERN_GOODREADS_GOOGLE_SEARCH =
     'https://www.goodreads.com/book/show/';
 const END_PATTERN_GOODREADS_GOOGLE_SEARCH = '&';
 const END_PATTERN_IMAGE_SEARCH = '"';
-const START_PATTERN_GOODREADS_RATING = '"';
-const END_PATTERN_GOODREADS_RATING = '&';
 
 function getUrl(data: any, startPattern: string, endPattern: string) {
     const startIndex = data.indexOf(startPattern);
@@ -102,22 +100,15 @@ export async function bookcoverIsbn(isbn: string) {
         );
         console.log(imageUrl);
         return imageUrl;
-        // res.status(200).send(buildSuccessResponse(imageUrl));
     } catch (error) {
-        // const ex = new HttpException(500, error.message);
         console.log(error + ' ' + isbn);
         return null;
-        // res.status(ex.statusCode).send(buildErrorResponse(ex));
     }
 }
 
 export async function bookcoverSearch(bookTitle: string, authorName: string) {
-    //   const bookTitle = '21 Lessons for the 21st Century';
-    //   const authorName = 'Yuval Noah Harari';
 
     if (!bookTitle || !authorName) {
-        // const ex = new HttpException(400, 'Mandatory parameters missing');
-        // console.log(ex);
         return null;
     }
 
@@ -143,13 +134,9 @@ export async function bookcoverSearch(bookTitle: string, authorName: string) {
             END_PATTERN_IMAGE_SEARCH
         );
         return imageUrl;
-        // res.status(200).send(buildSuccessResponse(imageUrl));
     } catch (error) {
-        // const ex = new HttpException(500, error.message);
         console.log('ERROR' + bookTitle + ' ' + authorName);
         return null;
-        // res.status(ex.statusCode).send(buildErrorResponse(ex));
     }
 
-    //   http://bookcover.longitood.com/bookcover/978-0593135204
 }

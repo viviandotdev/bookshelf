@@ -39,7 +39,7 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
     const onSubmit = async (values: z.infer<typeof loginUserSchema>) => {
         setIsLoading(true);
         try {
-            const res = await signIn('credentials', {
+        const res = await signIn('credentials', {
                 email: values.email.toLowerCase(),
                 password: values.password,
                 redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,

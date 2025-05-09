@@ -6,7 +6,8 @@ import {
     authRoutes,
     DEFAULT_LOGIN_REDIRECT,
 } from '../routes';
-
+import { getToken } from "next-auth/jwt";
+import { NextResponse } from "next/server";
 
 const { auth } = NextAuth(authConfig);
 
@@ -14,26 +15,15 @@ const { auth } = NextAuth(authConfig);
 
 export default auth(async (req): Promise<any> => {
     // Handle backend api token expires, this token expires before the frontend token
-    // const user = await getUser(); // get user from db
-
-    const expired =
-        req.auth &&
-        Date.now() >= (req.auth && (req.auth!.expires as unknown as any)) * 1000;
-
+    const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+    const expired = token && Date.now() >= (token.expiresIn as number) * 1000
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth && !expired;
 
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-    // console.log(user)
-    // if (user.error) {
-
-    //     console.log(user.error, "LOL~")
-    //     // invalidate the session
-
-    //     // return Response.redirect(new URL("/login", nextUrl));
-    // }
+    console.log(expired)
 
     if (isApiAuthRoute) {
         return null;
@@ -41,7 +31,7 @@ export default auth(async (req): Promise<any> => {
 
     if (isAuthRoute) {
         if (isLoggedIn) {
-            return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+            return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
         }
         return null;
     }
@@ -54,9 +44,12 @@ export default auth(async (req): Promise<any> => {
 
         const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 
-        return Response.redirect(
-            new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-        );
+        // Clear the session cookies
+        const response = NextResponse.redirect(new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl));
+        response.cookies.set("next-auth.session-token", "", { maxAge: 0 });
+        response.cookies.set("next-auth.csrf-token", "", { maxAge: 0 });
+
+        return response
     }
 
     return null;
@@ -64,5 +57,5 @@ export default auth(async (req): Promise<any> => {
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)', '/((?!_next/static|_next/image|favicon.ico|api).*)',]
 };

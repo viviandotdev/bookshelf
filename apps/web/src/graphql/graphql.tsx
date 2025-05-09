@@ -246,7 +246,7 @@ export type AccountWhereInput = {
   session_state?: InputMaybe<StringFilter>;
   token_type?: InputMaybe<StringFilter>;
   type?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -266,7 +266,7 @@ export type AccountWhereUniqueInput = {
   session_state?: InputMaybe<StringFilter>;
   token_type?: InputMaybe<StringFilter>;
   type?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -477,7 +477,7 @@ export type BookOrderByWithRelationInput = {
   yearPublished?: InputMaybe<SortOrderInput>;
 };
 
-export type BookRelationFilter = {
+export type BookScalarRelationFilter = {
   is?: InputMaybe<BookWhereInput>;
   isNot?: InputMaybe<BookWhereInput>;
 };
@@ -532,7 +532,7 @@ export type BookWhereInput = {
   slug?: InputMaybe<StringFilter>;
   subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   yearPublished?: InputMaybe<StringFilter>;
 };
 
@@ -549,7 +549,7 @@ export type BookWhereUniqueInput = {
   slug?: InputMaybe<Scalars['String']['input']>;
   subtitle?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   yearPublished?: InputMaybe<StringFilter>;
 };
 
@@ -704,7 +704,7 @@ export type CoverWhereInput = {
   AND?: InputMaybe<Array<CoverWhereInput>>;
   NOT?: InputMaybe<Array<CoverWhereInput>>;
   OR?: InputMaybe<Array<CoverWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   size?: InputMaybe<EnumSizeFilter>;
@@ -716,7 +716,7 @@ export type CoverWhereUniqueInput = {
   AND?: InputMaybe<Array<CoverWhereInput>>;
   NOT?: InputMaybe<Array<CoverWhereInput>>;
   OR?: InputMaybe<Array<CoverWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   size?: InputMaybe<EnumSizeFilter>;
@@ -917,7 +917,7 @@ export type IdentifierWhereInput = {
   AND?: InputMaybe<Array<IdentifierWhereInput>>;
   NOT?: InputMaybe<Array<IdentifierWhereInput>>;
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   source?: InputMaybe<EnumSourceFilter>;
@@ -928,7 +928,7 @@ export type IdentifierWhereUniqueInput = {
   AND?: InputMaybe<Array<IdentifierWhereInput>>;
   NOT?: InputMaybe<Array<IdentifierWhereInput>>;
   OR?: InputMaybe<Array<IdentifierWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   source?: InputMaybe<EnumSourceFilter>;
@@ -976,7 +976,6 @@ export type Mutation = {
   importUserBooks: Scalars['Boolean']['output'];
   login: AuthResponse;
   logout: Scalars['Boolean']['output'];
-  oAuth: AuthResponse;
   refreshAuth: RefreshResponse;
   register: User;
   removeBookFromShelf: Scalars['Boolean']['output'];
@@ -989,7 +988,6 @@ export type Mutation = {
   updateUser: User;
   updateUserBook: UserBook;
   updateUserBookOrder: Array<UserBook>;
-  verifyToken: AuthResponse;
 };
 
 
@@ -1051,11 +1049,6 @@ export type MutationLoginArgs = {
 
 export type MutationLogoutArgs = {
   id: Scalars['String']['input'];
-};
-
-
-export type MutationOAuthArgs = {
-  oAuthInput: OAuthInput;
 };
 
 
@@ -1121,27 +1114,10 @@ export type MutationUpdateUserBookOrderArgs = {
   data: UserBookUpdateOrderInput;
 };
 
-
-export type MutationVerifyTokenArgs = {
-  token: Scalars['String']['input'];
-};
-
 export enum NullsOrder {
   First = 'first',
   Last = 'last'
 }
-
-export type OAuthInput = {
-  access_token: Scalars['String']['input'];
-  email: Scalars['String']['input'];
-  image: Scalars['String']['input'];
-  provider: Scalars['String']['input'];
-  providerAccountId: Scalars['String']['input'];
-  scope: Scalars['String']['input'];
-  token_type: Scalars['String']['input'];
-  type: Scalars['String']['input'];
-  username: Scalars['String']['input'];
-};
 
 export enum Progress_Type {
   Pages = 'PAGES',
@@ -1440,7 +1416,7 @@ export type RatingWhereInput = {
   AND?: InputMaybe<Array<RatingWhereInput>>;
   NOT?: InputMaybe<Array<RatingWhereInput>>;
   OR?: InputMaybe<Array<RatingWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   count?: InputMaybe<IntFilter>;
   id?: InputMaybe<StringFilter>;
@@ -1453,7 +1429,7 @@ export type RatingWhereUniqueInput = {
   AND?: InputMaybe<Array<RatingWhereInput>>;
   NOT?: InputMaybe<Array<RatingWhereInput>>;
   OR?: InputMaybe<Array<RatingWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   count?: InputMaybe<IntFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
@@ -1543,7 +1519,7 @@ export type ReadDateOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
-export type ReadDateRelationFilter = {
+export type ReadDateScalarRelationFilter = {
   is?: InputMaybe<ReadDateWhereInput>;
   isNot?: InputMaybe<ReadDateWhereInput>;
 };
@@ -1611,9 +1587,9 @@ export type ReadDateWhereInput = {
   active?: InputMaybe<BoolFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
-  readingProgress?: InputMaybe<ReadingProgressRelationFilter>;
+  readingProgress?: InputMaybe<ReadingProgressScalarRelationFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
@@ -1624,9 +1600,9 @@ export type ReadDateWhereUniqueInput = {
   active?: InputMaybe<BoolFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  readingProgress?: InputMaybe<ReadingProgressRelationFilter>;
+  readingProgress?: InputMaybe<ReadingProgressScalarRelationFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
@@ -1697,7 +1673,7 @@ export type ReadingProgressMinAggregate = {
   type?: Maybe<Progress_Type>;
 };
 
-export type ReadingProgressRelationFilter = {
+export type ReadingProgressScalarRelationFilter = {
   is?: InputMaybe<ReadingProgressWhereInput>;
   isNot?: InputMaybe<ReadingProgressWhereInput>;
 };
@@ -1745,7 +1721,7 @@ export type ReadingProgressWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   progress?: InputMaybe<IntFilter>;
-  readDate?: InputMaybe<ReadDateRelationFilter>;
+  readDate?: InputMaybe<ReadDateScalarRelationFilter>;
   readDateId?: InputMaybe<StringFilter>;
   type?: InputMaybe<EnumProgress_TypeFilter>;
 };
@@ -1758,7 +1734,7 @@ export type ReadingProgressWhereUniqueInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   progress?: InputMaybe<IntFilter>;
-  readDate?: InputMaybe<ReadDateRelationFilter>;
+  readDate?: InputMaybe<ReadDateScalarRelationFilter>;
   readDateId?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<EnumProgress_TypeFilter>;
 };
@@ -1916,7 +1892,7 @@ export type ShelfOrderByRelationAggregateInput = {
   _count?: InputMaybe<SortOrder>;
 };
 
-export type ShelfRelationFilter = {
+export type ShelfScalarRelationFilter = {
   is?: InputMaybe<ShelfWhereInput>;
   isNot?: InputMaybe<ShelfWhereInput>;
 };
@@ -2021,7 +1997,7 @@ export type ShelfWhereInput = {
   id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   slug?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userBooks?: InputMaybe<UserBookShelvesListRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -2035,7 +2011,7 @@ export type ShelfWhereUniqueInput = {
   identifier?: InputMaybe<ShelfIdentifierCompoundUniqueInput>;
   name?: InputMaybe<StringFilter>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userBooks?: InputMaybe<UserBookShelvesListRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
@@ -2303,7 +2279,7 @@ export type UserBookOrderByWithRelationInput = {
   userId?: InputMaybe<SortOrder>;
 };
 
-export type UserBookRelationFilter = {
+export type UserBookScalarRelationFilter = {
   is?: InputMaybe<UserBookWhereInput>;
   isNot?: InputMaybe<UserBookWhereInput>;
 };
@@ -2503,9 +2479,9 @@ export type UserBookShelvesWhereInput = {
   AND?: InputMaybe<Array<UserBookShelvesWhereInput>>;
   NOT?: InputMaybe<Array<UserBookShelvesWhereInput>>;
   OR?: InputMaybe<Array<UserBookShelvesWhereInput>>;
-  shelf?: InputMaybe<ShelfRelationFilter>;
+  shelf?: InputMaybe<ShelfScalarRelationFilter>;
   shelfId?: InputMaybe<StringFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
@@ -2513,9 +2489,9 @@ export type UserBookShelvesWhereUniqueInput = {
   AND?: InputMaybe<Array<UserBookShelvesWhereInput>>;
   NOT?: InputMaybe<Array<UserBookShelvesWhereInput>>;
   OR?: InputMaybe<Array<UserBookShelvesWhereInput>>;
-  shelf?: InputMaybe<ShelfRelationFilter>;
+  shelf?: InputMaybe<ShelfScalarRelationFilter>;
   shelfId?: InputMaybe<StringFilter>;
-  userBook?: InputMaybe<UserBookRelationFilter>;
+  userBook?: InputMaybe<UserBookScalarRelationFilter>;
   userBookId?: InputMaybe<StringFilter>;
   userBookId_shelfId?: InputMaybe<UserBookShelvesUserBookIdShelfIdCompoundUniqueInput>;
 };
@@ -2625,7 +2601,7 @@ export type UserBookWhereInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   dateAdded?: InputMaybe<DateTimeFilter>;
@@ -2636,7 +2612,7 @@ export type UserBookWhereInput = {
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<EnumReading_StatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -2644,7 +2620,7 @@ export type UserBookWhereUniqueInput = {
   AND?: InputMaybe<Array<UserBookWhereInput>>;
   NOT?: InputMaybe<Array<UserBookWhereInput>>;
   OR?: InputMaybe<Array<UserBookWhereInput>>;
-  book?: InputMaybe<BookRelationFilter>;
+  book?: InputMaybe<BookScalarRelationFilter>;
   bookId?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<DateTimeFilter>;
   dateAdded?: InputMaybe<DateTimeFilter>;
@@ -2656,7 +2632,7 @@ export type UserBookWhereUniqueInput = {
   shelves?: InputMaybe<UserBookShelvesListRelationFilter>;
   status?: InputMaybe<EnumReading_StatusFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
-  user?: InputMaybe<UserRelationFilter>;
+  user?: InputMaybe<UserScalarRelationFilter>;
   userId?: InputMaybe<StringFilter>;
 };
 
@@ -2869,7 +2845,7 @@ export type UserOrderByWithRelationInput = {
   username?: InputMaybe<SortOrderInput>;
 };
 
-export type UserRelationFilter = {
+export type UserScalarRelationFilter = {
   is?: InputMaybe<UserWhereInput>;
   isNot?: InputMaybe<UserWhereInput>;
 };
@@ -3160,7 +3136,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, avatarImage?: string | null, emailVerified?: any | null, id: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, avatarImage?: string | null, emailVerified?: any | null, id: string } } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -3176,26 +3152,12 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
-export type VerifyTokenMutationVariables = Exact<{
-  token: Scalars['String']['input'];
-}>;
-
-
-export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, verificationToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, emailVerified?: any | null, id: string } } };
-
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string, id: string, username?: string | null } };
-
-export type OAuthMutationVariables = Exact<{
-  input: OAuthInput;
-}>;
-
-
-export type OAuthMutation = { __typename?: 'Mutation', oAuth: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, id: string } } };
 
 export type RefreshAuthMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -3446,7 +3408,6 @@ export const LoginDocument = gql`
   login(logInInput: $input) {
     accessToken
     refreshToken
-    verificationToken
     expiresIn
     user {
       email
@@ -3549,48 +3510,6 @@ export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOption
 export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
-export const VerifyTokenDocument = gql`
-    mutation VerifyToken($token: String!) {
-  verifyToken(token: $token) {
-    accessToken
-    refreshToken
-    verificationToken
-    expiresIn
-    user {
-      email
-      username
-      emailVerified
-      id
-    }
-  }
-}
-    `;
-export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation, VerifyTokenMutationVariables>;
-
-/**
- * __useVerifyTokenMutation__
- *
- * To run a mutation, you first call `useVerifyTokenMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useVerifyTokenMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [verifyTokenMutation, { data, loading, error }] = useVerifyTokenMutation({
- *   variables: {
- *      token: // value for 'token'
- *   },
- * });
- */
-export function useVerifyTokenMutation(baseOptions?: Apollo.MutationHookOptions<VerifyTokenMutation, VerifyTokenMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(VerifyTokenDocument, options);
-      }
-export type VerifyTokenMutationHookResult = ReturnType<typeof useVerifyTokenMutation>;
-export type VerifyTokenMutationResult = Apollo.MutationResult<VerifyTokenMutation>;
-export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<VerifyTokenMutation, VerifyTokenMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($input: RegisterInput!) {
   register(registerInput: $input) {
@@ -3626,46 +3545,6 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const OAuthDocument = gql`
-    mutation OAuth($input: OAuthInput!) {
-  oAuth(oAuthInput: $input) {
-    accessToken
-    refreshToken
-    expiresIn
-    user {
-      email
-      username
-      id
-    }
-  }
-}
-    `;
-export type OAuthMutationFn = Apollo.MutationFunction<OAuthMutation, OAuthMutationVariables>;
-
-/**
- * __useOAuthMutation__
- *
- * To run a mutation, you first call `useOAuthMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useOAuthMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [oAuthMutation, { data, loading, error }] = useOAuthMutation({
- *   variables: {
- *      input: // value for 'input'
- *   },
- * });
- */
-export function useOAuthMutation(baseOptions?: Apollo.MutationHookOptions<OAuthMutation, OAuthMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<OAuthMutation, OAuthMutationVariables>(OAuthDocument, options);
-      }
-export type OAuthMutationHookResult = ReturnType<typeof useOAuthMutation>;
-export type OAuthMutationResult = Apollo.MutationResult<OAuthMutation>;
-export type OAuthMutationOptions = Apollo.BaseMutationOptions<OAuthMutation, OAuthMutationVariables>;
 export const RefreshAuthDocument = gql`
     mutation RefreshAuth {
   refreshAuth {
@@ -4372,8 +4251,8 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
-export function useMeSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
@@ -4441,8 +4320,8 @@ export function useFindBookByIdentifierLazyQuery(baseOptions?: Apollo.LazyQueryH
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>(FindBookByIdentifierDocument, options);
         }
-export function useFindBookByIdentifierSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useFindBookByIdentifierSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<FindBookByIdentifierQuery, FindBookByIdentifierQueryVariables>(FindBookByIdentifierDocument, options);
         }
 export type FindBookByIdentifierQueryHookResult = ReturnType<typeof useFindBookByIdentifierQuery>;
@@ -4498,8 +4377,8 @@ export function useSearchMyLibraryLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<SearchMyLibraryQuery, SearchMyLibraryQueryVariables>(SearchMyLibraryDocument, options);
         }
-export function useSearchMyLibrarySuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SearchMyLibraryQuery, SearchMyLibraryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useSearchMyLibrarySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<SearchMyLibraryQuery, SearchMyLibraryQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<SearchMyLibraryQuery, SearchMyLibraryQueryVariables>(SearchMyLibraryDocument, options);
         }
 export type SearchMyLibraryQueryHookResult = ReturnType<typeof useSearchMyLibraryQuery>;
@@ -4567,8 +4446,8 @@ export function useBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<BookQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BookQuery, BookQueryVariables>(BookDocument, options);
         }
-export function useBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookQuery, BookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useBookSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BookQuery, BookQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<BookQuery, BookQueryVariables>(BookDocument, options);
         }
 export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
@@ -4618,8 +4497,8 @@ export function useReadDatesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
         }
-export function useReadDatesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useReadDatesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ReadDatesQuery, ReadDatesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<ReadDatesQuery, ReadDatesQueryVariables>(ReadDatesDocument, options);
         }
 export type ReadDatesQueryHookResult = ReturnType<typeof useReadDatesQuery>;
@@ -4666,8 +4545,8 @@ export function useShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Sh
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
         }
-export function useShelvesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useShelvesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ShelvesQuery, ShelvesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<ShelvesQuery, ShelvesQueryVariables>(ShelvesDocument, options);
         }
 export type ShelvesQueryHookResult = ReturnType<typeof useShelvesQuery>;
@@ -4713,8 +4592,8 @@ export function useGetMyBookShelvesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(GetMyBookShelvesDocument, options);
         }
-export function useGetMyBookShelvesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetMyBookShelvesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetMyBookShelvesQuery, GetMyBookShelvesQueryVariables>(GetMyBookShelvesDocument, options);
         }
 export type GetMyBookShelvesQueryHookResult = ReturnType<typeof useGetMyBookShelvesQuery>;
@@ -4763,8 +4642,8 @@ export function useBooksByShelfNameLazyQuery(baseOptions?: Apollo.LazyQueryHookO
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>(BooksByShelfNameDocument, options);
         }
-export function useBooksByShelfNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useBooksByShelfNameSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<BooksByShelfNameQuery, BooksByShelfNameQueryVariables>(BooksByShelfNameDocument, options);
         }
 export type BooksByShelfNameQueryHookResult = ReturnType<typeof useBooksByShelfNameQuery>;
@@ -4835,8 +4714,8 @@ export function useBooksByShelfLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
         }
-export function useBooksByShelfSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useBooksByShelfSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BooksByShelfQuery, BooksByShelfQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<BooksByShelfQuery, BooksByShelfQueryVariables>(BooksByShelfDocument, options);
         }
 export type BooksByShelfQueryHookResult = ReturnType<typeof useBooksByShelfQuery>;
@@ -4892,8 +4771,8 @@ export function useShelvesWithBookCoversLazyQuery(baseOptions?: Apollo.LazyQuery
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
         }
-export function useShelvesWithBookCoversSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useShelvesWithBookCoversSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<ShelvesWithBookCoversQuery, ShelvesWithBookCoversQueryVariables>(ShelvesWithBookCoversDocument, options);
         }
 export type ShelvesWithBookCoversQueryHookResult = ReturnType<typeof useShelvesWithBookCoversQuery>;
@@ -4938,8 +4817,8 @@ export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQ
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, options);
         }
-export function useUserSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserQuery, UserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<UserQuery, UserQueryVariables>(UserDocument, options);
         }
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
@@ -5010,8 +4889,8 @@ export function useUserBookLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<U
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
         }
-export function useUserBookSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useUserBookSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserBookQuery, UserBookQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<UserBookQuery, UserBookQueryVariables>(UserBookDocument, options);
         }
 export type UserBookQueryHookResult = ReturnType<typeof useUserBookQuery>;
@@ -5096,8 +4975,8 @@ export function useGetUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
         }
-export function useGetUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetUserBooksSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserBooksQuery, GetUserBooksQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetUserBooksQuery, GetUserBooksQueryVariables>(GetUserBooksDocument, options);
         }
 export type GetUserBooksQueryHookResult = ReturnType<typeof useGetUserBooksQuery>;
@@ -5134,8 +5013,8 @@ export function useCountUserBooksLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
         }
-export function useCountUserBooksSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useCountUserBooksSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CountUserBooksQuery, CountUserBooksQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<CountUserBooksQuery, CountUserBooksQueryVariables>(CountUserBooksDocument, options);
         }
 export type CountUserBooksQueryHookResult = ReturnType<typeof useCountUserBooksQuery>;
@@ -5177,8 +5056,8 @@ export function useBookCountsByUserIdLazyQuery(baseOptions?: Apollo.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>(BookCountsByUserIdDocument, options);
         }
-export function useBookCountsByUserIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useBookCountsByUserIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>(BookCountsByUserIdDocument, options);
         }
 export type BookCountsByUserIdQueryHookResult = ReturnType<typeof useBookCountsByUserIdQuery>;

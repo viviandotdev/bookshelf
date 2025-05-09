@@ -2,7 +2,6 @@ mutation Login($input: LogInInput!) {
   login(logInInput: $input) {
     accessToken
     refreshToken
-    verificationToken
     expiresIn
     user {
       email
@@ -25,39 +24,12 @@ mutation ResetPassword($input: ResetPasswordInput!) {
   resetPassword(resetPasswordInput: $input)
 }
 
-mutation VerifyToken($token: String!) {
-  verifyToken(token: $token) {
-    accessToken
-    refreshToken
-    verificationToken
-    expiresIn
-    user {
-      email
-      username
-      emailVerified
-      id
-    }
-  }
-}
 
 mutation Register($input: RegisterInput!) {
   register(registerInput: $input) {
     email
     id
     username
-  }
-}
-
-mutation OAuth($input: OAuthInput!) {
-  oAuth(oAuthInput: $input) {
-    accessToken
-    refreshToken
-    expiresIn
-    user {
-      email
-      username
-      id
-    }
   }
 }
 
