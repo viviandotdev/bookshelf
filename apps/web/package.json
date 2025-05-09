@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "@apollo/client": "^3.13.8",
-        "@apollo/experimental-nextjs-app-support": "^0.12.2",
+        "@apollo/client-integration-nextjs": "^0.12.2",
         "@auth/core": "^0.39.0",
         "@hookform/resolvers": "^5.0.1",
         "@prisma/client": "^6.7.0",

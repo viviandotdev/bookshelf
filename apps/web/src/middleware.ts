@@ -57,5 +57,5 @@ export default auth(async (req): Promise<any> => {
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)', '/((?!_next/static|_next/image|favicon.ico|api).*)',]
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)',]
 };

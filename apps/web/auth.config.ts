@@ -1,12 +1,11 @@
 import Credentials from 'next-auth/providers/credentials';
 import type { NextAuthConfig } from 'next-auth';
-import { getApolloClient, httpLink, setAuthToken } from '@/lib/apollo';
 import {
     LoginDocument,
     LoginMutation,
-    RefreshAuthDocument,
-    RefreshAuthMutation,
 } from '@/graphql/graphql';
+import { getApolloClient } from '@/lib/apollo';
+
 
 const client = getApolloClient();
 
@@ -19,31 +18,53 @@ interface CustomUser {
     expiresIn: number;
 }
 
+const REFRESH_AUTHENTICATION_MUTATION = `
+    mutation RefreshAuth {
+        refreshAuth {
+            accessToken
+            refreshToken
+            expiresIn
+    }
+ }
+`
+
 async function refreshAccessToken(token: any): Promise<any> {
     try {
-        const { data } = await client.mutate<RefreshAuthMutation>({
-            mutation: RefreshAuthDocument,
-            variables: {
-                refreshToken: token.refreshToken,
+        const response = await fetch('http://localhost:4000/graphql', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token.refreshToken}`
             },
+            body: JSON.stringify({
+                operationName: "RefreshAuth",
+                query: REFRESH_AUTHENTICATION_MUTATION,
+            })
         });
 
-        if (!data?.refreshAuth?.accessToken || !data?.refreshAuth?.refreshToken) {
-            throw new Error('Failed to refresh token');
+        const { data } = await response.json();
+        const refreshResult = data?.refreshAuth;
+
+        if (!refreshResult) {
+            return {
+                ...token,
+                error: 'RefreshTokenError',
+            };
         }
+
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken, expiresIn } = refreshResult;
 
         return {
             ...token,
-            accessToken: data.refreshAuth.accessToken,
-            refreshToken: data.refreshAuth.refreshToken,
-            expiresIn: data.refreshAuth.expiresIn,
-            error: undefined,
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+            expiresIn: expiresIn
         };
     } catch (error) {
         console.error('Error refreshing token:', error);
         return {
             ...token,
-            error: 'RefreshTokenExpiredError',
+            error: 'RefreshTokenError',
         };
     }
 }
@@ -74,8 +95,7 @@ export default {
                     });
 
                 if (errors) {
-                    console.log(errors)
-                    return null
+                    throw new Error('Failed to login! try again');
                 }
 
                 if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.user?.username || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
@@ -113,16 +133,16 @@ export default {
                 return token
             }
 
-            // Check if token has expired
-            const expired = token && Date.now() >= (token.expiresIn as number) * 1000
-            console.log('jwt' + expired + token.expiresIn)
-            if (expired) {
-                await client.resetStore();
-                token.error = 'AccessTokenExpiredError';
+            const expired =
+                token && Date.now() >= (token.expiresIn as number) * 1000
+
+            if (!expired) {
+                // Subsequent logins, but the `access_token` is still valid
+                return token;
+            } else {
                 return await refreshAccessToken(token);
             }
-            // The current access token is still valid
-            return token;
+
         },
         async session({ session, token }) {
             session.error = token.error;
@@ -132,6 +152,7 @@ export default {
                 email: token.email,
                 id: token.id,
                 accessToken: token.accessToken,
+                refreshToken: token.refreshToken,
                 expiresIn: token.expiresIn,
                 error: token.error,
             };

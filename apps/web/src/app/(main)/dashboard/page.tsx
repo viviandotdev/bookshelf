@@ -1,3 +1,4 @@
+import { auth, signOut } from '@/auth';
 import { Reading_Status, SortOrder } from '@/graphql/graphql';
 import { getCurrentUser } from '@/lib/auth';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
@@ -12,7 +13,13 @@ export const maxDuration = 60; // Applies to the actions
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({ }) => {
     const user = await getCurrentUser();
+    const session = await auth()
+    console.log("current user", user)
+    if (session?.error === "RefreshTokenError") {
+        await signOut() // Force sign in to obtain a new set of access and refresh tokens
+    }
     if (!user) {
+        await signOut() // Force sign in to obtain a new set of access and refresh tokens
         redirect('/');
     }
 

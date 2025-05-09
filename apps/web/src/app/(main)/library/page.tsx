@@ -1,3 +1,4 @@
+import { auth, signOut } from '@/auth';
 import { getCurrentUser } from '@/lib/auth';
 import BookshelvesTemplate from '@/modules/bookshelves/templates';
 import Sidebar from '@/modules/shelf/components/shelf-sidebar';
@@ -8,6 +9,11 @@ export default async function LibraryPage({ }: {}) {
     const user = await getCurrentUser();
     if (!user) {
         notFound();
+    }
+
+    const session = await auth()
+    if (session?.error === "RefreshTokenError") {
+        await signOut() // Force sign out to obtain a new set of access and refresh tokens
     }
     return (
         <>

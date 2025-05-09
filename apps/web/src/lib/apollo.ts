@@ -1,37 +1,37 @@
 import {
-  ApolloClient,
-  from,
-  createHttpLink,
-  InMemoryCache,
+    ApolloClient,
+    from,
+    createHttpLink,
+    InMemoryCache,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
 export const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_API_URL,
-  credentials: 'include',
+    uri: process.env.NEXT_PUBLIC_API_URL,
+    credentials: 'include',
 });
 
 export const setAuthToken = (token: string) =>
-  setContext((_, { headers }) => ({
-    headers: {
-      ...headers,
-      authorization: `Bearer ${token}`,
-    },
-  }));
+    setContext((_, { headers }) => ({
+        headers: {
+            ...headers,
+            authorization: `Bearer ${token}`,
+        },
+    }));
 
 export function getApolloClient() {
-  return new ApolloClient({
-    link: from([httpLink]),
-    cache: new InMemoryCache(),
-    defaultOptions: {
-      query: {
-        errorPolicy: 'all',
-        // used for all queries
-        // fetchPolicy: 'cache-and-network',
-      },
-      watchQuery: {
-        fetchPolicy: 'cache-and-network',
-      },
-    },
-  });
+    return new ApolloClient({
+        link: from([httpLink]),
+        cache: new InMemoryCache(),
+        defaultOptions: {
+            query: {
+                errorPolicy: 'all',
+                // used for all queries
+                // fetchPolicy: 'cache-and-network',
+            },
+            watchQuery: {
+                fetchPolicy: 'cache-and-network',
+            },
+        },
+    });
 }
