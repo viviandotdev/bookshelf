@@ -9,6 +9,7 @@ const typeConfig = {
     owned: 'Owned',
     favorites: 'Favorites',
 };
+
 // Define a custom button component
 const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
     // State to track the button's current status
@@ -18,37 +19,23 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const createQueryString = useCreateQueryString();
-
     const pathname = usePathname();
+
     useEffect(() => {
         const currStatus = searchParams?.get(type) ?? '';
         setStatus(currStatus != '' ? currStatus : 'none');
-    }, [searchParams]);
+    }, [searchParams, type]);
+
     // Function to handle button click and cycle through the statuses
-    const toggleStatus = () => {
-        setStatus((currentStatus) => {
-            switch (currentStatus) {
-                case 'none':
-                    startTransition(() => {
-                        router.push(
-                            `${pathname}?${createQueryString({
-                                [type]: 'true',
-                            })}`
-                        );
-                    });
-                    return 'true';
-                case 'true':
-                    startTransition(() => {
-                        router.push(
-                            `${pathname}?${createQueryString({
-                                [type]: null,
-                            })}`
-                        );
-                    });
-                    return 'none';
-                default:
-                    return 'none';
-            }
+    const handleToggle = () => {
+        const newStatus = status === 'none' ? 'true' : 'none';
+        setStatus(newStatus);
+
+        startTransition(() => {
+            const queryString = createQueryString({
+                [type]: newStatus === 'true' ? 'true' : null,
+            });
+            router.push(`${pathname}?${queryString}`);
         });
     };
 
@@ -69,9 +56,10 @@ const ToggleButton = ({ type }: { type: 'owned' | 'favorites' }) => {
     return (
         <Button
             className={buttonClass}
-            onClick={toggleStatus}
+            onClick={handleToggle}
             variant='pill'
             size='sm'
+            disabled={isPending}
         >
             {buttonText}
         </Button>

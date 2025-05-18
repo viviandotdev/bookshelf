@@ -50,6 +50,7 @@ const executeTokenRefresh = async (refreshToken: string, update: any): Promise<s
         const refreshResult = data?.refreshAuth;
 
         if (!refreshResult) {
+            // signOut();
             throw new Error('No response from refresh');
         }
 
