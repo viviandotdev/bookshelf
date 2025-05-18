@@ -13,15 +13,6 @@ export const maxDuration = 60; // Applies to the actions
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({ }) => {
     const user = await getCurrentUser();
-    const session = await auth()
-    console.log("current user", user)
-    if (session?.error === "RefreshTokenError") {
-        await signOut() // Force sign in to obtain a new set of access and refresh tokens
-    }
-    if (!user) {
-        await signOut() // Force sign in to obtain a new set of access and refresh tokens
-        redirect('/');
-    }
 
     const wantToRead = await getUserBooks(
         {

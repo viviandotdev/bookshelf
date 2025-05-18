@@ -1,25 +1,19 @@
-import { Icons } from '@/components/icons';
 import {
     Book,
     BooksByShelfDocument,
     BooksByShelfQuery,
-    Reading_Status,
 } from '@/graphql/graphql';
-import { getApolloClient, httpLink } from '@/lib/apollo';
 import ShelfTemplate from '@/modules/profile/templates/shelf-template';
 import Hit from '@/modules/search/components/hit';
-import { Edit } from 'lucide-react';
 import React from 'react';
 import { notFound } from 'next/navigation';
-
+import { query } from '@/lib/apollo-client';
 interface ShelfPageProps {
     params: { slug: string; user: string };
 }
 
 const ShelfPage: React.FC<ShelfPageProps> = async ({ params }) => {
-    const client = getApolloClient();
-    client.setLink(httpLink);
-    const { data } = await client.query<BooksByShelfQuery>({
+    const { data } = await query<BooksByShelfQuery>({
         query: BooksByShelfDocument,
         variables: {
             slug: params.slug,

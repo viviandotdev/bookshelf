@@ -4,12 +4,13 @@ import {
     UserQuery,
     UserWhereUniqueInput,
 } from '@/graphql/graphql';
-import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { setAuthToken, httpLink } from '@/lib/apollo';
+import { getClient } from '@/lib/apollo-client';
 import { getCurrentUser } from '@/lib/auth';
 
 export async function getUser(where: UserWhereUniqueInput) {
     const user = await getCurrentUser();
-    const client = getApolloClient();
+    const client = getClient();
     client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 
     const { data } = await client.query<UserQuery>({

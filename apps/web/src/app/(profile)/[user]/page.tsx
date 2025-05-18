@@ -2,10 +2,11 @@ import { getCurrentUser } from '@/lib/auth';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import { getUser } from '@/modules/profile/queries/getUser';
 import ProfileTemplate from '@/modules/profile/templates';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { Reading_Status } from '@/graphql/graphql';
 import { bookCountsByUserId } from '@/modules/profile/actions/bookCountsByUserId';
 import { getShelvesWithBookCovers } from '@/modules/shelf/queries/getShelvesWithBookCovers';
+import { auth, signOut } from '@/auth';
 
 interface ProfilePageProps {
     params: { user: string };
@@ -13,6 +14,14 @@ interface ProfilePageProps {
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
     const currentUser = await getCurrentUser();
+    const session = await auth()
+    if (session?.error === "RefreshTokenError") {
+        await signOut() // Force sign in to obtain a new set of access and refresh tokens
+    }
+    if (!currentUser) {
+        await signOut() // Force sign in to obtain a new set of access and refresh tokens
+        redirect('/');
+    }
 
     const { user } = await params;
     const { shelves } = await getShelvesWithBookCovers();

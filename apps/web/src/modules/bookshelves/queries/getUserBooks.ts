@@ -6,7 +6,8 @@ import {
     UserBookOrderByWithRelationInput,
     UserBookWhereInput,
 } from '@/graphql/graphql';
-import { getApolloClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { setAuthToken, httpLink } from '@/lib/apollo';
+import { getClient } from '@/lib/apollo-client';
 import { getCurrentUser } from '@/lib/auth';
 
 export async function getUserBooks(
@@ -15,7 +16,7 @@ export async function getUserBooks(
     orderBy?: UserBookOrderByWithRelationInput
 ) {
     const user = await getCurrentUser();
-    const client = getApolloClient();
+    const client = getClient();
     client.setLink(setAuthToken(user.accessToken).concat(httpLink));
 
     const { data, error, loading } = await client.query<GetUserBooksQuery>({

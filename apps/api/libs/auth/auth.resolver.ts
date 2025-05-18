@@ -160,7 +160,7 @@ export class AuthResolver {
         // Decode and verify refresh token expiration
         const payload = this.jwtService.decode(currentUser.refreshToken) as { exp: number };
         if (!payload?.exp || payload.exp * 1000 < Date.now()) {
-            throw new UnauthorizedException('Refresh token has expired');
+            throw new ForbiddenException('Refresh token has expired');
         }
 
         return this.authService.generateJWTTokens(user);

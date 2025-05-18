@@ -4,10 +4,7 @@ import {
     LoginDocument,
     LoginMutation,
 } from '@/graphql/graphql';
-import { getApolloClient } from '@/lib/apollo';
-
-
-const client = getApolloClient();
+import { getClient } from '@/lib/apollo-client';
 
 interface CustomUser {
     id: string;
@@ -82,17 +79,14 @@ export default {
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials): Promise<CustomUser | null> {
-                const { data: loginData, errors } =
-                    await client.mutate<LoginMutation>({
-                        mutation: LoginDocument,
-                        variables: {
-                            input: {
-                                email: credentials?.email || "",
-                                password: credentials?.password || '',
-                            },
+                const { data: loginData, errors } = await getClient().mutate<LoginMutation>({
+                    mutation: LoginDocument, variables: {
+                        input: {
+                            email: credentials?.email || "",
+                            password: credentials?.password || '',
                         },
-                        errorPolicy: 'all',
-                    });
+                    },
+                });
 
                 if (errors) {
                     throw new Error('Failed to login! try again');
@@ -132,11 +126,12 @@ export default {
                 token.expiresIn = customUser.expiresIn;
                 return token
             }
+            const bufferInMinutes = 2;
+            const isExpiringSoon =
+                token &&
+                Date.now() >= (token.expiresIn as number) * 1000 - bufferInMinutes * 60 * 1000;
 
-            const expired =
-                token && Date.now() >= (token.expiresIn as number) * 1000
-
-            if (!expired) {
+            if (!isExpiringSoon) {
                 // Subsequent logins, but the `access_token` is still valid
                 return token;
             } else {

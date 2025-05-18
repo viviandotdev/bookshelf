@@ -47,12 +47,7 @@ const executeTokenRefresh = async (refreshToken: string, update: any): Promise<s
         }
 
         const { data } = await response.json();
-        const refreshResult = data?.refreshAuth;
-
-        if (!refreshResult) {
-            // signOut();
-            throw new Error('No response from refresh');
-        }
+        const refreshResult = data?.refreshAuth
 
         const { __typename } = refreshResult;
 
@@ -68,7 +63,7 @@ const executeTokenRefresh = async (refreshToken: string, update: any): Promise<s
             throw new Error('Missing tokens in refresh response');
         }
 
-        // update the session access tokens and the expiration of the new access token
+        // Update the session access tokens and the expiration of the new access token
         update({
             accessToken: newAccessToken,
             refreshToken: newRefreshToken,
@@ -94,15 +89,12 @@ export function ApolloClientProvider({ children }: React.PropsWithChildren) {
                 return operation;
             }
 
-            const isExpired = data.user?.expiresIn &&
-                Date.now() >= data.user?.expiresIn * 1000;
+            const bufferInMinutes = 2;
+            const isExpiringSoon =
+                data.user?.expiresIn &&
+                Date.now() >= (data.user?.expiresIn) * 1000 - bufferInMinutes * 60 * 1000;
 
-            // const bufferInMinutes = 5;
-            // const isExpiringSoon =
-            //     tokenData?.exp &&
-            //     Date.now() >= tokenData.exp * 1000 - bufferInMinutes * 60 * 1000;
-
-            if (!isExpired) {
+            if (!isExpiringSoon) {
                 return {
                     headers: {
                         ...headers,
