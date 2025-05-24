@@ -44,6 +44,9 @@ export class AuthResolver {
             hashedPassword,
             emailVerified: new Date(),
         });
+
+        // Send verification email
+        // await this.authService.sendVerificationEmail(user.email, user.email);
         // Create default shelves
         this.shelfService.create(
             { name: 'Favorites', slug: generateSlug('Favorites') },
@@ -78,6 +81,20 @@ export class AuthResolver {
         }
 
         return this.authService.generateJWTTokens(user);
+    }
+
+    @Mutation(() => Boolean)
+    async verifyEmail(@Args('token', { type: () => String }) token: string) {
+        const verifiedToken = await this.authService.verifyToken(token);
+        // update email verfied field on user
+        const updatedUser = await this.userService.updateUserEmail(
+            verifiedToken.email,
+            verifiedToken.email,
+        );
+
+        if (updatedUser) {
+            return this.authService.generateJWTTokens(updatedUser);
+        }
     }
 
     @Mutation(() => Boolean)

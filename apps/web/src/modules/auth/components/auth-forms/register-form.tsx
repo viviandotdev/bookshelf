@@ -37,6 +37,16 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
         });
     };
 
+    if (success) {
+        return (
+            <div className='grid gap-6'>
+                <div className='flex flex-col items-center justify-center'>
+                    Success account created
+                </div>
+            </div>
+        );
+    }
+
     return (
         <AuthFormWrapper
             onSubmit={handleSubmit(onSubmit)}
