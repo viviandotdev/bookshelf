@@ -12,24 +12,24 @@ export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) =
         return { error: 'Invalid fields!' };
     }
 
-    const { email, password, username } = validatedFields.data;
-    try {
-        const { errors } = await client.mutate<RegisterMutation>({
-            mutation: RegisterDocument,
-            variables: {
-                input: {
-                    email,
-                    password,
-                    username,
-                },
-            },
-        });
-        console.log(errors);
-    } catch (error) {
-        console.log(error);
+    // const { email, password, username } = validatedFields.data;
+    // try {
+    //     const { errors } = await client.mutate<RegisterMutation>({
+    //         mutation: RegisterDocument,
+    //         variables: {
+    //             input: {
+    //                 email,
+    //                 password,
+    //                 username,
+    //             },
+    //         },
+    //     });
+    //     console.log(errors);
+    // } catch (error) {
+    //     console.log(error);
 
-        return { error: 'An error occurred! Try again later' };
-    }
+    //     return { error: 'An error occurred! Try again later' };
+    // }
 
     return { success: 'Confirmation email sent!' };
 };

@@ -10,7 +10,6 @@ import {
     ForbiddenException,
     NotFoundException,
     UseGuards,
-    UnauthorizedException,
 } from '@nestjs/common';
 import { AccessTokenGuard } from './guards/jwt.guard';
 import { JwtPayload, JwtPayloadWithRefreshToken } from './types';

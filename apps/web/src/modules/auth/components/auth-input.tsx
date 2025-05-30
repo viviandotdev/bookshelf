@@ -32,7 +32,8 @@ export function AuthInput({
                 {...register(id)}
                 {...props}
             />
-            {error && <p className="px-1 text-xs text-red-600">{error}</p>}
+            
+            {/* {error && <p className="px-1 text-xs text-red-600">{error}</p>} */}
         </div>
     );
 }
