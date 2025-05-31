@@ -9,7 +9,6 @@ import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
 import { getLoginOptions } from '../../actions/get-login-options';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
-import router from 'next/router';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { loginUser } from '../../actions/login-user';
 import { forgotPassword } from '../../actions/forgot-password';
@@ -19,6 +18,13 @@ import { cn } from '@/lib/utils';
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 type FormStep = 'email' | 'password' | 'code' | 'forgot-password';
+
+
+const redirectTo = (url: string) => {
+    window.location.href = url
+    // If url contains a hash, the browser does not reload the page. We reload manually
+    if (url.includes("#")) window.location.reload()
+}
 
 export const RegisterForm = ({ }: UserAuthFormProps) => {
     const [formStep, setFormStep] = useState<FormStep>('email');
@@ -36,7 +42,15 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const callbackUrl = searchParams.get('callbackUrl');
+    useEffect(() => {
+        handleResetError();
+    }, [formStep]);
 
+    const handleResetError = () => {
+        if (error) {
+            setError('');
+        }
+    }
     // Reset form step when there is invalid email
     useEffect(() => {
         if (formStep !== 'email' && formStep !== 'forgot-password' && errors.email) {
@@ -66,14 +80,12 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
 
     const handlePasswordSubmit = async (values: z.infer<typeof registerUserSchema>) => {
         setError('');
-        setSuccess('');
         startTransition(() => {
-            loginUser({ email: values.email.toLowerCase(), password: values.password, redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT }).then((data) => {
+            loginUser({ email: values.email, password: values.password }).then((data) => {
                 if (data.error) {
                     setError(data.error);
-                    return;
                 } else {
-                    router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
+                    redirectTo(callbackUrl || DEFAULT_LOGIN_REDIRECT)
                 }
             });
 
@@ -137,6 +149,7 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
                 return 'Continue'
         }
     }
+
     return (
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
             <div className='flex flex-col space-y-2 text-center'>

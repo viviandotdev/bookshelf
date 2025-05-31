@@ -1,8 +1,6 @@
 "use server"
 import { signIn } from '@/auth';
-import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { loginUserSchema } from '@/schemas/auth';
-import { AuthError } from 'next-auth';
 import { z } from 'zod';
 
 export const loginUser = async (values: z.infer<typeof loginUserSchema>) => {
@@ -11,18 +9,18 @@ export const loginUser = async (values: z.infer<typeof loginUserSchema>) => {
     if (!validatedFields.success) {
         return { error: 'Invalid fields!' };
     }
-
+    console.log(values.email)
+    console.log(values.password)
     try {
         await signIn('credentials', {
-            email: values.email.toLowerCase(),
+            email: values.email,
             password: values.password,
-            redirectTo: values.redirectTo || DEFAULT_LOGIN_REDIRECT,
+            redirect: false
         });
-    } catch (error) {
-        if (error instanceof AuthError) {
-            return { error: 'Invalid email or password' };
+    } catch (error: any) {
+        if (error.code === "credentials") {
+            return { error: "Incorrect credentials" }
         }
-        throw error;
     }
     return { success: 'User logged in successfully' };
 };
