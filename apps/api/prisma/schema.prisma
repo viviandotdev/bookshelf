@@ -94,7 +94,7 @@ model Rating {
     source   SOURCE
     maxScore Float
     score    Float
-    bookId   String?
+
     book     Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
 }
 
@@ -254,11 +254,10 @@ model Shelf {
 }
 
 model VerificationToken {
-    id            String   @id @default(cuid())
-    email         String
-    existingEmail String
-    token         String   @unique
-    expires       DateTime
+    id      String   @id @default(cuid())
+    email   String
+    token   String   @unique
+    expires DateTime
 
     @@unique([email, token])
 }

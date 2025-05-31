@@ -23,7 +23,6 @@ export default auth(async (req): Promise<any> => {
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
     const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-    console.log(expired)
 
     if (isApiAuthRoute) {
         return null;

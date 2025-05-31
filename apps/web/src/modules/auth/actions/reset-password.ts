@@ -25,22 +25,20 @@ export const resetPassword = async (
 
     const { password } = validatedFields.data;
 
-    try {
-        const { errors } = await client.mutate<ResetPasswordMutation>({
-            mutation: ResetPasswordDocument,
-            variables: {
-                input: {
-                    password,
-                    token,
-                },
+    const { errors } = await client.mutate<ResetPasswordMutation>({
+        mutation: ResetPasswordDocument,
+        variables: {
+            input: {
+                password,
+                token,
             },
-            errorPolicy: 'all',
-        });
-        // Handle error
-        console.log(errors?.map((e) => e.message));
-    } catch (error) {
+        },
+    });
+
+    if (errors) {
         return { error: 'Unable to change password, Please try again' };
     }
+
 
     return { success: 'Password updated!' };
 };

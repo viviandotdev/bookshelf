@@ -910,17 +910,6 @@ input LogInInput {
   password: String
 }
 
-type MeResponse {
-  avatarImage: String
-  bio: String
-  email: String
-  id: String
-  isOAuth: Boolean
-  location: String
-  name: String
-  username: String
-}
-
 type Mutation {
   addBookToShelf(shelf: String!, where: UserBookWhereUniqueInput!): UserBook!
   addIdentifierToBook(identifier: IdentifierCreateInput!, where: BookWhereUniqueInput!): Book!
@@ -945,7 +934,6 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
-  verifyEmail(token: String!): Boolean!
 }
 
 enum NullsOrder {
@@ -990,7 +978,6 @@ type Query {
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   healthCheck: HealthCheck!
-  me: MeResponse!
   readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
   searchMyLibrary(query: String!): [Book!]!
   shelves: [Shelf!]
@@ -2837,7 +2824,6 @@ input UserWhereUniqueInput {
 type VerificationTokenCountAggregate {
   _all: Int!
   email: Int!
-  existingEmail: Int!
   expires: Int!
   id: Int!
   token: Int!
@@ -2845,7 +2831,6 @@ type VerificationTokenCountAggregate {
 
 type VerificationTokenMaxAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String
@@ -2853,7 +2838,6 @@ type VerificationTokenMaxAggregate {
 
 type VerificationTokenMinAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String

@@ -1,4 +1,5 @@
 "use server"
+import { signIn } from '@/auth';
 import { RegisterDocument, RegisterMutation } from '@/graphql/graphql';
 import { getClient } from '@/lib/apollo-client';
 import { registerUserSchema } from '@/schemas/auth';
@@ -14,7 +15,7 @@ export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) =
 
     const { email, password, username } = validatedFields.data;
     try {
-        const { errors } = await client.mutate<RegisterMutation>({
+        await client.mutate<RegisterMutation>({
             mutation: RegisterDocument,
             variables: {
                 input: {
@@ -24,12 +25,17 @@ export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) =
                 },
             },
         });
-        console.log(errors);
-    } catch (error) {
-        console.log(error);
 
-        return { error: 'An error occurred! Try again later' };
+        await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false
+        });
+
+    } catch (error) {
+        return { error: 'Sign up failed! Try again later' };
     }
 
-    return { success: 'Confirmation email sent!' };
+
+    return { success: 'Account created successfully!' };
 };

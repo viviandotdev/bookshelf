@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 type FormType = 'login' | 'register' | 'forgotPassword';
 
@@ -20,7 +21,8 @@ interface FormConfig {
 interface AuthTemplateProps { }
 
 export const AuthTemplate: React.FC<AuthTemplateProps> = () => {
-    const [activeForm, setActiveForm] = useState<FormType>('login');
+    const pathname = usePathname();;
+    const [activeForm, setActiveForm] = useState<FormType>(pathname === '/login' ? 'login' : 'register');
 
     const handleToggleForm = (form: FormType) => {
         setActiveForm(form);
@@ -46,7 +48,7 @@ export const AuthTemplate: React.FC<AuthTemplateProps> = () => {
                             <Button
                                 onClick={() => handleToggleForm('register')}
                                 className='hover:text-brand bg-white font-medium text-beige underline underline-offset-4 hover:bg-white'
-                    >
+                            >
                                 Create one
                             </Button>
                         </p>

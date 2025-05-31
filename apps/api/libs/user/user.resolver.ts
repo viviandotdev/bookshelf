@@ -42,7 +42,6 @@ export class UserResolver {
         if (data.email && data.email !== existingUser.email) {
             await this.authService.sendVerificationEmailCode(
                 data.email,
-                existingUser.email,
             );
 
             return existingUser;

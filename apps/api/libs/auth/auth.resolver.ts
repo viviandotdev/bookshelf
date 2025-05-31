@@ -45,8 +45,6 @@ export class AuthResolver {
             emailVerified: new Date(),
         });
 
-        // Send verification email
-        // await this.authService.sendVerificationEmail(user.email, user.email);
         // Create default shelves
         this.shelfService.create(
             { name: 'Favorites', slug: generateSlug('Favorites') },
@@ -84,20 +82,6 @@ export class AuthResolver {
     }
 
     @Mutation(() => Boolean)
-    async verifyEmail(@Args('token', { type: () => String }) token: string) {
-        const verifiedToken = await this.authService.verifyToken(token);
-        // update email verfied field on user
-        const updatedUser = await this.userService.updateUserEmail(
-            verifiedToken.email,
-            verifiedToken.email,
-        );
-
-        if (updatedUser) {
-            return this.authService.generateJWTTokens(updatedUser);
-        }
-    }
-
-    @Mutation(() => Boolean)
     logout(@Args('id', { type: () => String }) id: string) {
         return this.authService.logout(id);
     }
@@ -128,29 +112,6 @@ export class AuthResolver {
         );
     }
 
-    @UseGuards(AccessTokenGuard)
-    @Query(() => MeResponse, { name: 'me' })
-    async me(@CurrentUser() currentUser: JwtPayload) {
-        const user = await this.userService.findUnique({
-            where: {
-                id: currentUser.userId,
-            },
-        });
-
-        const existingAccount = await this.authService.findAccountById({
-            where: {
-                userId: currentUser.userId,
-            },
-        });
-
-        if (!user) {
-            throw new ForbiddenException('User not found');
-        }
-        return {
-            ...user,
-            isOAuth: !!existingAccount,
-        };
-    }
 
     @UseGuards(RefreshTokenGuard)
     @Mutation(() => RefreshResponse)
