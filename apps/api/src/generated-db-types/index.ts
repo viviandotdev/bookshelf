@@ -1,21 +1,20 @@
 import { Field } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
 import { ArgsType } from '@nestjs/graphql';
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
 import { Prisma } from '@prisma/client';
 import { Int } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { ObjectType } from '@nestjs/graphql';
 import { Float } from '@nestjs/graphql';
+import * as Validator from 'class-validator';
 import { registerEnumType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
-import * as Validator from 'class-validator';
 import { HideField } from '@nestjs/graphql';
 
 export enum VerificationTokenScalarFieldEnum {
     id = "id",
     email = "email",
-    existingEmail = "existingEmail",
     token = "token",
     expires = "expires"
 }
@@ -168,22 +167,6 @@ export enum BookScalarFieldEnum {
     pageCount = "pageCount"
 }
 
-export enum AccountScalarFieldEnum {
-    id = "id",
-    userId = "userId",
-    type = "type",
-    provider = "provider",
-    providerAccountId = "providerAccountId",
-    refresh_token = "refresh_token",
-    access_token = "access_token",
-    expires_at = "expires_at",
-    token_type = "token_type",
-    scope = "scope",
-    id_token = "id_token",
-    session_state = "session_state"
-}
-
-registerEnumType(AccountScalarFieldEnum, { name: 'AccountScalarFieldEnum', description: undefined })
 registerEnumType(BookScalarFieldEnum, { name: 'BookScalarFieldEnum', description: undefined })
 registerEnumType(CoverScalarFieldEnum, { name: 'CoverScalarFieldEnum', description: undefined })
 registerEnumType(IdentifierScalarFieldEnum, { name: 'IdentifierScalarFieldEnum', description: undefined })
@@ -204,1322 +187,6 @@ registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description
 registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', description: undefined })
 registerEnumType(UserBookShelvesScalarFieldEnum, { name: 'UserBookShelvesScalarFieldEnum', description: undefined })
 registerEnumType(VerificationTokenScalarFieldEnum, { name: 'VerificationTokenScalarFieldEnum', description: undefined })
-
-@ArgsType()
-export class AccountAggregateArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AccountOrderByWithRelationInput>;
-    @Field(() => AccountWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => AccountCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AccountCountAggregateInput>;
-    @Field(() => AccountAvgAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof AccountAvgAggregateInput>;
-    @Field(() => AccountSumAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof AccountSumAggregateInput>;
-    @Field(() => AccountMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AccountMinAggregateInput>;
-    @Field(() => AccountMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AccountMaxAggregateInput>;
-}
-
-@InputType()
-export class AccountAvgAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    expires_at?: true;
-}
-
-@ObjectType()
-export class AccountAvgAggregate {
-    @Field(() => Float, {nullable:true})
-    expires_at?: number;
-}
-
-@InputType()
-export class AccountAvgOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    expires_at?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountCountAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
-    @Field(() => Boolean, {nullable:true})
-    provider?: true;
-    @Field(() => Boolean, {nullable:true})
-    providerAccountId?: true;
-    @Field(() => Boolean, {nullable:true})
-    refresh_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    access_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    expires_at?: true;
-    @Field(() => Boolean, {nullable:true})
-    token_type?: true;
-    @Field(() => Boolean, {nullable:true})
-    scope?: true;
-    @Field(() => Boolean, {nullable:true})
-    id_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    session_state?: true;
-    @Field(() => Boolean, {nullable:true})
-    _all?: true;
-}
-
-@ObjectType()
-export class AccountCountAggregate {
-    @Field(() => Int, {nullable:false})
-    id!: number;
-    @Field(() => Int, {nullable:false})
-    userId!: number;
-    @Field(() => Int, {nullable:false})
-    type!: number;
-    @Field(() => Int, {nullable:false})
-    provider!: number;
-    @Field(() => Int, {nullable:false})
-    providerAccountId!: number;
-    @Field(() => Int, {nullable:false})
-    refresh_token!: number;
-    @Field(() => Int, {nullable:false})
-    access_token!: number;
-    @Field(() => Int, {nullable:false})
-    expires_at!: number;
-    @Field(() => Int, {nullable:false})
-    token_type!: number;
-    @Field(() => Int, {nullable:false})
-    scope!: number;
-    @Field(() => Int, {nullable:false})
-    id_token!: number;
-    @Field(() => Int, {nullable:false})
-    session_state!: number;
-    @Field(() => Int, {nullable:false})
-    _all!: number;
-}
-
-@InputType()
-export class AccountCountOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    provider?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    refresh_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    access_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    expires_at?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    token_type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    scope?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    id_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    session_state?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountCreateManyUserInputEnvelope {
-    @Field(() => [AccountCreateManyUserInput], {nullable:false})
-    @Type(() => AccountCreateManyUserInput)
-    data!: Array<AccountCreateManyUserInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@InputType()
-export class AccountCreateManyUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountCreateManyInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountCreateNestedManyWithoutUserInput {
-    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateWithoutUserInput)
-    create?: Array<AccountCreateWithoutUserInput>;
-    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
-    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AccountCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-}
-
-@InputType()
-export class AccountCreateOrConnectWithoutUserInput {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => AccountCreateWithoutUserInput, {nullable:false})
-    @Type(() => AccountCreateWithoutUserInput)
-    create!: InstanceType<typeof AccountCreateWithoutUserInput>;
-}
-
-@InputType()
-export class AccountCreateWithoutUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountCreateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-    @Field(() => UserCreateNestedOneWithoutAccountsInput, {nullable:false})
-    user!: InstanceType<typeof UserCreateNestedOneWithoutAccountsInput>;
-}
-
-@ArgsType()
-export class AccountGroupByArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => [AccountOrderByWithAggregationInput], {nullable:true})
-    orderBy?: Array<AccountOrderByWithAggregationInput>;
-    @Field(() => [AccountScalarFieldEnum], {nullable:false})
-    by!: Array<`${AccountScalarFieldEnum}`>;
-    @Field(() => AccountScalarWhereWithAggregatesInput, {nullable:true})
-    having?: InstanceType<typeof AccountScalarWhereWithAggregatesInput>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => AccountCountAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AccountCountAggregateInput>;
-    @Field(() => AccountAvgAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof AccountAvgAggregateInput>;
-    @Field(() => AccountSumAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof AccountSumAggregateInput>;
-    @Field(() => AccountMinAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AccountMinAggregateInput>;
-    @Field(() => AccountMaxAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AccountMaxAggregateInput>;
-}
-
-@ObjectType()
-export class AccountGroupBy {
-    @Field(() => String, {nullable:false})
-    id!: string;
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-    @Field(() => AccountCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof AccountCountAggregate>;
-    @Field(() => AccountAvgAggregate, {nullable:true})
-    _avg?: InstanceType<typeof AccountAvgAggregate>;
-    @Field(() => AccountSumAggregate, {nullable:true})
-    _sum?: InstanceType<typeof AccountSumAggregate>;
-    @Field(() => AccountMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof AccountMinAggregate>;
-    @Field(() => AccountMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof AccountMaxAggregate>;
-}
-
-@InputType()
-export class AccountListRelationFilter {
-    @Field(() => AccountWhereInput, {nullable:true})
-    every?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => AccountWhereInput, {nullable:true})
-    some?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => AccountWhereInput, {nullable:true})
-    none?: InstanceType<typeof AccountWhereInput>;
-}
-
-@InputType()
-export class AccountMaxAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
-    @Field(() => Boolean, {nullable:true})
-    provider?: true;
-    @Field(() => Boolean, {nullable:true})
-    providerAccountId?: true;
-    @Field(() => Boolean, {nullable:true})
-    refresh_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    access_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    expires_at?: true;
-    @Field(() => Boolean, {nullable:true})
-    token_type?: true;
-    @Field(() => Boolean, {nullable:true})
-    scope?: true;
-    @Field(() => Boolean, {nullable:true})
-    id_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    session_state?: true;
-}
-
-@ObjectType()
-export class AccountMaxAggregate {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountMaxOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    provider?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    refresh_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    access_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    expires_at?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    token_type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    scope?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    id_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    session_state?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountMinAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    id?: true;
-    @Field(() => Boolean, {nullable:true})
-    userId?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
-    @Field(() => Boolean, {nullable:true})
-    provider?: true;
-    @Field(() => Boolean, {nullable:true})
-    providerAccountId?: true;
-    @Field(() => Boolean, {nullable:true})
-    refresh_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    access_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    expires_at?: true;
-    @Field(() => Boolean, {nullable:true})
-    token_type?: true;
-    @Field(() => Boolean, {nullable:true})
-    scope?: true;
-    @Field(() => Boolean, {nullable:true})
-    id_token?: true;
-    @Field(() => Boolean, {nullable:true})
-    session_state?: true;
-}
-
-@ObjectType()
-export class AccountMinAggregate {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountMinOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    provider?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    refresh_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    access_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    expires_at?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    token_type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    scope?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    id_token?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    session_state?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountOrderByRelationAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    _count?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountOrderByWithAggregationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    provider?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: `${SortOrder}`;
-    @Field(() => SortOrderInput, {nullable:true})
-    refresh_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    access_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    expires_at?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    token_type?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    scope?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    id_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    session_state?: InstanceType<typeof SortOrderInput>;
-    @Field(() => AccountCountOrderByAggregateInput, {nullable:true})
-    _count?: InstanceType<typeof AccountCountOrderByAggregateInput>;
-    @Field(() => AccountAvgOrderByAggregateInput, {nullable:true})
-    _avg?: InstanceType<typeof AccountAvgOrderByAggregateInput>;
-    @Field(() => AccountMaxOrderByAggregateInput, {nullable:true})
-    _max?: InstanceType<typeof AccountMaxOrderByAggregateInput>;
-    @Field(() => AccountMinOrderByAggregateInput, {nullable:true})
-    _min?: InstanceType<typeof AccountMinOrderByAggregateInput>;
-    @Field(() => AccountSumOrderByAggregateInput, {nullable:true})
-    _sum?: InstanceType<typeof AccountSumOrderByAggregateInput>;
-}
-
-@InputType()
-export class AccountOrderByWithRelationInput {
-    @Field(() => SortOrder, {nullable:true})
-    id?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    userId?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    provider?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    providerAccountId?: `${SortOrder}`;
-    @Field(() => SortOrderInput, {nullable:true})
-    refresh_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    access_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    expires_at?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    token_type?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    scope?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    id_token?: InstanceType<typeof SortOrderInput>;
-    @Field(() => SortOrderInput, {nullable:true})
-    session_state?: InstanceType<typeof SortOrderInput>;
-    @Field(() => UserOrderByWithRelationInput, {nullable:true})
-    user?: InstanceType<typeof UserOrderByWithRelationInput>;
-}
-
-@InputType()
-export class AccountProviderProviderAccountIdCompoundUniqueInput {
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-}
-
-@InputType()
-export class AccountScalarWhereWithAggregatesInput {
-    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
-    AND?: Array<AccountScalarWhereWithAggregatesInput>;
-    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
-    OR?: Array<AccountScalarWhereWithAggregatesInput>;
-    @Field(() => [AccountScalarWhereWithAggregatesInput], {nullable:true})
-    NOT?: Array<AccountScalarWhereWithAggregatesInput>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    id?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    userId?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    type?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    provider?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    providerAccountId?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    refresh_token?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    access_token?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    expires_at?: InstanceType<typeof IntWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    token_type?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    scope?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    id_token?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
-    session_state?: InstanceType<typeof StringWithAggregatesFilter>;
-}
-
-@InputType()
-export class AccountScalarWhereInput {
-    @Field(() => [AccountScalarWhereInput], {nullable:true})
-    AND?: Array<AccountScalarWhereInput>;
-    @Field(() => [AccountScalarWhereInput], {nullable:true})
-    OR?: Array<AccountScalarWhereInput>;
-    @Field(() => [AccountScalarWhereInput], {nullable:true})
-    NOT?: Array<AccountScalarWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    id?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    provider?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    providerAccountId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    refresh_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    access_token?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    expires_at?: InstanceType<typeof IntFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    token_type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    scope?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    id_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    session_state?: InstanceType<typeof StringFilter>;
-}
-
-@InputType()
-export class AccountSumAggregateInput {
-    @Field(() => Boolean, {nullable:true})
-    expires_at?: true;
-}
-
-@ObjectType()
-export class AccountSumAggregate {
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-}
-
-@InputType()
-export class AccountSumOrderByAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    expires_at?: `${SortOrder}`;
-}
-
-@InputType()
-export class AccountUncheckedCreateNestedManyWithoutUserInput {
-    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateWithoutUserInput)
-    create?: Array<AccountCreateWithoutUserInput>;
-    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
-    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AccountCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-}
-
-@InputType()
-export class AccountUncheckedCreateWithoutUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUncheckedCreateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUncheckedUpdateManyWithoutUserNestedInput {
-    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateWithoutUserInput)
-    create?: Array<AccountCreateWithoutUserInput>;
-    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
-    @Field(() => [AccountUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<AccountUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AccountCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<AccountUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [AccountUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<AccountUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [AccountScalarWhereInput], {nullable:true})
-    @Type(() => AccountScalarWhereInput)
-    deleteMany?: Array<AccountScalarWhereInput>;
-}
-
-@InputType()
-export class AccountUncheckedUpdateManyWithoutUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUncheckedUpdateManyInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUncheckedUpdateWithoutUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUncheckedUpdateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    userId?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUpdateManyMutationInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUpdateManyWithWhereWithoutUserInput {
-    @Field(() => AccountScalarWhereInput, {nullable:false})
-    @Type(() => AccountScalarWhereInput)
-    where!: InstanceType<typeof AccountScalarWhereInput>;
-    @Field(() => AccountUpdateManyMutationInput, {nullable:false})
-    @Type(() => AccountUpdateManyMutationInput)
-    data!: InstanceType<typeof AccountUpdateManyMutationInput>;
-}
-
-@InputType()
-export class AccountUpdateManyWithoutUserNestedInput {
-    @Field(() => [AccountCreateWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateWithoutUserInput)
-    create?: Array<AccountCreateWithoutUserInput>;
-    @Field(() => [AccountCreateOrConnectWithoutUserInput], {nullable:true})
-    @Type(() => AccountCreateOrConnectWithoutUserInput)
-    connectOrCreate?: Array<AccountCreateOrConnectWithoutUserInput>;
-    @Field(() => [AccountUpsertWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpsertWithWhereUniqueWithoutUserInput)
-    upsert?: Array<AccountUpsertWithWhereUniqueWithoutUserInput>;
-    @Field(() => AccountCreateManyUserInputEnvelope, {nullable:true})
-    @Type(() => AccountCreateManyUserInputEnvelope)
-    createMany?: InstanceType<typeof AccountCreateManyUserInputEnvelope>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountWhereUniqueInput], {nullable:true})
-    @Type(() => AccountWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>>;
-    @Field(() => [AccountUpdateWithWhereUniqueWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpdateWithWhereUniqueWithoutUserInput)
-    update?: Array<AccountUpdateWithWhereUniqueWithoutUserInput>;
-    @Field(() => [AccountUpdateManyWithWhereWithoutUserInput], {nullable:true})
-    @Type(() => AccountUpdateManyWithWhereWithoutUserInput)
-    updateMany?: Array<AccountUpdateManyWithWhereWithoutUserInput>;
-    @Field(() => [AccountScalarWhereInput], {nullable:true})
-    @Type(() => AccountScalarWhereInput)
-    deleteMany?: Array<AccountScalarWhereInput>;
-}
-
-@InputType()
-export class AccountUpdateWithWhereUniqueWithoutUserInput {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => AccountUpdateWithoutUserInput, {nullable:false})
-    @Type(() => AccountUpdateWithoutUserInput)
-    data!: InstanceType<typeof AccountUpdateWithoutUserInput>;
-}
-
-@InputType()
-export class AccountUpdateWithoutUserInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-}
-
-@InputType()
-export class AccountUpdateInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    type?: string;
-    @Field(() => String, {nullable:true})
-    provider?: string;
-    @Field(() => String, {nullable:true})
-    providerAccountId?: string;
-    @Field(() => String, {nullable:true})
-    refresh_token?: string;
-    @Field(() => String, {nullable:true})
-    access_token?: string;
-    @Field(() => Int, {nullable:true})
-    expires_at?: number;
-    @Field(() => String, {nullable:true})
-    token_type?: string;
-    @Field(() => String, {nullable:true})
-    scope?: string;
-    @Field(() => String, {nullable:true})
-    id_token?: string;
-    @Field(() => String, {nullable:true})
-    session_state?: string;
-    @Field(() => UserUpdateOneRequiredWithoutAccountsNestedInput, {nullable:true})
-    user?: InstanceType<typeof UserUpdateOneRequiredWithoutAccountsNestedInput>;
-}
-
-@InputType()
-export class AccountUpsertWithWhereUniqueWithoutUserInput {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => AccountUpdateWithoutUserInput, {nullable:false})
-    @Type(() => AccountUpdateWithoutUserInput)
-    update!: InstanceType<typeof AccountUpdateWithoutUserInput>;
-    @Field(() => AccountCreateWithoutUserInput, {nullable:false})
-    @Type(() => AccountCreateWithoutUserInput)
-    create!: InstanceType<typeof AccountCreateWithoutUserInput>;
-}
-
-@InputType()
-export class AccountWhereUniqueInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => AccountProviderProviderAccountIdCompoundUniqueInput, {nullable:true})
-    provider_providerAccountId?: InstanceType<typeof AccountProviderProviderAccountIdCompoundUniqueInput>;
-    @Field(() => [AccountWhereInput], {nullable:true})
-    AND?: Array<AccountWhereInput>;
-    @Field(() => [AccountWhereInput], {nullable:true})
-    OR?: Array<AccountWhereInput>;
-    @Field(() => [AccountWhereInput], {nullable:true})
-    NOT?: Array<AccountWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    provider?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    providerAccountId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    refresh_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    access_token?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    expires_at?: InstanceType<typeof IntFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    token_type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    scope?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    id_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    session_state?: InstanceType<typeof StringFilter>;
-    @Field(() => UserScalarRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserScalarRelationFilter>;
-}
-
-@InputType()
-export class AccountWhereInput {
-    @Field(() => [AccountWhereInput], {nullable:true})
-    AND?: Array<AccountWhereInput>;
-    @Field(() => [AccountWhereInput], {nullable:true})
-    OR?: Array<AccountWhereInput>;
-    @Field(() => [AccountWhereInput], {nullable:true})
-    NOT?: Array<AccountWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    id?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    userId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    provider?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    providerAccountId?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    refresh_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    access_token?: InstanceType<typeof StringFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    expires_at?: InstanceType<typeof IntFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    token_type?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    scope?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    id_token?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    session_state?: InstanceType<typeof StringFilter>;
-    @Field(() => UserScalarRelationFilter, {nullable:true})
-    user?: InstanceType<typeof UserScalarRelationFilter>;
-}
-
-@ObjectType()
-export class Account {
-    @Field(() => ID, {nullable:false})
-    id!: string;
-    @Field(() => String, {nullable:false})
-    userId!: string;
-    @Field(() => String, {nullable:false})
-    type!: string;
-    @Field(() => String, {nullable:false})
-    provider!: string;
-    @Field(() => String, {nullable:false})
-    providerAccountId!: string;
-    @Field(() => String, {nullable:true})
-    refresh_token!: string | null;
-    @Field(() => String, {nullable:true})
-    access_token!: string | null;
-    @Field(() => Int, {nullable:true})
-    expires_at!: number | null;
-    @Field(() => String, {nullable:true})
-    token_type!: string | null;
-    @Field(() => String, {nullable:true})
-    scope!: string | null;
-    @Field(() => String, {nullable:true})
-    id_token!: string | null;
-    @Field(() => String, {nullable:true})
-    session_state!: string | null;
-    @Field(() => User, {nullable:false})
-    user?: InstanceType<typeof User>;
-}
-
-@ObjectType()
-export class AggregateAccount {
-    @Field(() => AccountCountAggregate, {nullable:true})
-    _count?: InstanceType<typeof AccountCountAggregate>;
-    @Field(() => AccountAvgAggregate, {nullable:true})
-    _avg?: InstanceType<typeof AccountAvgAggregate>;
-    @Field(() => AccountSumAggregate, {nullable:true})
-    _sum?: InstanceType<typeof AccountSumAggregate>;
-    @Field(() => AccountMinAggregate, {nullable:true})
-    _min?: InstanceType<typeof AccountMinAggregate>;
-    @Field(() => AccountMaxAggregate, {nullable:true})
-    _max?: InstanceType<typeof AccountMaxAggregate>;
-}
-
-@ArgsType()
-export class CreateManyAccountArgs {
-    @Field(() => [AccountCreateManyInput], {nullable:false})
-    @Type(() => AccountCreateManyInput)
-    @ValidateNested()
-    data!: Array<AccountCreateManyInput>;
-    @Field(() => Boolean, {nullable:true})
-    skipDuplicates?: boolean;
-}
-
-@ArgsType()
-export class CreateOneAccountArgs {
-    @Field(() => AccountCreateInput, {nullable:false})
-    @Type(() => AccountCreateInput)
-    @ValidateNested()
-    data!: InstanceType<typeof AccountCreateInput>;
-}
-
-@ArgsType()
-export class DeleteManyAccountArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => Int, {nullable:true})
-    limit?: number;
-}
-
-@ArgsType()
-export class DeleteOneAccountArgs {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-}
-
-@ArgsType()
-export class FindFirstAccountOrThrowArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AccountOrderByWithRelationInput>;
-    @Field(() => AccountWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<`${AccountScalarFieldEnum}`>;
-}
-
-@ArgsType()
-export class FindFirstAccountArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AccountOrderByWithRelationInput>;
-    @Field(() => AccountWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<`${AccountScalarFieldEnum}`>;
-}
-
-@ArgsType()
-export class FindManyAccountArgs {
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => [AccountOrderByWithRelationInput], {nullable:true})
-    orderBy?: Array<AccountOrderByWithRelationInput>;
-    @Field(() => AccountWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => Int, {nullable:true})
-    take?: number;
-    @Field(() => Int, {nullable:true})
-    skip?: number;
-    @Field(() => [AccountScalarFieldEnum], {nullable:true})
-    distinct?: Array<`${AccountScalarFieldEnum}`>;
-}
-
-@ArgsType()
-export class FindUniqueAccountOrThrowArgs {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-}
-
-@ArgsType()
-export class FindUniqueAccountArgs {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-}
-
-@ArgsType()
-export class UpdateManyAccountArgs {
-    @Field(() => AccountUpdateManyMutationInput, {nullable:false})
-    @Type(() => AccountUpdateManyMutationInput)
-    @ValidateNested()
-    data!: InstanceType<typeof AccountUpdateManyMutationInput>;
-    @Field(() => AccountWhereInput, {nullable:true})
-    @Type(() => AccountWhereInput)
-    @ValidateNested()
-    where?: InstanceType<typeof AccountWhereInput>;
-    @Field(() => Int, {nullable:true})
-    limit?: number;
-}
-
-@ArgsType()
-export class UpdateOneAccountArgs {
-    @Field(() => AccountUpdateInput, {nullable:false})
-    @Type(() => AccountUpdateInput)
-    @ValidateNested()
-    data!: InstanceType<typeof AccountUpdateInput>;
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-}
-
-@ArgsType()
-export class UpsertOneAccountArgs {
-    @Field(() => AccountWhereUniqueInput, {nullable:false})
-    @Type(() => AccountWhereUniqueInput)
-    @ValidateNested()
-    where!: Prisma.AtLeast<AccountWhereUniqueInput, 'id' | 'provider_providerAccountId'>;
-    @Field(() => AccountCreateInput, {nullable:false})
-    @Type(() => AccountCreateInput)
-    create!: InstanceType<typeof AccountCreateInput>;
-    @Field(() => AccountUpdateInput, {nullable:false})
-    @Type(() => AccountUpdateInput)
-    update!: InstanceType<typeof AccountUpdateInput>;
-}
 
 @ObjectType()
 export class AggregateBook {
@@ -9873,12 +8540,6 @@ export class UserCount {
     userBooks?: number;
     @Field(() => Int, {nullable:false})
     shelves?: number;
-    @Field(() => Int, {nullable:false})
-    following?: number;
-    @Field(() => Int, {nullable:false})
-    followers?: number;
-    @Field(() => Int, {nullable:false})
-    accounts?: number;
 }
 
 @InputType()
@@ -9919,45 +8580,6 @@ export class UserCreateManyInput {
 }
 
 @InputType()
-export class UserCreateNestedManyWithoutFollowersInput {
-    @Field(() => [UserCreateWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create?: Array<UserCreateWithoutFollowersInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowersInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowersInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-}
-
-@InputType()
-export class UserCreateNestedManyWithoutFollowingInput {
-    @Field(() => [UserCreateWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create?: Array<UserCreateWithoutFollowingInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowingInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowingInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-}
-
-@InputType()
-export class UserCreateNestedOneWithoutAccountsInput {
-    @Field(() => UserCreateWithoutAccountsInput, {nullable:true})
-    @Type(() => UserCreateWithoutAccountsInput)
-    create?: InstanceType<typeof UserCreateWithoutAccountsInput>;
-    @Field(() => UserCreateOrConnectWithoutAccountsInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutAccountsInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAccountsInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-}
-
-@InputType()
 export class UserCreateNestedOneWithoutShelvesInput {
     @Field(() => UserCreateWithoutShelvesInput, {nullable:true})
     @Type(() => UserCreateWithoutShelvesInput)
@@ -9984,36 +8606,6 @@ export class UserCreateNestedOneWithoutUserBooksInput {
 }
 
 @InputType()
-export class UserCreateOrConnectWithoutAccountsInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserCreateWithoutAccountsInput, {nullable:false})
-    @Type(() => UserCreateWithoutAccountsInput)
-    create!: InstanceType<typeof UserCreateWithoutAccountsInput>;
-}
-
-@InputType()
-export class UserCreateOrConnectWithoutFollowersInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserCreateWithoutFollowersInput, {nullable:false})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create!: InstanceType<typeof UserCreateWithoutFollowersInput>;
-}
-
-@InputType()
-export class UserCreateOrConnectWithoutFollowingInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserCreateWithoutFollowingInput, {nullable:false})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create!: InstanceType<typeof UserCreateWithoutFollowingInput>;
-}
-
-@InputType()
 export class UserCreateOrConnectWithoutShelvesInput {
     @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
@@ -10031,141 +8623,6 @@ export class UserCreateOrConnectWithoutUserBooksInput {
     @Field(() => UserCreateWithoutUserBooksInput, {nullable:false})
     @Type(() => UserCreateWithoutUserBooksInput)
     create!: InstanceType<typeof UserCreateWithoutUserBooksInput>;
-}
-
-@InputType()
-export class UserCreateWithoutAccountsInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
-}
-
-@InputType()
-export class UserCreateWithoutFollowersInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
-    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
-}
-
-@InputType()
-export class UserCreateWithoutFollowingInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10205,12 +8662,6 @@ export class UserCreateWithoutShelvesInput {
     emailVerified?: Date | string;
     @Field(() => UserBookCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10250,12 +8701,6 @@ export class UserCreateWithoutUserBooksInput {
     emailVerified?: Date | string;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10297,12 +8742,6 @@ export class UserCreateInput {
     userBooks?: InstanceType<typeof UserBookCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfCreateNestedManyWithoutUserInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountCreateNestedManyWithoutUserInput>;
 }
 
 @ArgsType()
@@ -10368,16 +8807,6 @@ export class UserGroupBy {
     _min?: InstanceType<typeof UserMinAggregate>;
     @Field(() => UserMaxAggregate, {nullable:true})
     _max?: InstanceType<typeof UserMaxAggregate>;
-}
-
-@InputType()
-export class UserListRelationFilter {
-    @Field(() => UserWhereInput, {nullable:true})
-    every?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    some?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    none?: InstanceType<typeof UserWhereInput>;
 }
 
 @InputType()
@@ -10563,12 +8992,6 @@ export class UserMinOrderByAggregateInput {
 }
 
 @InputType()
-export class UserOrderByRelationAggregateInput {
-    @Field(() => SortOrder, {nullable:true})
-    _count?: `${SortOrder}`;
-}
-
-@InputType()
 export class UserOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
@@ -10632,12 +9055,6 @@ export class UserOrderByWithRelationInput {
     userBooks?: InstanceType<typeof UserBookOrderByRelationAggregateInput>;
     @Field(() => ShelfOrderByRelationAggregateInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfOrderByRelationAggregateInput>;
-    @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
-    following?: InstanceType<typeof UserOrderByRelationAggregateInput>;
-    @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
-    followers?: InstanceType<typeof UserOrderByRelationAggregateInput>;
-    @Field(() => AccountOrderByRelationAggregateInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -10683,201 +9100,6 @@ export class UserScalarWhereWithAggregatesInput {
 }
 
 @InputType()
-export class UserScalarWhereInput {
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    AND?: Array<UserScalarWhereInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    OR?: Array<UserScalarWhereInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    NOT?: Array<UserScalarWhereInput>;
-    @Field(() => StringFilter, {nullable:true})
-    id?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    email?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    username?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    hashedPassword?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    name?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    location?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    bio?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    hashedRefreshToken?: InstanceType<typeof StringFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    createdAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    updatedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    avatarImage?: InstanceType<typeof StringFilter>;
-    @Field(() => DateTimeFilter, {nullable:true})
-    emailVerified?: InstanceType<typeof DateTimeFilter>;
-}
-
-@InputType()
-export class UserUncheckedCreateNestedManyWithoutFollowersInput {
-    @Field(() => [UserCreateWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create?: Array<UserCreateWithoutFollowersInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowersInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowersInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-}
-
-@InputType()
-export class UserUncheckedCreateNestedManyWithoutFollowingInput {
-    @Field(() => [UserCreateWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create?: Array<UserCreateWithoutFollowingInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowingInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowingInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-}
-
-@InputType()
-export class UserUncheckedCreateWithoutAccountsInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
-}
-
-@InputType()
-export class UserUncheckedCreateWithoutFollowersInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
-    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
-}
-
-@InputType()
-export class UserUncheckedCreateWithoutFollowingInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:false})
-    @Validator.IsEmail()
-    email!: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
-}
-
-@InputType()
 export class UserUncheckedCreateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -10914,12 +9136,6 @@ export class UserUncheckedCreateWithoutShelvesInput {
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -10959,12 +9175,6 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     emailVerified?: Date | string;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
 }
 
 @InputType()
@@ -11006,154 +9216,6 @@ export class UserUncheckedCreateInput {
     userBooks?: InstanceType<typeof UserBookUncheckedCreateNestedManyWithoutUserInput>;
     @Field(() => ShelfUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedCreateNestedManyWithoutUserInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowersInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowersInput>;
-    @Field(() => UserUncheckedCreateNestedManyWithoutFollowingInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedCreateNestedManyWithoutFollowingInput>;
-    @Field(() => AccountUncheckedCreateNestedManyWithoutUserInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedCreateNestedManyWithoutUserInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateManyWithoutFollowersNestedInput {
-    @Field(() => [UserCreateWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create?: Array<UserCreateWithoutFollowersInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowersInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowersInput>;
-    @Field(() => [UserUpsertWithWhereUniqueWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpsertWithWhereUniqueWithoutFollowersInput)
-    upsert?: Array<UserUpsertWithWhereUniqueWithoutFollowersInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserUpdateWithWhereUniqueWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpdateWithWhereUniqueWithoutFollowersInput)
-    update?: Array<UserUpdateWithWhereUniqueWithoutFollowersInput>;
-    @Field(() => [UserUpdateManyWithWhereWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpdateManyWithWhereWithoutFollowersInput)
-    updateMany?: Array<UserUpdateManyWithWhereWithoutFollowersInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    @Type(() => UserScalarWhereInput)
-    deleteMany?: Array<UserScalarWhereInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateManyWithoutFollowersInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-}
-
-@InputType()
-export class UserUncheckedUpdateManyWithoutFollowingNestedInput {
-    @Field(() => [UserCreateWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create?: Array<UserCreateWithoutFollowingInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowingInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowingInput>;
-    @Field(() => [UserUpsertWithWhereUniqueWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpsertWithWhereUniqueWithoutFollowingInput)
-    upsert?: Array<UserUpsertWithWhereUniqueWithoutFollowingInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserUpdateWithWhereUniqueWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpdateWithWhereUniqueWithoutFollowingInput)
-    update?: Array<UserUpdateWithWhereUniqueWithoutFollowingInput>;
-    @Field(() => [UserUpdateManyWithWhereWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpdateManyWithWhereWithoutFollowingInput)
-    updateMany?: Array<UserUpdateManyWithWhereWithoutFollowingInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    @Type(() => UserScalarWhereInput)
-    deleteMany?: Array<UserScalarWhereInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateManyWithoutFollowingInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
 }
 
 @InputType()
@@ -11194,141 +9256,6 @@ export class UserUncheckedUpdateManyInput {
 }
 
 @InputType()
-export class UserUncheckedUpdateWithoutAccountsInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateWithoutFollowersInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
-}
-
-@InputType()
-export class UserUncheckedUpdateWithoutFollowingInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
-}
-
-@InputType()
 export class UserUncheckedUpdateWithoutShelvesInput {
     @Field(() => String, {nullable:true})
     id?: string;
@@ -11365,12 +9292,6 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     emailVerified?: Date | string;
     @Field(() => UserBookUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11410,12 +9331,6 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     emailVerified?: Date | string;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11457,12 +9372,6 @@ export class UserUncheckedUpdateInput {
     userBooks?: InstanceType<typeof UserBookUncheckedUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUncheckedUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUncheckedUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUncheckedUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUncheckedUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11500,113 +9409,6 @@ export class UserUpdateManyMutationInput {
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
     emailVerified?: Date | string;
-}
-
-@InputType()
-export class UserUpdateManyWithWhereWithoutFollowersInput {
-    @Field(() => UserScalarWhereInput, {nullable:false})
-    @Type(() => UserScalarWhereInput)
-    where!: InstanceType<typeof UserScalarWhereInput>;
-    @Field(() => UserUpdateManyMutationInput, {nullable:false})
-    @Type(() => UserUpdateManyMutationInput)
-    data!: InstanceType<typeof UserUpdateManyMutationInput>;
-}
-
-@InputType()
-export class UserUpdateManyWithWhereWithoutFollowingInput {
-    @Field(() => UserScalarWhereInput, {nullable:false})
-    @Type(() => UserScalarWhereInput)
-    where!: InstanceType<typeof UserScalarWhereInput>;
-    @Field(() => UserUpdateManyMutationInput, {nullable:false})
-    @Type(() => UserUpdateManyMutationInput)
-    data!: InstanceType<typeof UserUpdateManyMutationInput>;
-}
-
-@InputType()
-export class UserUpdateManyWithoutFollowersNestedInput {
-    @Field(() => [UserCreateWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create?: Array<UserCreateWithoutFollowersInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowersInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowersInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowersInput>;
-    @Field(() => [UserUpsertWithWhereUniqueWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpsertWithWhereUniqueWithoutFollowersInput)
-    upsert?: Array<UserUpsertWithWhereUniqueWithoutFollowersInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserUpdateWithWhereUniqueWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpdateWithWhereUniqueWithoutFollowersInput)
-    update?: Array<UserUpdateWithWhereUniqueWithoutFollowersInput>;
-    @Field(() => [UserUpdateManyWithWhereWithoutFollowersInput], {nullable:true})
-    @Type(() => UserUpdateManyWithWhereWithoutFollowersInput)
-    updateMany?: Array<UserUpdateManyWithWhereWithoutFollowersInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    @Type(() => UserScalarWhereInput)
-    deleteMany?: Array<UserScalarWhereInput>;
-}
-
-@InputType()
-export class UserUpdateManyWithoutFollowingNestedInput {
-    @Field(() => [UserCreateWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create?: Array<UserCreateWithoutFollowingInput>;
-    @Field(() => [UserCreateOrConnectWithoutFollowingInput], {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutFollowingInput)
-    connectOrCreate?: Array<UserCreateOrConnectWithoutFollowingInput>;
-    @Field(() => [UserUpsertWithWhereUniqueWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpsertWithWhereUniqueWithoutFollowingInput)
-    upsert?: Array<UserUpsertWithWhereUniqueWithoutFollowingInput>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    set?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    disconnect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    delete?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserWhereUniqueInput], {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Array<Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>>;
-    @Field(() => [UserUpdateWithWhereUniqueWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpdateWithWhereUniqueWithoutFollowingInput)
-    update?: Array<UserUpdateWithWhereUniqueWithoutFollowingInput>;
-    @Field(() => [UserUpdateManyWithWhereWithoutFollowingInput], {nullable:true})
-    @Type(() => UserUpdateManyWithWhereWithoutFollowingInput)
-    updateMany?: Array<UserUpdateManyWithWhereWithoutFollowingInput>;
-    @Field(() => [UserScalarWhereInput], {nullable:true})
-    @Type(() => UserScalarWhereInput)
-    deleteMany?: Array<UserScalarWhereInput>;
-}
-
-@InputType()
-export class UserUpdateOneRequiredWithoutAccountsNestedInput {
-    @Field(() => UserCreateWithoutAccountsInput, {nullable:true})
-    @Type(() => UserCreateWithoutAccountsInput)
-    create?: InstanceType<typeof UserCreateWithoutAccountsInput>;
-    @Field(() => UserCreateOrConnectWithoutAccountsInput, {nullable:true})
-    @Type(() => UserCreateOrConnectWithoutAccountsInput)
-    connectOrCreate?: InstanceType<typeof UserCreateOrConnectWithoutAccountsInput>;
-    @Field(() => UserUpsertWithoutAccountsInput, {nullable:true})
-    @Type(() => UserUpsertWithoutAccountsInput)
-    upsert?: InstanceType<typeof UserUpsertWithoutAccountsInput>;
-    @Field(() => UserWhereUniqueInput, {nullable:true})
-    @Type(() => UserWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateToOneWithWhereWithoutAccountsInput, {nullable:true})
-    @Type(() => UserUpdateToOneWithWhereWithoutAccountsInput)
-    update?: InstanceType<typeof UserUpdateToOneWithWhereWithoutAccountsInput>;
 }
 
 @InputType()
@@ -11654,16 +9456,6 @@ export class UserUpdateOneWithoutShelvesNestedInput {
 }
 
 @InputType()
-export class UserUpdateToOneWithWhereWithoutAccountsInput {
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
-    @Field(() => UserUpdateWithoutAccountsInput, {nullable:false})
-    @Type(() => UserUpdateWithoutAccountsInput)
-    data!: InstanceType<typeof UserUpdateWithoutAccountsInput>;
-}
-
-@InputType()
 export class UserUpdateToOneWithWhereWithoutShelvesInput {
     @Field(() => UserWhereInput, {nullable:true})
     @Type(() => UserWhereInput)
@@ -11681,161 +9473,6 @@ export class UserUpdateToOneWithWhereWithoutUserBooksInput {
     @Field(() => UserUpdateWithoutUserBooksInput, {nullable:false})
     @Type(() => UserUpdateWithoutUserBooksInput)
     data!: InstanceType<typeof UserUpdateWithoutUserBooksInput>;
-}
-
-@InputType()
-export class UserUpdateWithWhereUniqueWithoutFollowersInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateWithoutFollowersInput, {nullable:false})
-    @Type(() => UserUpdateWithoutFollowersInput)
-    data!: InstanceType<typeof UserUpdateWithoutFollowersInput>;
-}
-
-@InputType()
-export class UserUpdateWithWhereUniqueWithoutFollowingInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateWithoutFollowingInput, {nullable:false})
-    @Type(() => UserUpdateWithoutFollowingInput)
-    data!: InstanceType<typeof UserUpdateWithoutFollowingInput>;
-}
-
-@InputType()
-export class UserUpdateWithoutAccountsInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
-}
-
-@InputType()
-export class UserUpdateWithoutFollowersInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
-}
-
-@InputType()
-export class UserUpdateWithoutFollowingInput {
-    @Field(() => String, {nullable:true})
-    id?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsEmail()
-    email?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    @Validator.MaxLength(100)
-    @Validator.MinLength(3)
-    username?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedPassword?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    name?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    location?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    bio?: string;
-    @Field(() => String, {nullable:true})
-    @Validator.IsString()
-    hashedRefreshToken?: string;
-    @Field(() => Date, {nullable:true})
-    createdAt?: Date | string;
-    @Field(() => Date, {nullable:true})
-    updatedAt?: Date | string;
-    @Field(() => String, {nullable:true})
-    avatarImage?: string;
-    @Field(() => Date, {nullable:true})
-    emailVerified?: Date | string;
-    @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
-    userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
-    @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
-    shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11875,12 +9512,6 @@ export class UserUpdateWithoutShelvesInput {
     emailVerified?: Date | string;
     @Field(() => UserBookUpdateManyWithoutUserNestedInput, {nullable:true})
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11920,12 +9551,6 @@ export class UserUpdateWithoutUserBooksInput {
     emailVerified?: Date | string;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
 }
 
 @InputType()
@@ -11967,51 +9592,6 @@ export class UserUpdateInput {
     userBooks?: InstanceType<typeof UserBookUpdateManyWithoutUserNestedInput>;
     @Field(() => ShelfUpdateManyWithoutUserNestedInput, {nullable:true})
     shelves?: InstanceType<typeof ShelfUpdateManyWithoutUserNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowersNestedInput, {nullable:true})
-    following?: InstanceType<typeof UserUpdateManyWithoutFollowersNestedInput>;
-    @Field(() => UserUpdateManyWithoutFollowingNestedInput, {nullable:true})
-    followers?: InstanceType<typeof UserUpdateManyWithoutFollowingNestedInput>;
-    @Field(() => AccountUpdateManyWithoutUserNestedInput, {nullable:true})
-    accounts?: InstanceType<typeof AccountUpdateManyWithoutUserNestedInput>;
-}
-
-@InputType()
-export class UserUpsertWithWhereUniqueWithoutFollowersInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateWithoutFollowersInput, {nullable:false})
-    @Type(() => UserUpdateWithoutFollowersInput)
-    update!: InstanceType<typeof UserUpdateWithoutFollowersInput>;
-    @Field(() => UserCreateWithoutFollowersInput, {nullable:false})
-    @Type(() => UserCreateWithoutFollowersInput)
-    create!: InstanceType<typeof UserCreateWithoutFollowersInput>;
-}
-
-@InputType()
-export class UserUpsertWithWhereUniqueWithoutFollowingInput {
-    @Field(() => UserWhereUniqueInput, {nullable:false})
-    @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'email' | 'username'>;
-    @Field(() => UserUpdateWithoutFollowingInput, {nullable:false})
-    @Type(() => UserUpdateWithoutFollowingInput)
-    update!: InstanceType<typeof UserUpdateWithoutFollowingInput>;
-    @Field(() => UserCreateWithoutFollowingInput, {nullable:false})
-    @Type(() => UserCreateWithoutFollowingInput)
-    create!: InstanceType<typeof UserCreateWithoutFollowingInput>;
-}
-
-@InputType()
-export class UserUpsertWithoutAccountsInput {
-    @Field(() => UserUpdateWithoutAccountsInput, {nullable:false})
-    @Type(() => UserUpdateWithoutAccountsInput)
-    update!: InstanceType<typeof UserUpdateWithoutAccountsInput>;
-    @Field(() => UserCreateWithoutAccountsInput, {nullable:false})
-    @Type(() => UserCreateWithoutAccountsInput)
-    create!: InstanceType<typeof UserCreateWithoutAccountsInput>;
-    @Field(() => UserWhereInput, {nullable:true})
-    @Type(() => UserWhereInput)
-    where?: InstanceType<typeof UserWhereInput>;
 }
 
 @InputType()
@@ -12080,12 +9660,6 @@ export class UserWhereUniqueInput {
     userBooks?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ShelfListRelationFilter, {nullable:true})
     shelves?: InstanceType<typeof ShelfListRelationFilter>;
-    @Field(() => UserListRelationFilter, {nullable:true})
-    following?: InstanceType<typeof UserListRelationFilter>;
-    @Field(() => UserListRelationFilter, {nullable:true})
-    followers?: InstanceType<typeof UserListRelationFilter>;
-    @Field(() => AccountListRelationFilter, {nullable:true})
-    accounts?: InstanceType<typeof AccountListRelationFilter>;
 }
 
 @InputType()
@@ -12124,12 +9698,6 @@ export class UserWhereInput {
     userBooks?: InstanceType<typeof UserBookListRelationFilter>;
     @Field(() => ShelfListRelationFilter, {nullable:true})
     shelves?: InstanceType<typeof ShelfListRelationFilter>;
-    @Field(() => UserListRelationFilter, {nullable:true})
-    following?: InstanceType<typeof UserListRelationFilter>;
-    @Field(() => UserListRelationFilter, {nullable:true})
-    followers?: InstanceType<typeof UserListRelationFilter>;
-    @Field(() => AccountListRelationFilter, {nullable:true})
-    accounts?: InstanceType<typeof AccountListRelationFilter>;
 }
 
 @ObjectType()
@@ -12162,12 +9730,6 @@ export class User {
     userBooks?: Array<UserBook>;
     @Field(() => [Shelf], {nullable:true})
     shelves?: Array<Shelf>;
-    @Field(() => [User], {nullable:true})
-    following?: Array<User>;
-    @Field(() => [User], {nullable:true})
-    followers?: Array<User>;
-    @Field(() => [Account], {nullable:true})
-    accounts?: Array<Account>;
     @Field(() => UserCount, {nullable:false})
     _count?: InstanceType<typeof UserCount>;
 }
@@ -15172,8 +12734,6 @@ export class VerificationTokenCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
-    @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
     expires?: true;
@@ -15187,8 +12747,6 @@ export class VerificationTokenCountAggregate {
     id!: number;
     @Field(() => Int, {nullable:false})
     email!: number;
-    @Field(() => Int, {nullable:false})
-    existingEmail!: number;
     @Field(() => Int, {nullable:false})
     token!: number;
     @Field(() => Int, {nullable:false})
@@ -15204,8 +12762,6 @@ export class VerificationTokenCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15218,8 +12774,6 @@ export class VerificationTokenCreateManyInput {
     @Field(() => String, {nullable:false})
     email!: string;
     @Field(() => String, {nullable:false})
-    existingEmail!: string;
-    @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
     expires!: Date | string;
@@ -15231,8 +12785,6 @@ export class VerificationTokenCreateInput {
     id?: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
@@ -15278,8 +12830,6 @@ export class VerificationTokenGroupBy {
     @Field(() => String, {nullable:false})
     email!: string;
     @Field(() => String, {nullable:false})
-    existingEmail!: string;
-    @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
     expires!: Date | string;
@@ -15298,8 +12848,6 @@ export class VerificationTokenMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
-    @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
     expires?: true;
@@ -15311,8 +12859,6 @@ export class VerificationTokenMaxAggregate {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15326,8 +12872,6 @@ export class VerificationTokenMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15339,8 +12883,6 @@ export class VerificationTokenMinAggregateInput {
     id?: true;
     @Field(() => Boolean, {nullable:true})
     email?: true;
-    @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
     @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
@@ -15354,8 +12896,6 @@ export class VerificationTokenMinAggregate {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15368,8 +12908,6 @@ export class VerificationTokenMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15381,8 +12919,6 @@ export class VerificationTokenOrderByWithAggregationInput {
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -15402,8 +12938,6 @@ export class VerificationTokenOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15422,8 +12956,6 @@ export class VerificationTokenScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     email?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
     token?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeWithAggregatesFilter>;
@@ -15435,8 +12967,6 @@ export class VerificationTokenUncheckedCreateInput {
     id?: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
@@ -15450,8 +12980,6 @@ export class VerificationTokenUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15463,8 +12991,6 @@ export class VerificationTokenUncheckedUpdateInput {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15478,8 +13004,6 @@ export class VerificationTokenUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15491,8 +13015,6 @@ export class VerificationTokenUpdateInput {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15515,8 +13037,6 @@ export class VerificationTokenWhereUniqueInput {
     NOT?: Array<VerificationTokenWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     email?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeFilter>;
 }
@@ -15534,8 +13054,6 @@ export class VerificationTokenWhereInput {
     @Field(() => StringFilter, {nullable:true})
     email?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
     token?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeFilter>;
@@ -15547,8 +13065,6 @@ export class VerificationToken {
     id!: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})

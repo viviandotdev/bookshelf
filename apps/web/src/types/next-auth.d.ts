@@ -1,12 +1,17 @@
-import NextAuth from 'next-auth';
-import { User } from './intefaces';
-
-declare module 'next-auth' {
-  /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
-  interface Session {
-    user: User;
-    error: unknown;
-  }
+import { DefaultSession, DefaultUser, CredentialsSignin } from "next-auth";
+declare module "next-auth" {
+    interface User {
+        username?: string;
+        id?: string;
+        email?: string;
+        avatarImage?: string;
+        accessToken?: string;
+        refreshToken?: string;
+        expiresIn?: number;
+        error?: string;
+    }
+    interface Session {
+        user: User & DefaultSession["user"]
+        error: unknown;
+    }
 }

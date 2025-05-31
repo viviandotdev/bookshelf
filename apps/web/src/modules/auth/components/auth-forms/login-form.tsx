@@ -1,18 +1,14 @@
 'use client';
-import { Icons } from '@/components/icons';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { loginUserSchema } from '@/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
+import { loginUser } from '../../actions/login-user';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -26,42 +22,39 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
     } = useForm<FormData>({
         resolver: zodResolver(loginUserSchema),
     });
-    const router = useRouter();
     const [success, setSuccess] = useState<string | undefined>('');
     const searchParams = useSearchParams();
     const searchError = searchParams.get('error');
-    const [error, setError] = useState<string | null>(
-        searchError ? 'Invalid email or password' : null
+    const [error, setError] = useState<string | undefined>(
+        searchError ? 'Invalid credentials' : undefined
     );
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isPending, startTransition] = useTransition();
     const callbackUrl = searchParams.get('callbackUrl');
 
+    const redirectTo = (url: string) => {
+        window.location.href = url
+        // If url contains a hash, the browser does not reload the page. We reload manually
+        if (url.includes("#")) window.location.reload()
+    }
+
     const onSubmit = async (values: z.infer<typeof loginUserSchema>) => {
-        setIsLoading(true);
-        try {
-        const res = await signIn('credentials', {
-                email: values.email.toLowerCase(),
-                password: values.password,
-                redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+        startTransition(() => {
+            loginUser({ email: values.email, password: values.password }).then((data) => {
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    redirectTo(callbackUrl || DEFAULT_LOGIN_REDIRECT)
+                }
             });
-            if (res?.error) {
-                setError('Invalid email or password');
-                setSuccess('Confirmation email sent');
-            } else {
-                router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT);
-            }
-        } catch (err: any) {
-            setError('Error signing in');
-        } finally {
-            setIsLoading(false);
-        }
+
+        });
     };
 
     return (
         <AuthFormWrapper
             onSubmit={handleSubmit(onSubmit)}
-            isPending={isLoading}
-            error={error || undefined}
+            isPending={isPending}
+            error={error}
             success={success}
             buttonLabel='Log in'
         >
@@ -71,7 +64,7 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                 type='email'
                 placeholder='john.doe@example.com'
                 error={errors?.email?.message}
-                disabled={isLoading}
+                disabled={isPending}
                 register={register}
                 autoCapitalize='none'
                 autoComplete='email'
@@ -83,7 +76,7 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                 type='password'
                 placeholder='******'
                 error={errors?.password?.message}
-                disabled={isLoading}
+                disabled={isPending}
                 register={register}
                 required
             />

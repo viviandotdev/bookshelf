@@ -1,19 +1,11 @@
 import Credentials from 'next-auth/providers/credentials';
-import type { NextAuthConfig } from 'next-auth';
+import { CredentialsSignin, type NextAuthConfig } from 'next-auth';
 import {
     LoginDocument,
     LoginMutation,
 } from '@/graphql/graphql';
 import { getClient } from '@/lib/apollo-client';
-
-interface CustomUser {
-    id: string;
-    email: string;
-    username: string;
-    accessToken: string;
-    refreshToken: string;
-    expiresIn: number;
-}
+import type { User } from "next-auth"
 
 const REFRESH_AUTHENTICATION_MUTATION = `
     mutation RefreshAuth {
@@ -69,61 +61,58 @@ async function refreshAccessToken(token: any): Promise<any> {
 export default {
     providers: [
         Credentials({
-            name: 'Sign in',
+            name: "Credentials",
+            id: "credentials",
             credentials: {
                 email: {
                     label: 'Email',
                     type: 'email',
-                    placeholder: 'hello@example.com',
                 },
                 password: { label: 'Password', type: 'password' },
             },
-            async authorize(credentials): Promise<CustomUser | null> {
-                const { data: loginData, errors } = await getClient().mutate<LoginMutation>({
-                    mutation: LoginDocument, variables: {
-                        input: {
-                            email: credentials?.email || "",
-                            password: credentials?.password || '',
+            async authorize(credentials): Promise<User | null> {
+                try {
+                    const { data: loginData, errors } = await getClient().mutate<LoginMutation>({
+                        mutation: LoginDocument, variables: {
+                            input: {
+                                email: credentials?.email as string,
+                                password: credentials?.password as string,
+                            },
                         },
-                    },
-                });
+                    });
 
-                if (errors) {
-                    throw new Error('Failed to login! try again');
+                    if (errors) {
+                        throw new CredentialsSignin()
+                    }
+
+                    if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
+                        throw new CredentialsSignin()
+                    }
+
+                    return {
+                        id: loginData?.login.user.id,
+                        email: loginData?.login.user.email,
+                        username: loginData?.login.user.username || '',
+                        accessToken: loginData?.login.accessToken,
+                        refreshToken: loginData?.login.refreshToken,
+                        expiresIn: loginData?.login.expiresIn,
+                    };
+                } catch (error) {
+                    throw new CredentialsSignin()
                 }
-
-                if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.user?.username || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
-                    throw new Error('Invalid loginData?.login returned from server');
-                }
-
-                return {
-                    id: loginData?.login.user.id,
-                    email: loginData?.login.user.email,
-                    username: loginData?.login.user.username,
-                    accessToken: loginData?.login.accessToken,
-                    refreshToken: loginData?.login.refreshToken,
-                    expiresIn: loginData?.login.expiresIn,
-                };
             },
         }),
     ],
     callbacks: {
-        async redirect({ url, baseUrl }) {
-            return url.startsWith(baseUrl)
-                ? Promise.resolve(url)
-                : Promise.resolve(baseUrl);
-        },
         async jwt({ token, user, account }) {
             // Initial signin contains a 'User' object from authorize method
             if (user && account) {
-                console.debug("Initial signin");
-                const customUser = user as CustomUser;
-                token.username = customUser.username;
-                token.email = customUser.email;
-                token.id = customUser.id;
-                token.accessToken = customUser.accessToken;
-                token.refreshToken = customUser.refreshToken;
-                token.expiresIn = customUser.expiresIn;
+                token.id = user.id;
+                token.email = user.email;
+                token.username = user.username;
+                token.accessToken = user.accessToken;
+                token.refreshToken = user.refreshToken;
+                token.expiresIn = user.expiresIn;
                 return token
             }
             const bufferInMinutes = 2;
@@ -143,13 +132,12 @@ export default {
             session.error = token.error;
             session.user = {
                 ...session.user,
-                username: token.username,
-                email: token.email,
-                id: token.id,
-                accessToken: token.accessToken,
-                refreshToken: token.refreshToken,
-                expiresIn: token.expiresIn,
-                error: token.error,
+                id: token.id as string,
+                email: token.email as string,
+                username: token.username as string,
+                accessToken: token.accessToken as string,
+                refreshToken: token.refreshToken as string,
+                expiresIn: token.expiresIn as number,
             };
             return session;
         },

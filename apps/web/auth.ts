@@ -7,11 +7,11 @@ export const {
     auth,
     signIn,
     signOut,
-    update,
+    unstable_update,
 } = NextAuth({
     pages: {
         signIn: '/login',
-        error: '/login',
+        error: "/auth/error",
     },
     session: { strategy: 'jwt' },
     ...authConfig,

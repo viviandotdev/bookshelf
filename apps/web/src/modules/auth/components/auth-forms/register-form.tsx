@@ -1,9 +1,5 @@
 'use client';
-import { buttonVariants } from '@/components/ui/button';
 import { useState, useTransition } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Icons } from '@/components/icons';
-import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -11,6 +7,8 @@ import { registerUserSchema } from '@/schemas/auth';
 import { regsiterUser } from '../../actions/register-user';
 import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
+import { useSearchParams } from 'next/navigation';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -25,15 +23,28 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const [isPending, startTransition] = useTransition();
+    const searchParams = useSearchParams();
+
+    const callbackUrl = searchParams.get('callbackUrl');
+
+    const redirectTo = (url: string) => {
+        window.location.href = url
+        // If url contains a hash, the browser does not reload the page. We reload manually
+        if (url.includes("#")) window.location.reload()
+    }
 
     const onSubmit = async (values: z.infer<typeof registerUserSchema>) => {
         setError('');
         setSuccess('');
         startTransition(() => {
-            regsiterUser(values).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
-            });
+            regsiterUser(values)
+                .then((data) => {
+                    if (data.error) {
+                        setError(data.error);
+                    } else {
+                        redirectTo(callbackUrl || DEFAULT_LOGIN_REDIRECT)
+                    }
+                })
         });
     };
 

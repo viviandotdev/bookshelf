@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
@@ -27,13 +27,13 @@ export function AuthFormWrapper({
                 {children}
                 {error && <FormError message={error} />}
                 {success && <FormSuccess message={success} />}
-                <button
-                    className={cn(buttonVariants({ variant: 'default' }))}
+                <Button
+                    variant={'default'}
                     disabled={isPending}
                 >
                     {isPending && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
                     {buttonLabel}
-                </button>
+                </Button>
             </div>
         </form>
     );

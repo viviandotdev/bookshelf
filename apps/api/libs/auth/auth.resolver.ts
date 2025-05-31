@@ -10,15 +10,13 @@ import {
     ForbiddenException,
     NotFoundException,
     UseGuards,
-    UnauthorizedException,
+    ConflictException,
 } from '@nestjs/common';
-import { AccessTokenGuard } from './guards/jwt.guard';
-import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
+import { JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
 import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
-import { MeResponse } from './dto/me.response';
 import { ShelfService } from 'libs/shelf/shelf.service';
 import { generateSlug } from 'libs/user-book/utils';
 import { JwtService } from '@nestjs/jwt';
@@ -37,6 +35,25 @@ export class AuthResolver {
     async register(@Args('registerInput') registerInput: RegisterInput) {
         const hashedPassword = await hash(registerInput.password, 10);
 
+        const existingEmail = await this.userService.findUnique({
+            where: {
+                email: registerInput.email,
+            },
+        });
+
+        if (existingEmail) {
+            throw new ConflictException('Email already exists');
+        }
+        const existingUser = await this.userService.findUnique({
+            where: {
+                username: registerInput.username,
+            },
+        });
+
+        if (existingUser) {
+            throw new ConflictException('Username already exists');
+        }
+
         const user = await this.userService.createUser({
             email: registerInput.email,
             username: registerInput.username,
@@ -44,6 +61,7 @@ export class AuthResolver {
             hashedPassword,
             emailVerified: new Date(),
         });
+
         // Create default shelves
         this.shelfService.create(
             { name: 'Favorites', slug: generateSlug('Favorites') },
@@ -81,7 +99,7 @@ export class AuthResolver {
     }
 
     @Mutation(() => Boolean)
-    logout(@Args('id', { type: () => String }) id: string) {
+    async logout(@Args('id', { type: () => String }) id: string) {
         return this.authService.logout(id);
     }
 
@@ -111,29 +129,6 @@ export class AuthResolver {
         );
     }
 
-    @UseGuards(AccessTokenGuard)
-    @Query(() => MeResponse, { name: 'me' })
-    async me(@CurrentUser() currentUser: JwtPayload) {
-        const user = await this.userService.findUnique({
-            where: {
-                id: currentUser.userId,
-            },
-        });
-
-        const existingAccount = await this.authService.findAccountById({
-            where: {
-                userId: currentUser.userId,
-            },
-        });
-
-        if (!user) {
-            throw new ForbiddenException('User not found');
-        }
-        return {
-            ...user,
-            isOAuth: !!existingAccount,
-        };
-    }
 
     @UseGuards(RefreshTokenGuard)
     @Mutation(() => RefreshResponse)

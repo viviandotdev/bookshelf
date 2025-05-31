@@ -2,258 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Account {
-  access_token: String
-  expires_at: Int
-  id: ID!
-  id_token: String
-  provider: String!
-  providerAccountId: String!
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String!
-  user: User!
-  userId: String!
-}
-
-type AccountAvgAggregate {
-  expires_at: Float
-}
-
-type AccountCountAggregate {
-  _all: Int!
-  access_token: Int!
-  expires_at: Int!
-  id: Int!
-  id_token: Int!
-  provider: Int!
-  providerAccountId: Int!
-  refresh_token: Int!
-  scope: Int!
-  session_state: Int!
-  token_type: Int!
-  type: Int!
-  userId: Int!
-}
-
-input AccountCreateManyUserInput {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String!
-  providerAccountId: String!
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String!
-}
-
-input AccountCreateManyUserInputEnvelope {
-  data: [AccountCreateManyUserInput!]!
-  skipDuplicates: Boolean
-}
-
-input AccountCreateNestedManyWithoutUserInput {
-  connect: [AccountWhereUniqueInput!]
-  connectOrCreate: [AccountCreateOrConnectWithoutUserInput!]
-  create: [AccountCreateWithoutUserInput!]
-  createMany: AccountCreateManyUserInputEnvelope
-}
-
-input AccountCreateOrConnectWithoutUserInput {
-  create: AccountCreateWithoutUserInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountCreateWithoutUserInput {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String!
-  providerAccountId: String!
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String!
-}
-
-input AccountListRelationFilter {
-  every: AccountWhereInput
-  none: AccountWhereInput
-  some: AccountWhereInput
-}
-
-type AccountMaxAggregate {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String
-  providerAccountId: String
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String
-  userId: String
-}
-
-type AccountMinAggregate {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String
-  providerAccountId: String
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String
-  userId: String
-}
-
-input AccountOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
-input AccountProviderProviderAccountIdCompoundUniqueInput {
-  provider: String!
-  providerAccountId: String!
-}
-
-input AccountScalarWhereInput {
-  AND: [AccountScalarWhereInput!]
-  NOT: [AccountScalarWhereInput!]
-  OR: [AccountScalarWhereInput!]
-  access_token: StringFilter
-  expires_at: IntFilter
-  id: StringFilter
-  id_token: StringFilter
-  provider: StringFilter
-  providerAccountId: StringFilter
-  refresh_token: StringFilter
-  scope: StringFilter
-  session_state: StringFilter
-  token_type: StringFilter
-  type: StringFilter
-  userId: StringFilter
-}
-
-type AccountSumAggregate {
-  expires_at: Int
-}
-
-input AccountUpdateManyMutationInput {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String
-  providerAccountId: String
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String
-}
-
-input AccountUpdateManyWithWhereWithoutUserInput {
-  data: AccountUpdateManyMutationInput!
-  where: AccountScalarWhereInput!
-}
-
-input AccountUpdateManyWithoutUserNestedInput {
-  connect: [AccountWhereUniqueInput!]
-  connectOrCreate: [AccountCreateOrConnectWithoutUserInput!]
-  create: [AccountCreateWithoutUserInput!]
-  createMany: AccountCreateManyUserInputEnvelope
-  delete: [AccountWhereUniqueInput!]
-  deleteMany: [AccountScalarWhereInput!]
-  disconnect: [AccountWhereUniqueInput!]
-  set: [AccountWhereUniqueInput!]
-  update: [AccountUpdateWithWhereUniqueWithoutUserInput!]
-  updateMany: [AccountUpdateManyWithWhereWithoutUserInput!]
-  upsert: [AccountUpsertWithWhereUniqueWithoutUserInput!]
-}
-
-input AccountUpdateWithWhereUniqueWithoutUserInput {
-  data: AccountUpdateWithoutUserInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountUpdateWithoutUserInput {
-  access_token: String
-  expires_at: Int
-  id: String
-  id_token: String
-  provider: String
-  providerAccountId: String
-  refresh_token: String
-  scope: String
-  session_state: String
-  token_type: String
-  type: String
-}
-
-input AccountUpsertWithWhereUniqueWithoutUserInput {
-  create: AccountCreateWithoutUserInput!
-  update: AccountUpdateWithoutUserInput!
-  where: AccountWhereUniqueInput!
-}
-
-input AccountWhereInput {
-  AND: [AccountWhereInput!]
-  NOT: [AccountWhereInput!]
-  OR: [AccountWhereInput!]
-  access_token: StringFilter
-  expires_at: IntFilter
-  id: StringFilter
-  id_token: StringFilter
-  provider: StringFilter
-  providerAccountId: StringFilter
-  refresh_token: StringFilter
-  scope: StringFilter
-  session_state: StringFilter
-  token_type: StringFilter
-  type: StringFilter
-  user: UserScalarRelationFilter
-  userId: StringFilter
-}
-
-input AccountWhereUniqueInput {
-  AND: [AccountWhereInput!]
-  NOT: [AccountWhereInput!]
-  OR: [AccountWhereInput!]
-  access_token: StringFilter
-  expires_at: IntFilter
-  id: String
-  id_token: StringFilter
-  provider: StringFilter
-  providerAccountId: StringFilter
-  provider_providerAccountId: AccountProviderProviderAccountIdCompoundUniqueInput
-  refresh_token: StringFilter
-  scope: StringFilter
-  session_state: StringFilter
-  token_type: StringFilter
-  type: StringFilter
-  user: UserScalarRelationFilter
-  userId: StringFilter
-}
-
 type AuthResponse {
   accessToken: String
   expiresIn: Float
   isNewUser: Boolean
   refreshToken: String
   user: User!
-  verificationToken: String
 }
 
 type Book {
@@ -910,17 +664,6 @@ input LogInInput {
   password: String
 }
 
-type MeResponse {
-  avatarImage: String
-  bio: String
-  email: String
-  id: String
-  isOAuth: Boolean
-  location: String
-  name: String
-  username: String
-}
-
 type Mutation {
   addBookToShelf(shelf: String!, where: UserBookWhereUniqueInput!): UserBook!
   addIdentifierToBook(identifier: IdentifierCreateInput!, where: BookWhereUniqueInput!): Book!
@@ -928,7 +671,6 @@ type Mutation {
   createShelf(data: ShelfCreateInput!): Shelf!
   createUserBook(data: BookDataInput!): UserBook!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
-  follow(value: Boolean!, where: UserWhereUniqueInput!): User!
   forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!, favoritesShelf: String, ownedShelf: String, shelves: [String!]): Boolean!
   login(logInInput: LogInInput!): AuthResponse!
@@ -989,7 +731,6 @@ type Query {
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   healthCheck: HealthCheck!
-  me: MeResponse!
   readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
   searchMyLibrary(query: String!): [Book!]!
   shelves: [Shelf!]
@@ -1815,18 +1556,12 @@ input UpdateUserInput {
 
 type User {
   _count: UserCount!
-  accounts: [Account!]
   avatarImage: String
   bio: String
   createdAt: Timestamp!
   email: String!
   emailVerified: Timestamp
-  followerCount: Float!
-  followers: [User!]
-  following: [User!]
-  followingCount: Float!
   id: ID!
-  isFollowing: Boolean!
   location: String
   name: String
   shelves: [Shelf!]
@@ -2378,9 +2113,6 @@ type UserBooksResponse {
 }
 
 type UserCount {
-  accounts: Int!
-  followers: Int!
-  following: Int!
   shelves: Int!
   userBooks: Int!
 }
@@ -2399,18 +2131,6 @@ type UserCountAggregate {
   username: Int!
 }
 
-input UserCreateNestedManyWithoutFollowersInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutFollowersInput!]
-  create: [UserCreateWithoutFollowersInput!]
-}
-
-input UserCreateNestedManyWithoutFollowingInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutFollowingInput!]
-  create: [UserCreateWithoutFollowingInput!]
-}
-
 input UserCreateNestedOneWithoutShelvesInput {
   connect: UserWhereUniqueInput
   connectOrCreate: UserCreateOrConnectWithoutShelvesInput
@@ -2423,16 +2143,6 @@ input UserCreateNestedOneWithoutUserBooksInput {
   create: UserCreateWithoutUserBooksInput
 }
 
-input UserCreateOrConnectWithoutFollowersInput {
-  create: UserCreateWithoutFollowersInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserCreateOrConnectWithoutFollowingInput {
-  create: UserCreateWithoutFollowingInput!
-  where: UserWhereUniqueInput!
-}
-
 input UserCreateOrConnectWithoutShelvesInput {
   create: UserCreateWithoutShelvesInput!
   where: UserWhereUniqueInput!
@@ -2443,53 +2153,12 @@ input UserCreateOrConnectWithoutUserBooksInput {
   where: UserWhereUniqueInput!
 }
 
-input UserCreateWithoutFollowersInput {
-  accounts: AccountCreateNestedManyWithoutUserInput
-  avatarImage: String
-  bio: String
-  createdAt: Timestamp
-  email: String!
-  emailVerified: Timestamp
-  following: UserCreateNestedManyWithoutFollowersInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  location: String
-  name: String
-  shelves: ShelfCreateNestedManyWithoutUserInput
-  updatedAt: Timestamp
-  userBooks: UserBookCreateNestedManyWithoutUserInput
-  username: String
-}
-
-input UserCreateWithoutFollowingInput {
-  accounts: AccountCreateNestedManyWithoutUserInput
-  avatarImage: String
-  bio: String
-  createdAt: Timestamp
-  email: String!
-  emailVerified: Timestamp
-  followers: UserCreateNestedManyWithoutFollowingInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  location: String
-  name: String
-  shelves: ShelfCreateNestedManyWithoutUserInput
-  updatedAt: Timestamp
-  userBooks: UserBookCreateNestedManyWithoutUserInput
-  username: String
-}
-
 input UserCreateWithoutShelvesInput {
-  accounts: AccountCreateNestedManyWithoutUserInput
   avatarImage: String
   bio: String
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
-  followers: UserCreateNestedManyWithoutFollowingInput
-  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2501,14 +2170,11 @@ input UserCreateWithoutShelvesInput {
 }
 
 input UserCreateWithoutUserBooksInput {
-  accounts: AccountCreateNestedManyWithoutUserInput
   avatarImage: String
   bio: String
   createdAt: Timestamp
   email: String!
   emailVerified: Timestamp
-  followers: UserCreateNestedManyWithoutFollowingInput
-  following: UserCreateNestedManyWithoutFollowersInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2517,12 +2183,6 @@ input UserCreateWithoutUserBooksInput {
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   username: String
-}
-
-input UserListRelationFilter {
-  every: UserWhereInput
-  none: UserWhereInput
-  some: UserWhereInput
 }
 
 type UserMaxAggregate {
@@ -2551,19 +2211,12 @@ type UserMinAggregate {
   username: String
 }
 
-input UserOrderByRelationAggregateInput {
-  _count: SortOrder
-}
-
 input UserOrderByWithRelationInput {
-  accounts: AccountOrderByRelationAggregateInput
   avatarImage: SortOrderInput
   bio: SortOrderInput
   createdAt: SortOrder
   email: SortOrder
   emailVerified: SortOrderInput
-  followers: UserOrderByRelationAggregateInput
-  following: UserOrderByRelationAggregateInput
   hashedPassword: SortOrderInput
   hashedRefreshToken: SortOrderInput
   id: SortOrder
@@ -2578,75 +2231,6 @@ input UserOrderByWithRelationInput {
 input UserScalarRelationFilter {
   is: UserWhereInput
   isNot: UserWhereInput
-}
-
-input UserScalarWhereInput {
-  AND: [UserScalarWhereInput!]
-  NOT: [UserScalarWhereInput!]
-  OR: [UserScalarWhereInput!]
-  avatarImage: StringFilter
-  bio: StringFilter
-  createdAt: DateTimeFilter
-  email: StringFilter
-  emailVerified: DateTimeFilter
-  hashedPassword: StringFilter
-  hashedRefreshToken: StringFilter
-  id: StringFilter
-  location: StringFilter
-  name: StringFilter
-  updatedAt: DateTimeFilter
-  username: StringFilter
-}
-
-input UserUpdateManyMutationInput {
-  avatarImage: String
-  bio: String
-  createdAt: Timestamp
-  email: String
-  emailVerified: Timestamp
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  location: String
-  name: String
-  updatedAt: Timestamp
-  username: String
-}
-
-input UserUpdateManyWithWhereWithoutFollowersInput {
-  data: UserUpdateManyMutationInput!
-  where: UserScalarWhereInput!
-}
-
-input UserUpdateManyWithWhereWithoutFollowingInput {
-  data: UserUpdateManyMutationInput!
-  where: UserScalarWhereInput!
-}
-
-input UserUpdateManyWithoutFollowersNestedInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutFollowersInput!]
-  create: [UserCreateWithoutFollowersInput!]
-  delete: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutFollowersInput!]
-  updateMany: [UserUpdateManyWithWhereWithoutFollowersInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutFollowersInput!]
-}
-
-input UserUpdateManyWithoutFollowingNestedInput {
-  connect: [UserWhereUniqueInput!]
-  connectOrCreate: [UserCreateOrConnectWithoutFollowingInput!]
-  create: [UserCreateWithoutFollowingInput!]
-  delete: [UserWhereUniqueInput!]
-  deleteMany: [UserScalarWhereInput!]
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueWithoutFollowingInput!]
-  updateMany: [UserUpdateManyWithWhereWithoutFollowingInput!]
-  upsert: [UserUpsertWithWhereUniqueWithoutFollowingInput!]
 }
 
 input UserUpdateOneRequiredWithoutUserBooksNestedInput {
@@ -2677,63 +2261,12 @@ input UserUpdateToOneWithWhereWithoutUserBooksInput {
   where: UserWhereInput
 }
 
-input UserUpdateWithWhereUniqueWithoutFollowersInput {
-  data: UserUpdateWithoutFollowersInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserUpdateWithWhereUniqueWithoutFollowingInput {
-  data: UserUpdateWithoutFollowingInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserUpdateWithoutFollowersInput {
-  accounts: AccountUpdateManyWithoutUserNestedInput
-  avatarImage: String
-  bio: String
-  createdAt: Timestamp
-  email: String
-  emailVerified: Timestamp
-  following: UserUpdateManyWithoutFollowersNestedInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  location: String
-  name: String
-  shelves: ShelfUpdateManyWithoutUserNestedInput
-  updatedAt: Timestamp
-  userBooks: UserBookUpdateManyWithoutUserNestedInput
-  username: String
-}
-
-input UserUpdateWithoutFollowingInput {
-  accounts: AccountUpdateManyWithoutUserNestedInput
-  avatarImage: String
-  bio: String
-  createdAt: Timestamp
-  email: String
-  emailVerified: Timestamp
-  followers: UserUpdateManyWithoutFollowingNestedInput
-  hashedPassword: String
-  hashedRefreshToken: String
-  id: String
-  location: String
-  name: String
-  shelves: ShelfUpdateManyWithoutUserNestedInput
-  updatedAt: Timestamp
-  userBooks: UserBookUpdateManyWithoutUserNestedInput
-  username: String
-}
-
 input UserUpdateWithoutShelvesInput {
-  accounts: AccountUpdateManyWithoutUserNestedInput
   avatarImage: String
   bio: String
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
-  followers: UserUpdateManyWithoutFollowingNestedInput
-  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2745,14 +2278,11 @@ input UserUpdateWithoutShelvesInput {
 }
 
 input UserUpdateWithoutUserBooksInput {
-  accounts: AccountUpdateManyWithoutUserNestedInput
   avatarImage: String
   bio: String
   createdAt: Timestamp
   email: String
   emailVerified: Timestamp
-  followers: UserUpdateManyWithoutFollowingNestedInput
-  following: UserUpdateManyWithoutFollowersNestedInput
   hashedPassword: String
   hashedRefreshToken: String
   id: String
@@ -2761,18 +2291,6 @@ input UserUpdateWithoutUserBooksInput {
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
-}
-
-input UserUpsertWithWhereUniqueWithoutFollowersInput {
-  create: UserCreateWithoutFollowersInput!
-  update: UserUpdateWithoutFollowersInput!
-  where: UserWhereUniqueInput!
-}
-
-input UserUpsertWithWhereUniqueWithoutFollowingInput {
-  create: UserCreateWithoutFollowingInput!
-  update: UserUpdateWithoutFollowingInput!
-  where: UserWhereUniqueInput!
 }
 
 input UserUpsertWithoutShelvesInput {
@@ -2791,14 +2309,11 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  accounts: AccountListRelationFilter
   avatarImage: StringFilter
   bio: StringFilter
   createdAt: DateTimeFilter
   email: StringFilter
   emailVerified: DateTimeFilter
-  followers: UserListRelationFilter
-  following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: StringFilter
@@ -2814,14 +2329,11 @@ input UserWhereUniqueInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
-  accounts: AccountListRelationFilter
   avatarImage: StringFilter
   bio: StringFilter
   createdAt: DateTimeFilter
   email: String
   emailVerified: DateTimeFilter
-  followers: UserListRelationFilter
-  following: UserListRelationFilter
   hashedPassword: StringFilter
   hashedRefreshToken: StringFilter
   id: String
@@ -2836,7 +2348,6 @@ input UserWhereUniqueInput {
 type VerificationTokenCountAggregate {
   _all: Int!
   email: Int!
-  existingEmail: Int!
   expires: Int!
   id: Int!
   token: Int!
@@ -2844,7 +2355,6 @@ type VerificationTokenCountAggregate {
 
 type VerificationTokenMaxAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String
@@ -2852,7 +2362,6 @@ type VerificationTokenMaxAggregate {
 
 type VerificationTokenMinAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String

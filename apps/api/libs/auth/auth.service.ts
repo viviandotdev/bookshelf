@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { hash } from 'bcryptjs';
@@ -6,18 +6,14 @@ import { PrismaRepository } from 'prisma/prisma.repository';
 import { v4 as uuidv4 } from 'uuid';
 import { Resend } from 'resend';
 import { User } from '@prisma/client';
-import { AccountCreateInput } from '@bookshelf/api/generated-db-types';
 import { UserService } from 'libs/user/user.service';
 @Injectable()
 export class AuthService {
-    private readonly logger = new Logger(AuthService.name);
     private readonly resend = new Resend(
         this.configService.get<string>('resend.api'),
     );
-    //   private readonly resend = new Resend(appConfig.resendApiKey);
 
     private readonly domain = this.configService.get<string>('web.url');
-    findAccountById = this.prisma.account.findFirst;
     constructor(
         private readonly prisma: PrismaRepository,
         private jwtService: JwtService,
@@ -48,7 +44,7 @@ export class AuthService {
 
         return verifiedToken;
     }
-    async generateEmailVerificationToken(email: string, existingEmail: string) {
+    async generateEmailVerificationToken(email: string) {
         const token = uuidv4();
         const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -69,7 +65,6 @@ export class AuthService {
         const verficationToken = await this.prisma.verificationToken.create({
             data: {
                 email,
-                existingEmail,
                 token,
                 expires,
             },
@@ -147,32 +142,14 @@ export class AuthService {
                 expires,
             },
         });
-
         return passwordResetToken.token;
     };
 
-    async sendVerificationEmail(email: string, existingEmail: string) {
+
+
+    async sendVerificationEmailCode(email: string) {
         const verificationToken = await this.generateEmailVerificationToken(
             email,
-            existingEmail,
-        );
-
-        const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
-
-        const res = await this.resend.emails.send({
-            from: 'bookshelf@vivianlin.dev',
-            to: email,
-            subject: 'Confirm your email',
-            html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
-        });
-
-        console.log(res);
-    }
-
-    async sendVerificationEmailCode(email: string, existingEmail: string) {
-        const verificationToken = await this.generateEmailVerificationToken(
-            email,
-            existingEmail,
         );
 
         const res = await this.resend.emails.send({
@@ -195,13 +172,6 @@ export class AuthService {
             html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
         });
     }
-    async createAccount(createAccountInput: AccountCreateInput) {
-        await this.prisma.account.create({
-            data: {
-                ...createAccountInput,
-            },
-        });
-    }
 
     async generateJWTTokens(user: User) {
         const { accessToken, refreshToken } = await this.createToken(
@@ -212,7 +182,7 @@ export class AuthService {
 
         const payload = this.jwtService.decode(accessToken);
         await this.updateRefreshToken(user.id, refreshToken);
-        console.log('refresh token new expiration' + payload['exp'])
+
         return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
     }
 
