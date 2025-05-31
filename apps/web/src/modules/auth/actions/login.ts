@@ -4,7 +4,7 @@ import { getClient } from '@/lib/apollo-client';
 import { registerUserSchema } from '@/schemas/auth';
 import { z } from 'zod';
 
-export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) => {
+export const login = async (values: z.infer<typeof registerUserSchema>) => {
     const client = getClient();
     const validatedFields = registerUserSchema.safeParse(values);
 

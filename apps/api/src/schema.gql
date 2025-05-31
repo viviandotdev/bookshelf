@@ -945,6 +945,7 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
+  verifyEmail(token: String!): Boolean!
 }
 
 enum NullsOrder {

@@ -93,7 +93,7 @@ export default {
                 }
 
                 if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.user?.username || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
-                    throw new Error('Invalid loginData?.login returned from server');
+                    throw new Error('Invalid data returned from server');
                 }
 
                 return {
