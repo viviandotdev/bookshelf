@@ -10,15 +10,12 @@ import {
     ForbiddenException,
     NotFoundException,
     UseGuards,
-    UnauthorizedException,
 } from '@nestjs/common';
-import { AccessTokenGuard } from './guards/jwt.guard';
-import { JwtPayload, JwtPayloadWithRefreshToken } from './types';
+import { JwtPayloadWithRefreshToken } from './types';
 import { User } from '../../src/generated-db-types';
 import { hash, compare } from 'bcryptjs';
 import { UserService } from 'libs/user/user.service';
 import { ResetPasswordInput } from './dto/reset-password.input';
-import { MeResponse } from './dto/me.response';
 import { ShelfService } from 'libs/shelf/shelf.service';
 import { generateSlug } from 'libs/user-book/utils';
 import { JwtService } from '@nestjs/jwt';
@@ -32,6 +29,29 @@ export class AuthResolver {
         private readonly shelfService: ShelfService,
         private readonly jwtService: JwtService,
     ) { }
+
+    @Mutation(() => AuthResponse)
+    async login(@Args('logInInput') logInInput: LogInInput) {
+        const user = await this.userService.findUnique({
+            where: {
+                email: logInInput.email,
+            },
+        });
+
+        if (!user || !user.email) {
+            throw new NotFoundException('User not found');
+        }
+        const doPasswordsMatch = await compare(
+            logInInput.password,
+            user.hashedPassword,
+        );
+
+        if (!doPasswordsMatch) {
+            throw new ForbiddenException('Invalid credentials');
+        }
+
+        return this.authService.generateJWTTokens(user);
+    }
 
     @Mutation(() => User)
     async register(@Args('registerInput') registerInput: RegisterInput) {
@@ -58,31 +78,10 @@ export class AuthResolver {
         return user;
     }
 
-    @Mutation(() => AuthResponse)
-    async login(@Args('logInInput') logInInput: LogInInput) {
-        const user = await this.userService.findUnique({
-            where: {
-                email: logInInput.email,
-            },
-        });
 
-        if (!user || !user.email) {
-            throw new NotFoundException('User not found');
-        }
-        const doPasswordsMatch = await compare(
-            logInInput.password,
-            user.hashedPassword,
-        );
-
-        if (!doPasswordsMatch) {
-            throw new ForbiddenException('Invalid credentials');
-        }
-
-        return this.authService.generateJWTTokens(user);
-    }
 
     @Mutation(() => Boolean)
-    logout(@Args('id', { type: () => String }) id: string) {
+    async logout(@Args('id', { type: () => String }) id: string) {
         return this.authService.logout(id);
     }
 
@@ -143,4 +142,16 @@ export class AuthResolver {
 
         return this.authService.generateJWTTokens(user);
     }
+
+
+    @Query(() => Boolean)
+    async hasAccount(@Args('email', { type: () => String }) email: string) {
+        const user = await this.userService.findUnique({
+            where: {
+                email,
+            },
+        });
+        return !!user;
+    }
+
 }

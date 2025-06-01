@@ -26,6 +26,9 @@ export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) =
             },
         });
 
+        // You already registered an Origin account using this e - mail address.
+        // Please sign -in to continue.
+        // handle not unique username
         await signIn('credentials', {
             email: values.email,
             password: values.password,
@@ -33,6 +36,7 @@ export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) =
         });
 
     } catch (error) {
+
         return { error: 'Sign up failed! Try again later' };
     }
 

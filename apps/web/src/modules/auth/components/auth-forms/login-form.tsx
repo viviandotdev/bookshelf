@@ -9,20 +9,26 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
 import { loginUser } from '../../actions/login-user';
+import { EmailForm } from './email-form';
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+    email?: string;
+}
 
 type FormData = z.infer<typeof loginUserSchema>;
-
+type FormStep = 'email' | 'login' | 'register';
 export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
+        getValues
     } = useForm<FormData>({
         resolver: zodResolver(loginUserSchema),
+        defaultValues: {
+            email: props.email || '',
+        },
     });
-    const [success, setSuccess] = useState<string | undefined>('');
     const searchParams = useSearchParams();
     const searchError = searchParams.get('error');
     const [error, setError] = useState<string | undefined>(
@@ -30,6 +36,7 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
     );
     const [isPending, startTransition] = useTransition();
     const callbackUrl = searchParams.get('callbackUrl');
+    const [step, setStep] = useState<FormStep>('register');
 
     const redirectTo = (url: string) => {
         window.location.href = url
@@ -50,12 +57,18 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
         });
     };
 
+    if (step === 'email') {
+        return (
+            <EmailForm email={getValues('email')} />
+        );
+    }
+
+
     return (
         <AuthFormWrapper
             onSubmit={handleSubmit(onSubmit)}
             isPending={isPending}
             error={error}
-            success={success}
             buttonLabel='Log in'
         >
             <AuthInput
@@ -66,6 +79,9 @@ export const LoginForm = ({ className, ...props }: UserAuthFormProps) => {
                 error={errors?.email?.message}
                 disabled={isPending}
                 register={register}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setStep('email')
+                }}
                 autoCapitalize='none'
                 autoComplete='email'
                 autoCorrect='off'

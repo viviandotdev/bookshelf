@@ -90,3 +90,22 @@ export const SettingsSchema = z.object({
     ),
     email: z.optional(z.string().email()),
 });
+
+
+// Export a function that returns the appropriate schema based on the form step
+export const getAuthSchema = (step: 'email' | 'password' | 'register') => {
+    switch (step) {
+        case 'email':
+            return z.object({
+                email: z.string().email(),
+            });
+        case 'password':
+            return loginUserSchema;
+        case 'register':
+            return registerUserSchema;
+        default:
+            return z.object({
+                email: z.string().email(),
+            });
+    }
+};

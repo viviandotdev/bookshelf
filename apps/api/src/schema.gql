@@ -250,10 +250,8 @@ input AccountWhereUniqueInput {
 type AuthResponse {
   accessToken: String
   expiresIn: Float
-  isNewUser: Boolean
   refreshToken: String
   user: User!
-  verificationToken: String
 }
 
 type Book {
@@ -917,7 +915,6 @@ type Mutation {
   createShelf(data: ShelfCreateInput!): Shelf!
   createUserBook(data: BookDataInput!): UserBook!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
-  follow(value: Boolean!, where: UserWhereUniqueInput!): User!
   forgotPassword(email: String!): Boolean!
   importUserBooks(content: String!, favoritesShelf: String, ownedShelf: String, shelves: [String!]): Boolean!
   login(logInInput: LogInInput!): AuthResponse!
@@ -977,6 +974,7 @@ type Query {
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
+  hasAccount(email: String!): Boolean!
   healthCheck: HealthCheck!
   readDates(active: Boolean, userBookIds: [String!]!): [ReadDate!]!
   searchMyLibrary(query: String!): [Book!]!
@@ -1809,12 +1807,9 @@ type User {
   createdAt: Timestamp!
   email: String!
   emailVerified: Timestamp
-  followerCount: Float!
   followers: [User!]
   following: [User!]
-  followingCount: Float!
   id: ID!
-  isFollowing: Boolean!
   location: String
   name: String
   shelves: [Shelf!]

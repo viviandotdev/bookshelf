@@ -951,18 +951,6 @@ export type LogInInput = {
   password?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type MeResponse = {
-  __typename?: 'MeResponse';
-  avatarImage?: Maybe<Scalars['String']['output']>;
-  bio?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  isOAuth?: Maybe<Scalars['Boolean']['output']>;
-  location?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  username?: Maybe<Scalars['String']['output']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   addBookToShelf: UserBook;
@@ -1159,8 +1147,8 @@ export type Query = {
   getBookByIdentifiers: Array<Identifier>;
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
+  hasAccount: Scalars['Boolean']['output'];
   healthCheck: HealthCheck;
-  me: MeResponse;
   readDates: Array<ReadDate>;
   searchMyLibrary: Array<Book>;
   shelves?: Maybe<Array<Shelf>>;
@@ -1210,6 +1198,11 @@ export type QueryGetUserBooksArgs = {
   offset?: Scalars['Int']['input'];
   orderBy?: InputMaybe<UserBookOrderByWithRelationInput>;
   where?: InputMaybe<UserBookWhereInput>;
+};
+
+
+export type QueryHasAccountArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -3107,7 +3100,6 @@ export type VerificationTokenCountAggregate = {
   __typename?: 'VerificationTokenCountAggregate';
   _all: Scalars['Int']['output'];
   email: Scalars['Int']['output'];
-  existingEmail: Scalars['Int']['output'];
   expires: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   token: Scalars['Int']['output'];
@@ -3116,7 +3108,6 @@ export type VerificationTokenCountAggregate = {
 export type VerificationTokenMaxAggregate = {
   __typename?: 'VerificationTokenMaxAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3125,7 +3116,6 @@ export type VerificationTokenMaxAggregate = {
 export type VerificationTokenMinAggregate = {
   __typename?: 'VerificationTokenMinAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3297,10 +3287,12 @@ export type RemoveUserBookFromShelfMutationVariables = Exact<{
 
 export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeBookFromShelf: boolean };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type HasAccountQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
 
 
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null } };
+export type HasAccountQuery = { __typename?: 'Query', hasAccount: boolean };
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
@@ -4215,50 +4207,44 @@ export function useRemoveUserBookFromShelfMutation(baseOptions?: Apollo.Mutation
 export type RemoveUserBookFromShelfMutationHookResult = ReturnType<typeof useRemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationResult = Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    username
-    email
-    name
-    location
-    bio
-    avatarImage
-  }
+export const HasAccountDocument = gql`
+    query HasAccount($email: String!) {
+  hasAccount(email: $email)
 }
     `;
 
 /**
- * __useMeQuery__
+ * __useHasAccountQuery__
  *
- * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useHasAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHasAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useMeQuery({
+ * const { data, loading, error } = useHasAccountQuery({
  *   variables: {
+ *      email: // value for 'email'
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+export function useHasAccountQuery(baseOptions: Apollo.QueryHookOptions<HasAccountQuery, HasAccountQueryVariables> & ({ variables: HasAccountQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        return Apollo.useQuery<HasAccountQuery, HasAccountQueryVariables>(HasAccountDocument, options);
       }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+export function useHasAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HasAccountQuery, HasAccountQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+          return Apollo.useLazyQuery<HasAccountQuery, HasAccountQueryVariables>(HasAccountDocument, options);
         }
-export function useMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+export function useHasAccountSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<HasAccountQuery, HasAccountQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+          return Apollo.useSuspenseQuery<HasAccountQuery, HasAccountQueryVariables>(HasAccountDocument, options);
         }
-export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
-export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
-export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export type HasAccountQueryHookResult = ReturnType<typeof useHasAccountQuery>;
+export type HasAccountLazyQueryHookResult = ReturnType<typeof useHasAccountLazyQuery>;
+export type HasAccountSuspenseQueryHookResult = ReturnType<typeof useHasAccountSuspenseQuery>;
+export type HasAccountQueryResult = Apollo.QueryResult<HasAccountQuery, HasAccountQueryVariables>;
 export const FindBookByIdentifierDocument = gql`
     query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
   findBookByIdentifier(identifier: $identifier) {

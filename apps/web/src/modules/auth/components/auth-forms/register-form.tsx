@@ -9,22 +9,31 @@ import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
 import { useSearchParams } from 'next/navigation';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { EmailForm } from './email-form';
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+    email?: string;
+}
+type FormStep = 'email' | 'login' | 'register';
 
-export const RegisterForm = ({ }: UserAuthFormProps) => {
+export const RegisterForm = ({ className, ...props }: UserAuthFormProps) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
+        getValues
     } = useForm<z.infer<typeof registerUserSchema>>({
         resolver: zodResolver(registerUserSchema),
+        defaultValues: {
+            email: props.email || '',
+        },
     });
+    const [step, setStep] = useState<FormStep>('register');
+    const [email, setEmail] = useState<string>('');
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const [isPending, startTransition] = useTransition();
     const searchParams = useSearchParams();
-
     const callbackUrl = searchParams.get('callbackUrl');
 
     const redirectTo = (url: string) => {
@@ -48,6 +57,12 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
         });
     };
 
+    if (step === 'email') {
+        return (
+            <EmailForm email={getValues('email')} />
+        );
+    }
+
     return (
         <AuthFormWrapper
             onSubmit={handleSubmit(onSubmit)}
@@ -62,6 +77,9 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
                 type='email'
                 placeholder='john.doe@example.com'
                 error={errors?.email?.message}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setStep('email')
+                }}
                 disabled={isPending}
                 register={register}
                 autoCapitalize='none'
@@ -88,6 +106,8 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
                 register={register}
                 required
             />
+
+
         </AuthFormWrapper>
     );
 };

@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { LoginForm } from '../components/auth-forms/login-form';
 import { ForgotPasswordForm } from '../components/auth-forms/forgot-password-form';
 import { Button } from '@/components/ui/button';
-import { RegisterForm } from '../components/auth-forms/register-form';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { EmailForm } from '../components/auth-forms/email-form';
 
 type FormType = 'login' | 'register' | 'forgotPassword';
 
@@ -60,7 +60,7 @@ export const AuthTemplate: React.FC<AuthTemplateProps> = () => {
             title: 'Create Account',
             component: (
                 <>
-                    <RegisterForm />
+                    < EmailForm />
                     <div className='gap-2'>
                         <p className='px-8 text-center text-sm text-beige'>
                             Already have an account?
