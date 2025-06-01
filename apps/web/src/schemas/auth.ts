@@ -1,5 +1,9 @@
 import * as z from 'zod';
 
+export const loginOptionsSchema = z.object({
+    email: z.string().email(),
+});
+
 export const loginUserSchema = z.object({
     email: z.string().email(),
     password: z.optional(z.string().min(4)),

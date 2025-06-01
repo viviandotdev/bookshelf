@@ -8,3 +8,10 @@ query Me {
     avatarImage
   }
 }
+
+query GetLoginOptions($email: String!) {
+  getLoginOptions(email: $email) {
+    hasAccount
+    passwordSignIn
+  }
+}

@@ -949,6 +949,13 @@ export type IntFilter = {
 export type LogInInput = {
   email: Scalars['String']['input'];
   password?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type LoginOptionsResponse = {
+  __typename?: 'LoginOptionsResponse';
+  hasAccount: Scalars['Boolean']['output'];
+  passwordSignIn: Scalars['Boolean']['output'];
 };
 
 export type MeResponse = {
@@ -981,6 +988,7 @@ export type Mutation = {
   removeBookFromShelf: Scalars['Boolean']['output'];
   removeUserBook: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
+  sendTemporaryCode: Scalars['Boolean']['output'];
   updateEmail: User;
   updateReadDate: ReadDate;
   updateReadingProgress: ReadingProgress;
@@ -1073,6 +1081,11 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationSendTemporaryCodeArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateEmailArgs = {
   data: UpdateEmailInput;
 };
@@ -1157,6 +1170,7 @@ export type Query = {
   countUserBooks: Scalars['Int']['output'];
   findBookByIdentifier?: Maybe<Book>;
   getBookByIdentifiers: Array<Identifier>;
+  getLoginOptions: LoginOptionsResponse;
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
   healthCheck: HealthCheck;
@@ -1197,6 +1211,11 @@ export type QueryFindBookByIdentifierArgs = {
 
 export type QueryGetBookByIdentifiersArgs = {
   identifiers: Array<IdentifierCreateInput>;
+};
+
+
+export type QueryGetLoginOptionsArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -3107,7 +3126,6 @@ export type VerificationTokenCountAggregate = {
   __typename?: 'VerificationTokenCountAggregate';
   _all: Scalars['Int']['output'];
   email: Scalars['Int']['output'];
-  existingEmail: Scalars['Int']['output'];
   expires: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   token: Scalars['Int']['output'];
@@ -3116,7 +3134,6 @@ export type VerificationTokenCountAggregate = {
 export type VerificationTokenMaxAggregate = {
   __typename?: 'VerificationTokenMaxAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3125,7 +3142,6 @@ export type VerificationTokenMaxAggregate = {
 export type VerificationTokenMinAggregate = {
   __typename?: 'VerificationTokenMinAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3170,6 +3186,13 @@ export type LogoutMutationVariables = Exact<{
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+
+export type SendTemporaryCodeMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendTemporaryCodeMutation = { __typename?: 'Mutation', sendTemporaryCode: boolean };
 
 export type AddIdentifierToBookMutationVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -3301,6 +3324,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null } };
+
+export type GetLoginOptionsQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetLoginOptionsQuery = { __typename?: 'Query', getLoginOptions: { __typename?: 'LoginOptionsResponse', hasAccount: boolean, passwordSignIn: boolean } };
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
@@ -3610,6 +3640,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const SendTemporaryCodeDocument = gql`
+    mutation SendTemporaryCode($email: String!) {
+  sendTemporaryCode(email: $email)
+}
+    `;
+export type SendTemporaryCodeMutationFn = Apollo.MutationFunction<SendTemporaryCodeMutation, SendTemporaryCodeMutationVariables>;
+
+/**
+ * __useSendTemporaryCodeMutation__
+ *
+ * To run a mutation, you first call `useSendTemporaryCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendTemporaryCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendTemporaryCodeMutation, { data, loading, error }] = useSendTemporaryCodeMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSendTemporaryCodeMutation(baseOptions?: Apollo.MutationHookOptions<SendTemporaryCodeMutation, SendTemporaryCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendTemporaryCodeMutation, SendTemporaryCodeMutationVariables>(SendTemporaryCodeDocument, options);
+      }
+export type SendTemporaryCodeMutationHookResult = ReturnType<typeof useSendTemporaryCodeMutation>;
+export type SendTemporaryCodeMutationResult = Apollo.MutationResult<SendTemporaryCodeMutation>;
+export type SendTemporaryCodeMutationOptions = Apollo.BaseMutationOptions<SendTemporaryCodeMutation, SendTemporaryCodeMutationVariables>;
 export const AddIdentifierToBookDocument = gql`
     mutation AddIdentifierToBook($where: BookWhereUniqueInput!, $identifier: IdentifierCreateInput!) {
   addIdentifierToBook(where: $where, identifier: $identifier) {
@@ -4259,6 +4320,47 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const GetLoginOptionsDocument = gql`
+    query GetLoginOptions($email: String!) {
+  getLoginOptions(email: $email) {
+    hasAccount
+    passwordSignIn
+  }
+}
+    `;
+
+/**
+ * __useGetLoginOptionsQuery__
+ *
+ * To run a query within a React component, call `useGetLoginOptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLoginOptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLoginOptionsQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useGetLoginOptionsQuery(baseOptions: Apollo.QueryHookOptions<GetLoginOptionsQuery, GetLoginOptionsQueryVariables> & ({ variables: GetLoginOptionsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>(GetLoginOptionsDocument, options);
+      }
+export function useGetLoginOptionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>(GetLoginOptionsDocument, options);
+        }
+export function useGetLoginOptionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>(GetLoginOptionsDocument, options);
+        }
+export type GetLoginOptionsQueryHookResult = ReturnType<typeof useGetLoginOptionsQuery>;
+export type GetLoginOptionsLazyQueryHookResult = ReturnType<typeof useGetLoginOptionsLazyQuery>;
+export type GetLoginOptionsSuspenseQueryHookResult = ReturnType<typeof useGetLoginOptionsSuspenseQuery>;
+export type GetLoginOptionsQueryResult = Apollo.QueryResult<GetLoginOptionsQuery, GetLoginOptionsQueryVariables>;
 export const FindBookByIdentifierDocument = gql`
     query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
   findBookByIdentifier(identifier: $identifier) {

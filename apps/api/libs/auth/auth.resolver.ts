@@ -21,6 +21,8 @@ import { MeResponse } from './dto/me.response';
 import { ShelfService } from 'libs/shelf/shelf.service';
 import { generateSlug } from 'libs/user-book/utils';
 import { JwtService } from '@nestjs/jwt';
+import { LoginOptionsResponse } from './dto/login-options.response';
+import { LoginWithCodeInput } from './dto/login-with-code.input';
 const DEFAULT_AVATAR =
     'https://webgradients.com/public/webgradients_png/029%20Everlasting%20Sky.png';
 @Resolver()
@@ -44,8 +46,6 @@ export class AuthResolver {
             emailVerified: new Date(),
         });
 
-        // Send verification email
-        // await this.authService.sendVerificationEmail(user.email, user.email);
         // Create default shelves
         this.shelfService.create(
             { name: 'Favorites', slug: generateSlug('Favorites') },
@@ -59,6 +59,8 @@ export class AuthResolver {
         return user;
     }
 
+
+
     @Mutation(() => AuthResponse)
     async login(@Args('logInInput') logInInput: LogInInput) {
         const user = await this.userService.findUnique({
@@ -66,34 +68,40 @@ export class AuthResolver {
                 email: logInInput.email,
             },
         });
+        switch (logInInput.type) {
+            case 'code':
+                const verifiedToken = await this.authService.verifyToken(
+                    logInInput.password,
+                );
+                if (!user || !user.email) {
+                    throw new NotFoundException('User not found');
+                }
+                if (verifiedToken.token !== logInInput.password) {
+                    throw new ForbiddenException('Invalid token');
+                }
+                await this.userService.update({
+                    where: {
+                        email: logInInput.email,
+                    },
+                    data: {
+                        emailVerified: new Date(),
+                    },
+                });
+                break;
+            case 'password':
+                const doPasswordsMatch = await compare(
+                    logInInput.password,
+                    user.hashedPassword,
+                );
 
-        if (!user || !user.email) {
-            throw new NotFoundException('User not found');
+                if (!doPasswordsMatch) {
+                    throw new ForbiddenException('Invalid credentials');
+                }
+                break;
+
         }
-        const doPasswordsMatch = await compare(
-            logInInput.password,
-            user.hashedPassword,
-        );
-
-        if (!doPasswordsMatch) {
-            throw new ForbiddenException('Invalid credentials');
-        }
-
         return this.authService.generateJWTTokens(user);
-    }
 
-    @Mutation(() => Boolean)
-    async verifyEmail(@Args('token', { type: () => String }) token: string) {
-        const verifiedToken = await this.authService.verifyToken(token);
-        // update email verfied field on user
-        const updatedUser = await this.userService.updateUserEmail(
-            verifiedToken.email,
-            verifiedToken.email,
-        );
-
-        if (updatedUser) {
-            return this.authService.generateJWTTokens(updatedUser);
-        }
     }
 
     @Mutation(() => Boolean)
@@ -180,5 +188,48 @@ export class AuthResolver {
         }
 
         return this.authService.generateJWTTokens(user);
+    }
+
+    @Query(() => LoginOptionsResponse)
+    async getLoginOptions(@Args('email', { type: () => String }) email: string) {
+        let user = await this.userService.findUnique({
+            where: {
+                email,
+            },
+        });
+        if (!user) {
+            user = await this.userService.createUser({
+                email: email,
+            });
+        }
+
+        return {
+            hasAccount: !!user,
+            passwordSignIn: !!user?.hashedPassword,
+        };
+    }
+
+
+    @Mutation(() => Boolean)
+    async sendTemporaryCode(@Args('email', { type: () => String }) email: string) {
+        let user = await this.userService.findUnique({
+            where: {
+                email,
+            },
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        // If user already has a password, don't allow temporary code
+        if (user.hashedPassword) {
+            throw new ForbiddenException('User already has a password set up');
+        }
+
+        // Generate a temporary code and send it via email
+        await this.authService.sendVerificationEmailCode(user.email);
+
+        return true;
     }
 }

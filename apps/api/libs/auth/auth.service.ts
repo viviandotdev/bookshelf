@@ -48,7 +48,7 @@ export class AuthService {
 
         return verifiedToken;
     }
-    async generateEmailVerificationToken(email: string, existingEmail: string) {
+    async generateEmailVerificationToken(email: string) {
         const token = uuidv4();
         const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -69,7 +69,6 @@ export class AuthService {
         const verficationToken = await this.prisma.verificationToken.create({
             data: {
                 email,
-                existingEmail,
                 token,
                 expires,
             },
@@ -151,10 +150,9 @@ export class AuthService {
         return passwordResetToken.token;
     };
 
-    async sendVerificationEmail(email: string, existingEmail: string) {
+    async sendVerificationEmail(email: string) {
         const verificationToken = await this.generateEmailVerificationToken(
             email,
-            existingEmail,
         );
 
         const confirmLink = `${this.domain}/auth/new-verification?token=${verificationToken}`;
@@ -165,14 +163,11 @@ export class AuthService {
             subject: 'Confirm your email',
             html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
         });
-
-        console.log(res);
     }
 
-    async sendVerificationEmailCode(email: string, existingEmail: string) {
+    async sendVerificationEmailCode(email: string) {
         const verificationToken = await this.generateEmailVerificationToken(
             email,
-            existingEmail,
         );
 
         const res = await this.resend.emails.send({
@@ -181,6 +176,8 @@ export class AuthService {
             subject: 'Confirm your email',
             html: `<p>Here is your verification code ${verificationToken}</p>`,
         });
+
+
     }
 
     async sendPasswordResetEmail(email: string) {

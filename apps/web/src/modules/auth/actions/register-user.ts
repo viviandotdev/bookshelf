@@ -1,8 +1,14 @@
 "use server"
 import { RegisterDocument, RegisterMutation } from '@/graphql/graphql';
 import { getClient } from '@/lib/apollo-client';
-import { registerUserSchema } from '@/schemas/auth';
 import { z } from 'zod';
+
+const registerUserSchema = z.object({
+    email: z.string().email(),
+    code: z.optional(z.string().min(6)),
+    password: z.optional(z.string().min(4)),
+});
+
 
 export const regsiterUser = async (values: z.infer<typeof registerUserSchema>) => {
     const client = getClient();

@@ -3,17 +3,18 @@ import { useState, useTransition, useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { registerUserSchema } from '@/schemas/auth';
+import { loginUserSchema, registerUserSchema } from '@/schemas/auth';
 import { regsiterUser } from '../../actions/register-user';
 import { AuthFormWrapper } from '../auth-form-wrapper';
 import { AuthInput } from '../auth-input';
-import { getLoginOptions } from '../../actions/get-login-options';
+import { getLoginOptions, loginOptionsSchema } from '../../actions/get-login-options';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { loginUser } from '../../actions/login-user';
 import { forgotPassword } from '../../actions/forgot-password';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
+import { sendTemporaryCode } from '../../actions/send-temporary-code';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
@@ -58,7 +59,7 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
         }
     }, [errors.email, formStep]);
 
-    const handleEmailSubmit = async (values: z.infer<typeof registerUserSchema>) => {
+    const handleEmailSubmit = async (values: z.infer<typeof loginOptionsSchema>) => {
         setError('');
         setSuccess('');
         setEmail(values.email);
@@ -69,10 +70,13 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
                 setError(result.error);
                 return;
             }
-
             if (result.passwordSignIn) {
                 setFormStep('password');
             } else {
+                sendTemporaryCode({ email: values.email }).then((data) => {
+                    setError(data.error);
+                    setSuccess(data.success);
+                });
                 setFormStep('code');
             }
         });
@@ -81,7 +85,7 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
     const handlePasswordSubmit = async (values: z.infer<typeof registerUserSchema>) => {
         setError('');
         startTransition(() => {
-            loginUser({ email: values.email, password: values.password }).then((data) => {
+            loginUser({ email: values.email, password: values.password, type: 'password' }).then((data) => {
                 if (data.error) {
                     setError(data.error);
                 } else {
@@ -97,9 +101,12 @@ export const RegisterForm = ({ }: UserAuthFormProps) => {
         setSuccess('');
 
         startTransition(() => {
-            regsiterUser({ ...values, email }).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
+            loginUser({ email: values.email, password: values.code, type: 'code' }).then((data) => {
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    redirectTo('/onboarding')
+                }
             });
         });
     };

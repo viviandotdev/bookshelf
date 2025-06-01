@@ -3,13 +3,17 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class LogInInput {
-  @IsNotEmpty()
-  @IsString()
-  @IsEmail()
-  @Field()
-  email: string;
+    @IsNotEmpty()
+    @IsString()
+    @IsEmail()
+    @Field()
+    email: string;
 
-  @IsString()
-  @Field({ nullable: true })
-  password?: string;
+    @IsString()
+    @Field({ nullable: true })
+    password?: string;
+
+    @IsString()
+    @Field({ nullable: true })
+    type?: string;
 }

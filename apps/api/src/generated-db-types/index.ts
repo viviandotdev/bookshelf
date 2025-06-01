@@ -15,7 +15,6 @@ import { HideField } from '@nestjs/graphql';
 export enum VerificationTokenScalarFieldEnum {
     id = "id",
     email = "email",
-    existingEmail = "existingEmail",
     token = "token",
     expires = "expires"
 }
@@ -15172,8 +15171,6 @@ export class VerificationTokenCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
-    @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
     expires?: true;
@@ -15187,8 +15184,6 @@ export class VerificationTokenCountAggregate {
     id!: number;
     @Field(() => Int, {nullable:false})
     email!: number;
-    @Field(() => Int, {nullable:false})
-    existingEmail!: number;
     @Field(() => Int, {nullable:false})
     token!: number;
     @Field(() => Int, {nullable:false})
@@ -15204,8 +15199,6 @@ export class VerificationTokenCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15218,8 +15211,6 @@ export class VerificationTokenCreateManyInput {
     @Field(() => String, {nullable:false})
     email!: string;
     @Field(() => String, {nullable:false})
-    existingEmail!: string;
-    @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
     expires!: Date | string;
@@ -15231,8 +15222,6 @@ export class VerificationTokenCreateInput {
     id?: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
@@ -15278,8 +15267,6 @@ export class VerificationTokenGroupBy {
     @Field(() => String, {nullable:false})
     email!: string;
     @Field(() => String, {nullable:false})
-    existingEmail!: string;
-    @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
     expires!: Date | string;
@@ -15298,8 +15285,6 @@ export class VerificationTokenMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     email?: true;
     @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
-    @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
     expires?: true;
@@ -15311,8 +15296,6 @@ export class VerificationTokenMaxAggregate {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15326,8 +15309,6 @@ export class VerificationTokenMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15339,8 +15320,6 @@ export class VerificationTokenMinAggregateInput {
     id?: true;
     @Field(() => Boolean, {nullable:true})
     email?: true;
-    @Field(() => Boolean, {nullable:true})
-    existingEmail?: true;
     @Field(() => Boolean, {nullable:true})
     token?: true;
     @Field(() => Boolean, {nullable:true})
@@ -15354,8 +15333,6 @@ export class VerificationTokenMinAggregate {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15368,8 +15345,6 @@ export class VerificationTokenMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15381,8 +15356,6 @@ export class VerificationTokenOrderByWithAggregationInput {
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -15402,8 +15375,6 @@ export class VerificationTokenOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     email?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    existingEmail?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     token?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     expires?: `${SortOrder}`;
@@ -15422,8 +15393,6 @@ export class VerificationTokenScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     email?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringWithAggregatesFilter>;
-    @Field(() => StringWithAggregatesFilter, {nullable:true})
     token?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeWithAggregatesFilter>;
@@ -15435,8 +15404,6 @@ export class VerificationTokenUncheckedCreateInput {
     id?: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})
@@ -15450,8 +15417,6 @@ export class VerificationTokenUncheckedUpdateManyInput {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15463,8 +15428,6 @@ export class VerificationTokenUncheckedUpdateInput {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15478,8 +15441,6 @@ export class VerificationTokenUpdateManyMutationInput {
     @Field(() => String, {nullable:true})
     email?: string;
     @Field(() => String, {nullable:true})
-    existingEmail?: string;
-    @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
     expires?: Date | string;
@@ -15491,8 +15452,6 @@ export class VerificationTokenUpdateInput {
     id?: string;
     @Field(() => String, {nullable:true})
     email?: string;
-    @Field(() => String, {nullable:true})
-    existingEmail?: string;
     @Field(() => String, {nullable:true})
     token?: string;
     @Field(() => Date, {nullable:true})
@@ -15515,8 +15474,6 @@ export class VerificationTokenWhereUniqueInput {
     NOT?: Array<VerificationTokenWhereInput>;
     @Field(() => StringFilter, {nullable:true})
     email?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeFilter>;
 }
@@ -15534,8 +15491,6 @@ export class VerificationTokenWhereInput {
     @Field(() => StringFilter, {nullable:true})
     email?: InstanceType<typeof StringFilter>;
     @Field(() => StringFilter, {nullable:true})
-    existingEmail?: InstanceType<typeof StringFilter>;
-    @Field(() => StringFilter, {nullable:true})
     token?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     expires?: InstanceType<typeof DateTimeFilter>;
@@ -15547,8 +15502,6 @@ export class VerificationToken {
     id!: string;
     @Field(() => String, {nullable:false})
     email!: string;
-    @Field(() => String, {nullable:false})
-    existingEmail!: string;
     @Field(() => String, {nullable:false})
     token!: string;
     @Field(() => Date, {nullable:false})

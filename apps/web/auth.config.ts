@@ -69,6 +69,7 @@ export default {
                     type: 'email',
                 },
                 password: { label: 'Password', type: 'password' },
+                type: { label: 'Type', type: 'text' },
             },
             async authorize(credentials): Promise<User | null> {
                 try {
@@ -77,6 +78,7 @@ export default {
                             input: {
                                 email: credentials?.email as string,
                                 password: credentials?.password as string,
+                                type: credentials?.type as string,
                             },
                         },
                     });
@@ -85,14 +87,14 @@ export default {
                         throw new CredentialsSignin()
                     }
 
-                    if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.user?.username || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
+                    if (!loginData?.login?.user?.id || !loginData?.login?.user?.email || !loginData?.login?.accessToken || !loginData?.login?.expiresIn || !loginData?.login?.refreshToken) {
                         throw new CredentialsSignin()
                     }
 
                     return {
                         id: loginData?.login.user.id,
                         email: loginData?.login.user.email,
-                        username: loginData?.login.user.username,
+                        username: loginData?.login.user.username || '',
                         accessToken: loginData?.login.accessToken,
                         refreshToken: loginData?.login.refreshToken,
                         expiresIn: loginData?.login.expiresIn,

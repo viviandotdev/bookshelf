@@ -1,7 +1,13 @@
 "use server"
 import { signIn } from '@/auth';
-import { loginUserSchema } from '@/schemas/auth';
 import { z } from 'zod';
+
+const loginUserSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(4),
+    type: z.enum(['password', 'code']),
+});
+
 
 export const loginUser = async (values: z.infer<typeof loginUserSchema>) => {
     const validatedFields = loginUserSchema.safeParse(values);
@@ -9,12 +15,12 @@ export const loginUser = async (values: z.infer<typeof loginUserSchema>) => {
     if (!validatedFields.success) {
         return { error: 'Invalid fields!' };
     }
-    console.log(values.email)
-    console.log(values.password)
+
     try {
         await signIn('credentials', {
             email: values.email,
             password: values.password,
+            type: values.type,
             redirect: false
         });
     } catch (error: any) {

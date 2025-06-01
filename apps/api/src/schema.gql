@@ -908,6 +908,12 @@ input IntFilter {
 input LogInInput {
   email: String!
   password: String
+  type: String
+}
+
+type LoginOptionsResponse {
+  hasAccount: Boolean!
+  passwordSignIn: Boolean!
 }
 
 type MeResponse {
@@ -938,6 +944,7 @@ type Mutation {
   removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): Boolean!
   removeUserBook(where: UserBookWhereUniqueInput!): Boolean!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
+  sendTemporaryCode(email: String!): Boolean!
   updateEmail(data: UpdateEmailInput!): User!
   updateReadDate(finishedDate: String, id: String!, startDate: String): ReadDate!
   updateReadingProgress(capacity: Int, progress: Int!, readingProgressId: String!, type: String!): ReadingProgress!
@@ -945,7 +952,6 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
   updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
-  verifyEmail(token: String!): Boolean!
 }
 
 enum NullsOrder {
@@ -987,6 +993,7 @@ type Query {
   countUserBooks(where: UserBookWhereInput): Int!
   findBookByIdentifier(identifier: IdentifierCreateInput!): Book
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
+  getLoginOptions(email: String!): LoginOptionsResponse!
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   healthCheck: HealthCheck!
@@ -2837,7 +2844,6 @@ input UserWhereUniqueInput {
 type VerificationTokenCountAggregate {
   _all: Int!
   email: Int!
-  existingEmail: Int!
   expires: Int!
   id: Int!
   token: Int!
@@ -2845,7 +2851,6 @@ type VerificationTokenCountAggregate {
 
 type VerificationTokenMaxAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String
@@ -2853,7 +2858,6 @@ type VerificationTokenMaxAggregate {
 
 type VerificationTokenMinAggregate {
   email: String
-  existingEmail: String
   expires: Timestamp
   id: String
   token: String
