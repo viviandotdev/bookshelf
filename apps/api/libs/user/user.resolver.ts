@@ -93,11 +93,15 @@ export class UserResolver {
     }
 
     @Query(() => User, { nullable: true })
-    user(@Args('where') where: UserWhereUniqueInput) {
+    async user(@Args('where') where: UserWhereUniqueInput) {
+        const prismaWhere = {
+            ...(where.id && { id: where.id }),
+            ...(where.email && { email: where.email }),
+            ...(where.username && { username: where.username }),
+        };
+
         return this.userService.findUnique({
-            where: {
-                username: where.username,
-            },
+            where: prismaWhere,
         });
     }
 }

@@ -1,9 +1,3 @@
-mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
-  follow(where: $where, value: $value) {
-    id
-  }
-}
-
 mutation UpdateUser($data: UpdateUserInput!) {
   updateUser(data: $data) {
     id

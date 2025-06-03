@@ -99,11 +99,6 @@ export class AuthResolver {
     }
 
     @Mutation(() => Boolean)
-    async logout(@Args('id', { type: () => String }) id: string) {
-        return this.authService.logout(id);
-    }
-
-    @Mutation(() => Boolean)
     async forgotPassword(@Args('email', { type: () => String }) email: string) {
         const user = await this.userService.findUnique({
             where: {
@@ -159,5 +154,25 @@ export class AuthResolver {
         }
 
         return this.authService.generateJWTTokens(user);
+    }
+    @Mutation(() => Boolean)
+    async logout(@Args('id', { type: () => String }) id: string) {
+        const user = await this.userService.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        await this.userService.update({
+            where: {
+                id: id,
+                hashedRefreshToken: { not: null },
+            },
+            data: { hashedRefreshToken: null },
+        });
+        return true;
     }
 }

@@ -82,7 +82,6 @@ export const SettingsSchema = z.object({
     ), // Allowed characters
     location: z.optional(z.string()),
     name: z.optional(z.string()),
-    dob: z.optional(z.date()),
     bio: z.optional(
         z.string().max(160, {
             message: 'Bio must not be longer than 160 characters.',

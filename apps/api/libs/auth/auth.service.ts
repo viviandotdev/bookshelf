@@ -118,8 +118,7 @@ export class AuthService {
 
         return true;
     }
-
-    generatePasswordResetToken = async (email: string) => {
+    async generatePasswordResetToken(email: string) {
         const token = uuidv4();
         const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -184,17 +183,6 @@ export class AuthService {
         await this.updateRefreshToken(user.id, refreshToken);
 
         return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
-    }
-
-    async logout(userId: string) {
-        await this.prisma.user.updateMany({
-            where: {
-                id: userId,
-                hashedRefreshToken: { not: null },
-            },
-            data: { hashedRefreshToken: null },
-        });
-        return true;
     }
 
     async createToken(userId: string, email: string, username: string) {

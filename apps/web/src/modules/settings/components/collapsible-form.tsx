@@ -19,6 +19,7 @@ import { settings } from '../actions/settings';
 import { useSession } from 'next-auth/react';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'motion/react';
 
 export type FormNames =
     | 'username'
@@ -26,7 +27,6 @@ export type FormNames =
     | 'name'
     | 'bio'
     | 'email'
-    | 'dob';
 
 interface CollapsibleFormProps {
     label: string;
@@ -60,7 +60,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
             location: '',
             bio: '',
             email: '',
-            dob: undefined,
         },
     });
 
@@ -72,38 +71,35 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                 location: openForm === 'location' ? value : '',
                 bio: openForm === 'bio' ? value : '',
                 email: openForm === 'email' ? value : '',
-                dob: openForm === 'dob' ? new Date(value) : undefined,
             });
         }
     }, [openForm, value, form]);
 
     const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
+        console.log('test')
         onToggle();
-        startTransition(() => {
-            settings(values)
-                .then((data) => {
-                    if (data.error) {
-                        setError(data.error);
-                    }
 
-                    if (data.success) {
-                        update();
-                        if (onChange && openForm) {
-                            if (openForm === 'dob') {
-                                onChange(values[openForm]?.toISOString() || '');
-                            } else {
-                                onChange(values[openForm] || '');
-                            }
-                        }
-                        toast({
-                            title: 'Success',
-                            description: 'Your settings have been updated',
-                            variant: 'success',
-                        });
-                        setSuccess(data.success);
-                    }
-                })
-                .catch(() => setError('Something went wrong!'));
+        startTransition(() => {
+            // settings(values)
+            //     .then((data) => {
+            //         if (data.error) {
+            //             setError(data.error);
+            //         }
+
+            //         if (data.success) {
+
+            //             if (onChange && openForm) {
+            //                 onChange(values[openForm]);
+            //             }
+            //             toast({
+            //                 title: 'Success',
+            //                 description: 'Your settings have been updated',
+            //                 variant: 'success',
+            //             });
+            //             setSuccess(data.success);
+            //         }
+            //     })
+            //     .catch(() => setError('Something went wrong!'));
         });
     };
 
@@ -146,66 +142,79 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                     <span className='min-w-20 text-sm font-normal text-gray-400'>
                         {label}
                     </span>
-                    <span
+                    <motion.span
                         className={cn(
-                            'text-sm transition-all duration-200',
-                            value ? 'text-black' : 'text-gray-400',
-                            isOpen ? 'opacity-0 translate-y-2' : 'opacity-100'
+                            'text-sm',
+                            value ? 'text-black' : 'text-gray-400'
                         )}
+                        animate={{
+                            opacity: isOpen ? 0 : 1,
+                            y: isOpen ? 8 : 0
+                        }}
+                        transition={{
+                            duration: 0.2,
+                            ease: "easeInOut"
+                        }}
                     >
                         {value || '+ Add'}
-                    </span>
+                    </motion.span>
                 </div>
             </div>
 
-            <div
-                className={cn(
-                    'grid transition-all duration-300 ease-in-out',
-                    isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{
+                            duration: 0.3,
+                            ease: "easeInOut"
+                        }}
+                        className='overflow-hidden'
+                    >
+                        <div className='bg-beige-50 border-b border-s rounded-b-md border-gray-200'>
+                            {openForm !== '' && (
+                                <Form {...form}>
+                                    <form onSubmit={form.handleSubmit(onSubmit)} className='px-4'>
+                                        <FormField
+                                            control={form.control}
+                                            name={openForm}
+                                            render={({ field }) => (
+                                                <FormItem className='mt-0'>
+                                                    {renderFormControl(field)}
+                                                    <FormMessage setError={setError} />
+                                                    {error && (
+                                                        <p className='pb-1 pt-2 text-sm text-red-400'>
+                                                            {error}
+                                                        </p>
+                                                    )}
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <div className='flex justify-end gap-2 py-3'>
+                                            <Button
+                                                type='button'
+                                                onClick={onToggle}
+                                                className='border border-beige-100 bg-white text-black hover:bg-white hover:text-black'
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                type='submit'
+                                                disabled={!!error}
+                                                variant='secondary'
+                                            >
+                                                Save
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </Form>
+                            )}
+                        </div>
+                    </motion.div>
                 )}
-            >
-                <div className='overflow-hidden'>
-                    <div className='bg-beige-50'>
-                        {openForm !== '' && (
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className='px-4'>
-                                    <FormField
-                                        control={form.control}
-                                        name={openForm}
-                                        render={({ field }) => (
-                                            <FormItem className='mt-0'>
-                                                {renderFormControl(field)}
-                                                <FormMessage setError={setError} />
-                                                {error && (
-                                                    <p className='pb-1 pt-2 text-sm text-red-400'>
-                                                        {error}
-                                                    </p>
-                                                )}
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <div className='flex justify-end gap-2 py-3'>
-                                        <Button
-                                            type='button'
-                                            onClick={onToggle}
-                                            className='border border-beige-100 bg-white text-black hover:bg-white hover:text-black'
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            type='submit'
-                                            disabled={!!error}
-                                            variant='secondary'
-                                        >
-                                            Save
-                                        </Button>
-                                    </div>
-                                </form>
-                            </Form>
-                        )}
-                    </div>
-                </div>
-            </div>
+            </AnimatePresence>
 
             {!isLastSection && <hr className='mx-2 border-gray-100' />}
         </div>
