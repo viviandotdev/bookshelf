@@ -1,17 +1,26 @@
 // PersonalForm.tsx
 import React, { useEffect, useReducer, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import CollapsibleForm, { FormNames } from './collapsible-form';
+import CollapsibleForm from './collapsible-form';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import useChangeAvatarModal from './modals/change-avatar/use-change-avatar';
 import { Icons } from '@/components/icons';
 import { User, useUserQuery } from '@/graphql/graphql';
+import {
+    settingsNameSchema,
+    settingsUsernameSchema,
+    settingsLocationSchema,
+    settingsBioSchema,
+    SettingsSchema
+} from '@/schemas/auth';
+import { z } from 'zod';
+
+type SettingsFieldName = keyof z.infer<typeof SettingsSchema>;
 
 interface PersonalFormProps {
     user: User;
 }
-
 // Define the state shape
 interface PersonalInfoState {
     bio: string;
@@ -48,7 +57,7 @@ const personalInfoReducer = (
 
 export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
     const { data: session } = useSession();
-    const [openForm, setOpenForm] = useState<FormNames | ''>('');
+    const [openForm, setOpenForm] = useState<SettingsFieldName | ''>('');
     const changeAvatarModal = useChangeAvatarModal();
 
     const { data: userData, loading } = useUserQuery({
@@ -76,7 +85,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
         }
     }, [userData]);
 
-    const handleToggle = (formName: FormNames) => {
+    const handleToggleForm = (formName: SettingsFieldName) => {
         setOpenForm(openForm === formName ? '' : formName);
     };
 
@@ -126,41 +135,52 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ user }) => {
                                 value={personalInfo.name || ''}
                                 openForm={openForm}
                                 isOpen={openForm === 'name'}
-                                onToggle={() => handleToggle('name')}
+                                onToggleForm={() => handleToggleForm('name')}
                                 onChange={(newValue) =>
                                     dispatch({ type: 'SET_NAME', payload: newValue })
                                 }
+                                schema={settingsNameSchema}
+                                fieldName="name"
                             />
+                            <hr className='mx-2 border-gray-100' />
                             <CollapsibleForm
                                 label='Username'
                                 value={personalInfo.username || ''}
                                 openForm={openForm}
                                 isOpen={openForm === 'username'}
-                                onToggle={() => handleToggle('username')}
+                                onToggleForm={() => handleToggleForm('username')}
                                 onChange={(newValue) =>
                                     dispatch({ type: 'SET_USERNAME', payload: newValue })
                                 }
+                                schema={settingsUsernameSchema}
+                                fieldName="username"
                             />
+                            <hr className='mx-2 border-gray-100' />
                             <CollapsibleForm
                                 label='Location'
                                 value={personalInfo.location || ''}
                                 openForm={openForm}
                                 isOpen={openForm === 'location'}
-                                onToggle={() => handleToggle('location')}
+                                onToggleForm={() => handleToggleForm('location')}
                                 onChange={(newValue) =>
                                     dispatch({ type: 'SET_LOCATION', payload: newValue })
                                 }
+                                schema={settingsLocationSchema}
+                                fieldName="location"
                             />
+                            <hr className='mx-2 border-gray-100' />
                             <CollapsibleForm
                                 label='Bio'
                                 value={personalInfo.bio || ''}
                                 isLastSection={true}
                                 openForm={openForm}
                                 isOpen={openForm === 'bio'}
-                                onToggle={() => handleToggle('bio')}
+                                onToggleForm={() => handleToggleForm('bio')}
                                 onChange={(newValue) =>
                                     dispatch({ type: 'SET_BIO', payload: newValue })
                                 }
+                                schema={settingsBioSchema}
+                                fieldName="bio"
                             />
                         </div>
                     </div>

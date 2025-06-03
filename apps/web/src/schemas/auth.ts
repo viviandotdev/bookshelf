@@ -80,6 +80,7 @@ export const SettingsSchema = z.object({
                     'Username can only contain alphanumeric characters and underscores',
             })
     ), // Allowed characters
+    email: z.optional(z.string().email()),
     location: z.optional(z.string()),
     name: z.optional(z.string()),
     bio: z.optional(
@@ -87,5 +88,21 @@ export const SettingsSchema = z.object({
             message: 'Bio must not be longer than 160 characters.',
         })
     ),
-    email: z.optional(z.string().email()),
+});
+
+// Individual schemas for settings
+export const settingsNameSchema = SettingsSchema.pick({
+    name: true,
+});
+
+export const settingsUsernameSchema = SettingsSchema.pick({
+    username: true,
+});
+
+export const settingsLocationSchema = SettingsSchema.pick({
+    location: true,
+});
+
+export const settingsBioSchema = SettingsSchema.pick({
+    bio: true,
 });

@@ -3,10 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { SettingsSchema } from '@/schemas/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Path } from 'react-hook-form';
 import { z } from 'zod';
 import {
     Form,
@@ -20,64 +19,54 @@ import { useSession } from 'next-auth/react';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { SettingsSchema } from '@/schemas/auth';
 
-export type FormNames =
-    | 'username'
-    | 'location'
-    | 'name'
-    | 'bio'
-    | 'email'
+type SettingsFieldName = keyof z.infer<typeof SettingsSchema>;
 
-interface CollapsibleFormProps {
+interface CollapsibleFormProps<T extends z.ZodType> {
     label: string;
     value: string;
     isLastSection?: boolean;
     isOpen: boolean;
-    openForm: FormNames | '';
-    onToggle: () => void;
-    onChange?: (value: string) => void;
+    openForm: SettingsFieldName | '';
+    onToggleForm: () => void;
+    onChange: (value: string) => void;
+    schema: T;
+    fieldName: SettingsFieldName;
 }
 
-export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
+export const CollapsibleForm = <T extends z.ZodType>({
     label,
     value,
-    isLastSection,
     openForm,
     isOpen,
-    onToggle,
+    onToggleForm,
     onChange,
-}) => {
+    schema,
+    fieldName,
+}: CollapsibleFormProps<T>) => {
     const [isPending, startTransition] = useTransition();
     const { update } = useSession();
     const [error, setError] = useState<string | undefined>();
     const [success, setSuccess] = useState<string | undefined>();
 
-    const form = useForm<z.infer<typeof SettingsSchema>>({
-        resolver: zodResolver(SettingsSchema),
+    const form = useForm<z.infer<T>>({
+        resolver: zodResolver(schema),
         defaultValues: {
-            name: '',
-            username: '',
-            location: '',
-            bio: '',
-            email: '',
-        },
+            [fieldName]: value,
+        } as z.infer<T>,
     });
 
     useEffect(() => {
         if (openForm) {
             form.reset({
-                name: openForm === 'name' ? value : '',
-                username: openForm === 'username' ? value : '',
-                location: openForm === 'location' ? value : '',
-                bio: openForm === 'bio' ? value : '',
-                email: openForm === 'email' ? value : '',
-            });
+                [fieldName]: value,
+            } as z.infer<T>);
         }
-    }, [openForm, value, form]);
+    }, [openForm, value, form, fieldName]);
 
-    const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-        console.log('test')
-        onToggle();
+    const onSubmit = (values: z.infer<T>) => {
+        onToggleForm();
 
         startTransition(() => {
             // settings(values)
@@ -87,9 +76,8 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
             //         }
 
             //         if (data.success) {
-
             //             if (onChange && openForm) {
-            //                 onChange(values[openForm]);
+            onChange(values[fieldName] as string);
             //             }
             //             toast({
             //                 title: 'Success',
@@ -104,7 +92,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     };
 
     const renderFormControl = (field: any) => {
-        if (openForm === 'bio') {
+        if (fieldName === 'bio') {
             return (
                 <FormControl>
                     <Textarea
@@ -132,7 +120,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     return (
         <div className='relative'>
             <div
-                onClick={onToggle}
+                onClick={onToggleForm}
                 className={cn(
                     'group cursor-pointer transition-colors duration-200',
                     isOpen ? 'bg-beige-50' : 'hover:bg-beige-50/50'
@@ -179,7 +167,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                     <form onSubmit={form.handleSubmit(onSubmit)} className='px-4'>
                                         <FormField
                                             control={form.control}
-                                            name={openForm}
+                                            name={fieldName as Path<z.infer<T>>}
                                             render={({ field }) => (
                                                 <FormItem className='mt-0'>
                                                     {renderFormControl(field)}
@@ -195,7 +183,7 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                         <div className='flex justify-end gap-2 py-3'>
                                             <Button
                                                 type='button'
-                                                onClick={onToggle}
+                                                onClick={onToggleForm}
                                                 className='border border-beige-100 bg-white text-black hover:bg-white hover:text-black'
                                             >
                                                 Cancel
@@ -215,8 +203,6 @@ export const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {!isLastSection && <hr className='mx-2 border-gray-100' />}
         </div>
     );
 };
