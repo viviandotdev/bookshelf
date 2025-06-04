@@ -36,40 +36,39 @@ export class UserResolver {
         if (!existingUser) {
             throw new NotFoundException(`User does not exist`);
         }
-        if (data.email && data.email !== existingUser.email) {
-            await this.authService.sendVerificationEmailCode(
-                data.email,
-            );
+        // if (data.email && data.email !== existingUser.email) {
+        //     await this.authService.sendVerificationEmailCode(
+        //         data.email,
+        //     );
 
-            return existingUser;
-        }
+        //     return existingUser;
+        // }
 
-        if (data.newPassword && existingUser.hashedPassword) {
-            const passwordsMatch = await compare(
-                data.password,
-                existingUser.hashedPassword,
-            );
+        // if (data.newPassword && existingUser.hashedPassword) {
+        //     const passwordsMatch = await compare(
+        //         data.password,
+        //         existingUser.hashedPassword,
+        //     );
 
-            if (!passwordsMatch) {
-                throw new Error('Password does not match');
-            }
+        //     if (!passwordsMatch) {
+        //         throw new Error('Password does not match');
+        //     }
 
-            const hashedPassword = await hash(data.newPassword, 10);
-            data.newPassword = hashedPassword;
-        }
+        //     const hashedPassword = await hash(data.newPassword, 10);
+        //     data.newPassword = hashedPassword;
+        // }
 
         return this.userService.update({
             where: {
                 id: currentUser.userId,
             },
             data: {
-                hashedPassword: data.newPassword,
-                email: data.email,
+                name: data.name,
                 username: data.username,
                 location: data.location,
                 avatarImage: data.avatarImage,
                 bio: data.bio,
-                name: data.name,
+                // hashedPassword: data.newPassword,
             },
         });
     }

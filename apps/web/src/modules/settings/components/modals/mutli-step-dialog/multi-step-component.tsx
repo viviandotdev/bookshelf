@@ -1,6 +1,6 @@
 import React, { useMemo, useReducer } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import UploadFile from '../../upload-file';
+import UploadFile from '../../import/upload-file';
 import Step2 from './step-2';
 
 interface ImportLibraryState {

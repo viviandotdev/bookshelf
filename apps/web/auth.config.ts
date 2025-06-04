@@ -104,8 +104,14 @@ export default {
         }),
     ],
     callbacks: {
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, session, trigger }) {
             // Initial signin contains a 'User' object from authorize method
+            if (trigger === "update") {
+                token.username = session?.user?.username;
+                token.name = session?.user?.name;
+                token.email = session?.user?.email;
+                return token
+            }
             if (user && account) {
                 token.id = user.id;
                 token.email = user.email;
@@ -126,6 +132,8 @@ export default {
             } else {
                 return await refreshAccessToken(token);
             }
+
+
 
         },
         async session({ session, token }) {

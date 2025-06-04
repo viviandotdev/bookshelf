@@ -4,6 +4,7 @@ mutation UpdateUser($data: UpdateUserInput!) {
     username
     name
     email
+    avatarImage
   }
 }
 

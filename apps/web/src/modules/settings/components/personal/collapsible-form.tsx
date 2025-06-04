@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useState, useTransition } from 'react';
 import { useForm, Path } from 'react-hook-form';
 import { z } from 'zod';
 import {
@@ -14,23 +14,22 @@ import {
     FormItem,
     FormMessage,
 } from '@/components/ui/form';
-import { settings } from '../actions/settings';
+import { settings } from '../../actions/settings';
 import { useSession } from 'next-auth/react';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { SettingsSchema } from '@/schemas/auth';
+import { Icons } from '@/components/icons';
 
 type SettingsFieldName = keyof z.infer<typeof SettingsSchema>;
 
 interface CollapsibleFormProps<T extends z.ZodType> {
     label: string;
     value: string;
-    isLastSection?: boolean;
     isOpen: boolean;
     openForm: SettingsFieldName | '';
     onToggleForm: () => void;
-    onChange: (value: string) => void;
     schema: T;
     fieldName: SettingsFieldName;
 }
@@ -41,14 +40,13 @@ export const CollapsibleForm = <T extends z.ZodType>({
     openForm,
     isOpen,
     onToggleForm,
-    onChange,
     schema,
     fieldName,
 }: CollapsibleFormProps<T>) => {
     const [isPending, startTransition] = useTransition();
-    const { update } = useSession();
+    const { data: session, update } = useSession();
     const [error, setError] = useState<string | undefined>();
-    const [success, setSuccess] = useState<string | undefined>();
+    const [formValue, setFormValue] = useState(value);
 
     const form = useForm<z.infer<T>>({
         resolver: zodResolver(schema),
@@ -57,37 +55,38 @@ export const CollapsibleForm = <T extends z.ZodType>({
         } as z.infer<T>,
     });
 
-    useEffect(() => {
-        if (openForm) {
-            form.reset({
-                [fieldName]: value,
-            } as z.infer<T>);
-        }
-    }, [openForm, value, form, fieldName]);
-
     const onSubmit = (values: z.infer<T>) => {
-        onToggleForm();
+        const newValue = values[fieldName] as string;
+        setFormValue(newValue);
 
         startTransition(() => {
-            // settings(values)
-            //     .then((data) => {
-            //         if (data.error) {
-            //             setError(data.error);
-            //         }
+            settings(values)
+                .then(async (data) => {
+                    if (data.error) {
+                        toast({
+                            title: 'Failed',
+                            description: 'Failed to update settings',
+                            variant: 'success',
+                        });
+                    }
 
-            //         if (data.success) {
-            //             if (onChange && openForm) {
-            onChange(values[fieldName] as string);
-            //             }
-            //             toast({
-            //                 title: 'Success',
-            //                 description: 'Your settings have been updated',
-            //                 variant: 'success',
-            //             });
-            //             setSuccess(data.success);
-            //         }
-            //     })
-            //     .catch(() => setError('Something went wrong!'));
+                    if (data.success) {
+                        await update({
+                            user: {
+                                ...session?.user,
+                                [fieldName]: newValue,
+                            }
+                        })
+                        toast({
+                            title: 'Success',
+                            description: `Your settings have been updated new name`,
+                            variant: 'success',
+                        });
+                    }
+                })
+                .finally(() => {
+                    onToggleForm();
+                });
         });
     };
 
@@ -133,7 +132,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
                     <motion.span
                         className={cn(
                             'text-sm',
-                            value ? 'text-black' : 'text-gray-400'
+                            formValue ? 'text-black' : 'text-gray-400'
                         )}
                         animate={{
                             opacity: isOpen ? 0 : 1,
@@ -144,7 +143,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
                             ease: "easeInOut"
                         }}
                     >
-                        {value || '+ Add'}
+                        {formValue || '+ Add'}
                     </motion.span>
                 </div>
             </div>
@@ -190,10 +189,16 @@ export const CollapsibleForm = <T extends z.ZodType>({
                                             </Button>
                                             <Button
                                                 type='submit'
-                                                disabled={!!error}
+                                                disabled={!!error || isPending}
                                                 variant='secondary'
                                             >
-                                                Save
+                                                {isPending ? (
+                                                    <>
+                                                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                                    </>
+                                                ) : (
+                                                    'Save'
+                                                )}
                                             </Button>
                                         </div>
                                     </form>
