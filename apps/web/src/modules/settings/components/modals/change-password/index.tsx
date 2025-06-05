@@ -19,12 +19,18 @@ import { changePasswordSchema } from '@/schemas/auth';
 import { changePassword } from '@/modules/settings/actions/change-password';
 import { toast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
+import React from 'react';
 
 export const ChangePasswordModal = () => {
     const changePasswordModal = useChangePasswordModal();
     const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof changePasswordSchema>>({
         resolver: zodResolver(changePasswordSchema),
+        defaultValues: {
+            password: '',
+            newPassword: '',
+            confirmPassword: ''
+        }
     });
 
     const onSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
@@ -47,6 +53,7 @@ export const ChangePasswordModal = () => {
                 })
                 .finally(() => {
                     changePasswordModal.onClose();
+                    form.reset();
                 });
         });
     };
@@ -56,7 +63,10 @@ export const ChangePasswordModal = () => {
             title={'Change password'}
             description='Use a password at least 15 letters long, or at least 8 characters long with both letters and numbers.'
             isOpen={changePasswordModal.isOpen}
-            onClose={changePasswordModal.onClose}
+            onClose={() => {
+                changePasswordModal.onClose();
+                form.reset();
+            }}
         >
             <div>
                 <div className='space-y-4 py-2 pb-4'>
@@ -71,7 +81,8 @@ export const ChangePasswordModal = () => {
                                             <FormLabel>Enter your current password</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={false}
+                                                    type="password"
+                                                    disabled={isPending}
                                                     placeholder='Current password'
                                                     {...field}
                                                 />
@@ -88,7 +99,8 @@ export const ChangePasswordModal = () => {
                                             <FormLabel>Enter a new password</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={false}
+                                                    type="password"
+                                                    disabled={isPending}
                                                     placeholder='New password'
                                                     {...field}
                                                 />
@@ -105,7 +117,8 @@ export const ChangePasswordModal = () => {
                                             <FormLabel>Confirm your new password</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    disabled={false}
+                                                    type="password"
+                                                    disabled={isPending}
                                                     placeholder='Confirm password'
                                                     {...field}
                                                 />
@@ -116,9 +129,13 @@ export const ChangePasswordModal = () => {
                                 />
                                 <div className='flex w-full items-center justify-end space-x-2 pt-6'>
                                     <Button
+                                        type="button"
                                         variant='outline'
                                         label='Cancel'
-                                        onClick={changePasswordModal.onClose}
+                                        onClick={() => {
+                                            changePasswordModal.onClose();
+                                            form.reset();
+                                        }}
                                     ></Button>
                                     <Button
                                         type='submit'
@@ -126,11 +143,11 @@ export const ChangePasswordModal = () => {
                                         variant='secondary'
                                     >
                                         {isPending ? (
-                                            <>
+                                            <React.Fragment key="loading">
                                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                            </>
+                                            </React.Fragment>
                                         ) : (
-                                            'Save'
+                                            <React.Fragment key="save">Save</React.Fragment>
                                         )}
                                     </Button>
                                 </div>
