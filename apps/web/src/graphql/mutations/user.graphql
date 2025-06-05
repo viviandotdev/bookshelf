@@ -14,3 +14,14 @@ mutation UpdateEmail($data: UpdateEmailInput!) {
     email
   }
 }
+
+mutation UpdatePassword($data: UpdatePasswordInput!) {
+  updatePassword(data: $data) {
+    id
+    email
+  }
+}
+
+mutation SendEmailCode($email: String!) {
+  sendEmailCode(email: $email)
+}

@@ -680,7 +680,9 @@ type Mutation {
   removeBookFromShelf(shelf: String!, where: UserBookWhereUniqueInput!): Boolean!
   removeUserBook(where: UserBookWhereUniqueInput!): Boolean!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
+  sendEmailCode(email: String!): Boolean!
   updateEmail(data: UpdateEmailInput!): User!
+  updatePassword(data: UpdatePasswordInput!): User!
   updateReadDate(finishedDate: String, id: String!, startDate: String): ReadDate!
   updateReadingProgress(capacity: Int, progress: Int!, readingProgressId: String!, type: String!): ReadingProgress!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
@@ -1543,14 +1545,17 @@ input UpdateEmailInput {
   token: String!
 }
 
+input UpdatePasswordInput {
+  newPassword: String
+  password: String
+}
+
 input UpdateUserInput {
   avatarImage: String
   bio: String
   email: String
   location: String
   name: String
-  newPassword: String
-  password: String
   username: String
 }
 
