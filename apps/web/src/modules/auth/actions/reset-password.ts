@@ -3,7 +3,7 @@ import {
     ResetPasswordMutation,
     ResetPasswordDocument,
 } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 import { NewPasswordSchema } from '@/schemas/auth';
 import { z } from 'zod';
 

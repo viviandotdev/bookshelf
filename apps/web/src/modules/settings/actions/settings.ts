@@ -3,9 +3,8 @@
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
 import { SettingsSchema } from '@/schemas/auth';
-import { setAuthToken, httpLink } from '@/lib/apollo';
+import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
 import { unstable_update } from '@/auth';
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {

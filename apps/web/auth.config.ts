@@ -4,7 +4,7 @@ import {
     LoginDocument,
     LoginMutation,
 } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 import type { User } from "next-auth"
 
 const REFRESH_AUTHENTICATION_MUTATION = `

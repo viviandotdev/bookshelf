@@ -6,7 +6,7 @@ import { getCurrentUser } from '@/lib/auth';
 import { changePasswordSchema } from '@/schemas/auth';
 import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
 import { UpdatePasswordDocument, UpdatePasswordMutation, UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 
 export const changePassword = async (
     values: z.infer<typeof changePasswordSchema>

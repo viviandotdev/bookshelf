@@ -2,10 +2,9 @@
 
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
-import { setAuthToken, httpLink } from '@/lib/apollo';
 import { SendEmailCodeDocument, SendEmailCodeMutation } from '@/graphql/graphql';
 import { changeEmailSchema } from '../components/modals/change-email';
-import { getClient } from '@/lib/apollo-client';
+import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
 
 export const sendEmailCode = async (
     values: z.infer<typeof changeEmailSchema>

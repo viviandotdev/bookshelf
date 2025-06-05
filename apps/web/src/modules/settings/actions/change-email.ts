@@ -2,10 +2,9 @@
 
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
-import { setAuthToken, httpLink } from '@/lib/apollo';
 import { UpdateEmailDocument, UpdateEmailMutation } from '@/graphql/graphql';
 import { changeEmailSchema } from '../components/modals/change-email';
-import { getClient } from '@/lib/apollo-client';
+import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { unstable_update } from '@/auth';
 
 export const changeEmail = async (
