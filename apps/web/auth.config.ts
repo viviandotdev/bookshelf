@@ -92,6 +92,8 @@ export default {
                     return {
                         id: loginData?.login.user.id,
                         email: loginData?.login.user.email,
+                        avatarImage: loginData?.login.user.avatarImage || '',
+                        name: loginData?.login.user.name,
                         username: loginData?.login.user.username || '',
                         accessToken: loginData?.login.accessToken,
                         refreshToken: loginData?.login.refreshToken,
@@ -110,12 +112,15 @@ export default {
                 token.username = session?.user?.username;
                 token.name = session?.user?.name;
                 token.email = session?.user?.email;
+                token.avatarImage = session?.user?.avatarImage;
                 return token
             }
             if (user && account) {
                 token.id = user.id;
                 token.email = user.email;
+                token.name = user.name;
                 token.username = user.username;
+                token.avatarImage = user.avatarImage;
                 token.accessToken = user.accessToken;
                 token.refreshToken = user.refreshToken;
                 token.expiresIn = user.expiresIn;
@@ -142,7 +147,9 @@ export default {
                 ...session.user,
                 id: token.id as string,
                 email: token.email as string,
+                name: token.name as string,
                 username: token.username as string,
+                avatarImage: token.avatarImage as string,
                 accessToken: token.accessToken as string,
                 refreshToken: token.refreshToken as string,
                 expiresIn: token.expiresIn as number,

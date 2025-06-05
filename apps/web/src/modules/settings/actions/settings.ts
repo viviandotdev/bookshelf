@@ -38,6 +38,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
                 username: data?.updateUser.username as string,
                 email: data?.updateUser.email as string,
                 name: data?.updateUser.name as string,
+                avatarImage: data?.updateUser.avatarImage as string,
             }
         })
         return { success: 'Settings Updated!' };

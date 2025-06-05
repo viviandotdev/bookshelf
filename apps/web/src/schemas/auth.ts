@@ -88,6 +88,7 @@ export const SettingsSchema = z.object({
             message: 'Bio must not be longer than 160 characters.',
         })
     ),
+    avatarImage: z.optional(z.string()),
 });
 
 // Individual schemas for settings
