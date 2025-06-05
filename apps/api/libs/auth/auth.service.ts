@@ -107,6 +107,7 @@ export class AuthService {
             },
             data: {
                 hashedPassword,
+                passwordUpdatedAt: new Date(),
             },
         });
 

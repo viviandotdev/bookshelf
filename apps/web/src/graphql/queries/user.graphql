@@ -7,8 +7,6 @@ query User($where: UserWhereUniqueInput!) {
     avatarImage
     location
     bio
+    passwordUpdatedAt
   }
 }
-
-
- 

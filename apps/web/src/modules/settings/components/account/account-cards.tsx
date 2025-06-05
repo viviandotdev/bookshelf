@@ -19,10 +19,7 @@ interface AccountCardsProps {
 export const AccountCards: React.FC<AccountCardsProps> = ({ config }) => {
     // get the user session
     const { data } = useSession();
-    const [email, setEmail] = useState<string>(data?.user.email || '');
-    useEffect(() => {
-        setEmail(data?.user.email);
-    }, [data]);
+
     const changePasswordModal = useChangePasswordModal();
     const changeEmailModal = useChangeEmailModal();
     const handleClick = () => {

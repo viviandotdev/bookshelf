@@ -2,13 +2,15 @@
 import { Icons } from '@/components/icons';
 import React from 'react';
 import AccountCards from './account-cards';
-import { User } from 'next-auth';
 import { useSession } from 'next-auth/react';
+import { UserQuery } from '@/graphql/graphql';
 
 interface AccountFormProps {
+    userData?: UserQuery;
+    loading: boolean;
 }
 
-export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
+export const AccountForm: React.FC<AccountFormProps> = ({ userData, loading }) => {
     const { data: session } = useSession();
     const accountSecurityConfigs = [
         {
@@ -20,7 +22,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
         {
             title: 'Password',
             button: 'Change password',
-            info: 'Last updated July 26, 2018',
+            info: userData?.user?.passwordUpdatedAt ? `Last updated ${new Date(userData.user.passwordUpdatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}` : 'Never updated',
             icon: Icons.lock,
         },
     ];
@@ -32,7 +34,7 @@ export const AccountForm: React.FC<AccountFormProps> = ({ }) => {
                     <h1 className='mb-2 text-2xl font-bold leading-8'>Account</h1>
                     <p className='mt-1 text-sm text-gray-600'>
                         Manage settings related to signing in to your account, account
-                        security, as well as how to recover your data when you’re having
+                        security, as well as how to recover your data when you're having
                         trouble signing in.
                     </p>
 

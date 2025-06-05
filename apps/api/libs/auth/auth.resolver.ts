@@ -60,6 +60,7 @@ export class AuthResolver {
             avatarImage: DEFAULT_AVATAR,
             hashedPassword,
             emailVerified: new Date(),
+            passwordUpdatedAt: new Date(),
         });
 
         // Create default shelves
@@ -133,9 +134,7 @@ export class AuthResolver {
                 id: currentUser.userId,
             },
         });
-        console.log(currentUser.userId)
-        console.log(currentUser.refreshToken)
-        console.log(user.hashedRefreshToken)
+
         if (!user) {
             throw new ForbiddenException('Invalid credentials');
         }

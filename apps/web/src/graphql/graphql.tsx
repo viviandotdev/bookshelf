@@ -1820,6 +1820,7 @@ export type User = {
   id: Scalars['ID']['output'];
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt: Scalars['Timestamp']['output'];
   shelves?: Maybe<Array<Shelf>>;
   updatedAt: Scalars['Timestamp']['output'];
   userBooks?: Maybe<Array<UserBook>>;
@@ -2397,6 +2398,7 @@ export type UserCountAggregate = {
   id: Scalars['Int']['output'];
   location: Scalars['Int']['output'];
   name: Scalars['Int']['output'];
+  passwordUpdatedAt: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
   username: Scalars['Int']['output'];
 };
@@ -2434,6 +2436,7 @@ export type UserCreateWithoutShelvesInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -2450,6 +2453,7 @@ export type UserCreateWithoutUserBooksInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -2465,6 +2469,7 @@ export type UserMaxAggregate = {
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt?: Maybe<Scalars['Timestamp']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -2479,6 +2484,7 @@ export type UserMinAggregate = {
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt?: Maybe<Scalars['Timestamp']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -2494,6 +2500,7 @@ export type UserOrderByWithRelationInput = {
   id?: InputMaybe<SortOrder>;
   location?: InputMaybe<SortOrderInput>;
   name?: InputMaybe<SortOrderInput>;
+  passwordUpdatedAt?: InputMaybe<SortOrder>;
   shelves?: InputMaybe<ShelfOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
   userBooks?: InputMaybe<UserBookOrderByRelationAggregateInput>;
@@ -2544,6 +2551,7 @@ export type UserUpdateWithoutShelvesInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -2560,6 +2568,7 @@ export type UserUpdateWithoutUserBooksInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
@@ -2591,6 +2600,7 @@ export type UserWhereInput = {
   id?: InputMaybe<StringFilter>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  passwordUpdatedAt?: InputMaybe<DateTimeFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userBooks?: InputMaybe<UserBookListRelationFilter>;
@@ -2611,6 +2621,7 @@ export type UserWhereUniqueInput = {
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  passwordUpdatedAt?: InputMaybe<DateTimeFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userBooks?: InputMaybe<UserBookListRelationFilter>;
@@ -2881,7 +2892,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, avatarImage?: string | null, location?: string | null, bio?: string | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, avatarImage?: string | null, location?: string | null, bio?: string | null, passwordUpdatedAt: any } | null };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -4300,6 +4311,7 @@ export const UserDocument = gql`
     avatarImage
     location
     bio
+    passwordUpdatedAt
   }
 }
     `;

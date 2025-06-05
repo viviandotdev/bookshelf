@@ -5,7 +5,7 @@ import CollapsibleForm from './collapsible-form';
 import { Button } from '@/components/ui/button';
 import useChangeAvatarModal from '../modals/change-avatar/use-change-avatar';
 import { Icons } from '@/components/icons';
-import { useUserQuery } from '@/graphql/graphql';
+import { UserQuery } from '@/graphql/graphql';
 import {
     settingsNameSchema,
     settingsUsernameSchema,
@@ -17,31 +17,24 @@ import { z } from 'zod';
 import { useSession } from 'next-auth/react';
 
 type SettingsFieldName = keyof z.infer<typeof SettingsSchema>;
+
 interface PersonalFormProps {
+    userData?: UserQuery;
+    loading: boolean;
 }
 
 const DEFAULT_AVATAR = 'https://webgradients.com/public/webgradients_png/029%20Everlasting%20Sky.png';
 
-export const PersonalForm: React.FC<PersonalFormProps> = () => {
+export const PersonalForm: React.FC<PersonalFormProps> = ({ userData, loading }) => {
     const [openForm, setOpenForm] = useState<SettingsFieldName | ''>('');
     const changeAvatarModal = useChangeAvatarModal();
     const { data: session } = useSession();
-    const { data: userData, loading } = useUserQuery({
-        variables: {
-            where: {
-                id: session?.user.id
-            }
-        },
-        skip: !session?.user.id
-    });
 
     const handleToggleForm = (formName: SettingsFieldName) => {
         setOpenForm(openForm === formName ? '' : formName);
     };
 
-
-
-    const currentUser = userData?.user
+    const currentUser = userData?.user;
 
     return (
         <main className='px-4 py-16 sm:px-6 lg:flex-auto lg:px-0 lg:py-20'>

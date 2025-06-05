@@ -1,6 +1,6 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User } from '@/graphql/graphql';
+import { User, useUserQuery } from '@/graphql/graphql';
 import AccountForm from '@/modules/settings/components/account';
 import PersonalForm from '@/modules/settings/components/personal';
 import ImportForm from '../components/import';
@@ -20,19 +20,27 @@ export const SettingsTemplate: React.FC<SettingsTemplateProps> = ({
 }) => {
     let pageForm;
     const { data: session } = useSession();
+    const { data: userData, loading } = useUserQuery({
+        variables: {
+            where: {
+                id: session?.user.id
+            }
+        },
+        skip: !session?.user.id
+    });
 
     switch (page) {
         case 'account':
-            pageForm = <AccountForm />;
+            pageForm = <AccountForm userData={userData} loading={loading} />;
             break;
         case 'personal':
-            pageForm = <PersonalForm />;
+            pageForm = <PersonalForm userData={userData} loading={loading} />;
             break;
         case 'import':
             pageForm = <ImportForm />;
             break;
         default:
-            pageForm = <AccountForm />;
+            pageForm = <AccountForm userData={userData} loading={loading} />;
     }
     const isActiveLink = (linkPage: string) => {
         if (linkPage === 'personal information') {

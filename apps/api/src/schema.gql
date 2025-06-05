@@ -1569,6 +1569,7 @@ type User {
   id: ID!
   location: String
   name: String
+  passwordUpdatedAt: Timestamp!
   shelves: [Shelf!]
   updatedAt: Timestamp!
   userBooks: [UserBook!]
@@ -2132,6 +2133,7 @@ type UserCountAggregate {
   id: Int!
   location: Int!
   name: Int!
+  passwordUpdatedAt: Int!
   updatedAt: Int!
   username: Int!
 }
@@ -2169,6 +2171,7 @@ input UserCreateWithoutShelvesInput {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   updatedAt: Timestamp
   userBooks: UserBookCreateNestedManyWithoutUserInput
   username: String
@@ -2185,6 +2188,7 @@ input UserCreateWithoutUserBooksInput {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   shelves: ShelfCreateNestedManyWithoutUserInput
   updatedAt: Timestamp
   username: String
@@ -2199,6 +2203,7 @@ type UserMaxAggregate {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   updatedAt: Timestamp
   username: String
 }
@@ -2212,6 +2217,7 @@ type UserMinAggregate {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   updatedAt: Timestamp
   username: String
 }
@@ -2227,6 +2233,7 @@ input UserOrderByWithRelationInput {
   id: SortOrder
   location: SortOrderInput
   name: SortOrderInput
+  passwordUpdatedAt: SortOrder
   shelves: ShelfOrderByRelationAggregateInput
   updatedAt: SortOrder
   userBooks: UserBookOrderByRelationAggregateInput
@@ -2277,6 +2284,7 @@ input UserUpdateWithoutShelvesInput {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   updatedAt: Timestamp
   userBooks: UserBookUpdateManyWithoutUserNestedInput
   username: String
@@ -2293,6 +2301,7 @@ input UserUpdateWithoutUserBooksInput {
   id: String
   location: String
   name: String
+  passwordUpdatedAt: Timestamp
   shelves: ShelfUpdateManyWithoutUserNestedInput
   updatedAt: Timestamp
   username: String
@@ -2324,6 +2333,7 @@ input UserWhereInput {
   id: StringFilter
   location: StringFilter
   name: StringFilter
+  passwordUpdatedAt: DateTimeFilter
   shelves: ShelfListRelationFilter
   updatedAt: DateTimeFilter
   userBooks: UserBookListRelationFilter
@@ -2344,6 +2354,7 @@ input UserWhereUniqueInput {
   id: String
   location: StringFilter
   name: StringFilter
+  passwordUpdatedAt: DateTimeFilter
   shelves: ShelfListRelationFilter
   updatedAt: DateTimeFilter
   userBooks: UserBookListRelationFilter
