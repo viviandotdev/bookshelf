@@ -175,8 +175,6 @@ export class AuthService {
     async generateJWTTokens(user: User) {
         const { accessToken, refreshToken } = await this.createToken(
             user.id,
-            user.email,
-            user.username,
         );
 
         const payload = this.jwtService.decode(accessToken);
@@ -185,16 +183,16 @@ export class AuthService {
         return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
     }
 
-    async createToken(userId: string, email: string, username: string) {
+    async createToken(userId: string) {
         const accessToken = this.jwtService.sign(
-            { userId, email, username },
+            { userId },
             {
                 secret: this.configService.get<string>('jwt.access'),
                 expiresIn: this.configService.get<string>('jwt.accessExpiration'),
             },
         );
         const refreshToken = this.jwtService.sign(
-            { userId, email, accessToken },
+            { userId, accessToken },
             {
                 secret: this.configService.get<string>('jwt.refresh'),
                 expiresIn: this.configService.get<string>('jwt.refreshExpiration'),

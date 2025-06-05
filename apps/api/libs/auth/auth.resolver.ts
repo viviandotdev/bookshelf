@@ -133,7 +133,9 @@ export class AuthResolver {
                 id: currentUser.userId,
             },
         });
-
+        console.log(currentUser.userId)
+        console.log(currentUser.refreshToken)
+        console.log(user.hashedRefreshToken)
         if (!user) {
             throw new ForbiddenException('Invalid credentials');
         }

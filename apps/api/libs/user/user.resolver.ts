@@ -15,7 +15,7 @@ import { AuthService } from 'libs/auth/auth.service';
 import { compare, hash } from 'bcryptjs';
 import { UpdateEmailInput } from './dto/update-email.input';
 import { UpdatePasswordInput } from './dto/update-password.input';
-import { SendEmailCodeInput } from './dto/send-email-code.input';
+import { AuthResponse } from 'libs/auth/dto/auth.response';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -57,21 +57,30 @@ export class UserResolver {
 
 
     @UseGuards(AccessTokenGuard)
-    @Mutation(() => User)
+    @Mutation(() => AuthResponse)
     async updateEmail(
         @Args('data') updateEmailInput: UpdateEmailInput,
         @CurrentUser() currentUser: JwtPayload,
     ) {
+        const existingUser = await this.userService.findUnique({
+            where: {
+                id: currentUser.userId,
+            },
+        });
+
         const verifiedToken = await this.authService.verifyToken(
             updateEmailInput.code,
         );
-        if (verifiedToken.token === updateEmailInput.code) {
-            const updatedUser = await this.userService.updateUserEmail(
-                currentUser.email,
-                updateEmailInput.email,
-            );
-            return updatedUser;
+        if (verifiedToken.token !== updateEmailInput.code) {
+            throw new BadRequestException('Invalid code');
         }
+
+        const updatedUser = await this.userService.updateUserEmail(
+            existingUser.email,
+            updateEmailInput.email,
+        );
+        // update the session when email is updated
+        return this.authService.generateJWTTokens(updatedUser);
     }
 
     @UseGuards(AccessTokenGuard)
@@ -111,24 +120,28 @@ export class UserResolver {
         });
     }
 
+
+
     @UseGuards(AccessTokenGuard)
     @Mutation(() => Boolean)
-    async sendEmailCode(@Args('email', { type: () => String }) email: string) {
+    async sendEmailCode(
+        @CurrentUser() currentUser: JwtPayload,
+        @Args('email', { type: () => String }) email: string,
+    ) {
         const existingUser = await this.userService.findUnique({
             where: {
-                email,
+                id: currentUser.userId,
             },
         });
-        if (!existingUser) {
-            throw new NotFoundException(`User does not exist`);
-        }
-        if (email !== existingUser.email) {
-            await this.authService.sendVerificationEmailCode(
-                email,
-            );
 
-            return true
+        if (existingUser.email === email) {
+            throw new BadRequestException('This is already your current email');
         }
+
+        this.authService.sendVerificationEmailCode(
+            email,
+        );
+        return true;
     }
 
     @Query(() => User, { nullable: true })

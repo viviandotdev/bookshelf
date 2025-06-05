@@ -681,7 +681,7 @@ type Mutation {
   removeUserBook(where: UserBookWhereUniqueInput!): Boolean!
   resetPassword(resetPasswordInput: ResetPasswordInput!): Boolean!
   sendEmailCode(email: String!): Boolean!
-  updateEmail(data: UpdateEmailInput!): User!
+  updateEmail(data: UpdateEmailInput!): AuthResponse!
   updatePassword(data: UpdatePasswordInput!): User!
   updateReadDate(finishedDate: String, id: String!, startDate: String): ReadDate!
   updateReadingProgress(capacity: Int, progress: Int!, readingProgressId: String!, type: String!): ReadingProgress!

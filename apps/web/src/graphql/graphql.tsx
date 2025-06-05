@@ -717,7 +717,7 @@ export type Mutation = {
   removeUserBook: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   sendEmailCode: Scalars['Boolean']['output'];
-  updateEmail: User;
+  updateEmail: AuthResponse;
   updatePassword: User;
   updateReadDate: ReadDate;
   updateReadingProgress: ReadingProgress;
@@ -2743,7 +2743,7 @@ export type UpdateEmailMutationVariables = Exact<{
 }>;
 
 
-export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
+export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, avatarImage?: string | null, emailVerified?: any | null, id: string } } };
 
 export type UpdatePasswordMutationVariables = Exact<{
   data: UpdatePasswordInput;
@@ -3396,8 +3396,19 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMut
 export const UpdateEmailDocument = gql`
     mutation UpdateEmail($data: UpdateEmailInput!) {
   updateEmail(data: $data) {
-    id
-    email
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      location
+      bio
+      name
+      avatarImage
+      emailVerified
+      id
+    }
   }
 }
     `;

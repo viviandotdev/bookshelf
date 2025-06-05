@@ -1,5 +1,3 @@
-import { getCurrentUser } from '@/lib/auth';
-import { getUser } from '@/modules/profile/queries/getUser';
 import { SettingsTemplate } from '@/modules/settings/templates';
 
 interface SettingsPageProps {

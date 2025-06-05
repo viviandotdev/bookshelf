@@ -25,7 +25,6 @@ export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
         });
 
     } catch (error) {
-        console.error('Forgot password error:', error);
         return { error: 'Unable to generate reset token' };
     }
 

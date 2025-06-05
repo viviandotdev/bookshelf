@@ -10,8 +10,19 @@ mutation UpdateUser($data: UpdateUserInput!) {
 
 mutation UpdateEmail($data: UpdateEmailInput!) {
   updateEmail(data: $data) {
-    id
-    email
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      location
+      bio
+      name
+      avatarImage
+      emailVerified
+      id
+    }
   }
 }
 
