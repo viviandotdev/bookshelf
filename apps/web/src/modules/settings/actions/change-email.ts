@@ -3,9 +3,9 @@
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
 import { UpdateEmailDocument, UpdateEmailMutation } from '@/graphql/graphql';
-import { changeEmailSchema } from '../components/modals/change-email';
 import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
 import { unstable_update } from '@/auth';
+import { changeEmailSchema } from '@/schemas/auth';
 
 export const changeEmail = async (
     values: z.infer<typeof changeEmailSchema>
@@ -13,6 +13,12 @@ export const changeEmail = async (
     const sessionUser = await getCurrentUser();
     const client = getClient();
     client.setLink(setAuthToken(sessionUser?.accessToken as string).concat(httpLink));
+
+    const validatedFields = changeEmailSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: 'Invalid fields!' };
+    }
 
     if (!sessionUser) {
         return { error: 'Unauthorized' };

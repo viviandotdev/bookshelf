@@ -10,6 +10,14 @@ export const registerUserSchema = z.object({
     password: z.string().min(4),
     username: z.string().min(4).max(100),
 });
+export const changeEmailSchema = z.object({
+    email: z.string().email(),
+    code: (z.string().min(1)),
+});
+
+export const sendCodeSchema = z.object({
+    email: z.string().email(),
+});
 
 export const changePasswordSchema = z
     .object({

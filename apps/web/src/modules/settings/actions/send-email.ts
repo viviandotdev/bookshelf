@@ -3,15 +3,20 @@
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
 import { SendEmailCodeDocument, SendEmailCodeMutation } from '@/graphql/graphql';
-import { changeEmailSchema } from '../components/modals/change-email';
 import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
-
+import { sendCodeSchema } from '@/schemas/auth';
 export const sendEmailCode = async (
-    values: z.infer<typeof changeEmailSchema>
+    values: z.infer<typeof sendCodeSchema>
 ) => {
     const user = await getCurrentUser();
     const client = getClient();
     client.setLink(setAuthToken(user?.accessToken as string).concat(httpLink));
+
+    const validatedFields = sendCodeSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: 'Invalid fields!' };
+    }
 
     if (!user) {
         return { error: 'Unauthorized' };

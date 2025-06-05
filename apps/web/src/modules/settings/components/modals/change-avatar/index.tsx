@@ -66,11 +66,9 @@ export const ChangeAvatarModal = () => {
                             description: `Your avatar has been updated`,
                             variant: 'success',
                         });
+                        changeAvatarModal.onClose();
                     }
                 })
-                .finally(() => {
-                    changeAvatarModal.onClose();
-                });
         });
     };
 

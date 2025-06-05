@@ -14,6 +14,12 @@ export const changePassword = async (
     const client = getClient();
     client.setLink(setAuthToken(sessionUser?.accessToken as string).concat(httpLink));
 
+    const validatedFields = changePasswordSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+        return { error: 'Invalid fields!' };
+    }
+
     if (!sessionUser) {
         return { error: 'Unauthorized' };
     }

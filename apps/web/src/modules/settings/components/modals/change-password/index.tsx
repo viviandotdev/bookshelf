@@ -49,12 +49,10 @@ export const ChangePasswordModal = () => {
                             title: `Successfully updated password`,
                             variant: 'success',
                         });
+                        changePasswordModal.onClose();
+                        form.reset();
                     }
                 })
-                .finally(() => {
-                    changePasswordModal.onClose();
-                    form.reset();
-                });
         });
     };
 
