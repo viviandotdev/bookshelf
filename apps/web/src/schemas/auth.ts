@@ -10,6 +10,14 @@ export const registerUserSchema = z.object({
     password: z.string().min(4),
     username: z.string().min(4).max(100),
 });
+export const changeEmailSchema = z.object({
+    email: z.string().email(),
+    code: (z.string().min(1)),
+});
+
+export const sendCodeSchema = z.object({
+    email: z.string().email(),
+});
 
 export const changePasswordSchema = z
     .object({
@@ -80,13 +88,30 @@ export const SettingsSchema = z.object({
                     'Username can only contain alphanumeric characters and underscores',
             })
     ), // Allowed characters
+    email: z.optional(z.string().email()),
     location: z.optional(z.string()),
     name: z.optional(z.string()),
-    dob: z.optional(z.date()),
     bio: z.optional(
         z.string().max(160, {
             message: 'Bio must not be longer than 160 characters.',
         })
     ),
-    email: z.optional(z.string().email()),
+    avatarImage: z.optional(z.string()),
+});
+
+// Individual schemas for settings
+export const settingsNameSchema = SettingsSchema.pick({
+    name: true,
+});
+
+export const settingsUsernameSchema = SettingsSchema.pick({
+    username: true,
+});
+
+export const settingsLocationSchema = SettingsSchema.pick({
+    location: true,
+});
+
+export const settingsBioSchema = SettingsSchema.pick({
+    bio: true,
 });

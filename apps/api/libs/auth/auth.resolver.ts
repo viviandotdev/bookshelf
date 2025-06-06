@@ -60,6 +60,7 @@ export class AuthResolver {
             avatarImage: DEFAULT_AVATAR,
             hashedPassword,
             emailVerified: new Date(),
+            passwordUpdatedAt: new Date(),
         });
 
         // Create default shelves
@@ -96,11 +97,6 @@ export class AuthResolver {
         }
 
         return this.authService.generateJWTTokens(user);
-    }
-
-    @Mutation(() => Boolean)
-    async logout(@Args('id', { type: () => String }) id: string) {
-        return this.authService.logout(id);
     }
 
     @Mutation(() => Boolean)
@@ -159,5 +155,25 @@ export class AuthResolver {
         }
 
         return this.authService.generateJWTTokens(user);
+    }
+    @Mutation(() => Boolean)
+    async logout(@Args('id', { type: () => String }) id: string) {
+        const user = await this.userService.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        await this.userService.update({
+            where: {
+                id: id,
+                hashedRefreshToken: { not: null },
+            },
+            data: { hashedRefreshToken: null },
+        });
+        return true;
     }
 }

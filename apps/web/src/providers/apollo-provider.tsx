@@ -1,6 +1,6 @@
 'use client';
 
-import { from } from '@apollo/client';
+import { createHttpLink, from } from '@apollo/client';
 import { ReactNode, useCallback } from 'react';
 import { setContext } from '@apollo/client/link/context';
 
@@ -9,12 +9,17 @@ import {
     ApolloClient,
     InMemoryCache,
 } from "@apollo/client-integration-nextjs";
-import { httpLink } from '../lib/apollo';
 import { signOut, useSession } from 'next-auth/react';
 
 export type ApolloClientProviderProps = {
     children: ReactNode;
 };
+
+export const httpLink = createHttpLink({
+    uri: process.env.NEXT_PUBLIC_API_URL,
+    credentials: 'include',
+});
+
 
 let refreshPromise: Promise<string> | null = null;
 

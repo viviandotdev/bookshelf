@@ -1,8 +1,8 @@
 'use client';
 import { cn } from '@/lib/utils';
 import React, { useEffect, useState } from 'react';
-import useChangeEmailModal from './modals/change-email/use-change-email-modal';
-import useChangePasswordModal from './modals/change-password/use-change-password-modal';
+import useChangeEmailModal from '../modals/change-email/use-change-email-modal';
+import useChangePasswordModal from '../modals/change-password/use-change-password-modal';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { toast } from '@/hooks/use-toast';
@@ -19,10 +19,7 @@ interface AccountCardsProps {
 export const AccountCards: React.FC<AccountCardsProps> = ({ config }) => {
     // get the user session
     const { data } = useSession();
-    const [email, setEmail] = useState<string>(data?.user.email || '');
-    useEffect(() => {
-        setEmail(data?.user.email);
-    }, [data]);
+
     const changePasswordModal = useChangePasswordModal();
     const changeEmailModal = useChangeEmailModal();
     const handleClick = () => {

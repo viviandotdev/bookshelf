@@ -107,6 +107,7 @@ export class AuthService {
             },
             data: {
                 hashedPassword,
+                passwordUpdatedAt: new Date(),
             },
         });
 
@@ -118,8 +119,7 @@ export class AuthService {
 
         return true;
     }
-
-    generatePasswordResetToken = async (email: string) => {
+    async generatePasswordResetToken(email: string) {
         const token = uuidv4();
         const expires = new Date(new Date().getTime() + 3600 * 1000);
 
@@ -176,8 +176,6 @@ export class AuthService {
     async generateJWTTokens(user: User) {
         const { accessToken, refreshToken } = await this.createToken(
             user.id,
-            user.email,
-            user.username,
         );
 
         const payload = this.jwtService.decode(accessToken);
@@ -186,27 +184,16 @@ export class AuthService {
         return { accessToken, refreshToken, user, expiresIn: payload['exp'] };
     }
 
-    async logout(userId: string) {
-        await this.prisma.user.updateMany({
-            where: {
-                id: userId,
-                hashedRefreshToken: { not: null },
-            },
-            data: { hashedRefreshToken: null },
-        });
-        return true;
-    }
-
-    async createToken(userId: string, email: string, username: string) {
+    async createToken(userId: string) {
         const accessToken = this.jwtService.sign(
-            { userId, email, username },
+            { userId },
             {
                 secret: this.configService.get<string>('jwt.access'),
                 expiresIn: this.configService.get<string>('jwt.accessExpiration'),
             },
         );
         const refreshToken = this.jwtService.sign(
-            { userId, email, accessToken },
+            { userId, accessToken },
             {
                 secret: this.configService.get<string>('jwt.refresh'),
                 expiresIn: this.configService.get<string>('jwt.refreshExpiration'),

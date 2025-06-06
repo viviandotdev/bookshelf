@@ -3,7 +3,7 @@ import {
     ForgotPasswordMutation,
     ForgotPasswordDocument,
 } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 import { ResetSchema } from '@/schemas/auth';
 import { z } from 'zod';
 
@@ -25,7 +25,6 @@ export const forgotPassword = async (values: z.infer<typeof ResetSchema>) => {
         });
 
     } catch (error) {
-        console.error('Forgot password error:', error);
         return { error: 'Unable to generate reset token' };
     }
 

@@ -2,44 +2,67 @@
 
 import * as z from 'zod';
 import { getCurrentUser } from '@/lib/auth';
-import { setAuthToken, httpLink, getApolloClient } from '@/lib/apollo';
-import { UpdateUserDocument, UpdateUserMutation } from '@/graphql/graphql';
-import { changeEmailSchema } from '../components/modals/change-email';
+import { UpdateEmailDocument, UpdateEmailMutation } from '@/graphql/graphql';
+import { getClient, setAuthToken, httpLink } from '@/lib/apollo';
+import { unstable_update } from '@/auth';
+import { changeEmailSchema } from '@/schemas/auth';
 
 export const changeEmail = async (
-  values: z.infer<typeof changeEmailSchema>
+    values: z.infer<typeof changeEmailSchema>
 ) => {
-  const user = await getCurrentUser();
-  const client = getApolloClient();
-  client.setLink(setAuthToken(user.accessToken as string).concat(httpLink));
+    const sessionUser = await getCurrentUser();
+    const client = getClient();
+    client.setLink(setAuthToken(sessionUser?.accessToken as string).concat(httpLink));
 
-  if (!user) {
-    return { error: 'Unauthorized' };
-  }
+    const validatedFields = changeEmailSchema.safeParse(values);
 
-  try {
-    const { data, errors } = await client.mutate<UpdateUserMutation>({
-      mutation: UpdateUserDocument,
-      variables: {
-        data: {
-          email: values.email,
-        },
-      },
-      errorPolicy: 'all',
-    });
-
-    if (errors) {
-      return { error: errors?.map((e) => e.message)[0] };
+    if (!validatedFields.success) {
+        return { error: 'Invalid fields!' };
     }
 
-    if (values.email && values.email === data?.updateUser.email) {
-      return { error: 'Please enter a new email' };
+    if (!sessionUser) {
+        return { error: 'Unauthorized' };
     }
-  } catch (error) {
-    return { error: 'There was a problem with your request' };
-  }
-  // if there is a code, we can actually change the email, otherwise we need to send a verification code
-  return {
-    success: `We just sent you a temporary verification code to ${values.email}`,
-  };
+
+    try {
+        const { data } = await client.mutate<UpdateEmailMutation>({
+            mutation: UpdateEmailDocument,
+            variables: {
+                data: {
+                    email: values.email,
+                    code: values.code,
+                    token: 'token',
+                },
+            },
+        });
+
+        if (!data?.updateEmail?.user) {
+            return { error: 'Failed to update email' };
+        }
+
+        const updatedUser = data.updateEmail.user;
+
+        // Update the session with the new user data, handling null values
+        await unstable_update({
+            user: {
+                ...sessionUser,
+                email: updatedUser.email as string,
+                username: updatedUser.username as string,
+                name: updatedUser.name as string,
+                avatarImage: updatedUser.avatarImage as string,
+                refreshToken: data.updateEmail.refreshToken as string,
+                accessToken: data.updateEmail.accessToken as string,
+                expiresIn: data.updateEmail.expiresIn as number,
+            }
+        });
+
+        return {
+            success: `Email updated successfully to ${updatedUser.email}`, data: data.updateEmail
+        };
+    } catch (error: any) {
+        if (error.graphQLErrors) {
+            return { error: error.graphQLErrors[0].message }
+        }
+        return { error: 'There was a problem with your request' };
+    }
 };

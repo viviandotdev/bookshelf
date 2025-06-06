@@ -47,6 +47,7 @@ export enum UserScalarFieldEnum {
     hashedRefreshToken = "hashedRefreshToken",
     createdAt = "createdAt",
     updatedAt = "updatedAt",
+    passwordUpdatedAt = "passwordUpdatedAt",
     avatarImage = "avatarImage",
     emailVerified = "emailVerified"
 }
@@ -8469,6 +8470,8 @@ export class UserCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
+    passwordUpdatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
     avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
     emailVerified?: true;
@@ -8499,6 +8502,8 @@ export class UserCountAggregate {
     @Field(() => Int, {nullable:false})
     updatedAt!: number;
     @Field(() => Int, {nullable:false})
+    passwordUpdatedAt!: number;
+    @Field(() => Int, {nullable:false})
     avatarImage!: number;
     @Field(() => Int, {nullable:false})
     emailVerified!: number;
@@ -8528,6 +8533,8 @@ export class UserCountOrderByAggregateInput {
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    passwordUpdatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8573,6 +8580,8 @@ export class UserCreateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8656,6 +8665,8 @@ export class UserCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8695,6 +8706,8 @@ export class UserCreateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8734,6 +8747,8 @@ export class UserCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8797,6 +8812,8 @@ export class UserGroupBy {
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
+    @Field(() => Date, {nullable:false})
+    passwordUpdatedAt!: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8832,6 +8849,8 @@ export class UserMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
+    passwordUpdatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
     avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
     emailVerified?: true;
@@ -8866,6 +8885,8 @@ export class UserMaxAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8895,6 +8916,8 @@ export class UserMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
+    passwordUpdatedAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
     avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     emailVerified?: `${SortOrder}`;
@@ -8922,6 +8945,8 @@ export class UserMinAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    passwordUpdatedAt?: true;
     @Field(() => Boolean, {nullable:true})
     avatarImage?: true;
     @Field(() => Boolean, {nullable:true})
@@ -8957,6 +8982,8 @@ export class UserMinAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -8986,6 +9013,8 @@ export class UserMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
+    passwordUpdatedAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
     avatarImage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     emailVerified?: `${SortOrder}`;
@@ -9013,6 +9042,8 @@ export class UserOrderByWithAggregationInput {
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    passwordUpdatedAt?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -9047,6 +9078,8 @@ export class UserOrderByWithRelationInput {
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    passwordUpdatedAt?: `${SortOrder}`;
     @Field(() => SortOrderInput, {nullable:true})
     avatarImage?: InstanceType<typeof SortOrderInput>;
     @Field(() => SortOrderInput, {nullable:true})
@@ -9093,6 +9126,8 @@ export class UserScalarWhereWithAggregatesInput {
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    passwordUpdatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     avatarImage?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
@@ -9130,6 +9165,8 @@ export class UserUncheckedCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9169,6 +9206,8 @@ export class UserUncheckedCreateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9208,6 +9247,8 @@ export class UserUncheckedCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9249,6 +9290,8 @@ export class UserUncheckedUpdateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9286,6 +9329,8 @@ export class UserUncheckedUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9325,6 +9370,8 @@ export class UserUncheckedUpdateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9364,6 +9411,8 @@ export class UserUncheckedUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9405,6 +9454,8 @@ export class UserUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9506,6 +9557,8 @@ export class UserUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9545,6 +9598,8 @@ export class UserUpdateWithoutUserBooksInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9584,6 +9639,8 @@ export class UserUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    passwordUpdatedAt?: Date | string;
     @Field(() => String, {nullable:true})
     avatarImage?: string;
     @Field(() => Date, {nullable:true})
@@ -9652,6 +9709,8 @@ export class UserWhereUniqueInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    passwordUpdatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     avatarImage?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -9690,6 +9749,8 @@ export class UserWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    passwordUpdatedAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
     avatarImage?: InstanceType<typeof StringFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
@@ -9722,6 +9783,8 @@ export class User {
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
+    @Field(() => Date, {nullable:false})
+    passwordUpdatedAt!: Date;
     @Field(() => String, {nullable:true})
     avatarImage!: string | null;
     @Field(() => Date, {nullable:true})

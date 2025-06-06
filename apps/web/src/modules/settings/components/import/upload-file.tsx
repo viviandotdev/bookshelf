@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
-import { ImportLibraryContext } from './modals/mutli-step-dialog/multi-step-component';
+import { ImportLibraryContext } from '../modals/mutli-step-dialog/multi-step-component';
 import { motion } from 'motion/react';
 import { parseLineWithQuotes, processCSVLine } from '@/lib/utils';
 

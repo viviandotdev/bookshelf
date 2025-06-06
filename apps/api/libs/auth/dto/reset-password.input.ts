@@ -3,12 +3,12 @@ import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class ResetPasswordInput {
-  @IsNotEmpty()
-  @IsString()
-  @Field()
-  token: string;
-  @IsNotEmpty()
-  @IsString()
-  @Field()
-  password: string;
+    @IsNotEmpty()
+    @IsString()
+    @Field()
+    token: string;
+    @IsNotEmpty()
+    @IsString()
+    @Field()
+    password: string;
 }

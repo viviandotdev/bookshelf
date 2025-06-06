@@ -1,21 +1,38 @@
-mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
-  follow(where: $where, value: $value) {
-    id
-  }
-}
-
 mutation UpdateUser($data: UpdateUserInput!) {
   updateUser(data: $data) {
     id
     username
     name
     email
+    avatarImage
   }
 }
 
 mutation UpdateEmail($data: UpdateEmailInput!) {
   updateEmail(data: $data) {
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      location
+      bio
+      name
+      avatarImage
+      emailVerified
+      id
+    }
+  }
+}
+
+mutation UpdatePassword($data: UpdatePasswordInput!) {
+  updatePassword(data: $data) {
     id
     email
   }
+}
+
+mutation SendEmailCode($email: String!) {
+  sendEmailCode(email: $email)
 }

@@ -57,6 +57,7 @@ model User {
     hashedRefreshToken String?
     createdAt          DateTime   @default(now())
     updatedAt          DateTime   @updatedAt
+    passwordUpdatedAt  DateTime   @default(now())
     //  One to Many: one user has many user books
     userBooks          UserBook[]
     //  One to Many: one user has many shelves

@@ -1,5 +1,5 @@
 import { BookCountsByUserIdDocument } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 
 export const bookCountsByUserId = async (userId: string) => {
     const client = getClient();

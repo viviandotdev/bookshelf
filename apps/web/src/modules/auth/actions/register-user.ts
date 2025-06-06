@@ -1,7 +1,7 @@
 "use server"
 import { signIn } from '@/auth';
 import { RegisterDocument, RegisterMutation } from '@/graphql/graphql';
-import { getClient } from '@/lib/apollo-client';
+import { getClient } from '@/lib/apollo';
 import { registerUserSchema } from '@/schemas/auth';
 import { z } from 'zod';
 

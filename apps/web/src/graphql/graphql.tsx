@@ -19,257 +19,6 @@ export type Scalars = {
   Timestamp: { input: any; output: any; }
 };
 
-export type Account = {
-  __typename?: 'Account';
-  access_token?: Maybe<Scalars['String']['output']>;
-  expires_at?: Maybe<Scalars['Int']['output']>;
-  id: Scalars['ID']['output'];
-  id_token?: Maybe<Scalars['String']['output']>;
-  provider: Scalars['String']['output'];
-  providerAccountId: Scalars['String']['output'];
-  refresh_token?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['String']['output']>;
-  session_state?: Maybe<Scalars['String']['output']>;
-  token_type?: Maybe<Scalars['String']['output']>;
-  type: Scalars['String']['output'];
-  user: User;
-  userId: Scalars['String']['output'];
-};
-
-export type AccountAvgAggregate = {
-  __typename?: 'AccountAvgAggregate';
-  expires_at?: Maybe<Scalars['Float']['output']>;
-};
-
-export type AccountCountAggregate = {
-  __typename?: 'AccountCountAggregate';
-  _all: Scalars['Int']['output'];
-  access_token: Scalars['Int']['output'];
-  expires_at: Scalars['Int']['output'];
-  id: Scalars['Int']['output'];
-  id_token: Scalars['Int']['output'];
-  provider: Scalars['Int']['output'];
-  providerAccountId: Scalars['Int']['output'];
-  refresh_token: Scalars['Int']['output'];
-  scope: Scalars['Int']['output'];
-  session_state: Scalars['Int']['output'];
-  token_type: Scalars['Int']['output'];
-  type: Scalars['Int']['output'];
-  userId: Scalars['Int']['output'];
-};
-
-export type AccountCreateManyUserInput = {
-  access_token?: InputMaybe<Scalars['String']['input']>;
-  expires_at?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<Scalars['String']['input']>;
-  provider: Scalars['String']['input'];
-  providerAccountId: Scalars['String']['input'];
-  refresh_token?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['String']['input']>;
-  session_state?: InputMaybe<Scalars['String']['input']>;
-  token_type?: InputMaybe<Scalars['String']['input']>;
-  type: Scalars['String']['input'];
-};
-
-export type AccountCreateManyUserInputEnvelope = {
-  data: Array<AccountCreateManyUserInput>;
-  skipDuplicates?: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-export type AccountCreateNestedManyWithoutUserInput = {
-  connect?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AccountCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<AccountCreateWithoutUserInput>>;
-  createMany?: InputMaybe<AccountCreateManyUserInputEnvelope>;
-};
-
-export type AccountCreateOrConnectWithoutUserInput = {
-  create: AccountCreateWithoutUserInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountCreateWithoutUserInput = {
-  access_token?: InputMaybe<Scalars['String']['input']>;
-  expires_at?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<Scalars['String']['input']>;
-  provider: Scalars['String']['input'];
-  providerAccountId: Scalars['String']['input'];
-  refresh_token?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['String']['input']>;
-  session_state?: InputMaybe<Scalars['String']['input']>;
-  token_type?: InputMaybe<Scalars['String']['input']>;
-  type: Scalars['String']['input'];
-};
-
-export type AccountListRelationFilter = {
-  every?: InputMaybe<AccountWhereInput>;
-  none?: InputMaybe<AccountWhereInput>;
-  some?: InputMaybe<AccountWhereInput>;
-};
-
-export type AccountMaxAggregate = {
-  __typename?: 'AccountMaxAggregate';
-  access_token?: Maybe<Scalars['String']['output']>;
-  expires_at?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  id_token?: Maybe<Scalars['String']['output']>;
-  provider?: Maybe<Scalars['String']['output']>;
-  providerAccountId?: Maybe<Scalars['String']['output']>;
-  refresh_token?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['String']['output']>;
-  session_state?: Maybe<Scalars['String']['output']>;
-  token_type?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  userId?: Maybe<Scalars['String']['output']>;
-};
-
-export type AccountMinAggregate = {
-  __typename?: 'AccountMinAggregate';
-  access_token?: Maybe<Scalars['String']['output']>;
-  expires_at?: Maybe<Scalars['Int']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  id_token?: Maybe<Scalars['String']['output']>;
-  provider?: Maybe<Scalars['String']['output']>;
-  providerAccountId?: Maybe<Scalars['String']['output']>;
-  refresh_token?: Maybe<Scalars['String']['output']>;
-  scope?: Maybe<Scalars['String']['output']>;
-  session_state?: Maybe<Scalars['String']['output']>;
-  token_type?: Maybe<Scalars['String']['output']>;
-  type?: Maybe<Scalars['String']['output']>;
-  userId?: Maybe<Scalars['String']['output']>;
-};
-
-export type AccountOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
-export type AccountProviderProviderAccountIdCompoundUniqueInput = {
-  provider: Scalars['String']['input'];
-  providerAccountId: Scalars['String']['input'];
-};
-
-export type AccountScalarWhereInput = {
-  AND?: InputMaybe<Array<AccountScalarWhereInput>>;
-  NOT?: InputMaybe<Array<AccountScalarWhereInput>>;
-  OR?: InputMaybe<Array<AccountScalarWhereInput>>;
-  access_token?: InputMaybe<StringFilter>;
-  expires_at?: InputMaybe<IntFilter>;
-  id?: InputMaybe<StringFilter>;
-  id_token?: InputMaybe<StringFilter>;
-  provider?: InputMaybe<StringFilter>;
-  providerAccountId?: InputMaybe<StringFilter>;
-  refresh_token?: InputMaybe<StringFilter>;
-  scope?: InputMaybe<StringFilter>;
-  session_state?: InputMaybe<StringFilter>;
-  token_type?: InputMaybe<StringFilter>;
-  type?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
-export type AccountSumAggregate = {
-  __typename?: 'AccountSumAggregate';
-  expires_at?: Maybe<Scalars['Int']['output']>;
-};
-
-export type AccountUpdateManyMutationInput = {
-  access_token?: InputMaybe<Scalars['String']['input']>;
-  expires_at?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<Scalars['String']['input']>;
-  provider?: InputMaybe<Scalars['String']['input']>;
-  providerAccountId?: InputMaybe<Scalars['String']['input']>;
-  refresh_token?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['String']['input']>;
-  session_state?: InputMaybe<Scalars['String']['input']>;
-  token_type?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountUpdateManyWithWhereWithoutUserInput = {
-  data: AccountUpdateManyMutationInput;
-  where: AccountScalarWhereInput;
-};
-
-export type AccountUpdateManyWithoutUserNestedInput = {
-  connect?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<AccountCreateOrConnectWithoutUserInput>>;
-  create?: InputMaybe<Array<AccountCreateWithoutUserInput>>;
-  createMany?: InputMaybe<AccountCreateManyUserInputEnvelope>;
-  delete?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<AccountScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  set?: InputMaybe<Array<AccountWhereUniqueInput>>;
-  update?: InputMaybe<Array<AccountUpdateWithWhereUniqueWithoutUserInput>>;
-  updateMany?: InputMaybe<Array<AccountUpdateManyWithWhereWithoutUserInput>>;
-  upsert?: InputMaybe<Array<AccountUpsertWithWhereUniqueWithoutUserInput>>;
-};
-
-export type AccountUpdateWithWhereUniqueWithoutUserInput = {
-  data: AccountUpdateWithoutUserInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountUpdateWithoutUserInput = {
-  access_token?: InputMaybe<Scalars['String']['input']>;
-  expires_at?: InputMaybe<Scalars['Int']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<Scalars['String']['input']>;
-  provider?: InputMaybe<Scalars['String']['input']>;
-  providerAccountId?: InputMaybe<Scalars['String']['input']>;
-  refresh_token?: InputMaybe<Scalars['String']['input']>;
-  scope?: InputMaybe<Scalars['String']['input']>;
-  session_state?: InputMaybe<Scalars['String']['input']>;
-  token_type?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type AccountUpsertWithWhereUniqueWithoutUserInput = {
-  create: AccountCreateWithoutUserInput;
-  update: AccountUpdateWithoutUserInput;
-  where: AccountWhereUniqueInput;
-};
-
-export type AccountWhereInput = {
-  AND?: InputMaybe<Array<AccountWhereInput>>;
-  NOT?: InputMaybe<Array<AccountWhereInput>>;
-  OR?: InputMaybe<Array<AccountWhereInput>>;
-  access_token?: InputMaybe<StringFilter>;
-  expires_at?: InputMaybe<IntFilter>;
-  id?: InputMaybe<StringFilter>;
-  id_token?: InputMaybe<StringFilter>;
-  provider?: InputMaybe<StringFilter>;
-  providerAccountId?: InputMaybe<StringFilter>;
-  refresh_token?: InputMaybe<StringFilter>;
-  scope?: InputMaybe<StringFilter>;
-  session_state?: InputMaybe<StringFilter>;
-  token_type?: InputMaybe<StringFilter>;
-  type?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserScalarRelationFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
-export type AccountWhereUniqueInput = {
-  AND?: InputMaybe<Array<AccountWhereInput>>;
-  NOT?: InputMaybe<Array<AccountWhereInput>>;
-  OR?: InputMaybe<Array<AccountWhereInput>>;
-  access_token?: InputMaybe<StringFilter>;
-  expires_at?: InputMaybe<IntFilter>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_token?: InputMaybe<StringFilter>;
-  provider?: InputMaybe<StringFilter>;
-  providerAccountId?: InputMaybe<StringFilter>;
-  provider_providerAccountId?: InputMaybe<AccountProviderProviderAccountIdCompoundUniqueInput>;
-  refresh_token?: InputMaybe<StringFilter>;
-  scope?: InputMaybe<StringFilter>;
-  session_state?: InputMaybe<StringFilter>;
-  token_type?: InputMaybe<StringFilter>;
-  type?: InputMaybe<StringFilter>;
-  user?: InputMaybe<UserScalarRelationFilter>;
-  userId?: InputMaybe<StringFilter>;
-};
-
 export type AuthResponse = {
   __typename?: 'AuthResponse';
   accessToken?: Maybe<Scalars['String']['output']>;
@@ -277,7 +26,6 @@ export type AuthResponse = {
   isNewUser?: Maybe<Scalars['Boolean']['output']>;
   refreshToken?: Maybe<Scalars['String']['output']>;
   user: User;
-  verificationToken?: Maybe<Scalars['String']['output']>;
 };
 
 export type Book = {
@@ -951,18 +699,6 @@ export type LogInInput = {
   password?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type MeResponse = {
-  __typename?: 'MeResponse';
-  avatarImage?: Maybe<Scalars['String']['output']>;
-  bio?: Maybe<Scalars['String']['output']>;
-  email?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
-  isOAuth?: Maybe<Scalars['Boolean']['output']>;
-  location?: Maybe<Scalars['String']['output']>;
-  name?: Maybe<Scalars['String']['output']>;
-  username?: Maybe<Scalars['String']['output']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   addBookToShelf: UserBook;
@@ -971,7 +707,6 @@ export type Mutation = {
   createShelf: Shelf;
   createUserBook: UserBook;
   deleteShelf: Shelf;
-  follow: User;
   forgotPassword: Scalars['Boolean']['output'];
   importUserBooks: Scalars['Boolean']['output'];
   login: AuthResponse;
@@ -981,7 +716,9 @@ export type Mutation = {
   removeBookFromShelf: Scalars['Boolean']['output'];
   removeUserBook: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
-  updateEmail: User;
+  sendEmailCode: Scalars['Boolean']['output'];
+  updateEmail: AuthResponse;
+  updatePassword: User;
   updateReadDate: ReadDate;
   updateReadingProgress: ReadingProgress;
   updateShelf: Shelf;
@@ -1020,12 +757,6 @@ export type MutationCreateUserBookArgs = {
 
 export type MutationDeleteShelfArgs = {
   where: ShelfWhereUniqueInput;
-};
-
-
-export type MutationFollowArgs = {
-  value: Scalars['Boolean']['input'];
-  where: UserWhereUniqueInput;
 };
 
 
@@ -1073,8 +804,18 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationSendEmailCodeArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationUpdateEmailArgs = {
   data: UpdateEmailInput;
+};
+
+
+export type MutationUpdatePasswordArgs = {
+  data: UpdatePasswordInput;
 };
 
 
@@ -1160,7 +901,6 @@ export type Query = {
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
   healthCheck: HealthCheck;
-  me: MeResponse;
   readDates: Array<ReadDate>;
   searchMyLibrary: Array<Book>;
   shelves?: Maybe<Array<Shelf>>;
@@ -2055,34 +1795,32 @@ export type UpdateEmailInput = {
   token: Scalars['String']['input'];
 };
 
+export type UpdatePasswordInput = {
+  newPassword?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateUserInput = {
   avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  newPassword?: InputMaybe<Scalars['String']['input']>;
-  password?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
   _count: UserCount;
-  accounts?: Maybe<Array<Account>>;
   avatarImage?: Maybe<Scalars['String']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['Timestamp']['output'];
   email: Scalars['String']['output'];
   emailVerified?: Maybe<Scalars['Timestamp']['output']>;
-  followerCount: Scalars['Float']['output'];
-  followers?: Maybe<Array<User>>;
-  following?: Maybe<Array<User>>;
-  followingCount: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
-  isFollowing: Scalars['Boolean']['output'];
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt: Scalars['Timestamp']['output'];
   shelves?: Maybe<Array<Shelf>>;
   updatedAt: Scalars['Timestamp']['output'];
   userBooks?: Maybe<Array<UserBook>>;
@@ -2645,9 +2383,6 @@ export type UserBooksResponse = {
 
 export type UserCount = {
   __typename?: 'UserCount';
-  accounts: Scalars['Int']['output'];
-  followers: Scalars['Int']['output'];
-  following: Scalars['Int']['output'];
   shelves: Scalars['Int']['output'];
   userBooks: Scalars['Int']['output'];
 };
@@ -2663,20 +2398,9 @@ export type UserCountAggregate = {
   id: Scalars['Int']['output'];
   location: Scalars['Int']['output'];
   name: Scalars['Int']['output'];
+  passwordUpdatedAt: Scalars['Int']['output'];
   updatedAt: Scalars['Int']['output'];
   username: Scalars['Int']['output'];
-};
-
-export type UserCreateNestedManyWithoutFollowersInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowersInput>>;
-  create?: InputMaybe<Array<UserCreateWithoutFollowersInput>>;
-};
-
-export type UserCreateNestedManyWithoutFollowingInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowingInput>>;
-  create?: InputMaybe<Array<UserCreateWithoutFollowingInput>>;
 };
 
 export type UserCreateNestedOneWithoutShelvesInput = {
@@ -2691,16 +2415,6 @@ export type UserCreateNestedOneWithoutUserBooksInput = {
   create?: InputMaybe<UserCreateWithoutUserBooksInput>;
 };
 
-export type UserCreateOrConnectWithoutFollowersInput = {
-  create: UserCreateWithoutFollowersInput;
-  where: UserWhereUniqueInput;
-};
-
-export type UserCreateOrConnectWithoutFollowingInput = {
-  create: UserCreateWithoutFollowingInput;
-  where: UserWhereUniqueInput;
-};
-
 export type UserCreateOrConnectWithoutShelvesInput = {
   create: UserCreateWithoutShelvesInput;
   where: UserWhereUniqueInput;
@@ -2711,86 +2425,38 @@ export type UserCreateOrConnectWithoutUserBooksInput = {
   where: UserWhereUniqueInput;
 };
 
-export type UserCreateWithoutFollowersInput = {
-  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
-  avatarImage?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  email: Scalars['String']['input'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
-  hashedPassword?: InputMaybe<Scalars['String']['input']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserCreateWithoutFollowingInput = {
-  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
-  avatarImage?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  email: Scalars['String']['input'];
-  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
-  hashedPassword?: InputMaybe<Scalars['String']['input']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UserCreateWithoutShelvesInput = {
-  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email: Scalars['String']['input'];
   emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
-  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookCreateNestedManyWithoutUserInput>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserCreateWithoutUserBooksInput = {
-  accounts?: InputMaybe<AccountCreateNestedManyWithoutUserInput>;
   avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email: Scalars['String']['input'];
   emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserCreateNestedManyWithoutFollowingInput>;
-  following?: InputMaybe<UserCreateNestedManyWithoutFollowersInput>;
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   shelves?: InputMaybe<ShelfCreateNestedManyWithoutUserInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserListRelationFilter = {
-  every?: InputMaybe<UserWhereInput>;
-  none?: InputMaybe<UserWhereInput>;
-  some?: InputMaybe<UserWhereInput>;
 };
 
 export type UserMaxAggregate = {
@@ -2803,6 +2469,7 @@ export type UserMaxAggregate = {
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt?: Maybe<Scalars['Timestamp']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
@@ -2817,28 +2484,23 @@ export type UserMinAggregate = {
   id?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
+  passwordUpdatedAt?: Maybe<Scalars['Timestamp']['output']>;
   updatedAt?: Maybe<Scalars['Timestamp']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
 
-export type UserOrderByRelationAggregateInput = {
-  _count?: InputMaybe<SortOrder>;
-};
-
 export type UserOrderByWithRelationInput = {
-  accounts?: InputMaybe<AccountOrderByRelationAggregateInput>;
   avatarImage?: InputMaybe<SortOrderInput>;
   bio?: InputMaybe<SortOrderInput>;
   createdAt?: InputMaybe<SortOrder>;
   email?: InputMaybe<SortOrder>;
   emailVerified?: InputMaybe<SortOrderInput>;
-  followers?: InputMaybe<UserOrderByRelationAggregateInput>;
-  following?: InputMaybe<UserOrderByRelationAggregateInput>;
   hashedPassword?: InputMaybe<SortOrderInput>;
   hashedRefreshToken?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
   location?: InputMaybe<SortOrderInput>;
   name?: InputMaybe<SortOrderInput>;
+  passwordUpdatedAt?: InputMaybe<SortOrder>;
   shelves?: InputMaybe<ShelfOrderByRelationAggregateInput>;
   updatedAt?: InputMaybe<SortOrder>;
   userBooks?: InputMaybe<UserBookOrderByRelationAggregateInput>;
@@ -2848,75 +2510,6 @@ export type UserOrderByWithRelationInput = {
 export type UserScalarRelationFilter = {
   is?: InputMaybe<UserWhereInput>;
   isNot?: InputMaybe<UserWhereInput>;
-};
-
-export type UserScalarWhereInput = {
-  AND?: InputMaybe<Array<UserScalarWhereInput>>;
-  NOT?: InputMaybe<Array<UserScalarWhereInput>>;
-  OR?: InputMaybe<Array<UserScalarWhereInput>>;
-  avatarImage?: InputMaybe<StringFilter>;
-  bio?: InputMaybe<StringFilter>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  email?: InputMaybe<StringFilter>;
-  emailVerified?: InputMaybe<DateTimeFilter>;
-  hashedPassword?: InputMaybe<StringFilter>;
-  hashedRefreshToken?: InputMaybe<StringFilter>;
-  id?: InputMaybe<StringFilter>;
-  location?: InputMaybe<StringFilter>;
-  name?: InputMaybe<StringFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-  username?: InputMaybe<StringFilter>;
-};
-
-export type UserUpdateManyMutationInput = {
-  avatarImage?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  hashedPassword?: InputMaybe<Scalars['String']['input']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserUpdateManyWithWhereWithoutFollowersInput = {
-  data: UserUpdateManyMutationInput;
-  where: UserScalarWhereInput;
-};
-
-export type UserUpdateManyWithWhereWithoutFollowingInput = {
-  data: UserUpdateManyMutationInput;
-  where: UserScalarWhereInput;
-};
-
-export type UserUpdateManyWithoutFollowersNestedInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowersInput>>;
-  create?: InputMaybe<Array<UserCreateWithoutFollowersInput>>;
-  delete?: InputMaybe<Array<UserWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  set?: InputMaybe<Array<UserWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutFollowersInput>>;
-  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutFollowersInput>>;
-  upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutFollowersInput>>;
-};
-
-export type UserUpdateManyWithoutFollowingNestedInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  connectOrCreate?: InputMaybe<Array<UserCreateOrConnectWithoutFollowingInput>>;
-  create?: InputMaybe<Array<UserCreateWithoutFollowingInput>>;
-  delete?: InputMaybe<Array<UserWhereUniqueInput>>;
-  deleteMany?: InputMaybe<Array<UserScalarWhereInput>>;
-  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  set?: InputMaybe<Array<UserWhereUniqueInput>>;
-  update?: InputMaybe<Array<UserUpdateWithWhereUniqueWithoutFollowingInput>>;
-  updateMany?: InputMaybe<Array<UserUpdateManyWithWhereWithoutFollowingInput>>;
-  upsert?: InputMaybe<Array<UserUpsertWithWhereUniqueWithoutFollowingInput>>;
 };
 
 export type UserUpdateOneRequiredWithoutUserBooksNestedInput = {
@@ -2947,102 +2540,38 @@ export type UserUpdateToOneWithWhereWithoutUserBooksInput = {
   where?: InputMaybe<UserWhereInput>;
 };
 
-export type UserUpdateWithWhereUniqueWithoutFollowersInput = {
-  data: UserUpdateWithoutFollowersInput;
-  where: UserWhereUniqueInput;
-};
-
-export type UserUpdateWithWhereUniqueWithoutFollowingInput = {
-  data: UserUpdateWithoutFollowingInput;
-  where: UserWhereUniqueInput;
-};
-
-export type UserUpdateWithoutFollowersInput = {
-  accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
-  avatarImage?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']['input']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserUpdateWithoutFollowingInput = {
-  accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
-  avatarImage?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
-  createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
-  hashedPassword?: InputMaybe<Scalars['String']['input']>;
-  hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
-  updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
-  userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
-  username?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UserUpdateWithoutShelvesInput = {
-  accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
-  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   userBooks?: InputMaybe<UserBookUpdateManyWithoutUserNestedInput>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UserUpdateWithoutUserBooksInput = {
-  accounts?: InputMaybe<AccountUpdateManyWithoutUserNestedInput>;
   avatarImage?: InputMaybe<Scalars['String']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<Scalars['Timestamp']['input']>;
-  followers?: InputMaybe<UserUpdateManyWithoutFollowingNestedInput>;
-  following?: InputMaybe<UserUpdateManyWithoutFollowersNestedInput>;
   hashedPassword?: InputMaybe<Scalars['String']['input']>;
   hashedRefreshToken?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  passwordUpdatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   shelves?: InputMaybe<ShelfUpdateManyWithoutUserNestedInput>;
   updatedAt?: InputMaybe<Scalars['Timestamp']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UserUpsertWithWhereUniqueWithoutFollowersInput = {
-  create: UserCreateWithoutFollowersInput;
-  update: UserUpdateWithoutFollowersInput;
-  where: UserWhereUniqueInput;
-};
-
-export type UserUpsertWithWhereUniqueWithoutFollowingInput = {
-  create: UserCreateWithoutFollowingInput;
-  update: UserUpdateWithoutFollowingInput;
-  where: UserWhereUniqueInput;
 };
 
 export type UserUpsertWithoutShelvesInput = {
@@ -3061,19 +2590,17 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
-  accounts?: InputMaybe<AccountListRelationFilter>;
   avatarImage?: InputMaybe<StringFilter>;
   bio?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<StringFilter>;
   emailVerified?: InputMaybe<DateTimeFilter>;
-  followers?: InputMaybe<UserListRelationFilter>;
-  following?: InputMaybe<UserListRelationFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  passwordUpdatedAt?: InputMaybe<DateTimeFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userBooks?: InputMaybe<UserBookListRelationFilter>;
@@ -3084,19 +2611,17 @@ export type UserWhereUniqueInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
-  accounts?: InputMaybe<AccountListRelationFilter>;
   avatarImage?: InputMaybe<StringFilter>;
   bio?: InputMaybe<StringFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   email?: InputMaybe<Scalars['String']['input']>;
   emailVerified?: InputMaybe<DateTimeFilter>;
-  followers?: InputMaybe<UserListRelationFilter>;
-  following?: InputMaybe<UserListRelationFilter>;
   hashedPassword?: InputMaybe<StringFilter>;
   hashedRefreshToken?: InputMaybe<StringFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   location?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  passwordUpdatedAt?: InputMaybe<DateTimeFilter>;
   shelves?: InputMaybe<ShelfListRelationFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
   userBooks?: InputMaybe<UserBookListRelationFilter>;
@@ -3107,7 +2632,6 @@ export type VerificationTokenCountAggregate = {
   __typename?: 'VerificationTokenCountAggregate';
   _all: Scalars['Int']['output'];
   email: Scalars['Int']['output'];
-  existingEmail: Scalars['Int']['output'];
   expires: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   token: Scalars['Int']['output'];
@@ -3116,7 +2640,6 @@ export type VerificationTokenCountAggregate = {
 export type VerificationTokenMaxAggregate = {
   __typename?: 'VerificationTokenMaxAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3125,7 +2648,6 @@ export type VerificationTokenMaxAggregate = {
 export type VerificationTokenMinAggregate = {
   __typename?: 'VerificationTokenMinAggregate';
   email?: Maybe<Scalars['String']['output']>;
-  existingEmail?: Maybe<Scalars['String']['output']>;
   expires?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
@@ -3220,27 +2742,33 @@ export type UpdateShelfMutationVariables = Exact<{
 
 export type UpdateShelfMutation = { __typename?: 'Mutation', updateShelf: { __typename?: 'Shelf', id: string, name: string, _count: { __typename?: 'ShelfCount', userBooks: number } } };
 
-export type FollowMutationVariables = Exact<{
-  where: UserWhereUniqueInput;
-  value: Scalars['Boolean']['input'];
-}>;
-
-
-export type FollowMutation = { __typename?: 'Mutation', follow: { __typename?: 'User', id: string } };
-
 export type UpdateUserMutationVariables = Exact<{
   data: UpdateUserInput;
 }>;
 
 
-export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username?: string | null, name?: string | null, email: string } };
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', id: string, username?: string | null, name?: string | null, email: string, avatarImage?: string | null } };
 
 export type UpdateEmailMutationVariables = Exact<{
   data: UpdateEmailInput;
 }>;
 
 
-export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'User', id: string, email: string } };
+export type UpdateEmailMutation = { __typename?: 'Mutation', updateEmail: { __typename?: 'AuthResponse', accessToken?: string | null, refreshToken?: string | null, expiresIn?: number | null, user: { __typename?: 'User', email: string, username?: string | null, location?: string | null, bio?: string | null, name?: string | null, avatarImage?: string | null, emailVerified?: any | null, id: string } } };
+
+export type UpdatePasswordMutationVariables = Exact<{
+  data: UpdatePasswordInput;
+}>;
+
+
+export type UpdatePasswordMutation = { __typename?: 'Mutation', updatePassword: { __typename?: 'User', id: string, email: string } };
+
+export type SendEmailCodeMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendEmailCodeMutation = { __typename?: 'Mutation', sendEmailCode: boolean };
 
 export type CreateUserBookMutationVariables = Exact<{
   data: BookDataInput;
@@ -3296,11 +2824,6 @@ export type RemoveUserBookFromShelfMutationVariables = Exact<{
 
 
 export type RemoveUserBookFromShelfMutation = { __typename?: 'Mutation', removeBookFromShelf: boolean };
-
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MeQuery = { __typename?: 'Query', me: { __typename?: 'MeResponse', username?: string | null, email?: string | null, name?: string | null, location?: string | null, bio?: string | null, avatarImage?: string | null } };
 
 export type FindBookByIdentifierQueryVariables = Exact<{
   identifier: IdentifierCreateInput;
@@ -3369,7 +2892,7 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, avatarImage?: string | null, location?: string | null, bio?: string | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, username?: string | null, email: string, name?: string | null, avatarImage?: string | null, location?: string | null, bio?: string | null, passwordUpdatedAt: any } | null };
 
 export type UserBookQueryVariables = Exact<{
   where: BookWhereUniqueInput;
@@ -3844,40 +3367,6 @@ export function useUpdateShelfMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateShelfMutationHookResult = ReturnType<typeof useUpdateShelfMutation>;
 export type UpdateShelfMutationResult = Apollo.MutationResult<UpdateShelfMutation>;
 export type UpdateShelfMutationOptions = Apollo.BaseMutationOptions<UpdateShelfMutation, UpdateShelfMutationVariables>;
-export const FollowDocument = gql`
-    mutation Follow($where: UserWhereUniqueInput!, $value: Boolean!) {
-  follow(where: $where, value: $value) {
-    id
-  }
-}
-    `;
-export type FollowMutationFn = Apollo.MutationFunction<FollowMutation, FollowMutationVariables>;
-
-/**
- * __useFollowMutation__
- *
- * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useFollowMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [followMutation, { data, loading, error }] = useFollowMutation({
- *   variables: {
- *      where: // value for 'where'
- *      value: // value for 'value'
- *   },
- * });
- */
-export function useFollowMutation(baseOptions?: Apollo.MutationHookOptions<FollowMutation, FollowMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<FollowMutation, FollowMutationVariables>(FollowDocument, options);
-      }
-export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>;
-export type FollowMutationResult = Apollo.MutationResult<FollowMutation>;
-export type FollowMutationOptions = Apollo.BaseMutationOptions<FollowMutation, FollowMutationVariables>;
 export const UpdateUserDocument = gql`
     mutation UpdateUser($data: UpdateUserInput!) {
   updateUser(data: $data) {
@@ -3885,6 +3374,7 @@ export const UpdateUserDocument = gql`
     username
     name
     email
+    avatarImage
   }
 }
     `;
@@ -3917,8 +3407,19 @@ export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMut
 export const UpdateEmailDocument = gql`
     mutation UpdateEmail($data: UpdateEmailInput!) {
   updateEmail(data: $data) {
-    id
-    email
+    accessToken
+    refreshToken
+    expiresIn
+    user {
+      email
+      username
+      location
+      bio
+      name
+      avatarImage
+      emailVerified
+      id
+    }
   }
 }
     `;
@@ -3948,6 +3449,71 @@ export function useUpdateEmailMutation(baseOptions?: Apollo.MutationHookOptions<
 export type UpdateEmailMutationHookResult = ReturnType<typeof useUpdateEmailMutation>;
 export type UpdateEmailMutationResult = Apollo.MutationResult<UpdateEmailMutation>;
 export type UpdateEmailMutationOptions = Apollo.BaseMutationOptions<UpdateEmailMutation, UpdateEmailMutationVariables>;
+export const UpdatePasswordDocument = gql`
+    mutation UpdatePassword($data: UpdatePasswordInput!) {
+  updatePassword(data: $data) {
+    id
+    email
+  }
+}
+    `;
+export type UpdatePasswordMutationFn = Apollo.MutationFunction<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
+
+/**
+ * __useUpdatePasswordMutation__
+ *
+ * To run a mutation, you first call `useUpdatePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePasswordMutation, { data, loading, error }] = useUpdatePasswordMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdatePasswordMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePasswordMutation, UpdatePasswordMutationVariables>(UpdatePasswordDocument, options);
+      }
+export type UpdatePasswordMutationHookResult = ReturnType<typeof useUpdatePasswordMutation>;
+export type UpdatePasswordMutationResult = Apollo.MutationResult<UpdatePasswordMutation>;
+export type UpdatePasswordMutationOptions = Apollo.BaseMutationOptions<UpdatePasswordMutation, UpdatePasswordMutationVariables>;
+export const SendEmailCodeDocument = gql`
+    mutation SendEmailCode($email: String!) {
+  sendEmailCode(email: $email)
+}
+    `;
+export type SendEmailCodeMutationFn = Apollo.MutationFunction<SendEmailCodeMutation, SendEmailCodeMutationVariables>;
+
+/**
+ * __useSendEmailCodeMutation__
+ *
+ * To run a mutation, you first call `useSendEmailCodeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendEmailCodeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendEmailCodeMutation, { data, loading, error }] = useSendEmailCodeMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useSendEmailCodeMutation(baseOptions?: Apollo.MutationHookOptions<SendEmailCodeMutation, SendEmailCodeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendEmailCodeMutation, SendEmailCodeMutationVariables>(SendEmailCodeDocument, options);
+      }
+export type SendEmailCodeMutationHookResult = ReturnType<typeof useSendEmailCodeMutation>;
+export type SendEmailCodeMutationResult = Apollo.MutationResult<SendEmailCodeMutation>;
+export type SendEmailCodeMutationOptions = Apollo.BaseMutationOptions<SendEmailCodeMutation, SendEmailCodeMutationVariables>;
 export const CreateUserBookDocument = gql`
     mutation CreateUserBook($data: BookDataInput!) {
   createUserBook(data: $data) {
@@ -4215,50 +3781,6 @@ export function useRemoveUserBookFromShelfMutation(baseOptions?: Apollo.Mutation
 export type RemoveUserBookFromShelfMutationHookResult = ReturnType<typeof useRemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationResult = Apollo.MutationResult<RemoveUserBookFromShelfMutation>;
 export type RemoveUserBookFromShelfMutationOptions = Apollo.BaseMutationOptions<RemoveUserBookFromShelfMutation, RemoveUserBookFromShelfMutationVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    username
-    email
-    name
-    location
-    bio
-    avatarImage
-  }
-}
-    `;
-
-/**
- * __useMeQuery__
- *
- * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMeQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
-export function useMeSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
-export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
-export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
-export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const FindBookByIdentifierDocument = gql`
     query FindBookByIdentifier($identifier: IdentifierCreateInput!) {
   findBookByIdentifier(identifier: $identifier) {
@@ -4789,6 +4311,7 @@ export const UserDocument = gql`
     avatarImage
     location
     bio
+    passwordUpdatedAt
   }
 }
     `;
