@@ -32,85 +32,33 @@ const REFRESH_AUTHENTICATION_MUTATION = `
     }
  }
 `
-
-const executeTokenRefresh = async (refreshToken: string, update: any): Promise<string> => {
-    try {
-        const response = await fetch('http://localhost:4000/graphql', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${refreshToken}`
-            },
-            body: JSON.stringify({
-                operationName: "RefreshAuth",
-                query: REFRESH_AUTHENTICATION_MUTATION,
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to refresh token');
-        }
-
-        const { data } = await response.json();
-        const refreshResult = data?.refreshAuth
-
-        const { __typename } = refreshResult;
-
-        if (__typename === "ForbiddenError") {
-            signOut();
-            throw new Error("Refresh token is invalid or expired");
-        }
-
-
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken, expiresIn } = refreshResult;
-
-        if (!newAccessToken || !newRefreshToken) {
-            throw new Error('Missing tokens in refresh response');
-        }
-
-        // Update the session access tokens and the expiration of the new access token
-        update({
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
-            expiresIn: expiresIn,
-        });
-
-
-        return newAccessToken;
-
-
-    } finally {
-        refreshPromise = null;
-    }
-};
-
 export function ApolloClientProvider({ children }: React.PropsWithChildren) {
-    const { data, update } = useSession();
+    const { data: session, update } = useSession();
 
     const makeClient = useCallback(() => {
         const authMiddleware = setContext(async (operation, { headers }) => {
-            if (!data?.user.accessToken || !data?.user.refreshToken) {
+            if (!session?.user || !session?.user.accessToken || !session?.user.refreshToken) {
                 signOut();
                 return operation;
             }
 
             const bufferInMinutes = 2;
             const isExpiringSoon =
-                data.user?.expiresIn &&
-                Date.now() >= (data.user?.expiresIn) * 1000 - bufferInMinutes * 60 * 1000;
+                session.user?.expiresIn &&
+                Date.now() >= (session.user?.expiresIn) * 1000 - bufferInMinutes * 60 * 1000;
 
             if (!isExpiringSoon) {
                 return {
                     headers: {
                         ...headers,
-                        authorization: `Bearer ${data?.user.accessToken}`,
+                        authorization: `Bearer ${session?.user.accessToken}`,
                     },
                 };
             }
 
             // If there's already a refresh in progress, wait for it
             if (!refreshPromise) {
-                refreshPromise = executeTokenRefresh(data.user.refreshToken, update)
+                refreshPromise = executeTokenRefresh(session.user.refreshToken)
                     .finally(() => {
                         // could not generate refresh token sign out user
                         refreshPromise = null;
@@ -130,7 +78,64 @@ export function ApolloClientProvider({ children }: React.PropsWithChildren) {
             cache: new InMemoryCache(),
             link: from([authMiddleware, httpLink]),
         });
-    }, [data, update]);
+    }, [session, update]);
+
+
+
+    const executeTokenRefresh = async (refreshToken: string): Promise<string> => {
+        try {
+
+            const response = await fetch('http://localhost:4000/graphql', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${refreshToken}`
+                },
+                body: JSON.stringify({
+                    operationName: "RefreshAuth",
+                    query: REFRESH_AUTHENTICATION_MUTATION,
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to refresh token');
+            }
+
+            const { data } = await response.json();
+            const refreshResult = data?.refreshAuth
+
+            const { __typename } = refreshResult;
+
+            if (__typename === "ForbiddenError") {
+                signOut();
+                throw new Error("Refresh token is invalid or expired");
+            }
+
+
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken, expiresIn } = refreshResult;
+
+            if (!newAccessToken || !newRefreshToken) {
+                throw new Error('Missing tokens in refresh response');
+            }
+
+            // Update the session access tokens and the expiration of the new access token
+            update({
+                user: {
+                    ...session?.user,
+                    accessToken: newAccessToken,
+                    refreshToken: newRefreshToken,
+                    expiresIn: expiresIn,
+                }
+
+            });
+
+            return newAccessToken;
+
+        } finally {
+            refreshPromise = null;
+        }
+    };
+
 
     return (
         <ApolloNextAppProvider makeClient={makeClient}>
