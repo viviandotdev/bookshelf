@@ -7,16 +7,17 @@ import ViewFilterSortSection from '../sections/view-filter-sort-section';
 export default async function MarketingTemplate() {
     return (
         <section className='relative z-0 pt-20'>
-            <div className='container flex flex-col items-center gap-4 pb-28 text-center'>
+            <div className=''>
                 <HeroSection
                     title='Organize and track your favorite books'
                     ctaText='Sign up now'
+                    subText='Your personal reading companion'
                 />
             </div>
             <div className='pb-12'>
                 <FeaturesSection />
             </div>
-            <div className='flex flex-col items-center gap-12 p-4 pb-28 pt-12'>
+            <div className='flex flex-col items-center gap-12 p-10 pb-28 pt-12'>
                 <ViewFilterSortSection />
             </div>
             <FooterSection />

@@ -61,7 +61,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
                     onKeyDown={handleKeyPress}
                     onChange={(e) => setSearch(e.target.value)}
                     className='pl-10 pr-10 focus-visible:ring-beige-700'
-                    placeholder='Search Books...'
+                    placeholder='Search Library...'
                     type='search'
                 />
                 {search && (
