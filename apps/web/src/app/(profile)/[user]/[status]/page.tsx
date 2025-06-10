@@ -1,7 +1,7 @@
 import { Book, Reading_Status } from '@/graphql/graphql';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import { BookData } from '@/modules/bookshelves/types';
-import Hit from '@/modules/search/components/hit';
+import Hit from '@/modules/search/components/search-hit';
 import React from 'react';
 
 interface StatusPageProps {

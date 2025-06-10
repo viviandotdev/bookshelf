@@ -1,10 +1,8 @@
-import { auth, signOut } from '@/auth';
 import { Reading_Status, SortOrder } from '@/graphql/graphql';
 import { getCurrentUser } from '@/lib/auth';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
 import HomeTemplate from '@/modules/home/templates';
 import { bookCountsByUserId } from '@/modules/profile/actions/bookCountsByUserId';
-import { redirect } from 'next/navigation';
 import React from 'react';
 
 interface DashboardPageProps { }

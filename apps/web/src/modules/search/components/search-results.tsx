@@ -2,11 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { BookData } from '@/modules/bookshelves/types';
-import Hit from './hit';
 import { SearchX } from 'lucide-react';
 import { searchBooks } from '../api/searchBooks';
 import { RESULTS_PAGE_SIZE } from '@/lib/constants';
 import { Icons } from '@/components/icons';
+import { useUserLibraryGoogleIdsQuery } from '@/graphql/graphql';
+import SearchHit from './search-hit';
 
 interface SearchResultsProps {
     initialHits: BookData[];
@@ -37,6 +38,22 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     const [hasMore, setHasMore] = useState(hits.length < totalItems);
     const observer = useRef<IntersectionObserver | null>(null);
     const lastHitRef = useRef<HTMLLIElement>(null);
+
+    const { data: googleIdsData, loading: googleIdsLoading } = useUserLibraryGoogleIdsQuery({ fetchPolicy: 'network-only' });
+    const userGoogleIds = googleIdsData?.userLibraryGoogleIds ?? [];
+
+    // Filter initialHits only once on mount
+    useEffect(() => {
+        if (!googleIdsLoading) {
+            setHits(
+                initialHits.filter(hit => {
+                    const googleId = hit.identifiers?.find(id => id.source === 'GOOGLE')?.sourceId;
+                    return googleId && !userGoogleIds.includes(googleId);
+                })
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [googleIdsLoading]);
 
     useEffect(() => {
         observer.current = new IntersectionObserver(
@@ -69,9 +86,14 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
 
         try {
             const { hits: newHits } = await searchBooks(searchQuery, field, offset);
-            setHits(prev => [...prev, ...newHits]);
+            // Filter new hits before adding
+            const filteredNewHits = newHits.filter(hit => {
+                const googleId = hit.identifiers?.find(id => id.source === 'GOOGLE')?.sourceId;
+                return googleId && !userGoogleIds.includes(googleId);
+            });
+            setHits(prev => [...prev, ...filteredNewHits]);
             setPage(nextPage);
-            setHasMore(hits.length + newHits.length < totalItems);
+            setHasMore(hits.length + filteredNewHits.length < totalItems);
         } catch (error) {
             console.error('Error loading more results:', error);
         } finally {
@@ -82,6 +104,13 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
     if (!hits || hits.length === 0) {
         return <NoResults />;
     }
+    if (googleIdsLoading) {
+        return (
+            <div className="flex justify-center items-center py-8">
+                <Icons.spinner className='h-8 w-8 animate-spin' />
+            </div>
+        );
+    }
 
     return (
         <div className="w-full">
@@ -91,15 +120,10 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                         key={index}
                         ref={index === hits.length - 1 ? lastHitRef : undefined}
                     >
-                        <Hit hit={hit} />
+                        <SearchHit hit={hit} />
                     </li>
                 ))}
             </ul>
-            {loading && (
-                <div className="flex justify-center items-center py-8">
-                    <Icons.spinner className='h-8 w-8 animate-spin' />
-                </div>
-            )}
         </div>
     );
 };

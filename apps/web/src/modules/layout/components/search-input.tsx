@@ -26,8 +26,10 @@ export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
                 }
                 replace(`${pathname}?${params.toString()}`);
                 refresh();
+                setSearch('');
             } else {
                 linkRef.current.click();
+                setSearch('');
             }
         }
     };
@@ -60,8 +62,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({ }) => {
                     value={search}
                     onKeyDown={handleKeyPress}
                     onChange={(e) => setSearch(e.target.value)}
-                    className='pl-10 pr-10 focus-visible:ring-beige-700'
-                    placeholder='Search Library...'
+                    className='pl-10 pr-10 focus-visible:ring-beige-700 bg-white border border-gray-200 shadow-xs'
+                    placeholder='Search Online...'
                     type='search'
                 />
                 {search && (

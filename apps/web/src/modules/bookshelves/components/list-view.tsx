@@ -10,7 +10,6 @@ import {
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
 import { NetworkStatus } from '@apollo/client';
 import useLoadBooks from '../queries/use-load-books';
-import useShelfStore from '@/stores/use-shelf-store';
 import ListCard from './list-card';
 
 interface ListViewProps { }

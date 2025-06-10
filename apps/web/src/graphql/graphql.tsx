@@ -906,6 +906,7 @@ export type Query = {
   shelves?: Maybe<Array<Shelf>>;
   user?: Maybe<User>;
   userBook?: Maybe<UserBook>;
+  userLibraryGoogleIds: Array<Scalars['String']['output']>;
 };
 
 
@@ -2775,7 +2776,7 @@ export type CreateUserBookMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserBookMutation = { __typename?: 'Mutation', createUserBook: { __typename?: 'UserBook', status: Reading_Status, id: string, book: { __typename?: 'Book', title: string } } };
+export type CreateUserBookMutation = { __typename?: 'Mutation', createUserBook: { __typename?: 'UserBook', status: Reading_Status, id: string, book: { __typename?: 'Book', slug: string, title: string } } };
 
 export type UpdateUserBookMutationVariables = Exact<{
   data: UserBookUpdateInput;
@@ -2801,13 +2802,6 @@ export type ImportUserBooksMutationVariables = Exact<{
 
 
 export type ImportUserBooksMutation = { __typename?: 'Mutation', importUserBooks: boolean };
-
-export type UpdateUserBookOrderMutationVariables = Exact<{
-  data: UserBookUpdateOrderInput;
-}>;
-
-
-export type UpdateUserBookOrderMutation = { __typename?: 'Mutation', updateUserBookOrder: Array<{ __typename?: 'UserBook', id: string, order: number }> };
 
 export type AddUserBookToShelfMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
@@ -2909,7 +2903,7 @@ export type GetUserBooksQueryVariables = Exact<{
 }>;
 
 
-export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, order: number, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number } }> | null } };
+export type GetUserBooksQuery = { __typename?: 'Query', getUserBooks: { __typename?: 'UserBooksResponse', hasMore: boolean, totalBooks: number, userBooks?: Array<{ __typename?: 'UserBook', id: string, userId: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, user: { __typename?: 'User', id: string }, book: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, yearPublished?: string | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', score: number, source: Source }> | null }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string } }> | null, _count: { __typename?: 'UserBookCount', shelves: number } }> | null } };
 
 export type CountUserBooksQueryVariables = Exact<{
   where?: InputMaybe<UserBookWhereInput>;
@@ -2924,6 +2918,11 @@ export type BookCountsByUserIdQueryVariables = Exact<{
 
 
 export type BookCountsByUserIdQuery = { __typename?: 'Query', bookCountsByUserId: { __typename?: 'BookCountsResponse', wantsToReadCount: number, readingCount: number, finishedCount: number, upNextCount: number } };
+
+export type UserLibraryGoogleIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UserLibraryGoogleIdsQuery = { __typename?: 'Query', userLibraryGoogleIds: Array<string> };
 
 
 export const LoginDocument = gql`
@@ -3520,6 +3519,7 @@ export const CreateUserBookDocument = gql`
     status
     id
     book {
+      slug
       title
     }
   }
@@ -3680,40 +3680,6 @@ export function useImportUserBooksMutation(baseOptions?: Apollo.MutationHookOpti
 export type ImportUserBooksMutationHookResult = ReturnType<typeof useImportUserBooksMutation>;
 export type ImportUserBooksMutationResult = Apollo.MutationResult<ImportUserBooksMutation>;
 export type ImportUserBooksMutationOptions = Apollo.BaseMutationOptions<ImportUserBooksMutation, ImportUserBooksMutationVariables>;
-export const UpdateUserBookOrderDocument = gql`
-    mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
-  updateUserBookOrder(data: $data) {
-    id
-    order
-  }
-}
-    `;
-export type UpdateUserBookOrderMutationFn = Apollo.MutationFunction<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
-
-/**
- * __useUpdateUserBookOrderMutation__
- *
- * To run a mutation, you first call `useUpdateUserBookOrderMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateUserBookOrderMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateUserBookOrderMutation, { data, loading, error }] = useUpdateUserBookOrderMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useUpdateUserBookOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>(UpdateUserBookOrderDocument, options);
-      }
-export type UpdateUserBookOrderMutationHookResult = ReturnType<typeof useUpdateUserBookOrderMutation>;
-export type UpdateUserBookOrderMutationResult = Apollo.MutationResult<UpdateUserBookOrderMutation>;
-export type UpdateUserBookOrderMutationOptions = Apollo.BaseMutationOptions<UpdateUserBookOrderMutation, UpdateUserBookOrderMutationVariables>;
 export const AddUserBookToShelfDocument = gql`
     mutation AddUserBookToShelf($where: UserBookWhereUniqueInput!, $shelf: String!) {
   addBookToShelf(where: $where, shelf: $shelf) {
@@ -4454,7 +4420,6 @@ export const GetUserBooksDocument = gql`
       dateAdded
       createdAt
       updatedAt
-      order
       shelves {
         shelf {
           id
@@ -4587,3 +4552,40 @@ export type BookCountsByUserIdQueryHookResult = ReturnType<typeof useBookCountsB
 export type BookCountsByUserIdLazyQueryHookResult = ReturnType<typeof useBookCountsByUserIdLazyQuery>;
 export type BookCountsByUserIdSuspenseQueryHookResult = ReturnType<typeof useBookCountsByUserIdSuspenseQuery>;
 export type BookCountsByUserIdQueryResult = Apollo.QueryResult<BookCountsByUserIdQuery, BookCountsByUserIdQueryVariables>;
+export const UserLibraryGoogleIdsDocument = gql`
+    query UserLibraryGoogleIds {
+  userLibraryGoogleIds
+}
+    `;
+
+/**
+ * __useUserLibraryGoogleIdsQuery__
+ *
+ * To run a query within a React component, call `useUserLibraryGoogleIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserLibraryGoogleIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserLibraryGoogleIdsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUserLibraryGoogleIdsQuery(baseOptions?: Apollo.QueryHookOptions<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>(UserLibraryGoogleIdsDocument, options);
+      }
+export function useUserLibraryGoogleIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>(UserLibraryGoogleIdsDocument, options);
+        }
+export function useUserLibraryGoogleIdsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>(UserLibraryGoogleIdsDocument, options);
+        }
+export type UserLibraryGoogleIdsQueryHookResult = ReturnType<typeof useUserLibraryGoogleIdsQuery>;
+export type UserLibraryGoogleIdsLazyQueryHookResult = ReturnType<typeof useUserLibraryGoogleIdsLazyQuery>;
+export type UserLibraryGoogleIdsSuspenseQueryHookResult = ReturnType<typeof useUserLibraryGoogleIdsSuspenseQuery>;
+export type UserLibraryGoogleIdsQueryResult = Apollo.QueryResult<UserLibraryGoogleIdsQuery, UserLibraryGoogleIdsQueryVariables>;

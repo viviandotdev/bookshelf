@@ -1,7 +1,6 @@
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { BOOKS_PAGE_SIZE } from '@/lib/constants';
-import { buildSortQuery } from '@/lib/utils';
 
 const useBuildQuery = () => {
     const searchParams = useSearchParams();
@@ -16,6 +15,25 @@ const useBuildQuery = () => {
             shelf: searchParams?.get('shelf') ?? 'All Books',
             owned: searchParams?.get('owned') ?? '',
             favorites: searchParams?.get('favorites') ?? '',
+        };
+    };
+
+    const buildSortQuery = (sortParam: string) => {
+        const [sortBy, sortOrder] = sortParam.split('.');
+
+        if (sortBy == 'title' || sortBy == 'author') {
+            return {
+                orderBy: {
+                    book: {
+                        [sortBy]: sortOrder,
+                    },
+                },
+            };
+        }
+        return {
+            orderBy: {
+                [sortBy]: sortOrder,
+            },
         };
     };
 

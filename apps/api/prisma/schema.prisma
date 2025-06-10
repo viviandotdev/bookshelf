@@ -140,7 +140,6 @@ model UserBook {
     createdAt DateTime          @default(now())
     updatedAt DateTime          @updatedAt
     shelves   UserBookShelves[]
-    order     Int               @default(autoincrement())
 
     dateAdded DateTime
     readDates ReadDate[]

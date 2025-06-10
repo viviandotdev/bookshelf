@@ -79,7 +79,6 @@ query GetUserBooks(
       dateAdded
       createdAt
       updatedAt
-      order
       shelves {
         shelf {
           id
@@ -106,4 +105,8 @@ query BookCountsByUserId($userId: String!) {
     finishedCount
     upNextCount
   }
+}
+
+query UserLibraryGoogleIds {
+  userLibraryGoogleIds
 }

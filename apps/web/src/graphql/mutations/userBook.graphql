@@ -3,6 +3,7 @@ mutation CreateUserBook($data: BookDataInput!) {
     status
     id
     book {
+      slug
       title
     }
   }
@@ -58,13 +59,6 @@ mutation ImportUserBooks(
     ownedShelf: $ownedShelf
     favoritesShelf: $favoritesShelf
   )
-}
-
-mutation UpdateUserBookOrder($data: UserBookUpdateOrderInput!) {
-  updateUserBookOrder(data: $data) {
-    id
-    order
-  }
 }
 
 mutation AddUserBookToShelf(

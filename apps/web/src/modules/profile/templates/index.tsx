@@ -45,11 +45,11 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
             children: <MyShelves username={profileUser.username} shelves={shelves} />,
             id: 'shelves',
         },
-        {
-            label: 'Goals',
-            children: <div>Goals</div>,
-            id: 'goals',
-        },
+        // {
+        //     label: 'Goals',
+        //     children: <div>Goals</div>,
+        //     id: 'goals',
+        // },
     ];
     return (
         <div className='mx-auto max-w-7xl overflow-x-auto px-12'>

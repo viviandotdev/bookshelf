@@ -4,10 +4,11 @@ import {
     BooksByShelfQuery,
 } from '@/graphql/graphql';
 import ShelfTemplate from '@/modules/profile/templates/shelf-template';
-import Hit from '@/modules/search/components/hit';
+import Hit from '@/modules/search/components/search-hit';
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { query } from '@/lib/apollo';
+import BookCard from '@/modules/profile/components/book-card';
 
 interface ShelfPageProps {
     params: { slug: string; user: string };
@@ -37,7 +38,7 @@ const ShelfPage = async ({ params }: ShelfPageProps) => {
                     </div>
                     <ul className='mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
                         {data?.booksByShelf?.userBooks?.map((hit, index) => (
-                            <Hit key={index} hit={hit.userBook.book as Book} />
+                            <BookCard key={index} hit={hit.userBook.book as Book} />
                         ))}
                     </ul>
                 </main>

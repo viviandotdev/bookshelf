@@ -91,7 +91,7 @@ const ShelfContainer: React.FC<ShelfContainerProps> = ({
                                     }}
                                     className={`my-3 mr-4 cursor-pointer items-center justify-center rounded-md border border-gray-200 bg-white text-black shadow-xs transition duration-300 hover:-translate-y-0.5 hover:border-beige-700 hover:bg-beige-100`}
                                 >
-                                    <span className='sr-only'>Edit Shelf</span>
+                                    <span className='sr-only'>Add shelf</span>
                                     <div className='flex gap-2'>
                                         <div className='flex items-center justify-center'>
                                             <Plus className={`h-4 w-4 `} />

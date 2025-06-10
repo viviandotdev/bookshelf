@@ -29,7 +29,7 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     const searchParams = useSearchParams();
     const updateSelected = useShelfStore((state) => state.updateSelected);
     const createQueryString = useCreateQueryString();
-    const selectedShelfSlug = searchParams?.get('shelf');
+    const selectedShelfSlug = searchParams?.get('shelf') ?? 'All Books';
     const handleClick = useCallback(() => {
         updateSelected(shelf.name!);
         startTransition(() => {

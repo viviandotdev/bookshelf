@@ -4,9 +4,10 @@ import {
     Reading_Status,
     UserBook,
 } from '@/graphql/graphql';
-import Hit from '@/modules/search/components/hit';
+import Hit from '@/modules/search/components/search-hit';
 import Link from 'next/link';
 import { Icons } from '@/components/icons';
+import BookCard from './book-card';
 
 interface LibraryProps {
     currentlyReading: UserBook[];
@@ -48,7 +49,7 @@ const Section: React.FC<{
 
                 <ul className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
                     {books.slice(0, 6).map((hit, index) => (
-                        <Hit key={index} hit={hit.book} />
+                        <BookCard key={index} hit={hit.book} />
                     ))}
                 </ul>
             </section>

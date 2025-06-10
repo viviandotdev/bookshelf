@@ -5,7 +5,6 @@ import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
 import { Resend } from 'resend';
 import { ConfigService } from '@nestjs/config';
-import { render } from '@react-email/components';
 import { Prisma } from '@prisma/client';
 
 import { UserBookService } from './user-book.service';
@@ -21,12 +20,10 @@ import {
     UserBookWhereUniqueInput,
 } from '../../src/generated-db-types';
 import { UserBookUpdateInput } from './models/user-book-update.input';
-import { UserBookUpdateOrderInput } from './models/user-book-update-order.input';
 import { UserBooksResponse } from './models/user-books.response';
 import { BookCountsResponse } from './models/book-counts.response';
 import { BookDataInput } from 'libs/book/dto/book-data.input';
 
-import ImportSummaryEmail from '../../email/import-result';
 import {
     buildBook,
     generateSlug,
@@ -92,7 +89,7 @@ export class UserBookResolver {
                 status: READING_STATUS.WANT_TO_READ,
                 dateAdded: new Date(),
             },
-            include: { book: { select: { id: true, title: true } } },
+            include: { book: { select: { id: true, title: true, slug: true } } },
         };
         return this.prisma.userBook.create(createUserBookArgs);
     }
@@ -158,14 +155,6 @@ export class UserBookResolver {
         });
     }
 
-    @UseGuards(AccessTokenGuard)
-    @Mutation(() => [UserBook])
-    updateUserBookOrder(
-        @Args('data') data: UserBookUpdateOrderInput,
-        @CurrentUser() user: JwtPayload,
-    ) {
-        return this.userBookService.updateOrder(data.items, user.userId);
-    }
     @UseGuards(AccessTokenGuard)
     @Mutation(() => Boolean)
     async importUserBooks(
@@ -299,5 +288,12 @@ export class UserBookResolver {
             ]);
 
         return { wantsToReadCount, readingCount, finishedCount, upNextCount };
+    }
+
+    // user-book.resolver.ts
+    @UseGuards(AccessTokenGuard)
+    @Query(() => [String], { name: 'userLibraryGoogleIds' })
+    async userLibraryGoogleIds(@CurrentUser() user: JwtPayload) {
+        return this.userBookService.getUserLibraryGoogleIds(user.userId);
     }
 }

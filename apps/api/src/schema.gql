@@ -161,13 +161,6 @@ input BookDataInput {
   yearPublished: String
 }
 
-input BookItemInput {
-  id: String!
-  order: Float!
-  status: String!
-  title: String!
-}
-
 type BookMaxAggregate {
   id: String
   pageCount: Int
@@ -688,7 +681,6 @@ type Mutation {
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
-  updateUserBookOrder(data: UserBookUpdateOrderInput!): [UserBook!]!
 }
 
 enum NullsOrder {
@@ -738,6 +730,7 @@ type Query {
   shelves: [Shelf!]
   user(where: UserWhereUniqueInput!): User
   userBook(where: BookWhereUniqueInput!): UserBook
+  userLibraryGoogleIds: [String!]!
 }
 
 enum QueryMode {
@@ -2019,10 +2012,6 @@ input UserBookUpdateOneRequiredWithoutShelvesNestedInput {
   create: UserBookCreateWithoutShelvesInput
   update: UserBookUpdateToOneWithWhereWithoutShelvesInput
   upsert: UserBookUpsertWithoutShelvesInput
-}
-
-input UserBookUpdateOrderInput {
-  items: [BookItemInput!]
 }
 
 input UserBookUpdateToOneWithWhereWithoutShelvesInput {

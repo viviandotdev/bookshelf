@@ -28,9 +28,15 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
             });
         }
     };
-
+    const { page, status, sort, shelf, owned, favorites } = {
+        page: searchParams?.get('page') ?? '1',
+        status: searchParams?.get('status') ?? 'All Status',
+        sort: searchParams?.get('sort') ?? 'dateAdded.desc',
+        shelf: searchParams?.get('shelf') ?? 'All Books',
+        owned: searchParams?.get('owned') ?? '',
+        favorites: searchParams?.get('favorites') ?? '',
+    };
     useEffect(() => {
-        const shelf = searchParams?.get('shelf');
         if (shelf) {
             updateSelected(shelf);
         } else {
@@ -64,7 +70,7 @@ export default function BookshelvesTemplate({ }: BookshelvesTemplateProps) {
                                     <SortingOptions selections={sortingSelects} />
                                 </div>
 
-                                {searchParams?.get('shelf') !== "All Books" && searchParams?.get('shelf') !== "Unshelved" && (
+                                {shelf !== "All Books" && shelf !== "Unshelved" && (
                                     <Button
                                         onClick={editShelf}
                                         size={'sm'}

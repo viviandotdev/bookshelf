@@ -80,26 +80,6 @@ export const convertTitleToUnderscore = (title: string) => {
         .replace(/\s+/g, '_');
 };
 
-export const buildSortQuery = (sortParam: string) => {
-    const sortBy = split('.', sortParam)[0];
-    const sortOrder = split('.', sortParam)[1];
-
-    if (sortBy == 'title' || sortBy == 'author') {
-        return {
-            orderBy: {
-                book: {
-                    [sortBy]: sortOrder,
-                },
-            },
-        };
-    }
-    return {
-        orderBy: {
-            [sortBy]: sortOrder,
-        },
-    };
-};
-
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
@@ -382,3 +362,4 @@ export type GoodreadsBookKeys =
     | 'Spoiler'
     | 'Title'
     | 'Year Published';
+

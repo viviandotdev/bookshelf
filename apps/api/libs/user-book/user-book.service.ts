@@ -27,6 +27,27 @@ export class UserBookService {
         private readonly coverService: CoverService,
         private readonly prisma: PrismaRepository,
     ) { }
+    async getUserLibraryGoogleIds(userId: string): Promise<string[]> {
+        const userBooks = await this.repository.findMany({
+            where: { userId },
+            include: {
+                book: {
+                    include: {
+                        identifiers: true,
+                    },
+                },
+            },
+        });
+
+        // Extract Google IDs from identifiers
+        const googleIds = userBooks
+            .flatMap(ub => ub.book?.identifiers || [])
+            .filter(identifier => identifier.source === 'GOOGLE')
+            .map(identifier => identifier.sourceId);
+
+        return googleIds;
+    }
+
     async removeBookFromShelf(id: string, userId: string, shelf: string) {
         // Retrieve the userBook to see if it exists and to get the current shelves
         const userBook = await this.repository.findUnique({
@@ -111,11 +132,8 @@ export class UserBookService {
     async create(bookId: string, userId: string, status?: READING_STATUS) {
         const lastUserBook = await this.repository.findFirst({
             where: { status: status || READING_STATUS.WANT_TO_READ, userId: userId },
-            orderBy: { order: 'desc' },
-            select: { order: true },
         });
 
-        const newOrder = lastUserBook ? lastUserBook.order + 1 : 1;
 
         const createUserBookArgs: Prisma.UserBookCreateArgs = {
             data: {
@@ -255,107 +273,85 @@ export class UserBookService {
         });
 
         const shelfList = args.data.shelves;
-        let newOrder;
 
-        // Use a transaction to ensure atomicity
-        return await this.prisma.$transaction(async (prisma) => {
-            // if status is updated, update order number in the new status
-            if (args.data.status) {
-                // Increment the 'order' field by 1 for all matched records.
-                await prisma.userBook.updateMany({
+        // Update status order if status is changed
+        if (args.data.status) {
+            // Handle reading status change
+            if (
+                origin.status !== READING_STATUS.READING &&
+                args.data.status === READING_STATUS.READING
+            ) {
+                await this.prisma.readDate.updateMany({
                     where: {
-                        userId: userId,
-                        status: args.data.status,
+                        userBookId,
+                        active: true,
                     },
                     data: {
-                        order: {
-                            increment: 1,
-                        },
+                        active: false,
                     },
                 });
 
-                // Set the new order for the updated book to 0.
-                newOrder = 0;
-
-                if (
-                    origin.status !== READING_STATUS.READING &&
-                    args.data.status == READING_STATUS.READING
-                ) {
-                    // Mark the previously active read dates as inactive
-                    await this.prisma.readDate.updateMany({
-                        where: {
-                            userBookId,
-                            active: true,
-                        },
-                        data: {
-                            active: false,
-                        },
-                    });
-                    const readDate = await this.prisma.readDate.create({
-                        data: {
-                            userBook: {
-                                connect: {
-                                    id: userBookId,
-                                },
+                const readDate = await this.prisma.readDate.create({
+                    data: {
+                        userBook: {
+                            connect: {
+                                id: userBookId,
                             },
-                            active: true,
                         },
-                    });
-
-                    await this.prisma.readingProgress.create({
-                        data: {
-                            readDate: {
-                                connect: {
-                                    id: readDate.id,
-                                },
-                            },
-                            capacity: origin.book.pageCount,
-                            progress: 0,
-                            type: PROGRESS_TYPE.PAGES,
-                        },
-                    });
-                    // status changed to reading
-                }
-            }
-            // Update the UserBook record within the transaction
-            const updateUserBook = await prisma.userBook.update({
-                where: {
-                    id: userBookId,
-                },
-                data: {
-                    order: newOrder,
-                    status: args.data.status,
-                    rating: args.data.rating,
-                    shelves: shelfList
-                        ? {
-                            deleteMany: { userBookId: origin.id },
-                            create: shelfList.map((name: string) => ({
-                                shelf: {
-                                    connectOrCreate: {
-                                        where: { identifier: { userId, name } },
-                                        create: { userId, name, slug: generateSlug(name) },
-                                    },
-                                },
-                            })),
-                        }
-                        : undefined,
-                },
-                include: {
-                    book: true,
-                    shelves: {
-                        include: {
-                            shelf: true,
-                        },
+                        active: true,
                     },
-                    readDates: {
-                        include: {
-                            readingProgress: true,
-                        },
-                    }
-                },
-            });
+                });
 
-            return updateUserBook;
+                await this.prisma.readingProgress.create({
+                    data: {
+                        readDate: {
+                            connect: {
+                                id: readDate.id,
+                            },
+                        },
+                        capacity: origin.book.pageCount,
+                        progress: 0,
+                        type: PROGRESS_TYPE.PAGES,
+                    },
+                });
+            }
+        }
+
+        // Update the UserBook record
+        return await this.prisma.userBook.update({
+            where: {
+                id: userBookId,
+            },
+            data: {
+                status: args.data.status,
+                rating: args.data.rating,
+                shelves: shelfList
+                    ? {
+                        deleteMany: { userBookId: origin.id },
+                        create: shelfList.map((name: string) => ({
+                            shelf: {
+                                connectOrCreate: {
+                                    where: { identifier: { userId, name } },
+                                    create: { userId, name, slug: generateSlug(name) },
+                                },
+                            },
+                        })),
+                    }
+                    : undefined,
+            },
+            include: {
+                book: true,
+                shelves: {
+                    include: {
+                        shelf: true,
+                    },
+                },
+                readDates: {
+                    include: {
+                        readingProgress: true,
+                    },
+                }
+            },
         });
     }
 
