@@ -1,8 +1,6 @@
 import { getCurrentUser } from '@/lib/auth';
 import SiteHeader from '@/modules/layout/templates/site-header';
 import { MainSidebar } from './main-sidebar';
-import { auth, signOut } from '@/auth';
-import { redirect } from 'next/navigation';
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -10,12 +8,6 @@ interface PageLayoutProps {
 
 export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
-    const session = await auth();
-    console.log("current user", user)
-    if (session?.error === "RefreshTokenError" || !user) {
-        await signOut() // Force sign in to obtain a new set of access and refresh tokens
-        redirect('/');
-    }
 
 
 
