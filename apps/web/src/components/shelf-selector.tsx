@@ -47,6 +47,7 @@ export function ShelfSelector({
             : selectedValues.filter((l) => l.value !== option.value);
         setSelectedValues(newOptions);
         list.onChange(newOptions);
+        setInputValue('');
         inputRef?.current?.focus();
     };
 
@@ -98,6 +99,9 @@ export function ShelfSelector({
         <div className=''>
             <Command
                 onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                    }
                     handleKeyDown(e);
                 }}
                 loop
