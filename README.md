@@ -59,7 +59,7 @@ Bookshelf is a monorepo managed by [Nx](https://nx.dev/). The monorepo is split 
 Clone & create this repo locally with the following command:
 
 ```bash
-git clone https://github.com/VivianLin61/bookshelf.git
+git clone https://github.com/viviandotdev/bookshelf.git
 ```
 
 1. Install dependencies using pnpm:
