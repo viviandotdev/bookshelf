@@ -27,6 +27,7 @@ mutation UpdateUserBook(
         slug
       }
     }
+    rating
    readDates {
         id
         userBookId
@@ -45,11 +46,7 @@ mutation UpdateUserBook(
 }
 
 mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
-  removeUserBook(where: $where) {
-    book {
-        title
-    }
-  }
+  removeUserBook(where: $where)
 }
 
 mutation ImportUserBooks(

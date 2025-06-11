@@ -78,7 +78,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
                             }
                         })
                         toast({
-                            title: `Updated name to ${newValue}`,
+                            title: `${label} was updated`,
                             variant: 'success',
                         });
                     }

@@ -62,7 +62,7 @@ export const ChangeAvatarModal = () => {
                             }
                         })
                         toast({
-                            description: `Your avatar has been updated`,
+                            title: `Your avatar has been updated`,
                             variant: 'success',
                         });
                         changeAvatarModal.onClose();
@@ -98,7 +98,7 @@ export const ChangeAvatarModal = () => {
 
                             <div className='flex w-full items-center justify-end space-x-2 pt-6'>
                                 <Button
-                                    className='border border-gray-200 bg-white text-black hover:bg-white hover:text-black'
+                                    className='border cursor-pointer border-gray-200 bg-white text-black hover:bg-white hover:text-black'
                                     label='Cancel'
                                     onClick={changeAvatarModal.onClose}
                                 ></Button>
@@ -106,6 +106,7 @@ export const ChangeAvatarModal = () => {
                                     type='submit'
                                     disabled={!!error || isPending}
                                     variant='secondary'
+                                    className='cursor-pointer'
                                 >
                                     {isPending ? (
                                         <>

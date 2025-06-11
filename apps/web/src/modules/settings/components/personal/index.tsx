@@ -65,7 +65,7 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ userData, loading })
                                     {session?.user?.username}
                                 </h2>
                             </div>
-                            <Button variant='secondary' onClick={changeAvatarModal.onOpen}>
+                            <Button variant='secondary' className="cursor-pointer" onClick={changeAvatarModal.onOpen}>
                                 Change Avatar
                             </Button>
                         </div>

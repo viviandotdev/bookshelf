@@ -113,6 +113,7 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         // client.cache.evict({ id: `Book:${userBook.bookId}` });
         toast({
             title: `${bookTitle} has been added to your shelves`,
+            variant: 'success'
         });
         // set the state of the shelves
         setLoading(false);

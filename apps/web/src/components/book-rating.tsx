@@ -28,7 +28,7 @@ export function BookRating({
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (data: UserBook) => {
             toast({
-                title: `${data.book.title} has been updated`,
+                title: `${data.book.title} rating was updated`,
                 variant: 'success'
             });
         },
