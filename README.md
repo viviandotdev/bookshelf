@@ -2,7 +2,10 @@
   <h1 align="center">Bookshelf: Organize and track your favorite books</h1>
 </a>
 
- <img width="1440" alt="dashboard_mockup" src="https://github.com/VivianLin61/bookshelf/blob/main/apps/web/public/landing/dashboard.png?raw=true">
+
+
+https://github.com/user-attachments/assets/925051e2-e3b6-4bd6-8106-4e8725709468
+
 
 <p align="center">
   Organize and track your favorite books with Bookshelf, a modern bookshelf app that helps you keep track of your reading list.
