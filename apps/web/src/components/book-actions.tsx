@@ -55,9 +55,10 @@ const BookActions: React.FC<BookActionsProps> = ({
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (data: UserBook) => {
             toast({
-                title: `Book status updated to ${data.status}`,
-                variant: 'success',
+                title: `${data.book.title} has been updated`,
+                variant: 'success'
             });
+            setOpenDropdown(false);
         },
         onError: (error) => {
             toast({ title: error.message, variant: 'destructive' });
@@ -70,11 +71,12 @@ const BookActions: React.FC<BookActionsProps> = ({
     };
 
     const [removeUserBook] = useRemoveUserBookMutation({
-        onCompleted: () => {
+        onCompleted: (data) => {
             toast({
-                title: 'Book removed from your shelf',
+                title: `${book?.title} has been removed`,
                 variant: 'success',
             });
+
         },
         update: (cache: ApolloCache<any>, { data }) => {
             if (data?.removeUserBook) {
@@ -87,7 +89,9 @@ const BookActions: React.FC<BookActionsProps> = ({
                     cache.gc();
                 }
             }
+
         },
+
         onError: (error) => {
             toast({ title: error.message, variant: 'destructive' });
         },
@@ -101,7 +105,6 @@ const BookActions: React.FC<BookActionsProps> = ({
     };
 
     const {
-        shelves: userBookShelves,
         setUserBook,
     } = useUserBookStore();
 
@@ -126,10 +129,6 @@ const BookActions: React.FC<BookActionsProps> = ({
                     {trigger}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    onMouseLeave={(e) => {
-                        e.stopPropagation();
-                        setOpenDropdown(false);
-                    }}
                     align={align}
                     sideOffset={8}
                     side={side}
@@ -185,6 +184,7 @@ const BookActions: React.FC<BookActionsProps> = ({
                                         shelves: myShelves,
                                     });
                                     handleAddToShelf();
+                                    setOpenDropdown(false);
                                 }}
                             >
                                 <Icons.shelf className='mr-2 h-5 w-5' />
@@ -197,7 +197,9 @@ const BookActions: React.FC<BookActionsProps> = ({
                         <DropdownMenuItem
                             onClick={(e) => {
                                 e.stopPropagation();
+                                setOpenDropdown(false);
                                 setOpenAlert(true);
+
                             }}
                         >
                             <Icons.delete className='mr-2 h-5 w-5' />

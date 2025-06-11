@@ -184,13 +184,6 @@ export type BookDataInput = {
   yearPublished?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type BookItemInput = {
-  id: Scalars['String']['input'];
-  order: Scalars['Float']['input'];
-  status: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-};
-
 export type BookMaxAggregate = {
   __typename?: 'BookMaxAggregate';
   id?: Maybe<Scalars['String']['output']>;
@@ -724,7 +717,6 @@ export type Mutation = {
   updateShelf: Shelf;
   updateUser: User;
   updateUserBook: UserBook;
-  updateUserBookOrder: Array<UserBook>;
 };
 
 
@@ -848,11 +840,6 @@ export type MutationUpdateUserArgs = {
 export type MutationUpdateUserBookArgs = {
   data: UserBookUpdateInput;
   where: UserBookWhereUniqueInput;
-};
-
-
-export type MutationUpdateUserBookOrderArgs = {
-  data: UserBookUpdateOrderInput;
 };
 
 export enum NullsOrder {
@@ -2284,10 +2271,6 @@ export type UserBookUpdateOneRequiredWithoutShelvesNestedInput = {
   upsert?: InputMaybe<UserBookUpsertWithoutShelvesInput>;
 };
 
-export type UserBookUpdateOrderInput = {
-  items?: InputMaybe<Array<BookItemInput>>;
-};
-
 export type UserBookUpdateToOneWithWhereWithoutShelvesInput = {
   data: UserBookUpdateWithoutShelvesInput;
   where?: InputMaybe<UserBookWhereInput>;
@@ -2784,7 +2767,7 @@ export type UpdateUserBookMutationVariables = Exact<{
 }>;
 
 
-export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book' }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null, readDates?: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', id: string, progress: number, type: Progress_Type, capacity: number } | null }> | null } };
+export type UpdateUserBookMutation = { __typename?: 'Mutation', updateUserBook: { __typename: 'UserBook', status: Reading_Status, id: string, book: { __typename: 'Book', title: string }, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null, readDates?: Array<{ __typename?: 'ReadDate', id: string, userBookId?: string | null, startDate: any, finishedDate?: any | null, active: boolean, readingProgress?: { __typename?: 'ReadingProgress', id: string, progress: number, type: Progress_Type, capacity: number } | null }> | null } };
 
 export type RemoveUserBookMutationVariables = Exact<{
   where: UserBookWhereUniqueInput;
@@ -3558,6 +3541,7 @@ export const UpdateUserBookDocument = gql`
     id
     book {
       __typename
+      title
     }
     shelves {
       shelf {

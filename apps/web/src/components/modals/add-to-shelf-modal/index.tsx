@@ -41,6 +41,10 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
     const [loading, setLoading] = useState(false);
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (data: UserBook) => {
+            toast({
+                title: `${data.book.title} has been updated`,
+                variant: 'success'
+            });
             setUserBook({
                 shelves: data.shelves as UserBookShelves[],
             });
@@ -107,9 +111,8 @@ export const AddToShelfModal: React.FC<AddToShelfModalProps> = () => {
         }
         // if new shelves is not part of current filter, remove it
         // client.cache.evict({ id: `Book:${userBook.bookId}` });
-
         toast({
-            title: `Sucessfully shelved book`,
+            title: `${bookTitle} has been added to your shelves`,
         });
         // set the state of the shelves
         setLoading(false);

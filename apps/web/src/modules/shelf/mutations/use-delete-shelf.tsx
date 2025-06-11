@@ -39,7 +39,7 @@ export const useDeleteShelf = (options: UseActionOptions = {}) => {
 
             if (data && !errors) {
                 options.onSuccess?.(data.deleteShelf);
-                toast({ title: `Shelf "${data.deleteShelf.name}" deleted` });
+                toast({ title: `Shelf "${data.deleteShelf.name}" has been deleted`, variant: 'success' });
                 return {
                     data: data.deleteShelf as Shelf,
                 };

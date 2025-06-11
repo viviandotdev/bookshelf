@@ -66,7 +66,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
                         toast({
                             title: 'Failed',
                             description: 'Failed to update settings',
-                            variant: 'success',
+                            variant: 'destructive',
                         });
                     }
 
@@ -78,8 +78,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
                             }
                         })
                         toast({
-                            title: 'Success',
-                            description: `Your settings have been updated new name`,
+                            title: `Updated name to ${newValue}`,
                             variant: 'success',
                         });
                     }

@@ -18,6 +18,7 @@ mutation UpdateUserBook(
     id
     book {
       __typename
+      title
     }
     shelves {
       shelf {
@@ -44,7 +45,11 @@ mutation UpdateUserBook(
 }
 
 mutation RemoveUserBook($where: UserBookWhereUniqueInput!) {
-  removeUserBook(where: $where)
+  removeUserBook(where: $where) {
+    book {
+        title
+    }
+  }
 }
 
 mutation ImportUserBooks(

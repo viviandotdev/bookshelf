@@ -23,12 +23,6 @@ export const MultiStepDialog: React.FC<MultiStepDialogProps> = ({
     const [open, setOpen] = useState(false);
     const { data } = useSession();
     const onOpenDialog = () => {
-        if (data?.user.username == 'demo') {
-            return toast({
-                title: 'Demo account',
-                description: 'You cannot import books to the demo account.',
-            });
-        }
         setOpen(!open);
     };
 

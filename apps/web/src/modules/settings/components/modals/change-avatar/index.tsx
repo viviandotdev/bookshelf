@@ -50,7 +50,7 @@ export const ChangeAvatarModal = () => {
                         toast({
                             title: 'Failed',
                             description: 'Failed to update settings',
-                            variant: 'success',
+                            variant: 'destructive',
                         });
                     }
 
@@ -62,7 +62,6 @@ export const ChangeAvatarModal = () => {
                             }
                         })
                         toast({
-                            title: 'Success',
                             description: `Your avatar has been updated`,
                             variant: 'success',
                         });

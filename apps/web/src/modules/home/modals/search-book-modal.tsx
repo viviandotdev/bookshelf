@@ -98,6 +98,7 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const { storeReadDates } = useProgressModal();
+    const [isInitialSearch, setIsInitialSearch] = useState(true);
 
     const [loadBooks] = useSearchMyLibraryLazyQuery({
         fetchPolicy: 'cache-and-network',
@@ -121,7 +122,7 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     const { updateUserBook } = useUpdateUserBook({
         onCompleted: (userBook) => {
             toast({
-                title: 'Book added to Currently Reading',
+                title: `${userBook.book.title} status updated to currently reading`,
                 variant: 'success',
             });
             if (userBook.readDates) {
@@ -139,10 +140,12 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
         if (!query.trim()) {
             setBooks([]);
             setHasSearched(false);
+            setIsInitialSearch(true);
             return;
         }
 
         setLoading(true);
+        if (isInitialSearch) setIsInitialSearch(false);
         try {
             await loadBooks({
                 variables: { query },
@@ -198,7 +201,7 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                 />
 
                 <div className='mt-4 max-h-[400px] overflow-y-auto'>
-                    {loading ? (
+                    {loading && isInitialSearch ? (
                         <LoadingSpinner />
                     ) : hasSearched ? (
                         <div className='grid gap-2'>
@@ -213,6 +216,11 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                                 ))
                             ) : (
                                 <NoResults />
+                            )}
+                            {loading && !isInitialSearch && (
+                                <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-10">
+                                    <LoadingSpinner />
+                                </div>
                             )}
                         </div>
                     ) : null}

@@ -4,6 +4,7 @@ import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-us
 import { Rating, Star } from '@smastrom/react-rating';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
+import { UserBook } from '@/graphql/graphql';
 
 export const starStyles = {
     itemShapes: Star,
@@ -25,9 +26,10 @@ export function BookRating({
     setRating,
 }: BookRatingProps) {
     const { updateUserBook } = useUpdateUserBook({
-        onCompleted: (_) => {
+        onCompleted: (data: UserBook) => {
             toast({
-                title: `Book rating updated`,
+                title: `${data.book.title} has been updated`,
+                variant: 'success'
             });
         },
         onError: (error) => {

@@ -9,6 +9,7 @@ import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import useUserBookStore from '@/stores/use-user-book-store';
 import React, { useState, ChangeEvent } from 'react';
 import useProgressModal from '../use-progress-modal';
+import { toast } from '@/hooks/use-toast';
 
 interface ProgressTabProps {
     readingProgress: ReadingProgress;
@@ -41,6 +42,10 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
             // update the store
             const { type, progress, id } = updateReadingProgress;
             updateReadingProgressStore(id, type, progress);
+            toast({
+                title: `${bookTitle} progress updated to ${progress} ${type === Progress_Type.Pages ? 'pages' : '%'}`,
+                variant: 'success'
+            });
             onClose();
         },
     });

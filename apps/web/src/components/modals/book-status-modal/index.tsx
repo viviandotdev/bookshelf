@@ -21,9 +21,9 @@ const BookStatusModal: React.FC<BookStatusModalProps> = ({ }) => {
     const [selectedStatus, setSelectedStatus] = useState<Reading_Status>(targetBookStatus as Reading_Status);
 
     const { updateUserBook } = useUpdateUserBook({
-        onCompleted: (_) => {
+        onCompleted: (data) => {
             toast({
-                title: `Book status updated `,
+                title: `${data.book.title} has been updated`,
                 variant: 'success',
             });
         },
