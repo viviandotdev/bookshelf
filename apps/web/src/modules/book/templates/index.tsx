@@ -1,6 +1,5 @@
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn, convertTitleToUnderscore, formatAuthors } from '@/lib/utils';
-import { User } from '@/types/interfaces';
 import React from 'react';
 import Image from 'next/image';
 import BookStatusModal from '@/components/modals/book-status-modal';
@@ -16,6 +15,7 @@ import { BookData } from '@/modules/bookshelves/types';
 import { Size, Source, UserBook } from '@/graphql/graphql';
 import AddToShelfButton from '../components/actions/add-to-shelf-button';
 import BookInfo from '../components/book-info';
+import { User } from 'next-auth';
 
 interface BookTemplateProps {
     book: BookData;

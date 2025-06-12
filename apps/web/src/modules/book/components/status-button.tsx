@@ -3,7 +3,6 @@ import { Reading_Status } from '@/graphql/graphql';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { readingStatuses } from '@/config/books';
-import useBookStatusModal from '@/components/modals/book-status-modal/use-book-status-modal';
 import useUserBookStore from '@/stores/use-user-book-store';
 
 interface StatusButtonListProps {

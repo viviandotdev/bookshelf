@@ -7,18 +7,15 @@ import Link from 'next/link';
 import StatsCard from '@/components/stats-card';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import Image from 'next/image';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icons } from '@/components/icons';
 interface ProfileSummaryProps {
     profileUser: User;
-    currentUser: User;
     bookCounts: BookCountsResponse;
 }
 
 const ProfileSummary: React.FC<ProfileSummaryProps> = ({
     profileUser,
-    currentUser,
     bookCounts,
 }) => {
     const linkRef = useRef<HTMLAnchorElement>(null);
@@ -52,22 +49,20 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
                         {profileUser.username || profileUser.name}
                     </h2>
                     <div className='mt-2 flex flex-col items-center lg:mt-1 lg:flex-row lg:flex-wrap lg:items-start lg:space-x-6'>
-                        {profileUser.username === currentUser.username && (
-                            <>
-                                <Button
-                                    onClick={() => linkRef.current?.click()}
-                                    variant={'pill'}
-                                    className='h-8 rounded-full border border-beige-100 font-normal transition-all duration-300 hover:border-beige-700 hover:shadow-xs'
-                                >
-                                    Edit Profile
-                                </Button>
-                                <Link
-                                    ref={linkRef}
-                                    href={`/settings/personal`}
-                                    className='hidden'
-                                ></Link>
-                            </>
-                        )}
+                        <>
+                            <Button
+                                onClick={() => linkRef.current?.click()}
+                                variant={'pill'}
+                                className='h-8 rounded-full border border-beige-100 font-normal transition-all duration-300 hover:border-beige-700 hover:shadow-xs'
+                            >
+                                Edit Profile
+                            </Button>
+                            <Link
+                                ref={linkRef}
+                                href={`/settings/personal`}
+                                className='hidden'
+                            ></Link>
+                        </>
                     </div>
                 </div>
             </div>
@@ -76,7 +71,6 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({
                 <StatsCard title='Want to Read' value={bookCounts.wantsToReadCount} />
                 <StatsCard title='Books Read' value={bookCounts.finishedCount} />
                 <StatsCard title='Reading' value={bookCounts.readingCount} />
-                {/* <StatsCard title='pages' value={bookCounts.readingCount} /> */}
             </div>
         </div>
     );

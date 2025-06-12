@@ -5,7 +5,6 @@ import {
     UserWhereUniqueInput,
 } from '@/graphql/graphql';
 import { getClient, httpLink, setAuthToken } from '@/lib/apollo';
-// import { getClient } from '@/lib/apollo-client';
 import { getCurrentUser } from '@/lib/auth';
 
 export async function getUser(where: UserWhereUniqueInput) {

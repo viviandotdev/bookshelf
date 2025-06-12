@@ -6,21 +6,17 @@ import { notFound, redirect } from 'next/navigation';
 import { Reading_Status } from '@/graphql/graphql';
 import { bookCountsByUserId } from '@/modules/profile/actions/bookCountsByUserId';
 import { getShelvesWithBookCovers } from '@/modules/shelf/queries/getShelvesWithBookCovers';
-import { auth, signOut } from '@/auth';
+import NotLoggedIn from '@/components/not-logged-in';
 
 interface ProfilePageProps {
-    params: { user: string };
+    params: Promise<{ user: string }>;
 }
 
 export default async function ProfilePage({ params }: ProfilePageProps) {
     const currentUser = await getCurrentUser();
-    const session = await auth()
-    if (session?.error === "RefreshTokenError") {
-        await signOut() // Force sign in to obtain a new set of access and refresh tokens
-    }
+
     if (!currentUser) {
-        await signOut() // Force sign in to obtain a new set of access and refresh tokens
-        redirect('/');
+        return <NotLoggedIn />;
     }
 
     const { user } = await params;
@@ -72,7 +68,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
             wantToRead={wantToRead}
             upNext={upNext}
             finished={finished}
-            currentUser={currentUser}
             shelves={shelves}
             currentlyReading={currentlyReading}
         />

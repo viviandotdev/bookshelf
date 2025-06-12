@@ -2,7 +2,7 @@ import { BookCountsResponse, Shelf, User, UserBook } from '@/graphql/graphql';
 import ProfileSummary from '../components/profile-summary';
 import UnderlinedTabs from '@/components/underlined-tabs';
 import Library from '../components/library';
-import MyShelves from '../components/my-shelves';
+import { Shelves } from '../components/shelves';
 
 interface ProfileTemplateProps {
     currentlyReading: UserBook[];
@@ -11,7 +11,6 @@ interface ProfileTemplateProps {
     finished: UserBook[];
     shelves: Shelf[];
     profileUser: User;
-    currentUser: User;
     bookCounts: BookCountsResponse;
 }
 
@@ -23,7 +22,6 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
     upNext,
     finished,
     profileUser,
-    currentUser,
 }) => {
     const tabs = [
         {
@@ -42,7 +40,7 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
         },
         {
             label: 'Shelves',
-            children: <MyShelves username={profileUser.username} shelves={shelves} />,
+            children: <Shelves username={profileUser.username} shelves={shelves} />,
             id: 'shelves',
         },
         // {
@@ -55,7 +53,6 @@ const ProfileTemplate: React.FC<ProfileTemplateProps> = ({
         <div className='mx-auto max-w-7xl overflow-x-auto px-12'>
             <ProfileSummary
                 profileUser={profileUser}
-                currentUser={currentUser}
                 bookCounts={bookCounts}
             />
             <section className='max-w-[1220px]'>

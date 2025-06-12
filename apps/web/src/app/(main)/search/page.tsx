@@ -1,13 +1,15 @@
 import SearchTemplate from '@/modules/search/templates';
 import { Suspense } from 'react';
+
 interface SearchPageProps {
-    searchParams: {
+    searchParams: Promise<{
         [key: string]: string | string[] | undefined;
-    };
+    }>;
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
-    const { q, page, field } = searchParams;
+    const params = await searchParams;
+    const { q, page, field } = params;
     const searchQuery = q as string;
     return (
         <div className='flex justify-center px-4 sm:px-6 lg:px-8'>

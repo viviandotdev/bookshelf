@@ -4,7 +4,7 @@ import { Icons } from '@/components/icons';
 import { Rating, RatingCreateInput, Source, UserBook } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 interface RatingInfoProps {
     ratings: RatingCreateInput[] | Rating[];

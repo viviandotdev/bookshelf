@@ -16,7 +16,7 @@ interface BookRatingProps {
     size?: 'lg' | 'sm' | 'md';
     userBookId: string;
     rating: number | null;
-    setRating: (rating: number | null) => void;
+    setRating: (rating: number | undefined) => void;
 }
 
 export function BookRating({
@@ -48,7 +48,7 @@ export function BookRating({
         await updateUserBook(userBookId, {
             rating: null,
         });
-        setRating(null);
+        setRating(undefined);
     }
 
     const width = size === 'lg' ? 200 : size === 'md' ? 150 : 100;
@@ -62,7 +62,7 @@ export function BookRating({
                 onChange={updateRating}
             />
             {rating == 0
-                || rating !== null && (
+                || rating !== undefined && (
                     <Button
                         variant="outline"
                         size="sm"

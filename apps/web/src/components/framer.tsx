@@ -1,6 +1,6 @@
 'use client';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
-import { ReactNode, useState } from 'react';
+import { JSX, ReactNode, useState } from 'react';
 import { Tab } from '@/hooks/use-tabs';
 import classNames from 'classnames';
 import { cn } from '../lib/utils';

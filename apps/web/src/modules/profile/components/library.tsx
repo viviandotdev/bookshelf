@@ -4,7 +4,6 @@ import {
     Reading_Status,
     UserBook,
 } from '@/graphql/graphql';
-import Hit from '@/modules/search/components/search-hit';
 import Link from 'next/link';
 import { Icons } from '@/components/icons';
 import BookCard from './book-card';

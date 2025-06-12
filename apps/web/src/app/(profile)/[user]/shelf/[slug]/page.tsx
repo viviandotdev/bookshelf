@@ -11,7 +11,7 @@ import { query } from '@/lib/apollo';
 import BookCard from '@/modules/profile/components/book-card';
 
 interface ShelfPageProps {
-    params: { slug: string; user: string };
+    params: Promise<{ slug: string; user: string }>;
 }
 
 const ShelfPage = async ({ params }: ShelfPageProps) => {

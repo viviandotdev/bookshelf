@@ -2,8 +2,10 @@ import {
     useUpdateUserBookMutation,
     UserBookUpdateInput,
     UserBook,
+    UpdateUserBookMutationVariables,
+    UpdateUserBookMutation,
 } from '@/graphql/graphql';
-import { gql, MutationOptions } from '@apollo/client';
+import { MutationOptions } from '@apollo/client';
 
 interface UseUpdateUserBookOptions {
     onCompleted?: (data: UserBook) => void;
@@ -25,7 +27,7 @@ export const useUpdateUserBook = (options: UseUpdateUserBookOptions = {}) => {
     const updateUserBook = async (
         userBookId: string,
         updateInput: UserBookUpdateInput,
-        mutationOptions?: Partial<MutationOptions>
+        mutationOptions?: Partial<MutationOptions<UpdateUserBookMutation, UpdateUserBookMutationVariables>>
     ) => {
         await UpdateUserBook({
             variables: {

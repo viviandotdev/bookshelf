@@ -19,7 +19,7 @@ const REFRESH_AUTHENTICATION_MUTATION = `
 
 async function refreshAccessToken(token: any): Promise<any> {
     try {
-        const response = await fetch('http://localhost:4000/graphql', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

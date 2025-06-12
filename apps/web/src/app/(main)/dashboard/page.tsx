@@ -1,3 +1,4 @@
+import NotLoggedIn from '@/components/not-logged-in';
 import { Reading_Status, SortOrder } from '@/graphql/graphql';
 import { getCurrentUser } from '@/lib/auth';
 import { getUserBooks } from '@/modules/bookshelves/queries/getUserBooks';
@@ -11,7 +12,9 @@ export const maxDuration = 60; // Applies to the actions
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({ }) => {
     const user = await getCurrentUser();
-
+    if (!user) {
+        return <NotLoggedIn />
+    }
     const wantToRead = await getUserBooks(
         {
             status: {
@@ -29,12 +32,12 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ }) => {
         },
     });
 
-    const bookCounts = await bookCountsByUserId(user.id);
+    const bookCounts = await bookCountsByUserId(user.id as string);
 
     return (
         <main className='container z-40 mx-auto max-w-4xl flex-1  p-0 px-4 sm:px-6 lg:max-w-6xl xl:max-w-[1440px] xl:px-8'>
             <HomeTemplate
-                username={user.username}
+                username={user.username as string}
                 wantToRead={wantToRead}
                 upNext={upNext}
                 bookCounts={bookCounts}

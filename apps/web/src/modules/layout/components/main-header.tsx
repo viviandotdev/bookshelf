@@ -11,6 +11,7 @@ import SearchInput from './search-input';
 import { Icons } from '@/components/icons';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import { MainNav } from './main-nav';
 
 interface MainHeaderProps {
     user: any;
@@ -57,7 +58,6 @@ export default function MainHeader({ user, children }: MainHeaderProps) {
                 </div>
                 <div className='relative z-0 flex flex-1 items-center justify-center px-2 sm:absolute sm:inset-0'>
                     <div className='w-full sm:max-w-md'>
-                        {/* <MainNav items={items} /> */}
                         {user && <SearchInput />}
                     </div>
                 </div>

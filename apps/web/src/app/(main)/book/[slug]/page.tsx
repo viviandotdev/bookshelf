@@ -9,16 +9,21 @@ import {
 import { mergeBookData } from '@/lib/utils';
 import { Source, UserBook } from '@/graphql/graphql';
 import { getBookBySlug } from '@/modules/book/queries/getBookBySlug';
+import NotLoggedIn from '@/components/not-logged-in';
 
 export const maxDuration = 60; // Applies to the actions
+
 interface BookPageProps {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }
 
 export default async function BookPage({ params }: BookPageProps) {
     const user = await getCurrentUser();
+    if (!user) {
+        return <NotLoggedIn />;
+    }
     //get target book from user libaray
-    const { slug } = await params
+    const { slug } = await params;
     let targetBook = await getBookBySlug(slug);
 
     if (!targetBook) {

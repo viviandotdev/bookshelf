@@ -4,11 +4,11 @@ import { useSession } from 'next-auth/react';
 import { MainNavItem } from '@/types';
 import { useLockBody } from '@/hooks/use-lock-body';
 import { UserAvatar } from './user-avatar';
-import { User } from '@/types/interfaces';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import useLogBookModal from '@/components/modals/log-book-modal/use-log-book-modal';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { User } from 'next-auth';
 
 interface MobileNavProps {
     items: MainNavItem[];

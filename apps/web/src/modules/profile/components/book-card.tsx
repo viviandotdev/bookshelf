@@ -4,11 +4,6 @@ import { DEFAULT_BOOKCOVER_PLACEHOLDER } from '@/lib/constants';
 import RatingInfo from '@/modules/book/components/actions/rating-info';
 import { BookData } from '@/modules/bookshelves/types';
 import Image from 'next/image';
-import { useCreateUserBookMutation } from '@/graphql/graphql';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import { Icons } from '@/components/icons';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export type HitProps = {
@@ -20,7 +15,6 @@ const BookCard: React.FC<HitProps> = ({ hit }) => {
     const coverUrl =
         hit.covers?.find((cover) => cover.size === Size.Small)?.url ||
         hit.covers?.find((cover) => cover.size === Size.Large)?.url;
-    const router = useRouter();
 
 
     return (

@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/lib/auth';
 import SiteHeader from '@/modules/layout/templates/site-header';
 import { MainSidebar } from './main-sidebar';
+import NotLoggedIn from '@/components/not-logged-in';
 
 interface PageLayoutProps {
     children: React.ReactNode;
@@ -8,8 +9,9 @@ interface PageLayoutProps {
 
 export default async function PageLayout({ children }: PageLayoutProps) {
     const user = await getCurrentUser();
-
-
+    if (!user) {
+        return <NotLoggedIn />;
+    }
 
     return (
         <div className='bg-muted/40 w-full '>

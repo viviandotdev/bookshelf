@@ -5,13 +5,14 @@ import Hit from '@/modules/search/components/search-hit';
 import React from 'react';
 
 interface StatusPageProps {
-    params: { status: Reading_Status; user: string };
+    params: Promise<{ status: Reading_Status; user: string }>;
 }
 
 const StatusPage: React.FC<StatusPageProps> = async ({ params }) => {
+    const { status, user } = await params;
     const books = await getUserBooks({
         status: {
-            equals: params.status,
+            equals: status,
         },
     });
     return (
@@ -19,7 +20,7 @@ const StatusPage: React.FC<StatusPageProps> = async ({ params }) => {
             <section className='w-[1220px]'>
                 <main className='mt-8 flex min-h-screen flex-col items-center'>
                     <div className='text-center'>
-                        <h1 className='text-2xl font-bold'>{params.status}</h1>
+                        <h1 className='text-2xl font-bold'>{status}</h1>
                     </div>
                     <ul className='mt-8 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3'>
                         {books.slice(0, 6).map((hit, index) => (

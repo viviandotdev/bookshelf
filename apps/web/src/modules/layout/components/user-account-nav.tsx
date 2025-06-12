@@ -13,9 +13,9 @@ import {
 import { UserAvatar } from '@/modules/layout/components/user-avatar';
 import { useLogoutMutation } from '@/graphql/graphql';
 import { useApolloClient } from '@apollo/client';
-import { User } from '@/types/interfaces';
 import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { User } from 'next-auth';
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
     user: User;
 }
@@ -35,7 +35,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
     const logoutUser = useCallback(() => {
         logout({
             variables: {
-                id: user.id,
+                id: session?.user.id as string,
             },
         }).then(async () => {
             await apolloClient.resetStore();

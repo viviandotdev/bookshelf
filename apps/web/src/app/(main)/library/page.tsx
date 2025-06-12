@@ -2,18 +2,13 @@ import { auth, signOut } from '@/auth';
 import { getCurrentUser } from '@/lib/auth';
 import BookshelvesTemplate from '@/modules/bookshelves/templates';
 import Sidebar from '@/modules/shelf/components/shelf-sidebar';
-import { notFound } from 'next/navigation';
 import React from 'react';
+import NotLoggedIn from '@/components/not-logged-in';
 
 export default async function LibraryPage({ }: {}) {
     const user = await getCurrentUser();
     if (!user) {
-        notFound();
-    }
-
-    const session = await auth()
-    if (session?.error === "RefreshTokenError") {
-        await signOut() // Force sign out to obtain a new set of access and refresh tokens
+        return <NotLoggedIn />;
     }
     return (
         <>

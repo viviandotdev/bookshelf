@@ -28,8 +28,8 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(graphql@16.11.0)
       nx:
-        specifier: ^21.0.0
-        version: 21.0.0(@swc/core@1.3.101(@swc/helpers@0.5.15))
+        specifier: ^21.0.3
+        version: 21.1.3(@swc/core@1.3.101(@swc/helpers@0.5.15))
 
   apps/api:
     dependencies:
@@ -208,6 +208,9 @@ importers:
       '@auth/core':
         specifier: ^0.39.0
         version: 0.39.0
+      '@auth/prisma-adapter':
+        specifier: ^2.9.1
+        version: 2.9.1(@prisma/client@6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3))
       '@hookform/resolvers':
         specifier: ^5.0.1
         version: 5.0.1(react-hook-form@7.56.2(react@19.1.0))
@@ -635,6 +638,25 @@ packages:
         optional: true
       nodemailer:
         optional: true
+
+  '@auth/core@0.39.1':
+    resolution: {integrity: sha512-McD8slui0oOA1pjR5sPjLPl5Zm//nLP/8T3kr8hxIsvNLvsiudYvPHhDFPjh1KcZ2nFxCkZmP6bRxaaPd/AnLA==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+
+  '@auth/prisma-adapter@2.9.1':
+    resolution: {integrity: sha512-0ZfjOPt3Ci8yx8SMCydAuBAjR/exI/8SAr6JDVYtqDFhm0JaV1XuHYgEzgzXZZfW2+WKC29LowCWxdCjoAz9kQ==}
+    peerDependencies:
+      '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5 || >=6'
 
   '@babel/code-frame@7.22.13':
     resolution: {integrity: sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFyIOf4ej3RN+184cZbzDvbPnuTJIUhPKKJE3cIsYTiAT3w==}
@@ -2356,53 +2378,53 @@ packages:
     engines: {node: ^14.18.0 || >=16.10.0, npm: '>=5.10.0'}
     hasBin: true
 
-  '@nx/nx-darwin-arm64@21.0.0':
-    resolution: {integrity: sha512-K2Vlapy7untEPzbc79nkCPHUpCRAfW/VvI4HSS1r5wrHBLLrnqUr9A9yTUO36A2Xd/TkWAdyWFP7oMCPvsVFgQ==}
+  '@nx/nx-darwin-arm64@21.1.3':
+    resolution: {integrity: sha512-gbBKQrw9ecjXHVs7Kwaht5Dip//NBCgmnkf3GGoA40ad3zyvHDe+MBWMxueRToUVW/mDPh8b5lvLbmFApiY6sQ==}
     cpu: [arm64]
     os: [darwin]
 
-  '@nx/nx-darwin-x64@21.0.0':
-    resolution: {integrity: sha512-3hB8A01ZUd8QMmLJ7BGzkl6rbmavh/STutrVKrGRrWGZpweZizd03gH+hMzf7yzjMrcYClfLhTkQdYQCNaTcOg==}
+  '@nx/nx-darwin-x64@21.1.3':
+    resolution: {integrity: sha512-yGDWqxwNty1BJcuvZlwGGravAhg8eIRMEIp2omfIxeyfZEVA4b7egwMCqczwU2Li/StNjTtzrUe1HPWgcCVAuQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@nx/nx-freebsd-x64@21.0.0':
-    resolution: {integrity: sha512-vDYFa5MfheyC49uzeucYswQhslaaAtaiD605qUbFhPyPm+7Icm3+GU8OWj6zPGxEMuv5R9dXl3JaXMz5Q2E7aQ==}
+  '@nx/nx-freebsd-x64@21.1.3':
+    resolution: {integrity: sha512-vpZPfSQgNIQ0vmnQA26DlJKZog20ISdS14ir234mvCaJJFdlgWGcpyEOSCU3Vg+32Z/VsSx7kIkBwRhfEZ73Ag==}
     cpu: [x64]
     os: [freebsd]
 
-  '@nx/nx-linux-arm-gnueabihf@21.0.0':
-    resolution: {integrity: sha512-5FJ3zP3trxGjkw50f4JOmPadpd25ewQJYMOl9GZYUqYFR8l4l7PwX2B7NIJKSRDUy7agyaK1oNkSBlxWLJ4MbQ==}
+  '@nx/nx-linux-arm-gnueabihf@21.1.3':
+    resolution: {integrity: sha512-R2GzEyHvyree2m7w+e/MOZjUY/l99HbW4E/jJl5BBXRGEAnGTIx9fOxSDiOW5QK6U0oZb2YO2b565t+IC+7rBQ==}
     cpu: [arm]
     os: [linux]
 
-  '@nx/nx-linux-arm64-gnu@21.0.0':
-    resolution: {integrity: sha512-PzSgmxa7WFXHUhtTb9zb0QnzjYlkIXzajmeyJLyu1KnFG1kp765zp8lU+onRFZAYo+i4C7GMQjlvLb+LhgnkTw==}
+  '@nx/nx-linux-arm64-gnu@21.1.3':
+    resolution: {integrity: sha512-TlFT0G5gO6ujdkT7KUmvS2bwurvpV3olQwchqW1rQwuZ1eEQ1GVDuyzg49UG7lgESYruFn2HRhBf4V+iaD8WIw==}
     cpu: [arm64]
     os: [linux]
 
-  '@nx/nx-linux-arm64-musl@21.0.0':
-    resolution: {integrity: sha512-vlZFgr8wtPyk69WhpnXWIwrb+aq/vvD0gCplA53lS52K+3rWY7oOqAtkLWqOEQRFQcHYUV3euo4KEIWRmt0/HA==}
+  '@nx/nx-linux-arm64-musl@21.1.3':
+    resolution: {integrity: sha512-YkdzrZ7p2Y0YpteRyT9lPKhfuz2t5rNFQ87x9WHK2/cFD6H6M42Fg2JldCPIVj2chN9liH+s5ougW5oPQpZyKw==}
     cpu: [arm64]
     os: [linux]
 
-  '@nx/nx-linux-x64-gnu@21.0.0':
-    resolution: {integrity: sha512-n2EhxhqCYsg09EffVgnb2lZkHn1o/bs4cjk8ETU4wW2odgz8reuFEkOgNOk1rsC/+EjTCv08ZsBrmbyVYSKzXQ==}
+  '@nx/nx-linux-x64-gnu@21.1.3':
+    resolution: {integrity: sha512-nnHxhakNCr4jR1y13g0yS/UOmn5aXkJ+ZA1R6jFQxIwLv3Ocy05i0ZvU7rPOtflluDberxEop8xzoiuEZXDa/w==}
     cpu: [x64]
     os: [linux]
 
-  '@nx/nx-linux-x64-musl@21.0.0':
-    resolution: {integrity: sha512-DdLhgM7u3OkCRA3rrOblOZdqB6i5c1CrMfhGzFzbhlHWe59ZY2okqijKmjZe065oM2Ul+t4i9E62qj3IBvzANg==}
+  '@nx/nx-linux-x64-musl@21.1.3':
+    resolution: {integrity: sha512-poPt/LnFbq54CA3PZ1af8wcdQ4VsWRuA9w1Q1/G1BhCfDUAVIOZ0mhH1NzFpPwCxgVZ1TbNCZWhV2qjVRwQtlw==}
     cpu: [x64]
     os: [linux]
 
-  '@nx/nx-win32-arm64-msvc@21.0.0':
-    resolution: {integrity: sha512-q2pCz0EJspPN1L68TRulUuHN8eZbkR7OUGDbXr0R9+LBT0YHB/sFhuL/PS2gRbNFlrsBk+80SJVTf9ArxzYfzg==}
+  '@nx/nx-win32-arm64-msvc@21.1.3':
+    resolution: {integrity: sha512-gBSVMRkXRqxTKgj/dabAD1EaptROy64fEtlU1llPz/RtcJcVhIlDczBF/y2WSD6A72cSv6zF/F1n3NrekNSfBA==}
     cpu: [arm64]
     os: [win32]
 
-  '@nx/nx-win32-x64-msvc@21.0.0':
-    resolution: {integrity: sha512-vxlMn+dSct2Q2xma4fpNqJDda3UPI4BQO/CSlGxAxpzitjN2NqJ9dWV7a/OaxKtjBKowHS+Bat610kXABSn1Hg==}
+  '@nx/nx-win32-x64-msvc@21.1.3':
+    resolution: {integrity: sha512-k3/1b2dLQjnWzrg2UqHDLCoaqEBx2SRgujjYCACRJ12vmYH2gTyFX2UPXikVbbpaTJNeXv8eaCzyCKhuvPK1sQ==}
     cpu: [x64]
     os: [win32]
 
@@ -6631,9 +6653,8 @@ packages:
   nullthrows@1.1.1:
     resolution: {integrity: sha512-2vPPEi+Z7WqML2jZYddDIfy5Dqb0r2fze2zTxNNknZaFpVHU3mFB3R+DWeJWGVx0ecvttSGlJTI+WG+8Z4cDWw==}
 
-  nx@21.0.0:
-    resolution: {integrity: sha512-SiinQD5x85qarNy2brW5qaI3a2KW/gPp1El9tC/k1tjPgxY1nAkwhceiUdp+okmD++FIEHitF5ZDT4f7Odz8zw==}
-    engines: {node: ^20.19.0 || ^22.12.0}
+  nx@21.1.3:
+    resolution: {integrity: sha512-GZ7+Bve4xOVIk/hb9nN16fVqVq5PNNyFom1SCQbEGhGkyABJF8kA4JImCKhZpZyg1CtZeUrkPHK4xNO+rw9G5w==}
     hasBin: true
     peerDependencies:
       '@swc-node/register': ^1.8.0
@@ -8657,6 +8678,23 @@ snapshots:
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
+  '@auth/core@0.39.1':
+    dependencies:
+      '@panva/hkdf': 1.2.1
+      jose: 6.0.11
+      oauth4webapi: 3.5.0
+      preact: 10.24.3
+      preact-render-to-string: 6.5.11(preact@10.24.3)
+
+  '@auth/prisma-adapter@2.9.1(@prisma/client@6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3))':
+    dependencies:
+      '@auth/core': 0.39.1
+      '@prisma/client': 6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)
+    transitivePeerDependencies:
+      - '@simplewebauthn/browser'
+      - '@simplewebauthn/server'
+      - nodemailer
+
   '@babel/code-frame@7.22.13':
     dependencies:
       '@babel/highlight': 7.22.20
@@ -10587,34 +10625,34 @@ snapshots:
     dependencies:
       consola: 3.4.2
 
-  '@nx/nx-darwin-arm64@21.0.0':
+  '@nx/nx-darwin-arm64@21.1.3':
     optional: true
 
-  '@nx/nx-darwin-x64@21.0.0':
+  '@nx/nx-darwin-x64@21.1.3':
     optional: true
 
-  '@nx/nx-freebsd-x64@21.0.0':
+  '@nx/nx-freebsd-x64@21.1.3':
     optional: true
 
-  '@nx/nx-linux-arm-gnueabihf@21.0.0':
+  '@nx/nx-linux-arm-gnueabihf@21.1.3':
     optional: true
 
-  '@nx/nx-linux-arm64-gnu@21.0.0':
+  '@nx/nx-linux-arm64-gnu@21.1.3':
     optional: true
 
-  '@nx/nx-linux-arm64-musl@21.0.0':
+  '@nx/nx-linux-arm64-musl@21.1.3':
     optional: true
 
-  '@nx/nx-linux-x64-gnu@21.0.0':
+  '@nx/nx-linux-x64-gnu@21.1.3':
     optional: true
 
-  '@nx/nx-linux-x64-musl@21.0.0':
+  '@nx/nx-linux-x64-musl@21.1.3':
     optional: true
 
-  '@nx/nx-win32-arm64-msvc@21.0.0':
+  '@nx/nx-win32-arm64-msvc@21.1.3':
     optional: true
 
-  '@nx/nx-win32-x64-msvc@21.0.0':
+  '@nx/nx-win32-x64-msvc@21.1.3':
     optional: true
 
   '@panva/hkdf@1.2.1': {}
@@ -13010,7 +13048,7 @@ snapshots:
 
   dotenv-expand@11.0.7:
     dependencies:
-      dotenv: 16.4.5
+      dotenv: 16.4.7
 
   dotenv-expand@12.0.1:
     dependencies:
@@ -15419,7 +15457,7 @@ snapshots:
 
   nullthrows@1.1.1: {}
 
-  nx@21.0.0(@swc/core@1.3.101(@swc/helpers@0.5.15)):
+  nx@21.1.3(@swc/core@1.3.101(@swc/helpers@0.5.15)):
     dependencies:
       '@napi-rs/wasm-runtime': 0.2.4
       '@yarnpkg/lockfile': 1.1.0
@@ -15430,7 +15468,7 @@ snapshots:
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
       cliui: 8.0.1
-      dotenv: 16.4.5
+      dotenv: 16.4.7
       dotenv-expand: 11.0.7
       enquirer: 2.3.6
       figures: 3.2.0
@@ -15457,16 +15495,16 @@ snapshots:
       yargs: 17.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@nx/nx-darwin-arm64': 21.0.0
-      '@nx/nx-darwin-x64': 21.0.0
-      '@nx/nx-freebsd-x64': 21.0.0
-      '@nx/nx-linux-arm-gnueabihf': 21.0.0
-      '@nx/nx-linux-arm64-gnu': 21.0.0
-      '@nx/nx-linux-arm64-musl': 21.0.0
-      '@nx/nx-linux-x64-gnu': 21.0.0
-      '@nx/nx-linux-x64-musl': 21.0.0
-      '@nx/nx-win32-arm64-msvc': 21.0.0
-      '@nx/nx-win32-x64-msvc': 21.0.0
+      '@nx/nx-darwin-arm64': 21.1.3
+      '@nx/nx-darwin-x64': 21.1.3
+      '@nx/nx-freebsd-x64': 21.1.3
+      '@nx/nx-linux-arm-gnueabihf': 21.1.3
+      '@nx/nx-linux-arm64-gnu': 21.1.3
+      '@nx/nx-linux-arm64-musl': 21.1.3
+      '@nx/nx-linux-x64-gnu': 21.1.3
+      '@nx/nx-linux-x64-musl': 21.1.3
+      '@nx/nx-win32-arm64-msvc': 21.1.3
+      '@nx/nx-win32-x64-msvc': 21.1.3
       '@swc/core': 1.3.101(@swc/helpers@0.5.15)
     transitivePeerDependencies:
       - debug

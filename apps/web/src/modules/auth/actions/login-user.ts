@@ -20,6 +20,7 @@ export const loginUser = async (values: z.infer<typeof loginUserSchema>) => {
         if (error.code === "credentials") {
             return { error: "Incorrect credentials" }
         }
+        return { error: "An error occurred, please try again later" }
     }
     return { success: 'User logged in successfully' };
 };

@@ -1,8 +1,7 @@
 'use client';
-import React, { useCallback, useTransition, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Shelf } from '@/graphql/graphql';
-import EditShelfMenu from './edit-shelf-menu';
 import useCreateQueryString from '../../bookshelves/hooks/use-create-query-string';
 import useShelfStore from '@/stores/use-shelf-store';
 import { Icons } from '@/components/icons';
@@ -18,11 +17,8 @@ interface ShelfItemProps {
 export const ShelfItem: React.FC<ShelfItemProps> = ({
     shelf,
     isShelves,
-    setOpenAlert,
-    padding = 'py-3',
     counts,
 }) => {
-    const [isPending, startTransition] = useTransition();
     const [isHovered, setIsHovered] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
@@ -32,15 +28,14 @@ export const ShelfItem: React.FC<ShelfItemProps> = ({
     const selectedShelfSlug = searchParams?.get('shelf') ?? 'All Books';
     const handleClick = useCallback(() => {
         updateSelected(shelf.name!);
-        startTransition(() => {
-            router.push(
-                `${pathname}?${createQueryString({
-                    shelf: shelf.slug ? shelf.slug : shelf.name,
-                    page: 1,
-                    status: 'All Status',
-                })}`
-            );
-        });
+        router.push(
+            `${pathname}?${createQueryString({
+                shelf: shelf.slug ? shelf.slug : shelf.name,
+                page: 1,
+                status: 'All Status',
+            })}`
+        );
+
     }, [shelf]);
 
     return (
