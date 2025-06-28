@@ -1,10 +1,7 @@
 'use client';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import {
-  useSelectedLayoutSegment,
-  useSelectedLayoutSegments,
-} from 'next/navigation';
+import { useSelectedLayoutSegments } from 'next/navigation';
 import React from 'react';
 
 interface NavLinkProps {
@@ -56,7 +53,7 @@ export const NavLink: React.FC<NavLinkProps> = ({
   return (
     <Link
       className={cn(
-        'hover:text-foreground/80 flex items-center font-medium text-beige-700 transition-colors sm:text-sm',
+        'hover:text-foreground/80 text-beige-700 flex items-center font-medium transition-colors sm:text-sm',
         activeStyle
         // item.disabled && "cursor-not-allowed opacity-80"
       )}
