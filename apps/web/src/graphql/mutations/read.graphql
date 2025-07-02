@@ -1,0 +1,71 @@
+# Queries
+query GetLatestRead($userBookId: String!) {
+  reads(
+    where: { userBookId: { equals: $userBookId } }
+    orderBy: { startDate: desc }
+    limit: 1
+  ) {
+    id
+    startDate
+    finishedDate
+    userBookId
+    readingSessions {
+      id
+      capacity
+      progress
+      type
+      createdAt
+    }
+    UserBook {
+      id
+      book {
+        id
+        title
+        pageCount
+      }
+    }
+  }
+}
+
+# Mutations
+mutation CreateRead($userBookId: String!) {
+  createRead(userBookId: $userBookId) {
+    id
+    startDate
+    finishedDate
+    userBookId
+    readingSessions {
+      id
+      capacity
+      progress
+      type
+      createdAt
+    }
+  }
+}
+
+mutation CreateReadingSession(
+  $readId: String!
+  $capacity: Int!
+  $progress: Int!
+  $type: PROGRESS_TYPE!
+) {
+  createReadingSession(
+    readId: $readId
+    capacity: $capacity
+    progress: $progress
+    type: $type
+  ) {
+    id
+    capacity
+    progress
+    type
+    createdAt
+    read {
+      id
+      startDate
+      finishedDate
+      userBookId
+    }
+  }
+}

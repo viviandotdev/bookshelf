@@ -32,7 +32,6 @@ export enum UserBookScalarFieldEnum {
     rating = "rating",
     createdAt = "createdAt",
     updatedAt = "updatedAt",
-    order = "order",
     dateAdded = "dateAdded"
 }
 
@@ -60,6 +59,15 @@ export enum ShelfScalarFieldEnum {
     dateTime = "dateTime"
 }
 
+export enum ReadingSessionScalarFieldEnum {
+    id = "id",
+    capacity = "capacity",
+    progress = "progress",
+    type = "type",
+    createdAt = "createdAt",
+    readId = "readId"
+}
+
 export enum ReadingProgressScalarFieldEnum {
     id = "id",
     capacity = "capacity",
@@ -74,6 +82,13 @@ export enum ReadDateScalarFieldEnum {
     startDate = "startDate",
     finishedDate = "finishedDate",
     active = "active",
+    userBookId = "userBookId"
+}
+
+export enum ReadScalarFieldEnum {
+    id = "id",
+    startDate = "startDate",
+    finishedDate = "finishedDate",
     userBookId = "userBookId"
 }
 
@@ -181,8 +196,10 @@ registerEnumType(SortOrder, { name: 'SortOrder', description: undefined })
 registerEnumType(SOURCE, { name: 'SOURCE', description: undefined })
 registerEnumType(TransactionIsolationLevel, { name: 'TransactionIsolationLevel', description: undefined })
 registerEnumType(RatingScalarFieldEnum, { name: 'RatingScalarFieldEnum', description: undefined })
+registerEnumType(ReadScalarFieldEnum, { name: 'ReadScalarFieldEnum', description: undefined })
 registerEnumType(ReadDateScalarFieldEnum, { name: 'ReadDateScalarFieldEnum', description: undefined })
 registerEnumType(ReadingProgressScalarFieldEnum, { name: 'ReadingProgressScalarFieldEnum', description: undefined })
+registerEnumType(ReadingSessionScalarFieldEnum, { name: 'ReadingSessionScalarFieldEnum', description: undefined })
 registerEnumType(ShelfScalarFieldEnum, { name: 'ShelfScalarFieldEnum', description: undefined })
 registerEnumType(UserScalarFieldEnum, { name: 'UserScalarFieldEnum', description: undefined })
 registerEnumType(UserBookScalarFieldEnum, { name: 'UserBookScalarFieldEnum', description: undefined })
@@ -5330,6 +5347,929 @@ export class UpsertOneRatingArgs {
 }
 
 @ObjectType()
+export class AggregateRead {
+    @Field(() => ReadCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof ReadCountAggregate>;
+    @Field(() => ReadMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof ReadMinAggregate>;
+    @Field(() => ReadMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof ReadMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyReadArgs {
+    @Field(() => [ReadCreateManyInput], {nullable:false})
+    @Type(() => ReadCreateManyInput)
+    @ValidateNested()
+    data!: Array<ReadCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneReadArgs {
+    @Field(() => ReadCreateInput, {nullable:false})
+    @Type(() => ReadCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyReadArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
+}
+
+@ArgsType()
+export class DeleteOneReadArgs {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindFirstReadOrThrowArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => [ReadOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadOrderByWithRelationInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindFirstReadArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => [ReadOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadOrderByWithRelationInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindManyReadArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => [ReadOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadOrderByWithRelationInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindUniqueReadOrThrowArgs {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindUniqueReadArgs {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class ReadAggregateArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => [ReadOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadOrderByWithRelationInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => ReadCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadCountAggregateInput>;
+    @Field(() => ReadMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadMinAggregateInput>;
+    @Field(() => ReadMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadMaxAggregateInput>;
+}
+
+@InputType()
+export class ReadCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    startDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    finishedDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    userBookId?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class ReadCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    startDate!: number;
+    @Field(() => Int, {nullable:false})
+    finishedDate!: number;
+    @Field(() => Int, {nullable:false})
+    userBookId!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class ReadCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    startDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    finishedDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    userBookId?: `${SortOrder}`;
+}
+
+@ObjectType()
+export class ReadCount {
+    @Field(() => Int, {nullable:false})
+    readingSessions?: number;
+}
+
+@InputType()
+export class ReadCreateManyUserBookInputEnvelope {
+    @Field(() => [ReadCreateManyUserBookInput], {nullable:false})
+    @Type(() => ReadCreateManyUserBookInput)
+    data!: Array<ReadCreateManyUserBookInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class ReadCreateManyUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+}
+
+@InputType()
+export class ReadCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:false})
+    userBookId!: string;
+}
+
+@InputType()
+export class ReadCreateNestedManyWithoutUserBookInput {
+    @Field(() => [ReadCreateWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create?: Array<ReadCreateWithoutUserBookInput>;
+    @Field(() => [ReadCreateOrConnectWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutUserBookInput)
+    connectOrCreate?: Array<ReadCreateOrConnectWithoutUserBookInput>;
+    @Field(() => ReadCreateManyUserBookInputEnvelope, {nullable:true})
+    @Type(() => ReadCreateManyUserBookInputEnvelope)
+    createMany?: InstanceType<typeof ReadCreateManyUserBookInputEnvelope>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReadCreateNestedOneWithoutReadingSessionsInput {
+    @Field(() => ReadCreateWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadCreateWithoutReadingSessionsInput)
+    create?: InstanceType<typeof ReadCreateWithoutReadingSessionsInput>;
+    @Field(() => ReadCreateOrConnectWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutReadingSessionsInput)
+    connectOrCreate?: InstanceType<typeof ReadCreateOrConnectWithoutReadingSessionsInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+}
+
+@InputType()
+export class ReadCreateOrConnectWithoutReadingSessionsInput {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadCreateWithoutReadingSessionsInput, {nullable:false})
+    @Type(() => ReadCreateWithoutReadingSessionsInput)
+    create!: InstanceType<typeof ReadCreateWithoutReadingSessionsInput>;
+}
+
+@InputType()
+export class ReadCreateOrConnectWithoutUserBookInput {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadCreateWithoutUserBookInput, {nullable:false})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create!: InstanceType<typeof ReadCreateWithoutUserBookInput>;
+}
+
+@InputType()
+export class ReadCreateWithoutReadingSessionsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => UserBookCreateNestedOneWithoutReadInput, {nullable:false})
+    UserBook!: InstanceType<typeof UserBookCreateNestedOneWithoutReadInput>;
+}
+
+@InputType()
+export class ReadCreateWithoutUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionCreateNestedManyWithoutReadInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionCreateNestedManyWithoutReadInput>;
+}
+
+@InputType()
+export class ReadCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionCreateNestedManyWithoutReadInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionCreateNestedManyWithoutReadInput>;
+    @Field(() => UserBookCreateNestedOneWithoutReadInput, {nullable:false})
+    UserBook!: InstanceType<typeof UserBookCreateNestedOneWithoutReadInput>;
+}
+
+@ArgsType()
+export class ReadGroupByArgs {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => [ReadOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<ReadOrderByWithAggregationInput>;
+    @Field(() => [ReadScalarFieldEnum], {nullable:false})
+    by!: Array<`${ReadScalarFieldEnum}`>;
+    @Field(() => ReadScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof ReadScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => ReadCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadCountAggregateInput>;
+    @Field(() => ReadMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadMinAggregateInput>;
+    @Field(() => ReadMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadMaxAggregateInput>;
+}
+
+@ObjectType()
+export class ReadGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => Date, {nullable:false})
+    startDate!: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:false})
+    userBookId!: string;
+    @Field(() => ReadCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof ReadCountAggregate>;
+    @Field(() => ReadMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof ReadMinAggregate>;
+    @Field(() => ReadMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof ReadMaxAggregate>;
+}
+
+@InputType()
+export class ReadListRelationFilter {
+    @Field(() => ReadWhereInput, {nullable:true})
+    every?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => ReadWhereInput, {nullable:true})
+    some?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => ReadWhereInput, {nullable:true})
+    none?: InstanceType<typeof ReadWhereInput>;
+}
+
+@InputType()
+export class ReadMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    startDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    finishedDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    userBookId?: true;
+}
+
+@ObjectType()
+export class ReadMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+}
+
+@InputType()
+export class ReadMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    startDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    finishedDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    userBookId?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    startDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    finishedDate?: true;
+    @Field(() => Boolean, {nullable:true})
+    userBookId?: true;
+}
+
+@ObjectType()
+export class ReadMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+}
+
+@InputType()
+export class ReadMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    startDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    finishedDate?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    userBookId?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    startDate?: `${SortOrder}`;
+    @Field(() => SortOrderInput, {nullable:true})
+    finishedDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    userBookId?: `${SortOrder}`;
+    @Field(() => ReadCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadCountOrderByAggregateInput>;
+    @Field(() => ReadMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadMaxOrderByAggregateInput>;
+    @Field(() => ReadMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadMinOrderByAggregateInput>;
+}
+
+@InputType()
+export class ReadOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    startDate?: `${SortOrder}`;
+    @Field(() => SortOrderInput, {nullable:true})
+    finishedDate?: InstanceType<typeof SortOrderInput>;
+    @Field(() => SortOrder, {nullable:true})
+    userBookId?: `${SortOrder}`;
+    @Field(() => ReadingSessionOrderByRelationAggregateInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionOrderByRelationAggregateInput>;
+    @Field(() => UserBookOrderByWithRelationInput, {nullable:true})
+    UserBook?: InstanceType<typeof UserBookOrderByWithRelationInput>;
+}
+
+@InputType()
+export class ReadScalarRelationFilter {
+    @Field(() => ReadWhereInput, {nullable:true})
+    is?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => ReadWhereInput, {nullable:true})
+    isNot?: InstanceType<typeof ReadWhereInput>;
+}
+
+@InputType()
+export class ReadScalarWhereWithAggregatesInput {
+    @Field(() => [ReadScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<ReadScalarWhereWithAggregatesInput>;
+    @Field(() => [ReadScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<ReadScalarWhereWithAggregatesInput>;
+    @Field(() => [ReadScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<ReadScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    startDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    finishedDate?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    userBookId?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class ReadScalarWhereInput {
+    @Field(() => [ReadScalarWhereInput], {nullable:true})
+    AND?: Array<ReadScalarWhereInput>;
+    @Field(() => [ReadScalarWhereInput], {nullable:true})
+    OR?: Array<ReadScalarWhereInput>;
+    @Field(() => [ReadScalarWhereInput], {nullable:true})
+    NOT?: Array<ReadScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    startDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    userBookId?: InstanceType<typeof StringFilter>;
+}
+
+@InputType()
+export class ReadUncheckedCreateNestedManyWithoutUserBookInput {
+    @Field(() => [ReadCreateWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create?: Array<ReadCreateWithoutUserBookInput>;
+    @Field(() => [ReadCreateOrConnectWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutUserBookInput)
+    connectOrCreate?: Array<ReadCreateOrConnectWithoutUserBookInput>;
+    @Field(() => ReadCreateManyUserBookInputEnvelope, {nullable:true})
+    @Type(() => ReadCreateManyUserBookInputEnvelope)
+    createMany?: InstanceType<typeof ReadCreateManyUserBookInputEnvelope>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReadUncheckedCreateWithoutReadingSessionsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:false})
+    userBookId!: string;
+}
+
+@InputType()
+export class ReadUncheckedCreateWithoutUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionUncheckedCreateNestedManyWithoutReadInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUncheckedCreateNestedManyWithoutReadInput>;
+}
+
+@InputType()
+export class ReadUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:false})
+    userBookId!: string;
+    @Field(() => ReadingSessionUncheckedCreateNestedManyWithoutReadInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUncheckedCreateNestedManyWithoutReadInput>;
+}
+
+@InputType()
+export class ReadUncheckedUpdateManyWithoutUserBookNestedInput {
+    @Field(() => [ReadCreateWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create?: Array<ReadCreateWithoutUserBookInput>;
+    @Field(() => [ReadCreateOrConnectWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutUserBookInput)
+    connectOrCreate?: Array<ReadCreateOrConnectWithoutUserBookInput>;
+    @Field(() => [ReadUpsertWithWhereUniqueWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpsertWithWhereUniqueWithoutUserBookInput)
+    upsert?: Array<ReadUpsertWithWhereUniqueWithoutUserBookInput>;
+    @Field(() => ReadCreateManyUserBookInputEnvelope, {nullable:true})
+    @Type(() => ReadCreateManyUserBookInputEnvelope)
+    createMany?: InstanceType<typeof ReadCreateManyUserBookInputEnvelope>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpdateWithWhereUniqueWithoutUserBookInput)
+    update?: Array<ReadUpdateWithWhereUniqueWithoutUserBookInput>;
+    @Field(() => [ReadUpdateManyWithWhereWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpdateManyWithWhereWithoutUserBookInput)
+    updateMany?: Array<ReadUpdateManyWithWhereWithoutUserBookInput>;
+    @Field(() => [ReadScalarWhereInput], {nullable:true})
+    @Type(() => ReadScalarWhereInput)
+    deleteMany?: Array<ReadScalarWhereInput>;
+}
+
+@InputType()
+export class ReadUncheckedUpdateManyWithoutUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+}
+
+@InputType()
+export class ReadUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+}
+
+@InputType()
+export class ReadUncheckedUpdateWithoutReadingSessionsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+}
+
+@InputType()
+export class ReadUncheckedUpdateWithoutUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionUncheckedUpdateManyWithoutReadNestedInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUncheckedUpdateManyWithoutReadNestedInput>;
+}
+
+@InputType()
+export class ReadUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => String, {nullable:true})
+    userBookId?: string;
+    @Field(() => ReadingSessionUncheckedUpdateManyWithoutReadNestedInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUncheckedUpdateManyWithoutReadNestedInput>;
+}
+
+@InputType()
+export class ReadUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+}
+
+@InputType()
+export class ReadUpdateManyWithWhereWithoutUserBookInput {
+    @Field(() => ReadScalarWhereInput, {nullable:false})
+    @Type(() => ReadScalarWhereInput)
+    where!: InstanceType<typeof ReadScalarWhereInput>;
+    @Field(() => ReadUpdateManyMutationInput, {nullable:false})
+    @Type(() => ReadUpdateManyMutationInput)
+    data!: InstanceType<typeof ReadUpdateManyMutationInput>;
+}
+
+@InputType()
+export class ReadUpdateManyWithoutUserBookNestedInput {
+    @Field(() => [ReadCreateWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create?: Array<ReadCreateWithoutUserBookInput>;
+    @Field(() => [ReadCreateOrConnectWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutUserBookInput)
+    connectOrCreate?: Array<ReadCreateOrConnectWithoutUserBookInput>;
+    @Field(() => [ReadUpsertWithWhereUniqueWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpsertWithWhereUniqueWithoutUserBookInput)
+    upsert?: Array<ReadUpsertWithWhereUniqueWithoutUserBookInput>;
+    @Field(() => ReadCreateManyUserBookInputEnvelope, {nullable:true})
+    @Type(() => ReadCreateManyUserBookInputEnvelope)
+    createMany?: InstanceType<typeof ReadCreateManyUserBookInputEnvelope>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadWhereUniqueInput], {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadUpdateWithWhereUniqueWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpdateWithWhereUniqueWithoutUserBookInput)
+    update?: Array<ReadUpdateWithWhereUniqueWithoutUserBookInput>;
+    @Field(() => [ReadUpdateManyWithWhereWithoutUserBookInput], {nullable:true})
+    @Type(() => ReadUpdateManyWithWhereWithoutUserBookInput)
+    updateMany?: Array<ReadUpdateManyWithWhereWithoutUserBookInput>;
+    @Field(() => [ReadScalarWhereInput], {nullable:true})
+    @Type(() => ReadScalarWhereInput)
+    deleteMany?: Array<ReadScalarWhereInput>;
+}
+
+@InputType()
+export class ReadUpdateOneRequiredWithoutReadingSessionsNestedInput {
+    @Field(() => ReadCreateWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadCreateWithoutReadingSessionsInput)
+    create?: InstanceType<typeof ReadCreateWithoutReadingSessionsInput>;
+    @Field(() => ReadCreateOrConnectWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadCreateOrConnectWithoutReadingSessionsInput)
+    connectOrCreate?: InstanceType<typeof ReadCreateOrConnectWithoutReadingSessionsInput>;
+    @Field(() => ReadUpsertWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadUpsertWithoutReadingSessionsInput)
+    upsert?: InstanceType<typeof ReadUpsertWithoutReadingSessionsInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:true})
+    @Type(() => ReadWhereUniqueInput)
+    connect?: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadUpdateToOneWithWhereWithoutReadingSessionsInput, {nullable:true})
+    @Type(() => ReadUpdateToOneWithWhereWithoutReadingSessionsInput)
+    update?: InstanceType<typeof ReadUpdateToOneWithWhereWithoutReadingSessionsInput>;
+}
+
+@InputType()
+export class ReadUpdateToOneWithWhereWithoutReadingSessionsInput {
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => ReadUpdateWithoutReadingSessionsInput, {nullable:false})
+    @Type(() => ReadUpdateWithoutReadingSessionsInput)
+    data!: InstanceType<typeof ReadUpdateWithoutReadingSessionsInput>;
+}
+
+@InputType()
+export class ReadUpdateWithWhereUniqueWithoutUserBookInput {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadUpdateWithoutUserBookInput, {nullable:false})
+    @Type(() => ReadUpdateWithoutUserBookInput)
+    data!: InstanceType<typeof ReadUpdateWithoutUserBookInput>;
+}
+
+@InputType()
+export class ReadUpdateWithoutReadingSessionsInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => UserBookUpdateOneRequiredWithoutReadNestedInput, {nullable:true})
+    UserBook?: InstanceType<typeof UserBookUpdateOneRequiredWithoutReadNestedInput>;
+}
+
+@InputType()
+export class ReadUpdateWithoutUserBookInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionUpdateManyWithoutReadNestedInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUpdateManyWithoutReadNestedInput>;
+}
+
+@InputType()
+export class ReadUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Date, {nullable:true})
+    startDate?: Date | string;
+    @Field(() => Date, {nullable:true})
+    finishedDate?: Date | string;
+    @Field(() => ReadingSessionUpdateManyWithoutReadNestedInput, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionUpdateManyWithoutReadNestedInput>;
+    @Field(() => UserBookUpdateOneRequiredWithoutReadNestedInput, {nullable:true})
+    UserBook?: InstanceType<typeof UserBookUpdateOneRequiredWithoutReadNestedInput>;
+}
+
+@InputType()
+export class ReadUpsertWithWhereUniqueWithoutUserBookInput {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadUpdateWithoutUserBookInput, {nullable:false})
+    @Type(() => ReadUpdateWithoutUserBookInput)
+    update!: InstanceType<typeof ReadUpdateWithoutUserBookInput>;
+    @Field(() => ReadCreateWithoutUserBookInput, {nullable:false})
+    @Type(() => ReadCreateWithoutUserBookInput)
+    create!: InstanceType<typeof ReadCreateWithoutUserBookInput>;
+}
+
+@InputType()
+export class ReadUpsertWithoutReadingSessionsInput {
+    @Field(() => ReadUpdateWithoutReadingSessionsInput, {nullable:false})
+    @Type(() => ReadUpdateWithoutReadingSessionsInput)
+    update!: InstanceType<typeof ReadUpdateWithoutReadingSessionsInput>;
+    @Field(() => ReadCreateWithoutReadingSessionsInput, {nullable:false})
+    @Type(() => ReadCreateWithoutReadingSessionsInput)
+    create!: InstanceType<typeof ReadCreateWithoutReadingSessionsInput>;
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    where?: InstanceType<typeof ReadWhereInput>;
+}
+
+@InputType()
+export class ReadWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => [ReadWhereInput], {nullable:true})
+    AND?: Array<ReadWhereInput>;
+    @Field(() => [ReadWhereInput], {nullable:true})
+    OR?: Array<ReadWhereInput>;
+    @Field(() => [ReadWhereInput], {nullable:true})
+    NOT?: Array<ReadWhereInput>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    startDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    userBookId?: InstanceType<typeof StringFilter>;
+    @Field(() => ReadingSessionListRelationFilter, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionListRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    UserBook?: InstanceType<typeof UserBookScalarRelationFilter>;
+}
+
+@InputType()
+export class ReadWhereInput {
+    @Field(() => [ReadWhereInput], {nullable:true})
+    AND?: Array<ReadWhereInput>;
+    @Field(() => [ReadWhereInput], {nullable:true})
+    OR?: Array<ReadWhereInput>;
+    @Field(() => [ReadWhereInput], {nullable:true})
+    NOT?: Array<ReadWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    startDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    finishedDate?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    userBookId?: InstanceType<typeof StringFilter>;
+    @Field(() => ReadingSessionListRelationFilter, {nullable:true})
+    readingSessions?: InstanceType<typeof ReadingSessionListRelationFilter>;
+    @Field(() => UserBookScalarRelationFilter, {nullable:true})
+    UserBook?: InstanceType<typeof UserBookScalarRelationFilter>;
+}
+
+@ObjectType()
+export class Read {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => Date, {nullable:false})
+    startDate!: Date;
+    @Field(() => Date, {nullable:true})
+    finishedDate!: Date | null;
+    @Field(() => String, {nullable:false})
+    userBookId!: string;
+    @Field(() => [ReadingSession], {nullable:true})
+    readingSessions?: Array<ReadingSession>;
+    @Field(() => UserBook, {nullable:false})
+    UserBook?: InstanceType<typeof UserBook>;
+    @Field(() => ReadCount, {nullable:false})
+    _count?: InstanceType<typeof ReadCount>;
+}
+
+@ArgsType()
+export class UpdateManyReadArgs {
+    @Field(() => ReadUpdateManyMutationInput, {nullable:false})
+    @Type(() => ReadUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadUpdateManyMutationInput>;
+    @Field(() => ReadWhereInput, {nullable:true})
+    @Type(() => ReadWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
+}
+
+@ArgsType()
+export class UpdateOneReadArgs {
+    @Field(() => ReadUpdateInput, {nullable:false})
+    @Type(() => ReadUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadUpdateInput>;
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpsertOneReadArgs {
+    @Field(() => ReadWhereUniqueInput, {nullable:false})
+    @Type(() => ReadWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadWhereUniqueInput, 'id'>;
+    @Field(() => ReadCreateInput, {nullable:false})
+    @Type(() => ReadCreateInput)
+    create!: InstanceType<typeof ReadCreateInput>;
+    @Field(() => ReadUpdateInput, {nullable:false})
+    @Type(() => ReadUpdateInput)
+    update!: InstanceType<typeof ReadUpdateInput>;
+}
+
+@ObjectType()
 export class AggregateReadDate {
     @Field(() => ReadDateCountAggregate, {nullable:true})
     _count?: InstanceType<typeof ReadDateCountAggregate>;
@@ -7193,6 +8133,1000 @@ export class UpsertOneReadingProgressArgs {
     @Field(() => ReadingProgressUpdateInput, {nullable:false})
     @Type(() => ReadingProgressUpdateInput)
     update!: InstanceType<typeof ReadingProgressUpdateInput>;
+}
+
+@ObjectType()
+export class AggregateReadingSession {
+    @Field(() => ReadingSessionCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof ReadingSessionCountAggregate>;
+    @Field(() => ReadingSessionAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof ReadingSessionAvgAggregate>;
+    @Field(() => ReadingSessionSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof ReadingSessionSumAggregate>;
+    @Field(() => ReadingSessionMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof ReadingSessionMinAggregate>;
+    @Field(() => ReadingSessionMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof ReadingSessionMaxAggregate>;
+}
+
+@ArgsType()
+export class CreateManyReadingSessionArgs {
+    @Field(() => [ReadingSessionCreateManyInput], {nullable:false})
+    @Type(() => ReadingSessionCreateManyInput)
+    @ValidateNested()
+    data!: Array<ReadingSessionCreateManyInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@ArgsType()
+export class CreateOneReadingSessionArgs {
+    @Field(() => ReadingSessionCreateInput, {nullable:false})
+    @Type(() => ReadingSessionCreateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadingSessionCreateInput>;
+}
+
+@ArgsType()
+export class DeleteManyReadingSessionArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
+}
+
+@ArgsType()
+export class DeleteOneReadingSessionArgs {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindFirstReadingSessionOrThrowArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadingSessionOrderByWithRelationInput>;
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadingSessionScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadingSessionScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindFirstReadingSessionArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadingSessionOrderByWithRelationInput>;
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadingSessionScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadingSessionScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindManyReadingSessionArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadingSessionOrderByWithRelationInput>;
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => [ReadingSessionScalarFieldEnum], {nullable:true})
+    distinct?: Array<`${ReadingSessionScalarFieldEnum}`>;
+}
+
+@ArgsType()
+export class FindUniqueReadingSessionOrThrowArgs {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class FindUniqueReadingSessionArgs {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class ReadingSessionAggregateArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionOrderByWithRelationInput], {nullable:true})
+    orderBy?: Array<ReadingSessionOrderByWithRelationInput>;
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:true})
+    cursor?: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => ReadingSessionCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadingSessionCountAggregateInput>;
+    @Field(() => ReadingSessionAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReadingSessionAvgAggregateInput>;
+    @Field(() => ReadingSessionSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReadingSessionSumAggregateInput>;
+    @Field(() => ReadingSessionMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadingSessionMinAggregateInput>;
+    @Field(() => ReadingSessionMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadingSessionMaxAggregateInput>;
+}
+
+@InputType()
+export class ReadingSessionAvgAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    capacity?: true;
+    @Field(() => Boolean, {nullable:true})
+    progress?: true;
+}
+
+@ObjectType()
+export class ReadingSessionAvgAggregate {
+    @Field(() => Float, {nullable:true})
+    capacity?: number;
+    @Field(() => Float, {nullable:true})
+    progress?: number;
+}
+
+@InputType()
+export class ReadingSessionAvgOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionCountAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    capacity?: true;
+    @Field(() => Boolean, {nullable:true})
+    progress?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    readId?: true;
+    @Field(() => Boolean, {nullable:true})
+    _all?: true;
+}
+
+@ObjectType()
+export class ReadingSessionCountAggregate {
+    @Field(() => Int, {nullable:false})
+    id!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => Int, {nullable:false})
+    type!: number;
+    @Field(() => Int, {nullable:false})
+    createdAt!: number;
+    @Field(() => Int, {nullable:false})
+    readId!: number;
+    @Field(() => Int, {nullable:false})
+    _all!: number;
+}
+
+@InputType()
+export class ReadingSessionCountOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    type?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    readId?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionCreateManyReadInputEnvelope {
+    @Field(() => [ReadingSessionCreateManyReadInput], {nullable:false})
+    @Type(() => ReadingSessionCreateManyReadInput)
+    data!: Array<ReadingSessionCreateManyReadInput>;
+    @Field(() => Boolean, {nullable:true})
+    skipDuplicates?: boolean;
+}
+
+@InputType()
+export class ReadingSessionCreateManyReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionCreateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:false})
+    readId!: string;
+}
+
+@InputType()
+export class ReadingSessionCreateNestedManyWithoutReadInput {
+    @Field(() => [ReadingSessionCreateWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create?: Array<ReadingSessionCreateWithoutReadInput>;
+    @Field(() => [ReadingSessionCreateOrConnectWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateOrConnectWithoutReadInput)
+    connectOrCreate?: Array<ReadingSessionCreateOrConnectWithoutReadInput>;
+    @Field(() => ReadingSessionCreateManyReadInputEnvelope, {nullable:true})
+    @Type(() => ReadingSessionCreateManyReadInputEnvelope)
+    createMany?: InstanceType<typeof ReadingSessionCreateManyReadInputEnvelope>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReadingSessionCreateOrConnectWithoutReadInput {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => ReadingSessionCreateWithoutReadInput, {nullable:false})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create!: InstanceType<typeof ReadingSessionCreateWithoutReadInput>;
+}
+
+@InputType()
+export class ReadingSessionCreateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => ReadCreateNestedOneWithoutReadingSessionsInput, {nullable:false})
+    read!: InstanceType<typeof ReadCreateNestedOneWithoutReadingSessionsInput>;
+}
+
+@ArgsType()
+export class ReadingSessionGroupByArgs {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionOrderByWithAggregationInput], {nullable:true})
+    orderBy?: Array<ReadingSessionOrderByWithAggregationInput>;
+    @Field(() => [ReadingSessionScalarFieldEnum], {nullable:false})
+    by!: Array<`${ReadingSessionScalarFieldEnum}`>;
+    @Field(() => ReadingSessionScalarWhereWithAggregatesInput, {nullable:true})
+    having?: InstanceType<typeof ReadingSessionScalarWhereWithAggregatesInput>;
+    @Field(() => Int, {nullable:true})
+    take?: number;
+    @Field(() => Int, {nullable:true})
+    skip?: number;
+    @Field(() => ReadingSessionCountAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadingSessionCountAggregateInput>;
+    @Field(() => ReadingSessionAvgAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReadingSessionAvgAggregateInput>;
+    @Field(() => ReadingSessionSumAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReadingSessionSumAggregateInput>;
+    @Field(() => ReadingSessionMinAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadingSessionMinAggregateInput>;
+    @Field(() => ReadingSessionMaxAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadingSessionMaxAggregateInput>;
+}
+
+@ObjectType()
+export class ReadingSessionGroupBy {
+    @Field(() => String, {nullable:false})
+    id!: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date | string;
+    @Field(() => String, {nullable:false})
+    readId!: string;
+    @Field(() => ReadingSessionCountAggregate, {nullable:true})
+    _count?: InstanceType<typeof ReadingSessionCountAggregate>;
+    @Field(() => ReadingSessionAvgAggregate, {nullable:true})
+    _avg?: InstanceType<typeof ReadingSessionAvgAggregate>;
+    @Field(() => ReadingSessionSumAggregate, {nullable:true})
+    _sum?: InstanceType<typeof ReadingSessionSumAggregate>;
+    @Field(() => ReadingSessionMinAggregate, {nullable:true})
+    _min?: InstanceType<typeof ReadingSessionMinAggregate>;
+    @Field(() => ReadingSessionMaxAggregate, {nullable:true})
+    _max?: InstanceType<typeof ReadingSessionMaxAggregate>;
+}
+
+@InputType()
+export class ReadingSessionListRelationFilter {
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    every?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    some?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    none?: InstanceType<typeof ReadingSessionWhereInput>;
+}
+
+@InputType()
+export class ReadingSessionMaxAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    capacity?: true;
+    @Field(() => Boolean, {nullable:true})
+    progress?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    readId?: true;
+}
+
+@ObjectType()
+export class ReadingSessionMaxAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    readId?: string;
+}
+
+@InputType()
+export class ReadingSessionMaxOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    type?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    readId?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionMinAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    id?: true;
+    @Field(() => Boolean, {nullable:true})
+    capacity?: true;
+    @Field(() => Boolean, {nullable:true})
+    progress?: true;
+    @Field(() => Boolean, {nullable:true})
+    type?: true;
+    @Field(() => Boolean, {nullable:true})
+    createdAt?: true;
+    @Field(() => Boolean, {nullable:true})
+    readId?: true;
+}
+
+@ObjectType()
+export class ReadingSessionMinAggregate {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    readId?: string;
+}
+
+@InputType()
+export class ReadingSessionMinOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    type?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    readId?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionOrderByRelationAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    _count?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionOrderByWithAggregationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    type?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    readId?: `${SortOrder}`;
+    @Field(() => ReadingSessionCountOrderByAggregateInput, {nullable:true})
+    _count?: InstanceType<typeof ReadingSessionCountOrderByAggregateInput>;
+    @Field(() => ReadingSessionAvgOrderByAggregateInput, {nullable:true})
+    _avg?: InstanceType<typeof ReadingSessionAvgOrderByAggregateInput>;
+    @Field(() => ReadingSessionMaxOrderByAggregateInput, {nullable:true})
+    _max?: InstanceType<typeof ReadingSessionMaxOrderByAggregateInput>;
+    @Field(() => ReadingSessionMinOrderByAggregateInput, {nullable:true})
+    _min?: InstanceType<typeof ReadingSessionMinOrderByAggregateInput>;
+    @Field(() => ReadingSessionSumOrderByAggregateInput, {nullable:true})
+    _sum?: InstanceType<typeof ReadingSessionSumOrderByAggregateInput>;
+}
+
+@InputType()
+export class ReadingSessionOrderByWithRelationInput {
+    @Field(() => SortOrder, {nullable:true})
+    id?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    type?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    createdAt?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    readId?: `${SortOrder}`;
+    @Field(() => ReadOrderByWithRelationInput, {nullable:true})
+    read?: InstanceType<typeof ReadOrderByWithRelationInput>;
+}
+
+@InputType()
+export class ReadingSessionScalarWhereWithAggregatesInput {
+    @Field(() => [ReadingSessionScalarWhereWithAggregatesInput], {nullable:true})
+    AND?: Array<ReadingSessionScalarWhereWithAggregatesInput>;
+    @Field(() => [ReadingSessionScalarWhereWithAggregatesInput], {nullable:true})
+    OR?: Array<ReadingSessionScalarWhereWithAggregatesInput>;
+    @Field(() => [ReadingSessionScalarWhereWithAggregatesInput], {nullable:true})
+    NOT?: Array<ReadingSessionScalarWhereWithAggregatesInput>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    id?: InstanceType<typeof StringWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    capacity?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    progress?: InstanceType<typeof IntWithAggregatesFilter>;
+    @Field(() => EnumPROGRESS_TYPEWithAggregatesFilter, {nullable:true})
+    type?: InstanceType<typeof EnumPROGRESS_TYPEWithAggregatesFilter>;
+    @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    readId?: InstanceType<typeof StringWithAggregatesFilter>;
+}
+
+@InputType()
+export class ReadingSessionScalarWhereInput {
+    @Field(() => [ReadingSessionScalarWhereInput], {nullable:true})
+    AND?: Array<ReadingSessionScalarWhereInput>;
+    @Field(() => [ReadingSessionScalarWhereInput], {nullable:true})
+    OR?: Array<ReadingSessionScalarWhereInput>;
+    @Field(() => [ReadingSessionScalarWhereInput], {nullable:true})
+    NOT?: Array<ReadingSessionScalarWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    capacity?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    progress?: InstanceType<typeof IntFilter>;
+    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
+    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    readId?: InstanceType<typeof StringFilter>;
+}
+
+@InputType()
+export class ReadingSessionSumAggregateInput {
+    @Field(() => Boolean, {nullable:true})
+    capacity?: true;
+    @Field(() => Boolean, {nullable:true})
+    progress?: true;
+}
+
+@ObjectType()
+export class ReadingSessionSumAggregate {
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+}
+
+@InputType()
+export class ReadingSessionSumOrderByAggregateInput {
+    @Field(() => SortOrder, {nullable:true})
+    capacity?: `${SortOrder}`;
+    @Field(() => SortOrder, {nullable:true})
+    progress?: `${SortOrder}`;
+}
+
+@InputType()
+export class ReadingSessionUncheckedCreateNestedManyWithoutReadInput {
+    @Field(() => [ReadingSessionCreateWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create?: Array<ReadingSessionCreateWithoutReadInput>;
+    @Field(() => [ReadingSessionCreateOrConnectWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateOrConnectWithoutReadInput)
+    connectOrCreate?: Array<ReadingSessionCreateOrConnectWithoutReadInput>;
+    @Field(() => ReadingSessionCreateManyReadInputEnvelope, {nullable:true})
+    @Type(() => ReadingSessionCreateManyReadInputEnvelope)
+    createMany?: InstanceType<typeof ReadingSessionCreateManyReadInputEnvelope>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+}
+
+@InputType()
+export class ReadingSessionUncheckedCreateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionUncheckedCreateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    @Validator.IsInt()
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:false})
+    readId!: string;
+}
+
+@InputType()
+export class ReadingSessionUncheckedUpdateManyWithoutReadNestedInput {
+    @Field(() => [ReadingSessionCreateWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create?: Array<ReadingSessionCreateWithoutReadInput>;
+    @Field(() => [ReadingSessionCreateOrConnectWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateOrConnectWithoutReadInput)
+    connectOrCreate?: Array<ReadingSessionCreateOrConnectWithoutReadInput>;
+    @Field(() => [ReadingSessionUpsertWithWhereUniqueWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpsertWithWhereUniqueWithoutReadInput)
+    upsert?: Array<ReadingSessionUpsertWithWhereUniqueWithoutReadInput>;
+    @Field(() => ReadingSessionCreateManyReadInputEnvelope, {nullable:true})
+    @Type(() => ReadingSessionCreateManyReadInputEnvelope)
+    createMany?: InstanceType<typeof ReadingSessionCreateManyReadInputEnvelope>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionUpdateWithWhereUniqueWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpdateWithWhereUniqueWithoutReadInput)
+    update?: Array<ReadingSessionUpdateWithWhereUniqueWithoutReadInput>;
+    @Field(() => [ReadingSessionUpdateManyWithWhereWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpdateManyWithWhereWithoutReadInput)
+    updateMany?: Array<ReadingSessionUpdateManyWithWhereWithoutReadInput>;
+    @Field(() => [ReadingSessionScalarWhereInput], {nullable:true})
+    @Type(() => ReadingSessionScalarWhereInput)
+    deleteMany?: Array<ReadingSessionScalarWhereInput>;
+}
+
+@InputType()
+export class ReadingSessionUncheckedUpdateManyWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionUncheckedUpdateManyInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    readId?: string;
+}
+
+@InputType()
+export class ReadingSessionUncheckedUpdateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionUncheckedUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => String, {nullable:true})
+    readId?: string;
+}
+
+@InputType()
+export class ReadingSessionUpdateManyMutationInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionUpdateManyWithWhereWithoutReadInput {
+    @Field(() => ReadingSessionScalarWhereInput, {nullable:false})
+    @Type(() => ReadingSessionScalarWhereInput)
+    where!: InstanceType<typeof ReadingSessionScalarWhereInput>;
+    @Field(() => ReadingSessionUpdateManyMutationInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateManyMutationInput)
+    data!: InstanceType<typeof ReadingSessionUpdateManyMutationInput>;
+}
+
+@InputType()
+export class ReadingSessionUpdateManyWithoutReadNestedInput {
+    @Field(() => [ReadingSessionCreateWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create?: Array<ReadingSessionCreateWithoutReadInput>;
+    @Field(() => [ReadingSessionCreateOrConnectWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionCreateOrConnectWithoutReadInput)
+    connectOrCreate?: Array<ReadingSessionCreateOrConnectWithoutReadInput>;
+    @Field(() => [ReadingSessionUpsertWithWhereUniqueWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpsertWithWhereUniqueWithoutReadInput)
+    upsert?: Array<ReadingSessionUpsertWithWhereUniqueWithoutReadInput>;
+    @Field(() => ReadingSessionCreateManyReadInputEnvelope, {nullable:true})
+    @Type(() => ReadingSessionCreateManyReadInputEnvelope)
+    createMany?: InstanceType<typeof ReadingSessionCreateManyReadInputEnvelope>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    set?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    disconnect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    delete?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionWhereUniqueInput], {nullable:true})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    connect?: Array<Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>>;
+    @Field(() => [ReadingSessionUpdateWithWhereUniqueWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpdateWithWhereUniqueWithoutReadInput)
+    update?: Array<ReadingSessionUpdateWithWhereUniqueWithoutReadInput>;
+    @Field(() => [ReadingSessionUpdateManyWithWhereWithoutReadInput], {nullable:true})
+    @Type(() => ReadingSessionUpdateManyWithWhereWithoutReadInput)
+    updateMany?: Array<ReadingSessionUpdateManyWithWhereWithoutReadInput>;
+    @Field(() => [ReadingSessionScalarWhereInput], {nullable:true})
+    @Type(() => ReadingSessionScalarWhereInput)
+    deleteMany?: Array<ReadingSessionScalarWhereInput>;
+}
+
+@InputType()
+export class ReadingSessionUpdateWithWhereUniqueWithoutReadInput {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => ReadingSessionUpdateWithoutReadInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateWithoutReadInput)
+    data!: InstanceType<typeof ReadingSessionUpdateWithoutReadInput>;
+}
+
+@InputType()
+export class ReadingSessionUpdateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+}
+
+@InputType()
+export class ReadingSessionUpdateInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    capacity?: number;
+    @Field(() => Int, {nullable:true})
+    @Validator.IsInt()
+    progress?: number;
+    @Field(() => PROGRESS_TYPE, {nullable:true})
+    type?: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:true})
+    createdAt?: Date | string;
+    @Field(() => ReadUpdateOneRequiredWithoutReadingSessionsNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateOneRequiredWithoutReadingSessionsNestedInput>;
+}
+
+@InputType()
+export class ReadingSessionUpsertWithWhereUniqueWithoutReadInput {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => ReadingSessionUpdateWithoutReadInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateWithoutReadInput)
+    update!: InstanceType<typeof ReadingSessionUpdateWithoutReadInput>;
+    @Field(() => ReadingSessionCreateWithoutReadInput, {nullable:false})
+    @Type(() => ReadingSessionCreateWithoutReadInput)
+    create!: InstanceType<typeof ReadingSessionCreateWithoutReadInput>;
+}
+
+@InputType()
+export class ReadingSessionWhereUniqueInput {
+    @Field(() => String, {nullable:true})
+    id?: string;
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    AND?: Array<ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    OR?: Array<ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    NOT?: Array<ReadingSessionWhereInput>;
+    @Field(() => IntFilter, {nullable:true})
+    capacity?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    progress?: InstanceType<typeof IntFilter>;
+    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
+    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    readId?: InstanceType<typeof StringFilter>;
+    @Field(() => ReadScalarRelationFilter, {nullable:true})
+    read?: InstanceType<typeof ReadScalarRelationFilter>;
+}
+
+@InputType()
+export class ReadingSessionWhereInput {
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    AND?: Array<ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    OR?: Array<ReadingSessionWhereInput>;
+    @Field(() => [ReadingSessionWhereInput], {nullable:true})
+    NOT?: Array<ReadingSessionWhereInput>;
+    @Field(() => StringFilter, {nullable:true})
+    id?: InstanceType<typeof StringFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    capacity?: InstanceType<typeof IntFilter>;
+    @Field(() => IntFilter, {nullable:true})
+    progress?: InstanceType<typeof IntFilter>;
+    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
+    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    @Field(() => DateTimeFilter, {nullable:true})
+    createdAt?: InstanceType<typeof DateTimeFilter>;
+    @Field(() => StringFilter, {nullable:true})
+    readId?: InstanceType<typeof StringFilter>;
+    @Field(() => ReadScalarRelationFilter, {nullable:true})
+    read?: InstanceType<typeof ReadScalarRelationFilter>;
+}
+
+@ObjectType()
+export class ReadingSession {
+    @Field(() => ID, {nullable:false})
+    id!: string;
+    @Field(() => Int, {nullable:false})
+    capacity!: number;
+    @Field(() => Int, {nullable:false})
+    progress!: number;
+    @Field(() => PROGRESS_TYPE, {nullable:false})
+    type!: `${PROGRESS_TYPE}`;
+    @Field(() => Date, {nullable:false})
+    createdAt!: Date;
+    @Field(() => String, {nullable:false})
+    readId!: string;
+    @Field(() => Read, {nullable:false})
+    read?: InstanceType<typeof Read>;
+}
+
+@ArgsType()
+export class UpdateManyReadingSessionArgs {
+    @Field(() => ReadingSessionUpdateManyMutationInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateManyMutationInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadingSessionUpdateManyMutationInput>;
+    @Field(() => ReadingSessionWhereInput, {nullable:true})
+    @Type(() => ReadingSessionWhereInput)
+    @ValidateNested()
+    where?: InstanceType<typeof ReadingSessionWhereInput>;
+    @Field(() => Int, {nullable:true})
+    limit?: number;
+}
+
+@ArgsType()
+export class UpdateOneReadingSessionArgs {
+    @Field(() => ReadingSessionUpdateInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateInput)
+    @ValidateNested()
+    data!: InstanceType<typeof ReadingSessionUpdateInput>;
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+}
+
+@ArgsType()
+export class UpsertOneReadingSessionArgs {
+    @Field(() => ReadingSessionWhereUniqueInput, {nullable:false})
+    @Type(() => ReadingSessionWhereUniqueInput)
+    @ValidateNested()
+    where!: Prisma.AtLeast<ReadingSessionWhereUniqueInput, 'id'>;
+    @Field(() => ReadingSessionCreateInput, {nullable:false})
+    @Type(() => ReadingSessionCreateInput)
+    create!: InstanceType<typeof ReadingSessionCreateInput>;
+    @Field(() => ReadingSessionUpdateInput, {nullable:false})
+    @Type(() => ReadingSessionUpdateInput)
+    update!: InstanceType<typeof ReadingSessionUpdateInput>;
 }
 
 @ObjectType()
@@ -9987,8 +11921,6 @@ export class UserBookAggregateArgs {
 export class UserBookAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
-    @Field(() => Boolean, {nullable:true})
-    order?: true;
 }
 
 @ObjectType()
@@ -9998,16 +11930,12 @@ export class UserBookAvgAggregate {
     @Validator.Max(5)
     @Validator.IsNumber()
     rating?: number;
-    @Field(() => Float, {nullable:true})
-    order?: number;
 }
 
 @InputType()
 export class UserBookAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
 }
 
 @InputType()
@@ -10026,8 +11954,6 @@ export class UserBookCountAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
-    @Field(() => Boolean, {nullable:true})
-    order?: true;
     @Field(() => Boolean, {nullable:true})
     dateAdded?: true;
     @Field(() => Boolean, {nullable:true})
@@ -10051,8 +11977,6 @@ export class UserBookCountAggregate {
     @Field(() => Int, {nullable:false})
     updatedAt!: number;
     @Field(() => Int, {nullable:false})
-    order!: number;
-    @Field(() => Int, {nullable:false})
     dateAdded!: number;
     @Field(() => Int, {nullable:false})
     _all!: number;
@@ -10075,8 +11999,6 @@ export class UserBookCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     dateAdded?: `${SortOrder}`;
 }
 
@@ -10086,6 +12008,8 @@ export class UserBookCount {
     shelves?: number;
     @Field(() => Int, {nullable:false})
     readDates?: number;
+    @Field(() => Int, {nullable:false})
+    read?: number;
 }
 
 @InputType()
@@ -10118,8 +12042,6 @@ export class UserBookCreateManyUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
 }
@@ -10148,8 +12070,6 @@ export class UserBookCreateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
 }
@@ -10197,6 +12117,19 @@ export class UserBookCreateNestedOneWithoutReadDatesInput {
 }
 
 @InputType()
+export class UserBookCreateNestedOneWithoutReadInput {
+    @Field(() => UserBookCreateWithoutReadInput, {nullable:true})
+    @Type(() => UserBookCreateWithoutReadInput)
+    create?: InstanceType<typeof UserBookCreateWithoutReadInput>;
+    @Field(() => UserBookCreateOrConnectWithoutReadInput, {nullable:true})
+    @Type(() => UserBookCreateOrConnectWithoutReadInput)
+    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutReadInput>;
+    @Field(() => UserBookWhereUniqueInput, {nullable:true})
+    @Type(() => UserBookWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'bookId' | 'identifier'>;
+}
+
+@InputType()
 export class UserBookCreateNestedOneWithoutShelvesInput {
     @Field(() => UserBookCreateWithoutShelvesInput, {nullable:true})
     @Type(() => UserBookCreateWithoutShelvesInput)
@@ -10227,6 +12160,16 @@ export class UserBookCreateOrConnectWithoutReadDatesInput {
     @Field(() => UserBookCreateWithoutReadDatesInput, {nullable:false})
     @Type(() => UserBookCreateWithoutReadDatesInput)
     create!: InstanceType<typeof UserBookCreateWithoutReadDatesInput>;
+}
+
+@InputType()
+export class UserBookCreateOrConnectWithoutReadInput {
+    @Field(() => UserBookWhereUniqueInput, {nullable:false})
+    @Type(() => UserBookWhereUniqueInput)
+    where!: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'bookId' | 'identifier'>;
+    @Field(() => UserBookCreateWithoutReadInput, {nullable:false})
+    @Type(() => UserBookCreateWithoutReadInput)
+    create!: InstanceType<typeof UserBookCreateWithoutReadInput>;
 }
 
 @InputType()
@@ -10267,8 +12210,6 @@ export class UserBookCreateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:false})
@@ -10277,6 +12218,8 @@ export class UserBookCreateWithoutBookInput {
     shelves?: InstanceType<typeof UserBookShelvesCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10297,8 +12240,6 @@ export class UserBookCreateWithoutReadDatesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:false})
@@ -10307,6 +12248,38 @@ export class UserBookCreateWithoutReadDatesInput {
     book!: InstanceType<typeof BookCreateNestedOneWithoutUserBookInput>;
     @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadCreateNestedManyWithoutUserBookInput>;
+}
+
+@InputType()
+export class UserBookCreateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => READING_STATUS, {nullable:false})
+    @Validator.IsString()
+    status!: `${READING_STATUS}`;
+    @Field(() => Float, {nullable:true})
+    @Validator.Min(0)
+    @Validator.Max(5)
+    @Validator.IsNumber()
+    rating?: number;
+    @Field(() => Date, {nullable:true})
+    @Validator.ValidateNested()
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => Date, {nullable:false})
+    dateAdded!: Date | string;
+    @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:false})
+    user!: InstanceType<typeof UserCreateNestedOneWithoutUserBooksInput>;
+    @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:false})
+    book!: InstanceType<typeof BookCreateNestedOneWithoutUserBookInput>;
+    @Field(() => UserBookShelvesCreateNestedManyWithoutUserBookInput, {nullable:true})
+    shelves?: InstanceType<typeof UserBookShelvesCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadDateCreateNestedManyWithoutUserBookInput, {nullable:true})
+    readDates?: InstanceType<typeof ReadDateCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10327,8 +12300,6 @@ export class UserBookCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:false})
@@ -10337,6 +12308,8 @@ export class UserBookCreateWithoutShelvesInput {
     book!: InstanceType<typeof BookCreateNestedOneWithoutUserBookInput>;
     @Field(() => ReadDateCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10357,8 +12330,6 @@ export class UserBookCreateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => BookCreateNestedOneWithoutUserBookInput, {nullable:false})
@@ -10367,6 +12338,8 @@ export class UserBookCreateWithoutUserInput {
     shelves?: InstanceType<typeof UserBookShelvesCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10387,8 +12360,6 @@ export class UserBookCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserCreateNestedOneWithoutUserBooksInput, {nullable:false})
@@ -10399,6 +12370,8 @@ export class UserBookCreateInput {
     shelves?: InstanceType<typeof UserBookShelvesCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadCreateNestedManyWithoutUserBookInput>;
 }
 
 @ArgsType()
@@ -10453,8 +12426,6 @@ export class UserBookGroupBy {
     createdAt!: Date | string;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date | string;
-    @Field(() => Int, {nullable:false})
-    order!: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserBookCountAggregate, {nullable:true})
@@ -10506,8 +12477,6 @@ export class UserBookMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
     @Field(() => Boolean, {nullable:true})
-    order?: true;
-    @Field(() => Boolean, {nullable:true})
     dateAdded?: true;
 }
 
@@ -10535,8 +12504,6 @@ export class UserBookMaxAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
 }
@@ -10558,8 +12525,6 @@ export class UserBookMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     dateAdded?: `${SortOrder}`;
 }
 
@@ -10579,8 +12544,6 @@ export class UserBookMinAggregateInput {
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
     updatedAt?: true;
-    @Field(() => Boolean, {nullable:true})
-    order?: true;
     @Field(() => Boolean, {nullable:true})
     dateAdded?: true;
 }
@@ -10609,8 +12572,6 @@ export class UserBookMinAggregate {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
 }
@@ -10631,8 +12592,6 @@ export class UserBookMinOrderByAggregateInput {
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     dateAdded?: `${SortOrder}`;
 }
@@ -10659,8 +12618,6 @@ export class UserBookOrderByWithAggregationInput {
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     dateAdded?: `${SortOrder}`;
     @Field(() => UserBookCountOrderByAggregateInput, {nullable:true})
@@ -10692,8 +12649,6 @@ export class UserBookOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     updatedAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
     dateAdded?: `${SortOrder}`;
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     user?: InstanceType<typeof UserOrderByWithRelationInput>;
@@ -10703,6 +12658,8 @@ export class UserBookOrderByWithRelationInput {
     shelves?: InstanceType<typeof UserBookShelvesOrderByRelationAggregateInput>;
     @Field(() => ReadDateOrderByRelationAggregateInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateOrderByRelationAggregateInput>;
+    @Field(() => ReadOrderByRelationAggregateInput, {nullable:true})
+    read?: InstanceType<typeof ReadOrderByRelationAggregateInput>;
 }
 
 @InputType()
@@ -10735,8 +12692,6 @@ export class UserBookScalarWhereWithAggregatesInput {
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    order?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeWithAggregatesFilter>;
 }
@@ -10763,8 +12718,6 @@ export class UserBookScalarWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    order?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeFilter>;
 }
@@ -10773,8 +12726,6 @@ export class UserBookScalarWhereInput {
 export class UserBookSumAggregateInput {
     @Field(() => Boolean, {nullable:true})
     rating?: true;
-    @Field(() => Boolean, {nullable:true})
-    order?: true;
 }
 
 @ObjectType()
@@ -10784,16 +12735,12 @@ export class UserBookSumAggregate {
     @Validator.Max(5)
     @Validator.IsNumber()
     rating?: number;
-    @Field(() => Int, {nullable:true})
-    order?: number;
 }
 
 @InputType()
 export class UserBookSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     rating?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    order?: `${SortOrder}`;
 }
 
 @InputType()
@@ -10846,14 +12793,14 @@ export class UserBookUncheckedCreateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10880,12 +12827,44 @@ export class UserBookUncheckedCreateWithoutReadDatesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedCreateNestedManyWithoutUserBookInput>;
+}
+
+@InputType()
+export class UserBookUncheckedCreateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    userId!: string;
+    @Field(() => String, {nullable:false})
+    @Validator.IsString()
+    bookId!: string;
+    @Field(() => READING_STATUS, {nullable:false})
+    @Validator.IsString()
+    status!: `${READING_STATUS}`;
+    @Field(() => Float, {nullable:true})
+    @Validator.Min(0)
+    @Validator.Max(5)
+    @Validator.IsNumber()
+    rating?: number;
+    @Field(() => Date, {nullable:true})
+    @Validator.ValidateNested()
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => Date, {nullable:false})
+    dateAdded!: Date | string;
+    @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadDateUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    readDates?: InstanceType<typeof ReadDateUncheckedCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10912,12 +12891,12 @@ export class UserBookUncheckedCreateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => ReadDateUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10941,14 +12920,14 @@ export class UserBookUncheckedCreateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -10975,14 +12954,14 @@ export class UserBookUncheckedCreateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date | string;
     @Field(() => UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedCreateNestedManyWithoutUserBookInput>;
     @Field(() => ReadDateUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedCreateNestedManyWithoutUserBookInput>;
+    @Field(() => ReadUncheckedCreateNestedManyWithoutUserBookInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedCreateNestedManyWithoutUserBookInput>;
 }
 
 @InputType()
@@ -11043,8 +13022,6 @@ export class UserBookUncheckedUpdateManyWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
 }
@@ -11073,8 +13050,6 @@ export class UserBookUncheckedUpdateManyInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
 }
@@ -11125,14 +13100,14 @@ export class UserBookUncheckedUpdateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11159,12 +13134,44 @@ export class UserBookUncheckedUpdateWithoutReadDatesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedUpdateManyWithoutUserBookNestedInput>;
+}
+
+@InputType()
+export class UserBookUncheckedUpdateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    userId?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    bookId?: string;
+    @Field(() => READING_STATUS, {nullable:true})
+    @Validator.IsString()
+    status?: `${READING_STATUS}`;
+    @Field(() => Float, {nullable:true})
+    @Validator.Min(0)
+    @Validator.Max(5)
+    @Validator.IsNumber()
+    rating?: number;
+    @Field(() => Date, {nullable:true})
+    @Validator.ValidateNested()
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    dateAdded?: Date | string;
+    @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadDateUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    readDates?: InstanceType<typeof ReadDateUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11191,12 +13198,12 @@ export class UserBookUncheckedUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => ReadDateUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11220,14 +13227,14 @@ export class UserBookUncheckedUpdateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11254,14 +13261,14 @@ export class UserBookUncheckedUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUncheckedUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUncheckedUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUncheckedUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUncheckedUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11282,8 +13289,6 @@ export class UserBookUpdateManyMutationInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
 }
@@ -11333,6 +13338,25 @@ export class UserBookUpdateManyWithoutUserNestedInput {
     @Field(() => [UserBookScalarWhereInput], {nullable:true})
     @Type(() => UserBookScalarWhereInput)
     deleteMany?: Array<UserBookScalarWhereInput>;
+}
+
+@InputType()
+export class UserBookUpdateOneRequiredWithoutReadNestedInput {
+    @Field(() => UserBookCreateWithoutReadInput, {nullable:true})
+    @Type(() => UserBookCreateWithoutReadInput)
+    create?: InstanceType<typeof UserBookCreateWithoutReadInput>;
+    @Field(() => UserBookCreateOrConnectWithoutReadInput, {nullable:true})
+    @Type(() => UserBookCreateOrConnectWithoutReadInput)
+    connectOrCreate?: InstanceType<typeof UserBookCreateOrConnectWithoutReadInput>;
+    @Field(() => UserBookUpsertWithoutReadInput, {nullable:true})
+    @Type(() => UserBookUpsertWithoutReadInput)
+    upsert?: InstanceType<typeof UserBookUpsertWithoutReadInput>;
+    @Field(() => UserBookWhereUniqueInput, {nullable:true})
+    @Type(() => UserBookWhereUniqueInput)
+    connect?: Prisma.AtLeast<UserBookWhereUniqueInput, 'id' | 'bookId' | 'identifier'>;
+    @Field(() => UserBookUpdateToOneWithWhereWithoutReadInput, {nullable:true})
+    @Type(() => UserBookUpdateToOneWithWhereWithoutReadInput)
+    update?: InstanceType<typeof UserBookUpdateToOneWithWhereWithoutReadInput>;
 }
 
 @InputType()
@@ -11425,6 +13449,16 @@ export class UserBookUpdateToOneWithWhereWithoutReadDatesInput {
 }
 
 @InputType()
+export class UserBookUpdateToOneWithWhereWithoutReadInput {
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    where?: InstanceType<typeof UserBookWhereInput>;
+    @Field(() => UserBookUpdateWithoutReadInput, {nullable:false})
+    @Type(() => UserBookUpdateWithoutReadInput)
+    data!: InstanceType<typeof UserBookUpdateWithoutReadInput>;
+}
+
+@InputType()
 export class UserBookUpdateToOneWithWhereWithoutShelvesInput {
     @Field(() => UserBookWhereInput, {nullable:true})
     @Type(() => UserBookWhereInput)
@@ -11462,8 +13496,6 @@ export class UserBookUpdateWithoutBookInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserUpdateOneRequiredWithoutUserBooksNestedInput, {nullable:true})
@@ -11472,6 +13504,8 @@ export class UserBookUpdateWithoutBookInput {
     shelves?: InstanceType<typeof UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11492,8 +13526,6 @@ export class UserBookUpdateWithoutReadDatesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserUpdateOneRequiredWithoutUserBooksNestedInput, {nullable:true})
@@ -11502,6 +13534,38 @@ export class UserBookUpdateWithoutReadDatesInput {
     book?: InstanceType<typeof BookUpdateOneRequiredWithoutUserBookNestedInput>;
     @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
     shelves?: InstanceType<typeof UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateManyWithoutUserBookNestedInput>;
+}
+
+@InputType()
+export class UserBookUpdateWithoutReadInput {
+    @Field(() => String, {nullable:true})
+    @Validator.IsString()
+    id?: string;
+    @Field(() => READING_STATUS, {nullable:true})
+    @Validator.IsString()
+    status?: `${READING_STATUS}`;
+    @Field(() => Float, {nullable:true})
+    @Validator.Min(0)
+    @Validator.Max(5)
+    @Validator.IsNumber()
+    rating?: number;
+    @Field(() => Date, {nullable:true})
+    @Validator.ValidateNested()
+    createdAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    updatedAt?: Date | string;
+    @Field(() => Date, {nullable:true})
+    dateAdded?: Date | string;
+    @Field(() => UserUpdateOneRequiredWithoutUserBooksNestedInput, {nullable:true})
+    user?: InstanceType<typeof UserUpdateOneRequiredWithoutUserBooksNestedInput>;
+    @Field(() => BookUpdateOneRequiredWithoutUserBookNestedInput, {nullable:true})
+    book?: InstanceType<typeof BookUpdateOneRequiredWithoutUserBookNestedInput>;
+    @Field(() => UserBookShelvesUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    shelves?: InstanceType<typeof UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadDateUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    readDates?: InstanceType<typeof ReadDateUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11522,8 +13586,6 @@ export class UserBookUpdateWithoutShelvesInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserUpdateOneRequiredWithoutUserBooksNestedInput, {nullable:true})
@@ -11532,6 +13594,8 @@ export class UserBookUpdateWithoutShelvesInput {
     book?: InstanceType<typeof BookUpdateOneRequiredWithoutUserBookNestedInput>;
     @Field(() => ReadDateUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11552,8 +13616,6 @@ export class UserBookUpdateWithoutUserInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => BookUpdateOneRequiredWithoutUserBookNestedInput, {nullable:true})
@@ -11562,6 +13624,8 @@ export class UserBookUpdateWithoutUserInput {
     shelves?: InstanceType<typeof UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11582,8 +13646,6 @@ export class UserBookUpdateInput {
     createdAt?: Date | string;
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
-    @Field(() => Int, {nullable:true})
-    order?: number;
     @Field(() => Date, {nullable:true})
     dateAdded?: Date | string;
     @Field(() => UserUpdateOneRequiredWithoutUserBooksNestedInput, {nullable:true})
@@ -11594,6 +13656,8 @@ export class UserBookUpdateInput {
     shelves?: InstanceType<typeof UserBookShelvesUpdateManyWithoutUserBookNestedInput>;
     @Field(() => ReadDateUpdateManyWithoutUserBookNestedInput, {nullable:true})
     readDates?: InstanceType<typeof ReadDateUpdateManyWithoutUserBookNestedInput>;
+    @Field(() => ReadUpdateManyWithoutUserBookNestedInput, {nullable:true})
+    read?: InstanceType<typeof ReadUpdateManyWithoutUserBookNestedInput>;
 }
 
 @InputType()
@@ -11630,6 +13694,19 @@ export class UserBookUpsertWithoutReadDatesInput {
     @Field(() => UserBookCreateWithoutReadDatesInput, {nullable:false})
     @Type(() => UserBookCreateWithoutReadDatesInput)
     create!: InstanceType<typeof UserBookCreateWithoutReadDatesInput>;
+    @Field(() => UserBookWhereInput, {nullable:true})
+    @Type(() => UserBookWhereInput)
+    where?: InstanceType<typeof UserBookWhereInput>;
+}
+
+@InputType()
+export class UserBookUpsertWithoutReadInput {
+    @Field(() => UserBookUpdateWithoutReadInput, {nullable:false})
+    @Type(() => UserBookUpdateWithoutReadInput)
+    update!: InstanceType<typeof UserBookUpdateWithoutReadInput>;
+    @Field(() => UserBookCreateWithoutReadInput, {nullable:false})
+    @Type(() => UserBookCreateWithoutReadInput)
+    create!: InstanceType<typeof UserBookCreateWithoutReadInput>;
     @Field(() => UserBookWhereInput, {nullable:true})
     @Type(() => UserBookWhereInput)
     where?: InstanceType<typeof UserBookWhereInput>;
@@ -11674,8 +13751,6 @@ export class UserBookWhereUniqueInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    order?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserScalarRelationFilter, {nullable:true})
@@ -11686,6 +13761,8 @@ export class UserBookWhereUniqueInput {
     shelves?: InstanceType<typeof UserBookShelvesListRelationFilter>;
     @Field(() => ReadDateListRelationFilter, {nullable:true})
     readDates?: InstanceType<typeof ReadDateListRelationFilter>;
+    @Field(() => ReadListRelationFilter, {nullable:true})
+    read?: InstanceType<typeof ReadListRelationFilter>;
 }
 
 @InputType()
@@ -11710,8 +13787,6 @@ export class UserBookWhereInput {
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     updatedAt?: InstanceType<typeof DateTimeFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    order?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     dateAdded?: InstanceType<typeof DateTimeFilter>;
     @Field(() => UserScalarRelationFilter, {nullable:true})
@@ -11722,6 +13797,8 @@ export class UserBookWhereInput {
     shelves?: InstanceType<typeof UserBookShelvesListRelationFilter>;
     @Field(() => ReadDateListRelationFilter, {nullable:true})
     readDates?: InstanceType<typeof ReadDateListRelationFilter>;
+    @Field(() => ReadListRelationFilter, {nullable:true})
+    read?: InstanceType<typeof ReadListRelationFilter>;
 }
 
 @ObjectType()
@@ -11740,8 +13817,6 @@ export class UserBook {
     createdAt!: Date;
     @Field(() => Date, {nullable:false})
     updatedAt!: Date;
-    @Field(() => Int, {nullable:false})
-    order!: number;
     @Field(() => Date, {nullable:false})
     dateAdded!: Date;
     @Field(() => User, {nullable:false})
@@ -11752,6 +13827,8 @@ export class UserBook {
     shelves?: Array<UserBookShelves>;
     @Field(() => [ReadDate], {nullable:true})
     readDates?: Array<ReadDate>;
+    @Field(() => [Read], {nullable:true})
+    read?: Array<Read>;
     @Field(() => UserBookCount, {nullable:false})
     _count?: InstanceType<typeof UserBookCount>;
 }
