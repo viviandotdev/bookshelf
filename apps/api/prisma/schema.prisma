@@ -142,11 +142,33 @@ model UserBook {
     shelves   UserBookShelves[]
 
     dateAdded DateTime
-    readDates ReadDate[]
+    readDates ReadDate[] // deprecated, use Read model instead
+    read      Read[]
 
     /// @Validator.IsString()
     /// @Validator.ValidateNested()
     @@unique([userId, bookId], name: "identifier")
+}
+
+model Read {
+    id              String           @id @default(uuid())
+    readingSessions ReadingSession[]
+    startDate       DateTime         @default(now())
+    finishedDate    DateTime?
+    userBookId      String
+    UserBook        UserBook         @relation(fields: [userBookId], references: [id], onDelete: Cascade)
+}
+
+model ReadingSession {
+    id        String        @id @default(uuid())
+    /// @Validator.IsInt()
+    capacity  Int
+    /// @Validator.IsInt()
+    progress  Int
+    type      PROGRESS_TYPE
+    createdAt DateTime      @default(now())
+    read      Read          @relation(fields: [readId], references: [id])
+    readId    String
 }
 
 model ReadingProgress {
