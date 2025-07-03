@@ -1,10 +1,6 @@
 # Queries
 query GetLatestRead($userBookId: String!) {
-  reads(
-    where: { userBookId: { equals: $userBookId } }
-    orderBy: { startDate: desc }
-    limit: 1
-  ) {
+  getLatestRead(userBookId: $userBookId) {
     id
     startDate
     finishedDate
@@ -27,6 +23,52 @@ query GetLatestRead($userBookId: String!) {
   }
 }
 
+query GetCurrentlyReadingBooksWithReads {
+  getCurrentlyReadingBooksWithReads {
+    id
+    status
+    rating
+    dateAdded
+    createdAt
+    updatedAt
+    book {
+      id
+      title
+      subtitle
+      authors
+      yearPublished
+      pageCount
+      slug
+      covers {
+        id
+        url
+        size
+        source
+      }
+      ratings {
+        id
+        count
+        source
+        maxScore
+        score
+      }
+    }
+    read {
+      id
+      startDate
+      finishedDate
+      userBookId
+      readingSessions {
+        id
+        capacity
+        progress
+        type
+        createdAt
+      }
+    }
+  }
+}
+
 # Mutations
 mutation CreateRead($userBookId: String!) {
   createRead(userBookId: $userBookId) {
@@ -41,6 +83,7 @@ mutation CreateRead($userBookId: String!) {
       type
       createdAt
     }
+
   }
 }
 

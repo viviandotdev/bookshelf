@@ -1,6 +1,6 @@
 'use client';
 import { Progress_Type, Size, UserBook } from '@/graphql/graphql';
-import React from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import useUserBookStore from '@/stores/use-user-book-store';
 import BookCover from '@/components/book-cover';
 import { getCoverUrl, cn, formatAuthors } from '@/lib/utils';
@@ -9,52 +9,50 @@ import useProgressModal from '@/components/modals/progress-modal/use-progress-mo
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useGetLatestReadLazyQuery } from '@/graphql/graphql';
 
 interface CurrentlyReadingItemProps {
     userBook: UserBook;
 }
 
-const convertPercentProgressToPages = (
-    percentProgress: number,
-    capacity: number
-) => {
+const convertPercentProgressToPages = (percentProgress: number, capacity: number) => {
     return Math.round((percentProgress / 100) * capacity);
 };
 
-const covertPageProgressToPercent = (
-    pageProgress: number,
-    capacity: number
-) => {
+const covertPageProgressToPercent = (pageProgress: number, capacity: number) => {
     return Math.round((pageProgress / capacity) * 100);
 };
 
-export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
-    userBook,
-}) => {
-    const { onOpen, readDates } = useProgressModal();
+export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({ userBook }) => {
+    const { onOpen, setCurrentBook, getReadingData, updateReadingData } = useProgressModal();
     const { setUserBook } = useUserBookStore();
-    const readDate = readDates.find((rd) => rd.userBookId === userBook.id);
-    const type = readDate?.readingProgress?.type;
-    const capacity = readDate?.readingProgress?.capacity;
+    const router = useRouter();
+    const [localLatestSession, setLocalLatestSession] = useState<any>(null);
 
-    const percentProgress =
-        type == Progress_Type.Percentage
-            ? readDate?.readingProgress?.progress
-            : covertPageProgressToPercent(
-                readDate?.readingProgress?.progress || 0,
-                capacity || 0
-            );
+    // Get reading data from store
+    const readingData = getReadingData(userBook.id);
+    const latestReadingSession = readingData?.latestSession;
 
-    const pageProgress =
-        type == Progress_Type.Pages
-            ? readDate?.readingProgress?.progress
-            : convertPercentProgressToPages(
-                readDate?.readingProgress?.progress || 0,
-                capacity || 0
-            );
+    // Calculate progress using the most current reading session
+    const progressData = useMemo(() => {
+        const session = latestReadingSession;
+        const type = session?.type;
+        const capacity = session?.capacity || userBook.book.pageCount || 0;
+        const progress = session?.progress || 0;
+
+        const percentProgress = type === Progress_Type.Percentage
+            ? progress
+            : covertPageProgressToPercent(progress, capacity);
+
+        const pageProgress = type === Progress_Type.Pages
+            ? progress
+            : convertPercentProgressToPages(progress, capacity);
+
+        return { capacity, percentProgress, pageProgress };
+    }, [latestReadingSession, userBook.book.pageCount]);
 
     const { book } = userBook;
-    const router = useRouter();
+
     return (
         <div className='flex items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white shadow-xs'>
             <div className='flex items-center gap-4 border-gray-100 px-4 py-3'>
@@ -74,12 +72,8 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
                                 <p className='line-clamp-1 text-sm text-beige-700'>
                                     by {formatAuthors(book.authors!)}
                                 </p>
-                                <div className='flex items-center'></div>
                             </div>
                         </div>
-                    </div>
-                    <div className='flex items-center font-medium'>
-                        <span className='text-sm text-gray-700'></span>
                     </div>
                 </div>
             </div>
@@ -88,16 +82,14 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
                     <div className='flex min-w-[19em] flex-col gap-[-2px] px-2 text-sm'>
                         <div className='flex w-full items-center justify-between text-xs font-medium text-beige-700'>
                             <div className='mb-1'>
-                                {pageProgress} / {readDate?.readingProgress?.capacity} pages
-                                read
+                                {progressData.pageProgress} / {progressData.capacity} pages read
                             </div>
-
                             <div className='mb-1 flex items-center'>
-                                {percentProgress || 0}%
+                                {progressData.percentProgress || 0}%
                             </div>
                         </div>
                         <div className='flex min-w-36 items-center justify-center gap-2 text-center text-beige'>
-                            <Progress className='items-center' value={percentProgress || 0} />
+                            <Progress className='items-center' value={progressData.percentProgress || 0} />
                         </div>
                     </div>
                 </div>
@@ -105,22 +97,33 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({
                     <IconButton
                         onClick={(e) => {
                             e.stopPropagation();
-                            if (readDate?.readingProgress) {
-                                onOpen();
-                                setUserBook({
-                                    userBookId: userBook.id,
-                                    bookTitle: book.title,
-                                });
-                            }
+                            setCurrentBook({
+                                userBookId: userBook.id,
+                                bookTitle: book.title,
+                                book: {
+                                    title: book.title,
+                                    pageCount: book.pageCount || 0,
+                                },
+                            });
+                            onOpen();
+                            setUserBook({
+                                userBookId: userBook.id,
+                                bookTitle: book.title,
+                                book: {
+                                    title: book.title,
+                                    pageCount: book.pageCount || 0,
+                                },
+                            });
                         }}
-                        className={`h-8 w-8 rounded-sm bg-white`}
+                        className='h-8 w-8 rounded-sm bg-white'
                     >
                         <span className='sr-only'>Edit Progress</span>
-                        <Pencil className={`h-4 w-4 items-center`} />
+                        <Pencil className='h-4 w-4 items-center' />
                     </IconButton>
                 </div>
             </div>
         </div>
     );
 };
+
 export default CurrentlyReadingItem;

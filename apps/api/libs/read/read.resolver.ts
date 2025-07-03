@@ -17,6 +17,7 @@ import {
     ReadingSessionWhereInput,
     ReadingSessionOrderByWithRelationInput,
     PROGRESS_TYPE,
+    UserBook,
 } from '../../src/generated-db-types';
 
 @Resolver(() => Read)
@@ -25,6 +26,85 @@ export class ReadResolver {
         private readonly readService: ReadService,
         private readonly prisma: PrismaRepository,
     ) { }
+
+    @UseGuards(AccessTokenGuard)
+    @Query(() => [UserBook], { name: 'getCurrentlyReadingBooksWithReads' })
+    async getCurrentlyReadingBooksWithReads(
+        @CurrentUser() user: JwtPayload,
+    ) {
+        // Get all currently reading books with their latest reads
+        const userBooks = await this.prisma.userBook.findMany({
+            where: {
+                userId: user.userId,
+                status: 'READING',
+            },
+            include: {
+                book: {
+                    include: {
+                        covers: true,
+                        ratings: true,
+                    },
+                },
+                read: {
+                    include: {
+                        readingSessions: {
+                            orderBy: {
+                                createdAt: 'desc',
+                            },
+                            take: 1,
+                        },
+                    },
+                    orderBy: {
+                        startDate: 'desc',
+                    },
+                    take: 1,
+                },
+            },
+            orderBy: {
+                updatedAt: 'desc',
+            },
+        });
+
+        return userBooks;
+    }
+
+    @UseGuards(AccessTokenGuard)
+    @Query(() => Read, { name: 'getLatestRead', nullable: true })
+    async getLatestRead(
+        @Args('userBookId', { type: () => String }) userBookId: string,
+        @CurrentUser() user: JwtPayload,
+    ) {
+        // Verify the userBook belongs to the current user
+        const userBook = await this.prisma.userBook.findUnique({
+            where: { id: userBookId },
+        });
+
+        if (!userBook || userBook.userId !== user.userId) {
+            throw new NotFoundException('User book not found');
+        }
+
+        // Get the latest read for this user book
+        const latestRead = await this.prisma.read.findFirst({
+            where: {
+                userBookId: userBookId,
+            },
+            include: {
+                readingSessions: {
+                    orderBy: {
+                        createdAt: 'desc',
+                    },
+                    take: 1,
+                },
+            },
+            orderBy: {
+                startDate: 'desc',
+            },
+        });
+
+        return latestRead;
+    }
+
+
     @UseGuards(AccessTokenGuard)
     @Query(() => [Read], { name: 'reads' })
     async reads(
@@ -47,7 +127,6 @@ export class ReadResolver {
             orderBy,
         });
     }
-
 
     @UseGuards(AccessTokenGuard)
     @Mutation(() => Read, { name: 'createRead' })
@@ -72,7 +151,6 @@ export class ReadResolver {
             },
         });
     }
-
 
     @UseGuards(AccessTokenGuard)
     @Mutation(() => ReadingSession, { name: 'createReadingSession' })
@@ -101,9 +179,11 @@ export class ReadResolver {
                     connect: { id: readId },
                 },
             },
+            include: {
+                read: true
+            },
         });
     }
-
 
     @UseGuards(AccessTokenGuard)
     @Query(() => [ReadingSession], { name: 'readingSessions' })

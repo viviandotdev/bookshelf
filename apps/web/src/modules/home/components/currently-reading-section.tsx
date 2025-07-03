@@ -1,24 +1,33 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UserBook, Reading_Status } from '@/graphql/graphql';
 import CurrentlyReadingItem from './currently-reading-item';
 import { AddBookButton } from './add-book-button';
-import { useGetUserBooksQuery } from '@/graphql/graphql';
+import { useGetCurrentlyReadingBooksWithReadsQuery } from '@/graphql/graphql';
+import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
 
 interface CurrentlyReadingSectionProps { }
 
 const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
-    const { data, loading } = useGetUserBooksQuery({
-        variables: {
-            where: {
-                status: {
-                    equals: Reading_Status.Reading,
-                },
-            },
-        },
+    const { data, loading } = useGetCurrentlyReadingBooksWithReadsQuery({
+        fetchPolicy: 'cache-and-network',
     });
+    const { updateReadingData } = useProgressModal();
 
-    const currentlyReading = data?.getUserBooks.userBooks || [];
+    const currentlyReading = data?.getCurrentlyReadingBooksWithReads || [];
+
+    // Update store with reading data whenever data changes
+    useEffect(() => {
+        currentlyReading.forEach((userBook: any) => {
+            const latestRead = userBook.read?.[0]; // First item since we order by desc and take 1
+            const latestSession = latestRead?.readingSessions?.[0]; // First item since we order by desc and take 1
+
+            if (latestRead && latestSession) {
+                console.log(latestRead, latestSession);
+                updateReadingData(userBook.id, latestRead, latestSession);
+            }
+        });
+    }, [currentlyReading, updateReadingData]);
 
     if (loading) {
         return (

@@ -900,6 +900,8 @@ export type Query = {
   countUserBooks: Scalars['Int']['output'];
   findBookByIdentifier?: Maybe<Book>;
   getBookByIdentifiers: Array<Identifier>;
+  getCurrentlyReadingBooksWithReads: Array<UserBook>;
+  getLatestRead?: Maybe<Read>;
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
   healthCheck: HealthCheck;
@@ -942,6 +944,11 @@ export type QueryFindBookByIdentifierArgs = {
 
 export type QueryGetBookByIdentifiersArgs = {
   identifiers: Array<IdentifierCreateInput>;
+};
+
+
+export type QueryGetLatestReadArgs = {
+  userBookId: Scalars['String']['input'];
 };
 
 
@@ -3079,7 +3086,12 @@ export type GetLatestReadQueryVariables = Exact<{
 }>;
 
 
-export type GetLatestReadQuery = { __typename?: 'Query', reads: Array<{ __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null, UserBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, title: string, pageCount?: number | null } } }> };
+export type GetLatestReadQuery = { __typename?: 'Query', getLatestRead?: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null, UserBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, title: string, pageCount?: number | null } } } | null };
+
+export type GetCurrentlyReadingBooksWithReadsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentlyReadingBooksWithReadsQuery = { __typename?: 'Query', getCurrentlyReadingBooksWithReads: Array<{ __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, book: { __typename?: 'Book', id: string, title: string, subtitle?: string | null, authors?: Array<string> | null, yearPublished?: string | null, pageCount?: number | null, slug: string, covers?: Array<{ __typename?: 'Cover', id: string, url: string, size: Size, source: Source }> | null, ratings?: Array<{ __typename?: 'Rating', id: string, count?: number | null, source: Source, maxScore: number, score: number }> | null }, read?: Array<{ __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null }> | null }> };
 
 export type CreateReadMutationVariables = Exact<{
   userBookId: Scalars['String']['input'];
@@ -3564,11 +3576,7 @@ export type AddIdentifierToBookMutationResult = Apollo.MutationResult<AddIdentif
 export type AddIdentifierToBookMutationOptions = Apollo.BaseMutationOptions<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>;
 export const GetLatestReadDocument = gql`
     query GetLatestRead($userBookId: String!) {
-  reads(
-    where: {userBookId: {equals: $userBookId}}
-    orderBy: {startDate: desc}
-    limit: 1
-  ) {
+  getLatestRead(userBookId: $userBookId) {
     id
     startDate
     finishedDate
@@ -3624,6 +3632,85 @@ export type GetLatestReadQueryHookResult = ReturnType<typeof useGetLatestReadQue
 export type GetLatestReadLazyQueryHookResult = ReturnType<typeof useGetLatestReadLazyQuery>;
 export type GetLatestReadSuspenseQueryHookResult = ReturnType<typeof useGetLatestReadSuspenseQuery>;
 export type GetLatestReadQueryResult = Apollo.QueryResult<GetLatestReadQuery, GetLatestReadQueryVariables>;
+export const GetCurrentlyReadingBooksWithReadsDocument = gql`
+    query GetCurrentlyReadingBooksWithReads {
+  getCurrentlyReadingBooksWithReads {
+    id
+    status
+    rating
+    dateAdded
+    createdAt
+    updatedAt
+    book {
+      id
+      title
+      subtitle
+      authors
+      yearPublished
+      pageCount
+      slug
+      covers {
+        id
+        url
+        size
+        source
+      }
+      ratings {
+        id
+        count
+        source
+        maxScore
+        score
+      }
+    }
+    read {
+      id
+      startDate
+      finishedDate
+      userBookId
+      readingSessions {
+        id
+        capacity
+        progress
+        type
+        createdAt
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentlyReadingBooksWithReadsQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentlyReadingBooksWithReadsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentlyReadingBooksWithReadsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentlyReadingBooksWithReadsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentlyReadingBooksWithReadsQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+      }
+export function useGetCurrentlyReadingBooksWithReadsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+        }
+export function useGetCurrentlyReadingBooksWithReadsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+        }
+export type GetCurrentlyReadingBooksWithReadsQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsQuery>;
+export type GetCurrentlyReadingBooksWithReadsLazyQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsLazyQuery>;
+export type GetCurrentlyReadingBooksWithReadsSuspenseQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsSuspenseQuery>;
+export type GetCurrentlyReadingBooksWithReadsQueryResult = Apollo.QueryResult<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>;
 export const CreateReadDocument = gql`
     mutation CreateRead($userBookId: String!) {
   createRead(userBookId: $userBookId) {

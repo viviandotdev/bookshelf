@@ -724,6 +724,8 @@ type Query {
   countUserBooks(where: UserBookWhereInput): Int!
   findBookByIdentifier(identifier: IdentifierCreateInput!): Book
   getBookByIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
+  getCurrentlyReadingBooksWithReads: [UserBook!]!
+  getLatestRead(userBookId: String!): Read
   getMyBookShelves(where: UserBookWhereUniqueInput): [UserBookShelves!]
   getUserBooks(limit: Int! = 20, offset: Int! = 0, orderBy: UserBookOrderByWithRelationInput, where: UserBookWhereInput): UserBooksResponse!
   healthCheck: HealthCheck!
