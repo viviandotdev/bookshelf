@@ -16,6 +16,7 @@ import { Size, Source, UserBook } from '@/graphql/graphql';
 import AddToShelfButton from '../components/actions/add-to-shelf-button';
 import BookInfo from '../components/book-info';
 import { User } from 'next-auth';
+import SessionsTab from '@/components/modals/progress-modal/components/sessions-tab';
 
 interface BookTemplateProps {
     book: BookData;
@@ -30,6 +31,11 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
             children: <BookInfo processedBook={book} />,
             id: 'bookInfo',
         },
+        {
+            label: 'Reading Sessions',
+            children: <SessionsTab />,
+            id: 'sessions',
+        }
     ];
 
     const coverUrl =

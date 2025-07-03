@@ -3,18 +3,18 @@ import React, { useEffect } from 'react';
 import { UserBook, Reading_Status } from '@/graphql/graphql';
 import CurrentlyReadingItem from './currently-reading-item';
 import { AddBookButton } from './add-book-button';
-import { useGetCurrentlyReadingBooksWithReadsQuery } from '@/graphql/graphql';
+import { useGetCurrentlyReadingBooksWithLatestReadsQuery } from '@/graphql/graphql';
 import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
 
 interface CurrentlyReadingSectionProps { }
 
 const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
-    const { data, loading } = useGetCurrentlyReadingBooksWithReadsQuery({
+    const { data, loading } = useGetCurrentlyReadingBooksWithLatestReadsQuery({
         fetchPolicy: 'cache-and-network',
     });
     const { updateReadingData } = useProgressModal();
 
-    const currentlyReading = data?.getCurrentlyReadingBooksWithReads || [];
+    const currentlyReading = data?.getCurrentlyReadingBooksWithLatestReads || [];
 
     // Update store with reading data whenever data changes
     useEffect(() => {

@@ -709,6 +709,7 @@ export type Mutation = {
   refreshAuth: RefreshResponse;
   register: User;
   removeBookFromShelf: Scalars['Boolean']['output'];
+  removeReadingSession: Scalars['Boolean']['output'];
   removeUserBook: Scalars['Boolean']['output'];
   resetPassword: Scalars['Boolean']['output'];
   sendEmailCode: Scalars['Boolean']['output'];
@@ -716,6 +717,7 @@ export type Mutation = {
   updatePassword: User;
   updateReadDate: ReadDate;
   updateReadingProgress: ReadingProgress;
+  updateReadingSession: ReadingSession;
   updateShelf: Shelf;
   updateUser: User;
   updateUserBook: UserBook;
@@ -740,12 +742,14 @@ export type MutationCreateIdentifiersArgs = {
 
 
 export type MutationCreateReadArgs = {
+  capacity: Scalars['Int']['input'];
   userBookId: Scalars['String']['input'];
 };
 
 
 export type MutationCreateReadingSessionArgs = {
   capacity: Scalars['Int']['input'];
+  pagesRead: Scalars['Int']['input'];
   progress: Scalars['Int']['input'];
   readId: Scalars['String']['input'];
   type: Progress_Type;
@@ -801,6 +805,11 @@ export type MutationRemoveBookFromShelfArgs = {
 };
 
 
+export type MutationRemoveReadingSessionArgs = {
+  sessionId: Scalars['String']['input'];
+};
+
+
 export type MutationRemoveUserBookArgs = {
   where: UserBookWhereUniqueInput;
 };
@@ -838,6 +847,15 @@ export type MutationUpdateReadingProgressArgs = {
   progress: Scalars['Int']['input'];
   readingProgressId: Scalars['String']['input'];
   type: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateReadingSessionArgs = {
+  capacity?: InputMaybe<Scalars['Int']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
+  progress?: InputMaybe<Scalars['Int']['input']>;
+  sessionId: Scalars['String']['input'];
+  type?: InputMaybe<Progress_Type>;
 };
 
 
@@ -900,8 +918,7 @@ export type Query = {
   countUserBooks: Scalars['Int']['output'];
   findBookByIdentifier?: Maybe<Book>;
   getBookByIdentifiers: Array<Identifier>;
-  getCurrentlyReadingBooksWithReads: Array<UserBook>;
-  getLatestRead?: Maybe<Read>;
+  getCurrentlyReadingBooksWithLatestReads: Array<UserBook>;
   getMyBookShelves?: Maybe<Array<UserBookShelves>>;
   getUserBooks: UserBooksResponse;
   healthCheck: HealthCheck;
@@ -947,11 +964,6 @@ export type QueryGetBookByIdentifiersArgs = {
 };
 
 
-export type QueryGetLatestReadArgs = {
-  userBookId: Scalars['String']['input'];
-};
-
-
 export type QueryGetMyBookShelvesArgs = {
   where?: InputMaybe<UserBookWhereUniqueInput>;
 };
@@ -980,8 +992,8 @@ export type QueryReadingSessionsArgs = {
 
 
 export type QueryReadsArgs = {
-  limit?: Scalars['Int']['input'];
-  offset?: Scalars['Int']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<ReadOrderByWithRelationInput>;
   where?: InputMaybe<ReadWhereInput>;
 };
@@ -1210,11 +1222,17 @@ export type Read = {
   __typename?: 'Read';
   UserBook: UserBook;
   _count: ReadCount;
+  capacity: Scalars['Int']['output'];
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id: Scalars['ID']['output'];
   readingSessions?: Maybe<Array<ReadingSession>>;
   startDate: Scalars['Timestamp']['output'];
   userBookId: Scalars['String']['output'];
+};
+
+export type ReadAvgAggregate = {
+  __typename?: 'ReadAvgAggregate';
+  capacity?: Maybe<Scalars['Float']['output']>;
 };
 
 export type ReadCount = {
@@ -1225,6 +1243,7 @@ export type ReadCount = {
 export type ReadCountAggregate = {
   __typename?: 'ReadCountAggregate';
   _all: Scalars['Int']['output'];
+  capacity: Scalars['Int']['output'];
   finishedDate: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
   startDate: Scalars['Int']['output'];
@@ -1232,6 +1251,7 @@ export type ReadCountAggregate = {
 };
 
 export type ReadCreateManyUserBookInput = {
+  capacity: Scalars['Int']['input'];
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -1255,6 +1275,7 @@ export type ReadCreateOrConnectWithoutUserBookInput = {
 };
 
 export type ReadCreateWithoutUserBookInput = {
+  capacity: Scalars['Int']['input'];
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   readingSessions?: InputMaybe<ReadingSessionCreateNestedManyWithoutReadInput>;
@@ -1437,6 +1458,7 @@ export type ReadListRelationFilter = {
 
 export type ReadMaxAggregate = {
   __typename?: 'ReadMaxAggregate';
+  capacity?: Maybe<Scalars['Int']['output']>;
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['Timestamp']['output']>;
@@ -1445,6 +1467,7 @@ export type ReadMaxAggregate = {
 
 export type ReadMinAggregate = {
   __typename?: 'ReadMinAggregate';
+  capacity?: Maybe<Scalars['Int']['output']>;
   finishedDate?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
   startDate?: Maybe<Scalars['Timestamp']['output']>;
@@ -1457,6 +1480,7 @@ export type ReadOrderByRelationAggregateInput = {
 
 export type ReadOrderByWithRelationInput = {
   UserBook?: InputMaybe<UserBookOrderByWithRelationInput>;
+  capacity?: InputMaybe<SortOrder>;
   finishedDate?: InputMaybe<SortOrderInput>;
   id?: InputMaybe<SortOrder>;
   readingSessions?: InputMaybe<ReadingSessionOrderByRelationAggregateInput>;
@@ -1473,13 +1497,20 @@ export type ReadScalarWhereInput = {
   AND?: InputMaybe<Array<ReadScalarWhereInput>>;
   NOT?: InputMaybe<Array<ReadScalarWhereInput>>;
   OR?: InputMaybe<Array<ReadScalarWhereInput>>;
+  capacity?: InputMaybe<IntFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   startDate?: InputMaybe<DateTimeFilter>;
   userBookId?: InputMaybe<StringFilter>;
 };
 
+export type ReadSumAggregate = {
+  __typename?: 'ReadSumAggregate';
+  capacity?: Maybe<Scalars['Int']['output']>;
+};
+
 export type ReadUpdateManyMutationInput = {
+  capacity?: InputMaybe<Scalars['Int']['input']>;
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   startDate?: InputMaybe<Scalars['Timestamp']['input']>;
@@ -1510,6 +1541,7 @@ export type ReadUpdateWithWhereUniqueWithoutUserBookInput = {
 };
 
 export type ReadUpdateWithoutUserBookInput = {
+  capacity?: InputMaybe<Scalars['Int']['input']>;
   finishedDate?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   readingSessions?: InputMaybe<ReadingSessionUpdateManyWithoutReadNestedInput>;
@@ -1527,6 +1559,7 @@ export type ReadWhereInput = {
   NOT?: InputMaybe<Array<ReadWhereInput>>;
   OR?: InputMaybe<Array<ReadWhereInput>>;
   UserBook?: InputMaybe<UserBookScalarRelationFilter>;
+  capacity?: InputMaybe<IntFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
   readingSessions?: InputMaybe<ReadingSessionListRelationFilter>;
@@ -1539,6 +1572,7 @@ export type ReadWhereUniqueInput = {
   NOT?: InputMaybe<Array<ReadWhereInput>>;
   OR?: InputMaybe<Array<ReadWhereInput>>;
   UserBook?: InputMaybe<UserBookScalarRelationFilter>;
+  capacity?: InputMaybe<IntFilter>;
   finishedDate?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
   readingSessions?: InputMaybe<ReadingSessionListRelationFilter>;
@@ -1684,6 +1718,7 @@ export type ReadingSession = {
   capacity: Scalars['Int']['output'];
   createdAt: Scalars['Timestamp']['output'];
   id: Scalars['ID']['output'];
+  pagesRead: Scalars['Int']['output'];
   progress: Scalars['Int']['output'];
   read: Read;
   readId: Scalars['String']['output'];
@@ -1693,6 +1728,7 @@ export type ReadingSession = {
 export type ReadingSessionAvgAggregate = {
   __typename?: 'ReadingSessionAvgAggregate';
   capacity?: Maybe<Scalars['Float']['output']>;
+  pagesRead?: Maybe<Scalars['Float']['output']>;
   progress?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -1702,6 +1738,7 @@ export type ReadingSessionCountAggregate = {
   capacity: Scalars['Int']['output'];
   createdAt: Scalars['Int']['output'];
   id: Scalars['Int']['output'];
+  pagesRead: Scalars['Int']['output'];
   progress: Scalars['Int']['output'];
   readId: Scalars['Int']['output'];
   type: Scalars['Int']['output'];
@@ -1711,6 +1748,7 @@ export type ReadingSessionCreateManyReadInput = {
   capacity: Scalars['Int']['input'];
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
   progress: Scalars['Int']['input'];
   type: Progress_Type;
 };
@@ -1736,6 +1774,7 @@ export type ReadingSessionCreateWithoutReadInput = {
   capacity: Scalars['Int']['input'];
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead: Scalars['Int']['input'];
   progress: Scalars['Int']['input'];
   type: Progress_Type;
 };
@@ -1751,6 +1790,7 @@ export type ReadingSessionMaxAggregate = {
   capacity?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
   progress?: Maybe<Scalars['Int']['output']>;
   readId?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Progress_Type>;
@@ -1761,6 +1801,7 @@ export type ReadingSessionMinAggregate = {
   capacity?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['Timestamp']['output']>;
   id?: Maybe<Scalars['String']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
   progress?: Maybe<Scalars['Int']['output']>;
   readId?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Progress_Type>;
@@ -1774,6 +1815,7 @@ export type ReadingSessionOrderByWithRelationInput = {
   capacity?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
+  pagesRead?: InputMaybe<SortOrder>;
   progress?: InputMaybe<SortOrder>;
   read?: InputMaybe<ReadOrderByWithRelationInput>;
   readId?: InputMaybe<SortOrder>;
@@ -1787,6 +1829,7 @@ export type ReadingSessionScalarWhereInput = {
   capacity?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
   progress?: InputMaybe<IntFilter>;
   readId?: InputMaybe<StringFilter>;
   type?: InputMaybe<EnumProgress_TypeFilter>;
@@ -1795,6 +1838,7 @@ export type ReadingSessionScalarWhereInput = {
 export type ReadingSessionSumAggregate = {
   __typename?: 'ReadingSessionSumAggregate';
   capacity?: Maybe<Scalars['Int']['output']>;
+  pagesRead?: Maybe<Scalars['Int']['output']>;
   progress?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -1802,6 +1846,7 @@ export type ReadingSessionUpdateManyMutationInput = {
   capacity?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
   progress?: InputMaybe<Scalars['Int']['input']>;
   type?: InputMaybe<Progress_Type>;
 };
@@ -1834,6 +1879,7 @@ export type ReadingSessionUpdateWithoutReadInput = {
   capacity?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['Timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<Scalars['Int']['input']>;
   progress?: InputMaybe<Scalars['Int']['input']>;
   type?: InputMaybe<Progress_Type>;
 };
@@ -1851,6 +1897,7 @@ export type ReadingSessionWhereInput = {
   capacity?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<StringFilter>;
+  pagesRead?: InputMaybe<IntFilter>;
   progress?: InputMaybe<IntFilter>;
   read?: InputMaybe<ReadScalarRelationFilter>;
   readId?: InputMaybe<StringFilter>;
@@ -1864,6 +1911,7 @@ export type ReadingSessionWhereUniqueInput = {
   capacity?: InputMaybe<IntFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
+  pagesRead?: InputMaybe<IntFilter>;
   progress?: InputMaybe<IntFilter>;
   read?: InputMaybe<ReadScalarRelationFilter>;
   readId?: InputMaybe<StringFilter>;
@@ -3081,34 +3129,36 @@ export type AddIdentifierToBookMutationVariables = Exact<{
 
 export type AddIdentifierToBookMutation = { __typename?: 'Mutation', addIdentifierToBook: { __typename?: 'Book', id: string } };
 
-export type GetLatestReadQueryVariables = Exact<{
-  userBookId: Scalars['String']['input'];
-}>;
+export type GetCurrentlyReadingBooksWithLatestReadsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLatestReadQuery = { __typename?: 'Query', getLatestRead?: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null, UserBook: { __typename?: 'UserBook', id: string, book: { __typename?: 'Book', id: string, title: string, pageCount?: number | null } } } | null };
-
-export type GetCurrentlyReadingBooksWithReadsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCurrentlyReadingBooksWithReadsQuery = { __typename?: 'Query', getCurrentlyReadingBooksWithReads: Array<{ __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, book: { __typename?: 'Book', id: string, title: string, subtitle?: string | null, authors?: Array<string> | null, yearPublished?: string | null, pageCount?: number | null, slug: string, covers?: Array<{ __typename?: 'Cover', id: string, url: string, size: Size, source: Source }> | null, ratings?: Array<{ __typename?: 'Rating', id: string, count?: number | null, source: Source, maxScore: number, score: number }> | null }, read?: Array<{ __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null }> | null }> };
+export type GetCurrentlyReadingBooksWithLatestReadsQuery = { __typename?: 'Query', getCurrentlyReadingBooksWithLatestReads: Array<{ __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, dateAdded: any, createdAt: any, updatedAt: any, book: { __typename?: 'Book', id: string, title: string, subtitle?: string | null, authors?: Array<string> | null, yearPublished?: string | null, pageCount?: number | null, slug: string, covers?: Array<{ __typename?: 'Cover', id: string, url: string, size: Size, source: Source }> | null, ratings?: Array<{ __typename?: 'Rating', id: string, count?: number | null, source: Source, maxScore: number, score: number }> | null }, read?: Array<{ __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, pagesRead: number, type: Progress_Type, createdAt: any }> | null }> | null }> };
 
 export type CreateReadMutationVariables = Exact<{
   userBookId: Scalars['String']['input'];
+  capacity: Scalars['Int']['input'];
 }>;
 
 
-export type CreateReadMutation = { __typename?: 'Mutation', createRead: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any }> | null } };
+export type CreateReadMutation = { __typename?: 'Mutation', createRead: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, pagesRead: number, type: Progress_Type, createdAt: any }> | null } };
 
 export type CreateReadingSessionMutationVariables = Exact<{
   readId: Scalars['String']['input'];
+  pagesRead: Scalars['Int']['input'];
   capacity: Scalars['Int']['input'];
   progress: Scalars['Int']['input'];
   type: Progress_Type;
 }>;
 
 
-export type CreateReadingSessionMutation = { __typename?: 'Mutation', createReadingSession: { __typename?: 'ReadingSession', id: string, capacity: number, progress: number, type: Progress_Type, createdAt: any, read: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string } } };
+export type CreateReadingSessionMutation = { __typename?: 'Mutation', createReadingSession: { __typename?: 'ReadingSession', id: string, capacity: number, progress: number, pagesRead: number, type: Progress_Type, createdAt: any, read: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string } } };
+
+export type RemoveReadingSessionMutationVariables = Exact<{
+  sessionId: Scalars['String']['input'];
+}>;
+
+
+export type RemoveReadingSessionMutation = { __typename?: 'Mutation', removeReadingSession: boolean };
 
 export type UpdateReadDateMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -3247,6 +3297,13 @@ export type BookQueryVariables = Exact<{
 
 
 export type BookQuery = { __typename?: 'Query', book?: { __typename?: 'Book', id: string, slug: string, title: string, authors?: Array<string> | null, pageCount?: number | null, userBook?: { __typename?: 'UserBook', id: string, status: Reading_Status, rating?: number | null, shelves?: Array<{ __typename?: 'UserBookShelves', shelf: { __typename?: 'Shelf', id: string, name: string, slug: string } }> | null } | null, identifiers?: Array<{ __typename?: 'Identifier', source: Source, sourceId: string }> | null, covers?: Array<{ __typename?: 'Cover', url: string, source: Source, size: Size }> | null, ratings?: Array<{ __typename?: 'Rating', source: Source, score: number }> | null } | null };
+
+export type ReadsQueryVariables = Exact<{
+  where?: InputMaybe<ReadWhereInput>;
+}>;
+
+
+export type ReadsQuery = { __typename?: 'Query', reads: Array<{ __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string, capacity: number, readingSessions?: Array<{ __typename?: 'ReadingSession', id: string, capacity: number, progress: number, pagesRead: number, type: Progress_Type, createdAt: any }> | null }> };
 
 export type ReadDatesQueryVariables = Exact<{
   userBookIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -3574,67 +3631,9 @@ export function useAddIdentifierToBookMutation(baseOptions?: Apollo.MutationHook
 export type AddIdentifierToBookMutationHookResult = ReturnType<typeof useAddIdentifierToBookMutation>;
 export type AddIdentifierToBookMutationResult = Apollo.MutationResult<AddIdentifierToBookMutation>;
 export type AddIdentifierToBookMutationOptions = Apollo.BaseMutationOptions<AddIdentifierToBookMutation, AddIdentifierToBookMutationVariables>;
-export const GetLatestReadDocument = gql`
-    query GetLatestRead($userBookId: String!) {
-  getLatestRead(userBookId: $userBookId) {
-    id
-    startDate
-    finishedDate
-    userBookId
-    readingSessions {
-      id
-      capacity
-      progress
-      type
-      createdAt
-    }
-    UserBook {
-      id
-      book {
-        id
-        title
-        pageCount
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetLatestReadQuery__
- *
- * To run a query within a React component, call `useGetLatestReadQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetLatestReadQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetLatestReadQuery({
- *   variables: {
- *      userBookId: // value for 'userBookId'
- *   },
- * });
- */
-export function useGetLatestReadQuery(baseOptions: Apollo.QueryHookOptions<GetLatestReadQuery, GetLatestReadQueryVariables> & ({ variables: GetLatestReadQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetLatestReadQuery, GetLatestReadQueryVariables>(GetLatestReadDocument, options);
-      }
-export function useGetLatestReadLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetLatestReadQuery, GetLatestReadQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetLatestReadQuery, GetLatestReadQueryVariables>(GetLatestReadDocument, options);
-        }
-export function useGetLatestReadSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetLatestReadQuery, GetLatestReadQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetLatestReadQuery, GetLatestReadQueryVariables>(GetLatestReadDocument, options);
-        }
-export type GetLatestReadQueryHookResult = ReturnType<typeof useGetLatestReadQuery>;
-export type GetLatestReadLazyQueryHookResult = ReturnType<typeof useGetLatestReadLazyQuery>;
-export type GetLatestReadSuspenseQueryHookResult = ReturnType<typeof useGetLatestReadSuspenseQuery>;
-export type GetLatestReadQueryResult = Apollo.QueryResult<GetLatestReadQuery, GetLatestReadQueryVariables>;
-export const GetCurrentlyReadingBooksWithReadsDocument = gql`
-    query GetCurrentlyReadingBooksWithReads {
-  getCurrentlyReadingBooksWithReads {
+export const GetCurrentlyReadingBooksWithLatestReadsDocument = gql`
+    query GetCurrentlyReadingBooksWithLatestReads {
+  getCurrentlyReadingBooksWithLatestReads {
     id
     status
     rating
@@ -3672,6 +3671,7 @@ export const GetCurrentlyReadingBooksWithReadsDocument = gql`
         id
         capacity
         progress
+        pagesRead
         type
         createdAt
       }
@@ -3681,39 +3681,39 @@ export const GetCurrentlyReadingBooksWithReadsDocument = gql`
     `;
 
 /**
- * __useGetCurrentlyReadingBooksWithReadsQuery__
+ * __useGetCurrentlyReadingBooksWithLatestReadsQuery__
  *
- * To run a query within a React component, call `useGetCurrentlyReadingBooksWithReadsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCurrentlyReadingBooksWithReadsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCurrentlyReadingBooksWithLatestReadsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentlyReadingBooksWithLatestReadsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCurrentlyReadingBooksWithReadsQuery({
+ * const { data, loading, error } = useGetCurrentlyReadingBooksWithLatestReadsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetCurrentlyReadingBooksWithReadsQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+export function useGetCurrentlyReadingBooksWithLatestReadsQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+        return Apollo.useQuery<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>(GetCurrentlyReadingBooksWithLatestReadsDocument, options);
       }
-export function useGetCurrentlyReadingBooksWithReadsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+export function useGetCurrentlyReadingBooksWithLatestReadsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+          return Apollo.useLazyQuery<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>(GetCurrentlyReadingBooksWithLatestReadsDocument, options);
         }
-export function useGetCurrentlyReadingBooksWithReadsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>) {
+export function useGetCurrentlyReadingBooksWithLatestReadsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>(GetCurrentlyReadingBooksWithReadsDocument, options);
+          return Apollo.useSuspenseQuery<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>(GetCurrentlyReadingBooksWithLatestReadsDocument, options);
         }
-export type GetCurrentlyReadingBooksWithReadsQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsQuery>;
-export type GetCurrentlyReadingBooksWithReadsLazyQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsLazyQuery>;
-export type GetCurrentlyReadingBooksWithReadsSuspenseQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithReadsSuspenseQuery>;
-export type GetCurrentlyReadingBooksWithReadsQueryResult = Apollo.QueryResult<GetCurrentlyReadingBooksWithReadsQuery, GetCurrentlyReadingBooksWithReadsQueryVariables>;
+export type GetCurrentlyReadingBooksWithLatestReadsQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithLatestReadsQuery>;
+export type GetCurrentlyReadingBooksWithLatestReadsLazyQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithLatestReadsLazyQuery>;
+export type GetCurrentlyReadingBooksWithLatestReadsSuspenseQueryHookResult = ReturnType<typeof useGetCurrentlyReadingBooksWithLatestReadsSuspenseQuery>;
+export type GetCurrentlyReadingBooksWithLatestReadsQueryResult = Apollo.QueryResult<GetCurrentlyReadingBooksWithLatestReadsQuery, GetCurrentlyReadingBooksWithLatestReadsQueryVariables>;
 export const CreateReadDocument = gql`
-    mutation CreateRead($userBookId: String!) {
-  createRead(userBookId: $userBookId) {
+    mutation CreateRead($userBookId: String!, $capacity: Int!) {
+  createRead(userBookId: $userBookId, capacity: $capacity) {
     id
     startDate
     finishedDate
@@ -3722,6 +3722,7 @@ export const CreateReadDocument = gql`
       id
       capacity
       progress
+      pagesRead
       type
       createdAt
     }
@@ -3744,6 +3745,7 @@ export type CreateReadMutationFn = Apollo.MutationFunction<CreateReadMutation, C
  * const [createReadMutation, { data, loading, error }] = useCreateReadMutation({
  *   variables: {
  *      userBookId: // value for 'userBookId'
+ *      capacity: // value for 'capacity'
  *   },
  * });
  */
@@ -3755,16 +3757,18 @@ export type CreateReadMutationHookResult = ReturnType<typeof useCreateReadMutati
 export type CreateReadMutationResult = Apollo.MutationResult<CreateReadMutation>;
 export type CreateReadMutationOptions = Apollo.BaseMutationOptions<CreateReadMutation, CreateReadMutationVariables>;
 export const CreateReadingSessionDocument = gql`
-    mutation CreateReadingSession($readId: String!, $capacity: Int!, $progress: Int!, $type: PROGRESS_TYPE!) {
+    mutation CreateReadingSession($readId: String!, $pagesRead: Int!, $capacity: Int!, $progress: Int!, $type: PROGRESS_TYPE!) {
   createReadingSession(
     readId: $readId
     capacity: $capacity
+    pagesRead: $pagesRead
     progress: $progress
     type: $type
   ) {
     id
     capacity
     progress
+    pagesRead
     type
     createdAt
     read {
@@ -3792,6 +3796,7 @@ export type CreateReadingSessionMutationFn = Apollo.MutationFunction<CreateReadi
  * const [createReadingSessionMutation, { data, loading, error }] = useCreateReadingSessionMutation({
  *   variables: {
  *      readId: // value for 'readId'
+ *      pagesRead: // value for 'pagesRead'
  *      capacity: // value for 'capacity'
  *      progress: // value for 'progress'
  *      type: // value for 'type'
@@ -3805,6 +3810,37 @@ export function useCreateReadingSessionMutation(baseOptions?: Apollo.MutationHoo
 export type CreateReadingSessionMutationHookResult = ReturnType<typeof useCreateReadingSessionMutation>;
 export type CreateReadingSessionMutationResult = Apollo.MutationResult<CreateReadingSessionMutation>;
 export type CreateReadingSessionMutationOptions = Apollo.BaseMutationOptions<CreateReadingSessionMutation, CreateReadingSessionMutationVariables>;
+export const RemoveReadingSessionDocument = gql`
+    mutation RemoveReadingSession($sessionId: String!) {
+  removeReadingSession(sessionId: $sessionId)
+}
+    `;
+export type RemoveReadingSessionMutationFn = Apollo.MutationFunction<RemoveReadingSessionMutation, RemoveReadingSessionMutationVariables>;
+
+/**
+ * __useRemoveReadingSessionMutation__
+ *
+ * To run a mutation, you first call `useRemoveReadingSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveReadingSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeReadingSessionMutation, { data, loading, error }] = useRemoveReadingSessionMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *   },
+ * });
+ */
+export function useRemoveReadingSessionMutation(baseOptions?: Apollo.MutationHookOptions<RemoveReadingSessionMutation, RemoveReadingSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveReadingSessionMutation, RemoveReadingSessionMutationVariables>(RemoveReadingSessionDocument, options);
+      }
+export type RemoveReadingSessionMutationHookResult = ReturnType<typeof useRemoveReadingSessionMutation>;
+export type RemoveReadingSessionMutationResult = Apollo.MutationResult<RemoveReadingSessionMutation>;
+export type RemoveReadingSessionMutationOptions = Apollo.BaseMutationOptions<RemoveReadingSessionMutation, RemoveReadingSessionMutationVariables>;
 export const UpdateReadDateDocument = gql`
     mutation UpdateReadDate($id: String!, $startDate: String, $finishedDate: String) {
   updateReadDate(id: $id, startDate: $startDate, finishedDate: $finishedDate) {
@@ -4583,6 +4619,58 @@ export type BookQueryHookResult = ReturnType<typeof useBookQuery>;
 export type BookLazyQueryHookResult = ReturnType<typeof useBookLazyQuery>;
 export type BookSuspenseQueryHookResult = ReturnType<typeof useBookSuspenseQuery>;
 export type BookQueryResult = Apollo.QueryResult<BookQuery, BookQueryVariables>;
+export const ReadsDocument = gql`
+    query Reads($where: ReadWhereInput) {
+  reads(where: $where) {
+    id
+    startDate
+    finishedDate
+    userBookId
+    capacity
+    readingSessions {
+      id
+      capacity
+      progress
+      pagesRead
+      type
+      createdAt
+    }
+  }
+}
+    `;
+
+/**
+ * __useReadsQuery__
+ *
+ * To run a query within a React component, call `useReadsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useReadsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useReadsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useReadsQuery(baseOptions?: Apollo.QueryHookOptions<ReadsQuery, ReadsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ReadsQuery, ReadsQueryVariables>(ReadsDocument, options);
+      }
+export function useReadsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ReadsQuery, ReadsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ReadsQuery, ReadsQueryVariables>(ReadsDocument, options);
+        }
+export function useReadsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ReadsQuery, ReadsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ReadsQuery, ReadsQueryVariables>(ReadsDocument, options);
+        }
+export type ReadsQueryHookResult = ReturnType<typeof useReadsQuery>;
+export type ReadsLazyQueryHookResult = ReturnType<typeof useReadsLazyQuery>;
+export type ReadsSuspenseQueryHookResult = ReturnType<typeof useReadsSuspenseQuery>;
+export type ReadsQueryResult = Apollo.QueryResult<ReadsQuery, ReadsQueryVariables>;
 export const ReadDatesDocument = gql`
     query readDates($userBookIds: [String!]!, $active: Boolean) {
   readDates(userBookIds: $userBookIds, active: $active) {

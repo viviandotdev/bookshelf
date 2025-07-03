@@ -153,6 +153,7 @@ model UserBook {
 model Read {
     id              String           @id @default(uuid())
     readingSessions ReadingSession[]
+    capacity        Int
     startDate       DateTime         @default(now())
     finishedDate    DateTime?
     userBookId      String
@@ -165,6 +166,7 @@ model ReadingSession {
     capacity  Int
     /// @Validator.IsInt()
     progress  Int
+    pagesRead Int
     type      PROGRESS_TYPE
     createdAt DateTime      @default(now())
     read      Read          @relation(fields: [readId], references: [id])

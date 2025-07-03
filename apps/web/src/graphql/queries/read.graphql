@@ -1,0 +1,17 @@
+query Reads($where: ReadWhereInput) {
+  reads(where: $where) {
+    id
+    startDate
+    finishedDate
+    userBookId
+    capacity
+    readingSessions {
+      id
+      capacity
+      progress
+      pagesRead
+      type
+      createdAt
+    }
+  }
+}

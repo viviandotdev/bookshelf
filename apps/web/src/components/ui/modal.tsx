@@ -7,9 +7,10 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 interface ModalProps {
-    title: string;
+    title?: string;
     description?: string;
     isOpen: boolean;
     onClose: () => void;
@@ -31,13 +32,31 @@ export const Modal: React.FC<ModalProps> = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onChange}>
+
             <DialogContent className='p-8'>
+
                 <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogDescription>{description}</DialogDescription>
+                    {
+                        title ? (
+                            <>
+                                <DialogTitle>{title}</DialogTitle>
+                                <DialogDescription>{description}</DialogDescription>
+                            </>
+                        )
+                            :
+                            <VisuallyHidden>
+                                <DialogTitle>{title}</DialogTitle>
+                            </VisuallyHidden>
+
+
+
+
+                    }
+
                 </DialogHeader>
+
                 <div>{children}</div>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     );
 };

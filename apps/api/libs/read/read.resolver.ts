@@ -3,7 +3,6 @@ import { UseGuards, NotFoundException } from '@nestjs/common';
 import { AccessTokenGuard } from 'libs/auth/guards/jwt.guard';
 import { CurrentUser } from 'libs/auth/decorators/currentUser.decorator';
 import { JwtPayload } from 'libs/auth/types';
-import { Prisma } from '@prisma/client';
 
 import { ReadService } from './read.service';
 import { PrismaRepository } from 'prisma/prisma.repository';
@@ -12,7 +11,6 @@ import {
     Read,
     ReadingSession,
     ReadWhereInput,
-    ReadWhereUniqueInput,
     ReadOrderByWithRelationInput,
     ReadingSessionWhereInput,
     ReadingSessionOrderByWithRelationInput,
@@ -27,9 +25,10 @@ export class ReadResolver {
         private readonly prisma: PrismaRepository,
     ) { }
 
+
     @UseGuards(AccessTokenGuard)
-    @Query(() => [UserBook], { name: 'getCurrentlyReadingBooksWithReads' })
-    async getCurrentlyReadingBooksWithReads(
+    @Query(() => [UserBook], { name: 'getCurrentlyReadingBooksWithLatestReads' })
+    async getCurrentlyReadingBooksWithLatestReads(
         @CurrentUser() user: JwtPayload,
     ) {
         // Get all currently reading books with their latest reads
@@ -68,52 +67,16 @@ export class ReadResolver {
         return userBooks;
     }
 
-    @UseGuards(AccessTokenGuard)
-    @Query(() => Read, { name: 'getLatestRead', nullable: true })
-    async getLatestRead(
-        @Args('userBookId', { type: () => String }) userBookId: string,
-        @CurrentUser() user: JwtPayload,
-    ) {
-        // Verify the userBook belongs to the current user
-        const userBook = await this.prisma.userBook.findUnique({
-            where: { id: userBookId },
-        });
-
-        if (!userBook || userBook.userId !== user.userId) {
-            throw new NotFoundException('User book not found');
-        }
-
-        // Get the latest read for this user book
-        const latestRead = await this.prisma.read.findFirst({
-            where: {
-                userBookId: userBookId,
-            },
-            include: {
-                readingSessions: {
-                    orderBy: {
-                        createdAt: 'desc',
-                    },
-                    take: 1,
-                },
-            },
-            orderBy: {
-                startDate: 'desc',
-            },
-        });
-
-        return latestRead;
-    }
-
 
     @UseGuards(AccessTokenGuard)
     @Query(() => [Read], { name: 'reads' })
     async reads(
         @Args('where', { nullable: true }) where: ReadWhereInput,
-        @Args({ defaultValue: 0, name: 'offset', type: () => Int }) offset = 0,
-        @Args({ defaultValue: 20, name: 'limit', type: () => Int }) limit = 20,
-        @Args('orderBy', { nullable: true })
-        orderBy: ReadOrderByWithRelationInput,
         @CurrentUser() user: JwtPayload,
+        @Args({ name: 'offset', type: () => Int, nullable: true }) offset?: number,
+        @Args({ name: 'limit', type: () => Int, nullable: true }) limit?: number,
+        @Args('orderBy', { nullable: true })
+        orderBy?: ReadOrderByWithRelationInput,
     ) {
         return this.readService.findMany({
             where: {
@@ -132,6 +95,7 @@ export class ReadResolver {
     @Mutation(() => Read, { name: 'createRead' })
     async createRead(
         @Args('userBookId', { type: () => String }) userBookId: string,
+        @Args('capacity', { type: () => Int }) capacity: number,
         @CurrentUser() user: JwtPayload,
     ) {
         // Verify the userBook belongs to the current user
@@ -148,6 +112,7 @@ export class ReadResolver {
                 UserBook: {
                     connect: { id: userBookId },
                 },
+                capacity,
             },
         });
     }
@@ -157,6 +122,7 @@ export class ReadResolver {
     async createReadingSession(
         @Args('readId', { type: () => String }) readId: string,
         @Args('capacity', { type: () => Int }) capacity: number,
+        @Args('pagesRead', { type: () => Int }) pagesRead: number,
         @Args('progress', { type: () => Int }) progress: number,
         @Args('type', { type: () => PROGRESS_TYPE }) type: PROGRESS_TYPE,
         @CurrentUser() user: JwtPayload,
@@ -173,6 +139,7 @@ export class ReadResolver {
         return this.readService.createReadingSession({
             data: {
                 capacity,
+                pagesRead,
                 progress,
                 type,
                 read: {
@@ -183,6 +150,54 @@ export class ReadResolver {
                 read: true
             },
         });
+    }
+
+    @UseGuards(AccessTokenGuard)
+    @Mutation(() => ReadingSession, { name: 'updateReadingSession' })
+    async updateReadingSession(
+        @Args('sessionId', { type: () => String }) sessionId: string,
+        @CurrentUser() user: JwtPayload,
+        @Args('capacity', { type: () => Int, nullable: true }) capacity?: number,
+        @Args('pagesRead', { type: () => Int, nullable: true }) pagesRead?: number,
+        @Args('progress', { type: () => Int, nullable: true }) progress?: number,
+        @Args('type', { type: () => PROGRESS_TYPE, nullable: true }) type?: PROGRESS_TYPE,
+    ) {
+        const sessions = await this.readService.findReadingSessions({
+            where: { id: sessionId },
+        });
+
+        if (!sessions.length || sessions[0].read.UserBook.userId !== user.userId) {
+            throw new NotFoundException('Reading session not found');
+        }
+
+        const updateData: any = {};
+        if (capacity !== undefined) updateData.capacity = capacity;
+        if (pagesRead !== undefined) updateData.pagesRead = pagesRead;
+        if (progress !== undefined) updateData.progress = progress;
+        if (type !== undefined) updateData.type = type;
+
+        return this.readService.updateReadingSession({
+            where: { id: sessionId },
+            data: updateData,
+        });
+    }
+
+    @UseGuards(AccessTokenGuard)
+    @Mutation(() => Boolean, { name: 'removeReadingSession' })
+    async removeReadingSession(
+        @Args('sessionId', { type: () => String }) sessionId: string,
+        @CurrentUser() user: JwtPayload,
+    ) {
+        const sessions = await this.readService.findReadingSessions({
+            where: { id: sessionId },
+        });
+
+        if (!sessions.length || sessions[0].read.UserBook.userId !== user.userId) {
+            throw new NotFoundException('Reading session not found');
+        }
+
+        await this.readService.deleteReadingSession({ id: sessionId });
+        return true;
     }
 
     @UseGuards(AccessTokenGuard)

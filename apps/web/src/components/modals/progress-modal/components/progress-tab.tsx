@@ -32,7 +32,6 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
     // Initialize progress from readingData store for the current userBookId
     useEffect(() => {
         if (userBookId) {
-
             if (readingData?.latestSession) {
                 setProgress(readingData.latestSession.progress || 0);
                 setType(readingData.latestSession.type || Progress_Type.Pages);
@@ -42,7 +41,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                 setType(Progress_Type.Pages);
             }
         }
-    }, [userBookId, getReadingData]);
+    }, [userBookId, readingData?.latestSession?.id]); // Only depend on userBookId and session ID
 
     // GraphQL mutations
     const [createRead] = useCreateReadMutation({
@@ -99,6 +98,40 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
         }
     };
 
+    const getProgressText = () => {
+        if (type === Progress_Type.Pages) {
+            return `of ${totalPages} pages read`;
+        } else {
+            return `${progress}% completed`;
+        }
+    };
+
+    // Calculate pages read based on the difference from previous session
+    const calculatePagesRead = () => {
+        if (!readingData?.latestSession) {
+            // If no previous session, pagesRead equals current progress
+            if (type === Progress_Type.Pages) {
+                return progress;
+            } else {
+                // Convert percentage to pages
+                return Math.round((progress / 100) * totalPages);
+            }
+        }
+
+        const previousSession = readingData.latestSession;
+        const previousProgress = previousSession.progress;
+
+        // Convert current progress to pages
+        let currentPages = progress;
+        if (type === Progress_Type.Percentage) {
+            currentPages = Math.round((progress / 100) * totalPages);
+        }
+
+        // Calculate the difference
+        const pagesRead = currentPages - previousProgress;
+        return Math.max(0, pagesRead); // Ensure non-negative
+    };
+
     const submitProgress = async () => {
         if (!userBookId) {
             toast({
@@ -108,11 +141,13 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
             return;
         }
 
+        const pagesRead = calculatePagesRead();
+
         try {
             if (!readingData?.latestRead) {
                 // Create a new Read first
                 const createReadResult = await createRead({
-                    variables: { userBookId }
+                    variables: { userBookId, capacity: totalPages }
                 });
 
                 if (createReadResult.data?.createRead) {
@@ -120,9 +155,10 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                     await createReadingSession({
                         variables: {
                             readId: createReadResult.data.createRead.id,
-                            capacity: type === Progress_Type.Pages ? totalPages : 100,
-                            progress: progress,
-                            type: type
+                            pagesRead: pagesRead,
+                            progress: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
+                            type: Progress_Type.Pages,
+                            capacity: totalPages,
                         }
                     });
                 }
@@ -131,9 +167,10 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                 await createReadingSession({
                     variables: {
                         readId: readingData?.latestRead.id,
-                        capacity: type === Progress_Type.Pages ? totalPages : 100,
-                        progress: progress,
-                        type: type
+                        pagesRead: pagesRead,
+                        progress: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
+                        type: Progress_Type.Pages,
+                        capacity: totalPages,
                     }
                 });
             }
@@ -164,14 +201,6 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                 const newProgress = Math.min(Math.max(numValue, 0), maxValue);
                 setProgress(newProgress);
             }
-        }
-    };
-
-    const getProgressText = () => {
-        if (type === Progress_Type.Pages) {
-            return `of ${totalPages} pages read`;
-        } else {
-            return `${progress}% completed`;
         }
     };
 

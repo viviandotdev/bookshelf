@@ -41,6 +41,7 @@ import {
     Minus,
     CircleCheck,
     BookCheck,
+    SquarePen,
 } from 'lucide-react';
 import { DotsVerticalIcon, LayoutIcon } from '@radix-ui/react-icons';
 
@@ -138,7 +139,7 @@ export const Icons = {
     date: Clock,
     down: ArrowDown,
     heart: Heart,
-    edit: Pencil,
+    edit: SquarePen,
     check: Check,
     shelf: bookShelf,
     notes: AlignLeft,

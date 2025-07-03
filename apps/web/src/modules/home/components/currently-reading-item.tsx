@@ -9,7 +9,6 @@ import useProgressModal from '@/components/modals/progress-modal/use-progress-mo
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import { Pencil } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useGetLatestReadLazyQuery } from '@/graphql/graphql';
 
 interface CurrentlyReadingItemProps {
     userBook: UserBook;
@@ -27,7 +26,6 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({ user
     const { onOpen, setCurrentBook, getReadingData, updateReadingData } = useProgressModal();
     const { setUserBook } = useUserBookStore();
     const router = useRouter();
-    const [localLatestSession, setLocalLatestSession] = useState<any>(null);
 
     // Get reading data from store
     const readingData = getReadingData(userBook.id);
