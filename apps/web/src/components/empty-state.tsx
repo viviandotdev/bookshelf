@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 
 interface EmptyStateProps {
     hideCard?: boolean;
-    icon: ReactNode;
+    icon?: ReactNode;
     message: ReactNode;
     className?: string;
 }
@@ -23,7 +23,7 @@ const EmptyState = ({
             )}
         >
             <div className="grid justify-items-center space-y-2 p-5">
-                <div>{icon}</div>
+                {icon && <div>{icon}</div>}
                 <div>{message}</div>
             </div>
         </Card>

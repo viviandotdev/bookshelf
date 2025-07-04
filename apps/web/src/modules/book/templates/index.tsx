@@ -32,7 +32,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
         },
         {
             label: 'Reading Sessions',
-            children: <SessionList />,
+            children: <SessionList userBookId={userBook?.id} />,
             id: 'sessions',
         }
     ];

@@ -3,19 +3,16 @@ import React from 'react';
 import { format } from 'date-fns';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import { Icons } from '@/components/icons';
+import { SessionDeleteDialog } from './session-delete-dialog';
 
 interface SessionCardProps {
     session: any;
     read: any;
-    onEdit?: (session: any) => void;
-    onDelete?: (sessionId: string) => void;
 }
 
 export const SessionCard: React.FC<SessionCardProps> = ({
     session,
     read,
-    onEdit,
-    onDelete
 }) => {
     const formatDatePill = (dateString: string) => {
         try {
@@ -62,25 +59,18 @@ export const SessionCard: React.FC<SessionCardProps> = ({
                 </div>
             </div>
             <div className='flex gap-4 mr-2'>
-                {onEdit && (
-                    <IconButton
-                        className="rounded-sm p-1"
-                        aria-label="Edit session"
-                        onClick={() => onEdit(session)}
-                    >
-                        <Icons.edit className="h-4 w-4 items-center text-beige-700" />
-                    </IconButton>
-                )}
-                {onDelete && (
-                    <IconButton
-                        className="rounded-sm p-1"
-                        aria-label="Delete session"
-                        onClick={() => onDelete(session.id)}
-                    >
-                        <Icons.delete className="h-4 w-4 items-center text-beige-700" />
-                    </IconButton>
-                )}
+
+                <IconButton
+                    className="rounded-sm p-1"
+                    aria-label="Edit session"
+                // onClick={() => onEdit(session)}
+                >
+                    <Icons.edit className="h-4 w-4 items-center text-beige-700" />
+                </IconButton>
+                <SessionDeleteDialog sessionId={session.id} />
+
             </div>
+
         </div>
     );
 };

@@ -5,12 +5,12 @@ import useUserBookStore from '@/stores/use-user-book-store';
 import { SessionCard } from './session-card';
 import ErrorMessage from '@/components/error-message';
 import EmptyState from '@/components/empty-state';
-import { Icons } from '@/components/icons';
 
-interface SessionListProps { }
+interface SessionListProps {
+    userBookId?: string;
+}
 
-export const SessionList: React.FC<SessionListProps> = () => {
-    const { userBookId } = useUserBookStore();
+export const SessionList: React.FC<SessionListProps> = ({ userBookId }) => {
     const { data, loading, error } = useReadsQuery({
         variables: {
             where: {
@@ -39,7 +39,7 @@ export const SessionList: React.FC<SessionListProps> = () => {
 
     if (!readsWithSessions.length || readsWithSessions.every(read => !read.sessions.length)) {
         return (
-            <EmptyState icon={<Icons.book />} message={<div>No reading sessions found. Start reading to see your progress sessions here.</div>} />
+            <EmptyState message={<div>Start reading to see your reading sessions here.</div>} />
         );
     }
 
@@ -59,12 +59,6 @@ export const SessionList: React.FC<SessionListProps> = () => {
                                 key={session.id}
                                 session={session}
                                 read={read}
-                                onEdit={(session) => {
-                                    console.log('Edit session:', session);
-                                }}
-                                onDelete={(sessionId) => {
-                                    console.log('Delete session:', sessionId);
-                                }}
                             />
                         ))}
                     </div>
