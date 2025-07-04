@@ -28,17 +28,10 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         }
     };
 
-    const calculatePageRange = (session: any) => {
-        const currentProgress = session.progress;
-        const pagesRead = session.pagesRead;
-        const fromPage = currentProgress - pagesRead + 1;
-        const toPage = currentProgress;
-        return { fromPage, toPage };
-    };
-
     const pill = formatDatePill(session.createdAt);
-    const { fromPage, toPage } = calculatePageRange(session);
-    const completionPercentage = Math.round((session.progress / read.capacity) * 100);
+    const fromPage = session.startPage;
+    const toPage = session.endPage;
+    const completionPercentage = Math.round((session.endPage / read.capacity) * 100);
 
     return (
         <div className="flex items-center p-3 border border-gray-100 shadow-xs rounded-lg">
@@ -48,7 +41,7 @@ export const SessionCard: React.FC<SessionCardProps> = ({
             </div>
             <div className="flex-1 min-w-0">
                 <div className="flex font-semibold text-beige-700 text-base truncate">
-                    Vivian read {session.pagesRead} pages
+                    Vivian read {toPage - fromPage + 1} pages
                     <Icons.dot>.</Icons.dot>
                     <div>
                         {completionPercentage}% complete

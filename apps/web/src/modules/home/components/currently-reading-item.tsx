@@ -34,17 +34,12 @@ export const CurrentlyReadingItem: React.FC<CurrentlyReadingItemProps> = ({ user
     // Calculate progress using the most current reading session
     const progressData = useMemo(() => {
         const session = latestReadingSession;
-        const type = session?.type;
-        const capacity = session?.capacity || userBook.book.pageCount || 0;
-        const progress = session?.progress || 0;
+        const capacity = userBook.book.pageCount || 0;
+        const progress = session?.endPage || 0;
 
-        const percentProgress = type === Progress_Type.Percentage
-            ? progress
-            : covertPageProgressToPercent(progress, capacity);
+        const percentProgress = covertPageProgressToPercent(progress, capacity);
 
-        const pageProgress = type === Progress_Type.Pages
-            ? progress
-            : convertPercentProgressToPages(progress, capacity);
+        const pageProgress = progress
 
         return { capacity, percentProgress, pageProgress };
     }, [latestReadingSession, userBook.book.pageCount]);

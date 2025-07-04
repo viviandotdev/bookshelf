@@ -32,16 +32,16 @@ export interface ReadWithSessions {
 
 export interface ReadingSession {
     id: string;
-    capacity: number;
     progress: number;
+    pagesRead: number;
     type: 'PAGES' | 'PERCENTAGE';
     createdAt: Date;
     readId: string;
 }
 
 export interface ReadingProgress {
-    totalCapacity: number;
     totalProgress: number;
+    totalPagesRead: number;
     percentage: number;
     sessions: ReadingSession[];
 }

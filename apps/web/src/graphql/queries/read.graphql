@@ -7,10 +7,8 @@ query Reads($where: ReadWhereInput) {
     capacity
     readingSessions {
       id
-      capacity
-      progress
-      pagesRead
-      type
+      startPage
+      endPage
       createdAt
     }
   }

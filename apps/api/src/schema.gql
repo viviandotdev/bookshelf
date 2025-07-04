@@ -662,7 +662,7 @@ type Mutation {
   addIdentifierToBook(identifier: IdentifierCreateInput!, where: BookWhereUniqueInput!): Book!
   createIdentifiers(identifiers: [IdentifierCreateInput!]!): [Identifier!]!
   createRead(capacity: Int!, userBookId: String!): Read!
-  createReadingSession(capacity: Int!, pagesRead: Int!, progress: Int!, readId: String!, type: PROGRESS_TYPE!): ReadingSession!
+  createReadingSession(endPage: Int!, readId: String!, startPage: Int!): ReadingSession!
   createShelf(data: ShelfCreateInput!): Shelf!
   createUserBook(data: BookDataInput!): UserBook!
   deleteShelf(where: ShelfWhereUniqueInput!): Shelf!
@@ -681,7 +681,7 @@ type Mutation {
   updatePassword(data: UpdatePasswordInput!): User!
   updateReadDate(finishedDate: String, id: String!, startDate: String): ReadDate!
   updateReadingProgress(capacity: Int, progress: Int!, readingProgressId: String!, type: String!): ReadingProgress!
-  updateReadingSession(capacity: Int, pagesRead: Int, progress: Int, sessionId: String!, type: PROGRESS_TYPE): ReadingSession!
+  updateReadingSession(endPage: Int, sessionId: String!, startPage: Int): ReadingSession!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!
@@ -1418,40 +1418,33 @@ input ReadingProgressWhereUniqueInput {
 }
 
 type ReadingSession {
-  capacity: Int!
   createdAt: Timestamp!
+  endPage: Int!
   id: ID!
-  pagesRead: Int!
-  progress: Int!
   read: Read!
   readId: String!
-  type: PROGRESS_TYPE!
+  startPage: Int!
 }
 
 type ReadingSessionAvgAggregate {
-  capacity: Float
-  pagesRead: Float
-  progress: Float
+  endPage: Float
+  startPage: Float
 }
 
 type ReadingSessionCountAggregate {
   _all: Int!
-  capacity: Int!
   createdAt: Int!
+  endPage: Int!
   id: Int!
-  pagesRead: Int!
-  progress: Int!
   readId: Int!
-  type: Int!
+  startPage: Int!
 }
 
 input ReadingSessionCreateManyReadInput {
-  capacity: Int!
   createdAt: Timestamp
+  endPage: Int!
   id: String
-  pagesRead: Int!
-  progress: Int!
-  type: PROGRESS_TYPE!
+  startPage: Int!
 }
 
 input ReadingSessionCreateManyReadInputEnvelope {
@@ -1472,12 +1465,10 @@ input ReadingSessionCreateOrConnectWithoutReadInput {
 }
 
 input ReadingSessionCreateWithoutReadInput {
-  capacity: Int!
   createdAt: Timestamp
+  endPage: Int!
   id: String
-  pagesRead: Int!
-  progress: Int!
-  type: PROGRESS_TYPE!
+  startPage: Int!
 }
 
 input ReadingSessionListRelationFilter {
@@ -1487,23 +1478,19 @@ input ReadingSessionListRelationFilter {
 }
 
 type ReadingSessionMaxAggregate {
-  capacity: Int
   createdAt: Timestamp
+  endPage: Int
   id: String
-  pagesRead: Int
-  progress: Int
   readId: String
-  type: PROGRESS_TYPE
+  startPage: Int
 }
 
 type ReadingSessionMinAggregate {
-  capacity: Int
   createdAt: Timestamp
+  endPage: Int
   id: String
-  pagesRead: Int
-  progress: Int
   readId: String
-  type: PROGRESS_TYPE
+  startPage: Int
 }
 
 input ReadingSessionOrderByRelationAggregateInput {
@@ -1511,42 +1498,35 @@ input ReadingSessionOrderByRelationAggregateInput {
 }
 
 input ReadingSessionOrderByWithRelationInput {
-  capacity: SortOrder
   createdAt: SortOrder
+  endPage: SortOrder
   id: SortOrder
-  pagesRead: SortOrder
-  progress: SortOrder
   read: ReadOrderByWithRelationInput
   readId: SortOrder
-  type: SortOrder
+  startPage: SortOrder
 }
 
 input ReadingSessionScalarWhereInput {
   AND: [ReadingSessionScalarWhereInput!]
   NOT: [ReadingSessionScalarWhereInput!]
   OR: [ReadingSessionScalarWhereInput!]
-  capacity: IntFilter
   createdAt: DateTimeFilter
+  endPage: IntFilter
   id: StringFilter
-  pagesRead: IntFilter
-  progress: IntFilter
   readId: StringFilter
-  type: EnumPROGRESS_TYPEFilter
+  startPage: IntFilter
 }
 
 type ReadingSessionSumAggregate {
-  capacity: Int
-  pagesRead: Int
-  progress: Int
+  endPage: Int
+  startPage: Int
 }
 
 input ReadingSessionUpdateManyMutationInput {
-  capacity: Int
   createdAt: Timestamp
+  endPage: Int
   id: String
-  pagesRead: Int
-  progress: Int
-  type: PROGRESS_TYPE
+  startPage: Int
 }
 
 input ReadingSessionUpdateManyWithWhereWithoutReadInput {
@@ -1574,12 +1554,10 @@ input ReadingSessionUpdateWithWhereUniqueWithoutReadInput {
 }
 
 input ReadingSessionUpdateWithoutReadInput {
-  capacity: Int
   createdAt: Timestamp
+  endPage: Int
   id: String
-  pagesRead: Int
-  progress: Int
-  type: PROGRESS_TYPE
+  startPage: Int
 }
 
 input ReadingSessionUpsertWithWhereUniqueWithoutReadInput {
@@ -1592,28 +1570,24 @@ input ReadingSessionWhereInput {
   AND: [ReadingSessionWhereInput!]
   NOT: [ReadingSessionWhereInput!]
   OR: [ReadingSessionWhereInput!]
-  capacity: IntFilter
   createdAt: DateTimeFilter
+  endPage: IntFilter
   id: StringFilter
-  pagesRead: IntFilter
-  progress: IntFilter
   read: ReadScalarRelationFilter
   readId: StringFilter
-  type: EnumPROGRESS_TYPEFilter
+  startPage: IntFilter
 }
 
 input ReadingSessionWhereUniqueInput {
   AND: [ReadingSessionWhereInput!]
   NOT: [ReadingSessionWhereInput!]
   OR: [ReadingSessionWhereInput!]
-  capacity: IntFilter
   createdAt: DateTimeFilter
+  endPage: IntFilter
   id: String
-  pagesRead: IntFilter
-  progress: IntFilter
   read: ReadScalarRelationFilter
   readId: StringFilter
-  type: EnumPROGRESS_TYPEFilter
+  startPage: IntFilter
 }
 
 type RefreshResponse {

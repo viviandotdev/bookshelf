@@ -35,10 +35,8 @@ query GetCurrentlyReadingBooksWithLatestReads {
       userBookId
       readingSessions {
         id
-        capacity
-        progress
-        pagesRead
-        type
+        startPage
+        endPage
         createdAt
       }
     }
@@ -60,10 +58,8 @@ mutation CreateRead(
     userBookId
     readingSessions {
       id
-      capacity
-      progress
-      pagesRead
-      type
+      startPage
+      endPage
       createdAt
     }
 
@@ -72,23 +68,17 @@ mutation CreateRead(
 
 mutation CreateReadingSession(
   $readId: String!
-  $pagesRead: Int!
-  $capacity: Int!
-  $progress: Int!
-  $type: PROGRESS_TYPE!
+  $startPage: Int!
+  $endPage: Int!
 ) {
   createReadingSession(
     readId: $readId
-    capacity: $capacity
-    pagesRead: $pagesRead
-    progress: $progress
-    type: $type
+    startPage: $startPage
+    endPage: $endPage
   ) {
     id
-    capacity
-    progress
-    pagesRead
-    type
+    startPage
+    endPage
     createdAt
     read {
       id
@@ -101,4 +91,27 @@ mutation CreateReadingSession(
 
 mutation RemoveReadingSession($sessionId: String!) {
   removeReadingSession(sessionId: $sessionId)
+}
+
+mutation UpdateReadingSession(
+  $sessionId: String!
+  $startPage: Int
+  $endPage: Int
+) {
+  updateReadingSession(
+    sessionId: $sessionId
+    startPage: $startPage
+    endPage: $endPage
+  ) {
+    id
+    startPage
+    endPage
+    createdAt
+    read {
+      id
+      startDate
+      finishedDate
+      userBookId
+    }
+  }
 }

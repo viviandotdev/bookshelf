@@ -4,14 +4,13 @@ import { ReadingSession, ReadingProgress } from './types';
  * Calculate total reading progress from sessions
  */
 export function calculateReadingProgress(sessions: ReadingSession[]): ReadingProgress {
-    const totalCapacity = sessions.reduce((sum, session) => sum + session.capacity, 0);
     const totalProgress = sessions.reduce((sum, session) => sum + session.progress, 0);
-    const percentage = totalCapacity > 0 ? (totalProgress / totalCapacity) * 100 : 0;
+    const totalPagesRead = sessions.reduce((sum, session) => sum + session.pagesRead, 0);
 
     return {
-        totalCapacity,
         totalProgress,
-        percentage: Math.round(percentage * 100) / 100, // Round to 2 decimal places
+        totalPagesRead,
+        percentage: Math.round((totalProgress / totalPagesRead) * 100) / 100, // Round to 2 decimal places
         sessions,
     };
 }

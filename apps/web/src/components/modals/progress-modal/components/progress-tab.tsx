@@ -33,7 +33,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
     useEffect(() => {
         if (userBookId) {
             if (readingData?.latestSession) {
-                setProgress(readingData.latestSession.progress || 0);
+                setProgress(readingData.latestSession.endPage || 0);
                 setType(readingData.latestSession.type || Progress_Type.Pages);
             } else {
                 // Fallback to default values if no reading data exists
@@ -61,14 +61,14 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
 
     const [createReadingSession] = useCreateReadingSessionMutation({
         onCompleted: (data) => {
-            const { type, progress } = data.createReadingSession;
+            const { endPage } = data.createReadingSession;
             const newSession = data.createReadingSession;
             const newRead = data.createReadingSession.read;
 
             // Update store immediately
             updateReadingData(userBookId, newRead, newSession);
             toast({
-                title: `${bookTitle} progress updated to ${progress} ${type === Progress_Type.Pages ? 'pages' : '%'}`,
+                title: `${bookTitle} progress updated to ${endPage} ${type === Progress_Type.Pages ? 'pages' : '%'}`,
                 variant: 'success'
             });
             onClose();
@@ -119,7 +119,7 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
         }
 
         const previousSession = readingData.latestSession;
-        const previousProgress = previousSession.progress;
+        const previousProgress = previousSession.endPage;
 
         // Convert current progress to pages
         let currentPages = progress;
@@ -155,10 +155,8 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                     await createReadingSession({
                         variables: {
                             readId: createReadResult.data.createRead.id,
-                            pagesRead: pagesRead,
-                            progress: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
-                            type: Progress_Type.Pages,
-                            capacity: totalPages,
+                            startPage: type === Progress_Type.Pages ? progress - pagesRead + 1 : Math.round((progress / 100) * totalPages) - pagesRead + 1,
+                            endPage: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
                         }
                     });
                 }
@@ -167,10 +165,8 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                 await createReadingSession({
                     variables: {
                         readId: readingData?.latestRead.id,
-                        pagesRead: pagesRead,
-                        progress: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
-                        type: Progress_Type.Pages,
-                        capacity: totalPages,
+                        startPage: type === Progress_Type.Pages ? progress - pagesRead + 1 : Math.round((progress / 100) * totalPages) - pagesRead + 1,
+                        endPage: type === Progress_Type.Pages ? progress : Math.round((progress / 100) * totalPages),
                     }
                 });
             }

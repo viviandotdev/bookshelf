@@ -161,15 +161,12 @@ model Read {
 }
 
 model ReadingSession {
-    id        String        @id @default(uuid())
+    id        String   @id @default(uuid())
     /// @Validator.IsInt()
-    capacity  Int
-    /// @Validator.IsInt()
-    progress  Int
-    pagesRead Int
-    type      PROGRESS_TYPE
-    createdAt DateTime      @default(now())
-    read      Read          @relation(fields: [readId], references: [id])
+    startPage Int
+    endPage   Int
+    createdAt DateTime @default(now())
+    read      Read     @relation(fields: [readId], references: [id])
     readId    String
 }
 
