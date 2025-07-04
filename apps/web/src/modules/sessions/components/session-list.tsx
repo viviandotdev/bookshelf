@@ -3,12 +3,15 @@ import React from 'react';
 import { useReadsQuery } from '@/graphql/graphql';
 import useUserBookStore from '@/stores/use-user-book-store';
 import { SessionCard } from './session-card';
+import ErrorMessage from '@/components/error-message';
+import EmptyState from '@/components/empty-state';
+import { Icons } from '@/components/icons';
 
-interface SessionsTabProps { }
+interface SessionListProps { }
 
-export const SessionsTab: React.FC<SessionsTabProps> = () => {
+export const SessionList: React.FC<SessionListProps> = () => {
     const { userBookId } = useUserBookStore();
-    const { data, loading } = useReadsQuery({
+    const { data, loading, error } = useReadsQuery({
         variables: {
             where: {
                 userBookId: {
@@ -30,14 +33,13 @@ export const SessionsTab: React.FC<SessionsTabProps> = () => {
         return <div className="py-8 text-center text-muted-foreground">Loading...</div>;
     }
 
+    if (error) {
+        return <ErrorMessage error={error} title="Failed to load comment feed" />;
+    }
+
     if (!readsWithSessions.length || readsWithSessions.every(read => !read.sessions.length)) {
         return (
-            <div className="flex flex-col items-center justify-center py-8">
-                <p className="text-muted-foreground">No reading sessions found.</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                    Start reading to see your progress sessions here.
-                </p>
-            </div>
+            <EmptyState icon={<Icons.book />} message={<div>No reading sessions found. Start reading to see your progress sessions here.</div>} />
         );
     }
 
@@ -48,23 +50,19 @@ export const SessionsTab: React.FC<SessionsTabProps> = () => {
 
                 return (
                     <div key={read.id} className="space-y-2">
-                        {/* Read Header */}
                         <div className="flex items-center gap-2">
                             <h3 className="ml-1 text-lg font-semibold text-beige-700">Read #{readNumber}</h3>
                         </div>
 
-                        {/* Sessions for this read */}
                         {sessions.map((session: any) => (
                             <SessionCard
                                 key={session.id}
                                 session={session}
                                 read={read}
                                 onEdit={(session) => {
-                                    // TODO: Implement edit functionality
                                     console.log('Edit session:', session);
                                 }}
                                 onDelete={(sessionId) => {
-                                    // TODO: Implement delete functionality
                                     console.log('Delete session:', sessionId);
                                 }}
                             />
@@ -76,4 +74,4 @@ export const SessionsTab: React.FC<SessionsTabProps> = () => {
     );
 };
 
-export default SessionsTab;
+export default SessionList;
