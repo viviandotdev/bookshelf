@@ -138,6 +138,9 @@ export class ReadResolver {
             data: {
                 startPage,
                 endPage,
+                progress: endPage,
+                pagesRead: endPage - startPage + 1,
+                type: 'PAGES',
                 read: {
                     connect: { id: readId },
                 },
@@ -155,6 +158,7 @@ export class ReadResolver {
         @CurrentUser() user: JwtPayload,
         @Args('startPage', { type: () => Int, nullable: true }) startPage?: number,
         @Args('endPage', { type: () => Int, nullable: true }) endPage?: number,
+        @Args('date', { type: () => String, nullable: true }) date?: string,
     ) {
         const sessions = await this.readService.findReadingSessions({
             where: { id: sessionId },
@@ -167,6 +171,7 @@ export class ReadResolver {
         const updateData: any = {};
         if (startPage !== undefined) updateData.startPage = startPage;
         if (endPage !== undefined) updateData.endPage = endPage;
+        if (date !== undefined) updateData.createdAt = new Date(date);
 
         return this.readService.updateReadingSession({
             where: { id: sessionId },

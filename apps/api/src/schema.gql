@@ -681,7 +681,7 @@ type Mutation {
   updatePassword(data: UpdatePasswordInput!): User!
   updateReadDate(finishedDate: String, id: String!, startDate: String): ReadDate!
   updateReadingProgress(capacity: Int, progress: Int!, readingProgressId: String!, type: String!): ReadingProgress!
-  updateReadingSession(endPage: Int, sessionId: String!, startPage: Int): ReadingSession!
+  updateReadingSession(date: String, endPage: Int, sessionId: String!, startPage: Int): ReadingSession!
   updateShelf(data: ShelfUpdateInput!, where: ShelfWhereUniqueInput!): Shelf!
   updateUser(data: UpdateUserInput!): User!
   updateUserBook(data: UserBookUpdateInput!, where: UserBookWhereUniqueInput!): UserBook!

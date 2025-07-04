@@ -9,9 +9,11 @@ import useProgressModal from '@/components/modals/progress-modal/use-progress-mo
 interface CurrentlyReadingSectionProps { }
 
 const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
-    const { data, loading } = useGetCurrentlyReadingBooksWithLatestReadsQuery({
-        fetchPolicy: 'cache-and-network',
-    });
+    const { data, loading } = useGetCurrentlyReadingBooksWithLatestReadsQuery(
+        {
+            fetchPolicy: 'network-only',
+        }
+    );
     const { updateReadingData } = useProgressModal();
 
     const currentlyReading = data?.getCurrentlyReadingBooksWithLatestReads || [];
@@ -23,7 +25,6 @@ const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
             const latestSession = latestRead?.readingSessions?.[0]; // First item since we order by desc and take 1
 
             if (latestRead && latestSession) {
-                console.log(latestRead, latestSession);
                 updateReadingData(userBook.id, latestRead, latestSession);
             }
         });

@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { useApolloClient } from "@apollo/client";
+import { IconButton } from "@/modules/bookshelves/components/icon-button";
+import { Icons } from "@/components/icons";
 
 type SessionDeleteDialogProps = {
     sessionId: string;
@@ -73,12 +75,9 @@ export function SessionDeleteDialog({
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 {trigger || (
-                    <Button
-                        variant="outline"
-                        className="text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300"
-                    >
-                        Delete
-                    </Button>
+                    <IconButton className="border-red-200 hover:border-red-300 hover:bg-red-50">
+                        <Icons.delete className="h-4 w-4 text-red-600" />
+                    </IconButton>
                 )}
             </DialogTrigger>
             <DialogContent>

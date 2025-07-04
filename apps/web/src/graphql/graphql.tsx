@@ -849,6 +849,7 @@ export type MutationUpdateReadingProgressArgs = {
 
 
 export type MutationUpdateReadingSessionArgs = {
+  date?: InputMaybe<Scalars['String']['input']>;
   endPage?: InputMaybe<Scalars['Int']['input']>;
   sessionId: Scalars['String']['input'];
   startPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3132,10 +3133,11 @@ export type UpdateReadingSessionMutationVariables = Exact<{
   sessionId: Scalars['String']['input'];
   startPage?: InputMaybe<Scalars['Int']['input']>;
   endPage?: InputMaybe<Scalars['Int']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type UpdateReadingSessionMutation = { __typename?: 'Mutation', updateReadingSession: { __typename?: 'ReadingSession', id: string, startPage: number, endPage: number, createdAt: any, read: { __typename?: 'Read', id: string, startDate: any, finishedDate?: any | null, userBookId: string } } };
+export type UpdateReadingSessionMutation = { __typename?: 'Mutation', updateReadingSession: { __typename?: 'ReadingSession', id: string, startPage: number, endPage: number, createdAt: any } };
 
 export type UpdateReadDateMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -3805,22 +3807,17 @@ export type RemoveReadingSessionMutationHookResult = ReturnType<typeof useRemove
 export type RemoveReadingSessionMutationResult = Apollo.MutationResult<RemoveReadingSessionMutation>;
 export type RemoveReadingSessionMutationOptions = Apollo.BaseMutationOptions<RemoveReadingSessionMutation, RemoveReadingSessionMutationVariables>;
 export const UpdateReadingSessionDocument = gql`
-    mutation UpdateReadingSession($sessionId: String!, $startPage: Int, $endPage: Int) {
+    mutation UpdateReadingSession($sessionId: String!, $startPage: Int, $endPage: Int, $date: String) {
   updateReadingSession(
     sessionId: $sessionId
     startPage: $startPage
     endPage: $endPage
+    date: $date
   ) {
     id
     startPage
     endPage
     createdAt
-    read {
-      id
-      startDate
-      finishedDate
-      userBookId
-    }
   }
 }
     `;
@@ -3842,6 +3839,7 @@ export type UpdateReadingSessionMutationFn = Apollo.MutationFunction<UpdateReadi
  *      sessionId: // value for 'sessionId'
  *      startPage: // value for 'startPage'
  *      endPage: // value for 'endPage'
+ *      date: // value for 'date'
  *   },
  * });
  */

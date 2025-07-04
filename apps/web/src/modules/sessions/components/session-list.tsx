@@ -12,6 +12,7 @@ interface SessionListProps {
 
 export const SessionList: React.FC<SessionListProps> = ({ userBookId }) => {
     const { data, loading, error } = useReadsQuery({
+        fetchPolicy: 'network-only',
         variables: {
             where: {
                 userBookId: {

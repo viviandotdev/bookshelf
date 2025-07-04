@@ -97,21 +97,17 @@ mutation UpdateReadingSession(
   $sessionId: String!
   $startPage: Int
   $endPage: Int
+  $date: String
 ) {
   updateReadingSession(
     sessionId: $sessionId
     startPage: $startPage
     endPage: $endPage
+    date: $date
   ) {
     id
     startPage
     endPage
     createdAt
-    read {
-      id
-      startDate
-      finishedDate
-      userBookId
-    }
   }
 }
