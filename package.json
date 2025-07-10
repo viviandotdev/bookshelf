@@ -45,6 +45,7 @@
     "dependencies": {
         "@graphql-codegen/typescript-operations": "^4.6.1",
         "@parcel/watcher": "^2.5.1",
+        "@suyalcinkaya/gauge": "^0.1.0",
         "typescript": "5.8.3"
     }
 }

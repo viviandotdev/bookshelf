@@ -138,9 +138,6 @@ export class ReadResolver {
             data: {
                 startPage,
                 endPage,
-                progress: endPage,
-                pagesRead: endPage - startPage + 1,
-                type: 'PAGES',
                 read: {
                     connect: { id: readId },
                 },
