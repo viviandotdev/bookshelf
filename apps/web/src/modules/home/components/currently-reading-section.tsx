@@ -51,11 +51,7 @@ const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
                     />
                 ))}
 
-                {
-                    currentlyReading.length === 0 && (
-                        <EmptyState className='border border-dashed border-gray-300 p-4' message={<div>Update your reading status to see your currently reading books here.</div>} />
-                    )
-                }
+
                 <div className='flex items-center justify-center rounded-md border border-dashed border-gray-300 p-4'>
                     <AddBookButton />
                 </div>
