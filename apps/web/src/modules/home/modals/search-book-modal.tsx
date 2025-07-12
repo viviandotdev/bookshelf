@@ -23,6 +23,7 @@ import { DEFAULT_BOOKCOVER_PLACEHOLDER } from '@/lib/constants';
 import { useUpdateUserBook } from '@/modules/bookshelves/mutations/use-update-user-book';
 import { toast } from '@/hooks/use-toast';
 import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
+import { useReadsLazyQuery } from '@/graphql/graphql';
 
 interface SearchBookModalProps {
     isOpen: boolean;
@@ -97,7 +98,6 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-    const { storeReadDates } = useProgressModal();
     const [isInitialSearch, setIsInitialSearch] = useState(true);
 
     const [loadBooks] = useSearchMyLibraryLazyQuery({
@@ -105,7 +105,6 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
         nextFetchPolicy: 'cache-only',
         notifyOnNetworkStatusChange: true,
         onError: (error) => {
-            console.error(error);
             toast({ title: 'Error searching books', variant: 'destructive' });
         },
         onCompleted: (data) => {
@@ -126,7 +125,6 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                 variant: 'success',
             });
             if (userBook.readDates) {
-                storeReadDates(userBook.readDates);
             }
             onClose();
         },
@@ -135,6 +133,9 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
             toast({ title: error.message, variant: 'destructive' });
         },
     });
+
+    const [loadReads] = useReadsLazyQuery();
+    const progressModal = useProgressModal();
 
     const handleSearch = async (query: string) => {
         if (!query.trim()) {
@@ -177,6 +178,19 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                     ],
                 }
             );
+            // Fetch latest read and session for this book
+            const { data } = await loadReads({
+                variables: {
+                    where: {
+                        userBookId: {
+                            equals: selectedBook.userBook.id,
+                        },
+                    },
+                },
+            });
+            const latestRead = data?.reads?.[0] || null;
+            const latestSession = latestRead?.readingSessions?.[0] || null;
+            progressModal.updateReadingData(selectedBook.userBook.id, latestRead, latestSession);
         }
     };
 

@@ -1,22 +1,17 @@
 "use client"
 import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import CollapsibleForm from './collapsible-form';
 import { Button } from '@/components/ui/button';
 import useChangeAvatarModal from '../modals/change-avatar/use-change-avatar';
 import { Icons } from '@/components/icons';
 import { UserQuery } from '@/graphql/graphql';
-import {
-    settingsNameSchema,
-    settingsUsernameSchema,
-    settingsLocationSchema,
-    settingsBioSchema,
-    SettingsSchema
-} from '@/schemas/auth';
-import { z } from 'zod';
 import { useSession } from 'next-auth/react';
+import NameForm from './name-form';
+import UsernameForm from './username-form';
+import LocationForm from './location-form';
+import BioForm from './bio-form';
 
-type SettingsFieldName = keyof z.infer<typeof SettingsSchema>;
+type SettingsFieldName = 'name' | 'username' | 'location' | 'bio';
 
 interface PersonalFormProps {
     userData?: UserQuery;
@@ -70,47 +65,30 @@ export const PersonalForm: React.FC<PersonalFormProps> = ({ userData, loading })
                             </Button>
                         </div>
 
-
                         {
                             loading ? <div>Loading...</div> : <div className='rounded-md border border-gray-50 bg-white px-4 py-3 shadow-xs'>
-                                <CollapsibleForm
-                                    label='Name'
+                                <NameForm
                                     value={currentUser?.name || ''}
-                                    openForm={openForm}
                                     isOpen={openForm === 'name'}
                                     onToggleForm={() => handleToggleForm('name')}
-                                    schema={settingsNameSchema}
-                                    fieldName="name"
                                 />
                                 <hr className='mx-2 border-gray-100' />
-                                <CollapsibleForm
-                                    label='Username'
+                                <UsernameForm
                                     value={currentUser?.username || ''}
-                                    openForm={openForm}
                                     isOpen={openForm === 'username'}
                                     onToggleForm={() => handleToggleForm('username')}
-                                    schema={settingsUsernameSchema}
-                                    fieldName="username"
                                 />
                                 <hr className='mx-2 border-gray-100' />
-                                <CollapsibleForm
-                                    label='Location'
+                                <LocationForm
                                     value={currentUser?.location || ''}
-                                    openForm={openForm}
                                     isOpen={openForm === 'location'}
                                     onToggleForm={() => handleToggleForm('location')}
-                                    schema={settingsLocationSchema}
-                                    fieldName="location"
                                 />
                                 <hr className='mx-2 border-gray-100' />
-                                <CollapsibleForm
-                                    label='Bio'
+                                <BioForm
                                     value={currentUser?.bio || ''}
-                                    openForm={openForm}
                                     isOpen={openForm === 'bio'}
                                     onToggleForm={() => handleToggleForm('bio')}
-                                    schema={settingsBioSchema}
-                                    fieldName="bio"
                                 />
                             </div>
                         }

@@ -99,9 +99,8 @@ export const ChangeAvatarModal = () => {
                             <div className='flex w-full items-center justify-end space-x-2 pt-6'>
                                 <Button
                                     className='border cursor-pointer border-gray-200 bg-white text-black hover:bg-white hover:text-black'
-                                    label='Cancel'
                                     onClick={changeAvatarModal.onClose}
-                                ></Button>
+                                >Cancel</Button>
                                 <Button
                                     type='submit'
                                     disabled={!!error || isPending}

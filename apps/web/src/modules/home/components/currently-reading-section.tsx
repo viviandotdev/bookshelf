@@ -5,13 +5,16 @@ import CurrentlyReadingItem from './currently-reading-item';
 import { AddBookButton } from './add-book-button';
 import { useGetCurrentlyReadingBooksWithLatestReadsQuery } from '@/graphql/graphql';
 import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
+import EmptyState from '@/components/empty-state';
 
 interface CurrentlyReadingSectionProps { }
 
 const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
-    const { data, loading } = useGetCurrentlyReadingBooksWithLatestReadsQuery({
-        fetchPolicy: 'cache-and-network',
-    });
+    const { data, loading } = useGetCurrentlyReadingBooksWithLatestReadsQuery(
+        {
+            fetchPolicy: 'network-only',
+        }
+    );
     const { updateReadingData } = useProgressModal();
 
     const currentlyReading = data?.getCurrentlyReadingBooksWithLatestReads || [];
@@ -23,7 +26,6 @@ const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
             const latestSession = latestRead?.readingSessions?.[0]; // First item since we order by desc and take 1
 
             if (latestRead && latestSession) {
-                console.log(latestRead, latestSession);
                 updateReadingData(userBook.id, latestRead, latestSession);
             }
         });
@@ -48,6 +50,8 @@ const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
                         userBook={userBook as UserBook}
                     />
                 ))}
+
+
                 <div className='flex items-center justify-center rounded-md border border-dashed border-gray-300 p-4'>
                     <AddBookButton />
                 </div>

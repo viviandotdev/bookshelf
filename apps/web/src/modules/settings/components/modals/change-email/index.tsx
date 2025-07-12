@@ -161,11 +161,10 @@ export const ChangeEmailModal = () => {
                             <Button
                                 className='flex w-full items-center mt-4'
                                 disabled={isPending}
-                                label={
-                                    showCodeForm ? 'Change Email' : 'Send verification code'
-                                }
                                 type='submit'
-                            />
+                            >
+                                {showCodeForm ? 'Change Email' : 'Send verification code'}
+                            </Button>
                         </form>
                     </Form>
                 </div>

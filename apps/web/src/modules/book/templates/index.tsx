@@ -16,8 +16,7 @@ import { Size, Source, UserBook } from '@/graphql/graphql';
 import AddToShelfButton from '../components/actions/add-to-shelf-button';
 import BookInfo from '../components/book-info';
 import { User } from 'next-auth';
-import SessionsTab from '@/components/modals/progress-modal/components/sessions-tab';
-
+import SessionList from '@/modules/sessions/components/session-list';
 interface BookTemplateProps {
     book: BookData;
     user: User;
@@ -33,7 +32,7 @@ export default function BookTemplate({ book, userBook }: BookTemplateProps) {
         },
         {
             label: 'Reading Sessions',
-            children: <SessionsTab />,
+            children: <SessionList userBookId={userBook?.id} />,
             id: 'sessions',
         }
     ];

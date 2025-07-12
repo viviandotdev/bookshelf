@@ -121,10 +121,8 @@ export class ReadResolver {
     @Mutation(() => ReadingSession, { name: 'createReadingSession' })
     async createReadingSession(
         @Args('readId', { type: () => String }) readId: string,
-        @Args('capacity', { type: () => Int }) capacity: number,
-        @Args('pagesRead', { type: () => Int }) pagesRead: number,
-        @Args('progress', { type: () => Int }) progress: number,
-        @Args('type', { type: () => PROGRESS_TYPE }) type: PROGRESS_TYPE,
+        @Args('startPage', { type: () => Int }) startPage: number,
+        @Args('endPage', { type: () => Int }) endPage: number,
         @CurrentUser() user: JwtPayload,
     ) {
         const read = await this.readService.findUnique({
@@ -138,10 +136,8 @@ export class ReadResolver {
 
         return this.readService.createReadingSession({
             data: {
-                capacity,
-                pagesRead,
-                progress,
-                type,
+                startPage,
+                endPage,
                 read: {
                     connect: { id: readId },
                 },
@@ -157,10 +153,9 @@ export class ReadResolver {
     async updateReadingSession(
         @Args('sessionId', { type: () => String }) sessionId: string,
         @CurrentUser() user: JwtPayload,
-        @Args('capacity', { type: () => Int, nullable: true }) capacity?: number,
-        @Args('pagesRead', { type: () => Int, nullable: true }) pagesRead?: number,
-        @Args('progress', { type: () => Int, nullable: true }) progress?: number,
-        @Args('type', { type: () => PROGRESS_TYPE, nullable: true }) type?: PROGRESS_TYPE,
+        @Args('startPage', { type: () => Int, nullable: true }) startPage?: number,
+        @Args('endPage', { type: () => Int, nullable: true }) endPage?: number,
+        @Args('date', { type: () => String, nullable: true }) date?: string,
     ) {
         const sessions = await this.readService.findReadingSessions({
             where: { id: sessionId },
@@ -171,10 +166,9 @@ export class ReadResolver {
         }
 
         const updateData: any = {};
-        if (capacity !== undefined) updateData.capacity = capacity;
-        if (pagesRead !== undefined) updateData.pagesRead = pagesRead;
-        if (progress !== undefined) updateData.progress = progress;
-        if (type !== undefined) updateData.type = type;
+        if (startPage !== undefined) updateData.startPage = startPage;
+        if (endPage !== undefined) updateData.endPage = endPage;
+        if (date !== undefined) updateData.createdAt = new Date(date);
 
         return this.readService.updateReadingSession({
             where: { id: sessionId },

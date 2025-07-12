@@ -61,10 +61,8 @@ export enum ShelfScalarFieldEnum {
 
 export enum ReadingSessionScalarFieldEnum {
     id = "id",
-    capacity = "capacity",
-    progress = "progress",
-    pagesRead = "pagesRead",
-    type = "type",
+    startPage = "startPage",
+    endPage = "endPage",
     createdAt = "createdAt",
     readId = "readId"
 }
@@ -8410,31 +8408,25 @@ export class ReadingSessionAggregateArgs {
 @InputType()
 export class ReadingSessionAvgAggregateInput {
     @Field(() => Boolean, {nullable:true})
-    capacity?: true;
+    startPage?: true;
     @Field(() => Boolean, {nullable:true})
-    progress?: true;
-    @Field(() => Boolean, {nullable:true})
-    pagesRead?: true;
+    endPage?: true;
 }
 
 @ObjectType()
 export class ReadingSessionAvgAggregate {
     @Field(() => Float, {nullable:true})
-    capacity?: number;
+    startPage?: number;
     @Field(() => Float, {nullable:true})
-    progress?: number;
-    @Field(() => Float, {nullable:true})
-    pagesRead?: number;
+    endPage?: number;
 }
 
 @InputType()
 export class ReadingSessionAvgOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
 }
 
 @InputType()
@@ -8442,13 +8434,9 @@ export class ReadingSessionCountAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
-    capacity?: true;
+    startPage?: true;
     @Field(() => Boolean, {nullable:true})
-    progress?: true;
-    @Field(() => Boolean, {nullable:true})
-    pagesRead?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
+    endPage?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -8463,14 +8451,9 @@ export class ReadingSessionCountAggregate {
     id!: number;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => Int, {nullable:false})
-    type!: number;
+    endPage!: number;
     @Field(() => Int, {nullable:false})
     createdAt!: number;
     @Field(() => Int, {nullable:false})
@@ -8484,13 +8467,9 @@ export class ReadingSessionCountOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8512,14 +8491,9 @@ export class ReadingSessionCreateManyReadInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8530,14 +8504,9 @@ export class ReadingSessionCreateManyInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:false})
@@ -8576,14 +8545,9 @@ export class ReadingSessionCreateWithoutReadInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8594,14 +8558,9 @@ export class ReadingSessionCreateInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => ReadCreateNestedOneWithoutReadingSessionsInput, {nullable:false})
@@ -8642,14 +8601,9 @@ export class ReadingSessionGroupBy {
     id!: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:false})
     createdAt!: Date | string;
     @Field(() => String, {nullable:false})
@@ -8681,13 +8635,9 @@ export class ReadingSessionMaxAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
-    capacity?: true;
+    startPage?: true;
     @Field(() => Boolean, {nullable:true})
-    progress?: true;
-    @Field(() => Boolean, {nullable:true})
-    pagesRead?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
+    endPage?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -8700,14 +8650,9 @@ export class ReadingSessionMaxAggregate {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8719,13 +8664,9 @@ export class ReadingSessionMaxOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8737,13 +8678,9 @@ export class ReadingSessionMinAggregateInput {
     @Field(() => Boolean, {nullable:true})
     id?: true;
     @Field(() => Boolean, {nullable:true})
-    capacity?: true;
+    startPage?: true;
     @Field(() => Boolean, {nullable:true})
-    progress?: true;
-    @Field(() => Boolean, {nullable:true})
-    pagesRead?: true;
-    @Field(() => Boolean, {nullable:true})
-    type?: true;
+    endPage?: true;
     @Field(() => Boolean, {nullable:true})
     createdAt?: true;
     @Field(() => Boolean, {nullable:true})
@@ -8756,14 +8693,9 @@ export class ReadingSessionMinAggregate {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -8775,13 +8707,9 @@ export class ReadingSessionMinOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8799,13 +8727,9 @@ export class ReadingSessionOrderByWithAggregationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8827,13 +8751,9 @@ export class ReadingSessionOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     id?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    type?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
     createdAt?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
@@ -8853,13 +8773,9 @@ export class ReadingSessionScalarWhereWithAggregatesInput {
     @Field(() => StringWithAggregatesFilter, {nullable:true})
     id?: InstanceType<typeof StringWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    capacity?: InstanceType<typeof IntWithAggregatesFilter>;
+    startPage?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    progress?: InstanceType<typeof IntWithAggregatesFilter>;
-    @Field(() => IntWithAggregatesFilter, {nullable:true})
-    pagesRead?: InstanceType<typeof IntWithAggregatesFilter>;
-    @Field(() => EnumPROGRESS_TYPEWithAggregatesFilter, {nullable:true})
-    type?: InstanceType<typeof EnumPROGRESS_TYPEWithAggregatesFilter>;
+    endPage?: InstanceType<typeof IntWithAggregatesFilter>;
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeWithAggregatesFilter>;
     @Field(() => StringWithAggregatesFilter, {nullable:true})
@@ -8877,13 +8793,9 @@ export class ReadingSessionScalarWhereInput {
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
-    capacity?: InstanceType<typeof IntFilter>;
+    startPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    progress?: InstanceType<typeof IntFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    pagesRead?: InstanceType<typeof IntFilter>;
-    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
-    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    endPage?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -8893,33 +8805,26 @@ export class ReadingSessionScalarWhereInput {
 @InputType()
 export class ReadingSessionSumAggregateInput {
     @Field(() => Boolean, {nullable:true})
-    capacity?: true;
+    startPage?: true;
     @Field(() => Boolean, {nullable:true})
-    progress?: true;
-    @Field(() => Boolean, {nullable:true})
-    pagesRead?: true;
+    endPage?: true;
 }
 
 @ObjectType()
 export class ReadingSessionSumAggregate {
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
+    endPage?: number;
 }
 
 @InputType()
 export class ReadingSessionSumOrderByAggregateInput {
     @Field(() => SortOrder, {nullable:true})
-    capacity?: `${SortOrder}`;
+    startPage?: `${SortOrder}`;
     @Field(() => SortOrder, {nullable:true})
-    progress?: `${SortOrder}`;
-    @Field(() => SortOrder, {nullable:true})
-    pagesRead?: `${SortOrder}`;
+    endPage?: `${SortOrder}`;
 }
 
 @InputType()
@@ -8944,14 +8849,9 @@ export class ReadingSessionUncheckedCreateWithoutReadInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -8962,14 +8862,9 @@ export class ReadingSessionUncheckedCreateInput {
     id?: string;
     @Field(() => Int, {nullable:false})
     @Validator.IsInt()
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    @Validator.IsInt()
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:false})
@@ -9019,14 +8914,9 @@ export class ReadingSessionUncheckedUpdateManyWithoutReadInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -9037,14 +8927,9 @@ export class ReadingSessionUncheckedUpdateManyInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -9057,14 +8942,9 @@ export class ReadingSessionUncheckedUpdateWithoutReadInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -9075,14 +8955,9 @@ export class ReadingSessionUncheckedUpdateInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => String, {nullable:true})
@@ -9095,14 +8970,9 @@ export class ReadingSessionUpdateManyMutationInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -9170,14 +9040,9 @@ export class ReadingSessionUpdateWithoutReadInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
 }
@@ -9188,14 +9053,9 @@ export class ReadingSessionUpdateInput {
     id?: string;
     @Field(() => Int, {nullable:true})
     @Validator.IsInt()
-    capacity?: number;
+    startPage?: number;
     @Field(() => Int, {nullable:true})
-    @Validator.IsInt()
-    progress?: number;
-    @Field(() => Int, {nullable:true})
-    pagesRead?: number;
-    @Field(() => PROGRESS_TYPE, {nullable:true})
-    type?: `${PROGRESS_TYPE}`;
+    endPage?: number;
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;
     @Field(() => ReadUpdateOneRequiredWithoutReadingSessionsNestedInput, {nullable:true})
@@ -9226,13 +9086,9 @@ export class ReadingSessionWhereUniqueInput {
     @Field(() => [ReadingSessionWhereInput], {nullable:true})
     NOT?: Array<ReadingSessionWhereInput>;
     @Field(() => IntFilter, {nullable:true})
-    capacity?: InstanceType<typeof IntFilter>;
+    startPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    progress?: InstanceType<typeof IntFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    pagesRead?: InstanceType<typeof IntFilter>;
-    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
-    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    endPage?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -9252,13 +9108,9 @@ export class ReadingSessionWhereInput {
     @Field(() => StringFilter, {nullable:true})
     id?: InstanceType<typeof StringFilter>;
     @Field(() => IntFilter, {nullable:true})
-    capacity?: InstanceType<typeof IntFilter>;
+    startPage?: InstanceType<typeof IntFilter>;
     @Field(() => IntFilter, {nullable:true})
-    progress?: InstanceType<typeof IntFilter>;
-    @Field(() => IntFilter, {nullable:true})
-    pagesRead?: InstanceType<typeof IntFilter>;
-    @Field(() => EnumPROGRESS_TYPEFilter, {nullable:true})
-    type?: InstanceType<typeof EnumPROGRESS_TYPEFilter>;
+    endPage?: InstanceType<typeof IntFilter>;
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: InstanceType<typeof DateTimeFilter>;
     @Field(() => StringFilter, {nullable:true})
@@ -9272,13 +9124,9 @@ export class ReadingSession {
     @Field(() => ID, {nullable:false})
     id!: string;
     @Field(() => Int, {nullable:false})
-    capacity!: number;
+    startPage!: number;
     @Field(() => Int, {nullable:false})
-    progress!: number;
-    @Field(() => Int, {nullable:false})
-    pagesRead!: number;
-    @Field(() => PROGRESS_TYPE, {nullable:false})
-    type!: `${PROGRESS_TYPE}`;
+    endPage!: number;
     @Field(() => Date, {nullable:false})
     createdAt!: Date;
     @Field(() => String, {nullable:false})
