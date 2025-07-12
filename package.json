@@ -37,10 +37,10 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@graphql-codegen/cli": "^5.0.6",
-        "@graphql-codegen/client-preset": "^4.8.1",
-        "@graphql-codegen/typescript-react-apollo": "^4.3.2",
-        "nx": "^21.0.3"
+        "@graphql-codegen/cli": "^5.0.7",
+        "@graphql-codegen/client-preset": "^4.8.3",
+        "@graphql-codegen/typescript-react-apollo": "^4.3.3",
+        "nx": "^21.2.3"
     },
     "dependencies": {
         "@graphql-codegen/typescript-operations": "^4.6.1",
