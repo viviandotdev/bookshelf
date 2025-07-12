@@ -3,7 +3,6 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { siteConfig } from '@/config/site';
 import { dm_sefif_display } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import LogBookButton from './log-book-button';
 import { UserAccountNav } from './user-account-nav';
 import { MobileNav } from './mobile-nav';
 import React from 'react';

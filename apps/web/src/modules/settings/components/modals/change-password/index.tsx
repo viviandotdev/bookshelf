@@ -129,12 +129,11 @@ export const ChangePasswordModal = () => {
                                     <Button
                                         type="button"
                                         variant='outline'
-                                        label='Cancel'
                                         onClick={() => {
                                             changePasswordModal.onClose();
                                             form.reset();
                                         }}
-                                    ></Button>
+                                    >Cancel</Button>
                                     <Button
                                         type='submit'
                                         disabled={isPending}

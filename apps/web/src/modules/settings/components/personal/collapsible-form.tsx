@@ -49,7 +49,7 @@ export const CollapsibleForm = <T extends z.ZodType>({
     const [formValue, setFormValue] = useState(value);
 
     const form = useForm<z.infer<T>>({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schema as any),
         defaultValues: {
             [fieldName]: value,
         } as z.infer<T>,

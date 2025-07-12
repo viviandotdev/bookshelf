@@ -6,8 +6,8 @@ import classNames from 'classnames';
 import { cn } from '../lib/utils';
 
 const transition = {
-    type: 'tween',
-    ease: 'easeOut',
+    type: 'tween' as const,
+    ease: 'easeOut' as const,
     duration: 0.15,
 };
 
