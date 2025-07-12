@@ -6,6 +6,7 @@ import { SessionDeleteDialog } from './session-delete-dialog';
 import { SessionEditDialog } from './session-edit-dialog';
 import { IconButton } from '@/modules/bookshelves/components/icon-button';
 import { Gauge } from '@suyalcinkaya/gauge'
+import { Dot } from 'lucide-react';
 interface SessionCardProps {
     session: any;
     read: any;
@@ -41,11 +42,11 @@ export const SessionCard: React.FC<SessionCardProps> = ({
             </div>
             <div className="flex-1 min-w-0">
                 <div className="flex font-semibold text-beige-700 text-base truncate">
-                    Vivian has read {toPage - fromPage + 1} pages of Tomorrow, and Tomorrow, and Tomorrow.
+                    Vivian read from page {fromPage} to {toPage}
 
                 </div>
-                <div className="text-xs text-gray-500 truncate">
-                    Read from page {fromPage} to {toPage} on {pill.full}
+                <div className="text-xs text-gray-500 truncate flex items-center gap">
+                    {toPage - fromPage + 1} pages read  <Dot className="h-4 w-4" /> {pill.full}
                 </div>
             </div>
             <div className='flex gap-4 mr-2'>

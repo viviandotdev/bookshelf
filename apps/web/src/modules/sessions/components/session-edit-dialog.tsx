@@ -13,10 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { useApolloClient } from "@apollo/client";
-import { format } from "date-fns";
 import { useUpdateReadingSessionMutation } from "@/graphql/graphql";
 import { IconButton } from "@/modules/bookshelves/components/icon-button";
 import { Icons } from "@/components/icons";
+import { Calendar24 } from "./date-time-picker";
 
 type SessionEditDialogProps = {
     session: {
@@ -29,7 +29,7 @@ type SessionEditDialogProps = {
 };
 
 type FormData = {
-    date: string;
+    dateTime: Date | string;
     startPage: number;
     endPage: number;
 };
@@ -47,20 +47,23 @@ export function SessionEditDialog({
     const currentStartPage = session.startPage;
     const currentEndPage = session.endPage;
 
+    const defaultDate = new Date(session.createdAt);
     const {
         register,
         handleSubmit,
         reset,
+        setValue,
         watch,
         formState: { errors, isDirty },
     } = useForm<FormData>({
         defaultValues: {
-            date: format(new Date(session.createdAt), "yyyy-MM-dd"),
+            dateTime: defaultDate,
             startPage: currentStartPage,
             endPage: currentEndPage,
         },
         mode: "onChange",
     });
+    const dateTime = watch("dateTime");
 
     // Watch form values for calculations
     const startPage = watch("startPage");
@@ -74,7 +77,7 @@ export function SessionEditDialog({
     useEffect(() => {
         if (isOpen) {
             reset({
-                date: format(new Date(session.createdAt), "yyyy-MM-dd"),
+                dateTime: defaultDate,
                 startPage: currentStartPage,
                 endPage: currentEndPage,
             });
@@ -111,22 +114,15 @@ export function SessionEditDialog({
 
     const onSubmit = async (data: FormData) => {
         setIsSaving(true);
-
-        // Calculate the new values
-        const newEndPage = data.endPage;
-        const newStartPage = data.startPage;
-        const newDate = data.date;
-
-        // Only send fields that have changed
+        // Use dateTime as ISO string
+        const isoString = (data.dateTime instanceof Date ? data.dateTime : new Date(data.dateTime)).toISOString();
         const updates: any = {};
-        if (newEndPage !== session.endPage) updates.endPage = newEndPage;
-        if (newStartPage !== session.startPage) updates.startPage = newStartPage;
-        if (newDate !== format(new Date(session.createdAt), "yyyy-MM-dd")) {
-            updates.date = newDate;
+        if (data.endPage !== session.endPage) updates.endPage = data.endPage;
+        if (data.startPage !== session.startPage) updates.startPage = data.startPage;
+        if (isoString !== new Date(session.createdAt).toISOString()) {
+            updates.date = isoString;
         }
-
         const success = await handleUpdateSession(session.id, updates);
-
         if (success) {
             setIsOpen(false);
             toast({
@@ -140,7 +136,6 @@ export function SessionEditDialog({
                 variant: "destructive",
             });
         }
-
         setIsSaving(false);
     };
 
@@ -148,7 +143,7 @@ export function SessionEditDialog({
         setIsOpen(false);
         // Reset form to original values
         reset({
-            date: format(new Date(session.createdAt), "yyyy-MM-dd"),
+            dateTime: defaultDate,
             startPage: currentStartPage,
             endPage: currentEndPage,
         });
@@ -167,72 +162,75 @@ export function SessionEditDialog({
                 <DialogHeader>
                     <DialogTitle>Edit Reading Session</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="date">Date</Label>
-                        <Input
-                            id="date"
-                            type="date"
-                            {...register("date", {
-                                required: "Date is required",
-                            })}
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-2">
+                    <div className="space-y-2 w-full">
+                        <Calendar24
+                            value={dateTime as Date}
+                            onChange={(val: Date) => setValue("dateTime", val, { shouldDirty: true })}
                         />
-                        {errors.date && (
-                            <p className="text-sm text-red-600">{errors.date.message}</p>
-                        )}
                     </div>
 
-                    <div className="space-y-2">
-                        <Label htmlFor="startPage">Start Page</Label>
-                        <Input
-                            id="startPage"
-                            type="number"
-                            {...register("startPage", {
-                                required: "Start page is required",
-                                min: {
-                                    value: 1,
-                                    message: "Start page must be at least 1"
-                                },
-                                max: {
-                                    value: 10000,
-                                    message: `Start page cannot exceed ${10000}`
-                                },
-                                valueAsNumber: true,
-                            })}
-                            min="1"
-                            max={10000}
-                            placeholder="Starting page number"
-                        />
-                        {errors.startPage && (
-                            <p className="text-sm text-red-600">{errors.startPage.message}</p>
-                        )}
-                    </div>
+                    <div className="flex gap-4 w-full">
+                        <div className="flex flex-col gap-2 flex-1">
+                            <Label htmlFor="date-picker" className="text-black font-medium" >
+                                Start Page
+                            </Label>
+                            <Input
+                                id="startPage"
+                                type="number"
+                                className="w-full bg-white shadow-xs border border-neutral-100"
+                                {...register("startPage", {
+                                    required: "Start page is required",
+                                    min: {
+                                        value: 1,
+                                        message: "Start page must be at least 1"
+                                    },
+                                    max: {
+                                        value: 10000,
+                                        message: `Start page cannot exceed ${10000}`
+                                    },
+                                    valueAsNumber: true,
+                                })}
+                                min="1"
+                                max={10000}
+                                placeholder="Starting page number"
+                            />
 
-                    <div className="space-y-2">
-                        <Label htmlFor="endPage">End Page</Label>
-                        <Input
-                            id="endPage"
-                            type="number"
-                            {...register("endPage", {
-                                required: "End page is required",
-                                min: {
-                                    value: startPage || 1,
-                                    message: "End page must be at least the start page"
-                                },
-                                max: {
-                                    value: 10000,
-                                    message: `End page cannot exceed ${10000}`
-                                },
-                                valueAsNumber: true,
-                            })}
-                            min={startPage || 1}
-                            max={10000}
-                            placeholder="Ending page number"
-                        />
-                        {errors.endPage && (
-                            <p className="text-sm text-red-600">{errors.endPage.message}</p>
-                        )}
+                        </div>
+                        <div className="flex flex-col gap-1 flex-1">
+                            <Label htmlFor="date-picker" className="text-black font-medium" >
+                                End Page
+                            </Label>
+                            <Input
+                                id="endPage"
+                                type="number"
+                                className="w-full bg-white shadow-xs border border-neutral-100"
+                                {...register("endPage", {
+                                    required: "End page is required",
+                                    min: {
+                                        value: startPage || 1,
+                                        message: "End page must be at least the start page"
+                                    },
+                                    max: {
+                                        value: 10000,
+                                        message: `End page cannot exceed ${10000}`
+                                    },
+                                    valueAsNumber: true,
+                                })}
+                                min={startPage || 1}
+                                max={10000}
+                                placeholder="Ending page number"
+                            />
+
+                        </div>
                     </div>
+                    {errors.startPage ? (
+                        <p className="text-sm text-red-600">{errors.startPage.message}</p>
+                    ) : errors.endPage ? (
+                        <p className="text-sm text-red-600">{errors.endPage.message}</p>
+                    ) : errors.dateTime ? (
+                        <p className="text-sm text-red-600">{errors.dateTime.message}</p>
+                    ) : null}
                     <DialogFooter>
                         <Button
                             type="button"
