@@ -16,7 +16,7 @@ export const AddBookButton = () => {
                     <div className="flex items-center justify-center">
                         <Plus className="h-4 w-4" />
                     </div>
-                    Add a book
+                    Go to library page to add books to currently reading
                 </div>
             </Button>
             <SearchBookModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

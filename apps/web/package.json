@@ -60,6 +60,7 @@
         "query-string": "^9.1.2",
         "rambda": "^10.1.0",
         "react": "19.1.0",
+        "react-aria-components": "^1.10.1",
         "react-content-loader": "^7.0.2",
         "react-day-picker": "^9.8.0",
         "react-dom": "19.1.0",

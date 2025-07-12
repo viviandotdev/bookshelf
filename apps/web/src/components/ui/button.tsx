@@ -20,6 +20,13 @@ const buttonVariants = cva(
                 ghost:
                     "hover:bg-beige-100 hover:text-beige-900 dark:hover:bg-beige-100/50 dark:hover:bg-beige-800 dark:hover:text-neutral-50 dark:dark:hover:bg-neutral-800/50",
                 link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
+                // custom variants
+                pill: 'bg-beige-100 text-beige-700 hover:bg-beige-100/80 rounded-2xl font-semibold h-8 px-3',
+                cta: [
+                    'bg-beige-100 hover:text-shadow hover:shadow-primary transition-[shadow,text-shadow]',
+                    '[&_.highlight]:ml-2',
+                ],
+                card: 'rounded-none bg-white border border-gray-200 text-beige-700 hover:bg-gray-100',
             },
             size: {
                 default: "h-9 px-4 py-2 has-[>svg]:px-3",

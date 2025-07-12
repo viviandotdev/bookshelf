@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, ClockIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,12 +12,13 @@ import {
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
+import { DateInput, TimeField } from "@/components/ui/datefield-rac"
 
 export function Calendar24({ value, onChange }: { value?: Date; onChange: (val: Date) => void }) {
     const [open, setOpen] = React.useState(false)
     // Split value into date and time strings for the UI
     const dateStr = value ? value.toISOString().slice(0, 10) : ""
-    const timeStr = value ? value.toTimeString().slice(0, 8) : ""
+    const timeStr = value ? value.toTimeString().slice(0, 5) : "";
     // Handlers
     const handleDateChange = (date: Date | undefined) => {
         if (!date) return;
@@ -32,9 +33,9 @@ export function Calendar24({ value, onChange }: { value?: Date; onChange: (val: 
     };
     const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!value) return;
-        const [hours, minutes, seconds] = e.target.value.split(":").map(Number);
+        const [hours, minutes] = e.target.value.split(":").map(Number);
         const newDate = new Date(value);
-        newDate.setHours(hours || 0, minutes || 0, seconds || 0, 0);
+        newDate.setHours(hours || 0, minutes || 0, 0, 0);
         onChange(newDate);
     };
     return (
@@ -48,7 +49,7 @@ export function Calendar24({ value, onChange }: { value?: Date; onChange: (val: 
                         <Button
                             variant="outline"
                             id="date-picker"
-                            className="w-full justify-between hover:bg-white font-normal group"
+                            className="w-full h-10 hover:bg-white border border-neutral-300 bg-white shadow-xs justify-between font-normal group"
                         >
                             <span
                                 className={cn("truncate")}
@@ -72,20 +73,30 @@ export function Calendar24({ value, onChange }: { value?: Date; onChange: (val: 
                     </PopoverContent>
                 </Popover>
             </div>
-            <div className="flex flex-col gap-2 flex-1">
+            <TimeField className="flex flex-col gap-2 flex-1">
                 <Label htmlFor="time-picker" className="text-black font-medium">
                     Read Time
                 </Label>
-                <Input
-                    type="time"
-                    id="time-picker"
-                    step="1"
-                    value={timeStr}
-                    onChange={handleTimeChange}
-                    className="w-full bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-                />
-
-            </div>
+                <div className="relative">
+                    <Input
+                        type="time"
+                        id="time-picker"
+                        step="60"
+                        value={timeStr}
+                        onChange={e => {
+                            if (!value) return;
+                            const [hours, minutes] = e.target.value.split(":").map(Number);
+                            const newDate = new Date(value);
+                            newDate.setHours(hours || 0, minutes || 0, 0, 0);
+                            onChange(newDate);
+                        }}
+                        className="relative w-full h-10 border border-neutral-300 bg-white shadow-xs appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                    />
+                    <div className="text-neutral-500/80 pointer-events-none absolute inset-y-0 end-0 z-10 flex items-center justify-center pe-3 dark:text-neutral-400/80">
+                        <ClockIcon size={16} aria-hidden="true" />
+                    </div>
+                </div>
+            </TimeField>
         </div>
     )
 }

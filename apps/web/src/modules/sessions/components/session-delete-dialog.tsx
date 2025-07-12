@@ -98,7 +98,7 @@ export function SessionDeleteDialog({
                         onClick={handleDelete}
                         disabled={loading}
                     >
-                        {loading ? "Deleting..." : "Delete"}
+                        {"Delete"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

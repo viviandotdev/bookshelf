@@ -22,7 +22,7 @@ const EmptyState = ({
                 className
             )}
         >
-            <div className="grid justify-items-center space-y-2 p-5">
+            <div className="grid text-gray-500 justify-items-center space-y-2 p-5">
                 {icon && <div>{icon}</div>}
                 <div>{message}</div>
             </div>

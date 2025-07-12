@@ -5,6 +5,7 @@ import CurrentlyReadingItem from './currently-reading-item';
 import { AddBookButton } from './add-book-button';
 import { useGetCurrentlyReadingBooksWithLatestReadsQuery } from '@/graphql/graphql';
 import useProgressModal from '@/components/modals/progress-modal/use-progress-modal';
+import EmptyState from '@/components/empty-state';
 
 interface CurrentlyReadingSectionProps { }
 
@@ -49,6 +50,12 @@ const CurrentlyReadingSection: React.FC<CurrentlyReadingSectionProps> = () => {
                         userBook={userBook as UserBook}
                     />
                 ))}
+
+                {
+                    currentlyReading.length === 0 && (
+                        <EmptyState className='border border-dashed border-gray-300 p-4' message={<div>Update your reading status to see your currently reading books here.</div>} />
+                    )
+                }
                 <div className='flex items-center justify-center rounded-md border border-dashed border-gray-300 p-4'>
                     <AddBookButton />
                 </div>

@@ -200,6 +200,8 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
         }
     };
 
+    const previousPage = readingData?.latestSession?.endPage || 0;
+
     return (
         <div className='flex w-full flex-col items-center justify-start gap-4'>
             <div className='flex flex-col items-center justify-start'>
@@ -210,10 +212,11 @@ export const ProgressTab: React.FC<ProgressTabProps> = ({
                     </div>
                     <div className='flex w-full items-center justify-center gap-4'>
                         <IconButton
-                            className='h-14 w-14 rounded-lg'
-                            onClick={handleDecrement}
+                            className={`h-14 w-14 rounded-lg`}
+                            disabled={progress <= previousPage}
+                            onClick={progress <= previousPage ? undefined : handleDecrement}
                         >
-                            <span className='sr-only'>Decrement</span>
+                            <span className='sr-only'>Decrement</span   >
                             <Icons.minus className='h-4 w-4 items-center' />
                         </IconButton>
                         <input

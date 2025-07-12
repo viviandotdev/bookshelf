@@ -97,7 +97,6 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
     const [loading, setLoading] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-    const { storeReadDates } = useProgressModal();
     const [isInitialSearch, setIsInitialSearch] = useState(true);
 
     const [loadBooks] = useSearchMyLibraryLazyQuery({
@@ -126,7 +125,6 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
                 variant: 'success',
             });
             if (userBook.readDates) {
-                storeReadDates(userBook.readDates);
             }
             onClose();
         },
@@ -246,3 +244,4 @@ export const SearchBookModal: React.FC<SearchBookModalProps> = ({
         </Dialog>
     );
 };
+

@@ -178,7 +178,7 @@ export function SessionEditDialog({
                             <Input
                                 id="startPage"
                                 type="number"
-                                className="w-full bg-white shadow-xs border border-neutral-100"
+                                className="w-full bg-white h-10 border border-neutral-300 "
                                 {...register("startPage", {
                                     required: "Start page is required",
                                     min: {
@@ -193,18 +193,18 @@ export function SessionEditDialog({
                                 })}
                                 min="1"
                                 max={10000}
-                                placeholder="Starting page number"
+                                placeholder="Start page"
                             />
 
                         </div>
-                        <div className="flex flex-col gap-1 flex-1">
+                        <div className="flex flex-col gap-2 flex-1">
                             <Label htmlFor="date-picker" className="text-black font-medium" >
                                 End Page
                             </Label>
                             <Input
                                 id="endPage"
                                 type="number"
-                                className="w-full bg-white shadow-xs border border-neutral-100"
+                                className="w-full bg-white h-10 border border-neutral-300 "
                                 {...register("endPage", {
                                     required: "End page is required",
                                     min: {
@@ -219,7 +219,7 @@ export function SessionEditDialog({
                                 })}
                                 min={startPage || 1}
                                 max={10000}
-                                placeholder="Ending page number"
+                                placeholder="End page"
                             />
 
                         </div>
